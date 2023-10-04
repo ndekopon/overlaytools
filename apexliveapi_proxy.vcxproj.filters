@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="hdr">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="res">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="src\events">
+      <UniqueIdentifier>{ad05cf13-a2c9-4835-8ea2-60e85c23e452}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="hdr\events">
+      <UniqueIdentifier>{73461362-9754-4e17-abd6-9da2733d4ed1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\common.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="src\config_ini.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main_window.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="src\websocket_thread.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sha1.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="src\log.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="src\websocket_server.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core_thread.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shared_context.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\events.pb.h">
+      <Filter>hdr\events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\filedump.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="src\livedata.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="src\local_thread.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="src\webapi.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\config_ini.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main_window.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\websocket_thread.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sha1.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\log.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\websocket_server.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core_thread.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shared_context.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\events.pb.cc">
+      <Filter>src\events</Filter>
+    </ClCompile>
+    <ClCompile Include="src\filedump.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\livedata.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\local_thread.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\webapi.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,354 @@
+
+html {
+    --overlay-main-theme-border-color: #B03039;
+
+    --overlay-leaderboard-height: 37px;
+    --overlay-leaderboard-color: rgb(255, 255, 255);
+    --overlay-leaderboard-bgcolor: rgba(0, 0, 0, 0.95);
+
+    --overlay-teambanner-top: 715px;
+    --overlay-teambanner-left: 44px;
+    --overlay-teambanner-width: 404px;
+    --overlay-teambanner-height: 54px;
+    --overlay-teambanner-color: rgb(255, 255, 255);
+    --overlay-teambanner-bgcolor: rgba(0, 0, 0, 0.95);
+
+    --overlay-playerbanner-top: 956px;
+    --overlay-playerbanner-left: 157px;
+    --overlay-playerbanner-width: 170px;
+    --overlay-playerbanner-height: 39px;
+    --overlay-playerbanner-bgcolor: rgba(0, 0, 0, 0.95);
+    --overlay-playerbanner-color: rgb(255, 255, 255);
+
+    --overlay-teamkills-top: 91px;
+    --overlay-teamkills-left: 1522px;
+    --overlay-teamkills-width: 74px;
+    --overlay-teamkills-height: 34px;
+    --overlay-teamkills-bgcolor: rgba(0, 0, 0, 0.95);
+    --overlay-teamkills-color: rgb(255, 255, 255);
+
+    --overlay-owneditems-top: 500px;
+    --overlay-owneditems-right: 20px;
+    --overlay-owneditems-width: 48px;
+    --overlay-owneditems-height: 48px;
+    --overlay-owneditems-bgcolor: rgba(0, 0, 0, 0.5);
+    --overlay-owneditems-color: rgb(255, 255, 255);
+    --overlay-owneditems-backpack-blue-bgcolor: rgba(34, 181, 230, 0.5);
+    --overlay-owneditems-backpack-purple-bgcolor: rgba(181, 34, 230, 0.5);
+    --overlay-owneditems-backpack-gold-bgcolor: rgba(230, 178, 23, 0.5);
+    --overlay-owneditems-textshadowcolor: rgb(0, 0, 0);
+
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0);
+    font-family:'Segoe UI', 'Yu Gothic UI', sans-serif;
+}
+div#leaderboard {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: var(--overlay-leaderboard-height);
+    box-sizing: border-box;
+    background-color: var(--overlay-leaderboard-bgcolor);
+    color: var(--overlay-leaderboard-color);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    overflow: hidden;
+}
+div#leaderboard > div {
+    box-sizing: border-box;
+    width: fit-content;
+    height: fit-content;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 1fr 35px 7fr 1fr;
+}
+div#leaderboard > div > div {
+    font-size: 120%;
+    font-weight: 500;
+    height: var(--overlay-leaderboard-height);
+    line-height: var(--overlay-leaderboard-height);
+    /* text-shadow:
+         2px    0 2px var(--text-shadow-color),
+         2px  2px 2px var(--text-shadow-color),
+           0  2px 2px var(--text-shadow-color),
+        -2px  2px 2px var(--text-shadow-color),
+        -2px    0 2px var(--text-shadow-color),
+        -2px -2px 2px var(--text-shadow-color),
+           0 -2px 2px var(--text-shadow-color),
+         2px -2px 2px var(--text-shadow-color); */
+}
+
+div#leaderboard > div > div.lb_rank {
+    border-left: 1px solid var(--overlay-main-theme-border-color);
+    text-align: center;
+}
+
+div#leaderboard > div > canvas.lb_alives {
+    width: 100%;
+    height: 100%;
+}
+
+div#leaderboard > div > div.lb_name {
+    box-sizing: border-box;
+    overflow: clip;
+}
+div#leaderboard > div > div.lb_points {
+    box-sizing: border-box;
+    text-align: center;
+}
+
+div#leaderboard > div.lb_eliminated {
+    opacity: 0.3;
+}
+div#leaderboard.lb_hide {
+    display: none;
+}
+div#leaderboard > div.lb_hide {
+    display: none;
+}
+
+div.lb_fadein {
+    animation: 0.3s lbfadein forwards;
+}
+
+div.lb_fadeout {
+    animation: 0.3s lbfadeout forwards;
+}
+
+div.lb_changed {
+    animation: 0.3s lbchanged forwards;
+}
+
+@keyframes lbfadein {
+    from {
+        opacity: 0.0;
+        transform: translateY(50%);
+    }
+    to {
+        transform: translateY(0%);
+    }
+}
+
+@keyframes lbfadeout {
+    from {
+        transform: translateY(0%);
+    }
+    to {
+        opacity: 0.0;
+        transform: translateY(-50%);
+    }
+}
+
+@keyframes lbchanged {
+    from {
+        background-color: rgb(255, 255, 255);
+    }
+    to {
+
+    }
+}
+
+/* TeamBanner */
+div#teambanner {
+    position: fixed;
+    left: var(--overlay-teambanner-left);
+    top: var(--overlay-teambanner-top);
+    width: var(--overlay-teambanner-width);
+    height: var(--overlay-teambanner-height);
+    box-sizing: border-box;
+    background-color: var(--overlay-teambanner-bgcolor);
+    color: var(--overlay-teambanner-color);
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    overflow: hidden;
+}
+div#teambanner > div {
+    line-height: var(--overlay-teambanner-height);
+    font-size: 130%;
+    font-weight: 500;
+}
+div#teambanner > div.tb_rank {
+    text-align: center;
+}
+div#teambanner > div.tb_teamname {
+    border-left: 1px solid var(--overlay-main-theme-border-color);
+    border-right: 1px solid var(--overlay-main-theme-border-color);
+    padding-left: 1em;
+}
+div#teambanner > div.tb_points {
+    text-align: center;
+}
+
+div#teambanner.tb_hide {
+    display: none;
+}
+
+/* playerbanner */
+div#playerbanner {
+    position: fixed;
+    left: var(--overlay-playerbanner-left);
+    top: var(--overlay-playerbanner-top);
+    width: var(--overlay-playerbanner-width);
+    height: var(--overlay-playerbanner-height);
+    box-sizing: border-box;
+    color: var(--overlay-playerbanner-color);
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: hidden;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0), var(--overlay-playerbanner-bgcolor) 10%, var(--overlay-playerbanner-bgcolor) 90%, rgba(0, 0, 0, 0) 100%);
+}
+
+div#playerbanner > div.pb_name {
+    line-height: var(--overlay-playerbanner-height);
+    padding-left: 1em;
+    font-weight: 500;
+}
+
+div#playerbanner.pb_hide {
+    display: none;
+}
+
+/* team kills */
+div#teamkills {
+    position: fixed;
+    left: var(--overlay-teamkills-left);
+    top: var(--overlay-teamkills-top);
+    width: var(--overlay-teamkills-width);
+    height: var(--overlay-teamkills-height);
+    box-sizing: border-box;
+    background-color: var(--overlay-teamkills-bgcolor);
+    color: var(--overlay-teamkills-color);
+    display: grid;
+    grid-template-columns: var(--overlay-teamkills-height) 1fr;
+    overflow: hidden;
+}
+
+div#teamkills > div {
+    line-height: var(--overlay-teamkills-height);
+}
+
+div#teamkills > div.tk_icon {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 130%;
+}
+
+div#teamkills > div.tk_kills {
+    text-align: center;
+}
+
+div#teamkills.tk_hide {
+    display: none;
+}
+
+/* OwnedItems */
+div#owneditems {
+    position: fixed;
+    top: var(--overlay-owneditems-top);
+    right: var(--overlay-owneditems-right);
+    width: calc(var(--overlay-owneditems-width) * 6);
+    height: calc(var(--overlay-owneditems-height) * 3);
+    color: var(--overlay-owneditems-color);
+}
+
+div#owneditems.oi_hide {
+    display: none;
+}
+
+div#owneditems > div {
+    display: flex;
+    justify-content: end;
+    height: var(--overlay-owneditems-height);
+}
+
+div#owneditems > div > div {
+    box-sizing: border-box;
+    background-color: var(--overlay-owneditems-bgcolor);
+    width: var(--overlay-owneditems-width);
+    height: var(--overlay-owneditems-height);
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+div#owneditems > div > div > div {
+    font-size: 80%;
+    font-weight: bold;
+    text-shadow: 
+    var(--overlay-owneditems-textshadowcolor) 1px 1px 0, var(--overlay-owneditems-textshadowcolor) -1px -1px 0,
+    var(--overlay-owneditems-textshadowcolor) -1px 1px 0, var(--overlay-owneditems-textshadowcolor) 1px -1px 0,
+    var(--overlay-owneditems-textshadowcolor) 0 1px 0, var(--overlay-owneditems-textshadowcolor) 0 -1px 0,
+    var(--overlay-owneditems-textshadowcolor) -1px 0 0, var(--overlay-owneditems-textshadowcolor) 1px 0 0;
+    vertical-align: bottom;
+    padding-right: 2px;
+}
+div#owneditems > div > div.oi_syringe {
+    background-image: url('icon/syringe.png');
+    background-size: 90%;
+}
+div#owneditems > div > div.oi_medkit {
+    background-image: url('icon/medkit.png');
+    background-size: 70%;
+}
+div#owneditems > div > div.oi_shieldcell {
+    background-image: url('icon/shieldcell.png');
+    background-size: 45%;
+}
+div#owneditems > div > div.oi_shieldbattery {
+    background-image: url('icon/shieldbattery.png');
+    background-size: 40%;
+}
+div#owneditems > div > div.oi_phoenixkit {
+    background-image: url('icon/phoenixkit.png');
+    background-size: 40%;
+}
+div#owneditems > div > div.oi_ultimateaccelerant {
+    background-image: url('icon/ultimateaccelerant.png');
+    background-size: 60%;
+}
+div#owneditems > div > div.oi_thermitgrenade {
+    background-image: url('icon/thermitgrenade.png');
+    background-size: 60%;
+}
+div#owneditems > div > div.oi_fraggrenade {
+    background-image: url('icon/fraggrenade.png');
+    background-size: 60%;
+}
+div#owneditems > div > div.oi_arcstar {
+    background-image: url('icon/arcstar.png');
+    background-size: 60%;
+}
+div#owneditems > div > div.oi_backpack_lv1 {
+    background-image: url('icon/backpack1.png');
+    background-size: 45%;
+}
+div#owneditems > div > div.oi_backpack_lv2 {
+    background-image: url('icon/backpack2.png');
+    background-size: 55%;
+    background-color: var(--overlay-owneditems-backpack-blue-bgcolor);
+}
+div#owneditems > div > div.oi_backpack_lv3 {
+    background-image: url('icon/backpack3.png');
+    background-size: 60%;
+    background-color: var(--overlay-owneditems-backpack-purple-bgcolor);
+}
+div#owneditems > div > div.oi_backpack_lv4 {
+    background-image: url('icon/backpack3.png');
+    background-size: 60%;
+    background-color: var(--overlay-owneditems-backpack-gold-bgcolor);
+}
+div#owneditems > div > div.oi_transparent {
+    opacity: 0%;
+}

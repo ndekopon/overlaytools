@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="overlay.css" />
+<style>
+div#debug {
+    position: fixed;
+    left: 800px;
+    top: 300px;
+    width: 300px;
+    height: 300px;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+div#debug > div {
+    border: 1px solid black;
+    margin: 4px;
+}
+div#debug > div:hover {
+    border: 1px solid black;
+    margin: 4px;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+</style>
+</head>
+<body>
+<!-- SCRIPT -->
+<script type="module">
+import * as Overlay from "./overlay.js";
+
+window.onload = (event) => {
+    const overlay = new Overlay.Overlay();
+    
+    const setup_debug = () => {
+        document.body.classList.add('debugbg');
+        const div = document.createElement('div');
+        div.id = 'debug';
+        div.innerText = 'debug tools';
+        document.body.appendChild(div);
+        div.appendChild(document.createElement('div'));
+        div.appendChild(document.createElement('div'));
+        div.children[0].innerText = 'show all';
+        div.children[1].innerText = 'hide all';
+        div.children[0].addEventListener('click', (ev) => {
+            overlay.showAll();
+        });
+        div.children[1].addEventListener('click', (ev) => {
+            overlay.hideAll();
+        });
+    };
+
+    if (window.obsstudio == undefined) {
+        /* for debug */
+        setup_debug();
+    }
+};
+</script>
+</body>
+</html>

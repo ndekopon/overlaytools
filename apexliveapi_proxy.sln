@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33414.496
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "apexliveapi_proxy", "apexliveapi_proxy.vcxproj", "{5FAB938B-1439-4BD3-9917-91DDF4F5D353}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5FAB938B-1439-4BD3-9917-91DDF4F5D353}.Release|x64.ActiveCfg = Release|x64
+		{5FAB938B-1439-4BD3-9917-91DDF4F5D353}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B3B50194-3988-4E15-A18B-9C22BC1FE3E2}
+	EndGlobalSection
+EndGlobal
