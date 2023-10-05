@@ -624,6 +624,7 @@ export class Overlay {
                     this.#calcAndDisplay();
                     this.updateGameInfo();
                     this.#showHideFromGameState(this.#_game.state);
+                    this.#getAllOverlayForceHideState();
                 });
             });
         });
@@ -793,6 +794,10 @@ export class Overlay {
                 }
             }
         });
+    }
+
+    #getAllOverlayForceHideState() {
+        this.#webapi.broadcastObject({type: "getalloverlaystate"}).then(() => {}, () => {});
     }
 
     #calcPoints() {
