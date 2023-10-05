@@ -40,6 +40,8 @@ ApexLegendsクライアント言語(アイテム関連)
     - プレーヤーバナー
     - アイテム所持数表示
     - チームキル数
+    - 現在のゲーム数
+    - チャンピオンチーム名表示
 - 管理画面
     - リアルタイム表示(カメラ切り替え用)
     - リザルト確認
@@ -49,7 +51,7 @@ Webサーバーが必要なので、別リポジトリに[httpserver](https://gi
 
 ## 作者
 
-- [X](https://twitter.com/ndekopon)
+- [nDekopon(X)](https://twitter.com/ndekopon)
 
 ## ライセンス
 
