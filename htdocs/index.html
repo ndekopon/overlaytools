@@ -569,7 +569,7 @@
 
 <div id="overlay" class="hide">
     <h3>Overlay</h3>
-    <ul>
+    <h4>force hide overlay</h4>
     <p>
         <label><input type="checkbox" id="overlay-hide-leaderboard" /> Force hide LeaderBoard</label>
     </p>
@@ -588,7 +588,10 @@
     <p>
         <label><input type="checkbox" id="overlay-hide-gameinfo" /> Force hide GameInfo</label>
     </p>
-    </ul>
+    <h4>select by group</h4>
+    <p>
+        <label><input type="checkbox" id="overlay-hide-teamplayerinfo" /> Force hide Team/Player Overlay</label>
+    </p>
 </div>
 
 <div id="announce" class="hide">
@@ -2030,6 +2033,13 @@ class WebAPIConfig {
                 this.#sendOverlayHideStatusByID(id);
             });
         }
+        document.getElementById('overlay-hide-teamplayerinfo').addEventListener('change', (ev) => {
+            const teamplayeroverlays = ["teambanner", "playerbanner", "teamkills", "owneditems"];
+            for (const id of teamplayeroverlays) {
+                document.getElementById('overlay-hide-' + id).checked = ev.target.checked;
+                this.#sendOverlayHideStatusByID(id);
+            }
+        });
     }
 
     #setupCallback() {
