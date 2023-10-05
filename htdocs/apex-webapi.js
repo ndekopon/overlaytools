@@ -508,7 +508,7 @@ export class ApexWebAPI extends EventTarget {
     }
     return true;
   }
-
+  
   #procEventPlayerDisconnected(arr) {
     if (arr[0] == 0) return false;
     this.#procPlayer(arr[0], arr[1], { connected: false, canreconnect: arr[2] });

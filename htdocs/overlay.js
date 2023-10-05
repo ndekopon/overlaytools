@@ -454,6 +454,41 @@ class OwnedItems {
     }
 }
 
+class GameInfo {
+    static GAMEINFO_ID = "gameinfo";
+    static GAMECOUNT_CLASS = "gi_gamecount";
+    static HIDE_CLASS = "gi_hide";
+    #nodes;
+    constructor() {
+        // bodyに追加
+        this.#nodes = {
+            base: document.createElement('div'),
+            gamecount: document.createElement('div')
+        };
+
+        // set id
+        this.#nodes.base.id = GameInfo.GAMEINFO_ID;
+        
+        // set class
+        this.#nodes.gamecount.classList.add(GameInfo.GAMECOUNT_CLASS);
+
+        // append
+        document.body.appendChild(this.#nodes.base);
+        this.#nodes.base.appendChild(this.#nodes.gamecount);
+    }
+
+    setGameCount(count) {
+        this.#nodes.gamecount.innerText = 'Game ' + count;
+    }
+
+    show() {
+        this.#nodes.base.classList.remove(GameInfo.HIDE_CLASS);
+    }
+    hide() {
+        this.#nodes.base.classList.add(GameInfo.HIDE_CLASS);
+    }
+}
+
 export class Overlay {
     #webapi;
     #teams; // 計算用
@@ -465,6 +500,7 @@ export class Overlay {
     #playerbanner;
     #teamkills;
     #owneditems;
+    #gameinfo;
     #camera;
     #forcehide;
     static points_table = [12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
@@ -475,6 +511,7 @@ export class Overlay {
         this.#playerbanner = new PlayerBanner();
         this.#teamkills = new TeamKills();
         this.#owneditems = new OwnedItems();
+        this.#gameinfo = new GameInfo();
 
         this.#setupApexWebAPI();
 
@@ -486,7 +523,8 @@ export class Overlay {
             teambanner: false,
             teamkills: false,
             playerbanner: false,
-            owneditems: false
+            owneditems: false,
+            gameinfo: false
         };
 
         this.hideAll();
@@ -515,6 +553,7 @@ export class Overlay {
                     this.#_game = game;
                     this.#_results = event.detail.results;
                     this.#calcAndDisplay();
+                    this.updateGameInfo();
                     this.#showHideFromGameState(this.#_game.state);
                 });
             });
@@ -546,11 +585,13 @@ export class Overlay {
                 this.#_results.push(ev.detail.result);
                 this.#calcresultsonly;
                 this.#calcAndDisplay();
+                this.updateGameInfo();
             } else {
                 this.#webapi.getTournamentResults().then((event) => {
                     this.#_results = event.detail.results;
                     this.#calcresultsonly;
                     this.#calcAndDisplay();
+                    this.updateGameInfo();
                 });
             }
         });
@@ -653,11 +694,19 @@ export class Overlay {
                     }
                 } else if (data.type === "forcehideowneditems") {
                     if (data.value === true) {
-                        this.#forcehide.own = true;
+                        this.#forcehide.owneditems = true;
                         this.hideOwnedItems();
                     } else if (data.value === false) {
                         this.#forcehide.owneditems = false;
                         this.showOwnedItems();
+                    }
+                } else if (data.type === "forcehidegameinfo") {
+                    if (data.value === true) {
+                        this.#forcehide.gameinfo = true;
+                        this.hideGameInfo();
+                    } else if (data.value === false) {
+                        this.#forcehide.gameinfo = false;
+                        this.showGameInfo();
                     }
                 }
             }
@@ -831,20 +880,36 @@ export class Overlay {
         return "tm" + teamid + " pl" + playerid;
     }
 
+    #getGameCount() {
+        if (!this.#_results) return 0;
+        const result_count = this.#_results.length;
+        return result_count + 1;
+    }
+
+    updateGameInfo(count = null) {
+        if (count == null) {
+            count = this.#getGameCount();
+        }
+        this.#gameinfo.setGameCount(count);
+    }
+
     showLeaderBoard() {
-        this.#leaderboard.show();
+        if (!this.#forcehide.leaderboard) this.#leaderboard.show();
     }
     showTeamBanner() {
-        this.#teambanner.show();
+        if (!this.#forcehide.teambanner) this.#teambanner.show();
     }
     showPlayerBanner() {
-        this.#playerbanner.show();
+        if (!this.#forcehide.playerbanner) this.#playerbanner.show();
     }
     showTeamKills() {
-        this.#teamkills.show();
+        if (!this.#forcehide.teamkills) this.#teamkills.show();
     }
     showOwnedItems() {
-        this.#owneditems.show();
+        if (!this.#forcehide.owneditems) this.#owneditems.show();
+    }
+    showGameInfo() {
+        if (!this.#forcehide.gameinfo) this.#gameinfo.show();
     }
 
     hideLeaderBoard() {
@@ -862,13 +927,17 @@ export class Overlay {
     hideOwnedItems() {
         this.#owneditems.hide();
     }
+    hideGameInfo() {
+        this.#gameinfo.hide();
+    }
 
     showAll() {
-        if (!this.#forcehide.leaderboard) this.showLeaderBoard();
-        if (!this.#forcehide.teambanner) this.showTeamBanner();
-        if (!this.#forcehide.playerbanner) this.showPlayerBanner();
-        if (!this.#forcehide.teamkills) this.showTeamKills();
-        if (!this.#forcehide.owneditems) this.showOwnedItems();
+        this.showLeaderBoard();
+        this.showTeamBanner();
+        this.showPlayerBanner();
+        this.showTeamKills();
+        this.showOwnedItems();
+        this.showGameInfo();
     }
 
     hideAll() {
@@ -877,6 +946,7 @@ export class Overlay {
         this.hidePlayerBanner();
         this.hideTeamKills();
         this.hideOwnedItems();
+        this.hideGameInfo();
     }
 
     updateAllItems(team, playerid) {

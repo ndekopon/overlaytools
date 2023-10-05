@@ -37,7 +37,13 @@ html {
     --overlay-owneditems-backpack-purple-bgcolor: rgba(181, 34, 230, 0.5);
     --overlay-owneditems-backpack-gold-bgcolor: rgba(230, 178, 23, 0.5);
     --overlay-owneditems-textshadowcolor: rgb(0, 0, 0);
-
+    
+    --overlay-gameinfo-top: 600px;
+    --overlay-gameinfo-left: 44px;
+    --overlay-gameinfo-width: 404px;
+    --overlay-gameinfo-height: 54px;
+    --overlay-gameinfo-color: rgb(255, 255, 255);
+    --overlay-gameinfo-bgcolor: rgba(0, 0, 0, 0.50);
 }
 * {
     margin: 0;
@@ -351,4 +357,24 @@ div#owneditems > div > div.oi_backpack_lv4 {
 }
 div#owneditems > div > div.oi_transparent {
     opacity: 0%;
+}
+
+/* GameInfo */
+div#gameinfo {
+    position: fixed;
+    top: var(--overlay-gameinfo-top);
+    left: var(--overlay-gameinfo-left);
+    width: var(--overlay-gameinfo-width);
+    height: var(--overlay-gameinfo-height);
+    color: var(--overlay-gameinfo-color);
+    background-color: var(--overlay-gameinfo-bgcolor);
+}
+div#gameinfo.gi_hide {
+    display: none; 
+}
+
+div#gameinfo .gi_gamecount {
+    font-size: 120%;
+    text-align: center;
+    line-height: var(--overlay-gameinfo-height);
 }

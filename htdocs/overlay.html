@@ -40,13 +40,18 @@ window.onload = (event) => {
         document.body.appendChild(div);
         div.appendChild(document.createElement('div'));
         div.appendChild(document.createElement('div'));
+        div.appendChild(document.createElement('div'));
         div.children[0].innerText = 'show all';
         div.children[1].innerText = 'hide all';
+        div.children[2].innerText = 'Print Game 2';
         div.children[0].addEventListener('click', (ev) => {
             overlay.showAll();
         });
         div.children[1].addEventListener('click', (ev) => {
             overlay.hideAll();
+        });
+        div.children[2].addEventListener('click', (ev) => {
+            overlay.updateGameInfo(2);
         });
     };
 

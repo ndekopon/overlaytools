@@ -585,6 +585,9 @@
     <p>
         <label><input type="checkbox" id="overlay-hide-owneditems" /> Force hide OwnedItems</label>
     </p>
+    <p>
+        <label><input type="checkbox" id="overlay-hide-gameinfo" /> Force hide GameInfo</label>
+    </p>
     </ul>
 </div>
 
@@ -2022,7 +2025,7 @@ class WebAPIConfig {
         });
 
         // checkbox
-        for (const id of ["leaderboard", "teambanner", "playerbanner", "teamkills", "owneditems"]) {
+        for (const id of ["leaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo"]) {
             document.getElementById('overlay-hide-' + id).addEventListener('change', (ev) => {
                 this.#sendOverlayHideStatusByID(id);
             });
