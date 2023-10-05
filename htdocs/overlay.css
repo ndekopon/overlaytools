@@ -44,6 +44,12 @@ html {
     --overlay-gameinfo-height: 54px;
     --overlay-gameinfo-color: rgb(255, 255, 255);
     --overlay-gameinfo-bgcolor: rgba(0, 0, 0, 0.50);
+    
+    --overlay-championbanner-top: 352px;
+    --overlay-championbanner-width: 600px;
+    --overlay-championbanner-height: 56px;
+    --overlay-championbanner-color: rgb(255, 255, 255);
+    --overlay-championbanner-bgcolor: rgba(0, 0, 0, 0.90);
 }
 * {
     margin: 0;
@@ -377,4 +383,50 @@ div#gameinfo .gi_gamecount {
     font-size: 120%;
     text-align: center;
     line-height: var(--overlay-gameinfo-height);
+}
+
+/* ChampionBanner */
+div#championbanner {
+    position: fixed;
+    top: var(--overlay-championbanner-top);
+    left: calc(50% - var(--overlay-championbanner-width) / 2 - 40px);
+    width: var(--overlay-championbanner-width);
+    height: var(--overlay-championbanner-height);
+    color: var(--overlay-championbanner-color);
+    background-color: var(--overlay-championbanner-bgcolor);
+}
+
+div#championbanner.cb_hide {
+    display: none;
+}
+
+div#championbanner .cb_teamname {
+    line-height: var(--overlay-championbanner-height);
+    font-size: 200%;
+    font-weight: bold;
+    text-align: center;
+}
+
+div#championbanner.cb_fadein {
+    animation: 0.3s cb_fadein_animation forwards;
+}
+
+div#championbanner.cb_fadeout {
+    animation: 0.3s cb_fadeout_animation forwards;
+}
+
+@keyframes cb_fadein_animation {
+    from {
+        opacity: 0.0;
+    }
+    to {
+    }
+}
+
+@keyframes cb_fadeout_animation {
+    from {
+    }
+    to {
+        opacity: 0.0;
+    }
 }

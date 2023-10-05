@@ -588,6 +588,9 @@
     <p>
         <label><input type="checkbox" id="overlay-hide-gameinfo" /> Force hide GameInfo</label>
     </p>
+    <p>
+        <label><input type="checkbox" id="overlay-hide-championbanner" /> Force hide ChampionBanner</label>
+    </p>
     <h4>select by group</h4>
     <p>
         <label><input type="checkbox" id="overlay-hide-teamplayerinfo" /> Force hide Team/Player Overlay</label>
@@ -2028,7 +2031,7 @@ class WebAPIConfig {
         });
 
         // checkbox
-        for (const id of ["leaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo"]) {
+        for (const id of ["leaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner"]) {
             document.getElementById('overlay-hide-' + id).addEventListener('change', (ev) => {
                 this.#sendOverlayHideStatusByID(id);
             });

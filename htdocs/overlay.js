@@ -489,6 +489,71 @@ class GameInfo {
     }
 }
 
+class ChampionBanner {
+    static CHAMPIONBANNER_ID = "championbanner";
+    static TEAMNAME_CLASS = "cb_teamname";
+    static FADEIN_CLASS = "cb_fadein";
+    static FADEOUT_CLASS = "cb_fadeout";
+    static FADEIN_ANIMATION_NAME = "cb_fadein_animation";
+    static FADEOUT_ANIMATION_NAME = "cb_fadeout_animation";
+    static HIDE_CLASS = "cb_hide";
+    #nodes;
+    constructor() {
+        // bodyに追加
+        this.#nodes = {
+            base: document.createElement('div'),
+            teamname: document.createElement('div')
+        };
+
+        // set id
+        this.#nodes.base.id = ChampionBanner.CHAMPIONBANNER_ID;
+        
+        // set class
+        this.#nodes.teamname.classList.add(ChampionBanner.TEAMNAME_CLASS);
+
+        // append
+        document.body.appendChild(this.#nodes.base);
+        this.#nodes.base.appendChild(this.#nodes.teamname);
+
+        // テスト用の名前を設定
+        this.setTeamName('Display Test Team');
+
+        this.#nodes.base.addEventListener('animationend', (ev) => {
+            if (ev.animationName == ChampionBanner.FADEIN_ANIMATION_NAME) {
+                this.#nodes.base.classList.remove(ChampionBanner.FADEIN_CLASS);
+            }
+            if (ev.animationName == ChampionBanner.FADEOUT_ANIMATION_NAME) {
+                this.hide();
+            }
+        });
+    }
+
+    setTeamName(name) {
+        this.#nodes.teamname.innerText = name;
+    }
+
+    startFadeIn() {
+        this.#nodes.base.classList.add(ChampionBanner.FADEIN_CLASS);
+        // 6秒で消える(5.7秒でフェードアウト開始)
+        setTimeout(() => { this.startFadeOut(); }, 5700);
+    }
+
+    startFadeOut() {
+        this.#nodes.base.classList.add(ChampionBanner.FADEOUT_CLASS);
+    }
+
+    show() {
+        this.startFadeIn();
+        this.#nodes.base.classList.remove(ChampionBanner.HIDE_CLASS);
+    }
+
+    hide() {
+        this.#nodes.base.classList.add(ChampionBanner.HIDE_CLASS);
+        this.#nodes.base.classList.remove(ChampionBanner.FADEIN_CLASS);
+        this.#nodes.base.classList.remove(ChampionBanner.FADEOUT_CLASS);
+    }
+}
+
 export class Overlay {
     #webapi;
     #teams; // 計算用
@@ -501,6 +566,7 @@ export class Overlay {
     #teamkills;
     #owneditems;
     #gameinfo;
+    #championbanner;
     #camera;
     #forcehide;
     static points_table = [12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
@@ -512,6 +578,8 @@ export class Overlay {
         this.#teamkills = new TeamKills();
         this.#owneditems = new OwnedItems();
         this.#gameinfo = new GameInfo();
+        this.#championbanner = new ChampionBanner();
+        
 
         this.#setupApexWebAPI();
 
@@ -524,7 +592,8 @@ export class Overlay {
             teamkills: false,
             playerbanner: false,
             owneditems: false,
-            gameinfo: false
+            gameinfo: false,
+            championbanner: false
         };
 
         this.hideAll();
@@ -577,6 +646,12 @@ export class Overlay {
                     this.#calcAndDisplay();
                 });
             }
+        });
+
+        this.#webapi.addEventListener("winnerdetermine", (ev) => {
+            const name = this.#getTeamName(team.id);
+            this.#championbanner.setTeamName(name);
+            this.showChampionBanner();
         });
 
         this.#webapi.addEventListener("saveresult", (ev) => {
@@ -707,6 +782,13 @@ export class Overlay {
                     } else if (data.value === false) {
                         this.#forcehide.gameinfo = false;
                         this.showGameInfo();
+                    }
+                } else if (data.type === "forcehidechampionbanner") {
+                    if (data.value === true) {
+                        this.#forcehide.championbanner = true;
+                        this.hideChampionBanner();
+                    } else if (data.value === false) {
+                        this.#forcehide.championbanner = false;
                     }
                 }
             }
@@ -911,6 +993,9 @@ export class Overlay {
     showGameInfo() {
         if (!this.#forcehide.gameinfo) this.#gameinfo.show();
     }
+    showChampionBanner() {
+        if (!this.#forcehide.championbanner) this.#championbanner.show();
+    }
 
     hideLeaderBoard() {
         this.#leaderboard.hide();
@@ -930,6 +1015,9 @@ export class Overlay {
     hideGameInfo() {
         this.#gameinfo.hide();
     }
+    hideChampionBanner() {
+        this.#championbanner.hide();
+    }
 
     showAll() {
         this.showLeaderBoard();
@@ -947,6 +1035,7 @@ export class Overlay {
         this.hideTeamKills();
         this.hideOwnedItems();
         this.hideGameInfo();
+        this.hideChampionBanner();
     }
 
     updateAllItems(team, playerid) {
