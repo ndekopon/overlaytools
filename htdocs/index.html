@@ -591,6 +591,9 @@
     <p>
         <label><input type="checkbox" id="overlay-hide-championbanner" /> Force hide ChampionBanner</label>
     </p>
+    <p>
+        <label><input type="checkbox" id="overlay-hide-squadeliminated" /> Force hide SquadEliminated</label>
+    </p>
     <h4>select by group</h4>
     <p>
         <label><input type="checkbox" id="overlay-hide-teamplayerinfo" /> Force hide Team/Player Overlay</label>
@@ -1864,6 +1867,7 @@ class WebAPIConfig {
         });
 
         this.#webapi.addEventListener('lobbyplayer', (ev) => {
+            console.log(ev.detail);
             this.#procPlayerInGameName(ev.detail.hash, ev.detail.name);
             if (ev.detail.observer) {
                 this.#observerconfig.drawObserverName(ev.detail.hash, ev.detail.name);
@@ -2031,7 +2035,7 @@ class WebAPIConfig {
         });
 
         // checkbox
-        for (const id of ["leaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner"]) {
+        for (const id of ["leaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated"]) {
             document.getElementById('overlay-hide-' + id).addEventListener('change', (ev) => {
                 this.#sendOverlayHideStatusByID(id);
             });
@@ -2327,6 +2331,7 @@ class WebAPIConfig {
         this.#sendOverlayHideStatusByID('owneditems');
         this.#sendOverlayHideStatusByID('gameinfo');
         this.#sendOverlayHideStatusByID('championbanner');
+        this.#sendOverlayHideStatusByID('squadeliminated');
     }
 
     #getAndSetTeamName(teamid, name) {

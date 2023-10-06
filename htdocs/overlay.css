@@ -50,6 +50,12 @@ html {
     --overlay-championbanner-height: 56px;
     --overlay-championbanner-color: rgb(255, 255, 255);
     --overlay-championbanner-bgcolor: rgba(0, 0, 0, 0.90);
+
+    --overlay-squadeliminated-top: 60px;
+    --overlay-squadeliminated-width: 600px;
+    --overlay-squadeliminated-height: 32px;
+    --overlay-squadeliminated-color: rgb(255, 255, 255);
+    --overlay-squadeliminated-bgcolor: rgba(176, 48, 57, 0.90);
 }
 * {
     margin: 0;
@@ -424,6 +430,53 @@ div#championbanner.cb_fadeout {
 }
 
 @keyframes cb_fadeout_animation {
+    from {
+    }
+    to {
+        opacity: 0.0;
+    }
+}
+
+/* Squad Eliminated */
+div#squadeliminated {
+    position: fixed;
+    top: var(--overlay-squadeliminated-top);
+    left: calc(50% - var(--overlay-squadeliminated-width) / 2);
+    width: var(--overlay-squadeliminated-width);
+    height: var(--overlay-squadeliminated-height);
+    color: var(--overlay-squadeliminated-color);
+    background-color: var(--overlay-squadeliminated-bgcolor);
+    box-sizing: border-box;
+}
+
+div#squadeliminated.se_hide {
+    display: none;
+}
+
+div#squadeliminated .se_teamname {
+    line-height: var(--overlay-squadeliminated-height);
+    font-size: 120%;
+    font-weight: bold;
+    text-align: center;
+}
+
+div#squadeliminated.se_fadein {
+    animation: 0.3s se_fadein_animation forwards;
+}
+
+div#squadeliminated.se_fadeout {
+    animation: 0.3s se_fadeout_animation forwards;
+}
+
+@keyframes se_fadein_animation {
+    from {
+        opacity: 0.0;
+    }
+    to {
+    }
+}
+
+@keyframes se_fadeout_animation {
     from {
     }
     to {

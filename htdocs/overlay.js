@@ -554,6 +554,99 @@ class ChampionBanner {
     }
 }
 
+
+class SquadEliminated {
+    static SQUADELIMINATED_ID = "squadeliminated";
+    static TEAMNAME_CLASS = "se_teamname";
+    static FADEIN_CLASS = "se_fadein";
+    static FADEOUT_CLASS = "se_fadeout";
+    static FADEIN_ANIMATION_NAME = "se_fadein_animation";
+    static FADEOUT_ANIMATION_NAME = "se_fadeout_animation";
+    static HIDE_CLASS = "se_hide";
+    #nodes;
+    #queue;
+    #timerid;
+    constructor() {
+        // bodyに追加
+        this.#nodes = {
+            base: document.createElement('div'),
+            teamname: document.createElement('div')
+        };
+
+        this.#queue = [];
+        this.#timerid = -1;
+
+        // set id
+        this.#nodes.base.id = SquadEliminated.SQUADELIMINATED_ID;
+        
+        // set class
+        this.#nodes.teamname.classList.add(SquadEliminated.TEAMNAME_CLASS);
+
+        // append
+        document.body.appendChild(this.#nodes.base);
+        this.#nodes.base.appendChild(this.#nodes.teamname);
+
+        this.#nodes.base.addEventListener('animationend', (ev) => {
+            if (ev.animationName == SquadEliminated.FADEIN_ANIMATION_NAME) {
+                this.#nodes.base.classList.remove(SquadEliminated.FADEIN_CLASS);
+            }
+            if (ev.animationName == SquadEliminated.FADEOUT_ANIMATION_NAME) {
+                this.#nodes.base.classList.remove(SquadEliminated.FADEOUT_CLASS);
+                this.#checkNext();
+            }
+        });
+    }
+
+    set(placement, teamname) {
+        this.#queue.push({
+            placement: placement,
+            teamname: teamname
+        });
+        this.#checkNext();
+    }
+
+    startFadeIn() {
+        this.#nodes.base.classList.add(SquadEliminated.FADEIN_CLASS);
+        this.#nodes.base.classList.remove(SquadEliminated.HIDE_CLASS);
+        // 4秒で消える(3.7秒でフェードアウト開始)
+        this.#timerid = setTimeout(() => { this.startFadeOut(); }, 3700);
+    }
+
+    startFadeOut() {
+        this.#timerid = -1;
+        this.#nodes.base.classList.add(SquadEliminated.FADEOUT_CLASS);
+    }
+
+    #checkNext() {
+        console.log(this.#queue);
+        if (this.#queue.length > 0) {
+            if (this.#timerid > 0) return; // タイマー発火待ち
+            if (this.#nodes.base.classList.contains(SquadEliminated.FADEOUT_CLASS)) return; // フェードアウト待ち
+
+            // 次のデータを表示
+            const data = this.#queue.shift();
+            this.#nodes.teamname.innerText = '#' + data.placement + ' ' + data.teamname + ' eliminated';
+            this.startFadeIn();
+        } else {
+            this.hide();
+        }
+    }
+
+    show() {
+        this.#checkNext();
+    }
+
+    hide() {
+        if (this.#timerid > 0) {
+            clearTimeout(this.#timerid);
+            this.#timerid = -1;
+        }
+        this.#nodes.base.classList.add(SquadEliminated.HIDE_CLASS);
+        this.#nodes.base.classList.remove(SquadEliminated.FADEIN_CLASS);
+        this.#nodes.base.classList.remove(SquadEliminated.FADEOUT_CLASS);
+    }
+}
+
 export class Overlay {
     #webapi;
     #teams; // 計算用
@@ -567,8 +660,10 @@ export class Overlay {
     #owneditems;
     #gameinfo;
     #championbanner;
+    #squadeliminated;
     #camera;
     #forcehide;
+    #getallprocessing;
     static points_table = [12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
 
     constructor() {
@@ -579,6 +674,8 @@ export class Overlay {
         this.#owneditems = new OwnedItems();
         this.#gameinfo = new GameInfo();
         this.#championbanner = new ChampionBanner();
+        this.#squadeliminated = new SquadEliminated();
+        this.#getallprocessing = false;
         
 
         this.#setupApexWebAPI();
@@ -593,7 +690,8 @@ export class Overlay {
             playerbanner: false,
             owneditems: false,
             gameinfo: false,
-            championbanner: false
+            championbanner: false,
+            squadeliminated: false
         };
 
         this.hideAll();
@@ -617,14 +715,18 @@ export class Overlay {
     #setupApexWebAPI() {
         this.#webapi = new ApexWebAPI.ApexWebAPI("ws://127.0.0.1:20081/");
         this.#webapi.addEventListener("open", () => {
+            this.#getallprocessing = true;
             this.#webapi.getAll().then((game) => {
                 this.#webapi.getTournamentResults().then((event) => {
+                    this.#getallprocessing = false;
                     this.#_game = game;
                     this.#_results = event.detail.results;
                     this.#calcAndDisplay();
                     this.updateGameInfo();
                     this.#showHideFromGameState(this.#_game.state);
-                    this.#getAllOverlayForceHideState();
+                    this.#getAllOverlayForceHideState(); 
+                }, () => {
+                    this.getallprocessing = false;
                 });
             });
         });
@@ -670,6 +772,15 @@ export class Overlay {
                     this.updateGameInfo();
                 });
             }
+        });
+
+        this.#webapi.addEventListener("squadeliminate", (ev) => {
+            if (this.#_game == null) return;
+            if (this.#getallprocessing) return;
+            const placement = ev.detail.team.placement;
+            const teamname = this.#getTeamName(ev.detail.team.id);
+            if (placement <= 3) return; // 残り3チーム以下は表示しない
+            this.#squadeliminated.set(placement, teamname);
         });
 
         this.#webapi.addEventListener("winnerdetermine", (ev) => {
@@ -790,6 +901,13 @@ export class Overlay {
                         this.hideChampionBanner();
                     } else if (data.value === false) {
                         this.#forcehide.championbanner = false;
+                    }
+                } else if (data.type === "forcehidesquadeliminated") {
+                    if (data.value === true) {
+                        this.#forcehide.squadeliminated = true;
+                        this.hideSquadEliminated();
+                    } else if (data.value === false) {
+                        this.#forcehide.squadeliminated = false;
                     }
                 }
             }
@@ -1001,6 +1119,9 @@ export class Overlay {
     showChampionBanner() {
         if (!this.#forcehide.championbanner) this.#championbanner.show();
     }
+    setSquadEliminated(placement, teamname) {
+        if (!this.#forcehide.squadeliminated) this.#squadeliminated.set(placement, teamname);
+    }
 
     hideLeaderBoard() {
         this.#leaderboard.hide();
@@ -1023,6 +1144,9 @@ export class Overlay {
     hideChampionBanner() {
         this.#championbanner.hide();
     }
+    hideSquadEliminated() {
+        this.#squadeliminated.hide();
+    }
 
     showAll() {
         this.showLeaderBoard();
@@ -1041,6 +1165,7 @@ export class Overlay {
         this.hideOwnedItems();
         this.hideGameInfo();
         this.hideChampionBanner();
+        this.hideSquadEliminated();
     }
 
     updateAllItems(team, playerid) {
