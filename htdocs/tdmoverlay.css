@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0);
+    font-family:'Segoe UI', 'Yu Gothic UI', sans-serif;
+}
+
+#tdmscoreboard {
+    position: fixed;
+    right: 20px;
+    top: 400px;
+    width: 400px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    overflow: hidden;
+}
+
+.tdmsb_team1, .tdmsb_team2 {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 2px;
+}
+
+.tdmsb_team1 {
+    margin-bottom: 2px;
+}
+
+.tdmsb_team1 {
+    border: 1px solid rgb(66, 194, 255);
+}
+
+.tdmsb_team1 > .tdmsb_teamname {
+    background-color: rgb(32, 79, 104);
+}
+
+.tdmsb_team2 {
+    border: 1px solid rgb(254, 97, 57);
+}
+
+.tdmsb_team2 > .tdmsb_teamname {
+    background-color: rgb(107, 43, 32);
+}
+
+.tdmsb_teamname {
+    height: 1.4em;
+    line-height: 1.4em;
+    text-align: center;
+    font-size: 90%;
+    font-weight: bold;
+}
+
+
+.tdmsb_label, .tdmsb_player {
+    display: grid;
+    grid-template-columns: 1fr 30px 30px 60px 60px;
+    height: 1.3em;
+    line-height: 1.3em;
+}
+
+.tdmsb_label {
+    padding-top: 2px;
+    background-color: #666666;
+    text-align: center;
+    font-size: 8px;
+}
+
+.tdmsb_player {
+    height: 1.2em;
+    line-height: 1.2em;
+    background-color: rgba(0, 0, 0, 0.9);
+
+}
+
+.tdmsb_name, .tdmsb_kills, .tdmsb_killed, .tdmsb_damagedealt, .tdmsb_damagetaken {
+    text-align: center;
+    font-size: 13px;
+}
+
+.tdmsb_statekilled {
+    color: rgb(109, 198, 24);
+}
+
+.tdmsb_selected {
+    background-color: rgb(88, 104, 32);
+}
