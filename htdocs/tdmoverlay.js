@@ -214,7 +214,7 @@ export class TDMOverlay {
         this.#webapi.addEventListener("getplayerparams", (ev) => {
             const hash = ev.detail.hash;
             if ('name' in ev.detail.params) {
-                const name = ev.detail.params;
+                const name = ev.detail.params.name;
                 this.#scoreboard.setPlayerName(hash, name);
             }
         });
