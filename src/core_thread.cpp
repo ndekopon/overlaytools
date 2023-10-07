@@ -838,7 +838,10 @@ namespace app {
 			reply_webapi_rename_tournament_name(_data->sock, _data->sequence, _data->tournament_id, _data->tournament_name, _data->result);
 			break;
 		case LOCAL_DATA_TYPE_SET_TOURNAMENT_PARAMS:
-			reply_webapi_set_tournament_params(_data->sock, _data->sequence, _data->tournament_id, _data->result);
+			if (_data->json != nullptr)
+			{
+				reply_webapi_set_tournament_params(_data->sock, _data->sequence, _data->tournament_id, _data->result, *_data->json);
+			}
 			break;
 		case LOCAL_DATA_TYPE_GET_TOURNAMENT_PARAMS:
 			if (_data->json != nullptr)
@@ -862,7 +865,10 @@ namespace app {
 			reply_webapi_get_current_tournament(_data->sock, _data->sequence, _data->tournament_id, _data->tournament_name, _data->result_count);
 			break;
 		case LOCAL_DATA_TYPE_SET_TEAM_PARAMS:
-			reply_webapi_set_team_params(_data->sock, _data->sequence, _data->tournament_id, _data->team_id, _data->result);
+			if (_data->json != nullptr)
+			{
+				reply_webapi_set_team_params(_data->sock, _data->sequence, _data->tournament_id, _data->team_id, _data->result, *_data->json);
+			}
 			break;
 		case LOCAL_DATA_TYPE_GET_TEAM_PARAMS:
 			if (_data->json != nullptr)
@@ -871,7 +877,10 @@ namespace app {
 			}
 			break;
 		case LOCAL_DATA_TYPE_SET_PLAYER_PARAMS:
-			reply_webapi_set_player_params(_data->sock, _data->sequence, _data->hash, _data->result);
+			if (_data->json != nullptr)
+			{
+				reply_webapi_set_player_params(_data->sock, _data->sequence, _data->hash, _data->result, *_data->json);
+			}
 			break;
 		case LOCAL_DATA_TYPE_GET_PLAYER_PARAMS:
 			if (_data->json != nullptr)
@@ -1865,10 +1874,10 @@ namespace app {
 		}
 	}
 
-	void core_thread::reply_webapi_set_tournament_params(SOCKET _sock, uint32_t _sequence, const std::string& _id, bool _result)
+	void core_thread::reply_webapi_set_tournament_params(SOCKET _sock, uint32_t _sequence, const std::string& _id, bool _result, const std::string& _json)
 	{
 		send_webapi_data sdata(WEBAPI_LOCALDATA_SET_TOURNAMENT_PARAMS);
-		if (sdata.append(_sequence) && sdata.append(_id) && sdata.append(_result))
+		if (sdata.append(_sequence) && sdata.append(_id) && sdata.append(_result) && sdata.append_json(_json))
 		{
 			sendto_webapi(_sock, std::move(sdata.buffer_));
 		}
@@ -1910,10 +1919,10 @@ namespace app {
 		}
 	}
 
-	void core_thread::reply_webapi_set_team_params(SOCKET _sock, uint32_t _sequence, const std::string& _id, uint8_t _team_id, bool _result)
+	void core_thread::reply_webapi_set_team_params(SOCKET _sock, uint32_t _sequence, const std::string& _id, uint8_t _team_id, bool _result, const std::string& _json)
 	{
 		send_webapi_data sdata(WEBAPI_LOCALDATA_SET_TEAM_PARAMS);
-		if (sdata.append(_sequence) && sdata.append(_id) && sdata.append(_team_id) && sdata.append(_result))
+		if (sdata.append(_sequence) && sdata.append(_id) && sdata.append(_team_id) && sdata.append(_result) && sdata.append_json(_json))
 		{
 			sendto_webapi(_sock, std::move(sdata.buffer_));
 		}
@@ -1928,10 +1937,10 @@ namespace app {
 		}
 	}
 
-	void core_thread::reply_webapi_set_player_params(SOCKET _sock, uint32_t _sequence, const std::string& _hash, bool _result)
+	void core_thread::reply_webapi_set_player_params(SOCKET _sock, uint32_t _sequence, const std::string& _hash, bool _result, const std::string& _json)
 	{
 		send_webapi_data sdata(WEBAPI_LOCALDATA_SET_PLAYER_PARAMS);
-		if (sdata.append(_sequence) && sdata.append(_hash) && sdata.append(_result))
+		if (sdata.append(_sequence) && sdata.append(_hash) && sdata.append(_result) && sdata.append_json(_json))
 		{
 			sendto_webapi(_sock, std::move(sdata.buffer_));
 		}

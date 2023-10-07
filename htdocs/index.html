@@ -2251,8 +2251,9 @@ class WebAPIConfig {
             if (changed) {
                 // 更新を送信
                 this.#webapi.setPlayerParams(hash, params).then((ev) => {
+                    console.log(ev);
                     if (ev.detail.result) {
-                        this.#setTextPlayerNameTR(tr, params);
+                        this.#setTextPlayerNameTR(tr, ev.detail.params);
                     }
                 }, () => {});
             }

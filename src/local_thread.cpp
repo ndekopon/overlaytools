@@ -736,10 +736,12 @@ namespace app {
 			d->tournament_id = tournament_.get_current_id();
 			if (_data->json != nullptr)
 			{
-				d->result = tournament_.save_tournament_json(*_data->json);
+				d->json = std::move(_data->json);
+				d->result = tournament_.save_tournament_json(*d->json);
 			}
 			else
 			{
+				d->json.reset(new std::string("{}"));
 				d->result = false;
 			}
 			break;
@@ -771,10 +773,12 @@ namespace app {
 			d->team_id = _data->team_id;
 			if (_data->json != nullptr)
 			{
-				d->result = tournament_.save_team_json(_data->team_id, *_data->json);
+				d->json = std::move(_data->json);
+				d->result = tournament_.save_team_json(_data->team_id, *d->json);
 			}
 			else
 			{
+				d->json.reset(new std::string("{}"));
 				d->result = false;
 			}
 			break;
@@ -790,10 +794,12 @@ namespace app {
 			if (_data->json != nullptr)
 			{
 				local_players p(path_);
-				d->result = p.save_player_json(_data->hash, *_data->json);
+				d->json = std::move(_data->json);
+				d->result = p.save_player_json(_data->hash, *d->json);
 			}
 			else
 			{
+				d->json.reset(new std::string("{}"));
 				d->result = false;
 			}
 			break;

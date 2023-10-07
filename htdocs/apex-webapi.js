@@ -878,8 +878,8 @@ export class ApexWebAPI extends EventTarget {
         this.dispatchEvent(new CustomEvent('renametournamentname', {detail: {sequence: data_array[0], id: data_array[1], name: data_array[2], result: data_array[3]}}));
         break;
       case ApexWebAPI.WEBAPI_LOCALDATA_SET_TOURNAMENT_PARAMS:
-        if (count != 3) return false;
-        this.dispatchEvent(new CustomEvent('settournamentparams', {detail: {sequence: data_array[0], id: data_array[1], result: data_array[2]}}));
+        if (count != 4) return false;
+        this.dispatchEvent(new CustomEvent('settournamentparams', {detail: {sequence: data_array[0], id: data_array[1], result: data_array[2], params: data_array[3]}}));
         break;
       case ApexWebAPI.WEBAPI_LOCALDATA_GET_TOURNAMENT_PARAMS:
         if (count != 3) return false;
@@ -898,8 +898,11 @@ export class ApexWebAPI extends EventTarget {
         this.dispatchEvent(new CustomEvent('getcurrenttournament', {detail: {sequence: data_array[0], id: data_array[1], name: data_array[2], count: data_array[3]}}));
         break;
       case ApexWebAPI.WEBAPI_LOCALDATA_SET_TEAM_PARAMS:
-        if (count != 4) return false;
-        this.dispatchEvent(new CustomEvent('setteamparams', {detail: {sequence: data_array[0], id: data_array[1], teamid: data_array[2], result: data_array[3]}}));
+        if (count != 5) return false;
+        this.dispatchEvent(new CustomEvent('setteamparams', {detail: {sequence: data_array[0], id: data_array[1], teamid: data_array[2], result: data_array[3], params: data_array[4]}}));
+        if (data_array[2] < this.#game.teams.length && data_array[3] == true) {
+          this.#game.teams[data_array[2]].params = data_array[4];
+        }
         break;
       case ApexWebAPI.WEBAPI_LOCALDATA_GET_TEAM_PARAMS:
         if (count != 4) return false;
@@ -909,8 +912,11 @@ export class ApexWebAPI extends EventTarget {
         }
         break;
       case ApexWebAPI.WEBAPI_LOCALDATA_SET_PLAYER_PARAMS:
-        if (count != 3) return false;
-        this.dispatchEvent(new CustomEvent('setplayerparams', {detail: {sequence: data_array[0], hash: data_array[1], result: data_array[2]}}));
+        if (count != 4) return false;
+        this.dispatchEvent(new CustomEvent('setplayerparams', {detail: {sequence: data_array[0], hash: data_array[1], result: data_array[2], params: data_array[3]}}));
+        if (data_array[1] in this.#game.playerindex && data_array[2] == true) {
+          this.#game.playerindex[data_array[1]].params = data_array[3];
+        }
         break;
       case ApexWebAPI.WEBAPI_LOCALDATA_GET_PLAYER_PARAMS:
         if (count != 3) return false;
@@ -1302,14 +1308,7 @@ export class ApexWebAPI extends EventTarget {
     const buffer = new SendBuffer(ApexWebAPI.WEBAPI_LOCALDATA_SET_TEAM_PARAMS);
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_UINT8, teamid)) precheck = false;
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_JSON, params, this.#encoder)) precheck = false;
-    return new Promise((resolve, reject) => {
-      this.#sendAndReceiveReply(buffer, "setteamparams", precheck).then((ev) => {
-        if (teamid < this.#game.teams.length) {
-          this.#game.teams[teamid].params = params;
-        }
-        resolve(ev);
-      }, reject);
-    });
+    return this.#sendAndReceiveReply(buffer, "setteamparams", precheck);
   }
   
   getTeamParams(teamid) {
@@ -1324,14 +1323,7 @@ export class ApexWebAPI extends EventTarget {
     const buffer = new SendBuffer(ApexWebAPI.WEBAPI_LOCALDATA_SET_PLAYER_PARAMS);
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_STRING, hash, this.#encoder)) precheck = false;
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_JSON, params, this.#encoder)) precheck = false;
-    return new Promise((resolve, reject) => {
-      this.#sendAndReceiveReply(buffer, "setplayerparams", precheck).then((ev) => {
-        if (hash in this.#game.playerindex) {
-          this.#game.playerindex[hash].params = params;
-        }
-        resolve(ev);
-      }, reject);
-    });
+    return this.#sendAndReceiveReply(buffer, "setplayerparams", precheck);
   }
   
   getPlayerParams(hash) {
