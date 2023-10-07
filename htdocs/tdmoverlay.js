@@ -218,6 +218,15 @@ export class TDMOverlay {
                 this.#scoreboard.setPlayerName(hash, name);
             }
         });
+        
+        this.#webapi.addEventListener("setplayerparams", (ev) => {
+            console.log(ev);
+            const hash = ev.detail.hash;
+            if (ev.detail.result && 'name' in ev.detail.params) {
+                const name = ev.detail.params.name;
+                this.#scoreboard.setPlayerName(hash, name);
+            }
+        });
 
         // チーム名関係
         this.#webapi.addEventListener("teamname", (ev) => {
@@ -231,6 +240,15 @@ export class TDMOverlay {
             const id = ev.detail.teamid;
             if (id > 1) return; // 0,1のみ反映
             if ('name' in ev.detail.params) {
+                const name = ev.detail.params.name;
+                this.#scoreboard.setTeamName(id, name);
+            }
+        });
+        
+        this.#webapi.addEventListener("setteamparams", (ev) => {
+            const id = ev.detail.teamid;
+            if (id > 1) return; // 0,1のみ反映
+            if (ev.detail.result && 'name' in ev.detail.params) {
                 const name = ev.detail.params.name;
                 this.#scoreboard.setTeamName(id, name);
             }
