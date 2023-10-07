@@ -832,7 +832,7 @@ namespace app {
 			}
 			break;
 		case LOCAL_DATA_TYPE_SET_TOURNAMENT_NAME:
-			reply_webapi_set_tournament_name(_data->sock, _data->sequence, _data->tournament_id, _data->tournament_name);
+			reply_webapi_set_tournament_name(INVALID_SOCKET, _data->sequence, _data->tournament_id, _data->tournament_name);
 			break;
 		case LOCAL_DATA_TYPE_RENAME_TOURNAMENT_NAME:
 			reply_webapi_rename_tournament_name(_data->sock, _data->sequence, _data->tournament_id, _data->tournament_name, _data->result);
@@ -840,7 +840,7 @@ namespace app {
 		case LOCAL_DATA_TYPE_SET_TOURNAMENT_PARAMS:
 			if (_data->json != nullptr)
 			{
-				reply_webapi_set_tournament_params(_data->sock, _data->sequence, _data->tournament_id, _data->result, *_data->json);
+				reply_webapi_set_tournament_params(INVALID_SOCKET, _data->sequence, _data->tournament_id, _data->result, *_data->json);
 			}
 			break;
 		case LOCAL_DATA_TYPE_GET_TOURNAMENT_PARAMS:
@@ -867,7 +867,7 @@ namespace app {
 		case LOCAL_DATA_TYPE_SET_TEAM_PARAMS:
 			if (_data->json != nullptr)
 			{
-				reply_webapi_set_team_params(_data->sock, _data->sequence, _data->tournament_id, _data->team_id, _data->result, *_data->json);
+				reply_webapi_set_team_params(INVALID_SOCKET, _data->sequence, _data->tournament_id, _data->team_id, _data->result, *_data->json);
 			}
 			break;
 		case LOCAL_DATA_TYPE_GET_TEAM_PARAMS:
@@ -879,7 +879,7 @@ namespace app {
 		case LOCAL_DATA_TYPE_SET_PLAYER_PARAMS:
 			if (_data->json != nullptr)
 			{
-				reply_webapi_set_player_params(_data->sock, _data->sequence, _data->hash, _data->result, *_data->json);
+				reply_webapi_set_player_params(INVALID_SOCKET, _data->sequence, _data->hash, _data->result, *_data->json);
 			}
 			break;
 		case LOCAL_DATA_TYPE_GET_PLAYER_PARAMS:
