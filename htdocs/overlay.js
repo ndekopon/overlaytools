@@ -213,6 +213,12 @@ class LeaderBoard {
         this.#stopAnimation();
         this.box.classList.add(LeaderBoard.#HIDECLASS);
     }
+    addForceHide() {
+        this.box.classList.add(Overlay.FORCEHIDE_CLASS);
+    }
+    removeForceHide() {
+        this.box.classList.remove(Overlay.FORCEHIDE_CLASS);
+    }
 }
 
 class TeamBanner {
@@ -645,7 +651,7 @@ class SquadEliminated {
         // 非表示状態の場合は追加しない
         if (this.#nodes.base.classList.contains(SquadEliminated.HIDE_CLASS)) return;
         if (this.#nodes.base.classList.contains(Overlay.FORCEHIDE_CLASS)) return;
-        
+
         this.#queue.push({
             placement: placement,
             teamname: teamname
