@@ -10,9 +10,9 @@ class LeaderBoard {
     static #POINTSCLASS = "lb_points";
     static #CHANGEDCLASS = "lb_changed";
     static #ELIMINATEDCLASS = "lb_eliminated";
-    static #FADEINANIMATION ="lbfadein";
-    static #FADEOUTANIMATION ="lbfadeout";
-    static #CHANGEDANIMATION ="lbchanged";
+    static #FADEINANIMATION ="lb_fadein_animation";
+    static #FADEOUTANIMATION ="lb_fadeout_animation";
+    static #CHANGEDANIMATION ="lb_changed_animation";
     static STATUS_PLAYER_ALIVE = 0;
     static STATUS_PLAYER_DOWN = 1;
     static STATUS_PLAYER_KILLED = 2;

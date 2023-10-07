@@ -57,10 +57,12 @@ html {
     --overlay-squadeliminated-color: rgb(255, 255, 255);
     --overlay-squadeliminated-bgcolor: rgba(176, 48, 57, 0.90);
 }
+
 * {
     margin: 0;
     padding: 0;
 }
+
 body {
     width: 1920px;
     height: 1080px;
@@ -68,6 +70,8 @@ body {
     background-color: rgba(0, 0, 0, 0);
     font-family:'Segoe UI', 'Yu Gothic UI', sans-serif;
 }
+
+/* LeaderBoard */
 div#leaderboard {
     position: fixed;
     left: 0;
@@ -81,6 +85,11 @@ div#leaderboard {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     overflow: hidden;
 }
+
+div#leaderboard.lb_hide {
+    display: none;
+}
+
 div#leaderboard > div {
     box-sizing: border-box;
     width: fit-content;
@@ -90,64 +99,54 @@ div#leaderboard > div {
     height: 100%;
     grid-template-columns: 1fr 35px 7fr 1fr;
 }
+
+div#leaderboard > div.lb_hide {
+    display: none;
+}
+
 div#leaderboard > div > div {
     font-size: 120%;
     font-weight: 500;
     height: var(--overlay-leaderboard-height);
     line-height: var(--overlay-leaderboard-height);
-    /* text-shadow:
-         2px    0 2px var(--text-shadow-color),
-         2px  2px 2px var(--text-shadow-color),
-           0  2px 2px var(--text-shadow-color),
-        -2px  2px 2px var(--text-shadow-color),
-        -2px    0 2px var(--text-shadow-color),
-        -2px -2px 2px var(--text-shadow-color),
-           0 -2px 2px var(--text-shadow-color),
-         2px -2px 2px var(--text-shadow-color); */
 }
 
-div#leaderboard > div > div.lb_rank {
+.lb_rank {
     border-left: 1px solid var(--overlay-main-theme-border-color);
     text-align: center;
 }
 
-div#leaderboard > div > canvas.lb_alives {
+.lb_alives {
     width: 100%;
     height: 100%;
 }
 
-div#leaderboard > div > div.lb_name {
+.lb_name {
     box-sizing: border-box;
     overflow: clip;
 }
-div#leaderboard > div > div.lb_points {
+.lb_points {
     box-sizing: border-box;
     text-align: center;
 }
 
-div#leaderboard > div.lb_eliminated {
+.lb_eliminated {
     opacity: 0.3;
 }
-div#leaderboard.lb_hide {
-    display: none;
-}
-div#leaderboard > div.lb_hide {
-    display: none;
+
+.lb_fadein {
+    animation: 0.3s lb_fadein_animation forwards;
 }
 
-div.lb_fadein {
-    animation: 0.3s lbfadein forwards;
+.lb_fadeout {
+    animation: 0.3s lb_fadeout_animation forwards;
 }
 
-div.lb_fadeout {
-    animation: 0.3s lbfadeout forwards;
+.lb_changed {
+    animation: 0.3s lb_changed_animation forwards;
 }
 
-div.lb_changed {
-    animation: 0.3s lbchanged forwards;
-}
-
-@keyframes lbfadein {
+@keyframes lb_fadein_animation {
     from {
         opacity: 0.0;
         transform: translateY(50%);
@@ -157,7 +156,7 @@ div.lb_changed {
     }
 }
 
-@keyframes lbfadeout {
+@keyframes lb_fadeout_animation {
     from {
         transform: translateY(0%);
     }
@@ -167,7 +166,7 @@ div.lb_changed {
     }
 }
 
-@keyframes lbchanged {
+@keyframes lb_changed_animation {
     from {
         background-color: rgb(255, 255, 255);
     }
@@ -190,28 +189,32 @@ div#teambanner {
     grid-template-columns: 1fr 4fr 1fr;
     overflow: hidden;
 }
-div#teambanner > div {
-    line-height: var(--overlay-teambanner-height);
-    font-size: 130%;
-    font-weight: 500;
-}
-div#teambanner > div.tb_rank {
-    text-align: center;
-}
-div#teambanner > div.tb_teamname {
-    border-left: 1px solid var(--overlay-main-theme-border-color);
-    border-right: 1px solid var(--overlay-main-theme-border-color);
-    padding-left: 1em;
-}
-div#teambanner > div.tb_points {
-    text-align: center;
-}
 
 div#teambanner.tb_hide {
     display: none;
 }
 
-/* playerbanner */
+div#teambanner > div {
+    line-height: var(--overlay-teambanner-height);
+    font-size: 130%;
+    font-weight: 500;
+}
+
+.tb_rank {
+    text-align: center;
+}
+
+.tb_teamname {
+    border-left: 1px solid var(--overlay-main-theme-border-color);
+    border-right: 1px solid var(--overlay-main-theme-border-color);
+    padding-left: 1em;
+}
+
+.tb_points {
+    text-align: center;
+}
+
+/* PlayerBanner */
 div#playerbanner {
     position: fixed;
     left: var(--overlay-playerbanner-left);
@@ -226,14 +229,14 @@ div#playerbanner {
     background: linear-gradient(to right, rgba(0, 0, 0, 0), var(--overlay-playerbanner-bgcolor) 10%, var(--overlay-playerbanner-bgcolor) 90%, rgba(0, 0, 0, 0) 100%);
 }
 
-div#playerbanner > div.pb_name {
+div#playerbanner.pb_hide {
+    display: none;
+}
+
+div.pb_name {
     line-height: var(--overlay-playerbanner-height);
     padding-left: 1em;
     font-weight: 500;
-}
-
-div#playerbanner.pb_hide {
-    display: none;
 }
 
 /* team kills */
@@ -251,23 +254,19 @@ div#teamkills {
     overflow: hidden;
 }
 
-div#teamkills > div {
-    line-height: var(--overlay-teamkills-height);
-}
-
-div#teamkills > div.tk_icon {
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    font-size: 130%;
-}
-
-div#teamkills > div.tk_kills {
-    text-align: center;
-}
-
 div#teamkills.tk_hide {
     display: none;
+}
+
+div#teamkills > div {
+    line-height: var(--overlay-teamkills-height);
+    text-align: center;
+}
+
+.tk_icon {
+    width: 100%;
+    height: 100%;
+    font-size: 130%;
 }
 
 /* OwnedItems */
@@ -301,6 +300,7 @@ div#owneditems > div > div {
     justify-content: end;
     align-items: end;
 }
+
 div#owneditems > div > div > div {
     font-size: 80%;
     font-weight: bold;
@@ -312,62 +312,76 @@ div#owneditems > div > div > div {
     vertical-align: bottom;
     padding-right: 2px;
 }
-div#owneditems > div > div.oi_syringe {
+
+.oi_syringe {
     background-image: url('icon/syringe.png');
     background-size: 90%;
 }
-div#owneditems > div > div.oi_medkit {
+
+.oi_medkit {
     background-image: url('icon/medkit.png');
     background-size: 70%;
 }
-div#owneditems > div > div.oi_shieldcell {
+
+.oi_shieldcell {
     background-image: url('icon/shieldcell.png');
     background-size: 45%;
 }
-div#owneditems > div > div.oi_shieldbattery {
+
+.oi_shieldbattery {
     background-image: url('icon/shieldbattery.png');
     background-size: 40%;
 }
-div#owneditems > div > div.oi_phoenixkit {
+
+.oi_phoenixkit {
     background-image: url('icon/phoenixkit.png');
     background-size: 40%;
 }
-div#owneditems > div > div.oi_ultimateaccelerant {
+
+.oi_ultimateaccelerant {
     background-image: url('icon/ultimateaccelerant.png');
     background-size: 60%;
 }
-div#owneditems > div > div.oi_thermitgrenade {
+
+.oi_thermitgrenade {
     background-image: url('icon/thermitgrenade.png');
     background-size: 60%;
 }
-div#owneditems > div > div.oi_fraggrenade {
+
+.oi_fraggrenade {
     background-image: url('icon/fraggrenade.png');
     background-size: 60%;
 }
-div#owneditems > div > div.oi_arcstar {
+
+.oi_arcstar {
     background-image: url('icon/arcstar.png');
     background-size: 60%;
 }
-div#owneditems > div > div.oi_backpack_lv1 {
+
+.oi_backpack_lv1 {
     background-image: url('icon/backpack1.png');
     background-size: 45%;
 }
+
 div#owneditems > div > div.oi_backpack_lv2 {
     background-image: url('icon/backpack2.png');
     background-size: 55%;
     background-color: var(--overlay-owneditems-backpack-blue-bgcolor);
 }
+
 div#owneditems > div > div.oi_backpack_lv3 {
     background-image: url('icon/backpack3.png');
     background-size: 60%;
     background-color: var(--overlay-owneditems-backpack-purple-bgcolor);
 }
+
 div#owneditems > div > div.oi_backpack_lv4 {
     background-image: url('icon/backpack3.png');
     background-size: 60%;
     background-color: var(--overlay-owneditems-backpack-gold-bgcolor);
 }
-div#owneditems > div > div.oi_transparent {
+
+.oi_transparent {
     opacity: 0%;
 }
 
@@ -381,11 +395,12 @@ div#gameinfo {
     color: var(--overlay-gameinfo-color);
     background-color: var(--overlay-gameinfo-bgcolor);
 }
+
 div#gameinfo.gi_hide {
     display: none; 
 }
 
-div#gameinfo .gi_gamecount {
+.gi_gamecount {
     font-size: 120%;
     text-align: center;
     line-height: var(--overlay-gameinfo-height);
@@ -406,18 +421,18 @@ div#championbanner.cb_hide {
     display: none;
 }
 
-div#championbanner .cb_teamname {
+.cb_teamname {
     line-height: var(--overlay-championbanner-height);
     font-size: 200%;
     font-weight: bold;
     text-align: center;
 }
 
-div#championbanner.cb_fadein {
+.cb_fadein {
     animation: 0.3s cb_fadein_animation forwards;
 }
 
-div#championbanner.cb_fadeout {
+.cb_fadeout {
     animation: 0.3s cb_fadeout_animation forwards;
 }
 
@@ -453,18 +468,18 @@ div#squadeliminated.se_hide {
     display: none;
 }
 
-div#squadeliminated .se_teamname {
+.se_teamname {
     line-height: var(--overlay-squadeliminated-height);
     font-size: 120%;
     font-weight: bold;
     text-align: center;
 }
 
-div#squadeliminated.se_fadein {
+.se_fadein {
     animation: 0.3s se_fadein_animation forwards;
 }
 
-div#squadeliminated.se_fadeout {
+.se_fadeout {
     animation: 0.3s se_fadeout_animation forwards;
 }
 

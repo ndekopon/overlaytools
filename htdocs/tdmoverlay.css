@@ -11,6 +11,7 @@ body {
     font-family:'Segoe UI', 'Yu Gothic UI', sans-serif;
 }
 
+/* TDMScoreBoard */
 #tdmscoreboard {
     position: fixed;
     right: 20px;
@@ -74,12 +75,9 @@ body {
     height: 1.2em;
     line-height: 1.2em;
     background-color: rgba(0, 0, 0, 0.9);
-
-}
-
-.tdmsb_name, .tdmsb_kills, .tdmsb_killed, .tdmsb_damagedealt, .tdmsb_damagetaken {
     text-align: center;
     font-size: 13px;
+
 }
 
 .tdmsb_statekilled {
