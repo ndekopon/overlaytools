@@ -164,13 +164,19 @@ class TDMScoreBoard {
     hide() {
         this.#nodes.base.classList.add(TDMScoreBoard.#HIDECLASS);
     }
+    addForceHide() {
+        this.#nodes.base.classList.add(TDMOverlay.FORCEHIDE_CLASS);
+    }
+    removeForceHide() {
+        this.#nodes.base.classList.remove(TDMOverlay.FORCEHIDE_CLASS);
+    }
 }
 
 export class TDMOverlay {
+    static FORCEHIDE_CLASS = "forcehide";
     #webapi;
     #_game; // WebAPIのゲームオブジェクト(変更しない)
     #scoreboard;
-    #forcehide;
 
     constructor() {
         this.#scoreboard = new TDMScoreBoard();
@@ -178,10 +184,6 @@ export class TDMOverlay {
         this.#setupApexWebAPI();
 
         this.#_game = null;
-        this.#forcehide = {
-            leaderboard: false,
-        };
-        this.hideAll();
     }
 
     #setupApexWebAPI() {
@@ -297,11 +299,9 @@ export class TDMOverlay {
             if ('type' in data && 'value' in data) {
                 if (data.type === 'forcehidetdmscoreboard') {
                     if (data.value === true) {
-                        this.#forcehide.scoreboard = true;
-                        this.hideScoreBoard();
+                        this.#scoreboard.addForceHide();
                     } else if (data.value === false) {
-                        this.#forcehide.scoreboard = false;
-                        this.showScoreBoard();
+                        this.#scoreboard.removeForceHide();
                     }
                 }
             }
@@ -309,7 +309,7 @@ export class TDMOverlay {
     }
 
     showScoreBoard() {
-        if (!this.#forcehide.scoreboard) this.#scoreboard.show();
+        this.#scoreboard.show();
     }
 
     hideScoreBoard() {

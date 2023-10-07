@@ -22,6 +22,14 @@ body {
     overflow: hidden;
 }
 
+#tdmscoreboard.tdmsb_hide {
+    display: none;
+}
+
+#tdmscoreboard.forcehide {
+    display: none;
+}
+
 .tdmsb_team1, .tdmsb_team2 {
     box-sizing: border-box;
     width: 100%;

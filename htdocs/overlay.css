@@ -90,6 +90,10 @@ div#leaderboard.lb_hide {
     display: none;
 }
 
+div#leaderboard.forcehide {
+    display: none;
+}
+
 div#leaderboard > div {
     box-sizing: border-box;
     width: fit-content;
@@ -194,6 +198,10 @@ div#teambanner.tb_hide {
     display: none;
 }
 
+div#teambanner.forcehide {
+    display: none;
+}
+
 div#teambanner > div {
     line-height: var(--overlay-teambanner-height);
     font-size: 130%;
@@ -230,6 +238,10 @@ div#playerbanner {
 }
 
 div#playerbanner.pb_hide {
+    display: none;
+}
+
+div#playerbanner.forcehide {
     display: none;
 }
 
@@ -280,6 +292,10 @@ div#owneditems {
 }
 
 div#owneditems.oi_hide {
+    display: none;
+}
+
+div#owneditems.forcehide {
     display: none;
 }
 
@@ -400,6 +416,10 @@ div#gameinfo.gi_hide {
     display: none; 
 }
 
+div#gameinfo.forcehide {
+    display: none; 
+}
+
 .gi_gamecount {
     font-size: 120%;
     text-align: center;
@@ -418,6 +438,10 @@ div#championbanner {
 }
 
 div#championbanner.cb_hide {
+    display: none;
+}
+
+div#championbanner.forcehide {
     display: none;
 }
 
@@ -465,6 +489,10 @@ div#squadeliminated {
 }
 
 div#squadeliminated.se_hide {
+    display: none;
+}
+
+div#squadeliminated.forcehide {
     display: none;
 }
 

@@ -259,6 +259,13 @@ class TeamBanner {
     hide() {
         this.box.classList.add(TeamBanner.HIDE_CLASS);
     }
+
+    addForceHide() {
+        this.box.classList.add(Overlay.FORCEHIDE_CLASS);
+    }
+    removeForceHide() {
+        this.box.classList.remove(Overlay.FORCEHIDE_CLASS);
+    }
 }
 
 class PlayerBanner {
@@ -288,6 +295,13 @@ class PlayerBanner {
     }
     hide() {
         this.box.classList.add(PlayerBanner.HIDE_CLASS);
+    }
+
+    addForceHide() {
+        this.box.classList.add(Overlay.FORCEHIDE_CLASS);
+    }
+    removeForceHide() {
+        this.box.classList.remove(Overlay.FORCEHIDE_CLASS);
     }
 }
 
@@ -322,6 +336,13 @@ class TeamKills {
     }
     hide() {
         this.box.classList.add(TeamKills.HIDE_CLASS);
+    }
+
+    addForceHide() {
+        this.box.classList.add(Overlay.FORCEHIDE_CLASS);
+    }
+    removeForceHide() {
+        this.box.classList.remove(Overlay.FORCEHIDE_CLASS);
     }
 }
 
@@ -452,6 +473,13 @@ class OwnedItems {
     hide() {
         this.box.classList.add(OwnedItems.HIDE_CLASS);
     }
+
+    addForceHide() {
+        this.box.classList.add(Overlay.FORCEHIDE_CLASS);
+    }
+    removeForceHide() {
+        this.box.classList.remove(Overlay.FORCEHIDE_CLASS);
+    }
 }
 
 class GameInfo {
@@ -486,6 +514,13 @@ class GameInfo {
     }
     hide() {
         this.#nodes.base.classList.add(GameInfo.HIDE_CLASS);
+    }
+
+    addForceHide() {
+        this.#nodes.base.classList.add(Overlay.FORCEHIDE_CLASS);
+    }
+    removeForceHide() {
+        this.#nodes.base.classList.remove(Overlay.FORCEHIDE_CLASS);
     }
 }
 
@@ -552,6 +587,15 @@ class ChampionBanner {
         this.#nodes.base.classList.remove(ChampionBanner.FADEIN_CLASS);
         this.#nodes.base.classList.remove(ChampionBanner.FADEOUT_CLASS);
     }
+
+    addForceHide() {
+        this.#nodes.base.classList.add(Overlay.FORCEHIDE_CLASS);
+        this.#nodes.base.classList.remove(ChampionBanner.FADEIN_CLASS);
+        this.#nodes.base.classList.remove(ChampionBanner.FADEOUT_CLASS);
+    }
+    removeForceHide() {
+        this.#nodes.base.classList.remove(Overlay.FORCEHIDE_CLASS);
+    }
 }
 
 
@@ -598,6 +642,10 @@ class SquadEliminated {
     }
 
     set(placement, teamname) {
+        // 非表示状態の場合は追加しない
+        if (this.#nodes.base.classList.contains(SquadEliminated.HIDE_CLASS)) return;
+        if (this.#nodes.base.classList.contains(Overlay.FORCEHIDE_CLASS)) return;
+        
         this.#queue.push({
             placement: placement,
             teamname: teamname
@@ -645,9 +693,19 @@ class SquadEliminated {
         this.#nodes.base.classList.remove(SquadEliminated.FADEIN_CLASS);
         this.#nodes.base.classList.remove(SquadEliminated.FADEOUT_CLASS);
     }
+
+    addForceHide() {
+        this.#nodes.base.classList.add(Overlay.FORCEHIDE_CLASS);
+        this.#nodes.base.classList.remove(SquadEliminated.FADEIN_CLASS);
+        this.#nodes.base.classList.remove(SquadEliminated.FADEOUT_CLASS);
+    }
+    removeForceHide() {
+        this.#nodes.base.classList.remove(Overlay.FORCEHIDE_CLASS);
+    }
 }
 
 export class Overlay {
+    static FORCEHIDE_CLASS = "forcehide";
     #webapi;
     #teams; // 計算用
     #_game; // WebAPIのゲームオブジェクト(変更しない)
@@ -662,7 +720,6 @@ export class Overlay {
     #championbanner;
     #squadeliminated;
     #camera;
-    #forcehide;
     #getallprocessing;
     static points_table = [12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
 
@@ -683,16 +740,6 @@ export class Overlay {
         this.#_game = null;
         this.#teams = {};
         this.#camera = { teamid: 0, playerid: 0 };
-        this.#forcehide = {
-            leaderboard: false,
-            teambanner: false,
-            teamkills: false,
-            playerbanner: false,
-            owneditems: false,
-            gameinfo: false,
-            championbanner: false,
-            squadeliminated: false
-        };
 
         this.hideAll();
     }
@@ -849,65 +896,51 @@ export class Overlay {
             if ('type' in data && 'value' in data) {
                 if (data.type === 'forcehideleaderboard') {
                     if (data.value === true) {
-                        this.#forcehide.leaderboard = true;
-                        this.hideLeaderBoard();
+                        this.#leaderboard.addForceHide();
                     } else if (data.value === false) {
-                        this.#forcehide.leaderboard = false;
-                        this.showLeaderBoard();
+                        this.#leaderboard.removeForceHide();
                     }
                 } else if (data.type === "forcehideteambanner") {
                     if (data.value === true) {
-                        this.#forcehide.teambanner = true;
-                        this.hideTeamBanner();
+                        this.#teambanner.addForceHide();
                     } else if (data.value === false) {
-                        this.#forcehide.teambanner = false;
-                        this.showTeamBanner();
+                        this.#teambanner.removeForceHide();
                     }
                 } else if (data.type === "forcehideteamkills") {
                     if (data.value === true) {
-                        this.#forcehide.teamkills = true;
-                        this.hideTeamKills();
+                        this.#teamkills.addForceHide();
                     } else if (data.value === false) {
-                        this.#forcehide.teamkills = false;
-                        this.showTeamKills();
+                        this.#teamkills.removeForceHide();
                     }
                 } else if (data.type === "forcehideplayerbanner") {
                     if (data.value === true) {
-                        this.#forcehide.playerbanner = true;
-                        this.hidePlayerBanner();
+                        this.#playerbanner.addForceHide();
                     } else if (data.value === false) {
-                        this.#forcehide.playerbanner = false;
-                        this.showPlayerBanner();
+                        this.#playerbanner.removeForceHide();
                     }
                 } else if (data.type === "forcehideowneditems") {
                     if (data.value === true) {
-                        this.#forcehide.owneditems = true;
-                        this.hideOwnedItems();
+                        this.#owneditems.addForceHide();
                     } else if (data.value === false) {
-                        this.#forcehide.owneditems = false;
-                        this.showOwnedItems();
+                        this.#owneditems.removeForceHide();
                     }
                 } else if (data.type === "forcehidegameinfo") {
                     if (data.value === true) {
-                        this.#forcehide.gameinfo = true;
-                        this.hideGameInfo();
+                        this.#gameinfo.addForceHide();
                     } else if (data.value === false) {
-                        this.#forcehide.gameinfo = false;
-                        this.showGameInfo();
+                        this.#gameinfo.removeForceHide();
                     }
                 } else if (data.type === "forcehidechampionbanner") {
                     if (data.value === true) {
-                        this.#forcehide.championbanner = true;
-                        this.hideChampionBanner();
+                        this.#championbanner.addForceHide();
                     } else if (data.value === false) {
-                        this.#forcehide.championbanner = false;
+                        this.#championbanner.removeForceHide();
                     }
                 } else if (data.type === "forcehidesquadeliminated") {
                     if (data.value === true) {
-                        this.#forcehide.squadeliminated = true;
-                        this.hideSquadEliminated();
+                        this.#squadeliminated.addForceHide();
                     } else if (data.value === false) {
-                        this.#forcehide.squadeliminated = false;
+                        this.#squadeliminated.removeForceHide();
                     }
                 }
             }
@@ -1099,28 +1132,28 @@ export class Overlay {
     }
 
     showLeaderBoard() {
-        if (!this.#forcehide.leaderboard) this.#leaderboard.show();
+        this.#leaderboard.show();
     }
     showTeamBanner() {
-        if (!this.#forcehide.teambanner) this.#teambanner.show();
+        this.#teambanner.show();
     }
     showPlayerBanner() {
-        if (!this.#forcehide.playerbanner) this.#playerbanner.show();
+        this.#playerbanner.show();
     }
     showTeamKills() {
-        if (!this.#forcehide.teamkills) this.#teamkills.show();
+        this.#teamkills.show();
     }
     showOwnedItems() {
-        if (!this.#forcehide.owneditems) this.#owneditems.show();
+        this.#owneditems.show();
     }
     showGameInfo() {
-        if (!this.#forcehide.gameinfo) this.#gameinfo.show();
+        this.#gameinfo.show();
     }
     showChampionBanner() {
-        if (!this.#forcehide.championbanner) this.#championbanner.show();
+        this.#championbanner.show();
     }
     setSquadEliminated(placement, teamname) {
-        if (!this.#forcehide.squadeliminated) this.#squadeliminated.set(placement, teamname);
+        this.#squadeliminated.set(placement, teamname);
     }
 
     hideLeaderBoard() {
