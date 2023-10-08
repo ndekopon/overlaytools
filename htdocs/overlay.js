@@ -17,9 +17,9 @@ class OverlayBase {
         document.body.appendChild(this.nodes.base);
     }
 
-    addNode(name) {
+    addNode(name, tag = "div") {
         if (name in this.nodes) return;
-        this.nodes[name] = document.createElement('div');
+        this.nodes[name] = document.createElement(tag);
         this.nodes[name].classList.add(this.PREFIX + name);
     }
 
@@ -40,7 +40,7 @@ class OverlayBase {
     }
 }
 
-class LeaderBoard {
+class LeaderBoard extends OverlayBase {
     static #FADEIN_CLASS = "lb_fadein";
     static #FADEOUT_CLASS = "lb_fadeout";
     static #RANK_CLASS = "lb_rank";
@@ -57,10 +57,7 @@ class LeaderBoard {
     static STATUS_PLAYER_KILLED = 2;
     static STATUS_BANNER_COLLECTED = 3;
     constructor() {
-        // bodyに追加
-        this.box = document.createElement('div');
-        this.box.id = 'leaderboard';
-        document.body.appendChild(this.box);
+        super("leaderboard", "lb_");
 
         this.timerid = null;
         this.showcount = 0;
@@ -76,7 +73,7 @@ class LeaderBoard {
         div.appendChild(document.createElement('div'));
 
         // クラス設定
-        div.classList.add(Overlay.HIDE_CLASS);
+        div.classList.add(OverlayBase.HIDE_CLASS);
         div.children[0].classList.add(LeaderBoard.#RANK_CLASS);
         div.children[1].classList.add(LeaderBoard.#ALIVES_CLASS);
         div.children[2].classList.add(LeaderBoard.#NAME_CLASS);
@@ -85,10 +82,10 @@ class LeaderBoard {
         // CANVASサイズ設定
         div.children[1].width = 35;
         div.children[1].height = 37;
-        this.box.appendChild(div);
+        this.nodes.base.appendChild(div);
 
         // 順位表示設定
-        div.children[0].innerText = '#' + this.box.children.length;
+        div.children[0].innerText = '#' + this.nodes.base.children.length;
 
         // 消えたらhide
         div.addEventListener('animationend', (ev) => {
@@ -96,7 +93,7 @@ class LeaderBoard {
                 div.classList.remove(LeaderBoard.#FADEIN_CLASS);
             }
             if (ev.animationName == LeaderBoard.#FADEOUT_ANIMATION_NAME) {
-                div.classList.add(Overlay.HIDE_CLASS);
+                div.classList.add(OverlayBase.HIDE_CLASS);
                 div.classList.remove(LeaderBoard.#FADEOUT_CLASS);
             }
             if (ev.animationName == LeaderBoard.#CHANGED_ANIMATION_NAME) {
@@ -106,8 +103,8 @@ class LeaderBoard {
     }
 
     #countAlives() {
-        let alives = this.box.children.length;
-        for (const t of this.box.children) {
+        let alives = this.nodes.base.children.length;
+        for (const t of this.nodes.base.children) {
             if (t.classList.contains(LeaderBoard.#ELIMINATED_CLASS)) alives--;
         }
         return alives;
@@ -118,11 +115,11 @@ class LeaderBoard {
         if (index < 0 || 60 <= index) return;
         if (typeof(status) != "object" || (!Array.isArray(status))) return;
 
-        for (let i = this.box.children.length; i < index + 1; ++i) {
+        for (let i = this.nodes.base.children.length; i < index + 1; ++i) {
             this.#appendTeam();
         }
 
-        const div = this.box.children[index];
+        const div = this.nodes.base.children[index];
 
         // クラスの設定
         if (eliminated) div.classList.add(LeaderBoard.#ELIMINATED_CLASS);
@@ -130,12 +127,12 @@ class LeaderBoard {
         
         // 残りチーム少ない際は表示状態を変える
         if (this.#countAlives() <= this.shownum && this.showcount == 0) {
-            for (const child of this.box.children) {
+            for (const child of this.nodes.base.children) {
                 const t = child.classList;
                 if (t.contains(LeaderBoard.#ELIMINATED_CLASS)) {
-                    t.add(Overlay.HIDE_CLASS);
+                    t.add(OverlayBase.HIDE_CLASS);
                 } else {
-                    t.remove(Overlay.HIDE_CLASS);
+                    t.remove(OverlayBase.HIDE_CLASS);
                 }
             }
         }
@@ -143,7 +140,7 @@ class LeaderBoard {
         if (div.children[2].innerText != name) {
             const init = div.children[2].innerText == "";
             div.children[2].innerText = name;
-            if (!init && !div.classList.contains(Overlay.HIDE_CLASS)) {
+            if (!init && !div.classList.contains(OverlayBase.HIDE_CLASS)) {
                 div.classList.add(LeaderBoard.#CHANGED_CLASS);
             }
         }
@@ -177,13 +174,13 @@ class LeaderBoard {
 
     startFadeIn() {
         if (this.#countAlives() > this.shownum) {
-            const children = this.box.children;
+            const children = this.nodes.base.children;
             const length = children.length;
             let start = this.showcount;
             for (let i = start; i < length && i < start + this.shownum; ++i) {
                 const target = children[i].classList;
                 children[i].classList.add(LeaderBoard.#FADEIN_CLASS);
-                children[i].classList.remove(Overlay.HIDE_CLASS);
+                children[i].classList.remove(OverlayBase.HIDE_CLASS);
                 this.showcount++;
             }
             if (this.showcount >= length) this.showcount = 0;
@@ -195,13 +192,13 @@ class LeaderBoard {
                 this.timerid = null;
             }
         } else {
-            for (const child of this.box.children) {
+            for (const child of this.nodes.base.children) {
                 const t = child.classList;
                 if (t.contains(LeaderBoard.#ELIMINATED_CLASS)) {
-                    t.add(Overlay.HIDE_CLASS);
+                    t.add(OverlayBase.HIDE_CLASS);
                 } else {
                     t.add(LeaderBoard.#FADEIN_CLASS);
-                    t.remove(Overlay.HIDE_CLASS);
+                    t.remove(OverlayBase.HIDE_CLASS);
                 }
                 this.showcount = 0;
             }
@@ -210,8 +207,8 @@ class LeaderBoard {
     }
 
     startFadeOut() {
-        for (const c of this.box.children) {
-            if (!c.classList.contains(Overlay.HIDE_CLASS)) {
+        for (const c of this.nodes.base.children) {
+            if (!c.classList.contains(OverlayBase.HIDE_CLASS)) {
                 c.classList.add(LeaderBoard.#FADEOUT_CLASS);
             }
         }
@@ -224,47 +221,41 @@ class LeaderBoard {
             this.startFadeIn();
         }
     }
+
     #stopAnimation() {
         if (this.timerid != null) {
             clearTimeout(this.timerid);
             this.timerid = null;
         }
-        for (const c of this.box.children) {
-            c.classList.add(Overlay.HIDE_CLASS);
+        for (const c of this.nodes.base.children) {
+            c.classList.add(OverlayBase.HIDE_CLASS);
             c.classList.remove(LeaderBoard.#FADEIN_CLASS);
             c.classList.remove(LeaderBoard.#FADEOUT_CLASS);
         }
     }
+
     clear() {
-        for (const c of this.box.children) {
-            c.classList.add(Overlay.HIDE_CLASS);
+        for (const c of this.nodes.base.children) {
+            c.classList.add(OverlayBase.HIDE_CLASS);
             c.classList.remove(LeaderBoard.#ELIMINATED_CLASS);
             c.classList.remove(LeaderBoard.#FADEIN_CLASS);
             c.classList.remove(LeaderBoard.#FADEOUT_CLASS);
             c.classList.remove(LeaderBoard.#CHANGED_CLASS);
         }
     }
+
     show() {
-        this.box.classList.remove(Overlay.HIDE_CLASS);
+        super.show();
         this.#startAnimation();
     }
+
     hide() {
         this.#stopAnimation();
-        this.box.classList.add(Overlay.HIDE_CLASS);
-    }
-    addForceHide() {
-        this.box.classList.add(Overlay.FORCEHIDE_CLASS);
-    }
-    removeForceHide() {
-        this.box.classList.remove(Overlay.FORCEHIDE_CLASS);
+        super.hide();
     }
 }
 
 class TeamBanner extends OverlayBase {
-    static RANK_CLASS = "tb_rank";
-    static TEAMNAME_CLASS = "tb_teamname";
-    static POINTS_CLASS = "tb_points";
-
     constructor() {
         super("teambanner", "tb_");
         super.addNode("rank");
@@ -297,8 +288,6 @@ class TeamBanner extends OverlayBase {
 }
 
 class PlayerBanner extends OverlayBase {
-    static NAME_CLASS = "pb_name";
-    
     constructor() {
         super("playerbanner", "pb_");
         super.addNode("name");
@@ -308,14 +297,11 @@ class PlayerBanner extends OverlayBase {
     }
 
     setText(userName) {
-        this.nodes.name.innerText(userName);
+        this.nodes.name.innerText = userName;
     }
 }
 
 class TeamKills extends OverlayBase {
-    static ICON_CLASS = "tk_icon";
-    static KILLS_CLASS = "tk_kills";
-
     constructor() {
         super("teamkills", "tk_");
         super.addNode("icon");
@@ -330,7 +316,7 @@ class TeamKills extends OverlayBase {
     }
 
     setText(kills) {
-        this.nodes.kills.innerText(kills);
+        this.nodes.kills.innerText = kills;
     }
 }
 
@@ -591,8 +577,6 @@ class SquadEliminated extends OverlayBase {
 }
 
 export class Overlay {
-    static HIDE_CLASS = "hide";
-    static FORCEHIDE_CLASS = "forcehide";
     #webapi;
     #teams; // 計算用
     #_game; // WebAPIのゲームオブジェクト(変更しない)
