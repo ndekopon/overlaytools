@@ -1,17 +1,17 @@
 import * as ApexWebAPI from "./apex-webapi.js";
 
 class LeaderBoard {
-    static #FADEINCLASS = "lb_fadein";
-    static #FADEOUTCLASS = "lb_fadeout";
-    static #RANKCLASS = "lb_rank";
-    static #NAMECLASS = "lb_name";
-    static #ALIVESCLASS = "lb_alives";
-    static #POINTSCLASS = "lb_points";
-    static #CHANGEDCLASS = "lb_changed";
-    static #ELIMINATEDCLASS = "lb_eliminated";
-    static #FADEINANIMATION ="lb_fadein_animation";
-    static #FADEOUTANIMATION ="lb_fadeout_animation";
-    static #CHANGEDANIMATION ="lb_changed_animation";
+    static #FADEIN_CLASS = "lb_fadein";
+    static #FADEOUT_CLASS = "lb_fadeout";
+    static #RANK_CLASS = "lb_rank";
+    static #NAME_CLASS = "lb_name";
+    static #ALIVES_CLASS = "lb_alives";
+    static #POINTS_CLASS = "lb_points";
+    static #CHANGED_CLASS = "lb_changed";
+    static #ELIMINATED_CLASS = "lb_eliminated";
+    static #FADEIN_ANIMATION_NAME ="lb_fadein_animation";
+    static #FADEOUT_ANIMATION_NAME ="lb_fadeout_animation";
+    static #CHANGED_ANIMATION_NAME ="lb_changed_animation";
     static STATUS_PLAYER_ALIVE = 0;
     static STATUS_PLAYER_DOWN = 1;
     static STATUS_PLAYER_KILLED = 2;
@@ -37,10 +37,10 @@ class LeaderBoard {
 
         // クラス設定
         div.classList.add(Overlay.HIDE_CLASS);
-        div.children[0].classList.add(LeaderBoard.#RANKCLASS);
-        div.children[1].classList.add(LeaderBoard.#ALIVESCLASS);
-        div.children[2].classList.add(LeaderBoard.#NAMECLASS);
-        div.children[3].classList.add(LeaderBoard.#POINTSCLASS);
+        div.children[0].classList.add(LeaderBoard.#RANK_CLASS);
+        div.children[1].classList.add(LeaderBoard.#ALIVES_CLASS);
+        div.children[2].classList.add(LeaderBoard.#NAME_CLASS);
+        div.children[3].classList.add(LeaderBoard.#POINTS_CLASS);
 
         // CANVASサイズ設定
         div.children[1].width = 35;
@@ -52,15 +52,15 @@ class LeaderBoard {
 
         // 消えたらhide
         div.addEventListener('animationend', (ev) => {
-            if (ev.animationName == LeaderBoard.#FADEINANIMATION) {
-                div.classList.remove(LeaderBoard.#FADEINCLASS);
+            if (ev.animationName == LeaderBoard.#FADEIN_ANIMATION_NAME) {
+                div.classList.remove(LeaderBoard.#FADEIN_CLASS);
             }
-            if (ev.animationName == LeaderBoard.#FADEOUTANIMATION) {
+            if (ev.animationName == LeaderBoard.#FADEOUT_ANIMATION_NAME) {
                 div.classList.add(Overlay.HIDE_CLASS);
-                div.classList.remove(LeaderBoard.#FADEOUTCLASS);
+                div.classList.remove(LeaderBoard.#FADEOUT_CLASS);
             }
-            if (ev.animationName == LeaderBoard.#CHANGEDANIMATION) {
-                div.classList.remove(LeaderBoard.#CHANGEDCLASS);
+            if (ev.animationName == LeaderBoard.#CHANGED_ANIMATION_NAME) {
+                div.classList.remove(LeaderBoard.#CHANGED_CLASS);
             }
         });        
     }
@@ -68,7 +68,7 @@ class LeaderBoard {
     #countAlives() {
         let alives = this.box.children.length;
         for (const t of this.box.children) {
-            if (t.classList.contains(LeaderBoard.#ELIMINATEDCLASS)) alives--;
+            if (t.classList.contains(LeaderBoard.#ELIMINATED_CLASS)) alives--;
         }
         return alives;
     }
@@ -85,14 +85,14 @@ class LeaderBoard {
         const div = this.box.children[index];
 
         // クラスの設定
-        if (eliminated) div.classList.add(LeaderBoard.#ELIMINATEDCLASS);
-        else div.classList.remove(LeaderBoard.#ELIMINATEDCLASS);
+        if (eliminated) div.classList.add(LeaderBoard.#ELIMINATED_CLASS);
+        else div.classList.remove(LeaderBoard.#ELIMINATED_CLASS);
         
         // 残りチーム少ない際は表示状態を変える
         if (this.#countAlives() <= this.shownum && this.showcount == 0) {
             for (const child of this.box.children) {
                 const t = child.classList;
-                if (t.contains(LeaderBoard.#ELIMINATEDCLASS)) {
+                if (t.contains(LeaderBoard.#ELIMINATED_CLASS)) {
                     t.add(Overlay.HIDE_CLASS);
                 } else {
                     t.remove(Overlay.HIDE_CLASS);
@@ -104,7 +104,7 @@ class LeaderBoard {
             const init = div.children[2].innerText == "";
             div.children[2].innerText = name;
             if (!init && !div.classList.contains(Overlay.HIDE_CLASS)) {
-                div.classList.add(LeaderBoard.#CHANGEDCLASS);
+                div.classList.add(LeaderBoard.#CHANGED_CLASS);
             }
         }
         div.children[3].innerText = points;
@@ -142,7 +142,7 @@ class LeaderBoard {
             let start = this.showcount;
             for (let i = start; i < length && i < start + this.shownum; ++i) {
                 const target = children[i].classList;
-                children[i].classList.add(LeaderBoard.#FADEINCLASS);
+                children[i].classList.add(LeaderBoard.#FADEIN_CLASS);
                 children[i].classList.remove(Overlay.HIDE_CLASS);
                 this.showcount++;
             }
@@ -157,10 +157,10 @@ class LeaderBoard {
         } else {
             for (const child of this.box.children) {
                 const t = child.classList;
-                if (t.contains(LeaderBoard.#ELIMINATEDCLASS)) {
+                if (t.contains(LeaderBoard.#ELIMINATED_CLASS)) {
                     t.add(Overlay.HIDE_CLASS);
                 } else {
-                    t.add(LeaderBoard.#FADEINCLASS);
+                    t.add(LeaderBoard.#FADEIN_CLASS);
                     t.remove(Overlay.HIDE_CLASS);
                 }
                 this.showcount = 0;
@@ -172,7 +172,7 @@ class LeaderBoard {
     startFadeOut() {
         for (const c of this.box.children) {
             if (!c.classList.contains(Overlay.HIDE_CLASS)) {
-                c.classList.add(LeaderBoard.#FADEOUTCLASS);
+                c.classList.add(LeaderBoard.#FADEOUT_CLASS);
             }
         }
         this.timerid = setTimeout(() => { this.startFadeIn(); }, 500); // fadeinを予約
@@ -191,17 +191,17 @@ class LeaderBoard {
         }
         for (const c of this.box.children) {
             c.classList.add(Overlay.HIDE_CLASS);
-            c.classList.remove(LeaderBoard.#FADEINCLASS);
-            c.classList.remove(LeaderBoard.#FADEOUTCLASS);
+            c.classList.remove(LeaderBoard.#FADEIN_CLASS);
+            c.classList.remove(LeaderBoard.#FADEOUT_CLASS);
         }
     }
     clear() {
         for (const c of this.box.children) {
             c.classList.add(Overlay.HIDE_CLASS);
-            c.classList.remove(LeaderBoard.#ELIMINATEDCLASS);
-            c.classList.remove(LeaderBoard.#FADEINCLASS);
-            c.classList.remove(LeaderBoard.#FADEOUTCLASS);
-            c.classList.remove(LeaderBoard.#CHANGEDCLASS);
+            c.classList.remove(LeaderBoard.#ELIMINATED_CLASS);
+            c.classList.remove(LeaderBoard.#FADEIN_CLASS);
+            c.classList.remove(LeaderBoard.#FADEOUT_CLASS);
+            c.classList.remove(LeaderBoard.#CHANGED_CLASS);
         }
     }
     show() {

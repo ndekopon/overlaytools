@@ -3,18 +3,18 @@ import * as ApexWebAPI from "./apex-webapi.js";
 class TDMScoreBoard {
     static #ID = "tdmscoreboard";
     static #PREFIX = "tdmsb_";
-    static #TEAM1CLASS = TDMScoreBoard.#PREFIX + "team1";
-    static #TEAM2CLASS = TDMScoreBoard.#PREFIX + "team2";
-    static #TEAMNAMECLASS = TDMScoreBoard.#PREFIX + "teamname";
-    static #LABELCLASS = TDMScoreBoard.#PREFIX + "label";
-    static #PLAYERCLASS = TDMScoreBoard.#PREFIX + "player";
-    static #PLAYERNAMECLASS = TDMScoreBoard.#PREFIX + "name";
-    static #KILLSCLASS = TDMScoreBoard.#PREFIX + "kills";
-    static #KILLEDCLASS = TDMScoreBoard.#PREFIX + "killed";
-    static #DAMAGEDEALTCLASS = TDMScoreBoard.#PREFIX + "damagedealt";
-    static #DAMAGETAKENCLASS = TDMScoreBoard.#PREFIX + "damagetaken";
-    static #STATEKILLEDCLASS = TDMScoreBoard.#PREFIX + "statekilled";
-    static #PLAYERSELECTEDCLASS = TDMScoreBoard.#PREFIX + "selected";
+    static #TEAM1_CLASS = TDMScoreBoard.#PREFIX + "team1";
+    static #TEAM2_CLASS = TDMScoreBoard.#PREFIX + "team2";
+    static #TEAMNAME_CLASS = TDMScoreBoard.#PREFIX + "teamname";
+    static #LABEL_CLASS = TDMScoreBoard.#PREFIX + "label";
+    static #PLAYER_CLASS = TDMScoreBoard.#PREFIX + "player";
+    static #PLAYERNAME_CLASS = TDMScoreBoard.#PREFIX + "name";
+    static #KILLS_CLASS = TDMScoreBoard.#PREFIX + "kills";
+    static #KILLED_CLASS = TDMScoreBoard.#PREFIX + "killed";
+    static #DAMAGEDEALT_CLASS = TDMScoreBoard.#PREFIX + "damagedealt";
+    static #DAMAGETAKEN_CLASS = TDMScoreBoard.#PREFIX + "damagetaken";
+    static #STATEKILLED_CLASS = TDMScoreBoard.#PREFIX + "statekilled";
+    static #PLAYERSELECTED_CLASS = TDMScoreBoard.#PREFIX + "selected";
 
     #nodes;
     #playernodes;
@@ -39,12 +39,12 @@ class TDMScoreBoard {
         this.#nodes.base.id = TDMScoreBoard.#ID;
 
         // クラス設定
-        this.#nodes.teams[0].base.classList.add(TDMScoreBoard.#TEAM1CLASS);
-        this.#nodes.teams[1].base.classList.add(TDMScoreBoard.#TEAM2CLASS);
-        this.#nodes.teams[0].name.classList.add(TDMScoreBoard.#TEAMNAMECLASS);
-        this.#nodes.teams[1].name.classList.add(TDMScoreBoard.#TEAMNAMECLASS);
-        this.#nodes.teams[0].label.classList.add(TDMScoreBoard.#LABELCLASS);
-        this.#nodes.teams[1].label.classList.add(TDMScoreBoard.#LABELCLASS);
+        this.#nodes.teams[0].base.classList.add(TDMScoreBoard.#TEAM1_CLASS);
+        this.#nodes.teams[1].base.classList.add(TDMScoreBoard.#TEAM2_CLASS);
+        this.#nodes.teams[0].name.classList.add(TDMScoreBoard.#TEAMNAME_CLASS);
+        this.#nodes.teams[1].name.classList.add(TDMScoreBoard.#TEAMNAME_CLASS);
+        this.#nodes.teams[0].label.classList.add(TDMScoreBoard.#LABEL_CLASS);
+        this.#nodes.teams[1].label.classList.add(TDMScoreBoard.#LABEL_CLASS);
 
         // 追加
         document.body.appendChild(this.#nodes.base);
@@ -85,12 +85,12 @@ class TDMScoreBoard {
         const nodes = this.#playernodes[hash];
 
         // クラス設定
-        nodes.base.classList.add(TDMScoreBoard.#PLAYERCLASS);
-        nodes.name.classList.add(TDMScoreBoard.#PLAYERNAMECLASS);
-        nodes.kills.classList.add(TDMScoreBoard.#KILLSCLASS);
-        nodes.killed.classList.add(TDMScoreBoard.#KILLEDCLASS);
-        nodes.dealt.classList.add(TDMScoreBoard.#DAMAGEDEALTCLASS);
-        nodes.taken.classList.add(TDMScoreBoard.#DAMAGETAKENCLASS);
+        nodes.base.classList.add(TDMScoreBoard.#PLAYER_CLASS);
+        nodes.name.classList.add(TDMScoreBoard.#PLAYERNAME_CLASS);
+        nodes.kills.classList.add(TDMScoreBoard.#KILLS_CLASS);
+        nodes.killed.classList.add(TDMScoreBoard.#KILLED_CLASS);
+        nodes.dealt.classList.add(TDMScoreBoard.#DAMAGEDEALT_CLASS);
+        nodes.taken.classList.add(TDMScoreBoard.#DAMAGETAKEN_CLASS);
 
         // 追加
         this.#nodes.teams[id].players.appendChild(nodes.base);
@@ -137,18 +137,18 @@ class TDMScoreBoard {
         if (!(hash in this.#playernodes)) return;
         const node = this.#playernodes[hash].base;
         if (alive) {
-            node.classList.remove(TDMScoreBoard.#STATEKILLEDCLASS);
+            node.classList.remove(TDMScoreBoard.#STATEKILLED_CLASS);
         } else {
-            node.classList.add(TDMScoreBoard.#STATEKILLEDCLASS);
+            node.classList.add(TDMScoreBoard.#STATEKILLED_CLASS);
         }
     }
 
     select(hash) {
         if (!(hash in this.#playernodes)) return;
-        for (const node of document.querySelectorAll('.' + TDMScoreBoard.#PLAYERSELECTEDCLASS)) {
-            node.classList.remove(TDMScoreBoard.#PLAYERSELECTEDCLASS);
+        for (const node of document.querySelectorAll('.' + TDMScoreBoard.#PLAYERSELECTED_CLASS)) {
+            node.classList.remove(TDMScoreBoard.#PLAYERSELECTED_CLASS);
         }
-        this.#playernodes[hash].base.classList.add(TDMScoreBoard.#PLAYERSELECTEDCLASS);
+        this.#playernodes[hash].base.classList.add(TDMScoreBoard.#PLAYERSELECTED_CLASS);
     }
 
     clear() {
