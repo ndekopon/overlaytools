@@ -22,7 +22,7 @@ body {
     overflow: hidden;
 }
 
-#tdmscoreboard.tdmsb_hide {
+#tdmscoreboard.hide {
     display: none;
 }
 

@@ -1,7 +1,6 @@
 import * as ApexWebAPI from "./apex-webapi.js";
 
 class LeaderBoard {
-    static #HIDECLASS = "lb_hide";
     static #FADEINCLASS = "lb_fadein";
     static #FADEOUTCLASS = "lb_fadeout";
     static #RANKCLASS = "lb_rank";
@@ -37,7 +36,7 @@ class LeaderBoard {
         div.appendChild(document.createElement('div'));
 
         // クラス設定
-        div.classList.add(LeaderBoard.#HIDECLASS);
+        div.classList.add(Overlay.HIDE_CLASS);
         div.children[0].classList.add(LeaderBoard.#RANKCLASS);
         div.children[1].classList.add(LeaderBoard.#ALIVESCLASS);
         div.children[2].classList.add(LeaderBoard.#NAMECLASS);
@@ -57,7 +56,7 @@ class LeaderBoard {
                 div.classList.remove(LeaderBoard.#FADEINCLASS);
             }
             if (ev.animationName == LeaderBoard.#FADEOUTANIMATION) {
-                div.classList.add(LeaderBoard.#HIDECLASS);
+                div.classList.add(Overlay.HIDE_CLASS);
                 div.classList.remove(LeaderBoard.#FADEOUTCLASS);
             }
             if (ev.animationName == LeaderBoard.#CHANGEDANIMATION) {
@@ -94,9 +93,9 @@ class LeaderBoard {
             for (const child of this.box.children) {
                 const t = child.classList;
                 if (t.contains(LeaderBoard.#ELIMINATEDCLASS)) {
-                    t.add(LeaderBoard.#HIDECLASS);
+                    t.add(Overlay.HIDE_CLASS);
                 } else {
-                    t.remove(LeaderBoard.#HIDECLASS);
+                    t.remove(Overlay.HIDE_CLASS);
                 }
             }
         }
@@ -104,7 +103,7 @@ class LeaderBoard {
         if (div.children[2].innerText != name) {
             const init = div.children[2].innerText == "";
             div.children[2].innerText = name;
-            if (!init && !div.classList.contains(LeaderBoard.#HIDECLASS)) {
+            if (!init && !div.classList.contains(Overlay.HIDE_CLASS)) {
                 div.classList.add(LeaderBoard.#CHANGEDCLASS);
             }
         }
@@ -144,7 +143,7 @@ class LeaderBoard {
             for (let i = start; i < length && i < start + this.shownum; ++i) {
                 const target = children[i].classList;
                 children[i].classList.add(LeaderBoard.#FADEINCLASS);
-                children[i].classList.remove(LeaderBoard.#HIDECLASS);
+                children[i].classList.remove(Overlay.HIDE_CLASS);
                 this.showcount++;
             }
             if (this.showcount >= length) this.showcount = 0;
@@ -159,10 +158,10 @@ class LeaderBoard {
             for (const child of this.box.children) {
                 const t = child.classList;
                 if (t.contains(LeaderBoard.#ELIMINATEDCLASS)) {
-                    t.add(LeaderBoard.#HIDECLASS);
+                    t.add(Overlay.HIDE_CLASS);
                 } else {
                     t.add(LeaderBoard.#FADEINCLASS);
-                    t.remove(LeaderBoard.#HIDECLASS);
+                    t.remove(Overlay.HIDE_CLASS);
                 }
                 this.showcount = 0;
             }
@@ -172,7 +171,7 @@ class LeaderBoard {
 
     startFadeOut() {
         for (const c of this.box.children) {
-            if (!c.classList.contains(LeaderBoard.#HIDECLASS)) {
+            if (!c.classList.contains(Overlay.HIDE_CLASS)) {
                 c.classList.add(LeaderBoard.#FADEOUTCLASS);
             }
         }
@@ -191,14 +190,14 @@ class LeaderBoard {
             this.timerid = null;
         }
         for (const c of this.box.children) {
-            c.classList.add(LeaderBoard.#HIDECLASS);
+            c.classList.add(Overlay.HIDE_CLASS);
             c.classList.remove(LeaderBoard.#FADEINCLASS);
             c.classList.remove(LeaderBoard.#FADEOUTCLASS);
         }
     }
     clear() {
         for (const c of this.box.children) {
-            c.classList.add(LeaderBoard.#HIDECLASS);
+            c.classList.add(Overlay.HIDE_CLASS);
             c.classList.remove(LeaderBoard.#ELIMINATEDCLASS);
             c.classList.remove(LeaderBoard.#FADEINCLASS);
             c.classList.remove(LeaderBoard.#FADEOUTCLASS);
@@ -206,12 +205,12 @@ class LeaderBoard {
         }
     }
     show() {
-        this.box.classList.remove(LeaderBoard.#HIDECLASS);
+        this.box.classList.remove(Overlay.HIDE_CLASS);
         this.#startAnimation();
     }
     hide() {
         this.#stopAnimation();
-        this.box.classList.add(LeaderBoard.#HIDECLASS);
+        this.box.classList.add(Overlay.HIDE_CLASS);
     }
     addForceHide() {
         this.box.classList.add(Overlay.FORCEHIDE_CLASS);
@@ -225,7 +224,6 @@ class TeamBanner {
     static RANK_CLASS = "tb_rank";
     static TEAMNAME_CLASS = "tb_teamname";
     static POINTS_CLASS = "tb_points";
-    static HIDE_CLASS = "tb_hide";
 
     constructor() {
         // bodyに追加
@@ -260,10 +258,10 @@ class TeamBanner {
     }
 
     show() {
-        this.box.classList.remove(TeamBanner.HIDE_CLASS);
+        this.box.classList.remove(Overlay.HIDE_CLASS);
     }
     hide() {
-        this.box.classList.add(TeamBanner.HIDE_CLASS);
+        this.box.classList.add(Overlay.HIDE_CLASS);
     }
 
     addForceHide() {
@@ -276,7 +274,6 @@ class TeamBanner {
 
 class PlayerBanner {
     static NAME_CLASS = "pb_name";
-    static HIDE_CLASS = "pb_hide";
     
     constructor() {
         // bodyに追加
@@ -297,10 +294,10 @@ class PlayerBanner {
     }
 
     show() {
-        this.box.classList.remove(PlayerBanner.HIDE_CLASS);
+        this.box.classList.remove(Overlay.HIDE_CLASS);
     }
     hide() {
-        this.box.classList.add(PlayerBanner.HIDE_CLASS);
+        this.box.classList.add(Overlay.HIDE_CLASS);
     }
 
     addForceHide() {
@@ -314,7 +311,6 @@ class PlayerBanner {
 class TeamKills {
     static ICON_CLASS = "tk_icon";
     static KILLS_CLASS = "tk_kills";
-    static HIDE_CLASS = "tk_hide";
 
     constructor() {
         // bodyに追加
@@ -338,10 +334,10 @@ class TeamKills {
     }
 
     show() {
-        this.box.classList.remove(TeamKills.HIDE_CLASS);
+        this.box.classList.remove(Overlay.HIDE_CLASS);
     }
     hide() {
-        this.box.classList.add(TeamKills.HIDE_CLASS);
+        this.box.classList.add(Overlay.HIDE_CLASS);
     }
 
     addForceHide() {
@@ -369,7 +365,6 @@ class OwnedItems {
     static ITEM_BACKPACK_LV3_CLASS = "oi_backpack_lv3";
     static ITEM_BACKPACK_LV4_CLASS = "oi_backpack_lv4";
     static TRANSPARENT_CLASS = "oi_transparent";
-    static HIDE_CLASS = "oi_hide";
     #nodes;
     constructor() {
         // bodyに追加
@@ -474,10 +469,10 @@ class OwnedItems {
     }
 
     show() {
-        this.box.classList.remove(OwnedItems.HIDE_CLASS);
+        this.box.classList.remove(Overlay.HIDE_CLASS);
     }
     hide() {
-        this.box.classList.add(OwnedItems.HIDE_CLASS);
+        this.box.classList.add(Overlay.HIDE_CLASS);
     }
 
     addForceHide() {
@@ -491,7 +486,6 @@ class OwnedItems {
 class GameInfo {
     static GAMEINFO_ID = "gameinfo";
     static GAMECOUNT_CLASS = "gi_gamecount";
-    static HIDE_CLASS = "gi_hide";
     #nodes;
     constructor() {
         // bodyに追加
@@ -516,10 +510,10 @@ class GameInfo {
     }
 
     show() {
-        this.#nodes.base.classList.remove(GameInfo.HIDE_CLASS);
+        this.#nodes.base.classList.remove(Overlay.HIDE_CLASS);
     }
     hide() {
-        this.#nodes.base.classList.add(GameInfo.HIDE_CLASS);
+        this.#nodes.base.classList.add(Overlay.HIDE_CLASS);
     }
 
     addForceHide() {
@@ -537,7 +531,6 @@ class ChampionBanner {
     static FADEOUT_CLASS = "cb_fadeout";
     static FADEIN_ANIMATION_NAME = "cb_fadein_animation";
     static FADEOUT_ANIMATION_NAME = "cb_fadeout_animation";
-    static HIDE_CLASS = "cb_hide";
     #nodes;
     constructor() {
         // bodyに追加
@@ -585,11 +578,11 @@ class ChampionBanner {
 
     show() {
         this.startFadeIn();
-        this.#nodes.base.classList.remove(ChampionBanner.HIDE_CLASS);
+        this.#nodes.base.classList.remove(Overlay.HIDE_CLASS);
     }
 
     hide() {
-        this.#nodes.base.classList.add(ChampionBanner.HIDE_CLASS);
+        this.#nodes.base.classList.add(Overlay.HIDE_CLASS);
         this.#nodes.base.classList.remove(ChampionBanner.FADEIN_CLASS);
         this.#nodes.base.classList.remove(ChampionBanner.FADEOUT_CLASS);
     }
@@ -612,7 +605,6 @@ class SquadEliminated {
     static FADEOUT_CLASS = "se_fadeout";
     static FADEIN_ANIMATION_NAME = "se_fadein_animation";
     static FADEOUT_ANIMATION_NAME = "se_fadeout_animation";
-    static HIDE_CLASS = "se_hide";
     #nodes;
     #queue;
     #timerid;
@@ -649,7 +641,7 @@ class SquadEliminated {
 
     set(placement, teamname) {
         // 非表示状態の場合は追加しない
-        if (this.#nodes.base.classList.contains(SquadEliminated.HIDE_CLASS)) return;
+        if (this.#nodes.base.classList.contains(Overlay.HIDE_CLASS)) return;
         if (this.#nodes.base.classList.contains(Overlay.FORCEHIDE_CLASS)) return;
 
         this.#queue.push({
@@ -661,7 +653,7 @@ class SquadEliminated {
 
     startFadeIn() {
         this.#nodes.base.classList.add(SquadEliminated.FADEIN_CLASS);
-        this.#nodes.base.classList.remove(SquadEliminated.HIDE_CLASS);
+        this.#nodes.base.classList.remove(Overlay.HIDE_CLASS);
         // 4秒で消える(3.7秒でフェードアウト開始)
         this.#timerid = setTimeout(() => { this.startFadeOut(); }, 3700);
     }
@@ -695,7 +687,7 @@ class SquadEliminated {
             clearTimeout(this.#timerid);
             this.#timerid = -1;
         }
-        this.#nodes.base.classList.add(SquadEliminated.HIDE_CLASS);
+        this.#nodes.base.classList.add(Overlay.HIDE_CLASS);
         this.#nodes.base.classList.remove(SquadEliminated.FADEIN_CLASS);
         this.#nodes.base.classList.remove(SquadEliminated.FADEOUT_CLASS);
     }
@@ -711,6 +703,7 @@ class SquadEliminated {
 }
 
 export class Overlay {
+    static HIDE_CLASS = "hide";
     static FORCEHIDE_CLASS = "forcehide";
     #webapi;
     #teams; // 計算用

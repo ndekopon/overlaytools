@@ -3,7 +3,6 @@ import * as ApexWebAPI from "./apex-webapi.js";
 class TDMScoreBoard {
     static #ID = "tdmscoreboard";
     static #PREFIX = "tdmsb_";
-    static #HIDECLASS = TDMScoreBoard.#PREFIX + "hide";
     static #TEAM1CLASS = TDMScoreBoard.#PREFIX + "team1";
     static #TEAM2CLASS = TDMScoreBoard.#PREFIX + "team2";
     static #TEAMNAMECLASS = TDMScoreBoard.#PREFIX + "teamname";
@@ -159,10 +158,10 @@ class TDMScoreBoard {
         this.#playernodes = {};
     }
     show() {
-        this.#nodes.base.classList.remove(TDMScoreBoard.#HIDECLASS);
+        this.#nodes.base.classList.remove(TDMOverlay.HIDE_CLASS);
     }
     hide() {
-        this.#nodes.base.classList.add(TDMScoreBoard.#HIDECLASS);
+        this.#nodes.base.classList.add(TDMOverlay.HIDE_CLASS);
     }
     addForceHide() {
         this.#nodes.base.classList.add(TDMOverlay.FORCEHIDE_CLASS);
@@ -173,6 +172,7 @@ class TDMScoreBoard {
 }
 
 export class TDMOverlay {
+    static HIDE_CLASS = "hide";
     static FORCEHIDE_CLASS = "forcehide";
     #webapi;
     #_game; // WebAPIのゲームオブジェクト(変更しない)

@@ -86,7 +86,7 @@ div#leaderboard {
     overflow: hidden;
 }
 
-div#leaderboard.lb_hide {
+div#leaderboard.hide {
     display: none;
 }
 
@@ -104,7 +104,7 @@ div#leaderboard > div {
     grid-template-columns: 1fr 35px 7fr 1fr;
 }
 
-div#leaderboard > div.lb_hide {
+div#leaderboard > div.hide {
     display: none;
 }
 
@@ -194,7 +194,7 @@ div#teambanner {
     overflow: hidden;
 }
 
-div#teambanner.tb_hide {
+div#teambanner.hide {
     display: none;
 }
 
@@ -237,7 +237,7 @@ div#playerbanner {
     background: linear-gradient(to right, rgba(0, 0, 0, 0), var(--overlay-playerbanner-bgcolor) 10%, var(--overlay-playerbanner-bgcolor) 90%, rgba(0, 0, 0, 0) 100%);
 }
 
-div#playerbanner.pb_hide {
+div#playerbanner.hide {
     display: none;
 }
 
@@ -266,7 +266,7 @@ div#teamkills {
     overflow: hidden;
 }
 
-div#teamkills.tk_hide {
+div#teamkills.hide {
     display: none;
 }
 
@@ -291,7 +291,7 @@ div#owneditems {
     color: var(--overlay-owneditems-color);
 }
 
-div#owneditems.oi_hide {
+div#owneditems.hide {
     display: none;
 }
 
@@ -412,7 +412,7 @@ div#gameinfo {
     background-color: var(--overlay-gameinfo-bgcolor);
 }
 
-div#gameinfo.gi_hide {
+div#gameinfo.hide {
     display: none; 
 }
 
@@ -437,7 +437,7 @@ div#championbanner {
     background-color: var(--overlay-championbanner-bgcolor);
 }
 
-div#championbanner.cb_hide {
+div#championbanner.hide {
     display: none;
 }
 
@@ -488,7 +488,7 @@ div#squadeliminated {
     box-sizing: border-box;
 }
 
-div#squadeliminated.se_hide {
+div#squadeliminated.hide {
     display: none;
 }
 
