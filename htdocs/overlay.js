@@ -1,5 +1,45 @@
 import * as ApexWebAPI from "./apex-webapi.js";
 
+class OverlayBase {
+    static HIDE_CLASS = "hide";
+    static FORCEHIDE_CLASS = "forcehide";
+    ID;
+    PREFIX;
+    nodes;
+    constructor(id, prefix) {
+        this.ID = id;
+        this.PREFIX = prefix;
+        
+        this.nodes = {
+            base: document.createElement('div')
+        }
+        this.nodes.base.id = this.ID;
+        document.body.appendChild(this.nodes.base);
+    }
+
+    addNode(name) {
+        if (name in this.nodes) return;
+        this.nodes[name] = document.createElement('div');
+        this.nodes[name].classList.add(this.PREFIX + name);
+    }
+
+    hide() {
+        this.nodes.base.classList.add(OverlayBase.HIDE_CLASS);
+    }
+
+    show() {
+        this.nodes.base.classList.remove(OverlayBase.HIDE_CLASS);
+    }
+
+    addForceHide() {
+        this.nodes.base.classList.add(OverlayBase.FORCEHIDE_CLASS);
+    }
+
+    removeForceHide() {
+        this.nodes.base.classList.remove(OverlayBase.FORCEHIDE_CLASS);
+    }
+}
+
 class LeaderBoard {
     static #FADEIN_CLASS = "lb_fadein";
     static #FADEOUT_CLASS = "lb_fadeout";
@@ -220,35 +260,33 @@ class LeaderBoard {
     }
 }
 
-class TeamBanner {
+class TeamBanner extends OverlayBase {
     static RANK_CLASS = "tb_rank";
     static TEAMNAME_CLASS = "tb_teamname";
     static POINTS_CLASS = "tb_points";
 
     constructor() {
-        // bodyに追加
-        this.box = document.createElement('div');
-        this.box.id = 'teambanner';
-        document.body.appendChild(this.box);
+        super("teambanner", "tb_");
+        super.addNode("rank");
+        super.addNode("teamname");
+        super.addNode("points");
 
-        this.box.appendChild(document.createElement('div'));
-        this.box.appendChild(document.createElement('div'));
-        this.box.appendChild(document.createElement('div'));
-        this.box.children[0].classList.add(TeamBanner.RANK_CLASS);
-        this.box.children[1].classList.add(TeamBanner.TEAMNAME_CLASS);
-        this.box.children[2].classList.add(TeamBanner.POINTS_CLASS);
+        // append
+        this.nodes.base.appendChild(this.nodes.rank);
+        this.nodes.base.appendChild(this.nodes.teamname);
+        this.nodes.base.appendChild(this.nodes.points);
     }
 
     #setRank(rank) {
-        this.box.children[0].innerText = '#' + rank;
+        this.nodes.rank.innerText = '#' + rank;
     }
 
     #setTeamName(teamName) {
-        this.box.children[1].innerText = teamName;
+        this.nodes.teamname.innerText = teamName;
     }
 
     #setPoints(points) {
-        this.box.children[2].innerText = points;
+        this.nodes.points.innerText = points;
     }
 
     setText(rank, teamName, points) {
@@ -256,176 +294,96 @@ class TeamBanner {
         this.#setTeamName(teamName);
         this.#setPoints(points);
     }
-
-    show() {
-        this.box.classList.remove(Overlay.HIDE_CLASS);
-    }
-    hide() {
-        this.box.classList.add(Overlay.HIDE_CLASS);
-    }
-
-    addForceHide() {
-        this.box.classList.add(Overlay.FORCEHIDE_CLASS);
-    }
-    removeForceHide() {
-        this.box.classList.remove(Overlay.FORCEHIDE_CLASS);
-    }
 }
 
-class PlayerBanner {
+class PlayerBanner extends OverlayBase {
     static NAME_CLASS = "pb_name";
     
     constructor() {
-        // bodyに追加
-        this.box = document.createElement('div');
-        this.box.id = 'playerbanner';
-        document.body.appendChild(this.box);
+        super("playerbanner", "pb_");
+        super.addNode("name");
 
-        this.box.appendChild(document.createElement('div'));
-        this.box.children[0].classList.add(PlayerBanner.NAME_CLASS);
-    }
-
-    #setUserName(userName) {
-        this.box.children[0].innerText = userName;
+        // append
+        this.nodes.base.appendChild(this.nodes.name);
     }
 
     setText(userName) {
-        this.#setUserName(userName);
-    }
-
-    show() {
-        this.box.classList.remove(Overlay.HIDE_CLASS);
-    }
-    hide() {
-        this.box.classList.add(Overlay.HIDE_CLASS);
-    }
-
-    addForceHide() {
-        this.box.classList.add(Overlay.FORCEHIDE_CLASS);
-    }
-    removeForceHide() {
-        this.box.classList.remove(Overlay.FORCEHIDE_CLASS);
+        this.nodes.name.innerText(userName);
     }
 }
 
-class TeamKills {
+class TeamKills extends OverlayBase {
     static ICON_CLASS = "tk_icon";
     static KILLS_CLASS = "tk_kills";
 
     constructor() {
-        // bodyに追加
-        this.box = document.createElement('div');
-        this.box.id = 'teamkills';
-        document.body.appendChild(this.box);
+        super("teamkills", "tk_");
+        super.addNode("icon");
+        super.addNode("kills");
         
-        this.box.appendChild(document.createElement('div'));
-        this.box.appendChild(document.createElement('div'));
-        this.box.children[0].classList.add(TeamKills.ICON_CLASS);
-        this.box.children[1].classList.add(TeamKills.KILLS_CLASS);
-        this.box.children[0].innerHTML = `💀`;
-    }
+        // append
+        this.nodes.base.appendChild(this.nodes.icon);
+        this.nodes.base.appendChild(this.nodes.kills);
 
-    #setTeamKills(kills) {
-        this.box.children[1].innerText = kills;
+        // アイコン設定
+        this.nodes.icon.innerText = `💀`;
     }
 
     setText(kills) {
-        this.#setTeamKills(kills);
-    }
-
-    show() {
-        this.box.classList.remove(Overlay.HIDE_CLASS);
-    }
-    hide() {
-        this.box.classList.add(Overlay.HIDE_CLASS);
-    }
-
-    addForceHide() {
-        this.box.classList.add(Overlay.FORCEHIDE_CLASS);
-    }
-    removeForceHide() {
-        this.box.classList.remove(Overlay.FORCEHIDE_CLASS);
+        this.nodes.kills.innerText(kills);
     }
 }
 
-class OwnedItems {
-    static ITEM_SYRINGE_CLASS = "oi_syringe";
-    static ITEM_MEDKIT_CLASS = "oi_medkit";
-    static ITEM_SHIELDCELL_CLASS = "oi_shieldcell";
-    static ITEM_SHIELDBATTERY_CLASS = "oi_shieldbattery";
-    static ITEM_PHOENIXKIT_CLASS = "oi_phoenixkit";
-    static ITEM_ULTIMATEACCELERANT_CLASS = "oi_ultimateaccelerant";
-    static ITEM_THERMITEGRENADE_CLASS = "oi_thermitgrenade";
-    static ITEM_FRAGGRENADE_CLASS = "oi_fraggrenade";
-    static ITEM_ARCSTAR_CLASS = "oi_arcstar";
-    static ITEM_BACKPACK_CLASS = "oi_backpack";
+class OwnedItems extends OverlayBase {
     static ITEM_BACKPACK_LV0_CLASS = "oi_backpack_lv0";
     static ITEM_BACKPACK_LV1_CLASS = "oi_backpack_lv1";
     static ITEM_BACKPACK_LV2_CLASS = "oi_backpack_lv2";
     static ITEM_BACKPACK_LV3_CLASS = "oi_backpack_lv3";
     static ITEM_BACKPACK_LV4_CLASS = "oi_backpack_lv4";
     static TRANSPARENT_CLASS = "oi_transparent";
-    #nodes;
     constructor() {
-        // bodyに追加
-        this.box = document.createElement('div');
-        this.box.id = 'owneditems';
-        document.body.appendChild(this.box);
+        super("owneditems", "oi_");
         
-        this.#nodes = {
-            top: document.createElement('div'),
-            middle: document.createElement('div'),
-            bottom: document.createElement('div'),
-            syringe: document.createElement('div'),
-            medkit: document.createElement('div'),
-            shieldcell: document.createElement('div'),
-            shieldbattery: document.createElement('div'),
-            phoenixkit: document.createElement('div'),
-            ultimateaccelerant: document.createElement('div'),
-            thermitgrenade: document.createElement('div'),
-            fraggrenade: document.createElement('div'),
-            arcstar: document.createElement('div'),
-            backpack: document.createElement('div')
-        };
+        const ids = [
+            "top", "middle", "bottom",
+            "syringe", "medkit",
+            "shieldcell", "shieldbattery",
+            "phoenixkit", "ultimateaccelerant",
+            "thermitgrenade", "fraggrenade", "arcstar",
+            "backpack"
+        ];
+        for (const id of ids) {
+            super.addNode(id);
+        }
 
         /* append */
-        this.box.appendChild(this.#nodes.top);
-        this.box.appendChild(this.#nodes.middle);
-        this.box.appendChild(this.#nodes.bottom);
-        this.#nodes.top.appendChild(this.#nodes.backpack);
-        this.#nodes.middle.appendChild(this.#nodes.thermitgrenade);
-        this.#nodes.middle.appendChild(this.#nodes.fraggrenade);
-        this.#nodes.middle.appendChild(this.#nodes.arcstar);
-        this.#nodes.bottom.appendChild(this.#nodes.syringe);
-        this.#nodes.bottom.appendChild(this.#nodes.medkit);
-        this.#nodes.bottom.appendChild(this.#nodes.shieldcell);
-        this.#nodes.bottom.appendChild(this.#nodes.shieldbattery);
-        this.#nodes.bottom.appendChild(this.#nodes.phoenixkit);
-        this.#nodes.bottom.appendChild(this.#nodes.ultimateaccelerant);
+        this.nodes.base.appendChild(this.nodes.top);
+        this.nodes.base.appendChild(this.nodes.middle);
+        this.nodes.base.appendChild(this.nodes.bottom);
+        this.nodes.top.appendChild(this.nodes.backpack);
+        this.nodes.middle.appendChild(this.nodes.thermitgrenade);
+        this.nodes.middle.appendChild(this.nodes.fraggrenade);
+        this.nodes.middle.appendChild(this.nodes.arcstar);
+        this.nodes.bottom.appendChild(this.nodes.syringe);
+        this.nodes.bottom.appendChild(this.nodes.medkit);
+        this.nodes.bottom.appendChild(this.nodes.shieldcell);
+        this.nodes.bottom.appendChild(this.nodes.shieldbattery);
+        this.nodes.bottom.appendChild(this.nodes.phoenixkit);
+        this.nodes.bottom.appendChild(this.nodes.ultimateaccelerant);
 
         /* 文字表示用 */
-        this.#nodes.thermitgrenade.appendChild(document.createElement('div'));
-        this.#nodes.fraggrenade.appendChild(document.createElement('div'));
-        this.#nodes.arcstar.appendChild(document.createElement('div'));
-        this.#nodes.syringe.appendChild(document.createElement('div'));
-        this.#nodes.medkit.appendChild(document.createElement('div'));
-        this.#nodes.shieldcell.appendChild(document.createElement('div'));
-        this.#nodes.shieldbattery.appendChild(document.createElement('div'));
-        this.#nodes.phoenixkit.appendChild(document.createElement('div'));
-        this.#nodes.ultimateaccelerant.appendChild(document.createElement('div'));
+        this.nodes.thermitgrenade.appendChild(document.createElement('div'));
+        this.nodes.fraggrenade.appendChild(document.createElement('div'));
+        this.nodes.arcstar.appendChild(document.createElement('div'));
+        this.nodes.syringe.appendChild(document.createElement('div'));
+        this.nodes.medkit.appendChild(document.createElement('div'));
+        this.nodes.shieldcell.appendChild(document.createElement('div'));
+        this.nodes.shieldbattery.appendChild(document.createElement('div'));
+        this.nodes.phoenixkit.appendChild(document.createElement('div'));
+        this.nodes.ultimateaccelerant.appendChild(document.createElement('div'));
 
-        /* class設定 */
-        this.#nodes.backpack.classList.add(OwnedItems.ITEM_BACKPACK_CLASS);
-        this.#nodes.backpack.classList.add(OwnedItems.ITEM_BACKPACK_LV0_CLASS);
-        this.#nodes.thermitgrenade.classList.add(OwnedItems.ITEM_THERMITEGRENADE_CLASS);
-        this.#nodes.fraggrenade.classList.add(OwnedItems.ITEM_FRAGGRENADE_CLASS);
-        this.#nodes.arcstar.classList.add(OwnedItems.ITEM_ARCSTAR_CLASS);
-        this.#nodes.syringe.classList.add(OwnedItems.ITEM_SYRINGE_CLASS);
-        this.#nodes.medkit.classList.add(OwnedItems.ITEM_MEDKIT_CLASS);
-        this.#nodes.shieldcell.classList.add(OwnedItems.ITEM_SHIELDCELL_CLASS);
-        this.#nodes.shieldbattery.classList.add(OwnedItems.ITEM_SHIELDBATTERY_CLASS);
-        this.#nodes.phoenixkit.classList.add(OwnedItems.ITEM_PHOENIXKIT_CLASS);
-        this.#nodes.ultimateaccelerant.classList.add(OwnedItems.ITEM_ULTIMATEACCELERANT_CLASS);
+        /* 追加のclass設定 */
+        this.nodes.backpack.classList.add(OwnedItems.ITEM_BACKPACK_LV0_CLASS);
     }
 
     procUpdateItem(itemid, count) {
@@ -439,7 +397,7 @@ class OwnedItems {
             case "thermitgrenade":
             case "fraggrenade":
             case "arcstar":
-                const target = this.#nodes[itemid];
+                const target = this.nodes[itemid];
                 target.children[0].innerText = count;
                 if (count == 0) {
                     target.classList.add(OwnedItems.TRANSPARENT_CLASS);
@@ -448,7 +406,7 @@ class OwnedItems {
                 }
                 break;
             case "backpack": {
-                const target = this.#nodes[itemid];
+                const target = this.nodes[itemid];
                 const lists = [
                     OwnedItems.ITEM_BACKPACK_LV0_CLASS,
                     OwnedItems.ITEM_BACKPACK_LV1_CLASS,
@@ -467,173 +425,104 @@ class OwnedItems {
             }
         }
     }
-
-    show() {
-        this.box.classList.remove(Overlay.HIDE_CLASS);
-    }
-    hide() {
-        this.box.classList.add(Overlay.HIDE_CLASS);
-    }
-
-    addForceHide() {
-        this.box.classList.add(Overlay.FORCEHIDE_CLASS);
-    }
-    removeForceHide() {
-        this.box.classList.remove(Overlay.FORCEHIDE_CLASS);
-    }
 }
 
-class GameInfo {
-    static GAMEINFO_ID = "gameinfo";
-    static GAMECOUNT_CLASS = "gi_gamecount";
-    #nodes;
+class GameInfo extends OverlayBase {
     constructor() {
-        // bodyに追加
-        this.#nodes = {
-            base: document.createElement('div'),
-            gamecount: document.createElement('div')
-        };
-
-        // set id
-        this.#nodes.base.id = GameInfo.GAMEINFO_ID;
-        
-        // set class
-        this.#nodes.gamecount.classList.add(GameInfo.GAMECOUNT_CLASS);
+        super("gameinfo", "gi_");
+        super.addNode("gamecount");
 
         // append
-        document.body.appendChild(this.#nodes.base);
-        this.#nodes.base.appendChild(this.#nodes.gamecount);
+        this.nodes.base.appendChild(this.nodes.gamecount);
     }
 
     setGameCount(count) {
-        this.#nodes.gamecount.innerText = 'Game ' + count;
-    }
-
-    show() {
-        this.#nodes.base.classList.remove(Overlay.HIDE_CLASS);
-    }
-    hide() {
-        this.#nodes.base.classList.add(Overlay.HIDE_CLASS);
-    }
-
-    addForceHide() {
-        this.#nodes.base.classList.add(Overlay.FORCEHIDE_CLASS);
-    }
-    removeForceHide() {
-        this.#nodes.base.classList.remove(Overlay.FORCEHIDE_CLASS);
+        this.nodes.gamecount.innerText = 'Game ' + count;
     }
 }
 
-class ChampionBanner {
-    static CHAMPIONBANNER_ID = "championbanner";
-    static TEAMNAME_CLASS = "cb_teamname";
+class ChampionBanner extends OverlayBase {
     static FADEIN_CLASS = "cb_fadein";
     static FADEOUT_CLASS = "cb_fadeout";
     static FADEIN_ANIMATION_NAME = "cb_fadein_animation";
     static FADEOUT_ANIMATION_NAME = "cb_fadeout_animation";
-    #nodes;
-    constructor() {
-        // bodyに追加
-        this.#nodes = {
-            base: document.createElement('div'),
-            teamname: document.createElement('div')
-        };
 
-        // set id
-        this.#nodes.base.id = ChampionBanner.CHAMPIONBANNER_ID;
-        
-        // set class
-        this.#nodes.teamname.classList.add(ChampionBanner.TEAMNAME_CLASS);
+    constructor() {
+        super("championbanner", "cb_");
+        super.addNode("teamname");
 
         // append
-        document.body.appendChild(this.#nodes.base);
-        this.#nodes.base.appendChild(this.#nodes.teamname);
+        this.nodes.base.appendChild(this.nodes.teamname);
 
         // テスト用の名前を設定
         this.setTeamName('Display Test Team');
 
-        this.#nodes.base.addEventListener('animationend', (ev) => {
+        this.nodes.base.addEventListener('animationend', (ev) => {
             if (ev.animationName == ChampionBanner.FADEIN_ANIMATION_NAME) {
-                this.#nodes.base.classList.remove(ChampionBanner.FADEIN_CLASS);
+                this.nodes.base.classList.remove(ChampionBanner.FADEIN_CLASS);
             }
             if (ev.animationName == ChampionBanner.FADEOUT_ANIMATION_NAME) {
                 this.hide();
+                this.nodes.base.classList.remove(ChampionBanner.FADEOUT_CLASS);
             }
         });
     }
 
     setTeamName(name) {
-        this.#nodes.teamname.innerText = name;
+        this.nodes.teamname.innerText = name;
     }
 
     startFadeIn() {
-        this.#nodes.base.classList.add(ChampionBanner.FADEIN_CLASS);
+        this.nodes.base.classList.add(ChampionBanner.FADEIN_CLASS);
         // 6秒で消える(5.7秒でフェードアウト開始)
         setTimeout(() => { this.startFadeOut(); }, 5700);
     }
 
     startFadeOut() {
-        this.#nodes.base.classList.add(ChampionBanner.FADEOUT_CLASS);
+        this.nodes.base.classList.add(ChampionBanner.FADEOUT_CLASS);
     }
 
     show() {
         this.startFadeIn();
-        this.#nodes.base.classList.remove(Overlay.HIDE_CLASS);
+        super.show();
     }
 
     hide() {
-        this.#nodes.base.classList.add(Overlay.HIDE_CLASS);
-        this.#nodes.base.classList.remove(ChampionBanner.FADEIN_CLASS);
-        this.#nodes.base.classList.remove(ChampionBanner.FADEOUT_CLASS);
+        super.hide();
+        this.nodes.base.classList.remove(ChampionBanner.FADEIN_CLASS);
+        this.nodes.base.classList.remove(ChampionBanner.FADEOUT_CLASS);
     }
 
     addForceHide() {
-        this.#nodes.base.classList.add(Overlay.FORCEHIDE_CLASS);
-        this.#nodes.base.classList.remove(ChampionBanner.FADEIN_CLASS);
-        this.#nodes.base.classList.remove(ChampionBanner.FADEOUT_CLASS);
-    }
-    removeForceHide() {
-        this.#nodes.base.classList.remove(Overlay.FORCEHIDE_CLASS);
+        super.addForceHide();
+        this.nodes.base.classList.remove(ChampionBanner.FADEIN_CLASS);
+        this.nodes.base.classList.remove(ChampionBanner.FADEOUT_CLASS);
     }
 }
 
-
-class SquadEliminated {
-    static SQUADELIMINATED_ID = "squadeliminated";
-    static TEAMNAME_CLASS = "se_teamname";
+class SquadEliminated extends OverlayBase {
     static FADEIN_CLASS = "se_fadein";
     static FADEOUT_CLASS = "se_fadeout";
     static FADEIN_ANIMATION_NAME = "se_fadein_animation";
     static FADEOUT_ANIMATION_NAME = "se_fadeout_animation";
-    #nodes;
     #queue;
     #timerid;
     constructor() {
-        // bodyに追加
-        this.#nodes = {
-            base: document.createElement('div'),
-            teamname: document.createElement('div')
-        };
+        super("squadeliminated", "se_");
+        super.addNode("teamname");
 
         this.#queue = [];
         this.#timerid = -1;
 
-        // set id
-        this.#nodes.base.id = SquadEliminated.SQUADELIMINATED_ID;
-        
-        // set class
-        this.#nodes.teamname.classList.add(SquadEliminated.TEAMNAME_CLASS);
-
         // append
-        document.body.appendChild(this.#nodes.base);
-        this.#nodes.base.appendChild(this.#nodes.teamname);
+        this.nodes.base.appendChild(this.nodes.teamname);
 
-        this.#nodes.base.addEventListener('animationend', (ev) => {
+        this.nodes.base.addEventListener('animationend', (ev) => {
             if (ev.animationName == SquadEliminated.FADEIN_ANIMATION_NAME) {
-                this.#nodes.base.classList.remove(SquadEliminated.FADEIN_CLASS);
+                this.nodes.base.classList.remove(SquadEliminated.FADEIN_CLASS);
             }
             if (ev.animationName == SquadEliminated.FADEOUT_ANIMATION_NAME) {
-                this.#nodes.base.classList.remove(SquadEliminated.FADEOUT_CLASS);
+                this.nodes.base.classList.remove(SquadEliminated.FADEOUT_CLASS);
                 this.#checkNext();
             }
         });
@@ -641,8 +530,7 @@ class SquadEliminated {
 
     set(placement, teamname) {
         // 非表示状態の場合は追加しない
-        if (this.#nodes.base.classList.contains(Overlay.HIDE_CLASS)) return;
-        if (this.#nodes.base.classList.contains(Overlay.FORCEHIDE_CLASS)) return;
+        if (this.nodes.base.classList.contains(OverlayBase.FORCEHIDE_CLASS)) return;
 
         this.#queue.push({
             placement: placement,
@@ -652,30 +540,33 @@ class SquadEliminated {
     }
 
     startFadeIn() {
-        this.#nodes.base.classList.add(SquadEliminated.FADEIN_CLASS);
-        this.#nodes.base.classList.remove(Overlay.HIDE_CLASS);
+        this.nodes.base.classList.add(SquadEliminated.FADEIN_CLASS);
+        super.show();
         // 4秒で消える(3.7秒でフェードアウト開始)
         this.#timerid = setTimeout(() => { this.startFadeOut(); }, 3700);
     }
 
     startFadeOut() {
         this.#timerid = -1;
-        this.#nodes.base.classList.add(SquadEliminated.FADEOUT_CLASS);
+        this.nodes.base.classList.add(SquadEliminated.FADEOUT_CLASS);
     }
 
     #checkNext() {
-        console.log(this.#queue);
         if (this.#queue.length > 0) {
             if (this.#timerid > 0) return; // タイマー発火待ち
-            if (this.#nodes.base.classList.contains(SquadEliminated.FADEOUT_CLASS)) return; // フェードアウト待ち
+            if (this.nodes.base.classList.contains(SquadEliminated.FADEOUT_CLASS)) return; // フェードアウト待ち
 
             // 次のデータを表示
             const data = this.#queue.shift();
-            this.#nodes.teamname.innerText = '#' + data.placement + ' ' + data.teamname + ' eliminated';
+            this.nodes.teamname.innerText = '#' + data.placement + ' ' + data.teamname + ' eliminated';
             this.startFadeIn();
         } else {
-            this.hide();
+            super.hide();
         }
+    }
+    
+    clear() {
+        this.#queue.splice(0);
     }
 
     show() {
@@ -687,18 +578,15 @@ class SquadEliminated {
             clearTimeout(this.#timerid);
             this.#timerid = -1;
         }
-        this.#nodes.base.classList.add(Overlay.HIDE_CLASS);
-        this.#nodes.base.classList.remove(SquadEliminated.FADEIN_CLASS);
-        this.#nodes.base.classList.remove(SquadEliminated.FADEOUT_CLASS);
+        super.hide();
+        this.nodes.base.classList.remove(SquadEliminated.FADEIN_CLASS);
+        this.nodes.base.classList.remove(SquadEliminated.FADEOUT_CLASS);
     }
 
     addForceHide() {
-        this.#nodes.base.classList.add(Overlay.FORCEHIDE_CLASS);
-        this.#nodes.base.classList.remove(SquadEliminated.FADEIN_CLASS);
-        this.#nodes.base.classList.remove(SquadEliminated.FADEOUT_CLASS);
-    }
-    removeForceHide() {
-        this.#nodes.base.classList.remove(Overlay.FORCEHIDE_CLASS);
+        super.addForceHide();
+        this.nodes.base.classList.remove(SquadEliminated.FADEIN_CLASS);
+        this.nodes.base.classList.remove(SquadEliminated.FADEOUT_CLASS);
     }
 }
 
@@ -784,6 +672,7 @@ export class Overlay {
             this.#calcresultsonly = false;
             this.#calcAndDisplay();
             this.#leaderboard.clear();
+            this.#squadeliminated.clear();
         });
 
         this.#webapi.addEventListener("gamestatechange", (ev) => {
