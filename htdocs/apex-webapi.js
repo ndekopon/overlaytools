@@ -173,6 +173,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_EVENT_MATCHSETUP_SERVERID = 0x07;
   static WEBAPI_EVENT_GAMESTATECHANGED = 0x08;
   static WEBAPI_EVENT_MATCHSTATEEND_WINNERDETERMINED = 0x09; // WinnerDetermined
+  static WEBAPI_EVENT_INIT_CAMERA = 0x0a;
 
   static WEBAPI_EVENT_PLAYERCONNECTED = 0x10;
   static WEBAPI_EVENT_PLAYERDISCONNECTED = 0x11;
@@ -452,18 +453,25 @@ export class ApexWebAPI extends EventTarget {
     const own = arr[4];
     if (oteamid != 1) return false;
     if (tteamid < 2) return false;
-    if (tteamid - 2 >= this.#game.teams.length) return true; // 恐らくチームデータなし
+    if (tteamid - 2 >= this.#game.teams.length) return false;
     if (tsquadindex >= this.#game.teams[tteamid - 2].players.length) return false;
-    let observer = null;
-    if (osquadindex < this.#game.observers.length) {
-      observer = this.#game.observers[osquadindex];
-    }
+    if (osquadindex >= this.#game.observers.length) return false;
     this.dispatchEvent(new CustomEvent('observerswitch', {
       detail: {
-        observer: observer,
+        observer: this.#game.observers[osquadindex],
         player: this.#game.teams[tteamid - 2].players[tsquadindex],
         team: this.#game.teams[tteamid - 2],
         own: own
+      }
+    }));
+    return true;
+  }
+
+  #procEventInitCamera(arr) {
+    this.dispatchEvent(new CustomEvent('initcamera', {
+      detail: {
+        teamid: (arr[0] - 2),
+        playerid: arr[1],
       }
     }));
     return true;
@@ -736,6 +744,9 @@ export class ApexWebAPI extends EventTarget {
       case ApexWebAPI.WEBAPI_EVENT_OBSERVERSWITCHED:
         if (count != 5) return false;
         return this.#procEventObserverSwitched(data_array);
+      case ApexWebAPI.WEBAPI_EVENT_INIT_CAMERA:
+        if (count != 2) return false;
+        return this.#procEventInitCamera(data_array);
       case ApexWebAPI.WEBAPI_EVENT_CLEAR_LIVEDATA:
         return this.#procEventClearLiveData();
       case ApexWebAPI.WEBAPI_EVENT_MATCHSETUP_MAP:

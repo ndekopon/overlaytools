@@ -1613,6 +1613,16 @@ namespace app {
 			sendto_webapi(std::move(sdata.buffer_));
 		}
 	}
+
+	void core_thread::send_webapi_init_camera(SOCKET _sock, uint8_t _teamid, uint8_t _playerid)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_INIT_CAMERA);
+		if (sdata.append(_teamid) && sdata.append(_playerid))
+		{
+			// データ送信
+			sendto_webapi(std::move(sdata.buffer_));
+		}
+	}
 	
 	void core_thread::send_webapi_ringinfo(SOCKET _sock, uint64_t _timestamp, uint32_t _stage, float _x, float _y, float _current, float _end, float _duration)
 	{
@@ -2527,7 +2537,7 @@ namespace app {
 		send_webapi_matchsetup_aimassiston(_sock, game_.aimassiston);
 		send_webapi_matchsetup_anonymousmode(_sock, game_.anonymousmode);
 		send_webapi_matchsetup_serverid(_sock, game_.serverid);
-		send_webapi_observerswitched(_sock, 1, 0xFF, game_.camera_teamid, game_.camera_squadindex, true);
+		send_webapi_init_camera(_sock, game_.camera_teamid, game_.camera_squadindex);
 
 		reply_livedata_get_game(_sock, _sequence);
 	}

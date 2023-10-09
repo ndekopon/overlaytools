@@ -66,6 +66,7 @@ namespace app {
 		void send_webapi_matchsetup_anonymousmode(SOCKET _sock, bool _anonymousmode);
 		void send_webapi_matchsetup_serverid(SOCKET _sock, const std::string &_serverid);
 		void send_webapi_observerswitched(SOCKET _sock, uint8_t _observer_teamid, uint8_t _observer_squadindex, uint8_t _teamid, uint8_t _playerid, bool _owned);
+		void send_webapi_init_camera(SOCKET _sock, uint8_t _teamid, uint8_t _playerid);
 		void send_webapi_ringinfo(SOCKET _sock, uint64_t _timestamp, uint32_t _stage, float _x, float _y, float _current, float _end, float _duration);
 
 		void send_webapi_player_string(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex, uint8_t _type, const std::string& _string);
