@@ -1509,17 +1509,18 @@ namespace app {
 			
 			log(LOG_CORE, L"Info: WeaponSwitched received.");
 			if (!p.has_player()) return;
+			proc_player(p.player());
+
 			// TDM/CTL/GG用処理
 			{
 				uint8_t teamid = p.player().teamid();
 				uint8_t squadindex = get_squadindex(p.player());
 				auto& player = game_.teams.at(teamid).players.at(squadindex);
-				if (player.state != WEBAPI_PLAYER_STATE_ALIVE)
+				if (player.state == WEBAPI_PLAYER_STATE_KILLED && player.shield > 0 && player.shield_max > 0)
 				{
 					proc_respawn(teamid, squadindex);
 				}
 			}
-			proc_player(p.player());
 		}
 		else
 		{
