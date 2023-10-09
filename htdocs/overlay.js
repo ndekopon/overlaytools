@@ -6,15 +6,16 @@ class OverlayBase {
     ID;
     PREFIX;
     nodes;
-    constructor(id, prefix) {
+    constructor(id, prefix, root = document.body) {
         this.ID = id;
         this.PREFIX = prefix;
-        
+
         this.nodes = {
             base: document.createElement('div')
-        }
+        };
+
         this.nodes.base.id = this.ID;
-        document.body.appendChild(this.nodes.base);
+        root.appendChild(this.nodes.base);
     }
 
     addNode(name, tag = "div") {
@@ -40,208 +41,336 @@ class OverlayBase {
     }
 }
 
-class LeaderBoard extends OverlayBase {
+class LeaderBoardTeamNode extends OverlayBase {
     static #FADEIN_CLASS = "lb_fadein";
     static #FADEOUT_CLASS = "lb_fadeout";
-    static #RANK_CLASS = "lb_rank";
-    static #NAME_CLASS = "lb_name";
-    static #ALIVES_CLASS = "lb_alives";
-    static #POINTS_CLASS = "lb_points";
     static #CHANGED_CLASS = "lb_changed";
     static #ELIMINATED_CLASS = "lb_eliminated";
     static #FADEIN_ANIMATION_NAME ="lb_fadein_animation";
     static #FADEOUT_ANIMATION_NAME ="lb_fadeout_animation";
     static #CHANGED_ANIMATION_NAME ="lb_changed_animation";
-    static STATUS_PLAYER_ALIVE = 0;
-    static STATUS_PLAYER_DOWN = 1;
-    static STATUS_PLAYER_KILLED = 2;
-    static STATUS_BANNER_COLLECTED = 3;
+
+    constructor(id, prefix, root) {
+        super(id, prefix, root);
+        super.addNode("rank");
+        super.addNode("alives", "canvas");
+        super.addNode("name");
+        super.addNode("points");
+
+        // append
+        this.nodes.base.appendChild(this.nodes.rank);
+        this.nodes.base.appendChild(this.nodes.alives);
+        this.nodes.base.appendChild(this.nodes.name);
+        this.nodes.base.appendChild(this.nodes.points);
+    
+        // クラス設定
+        this.nodes.base.classList.add(OverlayBase.HIDE_CLASS);
+    
+        // CANVASサイズ設定
+        this.nodes.alives.width = 35;
+        this.nodes.alives.height = 37;
+
+        // CANVAS初期化
+        for (let i = 0; i < 3; ++i) {
+            this.setPlayerState(i, ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE);
+        }
+    
+        // 順位表示設定
+        this.setRank(20);
+    
+        // アニメーション後の動作
+        this.nodes.base.addEventListener('animationend', (ev) => {
+            if (ev.animationName == LeaderBoardTeamNode.#FADEIN_ANIMATION_NAME) {
+                this.nodes.base.classList.remove(LeaderBoardTeamNode.#FADEIN_CLASS);
+            }
+            if (ev.animationName == LeaderBoardTeamNode.#FADEOUT_ANIMATION_NAME) {
+                super.hide();
+                this.nodes.base.classList.remove(LeaderBoardTeamNode.#FADEOUT_CLASS);
+            }
+            if (ev.animationName == LeaderBoardTeamNode.#CHANGED_ANIMATION_NAME) {
+                this.nodes.base.classList.remove(LeaderBoardTeamNode.#CHANGED_CLASS);
+            }
+        });
+    }
+
+    setRank(rank) {
+        this.nodes.rank.innerText = '#' + rank;
+    }
+
+    setEliminated(eliminated) {
+        if (eliminated) {
+            this.nodes.base.classList.add(LeaderBoardTeamNode.#ELIMINATED_CLASS);
+        } else {
+            this.nodes.base.classList.remove(LeaderBoardTeamNode.#ELIMINATED_CLASS);
+        }
+    }
+
+    setName(name) {
+        this.nodes.name.innerText = name;
+    }
+
+    setPoints(points) {
+        this.nodes.points.innerText = points;
+    }
+
+    isEliminated() {
+        return this.nodes.base.classList.contains(LeaderBoardTeamNode.#ELIMINATED_CLASS);
+    }
+
+    isHidden() {
+        return this.nodes.base.classList.contains(OverlayBase.HIDE_CLASS);
+    }
+
+    hasFadeOut() {
+        return this.nodes.base.classList.contains(LeaderBoardTeamNode.#FADEOUT_CLASS);
+    }
+    
+    setPlayerState(index, state) {
+        if (index >= 3) return;
+        const canvas = this.nodes.alives;
+        const ctx = canvas.getContext('2d');
+
+        if (this.isEliminated()) {
+            // 敗退済みの場合は削除
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            return;
+        }
+
+        // 色設定
+        switch (state) {
+            case ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE: ctx.fillStyle = "#FFFFFF"; break;
+            case ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_DOWN: ctx.fillStyle = "rgb(213, 25, 26)"; break;
+            case ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_COLLECTED: ctx.fillStyle = "rgb(109, 198, 24)"; break;
+        }
+
+        // 描画
+        // width: 35px 37px;
+        const rect = [7 + index * 8, 8, 5, 23]; // SIZING
+        if (state == ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_KILLED) {
+            ctx.clearRect(rect[0], rect[1], rect[2], rect[3]);
+        } else {
+            ctx.fillRect(rect[0], rect[1], rect[2], rect[3]);
+        }
+    }
+
+    fadeIn() {
+        super.show();
+        this.nodes.base.classList.remove(LeaderBoardTeamNode.#CHANGED_CLASS);
+        this.nodes.base.classList.remove(LeaderBoardTeamNode.#FADEOUT_CLASS);
+        this.nodes.base.classList.add(LeaderBoardTeamNode.#FADEIN_CLASS);
+    }
+
+    fadeOut() {
+        this.nodes.base.classList.remove(LeaderBoardTeamNode.#CHANGED_CLASS);
+        this.nodes.base.classList.remove(LeaderBoardTeamNode.#FADEIN_CLASS);
+        this.nodes.base.classList.add(LeaderBoardTeamNode.#FADEOUT_CLASS);
+    }
+
+    setChanged() {
+        // fadeout中は何もしない
+        if (this.hasFadeOut()) return;
+        this.nodes.base.classList.remove(LeaderBoardTeamNode.#FADEIN_CLASS);
+        this.nodes.base.classList.add(LeaderBoardTeamNode.#CHANGED_CLASS);
+        super.show();
+    }
+
+    stopAnimation() {
+        this.nodes.base.classList.remove(LeaderBoardTeamNode.#CHANGED_CLASS);
+        this.nodes.base.classList.remove(LeaderBoardTeamNode.#FADEIN_CLASS);
+        this.nodes.base.classList.remove(LeaderBoardTeamNode.#FADEOUT_CLASS);
+    }
+}
+
+class LeaderBoard extends OverlayBase {
+    #teamnodes;
+    #currentshowindex;
+    #nextshowindex;
+    #timerid;
+    #shownum;
+    #showinterval;
+    #alivesonly;
     constructor() {
         super("leaderboard", "lb_");
-
-        this.timerid = null;
-        this.showcount = 0;
-        this.shownum = 5;
-        this.showinterval = 5000;
-        this.alivesonly = true;
+        this.#teamnodes = {};
+        this.#timerid = null;
+        this.#currentshowindex = 0;
+        this.#nextshowindex = 0;
+        this.#shownum = 5;
+        this.#showinterval = 5000;
+        this.#alivesonly = false;
     }
-    #appendTeam() {
-        const div = document.createElement('div');
-        div.appendChild(document.createElement('div'));
-        div.appendChild(document.createElement('canvas'));
-        div.appendChild(document.createElement('div'));
-        div.appendChild(document.createElement('div'));
 
-        // クラス設定
-        div.classList.add(OverlayBase.HIDE_CLASS);
-        div.children[0].classList.add(LeaderBoard.#RANK_CLASS);
-        div.children[1].classList.add(LeaderBoard.#ALIVES_CLASS);
-        div.children[2].classList.add(LeaderBoard.#NAME_CLASS);
-        div.children[3].classList.add(LeaderBoard.#POINTS_CLASS);
-
-        // CANVASサイズ設定
-        div.children[1].width = 35;
-        div.children[1].height = 37;
-        this.nodes.base.appendChild(div);
-
-        // 順位表示設定
-        div.children[0].innerText = '#' + this.nodes.base.children.length;
-
-        // 消えたらhide
-        div.addEventListener('animationend', (ev) => {
-            if (ev.animationName == LeaderBoard.#FADEIN_ANIMATION_NAME) {
-                div.classList.remove(LeaderBoard.#FADEIN_CLASS);
-            }
-            if (ev.animationName == LeaderBoard.#FADEOUT_ANIMATION_NAME) {
-                div.classList.add(OverlayBase.HIDE_CLASS);
-                div.classList.remove(LeaderBoard.#FADEOUT_CLASS);
-            }
-            if (ev.animationName == LeaderBoard.#CHANGED_ANIMATION_NAME) {
-                div.classList.remove(LeaderBoard.#CHANGED_CLASS);
-            }
-        });        
+    #preprocessTeam(teamid) {
+        if (typeof teamid == "number") teamid = teamid.toString();
+        if (teamid in this.#teamnodes) return; // 既に存在
+        this.#teamnodes[teamid] = new LeaderBoardTeamNode("leaderboardteam" + teamid, "lb_", this.nodes.base);
     }
 
     #countAlives() {
-        let alives = this.nodes.base.children.length;
-        for (const t of this.nodes.base.children) {
-            if (t.classList.contains(LeaderBoard.#ELIMINATED_CLASS)) alives--;
+        let alives = 0;
+        for (const [teamid, team] of Object.entries(this.#teamnodes)) {
+            if (!team.isEliminated()) alives++;
         }
         return alives;
     }
 
-    setTeamParam(index, name, points, eliminated, status) {
-        if (typeof(index) != "number") return;
-        if (index < 0 || 60 <= index) return;
-        if (typeof(status) != "object" || (!Array.isArray(status))) return;
+    setTeamName(teamid, name) {
+        this.#preprocessTeam(teamid);
+        this.#teamnodes[teamid].setName(name);
+    }
 
-        for (let i = this.nodes.base.children.length; i < index + 1; ++i) {
-            this.#appendTeam();
-        }
+    setTeamPoints(teamid, points) {
+        this.#preprocessTeam(teamid);
+        this.#teamnodes[teamid].setPoints(points);
+    }
 
-        const div = this.nodes.base.children[index];
-
-        // クラスの設定
-        if (eliminated) div.classList.add(LeaderBoard.#ELIMINATED_CLASS);
-        else div.classList.remove(LeaderBoard.#ELIMINATED_CLASS);
-        
-        // 残りチーム少ない際は表示状態を変える
-        if (this.#countAlives() <= this.shownum && this.showcount == 0) {
-            for (const child of this.nodes.base.children) {
-                const t = child.classList;
-                if (t.contains(LeaderBoard.#ELIMINATED_CLASS)) {
-                    t.add(OverlayBase.HIDE_CLASS);
+    setTeamEliminated(teamid, eliminated) {
+        this.#preprocessTeam(teamid);
+        this.#teamnodes[teamid].setEliminated(eliminated);
+        if (eliminated) {
+            if (this.#countAlives() <= this.#shownum) {
+                if (this.#alivesonly == false) {
+                    this.#alivesonly = true;
+                    this.#switchToAlivesOnly();
                 } else {
-                    t.remove(OverlayBase.HIDE_CLASS);
+                    this.#teamnodes[teamid].hide();
                 }
-            }
-        }
-
-        if (div.children[2].innerText != name) {
-            const init = div.children[2].innerText == "";
-            div.children[2].innerText = name;
-            if (!init && !div.classList.contains(OverlayBase.HIDE_CLASS)) {
-                div.classList.add(LeaderBoard.#CHANGED_CLASS);
-            }
-        }
-        div.children[3].innerText = points;
-
-        // 生存状況の記入
-        {
-            const canvas = div.children[1];
-            const ctx = canvas.getContext('2d');
-            if (eliminated) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
             } else {
-                for (let i = 0; i < status.length; ++i) {
-                    // COLOR
-                    switch (status[i]) {
-                        case LeaderBoard.STATUS_PLAYER_ALIVE: ctx.fillStyle = "#FFFFFF"; break;
-                        case LeaderBoard.STATUS_PLAYER_DOWN: ctx.fillStyle = "rgb(213, 25, 26)"; break;
-                        case LeaderBoard.STATUS_BANNER_COLLECTED: ctx.fillStyle = "rgb(109, 198, 24)"; break;
-                    }
-                    // width: 35px 37px;
-                    const rect = [7 + i * 8, 8, 5, 23]; // SIZING
-                    if (status[i] == LeaderBoard.STATUS_PLAYER_KILLED) {
-                        ctx.clearRect(rect[0], rect[1], rect[2], rect[3]);
-                    } else {
-                        ctx.fillRect(rect[0], rect[1], rect[2], rect[3]);
-                    }
+                if (this.#alivesonly) {
+                    this.#alivesonly = false;
                 }
             }
         }
     }
 
-    startFadeIn() {
-        if (this.#countAlives() > this.shownum) {
-            const children = this.nodes.base.children;
-            const length = children.length;
-            let start = this.showcount;
-            for (let i = start; i < length && i < start + this.shownum; ++i) {
-                const target = children[i].classList;
-                children[i].classList.add(LeaderBoard.#FADEIN_CLASS);
-                children[i].classList.remove(OverlayBase.HIDE_CLASS);
-                this.showcount++;
-            }
-            if (this.showcount >= length) this.showcount = 0;
+    setPlayerState(teamid, playerid, state) {
+        this.#preprocessTeam(teamid);
+        this.#teamnodes[teamid].setPlayerState(playerid, state);
+    }
 
-            // fadeoutを予約
-            if (start != 0 || length > this.shownum) {
-                this.timerid = setTimeout(() => { this.startFadeOut(); }, this.showinterval);
+    #switchToAlivesOnly() {
+        this.#stopAnimation();
+        for (const [_, node] of Object.entries(this.#teamnodes)) {
+            if (node.isEliminated()) {
+                node.hide();
             } else {
-                this.timerid = null;
+                node.show();
             }
+        }
+    }
+
+    setTeamRank(teamids) {
+        for (let i = 0; i < teamids.length; ++i) {
+            const teamid = teamids[i].id;
+            const changed = teamids[i].changed;
+            const node = this.#teamnodes[teamid];
+            this.#preprocessTeam(teamid);
+            if (this.nodes.base.children[i] != node.nodes.base) {
+                const ref = i < this.nodes.base.children.length ? this.nodes.base.children[i] : null;
+                this.nodes.base.insertBefore(node.nodes.base, ref);
+            }
+
+            if (!changed) continue;
+            node.setRank(i + 1);
+
+            // 表示非表示の変更
+            if (this.#alivesonly) {
+                if (!node.isEliminated()) {
+                    node.setChanged();
+                }
+            } else {
+                const f = this.#currentshowindex;
+                const t = this.#currentshowindex + this.#shownum;
+                if (f <= i && i < t) {
+                    node.setChanged();
+                } else {
+                    node.hide();
+                }
+            }
+        }
+    }
+
+    #getTeamNode(basenode) {
+        for (const teamnode of Object.values(this.#teamnodes)) {
+            if (teamnode.nodes.base == basenode) {
+                return teamnode;
+            }
+        }
+        return null;
+    }
+
+    #startFadeIn() {
+        if (this.#alivesonly) return;
+
+        const children = this.nodes.base.children;
+        const length = children.length;
+        this.#currentshowindex = this.#nextshowindex;
+        let start = this.#currentshowindex;
+        for (let i = start; i < length && i < start + this.#shownum; ++i) {
+            const target = this.#getTeamNode(children[i]);
+            target.fadeIn();
+            this.#nextshowindex++;
+        }
+        if (this.#nextshowindex >= length) this.#nextshowindex = 0;
+
+        // fadeoutを予約
+        if (length > this.#shownum) {
+            this.#timerid = setTimeout(() => {
+                this.#startFadeOut();
+            }, this.#showinterval);
         } else {
-            for (const child of this.nodes.base.children) {
-                const t = child.classList;
-                if (t.contains(LeaderBoard.#ELIMINATED_CLASS)) {
-                    t.add(OverlayBase.HIDE_CLASS);
-                } else {
-                    t.add(LeaderBoard.#FADEIN_CLASS);
-                    t.remove(OverlayBase.HIDE_CLASS);
-                }
-                this.showcount = 0;
-            }
-            this.timerid = null;
+            this.#timerid = null;
         }
     }
 
-    startFadeOut() {
-        for (const c of this.nodes.base.children) {
-            if (!c.classList.contains(OverlayBase.HIDE_CLASS)) {
-                c.classList.add(LeaderBoard.#FADEOUT_CLASS);
+    #startFadeOut() {
+        this.#timerid = null;
+        if (this.#alivesonly) return;
+        if (this.nodes.base.children.length <= this.#shownum) return;
+
+        for (const teamnode of Object.values(this.#teamnodes)) {
+            if (!teamnode.isHidden()) {
+                teamnode.fadeOut();
             }
         }
-        this.timerid = setTimeout(() => { this.startFadeIn(); }, 500); // fadeinを予約
+        this.#timerid = setTimeout(() => { this.#startFadeIn(); }, 500); // 次のfadeinを予約
     }
 
     #startAnimation() {
-        if (this.timerid == null) {
-            this.showcount = 0;
-            this.startFadeIn();
+        if (this.#timerid != null) return;
+        for (const teamnode of Object.values(this.#teamnodes)) {
+            if (teamnode.hasFadeOut()) return;
         }
+        // 全て隠す
+        for (const teamnode of Object.values(this.#teamnodes)) {
+            teamnode.hide();
+        }
+        this.#currentshowindex = 0;
+        this.#nextshowindex = 0;
+        this.#startFadeIn();
     }
 
     #stopAnimation() {
-        if (this.timerid != null) {
-            clearTimeout(this.timerid);
-            this.timerid = null;
+        if (this.#timerid != null) {
+            clearTimeout(this.#timerid);
+            this.#timerid = null;
         }
-        for (const c of this.nodes.base.children) {
-            c.classList.add(OverlayBase.HIDE_CLASS);
-            c.classList.remove(LeaderBoard.#FADEIN_CLASS);
-            c.classList.remove(LeaderBoard.#FADEOUT_CLASS);
+        for (const teamnode of Object.values(this.#teamnodes)) {
+            teamnode.stopAnimation();
         }
     }
 
     clear() {
-        for (const c of this.nodes.base.children) {
-            c.classList.add(OverlayBase.HIDE_CLASS);
-            c.classList.remove(LeaderBoard.#ELIMINATED_CLASS);
-            c.classList.remove(LeaderBoard.#FADEIN_CLASS);
-            c.classList.remove(LeaderBoard.#FADEOUT_CLASS);
-            c.classList.remove(LeaderBoard.#CHANGED_CLASS);
+        this.#stopAnimation();
+        while (this.nodes.base.lastChild != null) {
+            this.nodes.base.removeChild(this.nodes.base.lastChild);
         }
+        for (const key of Object.keys(this.#teamnodes)) {
+            delete this.#teamnodes[key];
+        }
+        this.#alivesonly = false;
+        this.#currentshowindex = 0;
+        this.#nextshowindex = 0;
     }
 
     show() {
@@ -268,22 +397,16 @@ class TeamBanner extends OverlayBase {
         this.nodes.base.appendChild(this.nodes.points);
     }
 
-    #setRank(rank) {
+    setRank(rank) {
         this.nodes.rank.innerText = '#' + rank;
     }
 
-    #setTeamName(teamName) {
+    setTeamName(teamName) {
         this.nodes.teamname.innerText = teamName;
     }
 
-    #setPoints(points) {
+    setPoints(points) {
         this.nodes.points.innerText = points;
-    }
-
-    setText(rank, teamName, points) {
-        this.#setRank(rank);
-        this.#setTeamName(teamName);
-        this.#setPoints(points);
     }
 }
 
@@ -604,43 +727,27 @@ export class Overlay {
         this.#championbanner = new ChampionBanner();
         this.#squadeliminated = new SquadEliminated();
         this.#getallprocessing = false;
-        
 
         this.#setupApexWebAPI();
 
         this.#_game = null;
         this.#teams = {};
-        this.#camera = { teamid: 0, playerid: 0 };
+        this.#_results = [];
+        this.#camera = { teamid: "0", playerid: 0, playerhash: "" };
 
         this.hideAll();
     }
 
-    #showHideFromGameState(state) {
-        switch(state) {
-        case "WaitingForPlayers":
-        case "PickLoadout":
-        case "Prematch":
-        case "Resolution":
-        case "Postmatch":
-            this.hideAll();
-            break;
-        case "Playing":
-            this.showAll();
-            break;
-        }
-    }
-
     #setupApexWebAPI() {
         this.#webapi = new ApexWebAPI.ApexWebAPI("ws://127.0.0.1:20081/");
-        this.#webapi.addEventListener("open", () => {
+
+        // 接続時にすべてのデータを取得
+        this.#webapi.addEventListener("open", (ev) => {
             this.#getallprocessing = true;
-            this.#webapi.getAll().then((game) => {
-                this.#webapi.getTournamentResults().then((event) => {
+            this.#_game = ev.detail.game;
+            this.#webapi.getAll().then(() => {
+                this.#webapi.getTournamentResults().then(() => {
                     this.#getallprocessing = false;
-                    this.#_game = game;
-                    this.#_results = event.detail.results;
-                    this.#calcAndDisplay();
-                    this.updateGameInfo();
                     this.#showHideFromGameState(this.#_game.state);
                     this.#getAllOverlayForceHideState(); 
                 }, () => {
@@ -650,49 +757,61 @@ export class Overlay {
         });
 
         this.#webapi.addEventListener("clearlivedata", (ev) => {
-            if (this.#_game == null) return;
             this.#_game = ev.detail.game;
             this.#teams = {};
             this.#calcresultsonly = false;
-            this.#calcAndDisplay();
             this.#leaderboard.clear();
             this.#squadeliminated.clear();
+            this.#calcAndDisplay();
         });
 
         this.#webapi.addEventListener("gamestatechange", (ev) => {
-            if (this.#_game == null) return;
-            this.#showHideFromGameState(this.#_game.state);
-            if (this.#_game.state == "Postmatch") {
-                this.#webapi.getTournamentResults().then((event) => {
-                    this.#_results = event.detail.results;
-                    this.#calcAndDisplay();
-                });
+            const state = ev.detail.game.state;
+            this.#showHideFromGameState(state);
+            switch(state) {
+                case "Resolution":
+                case "Postmatch":
+                    this.#calcresultsonly = true;
+                    break;
+                case "WaitingForPlayers":
+                case "PickLoadout":
+                case "Prematch":
+                case "Playing":
+                    this.#calcresultsonly = false;
+                    break;
             }
         });
 
+        // 結果の保存
+        this.#webapi.addEventListener("saveresult", (ev) => {
+            this.#calcresultsonly = true;
+            if (ev.detail.gameid == this.#_results.length) {
+                this.#_results.push(ev.detail.result);
+                this.#calcAndDisplay();
+                this.updateGameInfo();
+            } else {
+                this.#webapi.getTournamentResults();
+            }
+        });
+
+        this.#webapi.addEventListener("gettournamentresults", (ev) => {
+            this.#_results = ev.detail.results;
+            this.#calcAndDisplay();
+            this.updateGameInfo();
+        });
+
+        // 勝者確定
         this.#webapi.addEventListener("winnerdetermine", (ev) => {
-            const name = this.#getTeamName(team.id);
+            // 全てのUIを隠す
+            this.hideAll();
+
+            // ChampionBannerの表示
+            const name = this.#getTeamName(ev.detail.team.id);
             this.#championbanner.setTeamName(name);
             this.showChampionBanner();
         });
 
-        this.#webapi.addEventListener("saveresult", (ev) => {
-            if (this.#_game == null) return;
-            if (ev.detail.gameid == this.#_results.length) {
-                this.#_results.push(ev.detail.result);
-                this.#calcresultsonly;
-                this.#calcAndDisplay();
-                this.updateGameInfo();
-            } else {
-                this.#webapi.getTournamentResults().then((event) => {
-                    this.#_results = event.detail.results;
-                    this.#calcresultsonly;
-                    this.#calcAndDisplay();
-                    this.updateGameInfo();
-                });
-            }
-        });
-
+        /* SquadEliminated */
         this.#webapi.addEventListener("squadeliminate", (ev) => {
             if (this.#_game == null) return;
             if (this.#getallprocessing) return;
@@ -702,13 +821,63 @@ export class Overlay {
             this.#squadeliminated.set(placement, teamname);
         });
 
-        this.#webapi.addEventListener("winnerdetermine", (ev) => {
+        // チーム名系
+        this.#webapi.addEventListener("teamname", (ev) => {
+            this.#leaderboard.setTeamName(ev.detail.team.id, ev.detail.team.name);
+            if (ev.detail.team.id.toString() == this.#camera.teamid) {
+                this.#teambanner.setTeamName(ev.detail.team.name);
+            }
+        });
+
+        this.#webapi.addEventListener("getteamparams", (ev) => {
+            if (!('name' in ev.detail.params)) return;
+            const teamid = ev.detail.teamid;
+            this.#leaderboard.setTeamName(teamid, ev.detail.params.name);
+            if (ev.detail.team.id.toString() == this.#camera.teamid) {
+                this.#teambanner.setTeamName(ev.detail.params.name);
+            }
+        });
+        
+        this.#webapi.addEventListener("setteamparams", (ev) => {
+            if (!('name' in ev.detail.params)) return;
+            const teamid = ev.detail.teamid;
+            this.#leaderboard.setTeamName(teamid, ev.detail.params.name);
+            if (ev.detail.team.id.toString() == this.#camera.teamid) {
+                this.#teambanner.setTeamName(ev.detail.params.name);
+            }
+        });
+
+        // プレイヤー名系
+        this.#webapi.addEventListener("playername", (ev) => {
+            if (ev.detail.team.id.toString() == this.#camera.teamid &&
+                ev.detail.player.id == this.#camera.playerid) {
+                this.#playerbanner.setText(ev.detail.player.name);
+            }
+        });
+
+        this.#webapi.addEventListener("getplayerparams", (ev) => {
+            if (!('name' in ev.detail.params)) return;
+            if (this.#camera.playerhash == "") return;
+            if (ev.detail.hash != this.#camera.playerhash) return;
+            this.#playerbanner.setText(ev.detail.params.name);
+        });
+        
+        this.#webapi.addEventListener("setteamparams", (ev) => {
+            if (!('name' in ev.detail.params)) return;
+            if (this.#camera.playerhash == "") return;
+            if (ev.detail.hash != this.#camera.playerhash) return;
+            this.#playerbanner.setText(ev.detail.params.name);
+        });
+
+        this.#webapi.addEventListener("teamplacement", (ev) => {
             if (this.#_game == null) return;
-            this.hideAll();
+            this.#calcAndDisplay();
         });
 
         this.#webapi.addEventListener("squadeliminate", (ev) => {
             if (this.#_game == null) return;
+            const teamid = ev.detail.team.id;
+            this.#leaderboard.setTeamEliminated(teamid, true);
             this.#calcAndDisplay();
         });
         
@@ -717,33 +886,45 @@ export class Overlay {
             this.#calcAndDisplay();
         });
 
+        // キル数変更
         this.#webapi.addEventListener("playerstats", (ev) => {
             if (this.#_game == null) return;
             this.#calcAndDisplay();
+            if (ev.detail.team.id.toString() == this.#camera.teamid) {
+                this.#teamkills.setText(ev.detail.team.kills);
+            }
         });
-        
+
+        // プレーヤーステータス変更
         this.#webapi.addEventListener("statealive", (ev) => {
-            if (this.#_game == null) return;
-            this.#calcAndDisplay();
+            const teamid = ev.detail.team.id;
+            const playerid = ev.detail.player.id;
+            const state = ev.detail.player.state;
+            this.#leaderboard.setPlayerState(teamid, playerid, state);
         });
-        
+
         this.#webapi.addEventListener("statedown", (ev) => {
-            if (this.#_game == null) return;
-            this.#calcAndDisplay();
+            const teamid = ev.detail.team.id;
+            const playerid = ev.detail.player.id;
+            const state = ev.detail.player.state;
+            this.#leaderboard.setPlayerState(teamid, playerid, state);
         });
-        
+
         this.#webapi.addEventListener("statekilled", (ev) => {
-            if (this.#_game == null) return;
-            this.#calcAndDisplay();
+            const teamid = ev.detail.team.id;
+            const playerid = ev.detail.player.id;
+            const state = ev.detail.player.state;
+            this.#leaderboard.setPlayerState(teamid, playerid, state);
         });
-        
+
         this.#webapi.addEventListener("statecollected", (ev) => {
-            if (this.#_game == null) return;
-            this.#calcAndDisplay();
+            const teamid = ev.detail.team.id;
+            const playerid = ev.detail.player.id;
+            const state = ev.detail.player.state;
+            this.#leaderboard.setPlayerState(teamid, playerid, state);
         });
 
         this.#webapi.addEventListener("observerswitch", (ev) => {
-            if (this.#_game == null) return;
             if (!ev.detail.own) return;
             // カメラ変更
             const teamid = ev.detail.team.id;
@@ -751,12 +932,18 @@ export class Overlay {
             this.changeCamera(teamid, playerid);
         });
 
+        this.#webapi.addEventListener("initcamera", (ev) => {
+            // カメラ初期設定
+            const teamid = ev.detail.teamid;
+            const playerid = ev.detail.playerid;
+            this.changeCamera(teamid, playerid);
+        });
+
         this.#webapi.addEventListener("playeritem", (ev) => {
-            if (this.#_game == null) return;
             const teamid = ev.detail.team.id;
             const playerid = ev.detail.player.id;
             // カメラのユーザーイベントか確認する
-            if (teamid == this.#camera.teamid && playerid == this.#camera.playerid) {
+            if (teamid.toString() == this.#camera.teamid && playerid == this.#camera.playerid) {
                 const itemid = ev.detail.item;
                 const count = this.#_game.teams[teamid].players[playerid].items[itemid];
                 this.#owneditems.procUpdateItem(itemid, count);
@@ -819,8 +1006,23 @@ export class Overlay {
         });
     }
 
+    #showHideFromGameState(state) {
+        switch(state) {
+        case "WaitingForPlayers":
+        case "PickLoadout":
+        case "Prematch":
+        case "Resolution":
+        case "Postmatch":
+            this.hideAll();
+            break;
+        case "Playing":
+            this.showAll();
+            break;
+        }
+    }
+
     #getAllOverlayForceHideState() {
-        this.#webapi.broadcastObject({type: "getalloverlaystate"}).then(() => {}, () => {});
+        this.#webapi.broadcastObject({type: "getalloverlaystate"});
     }
 
     #calcPoints() {
@@ -927,37 +1129,66 @@ export class Overlay {
         }
     }
 
-    #display() {
-        // LeaderBorad用に順位でソート
-        const p = Object.keys(this.#teams);
-        p.sort((a, b) => {
+    #getCurrentRank() {
+        return Object.keys(this.#teams).sort((a, b) => {
             if (this.#teams[a].rank > this.#teams[b].rank) return  1;
             if (this.#teams[a].rank < this.#teams[b].rank) return -1;
             return 0;
         });
-
-        // LeaderBoard表示に反映
-        for (let i = 0; i < p.length; ++i) {
-            const teamid = p[i];
-            const team = this.#teams[teamid];
-            this.#leaderboard.setTeamParam(i, this.#getTeamName(teamid), team.points, team.eliminated, team.status);
+    }
+    
+    #getCurrentPoints() {
+        const points = {};
+        for (const [key, team] of Object.entries(this.#teams)) {
+            points[key] = team.points;
         }
-
-        // LeaderBoard以外の表示更新
-        if (this.#camera.teamid < this.#_game.teams.length) {
-            const teamid = this.#camera.teamid;
-            const playerid = this.#camera.playerid;
-            const team = this.#_game.teams[teamid];
-            if (playerid < team.players.length) {
-                this.changeCamera(teamid, playerid);
-            }
-        }
+        return points;
     }
 
     #calcAndDisplay() {
+        // 計算前のポイント等を保持
+        const prev_rank = this.#getCurrentRank();
+        const prev_points = this.#getCurrentPoints();
+
         this.#calcPoints();
         this.#calcRank();
-        this.#display();
+
+        // 計算後
+        const curr_rank = this.#getCurrentRank();
+        const curr_points = this.#getCurrentPoints();
+
+        // 変わった部分に変更をかける
+        const rank = [];
+        for (let i = 0; i < curr_rank.length; ++i) {
+            let changed = false;
+            if (i >= prev_rank.length || prev_rank[i] != curr_rank[i]) {
+                changed = true;
+            }
+            rank.push({id: curr_rank[i], changed: changed});
+
+            // カメラのランク表示
+            if (curr_rank[i] == this.#camera.teamid && changed) {
+                this.#teambanner.setRank(i + 1);
+            }
+        }
+
+        // リーダーボードに反映
+        this.#leaderboard.setTeamRank(rank);
+
+        for (const teamid of Object.keys(curr_points)) {
+            let changed = false;
+            if (!(teamid in prev_points) || prev_points[teamid] != curr_points[teamid]) {
+                changed = true;
+            }
+            if (changed) {
+                this.#leaderboard.setTeamPoints(teamid, curr_points[teamid]);
+
+                // カメラのポイント表示
+                if (teamid == this.#camera.teamid) {
+                    this.#teambanner.setPoints(curr_points[teamid]);
+                }
+            }
+        }
     }
 
     #getTeamName(teamid) {
@@ -1085,20 +1316,34 @@ export class Overlay {
     }
 
     changeCamera(teamid, playerid) {
-        this.#camera.teamid = teamid;
-        this.#camera.playerid = playerid;
-        if (teamid.toString() in this.#teams) {
+        console.log(teamid);
+        this.#camera.teamid = teamid.toString(); // Object index(string)
+        this.#camera.playerid = playerid; // array index
+
+        this.#teambanner.setTeamName(this.#getTeamName(teamid));
+        this.#playerbanner.setText(this.#getPlayerName(teamid, playerid));
+
+        if (this.#camera.teamid in this.#teams) {
             const team = this.#teams[teamid];
-            if ('rank' in team && 'points' in team) {
-                this.#teambanner.setText(team.rank + 1, this.#getTeamName(teamid), team.points);
+
+            if ('rank' in team) {
+                this.#teambanner.setRank(team.rank + 1);
             }
-            this.#playerbanner.setText(this.#getPlayerName(teamid, playerid));
+            if ('points' in team) {
+                this.#teambanner.setPoints(team.points);
+            }
             if ('kills' in team) {
                 this.#teamkills.setText(team.kills);  
             }
+        }
 
+        if (this.#_game && 'teams' in this.#_game) {
             if (teamid < this.#_game.teams.length) {
                 this.updateAllItems(this.#_game.teams[teamid], playerid);
+
+                if (playerid < this.#_game.teams[teamid].players.length) {
+                    this.#camera.playerhash = this.#_game.teams[teamid].players[playerid].hash;
+                }
             }
         }
     }
