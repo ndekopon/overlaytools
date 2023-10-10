@@ -39,6 +39,22 @@ class OverlayBase {
     removeForceHide() {
         this.nodes.base.classList.remove(OverlayBase.FORCEHIDE_CLASS);
     }
+
+    addClass(name) {
+        this.nodes.base.classList.add(this.PREFIX + name);
+    }
+
+    removeClass(name) {
+        this.nodes.base.classList.remove(this.PREFIX + name);
+    }
+
+    clearClasses(name) { // prefix + nameで始まるクラスを削除
+        for (const id of this.nodes.base.classList) {
+            if (id.indexOf(this.PREFIX + name) == 0) {
+                this.nodes.base.classList.remove(id);
+            }
+        }
+    }
 }
 
 class LeaderBoardTeamNode extends OverlayBase {
@@ -397,6 +413,11 @@ class TeamBanner extends OverlayBase {
         this.nodes.base.appendChild(this.nodes.points);
     }
 
+    setId(teamid) {
+        super.clearClasses("teamid_");
+        super.addClass("teamid_" + teamid);
+    }
+
     setRank(rank) {
         this.nodes.rank.innerText = '#' + rank;
     }
@@ -546,6 +567,8 @@ class GameInfo extends OverlayBase {
     }
 
     setGameCount(count) {
+        super.clearClasses("gameid_");
+        super.addClass("gameid_" + count);
         this.nodes.gamecount.innerText = 'Game ' + count;
     }
 }
@@ -575,6 +598,11 @@ class ChampionBanner extends OverlayBase {
                 this.nodes.base.classList.remove(ChampionBanner.FADEOUT_CLASS);
             }
         });
+    }
+
+    setId(teamid) {
+        super.clearClasses("teamid_");
+        super.addClass("teamid_" + teamid);
     }
 
     setTeamName(name) {
@@ -637,12 +665,13 @@ class SquadEliminated extends OverlayBase {
         });
     }
 
-    set(placement, teamname) {
+    set(placement, teamid, teamname) {
         // 非表示状態の場合は追加しない
         if (this.nodes.base.classList.contains(OverlayBase.FORCEHIDE_CLASS)) return;
 
         this.#queue.push({
             placement: placement,
+            teamid: teamid,
             teamname: teamname
         });
         this.#checkNext();
@@ -667,6 +696,8 @@ class SquadEliminated extends OverlayBase {
 
             // 次のデータを表示
             const data = this.#queue.shift();
+            super.clearClasses("teamid_");
+            super.addClass("teamid_" + data.teamid);
             this.nodes.teamname.innerText = '#' + data.placement + ' ' + data.teamname + ' eliminated';
             this.startFadeIn();
         } else {
@@ -807,6 +838,7 @@ export class Overlay {
 
             // ChampionBannerの表示
             const name = this.#getTeamName(ev.detail.team.id);
+            this.#championbanner.setId(ev.detail.team.id);
             this.#championbanner.setTeamName(name);
             this.showChampionBanner();
         });
@@ -818,7 +850,7 @@ export class Overlay {
             const placement = ev.detail.team.placement;
             const teamname = this.#getTeamName(ev.detail.team.id);
             if (placement <= 3) return; // 残り3チーム以下は表示しない
-            this.#squadeliminated.set(placement, teamname);
+            this.#squadeliminated.set(placement, v.detail.team.id, teamname);
         });
 
         // チーム名系
@@ -1319,6 +1351,7 @@ export class Overlay {
         this.#camera.teamid = teamid.toString(); // Object index(string)
         this.#camera.playerid = playerid; // array index
 
+        this.#teambanner.setId(teamid);
         this.#teambanner.setTeamName(this.#getTeamName(teamid));
         this.#playerbanner.setText(this.#getPlayerName(teamid, playerid));
 
