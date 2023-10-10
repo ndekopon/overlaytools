@@ -49,8 +49,6 @@ ApexLegendsクライアント言語(アイテム関連)
     - リザルト確認
     - チャット入力
 
-Webサーバーが必要なので、別リポジトリに[httpserver](https://github.com/ndekopon/httpserver)を作って同梱。
-
 ## 作者
 
 - [nDekopon(X)](https://twitter.com/ndekopon)
