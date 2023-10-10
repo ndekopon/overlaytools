@@ -178,16 +178,16 @@ export class TDMOverlay {
     #_game; // WebAPIのゲームオブジェクト(変更しない)
     #scoreboard;
 
-    constructor() {
+    constructor(url = "ws://127.0.0.1:20081/") {
         this.#scoreboard = new TDMScoreBoard();
 
-        this.#setupApexWebAPI();
+        this.#setupApexWebAPI(url);
 
         this.#_game = null;
     }
 
-    #setupApexWebAPI() {
-        this.#webapi = new ApexWebAPI.ApexWebAPI("ws://127.0.0.1:20081/");
+    #setupApexWebAPI(url) {
+        this.#webapi = new ApexWebAPI.ApexWebAPI(url);
         this.#webapi.addEventListener("open", () => {
             this.#webapi.getAll().then((game) => {
                 this.#_game = game;

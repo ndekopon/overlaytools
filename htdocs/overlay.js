@@ -717,7 +717,7 @@ export class Overlay {
     #getallprocessing;
     static points_table = [12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
 
-    constructor() {
+    constructor(url = "ws://127.0.0.1:20081/") {
         this.#leaderboard = new LeaderBoard();
         this.#teambanner = new TeamBanner();
         this.#playerbanner = new PlayerBanner();
@@ -728,7 +728,7 @@ export class Overlay {
         this.#squadeliminated = new SquadEliminated();
         this.#getallprocessing = false;
 
-        this.#setupApexWebAPI();
+        this.#setupApexWebAPI(url);
 
         this.#_game = null;
         this.#teams = {};
@@ -738,8 +738,8 @@ export class Overlay {
         this.hideAll();
     }
 
-    #setupApexWebAPI() {
-        this.#webapi = new ApexWebAPI.ApexWebAPI("ws://127.0.0.1:20081/");
+    #setupApexWebAPI(url) {
+        this.#webapi = new ApexWebAPI.ApexWebAPI(url);
 
         // 接続時にすべてのデータを取得
         this.#webapi.addEventListener("open", (ev) => {
@@ -1316,7 +1316,6 @@ export class Overlay {
     }
 
     changeCamera(teamid, playerid) {
-        console.log(teamid);
         this.#camera.teamid = teamid.toString(); // Object index(string)
         this.#camera.playerid = playerid; // array index
 
