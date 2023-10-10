@@ -72,7 +72,7 @@ body {
 }
 
 /* LeaderBoard */
-div#leaderboard {
+#leaderboard {
     position: fixed;
     left: 0;
     top: 0;
@@ -86,15 +86,15 @@ div#leaderboard {
     overflow: hidden;
 }
 
-div#leaderboard.hide {
+#leaderboard.hide {
     display: none;
 }
 
-div#leaderboard.forcehide {
+#leaderboard.forcehide {
     display: none;
 }
 
-div#leaderboard > div {
+#leaderboard > div {
     box-sizing: border-box;
     width: fit-content;
     height: fit-content;
@@ -104,11 +104,11 @@ div#leaderboard > div {
     grid-template-columns: 1fr 35px 7fr 1fr;
 }
 
-div#leaderboard > div.hide {
+#leaderboard > div.hide {
     display: none;
 }
 
-div#leaderboard > div > div {
+#leaderboard > div > div {
     font-size: 120%;
     font-weight: 500;
     height: var(--overlay-leaderboard-height);
@@ -180,7 +180,7 @@ div#leaderboard > div > div {
 }
 
 /* TeamBanner */
-div#teambanner {
+#teambanner {
     position: fixed;
     left: var(--overlay-teambanner-left);
     top: var(--overlay-teambanner-top);
@@ -194,15 +194,15 @@ div#teambanner {
     overflow: hidden;
 }
 
-div#teambanner.hide {
+#teambanner.hide {
     display: none;
 }
 
-div#teambanner.forcehide {
+#teambanner.forcehide {
     display: none;
 }
 
-div#teambanner > div {
+#teambanner > div {
     line-height: var(--overlay-teambanner-height);
     font-size: 130%;
     font-weight: 500;
@@ -223,7 +223,7 @@ div#teambanner > div {
 }
 
 /* PlayerBanner */
-div#playerbanner {
+#playerbanner {
     position: fixed;
     left: var(--overlay-playerbanner-left);
     top: var(--overlay-playerbanner-top);
@@ -237,22 +237,22 @@ div#playerbanner {
     background: linear-gradient(to right, rgba(0, 0, 0, 0), var(--overlay-playerbanner-bgcolor) 10%, var(--overlay-playerbanner-bgcolor) 90%, rgba(0, 0, 0, 0) 100%);
 }
 
-div#playerbanner.hide {
+#playerbanner.hide {
     display: none;
 }
 
-div#playerbanner.forcehide {
+#playerbanner.forcehide {
     display: none;
 }
 
-div.pb_name {
+.pb_name {
     line-height: var(--overlay-playerbanner-height);
     padding-left: 1em;
     font-weight: 500;
 }
 
 /* team kills */
-div#teamkills {
+#teamkills {
     position: fixed;
     left: var(--overlay-teamkills-left);
     top: var(--overlay-teamkills-top);
@@ -266,11 +266,11 @@ div#teamkills {
     overflow: hidden;
 }
 
-div#teamkills.hide {
+#teamkills.hide {
     display: none;
 }
 
-div#teamkills > div {
+#teamkills > div {
     line-height: var(--overlay-teamkills-height);
     text-align: center;
 }
@@ -282,7 +282,7 @@ div#teamkills > div {
 }
 
 /* OwnedItems */
-div#owneditems {
+#owneditems {
     position: fixed;
     top: var(--overlay-owneditems-top);
     right: var(--overlay-owneditems-right);
@@ -291,21 +291,21 @@ div#owneditems {
     color: var(--overlay-owneditems-color);
 }
 
-div#owneditems.hide {
+#owneditems.hide {
     display: none;
 }
 
-div#owneditems.forcehide {
+#owneditems.forcehide {
     display: none;
 }
 
-div#owneditems > div {
+#owneditems > div {
     display: flex;
     justify-content: end;
     height: var(--overlay-owneditems-height);
 }
 
-div#owneditems > div > div {
+#owneditems > div > div {
     box-sizing: border-box;
     background-color: var(--overlay-owneditems-bgcolor);
     width: var(--overlay-owneditems-width);
@@ -317,7 +317,7 @@ div#owneditems > div > div {
     align-items: end;
 }
 
-div#owneditems > div > div > div {
+#owneditems > div > div > div {
     font-size: 80%;
     font-weight: bold;
     text-shadow: 
@@ -379,19 +379,19 @@ div#owneditems > div > div > div {
     background-size: 45%;
 }
 
-div#owneditems > div > div.oi_backpack_lv2 {
+#owneditems > div > div.oi_backpack_lv2 {
     background-image: url('icon/backpack2.png');
     background-size: 55%;
     background-color: var(--overlay-owneditems-backpack-blue-bgcolor);
 }
 
-div#owneditems > div > div.oi_backpack_lv3 {
+#owneditems > div > div.oi_backpack_lv3 {
     background-image: url('icon/backpack3.png');
     background-size: 60%;
     background-color: var(--overlay-owneditems-backpack-purple-bgcolor);
 }
 
-div#owneditems > div > div.oi_backpack_lv4 {
+#owneditems > div > div.oi_backpack_lv4 {
     background-image: url('icon/backpack3.png');
     background-size: 60%;
     background-color: var(--overlay-owneditems-backpack-gold-bgcolor);
@@ -402,7 +402,7 @@ div#owneditems > div > div.oi_backpack_lv4 {
 }
 
 /* GameInfo */
-div#gameinfo {
+#gameinfo {
     position: fixed;
     top: var(--overlay-gameinfo-top);
     left: var(--overlay-gameinfo-left);
@@ -412,11 +412,11 @@ div#gameinfo {
     background-color: var(--overlay-gameinfo-bgcolor);
 }
 
-div#gameinfo.hide {
+#gameinfo.hide {
     display: none; 
 }
 
-div#gameinfo.forcehide {
+#gameinfo.forcehide {
     display: none; 
 }
 
@@ -427,7 +427,7 @@ div#gameinfo.forcehide {
 }
 
 /* ChampionBanner */
-div#championbanner {
+#championbanner {
     position: fixed;
     top: var(--overlay-championbanner-top);
     left: calc(50% - var(--overlay-championbanner-width) / 2 - 40px);
@@ -437,11 +437,11 @@ div#championbanner {
     background-color: var(--overlay-championbanner-bgcolor);
 }
 
-div#championbanner.hide {
+#championbanner.hide {
     display: none;
 }
 
-div#championbanner.forcehide {
+#championbanner.forcehide {
     display: none;
 }
 
@@ -477,7 +477,7 @@ div#championbanner.forcehide {
 }
 
 /* Squad Eliminated */
-div#squadeliminated {
+#squadeliminated {
     position: fixed;
     top: var(--overlay-squadeliminated-top);
     left: calc(50% - var(--overlay-squadeliminated-width) / 2);
@@ -488,11 +488,11 @@ div#squadeliminated {
     box-sizing: border-box;
 }
 
-div#squadeliminated.hide {
+#squadeliminated.hide {
     display: none;
 }
 
-div#squadeliminated.forcehide {
+#squadeliminated.forcehide {
     display: none;
 }
 
