@@ -23,15 +23,6 @@ namespace {
 		r.reserve(loaded + 10);
 
 		// パスの合成
-		if (buf.at(0) == L'\\' && buf.at(1) == L'\\')
-		{
-			r += L"\\\\?\\UN";
-			buf.at(0) = L'C';
-		}
-		else
-		{
-			r += L"\\\\?\\";
-		}
 		r += buf.data();
 		r += L"\\htdocs";
 
