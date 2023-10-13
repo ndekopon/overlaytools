@@ -27,7 +27,7 @@ ApexLegendsクライアント言語(アイテム関連)
 [Releases](https://github.com/ndekopon/overlaytools/releases) のAsseetsの中にある `overlaytools_YYYYmmdd.zip` をダウンロードする。
 
 以下のページに利用手順を記載。
-- [利用手順](https://gist.github.com/ndekopon/641acca44ef4f98b6e70ec46b3bf296b)
+- [利用手順(Wiki)](https://github.com/ndekopon/overlaytools/wiki)
 
 ## 特徴
 
