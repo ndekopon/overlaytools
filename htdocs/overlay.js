@@ -984,13 +984,11 @@ export class Overlay {
 
         // Overlayの表示状態
         this.#webapi.addEventListener("gettournamentparams", (ev) => {
-            console.log(ev.detail.params);
             this.#setForceHideFromParams(ev.detail.params);
         });
 
         this.#webapi.addEventListener("settournamentparams", (ev) => {
             if (ev.detail.result) {
-                console.log(ev.detail.params);
                 this.#setForceHideFromParams(ev.detail.params);
             }
         });

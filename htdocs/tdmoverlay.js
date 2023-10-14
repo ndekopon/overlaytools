@@ -223,7 +223,6 @@ export class TDMOverlay {
         });
         
         this.#webapi.addEventListener("setplayerparams", (ev) => {
-            console.log(ev);
             const hash = ev.detail.hash;
             if (ev.detail.result && 'name' in ev.detail.params) {
                 const name = ev.detail.params.name;

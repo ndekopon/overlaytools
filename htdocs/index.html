@@ -1874,7 +1874,6 @@ class WebAPIConfig {
         });
 
         this.#webapi.addEventListener('lobbyplayer', (ev) => {
-            console.log(ev.detail);
             this.#procPlayerInGameName(ev.detail.hash, ev.detail.name);
             if (ev.detail.observer) {
                 this.#observerconfig.drawObserverName(ev.detail.hash, ev.detail.name);
@@ -1983,7 +1982,6 @@ class WebAPIConfig {
         /* Overlay用 */
         this.#webapi.addEventListener('gettournamentparams', (ev) => {
             this.#tournament_params = ev.detail.params;
-            console.log(ev.detail.params);
             this.#setOverlayStatusFromParams(ev.detail.params);
         });
 
@@ -2077,7 +2075,7 @@ class WebAPIConfig {
             const player = team.players[playerid];
             if (!('name' in player)) return;
             if (!('state' in player)) return;
-            if (!(player.name == '')) return;
+            if (player.name == '') return;
             if (player.state != ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE) return;
             this.#webapi.changeCamera(player.name).then(() => {}, () => {});
         });
@@ -2163,7 +2161,6 @@ class WebAPIConfig {
         }
 
         /* ページ遷移起因でのデータ取得 */
-        console.log(fragment);
         if (fragment == 'observer-set') {
             this.#webapi.getObserver();
             this.#webapi.getObservers();
@@ -2262,7 +2259,6 @@ class WebAPIConfig {
             if (changed) {
                 // 更新を送信
                 this.#webapi.setPlayerParams(hash, params).then((ev) => {
-                    console.log(ev);
                     if (ev.detail.result) {
                         this.#setTextPlayerNameTR(tr, ev.detail.params);
                     }
