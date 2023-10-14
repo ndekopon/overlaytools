@@ -279,15 +279,14 @@ class LeaderBoard extends OverlayBase {
         for (let i = 0; i < teamids.length; ++i) {
             const teamid = teamids[i].id;
             const changed = teamids[i].changed;
-            const node = this.#teamnodes[teamid];
             this.#preprocessTeam(teamid);
+            const node = this.#teamnodes[teamid];
             if (this.nodes.base.children[i] != node.nodes.base) {
                 const ref = i < this.nodes.base.children.length ? this.nodes.base.children[i] : null;
                 this.nodes.base.insertBefore(node.nodes.base, ref);
             }
-
-            if (!changed) continue;
             node.setRank(i + 1);
+            if (!changed) continue;
 
             // 表示非表示の変更
             if (this.#alivesonly) {
@@ -780,7 +779,8 @@ export class Overlay {
                 this.#webapi.getTournamentResults().then(() => {
                     this.#getallprocessing = false;
                     this.#showHideFromGameState(this.#_game.state);
-                    this.#getAllOverlayForceHideState(); 
+                    this.#getAllOverlayForceHideState();
+                    this.#webapi.getTournamentParams();
                 }, () => {
                     this.getallprocessing = false;
                 });
@@ -850,7 +850,7 @@ export class Overlay {
             const placement = ev.detail.team.placement;
             const teamname = this.#getTeamName(ev.detail.team.id);
             if (placement <= 3) return; // 残り3チーム以下は表示しない
-            this.#squadeliminated.set(placement, v.detail.team.id, teamname);
+            this.#squadeliminated.set(placement, ev.detail.team.id, teamname);
         });
 
         // チーム名系
@@ -982,58 +982,16 @@ export class Overlay {
             }
         });
 
-        this.#webapi.addEventListener("broadcastobject", (ev) => {
-            const data = ev.detail.data;
-            if ('type' in data && 'value' in data) {
-                if (data.type === 'forcehideleaderboard') {
-                    if (data.value === true) {
-                        this.#leaderboard.addForceHide();
-                    } else if (data.value === false) {
-                        this.#leaderboard.removeForceHide();
-                    }
-                } else if (data.type === "forcehideteambanner") {
-                    if (data.value === true) {
-                        this.#teambanner.addForceHide();
-                    } else if (data.value === false) {
-                        this.#teambanner.removeForceHide();
-                    }
-                } else if (data.type === "forcehideteamkills") {
-                    if (data.value === true) {
-                        this.#teamkills.addForceHide();
-                    } else if (data.value === false) {
-                        this.#teamkills.removeForceHide();
-                    }
-                } else if (data.type === "forcehideplayerbanner") {
-                    if (data.value === true) {
-                        this.#playerbanner.addForceHide();
-                    } else if (data.value === false) {
-                        this.#playerbanner.removeForceHide();
-                    }
-                } else if (data.type === "forcehideowneditems") {
-                    if (data.value === true) {
-                        this.#owneditems.addForceHide();
-                    } else if (data.value === false) {
-                        this.#owneditems.removeForceHide();
-                    }
-                } else if (data.type === "forcehidegameinfo") {
-                    if (data.value === true) {
-                        this.#gameinfo.addForceHide();
-                    } else if (data.value === false) {
-                        this.#gameinfo.removeForceHide();
-                    }
-                } else if (data.type === "forcehidechampionbanner") {
-                    if (data.value === true) {
-                        this.#championbanner.addForceHide();
-                    } else if (data.value === false) {
-                        this.#championbanner.removeForceHide();
-                    }
-                } else if (data.type === "forcehidesquadeliminated") {
-                    if (data.value === true) {
-                        this.#squadeliminated.addForceHide();
-                    } else if (data.value === false) {
-                        this.#squadeliminated.removeForceHide();
-                    }
-                }
+        // Overlayの表示状態
+        this.#webapi.addEventListener("gettournamentparams", (ev) => {
+            console.log(ev.detail.params);
+            this.#setForceHideFromParams(ev.detail.params);
+        });
+
+        this.#webapi.addEventListener("settournamentparams", (ev) => {
+            if (ev.detail.result) {
+                console.log(ev.detail.params);
+                this.#setForceHideFromParams(ev.detail.params);
             }
         });
     }
@@ -1259,6 +1217,54 @@ export class Overlay {
         return result_count + 1;
     }
 
+    #setForceHideFromParams(params) {
+        if (!('forcehide' in params)) return;
+        for (const [key, value] of Object.entries(params.forcehide)) {
+            switch(key) {
+                case 'leaderboard': {
+                    if (value) this.#leaderboard.addForceHide();
+                    else this.#leaderboard.removeForceHide();
+                    break;
+                }
+                case 'teambanner': {
+                    if (value) this.#teambanner.addForceHide();
+                    else this.#teambanner.removeForceHide();
+                    break;
+                }
+                case 'teamkills': {
+                    if (value) this.#teamkills.addForceHide();
+                    else this.#teamkills.removeForceHide();
+                    break;
+                }
+                case 'playerbanner': {
+                    if (value) this.#playerbanner.addForceHide();
+                    else this.#playerbanner.removeForceHide();
+                    break;
+                }
+                case 'owneditems': {
+                    if (value) this.#owneditems.addForceHide();
+                    else this.#owneditems.removeForceHide();
+                    break;
+                }
+                case 'gameinfo': {
+                    if (value) this.#gameinfo.addForceHide();
+                    else this.#gameinfo.removeForceHide();
+                    break;
+                }
+                case 'championbanner': {
+                    if (value) this.#championbanner.addForceHide();
+                    else this.#championbanner.removeForceHide();
+                    break;
+                }
+                case 'squadeliminated': {
+                    if (value) this.#squadeliminated.addForceHide();
+                    else this.#squadeliminated.removeForceHide();
+                    break;
+                }
+            }
+        }
+    }
+
     updateGameInfo(count = null) {
         if (count == null) {
             count = this.#getGameCount();
@@ -1287,8 +1293,8 @@ export class Overlay {
     showChampionBanner() {
         this.#championbanner.show();
     }
-    setSquadEliminated(placement, teamname) {
-        this.#squadeliminated.set(placement, teamname);
+    setSquadEliminated(placement, teamid, teamname) {
+        this.#squadeliminated.set(placement, teamid, teamname);
     }
 
     hideLeaderBoard() {

@@ -1774,6 +1774,7 @@ class WebAPIConfig {
     #tournament_id;
     #tournament_name;
     #tournament_ids;
+    #tournament_params;
     #players;
     #realtimeview;
     #observerconfig;
@@ -1783,6 +1784,7 @@ class WebAPIConfig {
         this.#tournament_id = "";
         this.#tournament_name = "noname";
         this.#tournament_ids = {};
+        this.#tournament_params = {};
         this.#players = {};
         this.#realtimeview = new RealtimeView();
         this.#observerconfig = new ObserverConfig();
@@ -1815,6 +1817,7 @@ class WebAPIConfig {
             this.#webapi.getObservers();
             this.#webapi.sendGetLobbyPlayers();
             this.#webapi.getTournamentResults();
+            this.#webapi.getTournamentParams();
         });
 
         this.#webapi.addEventListener('close', (ev) => {
@@ -1850,6 +1853,7 @@ class WebAPIConfig {
             this.#webapi.getCurrentTournament();
             this.#webapi.getTournamentIDs();
             this.#webapi.getTournamentResults();
+            this.#webapi.getTournamentParams();
         });
 
         this.#webapi.addEventListener('renametournamentname', (ev) => {
@@ -1977,11 +1981,16 @@ class WebAPIConfig {
         });
 
         /* Overlay用 */
-        this.#webapi.addEventListener('broadcastobject', (ev) => {
-            const data = ev.detail.data;
-            console.log(data);
-            if ('type' in data && data.type == 'getalloverlaystate') {
-                this.#sendAllOverlayState();
+        this.#webapi.addEventListener('gettournamentparams', (ev) => {
+            this.#tournament_params = ev.detail.params;
+            console.log(ev.detail.params);
+            this.#setOverlayStatusFromParams(ev.detail.params);
+        });
+
+        this.#webapi.addEventListener('settournamentparams', (ev) => {
+            if (ev.detail.result) {
+                this.#tournament_params = ev.detail.params;
+                this.#setOverlayStatusFromParams(ev.detail.params);
             }
         });
     }
@@ -2040,15 +2049,17 @@ class WebAPIConfig {
         // checkbox
         for (const id of ["leaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated", "tdmscoreboard"]) {
             document.getElementById('overlay-hide-' + id).addEventListener('change', (ev) => {
-                this.#sendOverlayHideStatusByID(id);
+                this.#updateOverlayStatus(id);
+                this.#webapi.setTournamentParams(this.#tournament_params);
             });
         }
         document.getElementById('overlay-hide-teamplayerinfo').addEventListener('change', (ev) => {
             const teamplayeroverlays = ["teambanner", "playerbanner", "teamkills", "owneditems"];
             for (const id of teamplayeroverlays) {
                 document.getElementById('overlay-hide-' + id).checked = ev.target.checked;
-                this.#sendOverlayHideStatusByID(id);
+                this.#updateOverlayStatus(id);
             }
+            this.#webapi.setTournamentParams(this.#tournament_params);
         });
     }
 
@@ -2319,24 +2330,29 @@ class WebAPIConfig {
         }
     }
 
-    #sendOverlayHideStatusByID(id) {
+    #updateOverlayStatus(id) {
+        const params = this.#tournament_params;
         const checked = document.getElementById('overlay-hide-' + id).checked;
-        this.#webapi.broadcastObject({
-            type: "forcehide" + id,
-            value: checked
-        }).then(() => {}, () => {});
+        if (!'forcehide' in params) params.forcehide = {};
+        const forcehide = params.forcehide;
+        forcehide[id] = checked;
     }
 
-    #sendAllOverlayState() {
-        this.#sendOverlayHideStatusByID('leaderboard');
-        this.#sendOverlayHideStatusByID('teambanner');
-        this.#sendOverlayHideStatusByID('teamkills');
-        this.#sendOverlayHideStatusByID('playerbanner');
-        this.#sendOverlayHideStatusByID('owneditems');
-        this.#sendOverlayHideStatusByID('gameinfo');
-        this.#sendOverlayHideStatusByID('championbanner');
-        this.#sendOverlayHideStatusByID('squadeliminated');
-        this.#sendOverlayHideStatusByID('tdmscoreboard');
+    #setOverlayStatusFromParams(params) {
+        if (!('forcehide' in params)) params.forcehide = {};
+        const forcehide = params.forcehide;
+        const ids = ["leaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated", "tdmscoreboard"];
+        for (const id of ids) {
+            if (!(id in forcehide)) forcehide[id] = false;
+            document.getElementById('overlay-hide-' + id).checked = forcehide[id];
+        }
+
+        // group [teamplayerinfo]
+        if (forcehide.teambanner == forcehide.playerbanner &&
+            forcehide.teambanner == forcehide.teamkills &&
+            forcehide.teambanner == forcehide.owneditems) {
+                document.getElementById('overlay-hide-teamplayerinfo').checked = forcehide.teambanner;
+        }
     }
 
     #getAndSetTeamName(teamid, name) {

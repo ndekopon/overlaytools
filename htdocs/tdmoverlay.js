@@ -191,6 +191,7 @@ export class TDMOverlay {
         this.#webapi.addEventListener("open", () => {
             this.#webapi.getAll().then((game) => {
                 this.#_game = game;
+                this.#webapi.getTournamentParams();
             });
         });
 
@@ -294,17 +295,19 @@ export class TDMOverlay {
             }
         });
 
-        this.#webapi.addEventListener("broadcastobject", (ev) => {
-            const data = ev.detail.data;
-            if ('type' in data && 'value' in data) {
-                if (data.type === 'forcehidetdmscoreboard') {
-                    if (data.value === true) {
-                        this.#scoreboard.addForceHide();
-                    } else if (data.value === false) {
-                        this.#scoreboard.removeForceHide();
-                    }
-                }
-            }
+        // Overlayの表示状態
+        this.#webapi.addEventListener("gettournamentparams", (ev) => {
+            if (!('forcehide' in ev.detail.params)) return;
+            if (!('tdmscoreboard' in ev.detail.params.forcehide)) return;
+            if (ev.detail.params.forcehide.tdmscoreboard) this.#scoreboard.addForceHide();
+            else this.#scoreboard.removeForceHide();
+        });
+
+        this.#webapi.addEventListener("settournamentparams", (ev) => {
+            if (!('forcehide' in ev.detail.params)) return;
+            if (!('tdmscoreboard' in ev.detail.params.forcehide)) return;
+            if (ev.detail.params.forcehide.tdmscoreboard) this.#scoreboard.addForceHide();
+            else this.#scoreboard.removeForceHide();
         });
     }
 
