@@ -2171,6 +2171,12 @@ class WebAPIConfig {
         const fragment = this.#getFragment(hash);
         const mainmenu = this.#getMainMenu(fragment);
         const submenu = this.#getSubMenu(fragment);
+
+        if (this.#tournament_id == '' && ["realtime", "tournament-rename", "tournament-params", "team-name", "team-params", "overlay"].indexOf(fragment) >= 0) {
+            window.location.assign("#tournament-set");
+            return;
+        }
+
         if (mainmenu == 'result') {
             for (const c of document.getElementById('main').children) {
                 if (c.id == 'result') {
