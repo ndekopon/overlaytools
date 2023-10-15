@@ -1318,8 +1318,6 @@ class ResultView {
                 } else {
                     this.#right.appendChild(node.base);
                 }
-                // 更新用に登録
-                this.#saveTeamNode(i, node.name);
             }
         }
 
@@ -1336,6 +1334,9 @@ class ResultView {
         node.kills_label.innerText = 'KP';
         node.points_value.innerText = team.points;
         node.points_label.innerText = 'TOTAL';
+
+        // 更新用に登録
+        this.#saveTeamNode(team.id, node.name);
     }
 
     #generateTeamNodeForSingle() {
