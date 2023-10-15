@@ -22,9 +22,10 @@ ApexLegendsクライアント言語(アイテム関連)
 - English
 - 日本語
 
-## 使い方
+WebView2(基本的にインストール済)
+- [WebView2 ダウンロード](https://developer.microsoft.com/ja-jp/microsoft-edge/webview2/consumer/)
 
-[Releases](https://github.com/ndekopon/overlaytools/releases) のAsseetsの中にある `overlaytools_YYYYmmdd.zip` をダウンロードする。
+## 使い方
 
 以下のページに利用手順を記載。
 - [利用手順(Wiki)](https://github.com/ndekopon/overlaytools/wiki)
