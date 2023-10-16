@@ -12,8 +12,9 @@ namespace app
 	private:
 		const HINSTANCE instance_;
 		HWND window_;
-		std::array<HWND, 4> radio_log_;
+		HWND tab_;
 		std::array<HWND, 4> edit_log_;
+		std::array<std::vector<HWND>, 5> items_;
 		HFONT font_;
 		config_ini ini_;
 		core_thread core_thread_;
@@ -28,6 +29,9 @@ namespace app
 		void set_dpi_awareness();
 		ATOM register_window_class();
 		bool create_window();
+		HWND create_tab();
+		void add_tab_item(UINT _id, const WCHAR *_text);
+		void select_tab_item(UINT _id);
 		HWND create_radiobutton(const WCHAR*, HMENU, DWORD, DWORD, SIZE&, HFONT);
 		HWND create_edit(HMENU, DWORD, DWORD, DWORD, DWORD, HFONT);
 		DWORD get_radio_checked();

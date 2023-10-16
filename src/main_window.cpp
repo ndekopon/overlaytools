@@ -15,6 +15,7 @@ namespace
 
 namespace app
 {
+	constexpr UINT MID_TAB = 1;
 	constexpr UINT MID_RADIO_LIVEAPI = 1;
 	constexpr UINT MID_RADIO_CORE = 2;
 	constexpr UINT MID_RADIO_WEBAPI = 3;
@@ -34,8 +35,9 @@ namespace app
 	main_window::main_window(HINSTANCE _instance)
 		: instance_(_instance)
 		, window_(nullptr)
-		, radio_log_({ nullptr })
+		, tab_(nullptr)
 		, edit_log_({ nullptr })
+		, items_({})
 		, font_(nullptr)
 		, ini_()
 		, core_thread_(ini_.get_liveapi_ipaddress(), ini_.get_liveapi_port(), ini_.get_webapi_ipaddress(), ini_.get_webapi_port(), ini_.get_webapi_maxconnection())
@@ -149,6 +151,48 @@ namespace app
 		return radio;
 	}
 
+	HWND main_window::create_tab()
+	{
+		tab_ = ::CreateWindowExW(0, WC_TABCONTROLW, L"", WS_CHILD | WS_CLIPSIBLINGS | WS_VISIBLE,
+			0, 0, window_width_, window_height_, window_, (HMENU)MID_TAB, instance_, NULL);
+		if (tab_)
+		{
+			::SendMessageW(tab_, WM_SETFONT, (WPARAM)font_, MAKELPARAM(1, 0));
+		}
+		return tab_;
+	}
+
+	void main_window::select_tab_item(UINT _id)
+	{
+		for (size_t i = 0; i < items_.size(); ++i)
+		{
+			for (const HWND item : items_.at(i))
+			{
+				if (i == _id)
+				{
+					::ShowWindow(item, SW_SHOW);
+				}
+				else
+				{
+					::ShowWindow(item, SW_HIDE);
+				}
+			}
+		}
+	}
+
+	void main_window::add_tab_item(UINT _id, const WCHAR* _text)
+	{
+		TC_ITEMW item;
+		auto text = std::wstring(_text);
+
+		std::memset(&item, 0, sizeof(TC_ITEM));
+
+		item.mask = TCIF_TEXT;
+		item.pszText = text.data();
+		item.cchTextMax = text.length();
+		::SendMessageW(tab_, TCM_INSERTITEMW, _id, (LPARAM)&item);
+	}
+
 
 	HWND main_window::create_edit(HMENU _id, DWORD _x, DWORD _y, DWORD _w, DWORD _h, HFONT _font)
 	{
@@ -165,32 +209,6 @@ namespace app
 		return edit;
 	}
 
-	DWORD main_window::get_radio_checked()
-	{
-		LRESULT rc;
-		rc = ::SendMessageW(radio_log_.at(1), BM_GETCHECK, 0, 0);
-		if (rc == BST_CHECKED)
-		{
-			return LOG_CORE;
-		}
-
-		rc = ::SendMessageW(radio_log_.at(2), BM_GETCHECK, 0, 0);
-		if (rc == BST_CHECKED)
-		{
-			return LOG_WEBAPI;
-		}
-
-		rc = ::SendMessageW(radio_log_.at(3), BM_GETCHECK, 0, 0);
-		if (rc == BST_CHECKED)
-		{
-			return LOG_LOCAL;
-		}
-
-		return LOG_LIVEAPI;
-	}
-
-	
-
 	LRESULT main_window::window_proc(UINT _message, WPARAM _wparam, LPARAM _lparam)
 	{
 		switch (_message)
@@ -205,42 +223,37 @@ namespace app
 				CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_MODERN,
 				L"MS Shell Dlg");
 
-			// ラジオボタン
+			create_tab();
+			add_tab_item(0, L"Main");
+			add_tab_item(1, L"LiveAPI");
+			add_tab_item(2, L"Core");
+			add_tab_item(3, L"WebAPI");
+			add_tab_item(4, L"Local");
+
+			// タブの中身作成
 			{
 				RECT rect;
+				RECT tabrect;
 				SIZE radiosize;
 				LONG left = 10;
 				::GetClientRect(window_, &rect);
-
-				// LIVEAPI
-				radio_log_.at(0) = create_radiobutton(L"LiveAPI", (HMENU)MID_RADIO_LIVEAPI, left, 10, radiosize, font_);
-				left += radiosize.cx + 10;
-
-				// CORE
-				radio_log_.at(1) = create_radiobutton(L"Core", (HMENU)MID_RADIO_CORE, left, 10, radiosize, font_);
-				left += radiosize.cx + 10;
-
-				// WEBAPI
-				radio_log_.at(2) = create_radiobutton(L"WebAPI", (HMENU)MID_RADIO_WEBAPI, left, 10, radiosize, font_);
-				left += radiosize.cx + 10;
-
-				// WEBAPI
-				radio_log_.at(3) = create_radiobutton(L"Local", (HMENU)MID_RADIO_LOCAL, left, 10, radiosize, font_);
-				left += radiosize.cx + 10;
-
-				// デフォルトチェック
-				::SendMessageW(radio_log_.at(0), BM_SETCHECK, (WPARAM)BST_CHECKED, 0);
+				::SendMessageW(tab_, TCM_GETITEMRECT, 0, (LPARAM)&tabrect);
 
 				// エディトボックス
-				edit_log_.at(0) = create_edit((HMENU)MID_EDIT_LOG_LIVEAPI, 10, 20 + radiosize.cy, rect.right - 20, rect.bottom - (30 + radiosize.cy), font_);
-				edit_log_.at(1) = create_edit((HMENU)MID_EDIT_LOG_CORE, 10, 20 + radiosize.cy, rect.right - 20, rect.bottom - (30 + radiosize.cy), font_);
-				edit_log_.at(2) = create_edit((HMENU)MID_EDIT_LOG_WEBAPI, 10, 20 + radiosize.cy, rect.right - 20, rect.bottom - (30 + radiosize.cy), font_);
-				edit_log_.at(3) = create_edit((HMENU)MID_EDIT_LOG_LOCAL, 10, 20 + radiosize.cy, rect.right - 20, rect.bottom - (30 + radiosize.cy), font_);
-
+				edit_log_.at(0) = create_edit((HMENU)MID_EDIT_LOG_LIVEAPI, 10, tabrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabrect.bottom), font_);
+				edit_log_.at(1) = create_edit((HMENU)MID_EDIT_LOG_CORE, 10, tabrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabrect.bottom), font_);
+				edit_log_.at(2) = create_edit((HMENU)MID_EDIT_LOG_WEBAPI, 10,  tabrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabrect.bottom), font_);
+				edit_log_.at(3) = create_edit((HMENU)MID_EDIT_LOG_LOCAL, 10, tabrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabrect.bottom), font_);
+				::ShowWindow(edit_log_.at(0), SW_HIDE);
 				::ShowWindow(edit_log_.at(1), SW_HIDE);
 				::ShowWindow(edit_log_.at(2), SW_HIDE);
 				::ShowWindow(edit_log_.at(3), SW_HIDE);
+				items_.at(1).push_back(edit_log_.at(0));
+				items_.at(2).push_back(edit_log_.at(1));
+				items_.at(3).push_back(edit_log_.at(2));
+				items_.at(4).push_back(edit_log_.at(3));
 			}
+			select_tab_item(SendMessageW(tab_, TCM_GETCURSEL, 0, 0));
 
 			// スレッド開始
 			if (!core_thread_.run(window_)) return -1;
@@ -300,6 +313,24 @@ namespace app
 				}
 			}
 			break;
+
+		case WM_NOTIFY:
+		{
+			auto nmhdr = (LPNMHDR)_lparam;
+			switch (nmhdr->code)
+			{
+			case TCN_SELCHANGE:
+			{
+				auto id = SendMessageW(tab_, TCM_GETCURSEL, 0, 0);
+				if (id >= 0)
+				{
+					select_tab_item(id);
+				}
+				break;
+			}
+			}
+			break;
+		}
 
 		case WM_TIMER:
 		{
