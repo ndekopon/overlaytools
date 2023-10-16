@@ -260,6 +260,17 @@
         .realtime-player-state-alive:hover {
             background-color: #FFFFCC;
         }
+        .realtime-player-changed-damage-dealt {
+            animation: 1s realtime-player-changed-damage-dealt-animation forwards;
+        }
+
+        @keyframes realtime-player-changed-damage-dealt-animation {
+            from {
+                background-color: #db6ec9;
+            }
+            to {
+            }
+        }
 
         /* announce */
         #announce input {
@@ -916,6 +927,13 @@ class RealtimeView {
             }
         });
 
+        /* set animation clear */
+        playernode.base.addEventListener('animationend', (ev) => {
+            if (ev.animationName == 'realtime-player-changed-damage-dealt-animation') {
+                playernode.base.classList.remove('realtime-player-changed-damage-dealt');
+            }
+        });
+
         return playernode;
     }
 
@@ -1093,6 +1111,11 @@ class RealtimeView {
             case RealtimeView.PLAYERNODE_DAMAGE_DEALT: {
                 const node = this.#nodes[teamid].players[playerid].damage_dealt;
                 if ('damage_dealt' in player) {
+                    if (player.damage_dealt > 0 && node.innerText != ('dealt:' + player.damage_dealt)) {
+                        // 背景色を変えるアニメーションをつける
+                        this.#nodes[teamid].players[playerid].base.classList.remove('realtime-player-changed-damage-dealt');
+                        this.#nodes[teamid].players[playerid].base.classList.add('realtime-player-changed-damage-dealt');
+                    }
                     node.innerText = 'dealt:' + player.damage_dealt;
                     return true;
                 }
