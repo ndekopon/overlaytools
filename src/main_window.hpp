@@ -32,9 +32,8 @@ namespace app
 		HWND create_tab();
 		void add_tab_item(UINT _id, const WCHAR *_text);
 		void select_tab_item(UINT _id);
-		HWND create_radiobutton(const WCHAR*, HMENU, DWORD, DWORD, SIZE&, HFONT);
-		HWND create_edit(HMENU, DWORD, DWORD, DWORD, DWORD, HFONT);
-		DWORD get_radio_checked();
+		HWND create_label(HMENU _id, const WCHAR* _text, DWORD _x, DWORD _y, DWORD _width, DWORD _height);
+		HWND create_edit(HMENU, DWORD, DWORD, DWORD, DWORD);
 
 		LRESULT window_proc(UINT, WPARAM, LPARAM);
 		static LRESULT CALLBACK window_proc_common(HWND, UINT, WPARAM, LPARAM);
