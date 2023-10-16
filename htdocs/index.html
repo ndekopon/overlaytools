@@ -1114,6 +1114,7 @@ class RealtimeView {
                     if (player.damage_dealt > 0 && node.innerText != ('dealt:' + player.damage_dealt)) {
                         // 背景色を変えるアニメーションをつける
                         this.#nodes[teamid].players[playerid].base.classList.remove('realtime-player-changed-damage-dealt');
+                        this.#nodes[teamid].players[playerid].base.offsetWidth;
                         this.#nodes[teamid].players[playerid].base.classList.add('realtime-player-changed-damage-dealt');
                     }
                     node.innerText = 'dealt:' + player.damage_dealt;
