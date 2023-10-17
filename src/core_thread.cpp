@@ -119,6 +119,7 @@ namespace app {
 		: window_(NULL)
 		, thread_(NULL)
 		, event_close_(NULL)
+		, event_message_(NULL)
 		, ctx_()
 		, liveapi_(LOG_LIVEAPI, CTX_LIVEAPI, ctx_, _lip, _lport, 2)
 		, webapi_(LOG_WEBAPI, CTX_WEBAPI, ctx_, _wip, _wport, _wmaxconn)
@@ -132,6 +133,7 @@ namespace app {
 	core_thread::~core_thread()
 	{
 		stop();
+		if (event_message_) ::CloseHandle(event_message_);
 		if (event_close_) ::CloseHandle(event_close_);
 	}
 
@@ -152,7 +154,8 @@ namespace app {
 			event_close_,
 			ctx_.revent_.at(0),
 			ctx_.revent_.at(1),
-			local_.get_event_wq()
+			local_.get_event_wq(),
+			event_message_
 		};
 
 		// 初回のデータロード
@@ -216,6 +219,17 @@ namespace app {
 					{
 						proc_local_data(std::move(data));
 					}
+				}
+			}
+			else if (id == WAIT_OBJECT_0 + 4)
+			{
+				// main_windowからメッセージ到達
+				auto q = pull_messages();
+				while (q.size() > 0)
+				{
+					auto message = q.front();
+					q.pop();
+					proc_message(message);
 				}
 			}
 		}
@@ -1529,6 +1543,22 @@ namespace app {
 	}
 
 	//---------------------------------------------------------------------------------
+	// PROC MESSAGE
+	//---------------------------------------------------------------------------------
+	void core_thread::proc_message(UINT _message)
+	{
+		switch (_message)
+		{
+		case CORE_MESSAGE_TEAMBANNER_STATE_SHOW:
+			send_webapi_teambanner_state_show();
+			break;
+		case CORE_MESSAGE_TEAMBANNER_STATE_HIDE:
+			send_webapi_teambanner_state_hide();
+			break;
+		}
+	}
+	
+	//---------------------------------------------------------------------------------
 	// SEND WEBAPI
 	//---------------------------------------------------------------------------------
 	void core_thread::send_webapi_gamestatechanged(SOCKET _sock, const std::string &_state)
@@ -1778,6 +1808,18 @@ namespace app {
 		{
 			sendto_webapi(std::move(sdata.buffer_));
 		}
+	}
+
+	void core_thread::send_webapi_teambanner_state_show()
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_TEAMBANNER_STATE_SHOW);
+		sendto_webapi(std::move(sdata.buffer_));
+	}
+
+	void core_thread::send_webapi_teambanner_state_hide()
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_TEAMBANNER_STATE_HIDE);
+		sendto_webapi(std::move(sdata.buffer_));
 	}
 
 	void core_thread::reply_webapi_send_custommatch_createlobby(SOCKET _sock, uint32_t _sequence)
@@ -2672,6 +2714,25 @@ namespace app {
 		}
 
 		local_.save_result(std::move(r));
+	}
+
+	//---------------------------------------------------------------------------------
+	// MESSAGE
+	//---------------------------------------------------------------------------------
+	std::queue<UINT> core_thread::pull_messages()
+	{
+		std::queue<UINT> r;
+		{
+			std::lock_guard<std::mutex> lock(mtx_);
+			r.swap(messages_);
+		}
+		return r;
+	}
+
+	void core_thread::push_message(UINT _message)
+	{
+		std::lock_guard<std::mutex> lock(mtx_);
+		messages_.push(_message);
 	}
 
 	//---------------------------------------------------------------------------------

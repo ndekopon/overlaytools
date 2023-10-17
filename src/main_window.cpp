@@ -13,6 +13,21 @@
 
 namespace
 {
+	void menu_checkeditem_create(HMENU _menu, UINT _id, const std::wstring& _str, bool _checked)
+	{
+		MENUITEMINFO mi = { 0 };
+		std::vector<wchar_t> sz(_str.c_str(), _str.c_str() + _str.size() + 1);
+
+		mi.cbSize = sizeof(MENUITEMINFO);
+		mi.fMask = MIIM_ID | MIIM_STATE | MIIM_STRING | MIIM_CHECKMARKS;
+		mi.wID = _id;
+		mi.dwTypeData = sz.data();
+		if (_checked)
+			mi.fState = MFS_CHECKED;
+		else
+			mi.fState = MFS_UNCHECKED;
+		::InsertMenuItemW(_menu, -1, TRUE, &mi);
+	}
 }
 
 namespace app
@@ -22,6 +37,13 @@ namespace app
 	constexpr UINT MID_EDIT_LOG_CORE = 3;
 	constexpr UINT MID_EDIT_LOG_WEBAPI = 4;
 	constexpr UINT MID_EDIT_LOG_LOCAL = 5;
+	constexpr UINT MID_EDIT_LOG_DUPLICATION = 6;
+	constexpr UINT MID_POPUP_CAPTURE_DISABLED = 7;
+	constexpr UINT MID_POPUP_CAPTURE_MONITORPREFIX = 100;
+
+	constexpr UINT TIMER_ID_PING = 1;
+	constexpr UINT TIMER_ID_CAPTURE = 2;
+	constexpr UINT TIMER_ID_STATS = 3;
 
 	const wchar_t* main_window::window_class_ = L"apexliveapi_proxy-mainwindow";
 	const wchar_t* main_window::window_title_ = L"apexliveapi_proxy";
@@ -39,6 +61,10 @@ namespace app
 		, font_(nullptr)
 		, ini_()
 		, core_thread_(ini_.get_liveapi_ipaddress(), ini_.get_liveapi_port(), ini_.get_webapi_ipaddress(), ini_.get_webapi_port(), ini_.get_webapi_maxconnection())
+		, duplication_thread_()
+		, current_tab_(0)
+		, frame_rect_({ 0 })
+		, buffer_((size_t)(CAPTURE_WIDTH * CAPTURE_HEIGHT), 0)
 	{
 		WSADATA wsa;
 		::WSAStartup(MAKEWORD(2, 2), &wsa);
@@ -208,6 +234,38 @@ namespace app
 		return edit;
 	}
 
+	void main_window::create_menu(const std::vector<std::wstring>& _monitors)
+	{
+		HMENU menu;
+		POINT pt;
+
+		// TODO: currentにチェックを入れる
+
+		menu = ::CreatePopupMenu();
+
+		// 
+		// ディスプレイ一覧を表示
+		bool selected = false;
+		for (UINT i = 0; i < _monitors.size(); ++i)
+		{
+			// _monitors.at(i) == monitor_current
+			bool match = _monitors.at(i) == monitor_;
+			if (match)
+			{
+				selected = true;
+			}
+			menu_checkeditem_create(menu, MID_POPUP_CAPTURE_MONITORPREFIX + i, _monitors.at(i), match);
+		}
+		menu_checkeditem_create(menu, MID_POPUP_CAPTURE_DISABLED, L"Disabled", selected == false);
+
+
+		::GetCursorPos(&pt);
+		::SetForegroundWindow(window_);
+		::TrackPopupMenu(menu, 0, pt.x, pt.y, 0, window_, NULL);
+
+		::DestroyMenu(menu);
+	}
+
 	LRESULT main_window::window_proc(UINT _message, WPARAM _wparam, LPARAM _lparam)
 	{
 		switch (_message)
@@ -228,6 +286,7 @@ namespace app
 			add_tab_item(2, L"Core");
 			add_tab_item(3, L"WebAPI");
 			add_tab_item(4, L"Local");
+			add_tab_item(5, L"Duplication");
 
 			{
 				// タブの中身作成
@@ -246,6 +305,20 @@ namespace app
 				items_.at(0).push_back(create_label((HMENU)MID_EDIT_LOG_LIVEAPI, L"WebAPI Websocket", 10, top, rect.right - 20, 12));
 				top += 12 + 5;
 				items_.at(0).push_back(create_label((HMENU)MID_EDIT_LOG_LIVEAPI, (L"Listen Address:" + s_to_ws(ini_.get_webapi_ipaddress() + ":" + std::to_string(ini_.get_webapi_port()))).c_str(), 20, top, rect.right - 30, 12));
+				top += 12 + 5;
+				frame_rect_.left = 10;
+				frame_rect_.top = top;
+				frame_rect_.right = frame_rect_.left + CAPTURE_WIDTH;
+				frame_rect_.bottom = frame_rect_.top + CAPTURE_HEIGHT;
+				top += CAPTURE_HEIGHT + 5;
+				items_.at(0).push_back(create_label((HMENU)MID_EDIT_LOG_LIVEAPI, L"Capture FPS:0", 20, top, rect.right - 30, 12));
+				top += 12 + 5;
+				items_.at(0).push_back(create_label((HMENU)MID_EDIT_LOG_LIVEAPI, L"Capture Total:0", 20, top, rect.right - 30, 12));
+				top += 12 + 5;
+				items_.at(0).push_back(create_label((HMENU)MID_EDIT_LOG_LIVEAPI, L"Capture Skipped:0", 20, top, rect.right - 30, 12));
+				top += 12 + 5;
+				items_.at(0).push_back(create_label((HMENU)MID_EDIT_LOG_LIVEAPI, L"Capture Exited:0", 20, top, rect.right - 30, 12));
+				top += 12 + 5;
 
 
 				// エディトボックス
@@ -253,28 +326,70 @@ namespace app
 				edit_log_.at(1) = create_edit((HMENU)MID_EDIT_LOG_CORE, 10, tabrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabrect.bottom));
 				edit_log_.at(2) = create_edit((HMENU)MID_EDIT_LOG_WEBAPI, 10,  tabrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabrect.bottom));
 				edit_log_.at(3) = create_edit((HMENU)MID_EDIT_LOG_LOCAL, 10, tabrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabrect.bottom));
+				edit_log_.at(4) = create_edit((HMENU)MID_EDIT_LOG_DUPLICATION, 10, tabrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabrect.bottom));
 				::ShowWindow(edit_log_.at(0), SW_HIDE);
 				::ShowWindow(edit_log_.at(1), SW_HIDE);
 				::ShowWindow(edit_log_.at(2), SW_HIDE);
 				::ShowWindow(edit_log_.at(3), SW_HIDE);
+				::ShowWindow(edit_log_.at(4), SW_HIDE);
 				items_.at(1).push_back(edit_log_.at(0));
 				items_.at(2).push_back(edit_log_.at(1));
 				items_.at(3).push_back(edit_log_.at(2));
 				items_.at(4).push_back(edit_log_.at(3));
+				items_.at(5).push_back(edit_log_.at(4));
 			}
-			select_tab_item(SendMessageW(tab_, TCM_GETCURSEL, 0, 0));
+			current_tab_ = SendMessageW(tab_, TCM_GETCURSEL, 0, 0);
+			select_tab_item(current_tab_);
 
 			// スレッド開始
 			if (!core_thread_.run(window_)) return -1;
+			if (!duplication_thread_.run(window_)) return -1;
 
 			// タイマー設定
-			::SetTimer(window_, 1, 20000, nullptr);
+			::SetTimer(window_, TIMER_ID_PING, 20000, nullptr); // 20s
+			::SetTimer(window_, TIMER_ID_CAPTURE, 100, nullptr); // 100ms
+			::SetTimer(window_, TIMER_ID_STATS, 1000, nullptr); // 1s
 
 			return 0;
 		}
 
+		case WM_PAINT:
+		{
+			if (buffer_.size() == CAPTURE_WIDTH * CAPTURE_HEIGHT && current_tab_ == 0)
+			{
+				RECT rect;
+				if (::GetUpdateRect(window_, &rect, FALSE))
+				{
+					RECT intersect;
+					if (::IntersectRect(&intersect, &frame_rect_, &rect))
+					{
+						// 取得した画像を表示
+						PAINTSTRUCT ps;
+						HDC dc = ::BeginPaint(window_, &ps);
+						BITMAPINFO info;
+						ZeroMemory(&info, sizeof(BITMAPINFO));
+						info.bmiHeader.biBitCount = 32;
+						info.bmiHeader.biWidth = CAPTURE_WIDTH;
+						info.bmiHeader.biHeight = CAPTURE_HEIGHT;
+						info.bmiHeader.biPlanes = 1;
+						info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+						info.bmiHeader.biSizeImage = CAPTURE_WIDTH * CAPTURE_HEIGHT * 4;
+						info.bmiHeader.biCompression = BI_RGB;
+
+						::StretchDIBits(dc, frame_rect_.left, frame_rect_.top, CAPTURE_WIDTH, CAPTURE_HEIGHT,
+							0, 0, CAPTURE_WIDTH, CAPTURE_HEIGHT, buffer_.data(), &info, DIB_RGB_COLORS, SRCCOPY);
+
+						::EndPaint(window_, &ps);
+						::ValidateRect(window_, &frame_rect_);
+					}
+				}
+			}
+			break;
+		}
+
 		case WM_DESTROY:
 			// スレッド停止
+			duplication_thread_.stop();
 			core_thread_.stop();
 
 			::DeleteObject(font_);
@@ -284,6 +399,25 @@ namespace app
 		case WM_COMMAND:
 			{
 				WORD id = LOWORD(_wparam);
+				if (_lparam == 0)
+				{
+					if (id == MID_POPUP_CAPTURE_DISABLED)
+					{
+						monitor_ = L"";
+						duplication_thread_.request_set_monitor(monitor_);
+						std::fill(buffer_.begin(), buffer_.end(), 0);
+						::InvalidateRect(window_, &frame_rect_, FALSE);
+					}
+					else if (id >= MID_POPUP_CAPTURE_MONITORPREFIX)
+					{
+						const auto mid = id - MID_POPUP_CAPTURE_MONITORPREFIX;
+						if (mid < monitors_.size())
+						{
+							monitor_ = monitors_.at(mid);
+							duplication_thread_.request_set_monitor(monitor_);
+						}
+					}
+				}
 			}
 			break;
 
@@ -299,6 +433,7 @@ namespace app
 					auto id = SendMessageW(tab_, TCM_GETCURSEL, 0, 0);
 					if (id >= 0)
 					{
+						current_tab_ = id;
 						select_tab_item(id);
 					}
 				}
@@ -308,15 +443,37 @@ namespace app
 			break;
 		}
 
+		case WM_RBUTTONUP:
+			if (current_tab_ == 0)
+			{
+				POINTS points = MAKEPOINTS(_lparam);
+				POINT point;
+				point.x = points.x;
+				point.y = points.y;
+				if (::PtInRect(&frame_rect_, point))
+				{
+					duplication_thread_.request_get_monitors();
+				}
+			}
+			break;
+
 		case WM_TIMER:
 		{
-			if (_wparam == 1)
+			UINT id = _wparam;
+			switch (id)
 			{
+			case TIMER_ID_PING:
 				core_thread_.ping();
 				return 0;
+			case TIMER_ID_CAPTURE:
+				duplication_thread_.request_capture();
+				return 0;
+			case TIMER_ID_STATS:
+				duplication_thread_.request_stats();
+				return 0;
 			}
-		}
 			break;
+		}
 
 		case CWM_LOG_UPDATE:
 		{
@@ -331,6 +488,48 @@ namespace app
 			}
 		}
 			break;
+
+		case CWM_FRAME_ARRIVED:
+		{
+			buffer_ = duplication_thread_.get_buffer();
+			if (current_tab_ == 0)
+			{
+				::InvalidateRect(window_, &frame_rect_, FALSE);
+			}
+
+			break;
+		}
+
+		case CWM_MONITORS_UPDATE:
+			monitors_ = duplication_thread_.get_monitors();
+			create_menu(monitors_);
+			break;
+
+		case CWM_DUPLICATION_STATS_UPDATE:
+		{
+			auto stats = duplication_thread_.get_stats();
+			if (7 < items_.at(0).size())
+			{
+				::SetWindowTextW(items_.at(0).at(4), (L"Capture FPS: " + std::to_wstring(stats.fps)).c_str());
+				::SetWindowTextW(items_.at(0).at(5), (L"Capture Total: " + std::to_wstring(stats.total)).c_str());
+				::SetWindowTextW(items_.at(0).at(6), (L"Capture Skipped: " + std::to_wstring(stats.skipped)).c_str());
+				::SetWindowTextW(items_.at(0).at(7), (L"Capture Exited: " + std::to_wstring(stats.exited)).c_str());
+			}
+			break;
+		}
+
+		case CWM_MENUBANNER_STATE:
+		{
+			UINT state = _wparam;
+			if (state > 0)
+			{
+				core_thread_.push_message(CORE_MESSAGE_TEAMBANNER_STATE_SHOW);
+			}
+			else
+			{
+				core_thread_.push_message(CORE_MESSAGE_TEAMBANNER_STATE_HIDE);
+			}
+		}
 
 		default:
 			break;

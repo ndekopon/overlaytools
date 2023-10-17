@@ -3,6 +3,7 @@
 #include "common.hpp"
 
 #include "core_thread.hpp"
+#include "duplication_thread.hpp"
 #include "config_ini.hpp"
 
 namespace app
@@ -13,11 +14,17 @@ namespace app
 		const HINSTANCE instance_;
 		HWND window_;
 		HWND tab_;
-		std::array<HWND, 4> edit_log_;
-		std::array<std::vector<HWND>, 5> items_;
+		std::array<HWND, 5> edit_log_;
+		std::array<std::vector<HWND>, 6> items_;
 		HFONT font_;
 		config_ini ini_;
 		core_thread core_thread_;
+		duplication_thread duplication_thread_;
+		UINT current_tab_;
+		std::vector<uint32_t> buffer_;
+		RECT frame_rect_;
+		std::vector<std::wstring> monitors_;
+		std::wstring monitor_;
 
 		static const wchar_t* window_class_;
 		static const wchar_t* window_title_;
@@ -34,6 +41,7 @@ namespace app
 		void select_tab_item(UINT _id);
 		HWND create_label(HMENU _id, const WCHAR* _text, DWORD _x, DWORD _y, DWORD _width, DWORD _height);
 		HWND create_edit(HMENU, DWORD, DWORD, DWORD, DWORD);
+		void create_menu(const std::vector<std::wstring>& _monitors);
 
 		LRESULT window_proc(UINT, WPARAM, LPARAM);
 		static LRESULT CALLBACK window_proc_common(HWND, UINT, WPARAM, LPARAM);

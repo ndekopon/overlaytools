@@ -13,10 +13,16 @@
 
 namespace app {
 
+	enum : UINT {
+		CORE_MESSAGE_TEAMBANNER_STATE_SHOW,
+		CORE_MESSAGE_TEAMBANNER_STATE_HIDE
+	};
+
 	class core_thread {
 		HWND window_;
 		HANDLE thread_;
 		HANDLE event_close_;
+		HANDLE event_message_;
 		shared_context ctx_;
 		websocket_thread liveapi_;
 		websocket_thread webapi_;
@@ -24,12 +30,15 @@ namespace app {
 		filedump filedump_;
 		livedata::game game_;
 		std::string observer_hash_;
+		std::mutex mtx_;
+		std::queue<UINT> messages_;
 
 		static DWORD WINAPI proc_common(LPVOID);
 		DWORD proc();
 		void proc_liveapi_data(ctx_data_t&& _data);
 		void proc_webapi_data(ctx_data_t&& _data);
 		void proc_local_data(local_queue_data_t&& _data);
+		void proc_message(UINT _message);
 
 		void proc_liveapi_any(const google::protobuf::Any& _any);
 
@@ -96,6 +105,9 @@ namespace app {
 		void send_webapi_clear_livedata();
 		void send_webapi_save_result(const std::string &_tournament_id, uint8_t _gameid, std::unique_ptr<std::string> &&_json);
 
+		void send_webapi_teambanner_state_show();
+		void send_webapi_teambanner_state_hide();
+
 		// reply
 		void reply_webapi_send_custommatch_createlobby(SOCKET _sock, uint32_t _sequence);
 		void reply_webapi_send_custommatch_sendchat(SOCKET _sock, uint32_t _sequence);
@@ -131,6 +143,7 @@ namespace app {
 		// save/clear
 		void clear_livedata();
 		void save_result();
+		std::queue<UINT> pull_messages();
 
 	public:
 		core_thread(const std::string& _lip, uint16_t _lport, const std::string& _wip, uint16_t _wport, uint16_t _wmaxconn);
@@ -146,5 +159,6 @@ namespace app {
 		bool run(HWND);
 		void stop();
 		void ping();
+		void push_message(UINT _message);
 	};
 }

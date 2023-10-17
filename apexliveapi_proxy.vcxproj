@@ -10,6 +10,8 @@
     <ClInclude Include="src\common.hpp" />
     <ClInclude Include="src\config_ini.hpp" />
     <ClInclude Include="src\core_thread.hpp" />
+    <ClInclude Include="src\duplication_thread.hpp" />
+    <ClInclude Include="src\duplicator.hpp" />
     <ClInclude Include="src\events\events.pb.h" />
     <ClInclude Include="src\filedump.hpp" />
     <ClInclude Include="src\livedata.hpp" />
@@ -27,6 +29,8 @@
   <ItemGroup>
     <ClCompile Include="src\config_ini.cpp" />
     <ClCompile Include="src\core_thread.cpp" />
+    <ClCompile Include="src\duplication_thread.cpp" />
+    <ClCompile Include="src\duplicator.cpp" />
     <ClCompile Include="src\events\events.pb.cc" />
     <ClCompile Include="src\filedump.cpp" />
     <ClCompile Include="src\livedata.cpp" />

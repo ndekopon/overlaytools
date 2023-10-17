@@ -69,6 +69,12 @@
     <ClInclude Include="src\utils.hpp">
       <Filter>hdr</Filter>
     </ClInclude>
+    <ClInclude Include="src\duplication_thread.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="src\duplicator.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\config_ini.cpp">
@@ -114,6 +120,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\utils.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\duplication_thread.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\duplicator.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
