@@ -182,6 +182,7 @@ export class ApexWebAPI extends EventTarget {
 
   static WEBAPI_EVENT_CLEAR_LIVEDATA = 0x14;
   static WEBAPI_EVENT_SAVE_RESULT = 0x15;
+  static WEBAPI_EVENT_RINGINFO = 0x16;
 
   static WEBAPI_EVENT_TEAM_NAME = 0x20;
   static WEBAPI_EVENT_TEAM_PLACEMENT = 0x21;
@@ -228,6 +229,8 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_LOCALDATA_GET_PLAYER_PARAMS = 0x7d;
   static WEBAPI_LOCALDATA_GET_PLAYERS = 0x7e;
   static WEBAPI_LOCALDATA_GET_CURRENT_TOURNAMENT = 0x7f;
+
+  static WEBAPI_EVENT_TEAMBANNER_STATE = 0xc0;
 
   static WEBAPI_BROADCAST_OBJECT = 0xf0;
   
@@ -786,6 +789,10 @@ export class ApexWebAPI extends EventTarget {
         this.#game.end = Date.now();
         this.dispatchEvent(new CustomEvent('saveresult', {detail: {id: data_array[0], gameid: data_array[1], result: data_array[2]}}));
         break;
+      case ApexWebAPI.WEBAPI_EVENT_RINGINFO:
+        if (count != 6) return false;
+        this.dispatchEvent(new CustomEvent('ringinfo', {detail: {timestamp: data_array[0], x: data_array[1], y: data_array[2], current: data_array[3], end: data_array[4], duration: data_array[5]}}));
+        break;
       case ApexWebAPI.WEBAPI_EVENT_PLAYERCONNECTED:
         if (count != 2) return false;
         return this.#procEventPlayerConnected(data_array);
@@ -837,6 +844,10 @@ export class ApexWebAPI extends EventTarget {
       case ApexWebAPI.WEBAPI_EVENT_TEAM_PLACEMENT:
         if (count != 2) return false;
         return this.#procEventTeamPlacement(data_array);
+      case ApexWebAPI.WEBAPI_EVENT_TEAMBANNER_STATE:
+        if (count != 1) return false;
+        this.dispatchEvent(new CustomEvent('teambannerstate', {detail: {state: dara_array[0]}}));
+        break;
       case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SENDCHAT:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('sendchat', {detail: {sequence: data_array[0]}}));
