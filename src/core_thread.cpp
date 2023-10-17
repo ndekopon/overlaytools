@@ -1550,10 +1550,10 @@ namespace app {
 		switch (_message)
 		{
 		case CORE_MESSAGE_TEAMBANNER_STATE_SHOW:
-			send_webapi_teambanner_state_show();
+			send_webapi_teambanner_state(1);
 			break;
 		case CORE_MESSAGE_TEAMBANNER_STATE_HIDE:
-			send_webapi_teambanner_state_hide();
+			send_webapi_teambanner_state(0);
 			break;
 		}
 	}
@@ -1810,16 +1810,13 @@ namespace app {
 		}
 	}
 
-	void core_thread::send_webapi_teambanner_state_show()
+	void core_thread::send_webapi_teambanner_state(uint8_t _state)
 	{
-		send_webapi_data sdata(WEBAPI_EVENT_TEAMBANNER_STATE_SHOW);
-		sendto_webapi(std::move(sdata.buffer_));
-	}
-
-	void core_thread::send_webapi_teambanner_state_hide()
-	{
-		send_webapi_data sdata(WEBAPI_EVENT_TEAMBANNER_STATE_HIDE);
-		sendto_webapi(std::move(sdata.buffer_));
+		send_webapi_data sdata(WEBAPI_EVENT_TEAMBANNER_STATE);
+		if (sdata.append(_state))
+		{
+			sendto_webapi(std::move(sdata.buffer_));
+		}
 	}
 
 	void core_thread::reply_webapi_send_custommatch_createlobby(SOCKET _sock, uint32_t _sequence)
@@ -2776,6 +2773,12 @@ namespace app {
 		// イベント作成
 		event_close_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
 		if (event_close_ == NULL)
+		{
+			log(LOG_CORE, L"Error: CreateEvent() failed.");
+			return false;
+		}
+		event_message_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
+		if (event_message_ == NULL)
 		{
 			log(LOG_CORE, L"Error: CreateEvent() failed.");
 			return false;

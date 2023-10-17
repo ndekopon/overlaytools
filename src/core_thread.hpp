@@ -105,8 +105,7 @@ namespace app {
 		void send_webapi_clear_livedata();
 		void send_webapi_save_result(const std::string &_tournament_id, uint8_t _gameid, std::unique_ptr<std::string> &&_json);
 
-		void send_webapi_teambanner_state_show();
-		void send_webapi_teambanner_state_hide();
+		void send_webapi_teambanner_state(uint8_t _state);
 
 		// reply
 		void reply_webapi_send_custommatch_createlobby(SOCKET _sock, uint32_t _sequence);
