@@ -1547,6 +1547,7 @@ namespace app {
 	//---------------------------------------------------------------------------------
 	void core_thread::proc_message(UINT _message)
 	{
+		log(LOG_CORE, L"Info: receive data from main_window size=%lu", _message);
 		switch (_message)
 		{
 		case CORE_MESSAGE_TEAMBANNER_STATE_SHOW:
@@ -2728,8 +2729,15 @@ namespace app {
 
 	void core_thread::push_message(UINT _message)
 	{
-		std::lock_guard<std::mutex> lock(mtx_);
-		messages_.push(_message);
+		{
+			std::lock_guard<std::mutex> lock(mtx_);
+			messages_.push(_message);
+		}
+		// 通知
+		if (event_message_)
+		{
+			::SetEvent(event_message_);
+		}
 	}
 
 	//---------------------------------------------------------------------------------

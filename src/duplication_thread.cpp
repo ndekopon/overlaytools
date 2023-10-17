@@ -125,6 +125,7 @@ namespace app {
 						if (buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 46 - 1) + 49) != 0xffffffff) teambanner_show = false;
 						if (teambanner_show != teambanner_show_prev)
 						{
+							log(LOG_DUPLICATION, L"Info: teambanner_show=%s.", teambanner_show ? L"true" : L"false");
 							if (teambanner_show)
 							{
 								::PostMessageW(window_, CWM_MENUBANNER_STATE, 1, 0);

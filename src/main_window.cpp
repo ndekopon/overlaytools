@@ -529,6 +529,7 @@ namespace app
 			{
 				core_thread_.push_message(CORE_MESSAGE_TEAMBANNER_STATE_HIDE);
 			}
+			break;
 		}
 
 		default:
