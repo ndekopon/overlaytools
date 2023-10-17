@@ -846,7 +846,7 @@ export class ApexWebAPI extends EventTarget {
         return this.#procEventTeamPlacement(data_array);
       case ApexWebAPI.WEBAPI_EVENT_TEAMBANNER_STATE:
         if (count != 1) return false;
-        this.dispatchEvent(new CustomEvent('teambannerstate', {detail: {state: dara_array[0]}}));
+        this.dispatchEvent(new CustomEvent('teambannerstate', {detail: {state: data_array[0]}}));
         break;
       case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SENDCHAT:
         if (count != 1) return false;

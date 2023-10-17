@@ -982,6 +982,24 @@ export class Overlay {
             }
         });
 
+        // チームバナーの表示状態
+        this.#webapi.addEventListener("teambannerstate", (ev) => {
+            const state = ev.detail.state;
+            if (this.#checkGameStatePlaying(this.#_game.state)) {
+                if (state > 0) {
+                    this.showTeamBanner();
+                    this.showPlayerBanner();
+                    this.showTeamKills();
+                    this.showOwnedItems();
+                } else {
+                    this.hideTeamBanner();
+                    this.hidePlayerBanner();
+                    this.hideTeamKills();
+                    this.hideOwnedItems();
+                }
+            }
+        });
+
         // Overlayの表示状態
         this.#webapi.addEventListener("gettournamentparams", (ev) => {
             this.#setForceHideFromParams(ev.detail.params);
@@ -994,18 +1012,19 @@ export class Overlay {
         });
     }
 
+    #checkGameStatePlaying(state) {
+        // "WaitingForPlayers","PickLoadout","Prematch","Resolution","Postmatch"
+        if (state == "Playing") {
+            return true;
+        }
+        return false;
+    }
+
     #showHideFromGameState(state) {
-        switch(state) {
-        case "WaitingForPlayers":
-        case "PickLoadout":
-        case "Prematch":
-        case "Resolution":
-        case "Postmatch":
-            this.hideAll();
-            break;
-        case "Playing":
+        if (this.#checkGameStatePlaying(state)) {
             this.showAll();
-            break;
+        } else {
+            this.hideAll();
         }
     }
 
