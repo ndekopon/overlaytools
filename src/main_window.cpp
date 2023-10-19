@@ -292,12 +292,15 @@ namespace app
 				// タブの中身作成
 				RECT rect;
 				RECT tabrect;
+				RECT tabitemrect;
 				DWORD top = 0;
 				::GetClientRect(window_, &rect);
-				::SendMessageW(tab_, TCM_GETITEMRECT, 0, (LPARAM)&tabrect);
+				::GetClientRect(tab_, &tabrect);
+				::SendMessageW(tab_, TCM_GETITEMRECT, 0, (LPARAM)&tabitemrect);
+				::SetWindowPos(tab_, NULL, 0, 0, tabrect.right - tabrect.left, tabitemrect.bottom - tabitemrect.top + 3, SWP_NOZORDER | SWP_NOMOVE);
 
 				// IP等の情報
-				top = tabrect.bottom + 10;
+				top = tabitemrect.bottom + 10;
 				items_.at(0).push_back(create_label((HMENU)MID_EDIT_LOG_LIVEAPI, L"LiveAPI Websocket", 10, top, rect.right - 20, 12));
 				top += 12 + 5;
 				items_.at(0).push_back(create_label((HMENU)MID_EDIT_LOG_LIVEAPI, (L"Listen Address:" + s_to_ws(ini_.get_liveapi_ipaddress() + ":" + std::to_string(ini_.get_liveapi_port()))).c_str(), 20, top, rect.right - 30, 12));
@@ -322,11 +325,11 @@ namespace app
 
 
 				// エディトボックス
-				edit_log_.at(0) = create_edit((HMENU)MID_EDIT_LOG_LIVEAPI, 10, tabrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabrect.bottom));
-				edit_log_.at(1) = create_edit((HMENU)MID_EDIT_LOG_CORE, 10, tabrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabrect.bottom));
-				edit_log_.at(2) = create_edit((HMENU)MID_EDIT_LOG_WEBAPI, 10,  tabrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabrect.bottom));
-				edit_log_.at(3) = create_edit((HMENU)MID_EDIT_LOG_LOCAL, 10, tabrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabrect.bottom));
-				edit_log_.at(4) = create_edit((HMENU)MID_EDIT_LOG_DUPLICATION, 10, tabrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabrect.bottom));
+				edit_log_.at(0) = create_edit((HMENU)MID_EDIT_LOG_LIVEAPI, 10, tabitemrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabitemrect.bottom));
+				edit_log_.at(1) = create_edit((HMENU)MID_EDIT_LOG_CORE, 10, tabitemrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabitemrect.bottom));
+				edit_log_.at(2) = create_edit((HMENU)MID_EDIT_LOG_WEBAPI, 10,  tabitemrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabitemrect.bottom));
+				edit_log_.at(3) = create_edit((HMENU)MID_EDIT_LOG_LOCAL, 10, tabitemrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabitemrect.bottom));
+				edit_log_.at(4) = create_edit((HMENU)MID_EDIT_LOG_DUPLICATION, 10, tabitemrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabitemrect.bottom));
 				::ShowWindow(edit_log_.at(0), SW_HIDE);
 				::ShowWindow(edit_log_.at(1), SW_HIDE);
 				::ShowWindow(edit_log_.at(2), SW_HIDE);
