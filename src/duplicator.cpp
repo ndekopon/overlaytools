@@ -22,21 +22,21 @@ namespace {
 		info.cbSize = sizeof(info);
 		::GetMonitorInfoW(_monitor, &info);
 
-		UINT32 requiredPaths, requiredModes;
-		::GetDisplayConfigBufferSizes(QDC_ONLY_ACTIVE_PATHS, &requiredPaths, &requiredModes);
-		std::vector<DISPLAYCONFIG_PATH_INFO> paths(requiredPaths);
-		std::vector<DISPLAYCONFIG_MODE_INFO> modes(requiredModes);
-		::QueryDisplayConfig(QDC_ONLY_ACTIVE_PATHS, &requiredPaths, paths.data(), &requiredModes, modes.data(), nullptr);
+		UINT32 required_paths, required_modes;
+		::GetDisplayConfigBufferSizes(QDC_ONLY_ACTIVE_PATHS, &required_paths, &required_modes);
+		std::vector<DISPLAYCONFIG_PATH_INFO> paths(required_paths);
+		std::vector<DISPLAYCONFIG_MODE_INFO> modes(required_modes);
+		::QueryDisplayConfig(QDC_ONLY_ACTIVE_PATHS, &required_paths, paths.data(), &required_modes, modes.data(), nullptr);
 
 		for (auto& p : paths)
 		{
-			DISPLAYCONFIG_SOURCE_DEVICE_NAME sourceName;
-			sourceName.header.type = DISPLAYCONFIG_DEVICE_INFO_GET_SOURCE_NAME;
-			sourceName.header.size = sizeof(sourceName);
-			sourceName.header.adapterId = p.sourceInfo.adapterId;
-			sourceName.header.id = p.sourceInfo.id;
-			::DisplayConfigGetDeviceInfo(&sourceName.header);
-			if (::wcscmp(info.szDevice, sourceName.viewGdiDeviceName) == 0)
+			DISPLAYCONFIG_SOURCE_DEVICE_NAME source_name;
+			source_name.header.type = DISPLAYCONFIG_DEVICE_INFO_GET_SOURCE_NAME;
+			source_name.header.size = sizeof(source_name);
+			source_name.header.adapterId = p.sourceInfo.adapterId;
+			source_name.header.id = p.sourceInfo.id;
+			::DisplayConfigGetDeviceInfo(&source_name.header);
+			if (::wcscmp(info.szDevice, source_name.viewGdiDeviceName) == 0)
 			{
 				DISPLAYCONFIG_TARGET_DEVICE_NAME name;
 				name.header.type = DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_NAME;
