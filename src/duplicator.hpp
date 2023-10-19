@@ -51,9 +51,5 @@ namespace app {
 		std::vector<std::wstring> get_monitors();
 
 		GetFrameError get_frame(std::vector<uint32_t>& _buffer, uint16_t _top, uint16_t _width, uint16_t _height);
-
-		std::pair<size_t, size_t> get_size();
-
-		std::wstring get_monitor();
 	};
 }

@@ -335,23 +335,6 @@ namespace app {
 		return true;
 	}
 
-	std::pair<size_t, size_t> duplicator::get_size()
-	{
-		DXGI_OUTDUPL_DESC dupl_desc;
-
-		output_duplication_->GetDesc(&dupl_desc);
-
-		width_ = dupl_desc.ModeDesc.Width;
-		height_ = dupl_desc.ModeDesc.Height;
-
-		return {width_, height_};
-	}
-
-	std::wstring duplicator::get_monitor()
-	{
-		return monitor_;
-	}
-
 	duplicator::GetFrameError duplicator::get_frame(std::vector<uint32_t>& _buffer, uint16_t _top, uint16_t _width, uint16_t _height)
 	{
 		HRESULT hr;
