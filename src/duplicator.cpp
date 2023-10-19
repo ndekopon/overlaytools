@@ -1,5 +1,7 @@
 ﻿#include "duplicator.hpp"
 
+#include "log.hpp"
+
 #include <algorithm>
 #include <iostream>
 #include <iterator>
@@ -34,7 +36,8 @@ namespace {
 			sourceName.header.adapterId = p.sourceInfo.adapterId;
 			sourceName.header.id = p.sourceInfo.id;
 			::DisplayConfigGetDeviceInfo(&sourceName.header);
-			if (::wcscmp(info.szDevice, sourceName.viewGdiDeviceName) == 0) {
+			if (::wcscmp(info.szDevice, sourceName.viewGdiDeviceName) == 0)
+			{
 				DISPLAYCONFIG_TARGET_DEVICE_NAME name;
 				name.header.type = DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_NAME;
 				name.header.size = sizeof(name);
@@ -90,19 +93,26 @@ namespace app {
 		, output_duplication_(nullptr)
 		, cpu_texture_(nullptr)
 		, recreate_output_duplication_(true)
+		, feature_level_(D3D_FEATURE_LEVEL_11_1)
 		, width_(0)
 		, height_(0)
 		, monitor_(L"")
 	{
-		::D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, feature_levels, ARRAYSIZE(feature_levels), D3D11_SDK_VERSION, &device_, &feature_level_, &device_context_);
 	}
 
 	bool duplicator::create()
 	{
 		HRESULT hr = ::D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, feature_levels, ARRAYSIZE(feature_levels), D3D11_SDK_VERSION, &device_, &feature_level_, &device_context_);
-		if (FAILED(hr)) return false;
-
-		device_context_ = nullptr;
+		if (FAILED(hr))
+		{
+			log(LOG_DUPLICATION, L"Info: D3D11CreateDevice fallback to D3D_DRIVER_TYPE_WARP.");
+			HRESULT hr = ::D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_WARP, nullptr, 0, feature_levels, ARRAYSIZE(feature_levels), D3D11_SDK_VERSION, &device_, &feature_level_, &device_context_);
+			if (FAILED(hr))
+			{
+				log(LOG_DUPLICATION, L"Error: D3D11CreateDevice() failed.");
+				return false;
+			}
+		}
 		device_->GetImmediateContext(&device_context_);
 
 		return true;
@@ -131,13 +141,13 @@ namespace app {
 		HRESULT hr = ::CreateDXGIFactory(IID_PPV_ARGS(&factory));
 		if (FAILED(hr)) return monitors;
 
-		CComPtr<IDXGIAdapter4> adapter;
+		CComPtr<IDXGIAdapter2> adapter;
 
 		for (UINT i = 0; factory->EnumAdapterByGpuPreference(i, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&adapter)) != DXGI_ERROR_NOT_FOUND; ++i)
 		{
-			DXGI_ADAPTER_DESC3 desc3;
-			adapter->GetDesc3(&desc3);
-			std::wstring adapter_desc = desc3.Description;
+			DXGI_ADAPTER_DESC2 desc2;
+			adapter->GetDesc2(&desc2);
+			std::wstring adapter_desc = desc2.Description;
 			
 			CComPtr<IDXGIOutput> output;
 			for (UINT j = 0; adapter->EnumOutputs(j, &output) != DXGI_ERROR_NOT_FOUND; ++j)
@@ -146,16 +156,20 @@ namespace app {
 				output->GetDesc(&odesc);
 
 				auto monitor = ::trim(::get_monitor_name(odesc.Monitor));
-				if (monitor == L"") continue;
+				if (monitor == L"")
+				{
+					monitor = odesc.DeviceName;
+					if (monitor == L"") continue;
+				}
 				
 				// 実際にAPIを使えるか試してみる
-				CComPtr<IDXGIOutput5> output5;
+				CComPtr<IDXGIOutput1> output1;
 				CComPtr<IDXGIOutputDuplication> output_duplication;
 
-				auto hr = output->QueryInterface(IID_PPV_ARGS(&output5));
+				auto hr = output->QueryInterface(IID_PPV_ARGS(&output1));
 				if (FAILED(hr)) continue;
 
-				hr = output5->DuplicateOutput(device_, &output_duplication);
+				hr = output1->DuplicateOutput(device_, &output_duplication);
 				if (FAILED(hr)) continue;
 
 				// サイズの確認
@@ -188,13 +202,13 @@ namespace app {
 		hr = ::CreateDXGIFactory(IID_PPV_ARGS(&factory));
 		if (FAILED(hr)) return hr;
 
-		CComPtr<IDXGIAdapter4> adapter;
+		CComPtr<IDXGIAdapter2> adapter;
 
 		for (UINT i = 0; factory->EnumAdapterByGpuPreference(i, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&adapter)) != DXGI_ERROR_NOT_FOUND; ++i)
 		{
-			DXGI_ADAPTER_DESC3 desc3;
-			adapter->GetDesc3(&desc3);
-			std::wstring adapter_desc = desc3.Description;
+			DXGI_ADAPTER_DESC2 desc2;
+			adapter->GetDesc2(&desc2);
+			std::wstring adapter_desc = desc2.Description;
 
 			CComPtr<IDXGIOutput> output;
 			for (UINT j = 0; adapter->EnumOutputs(j, &output) != DXGI_ERROR_NOT_FOUND; ++j)
@@ -203,18 +217,19 @@ namespace app {
 				output->GetDesc(&odesc);
 
 				auto monitor = ::trim(::get_monitor_name(odesc.Monitor));
+				if (monitor == L"") monitor = odesc.DeviceName;
 				if (monitor != L"") {
 					std::wstring name = adapter_desc + L" - " + monitor;
 
 					if (name == monitor_)
 					{
 						// 対象のモニターと一致
-						CComPtr<IDXGIOutput5> output5;
+						CComPtr<IDXGIOutput1> output1;
 
-						hr = output->QueryInterface(IID_PPV_ARGS(&output5));
+						hr = output->QueryInterface(IID_PPV_ARGS(&output1));
 						if (FAILED(hr)) return hr;
 
-						hr = output5->DuplicateOutput(device_, &output_duplication_);
+						hr = output1->DuplicateOutput(device_, &output_duplication_);
 						if (FAILED(hr)) return hr;
 
 						// サイズの確認
