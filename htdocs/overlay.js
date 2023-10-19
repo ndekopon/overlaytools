@@ -729,6 +729,107 @@ class SquadEliminated extends OverlayBase {
     }
 }
 
+class MatchResultTeamNode extends OverlayBase {
+    constructor(id, prefix, root) {
+        super(id, prefix, root);
+
+        super.addNode("rank");
+        super.addNode("name");
+        super.addNode("placement_points");
+        super.addNode("kills");
+        super.addNode("total_points");
+
+        // append
+        this.nodes.base.appendChild(this.nodes.rank);
+        this.nodes.base.appendChild(this.nodes.name);
+        this.nodes.base.appendChild(this.nodes.placement_points);
+        this.nodes.base.appendChild(this.nodes.kills);
+        this.nodes.base.appendChild(this.nodes.total_points);
+    }
+
+    setRank(rank) {
+        this.nodes.rank.innerText = rank + 1;
+    }
+
+    setName(name) {
+        this.nodes.name.innerText = name;
+    }
+    
+    setPlacementPoints(points) {
+        this.nodes.placement_points.innerText = points;
+    }
+    
+    setKills(kills) {
+        this.nodes.kills.innerText = kills;
+    }
+
+    setTotalPoints(points) {
+        this.nodes.total_points.innerText = points;
+    }
+}
+
+class MatchResult extends OverlayBase {
+    #ID;
+    #PREFIX;
+    #teams;
+    constructor() {
+        super("matchresult", "mr_");
+        this.#ID = "matchresult";
+        this.#PREFIX = "mr_";
+        super.addNode("title");
+        super.addNode("teams");
+
+        this.#teams = [];
+
+        // append
+        this.nodes.base.appendChild(this.nodes.title);
+        this.nodes.base.appendChild(this.nodes.teams);
+    }
+
+    #appendTeam(rank) {
+        const node = new MatchResultTeamNode(this.#ID + "_" + rank, this.#PREFIX, this.nodes.teams);
+        this.#teams.push(node);
+        this.nodes.teams.appendChild(node.nodes.base);
+        node.setRank(rank);
+    }
+
+    #precheckRank(rank) {
+        for (let i = this.#teams.length; i <= rank; ++i) {
+            this.#appendTeam(i);
+        }
+    }
+
+    setTitle(title) {
+        this.nodes.title.innerText = title;
+    }
+
+    setName(rank, name) {
+        this.#precheckRank(rank);
+        this.#teams[rank].setName(name);
+    }
+
+    setPlacementPoints(rank, points) {
+        this.#precheckRank(rank);
+        this.#teams[rank].setPlacementPoints(points);
+    }
+
+    setKills(rank, kills) {
+        this.#precheckRank(rank);
+        this.#teams[rank].setKills(kills);
+    }
+
+    setPlacementPoints(rank, points) {
+        this.#precheckRank(rank);
+        this.#teams[rank].setPlacementPoints(points);
+    }
+
+    clear() {
+        this.setTitle("");
+        this.nodes.teams.innerHTML = "";
+        this.#teams.splice(0);
+    }
+}
+
 export class Overlay {
     #webapi;
     #teams; // 計算用
@@ -743,6 +844,7 @@ export class Overlay {
     #gameinfo;
     #championbanner;
     #squadeliminated;
+    #matchresult;
     #camera;
     #getallprocessing;
     static points_table = [12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
@@ -756,6 +858,7 @@ export class Overlay {
         this.#gameinfo = new GameInfo();
         this.#championbanner = new ChampionBanner();
         this.#squadeliminated = new SquadEliminated();
+        this.#matchresult = new MatchResult();
         this.#getallprocessing = false;
 
         this.#setupApexWebAPI(url);
@@ -1313,6 +1416,90 @@ export class Overlay {
     setSquadEliminated(placement, teamid, teamname) {
         this.#squadeliminated.set(placement, teamid, teamname);
     }
+    resultToTeamsData(teams, result) {
+        for (const [teamid, data] of result) {
+            if (!(teamid in teams)) {
+                teams[teamid] = {
+                    kills: [],
+                    placements: [],
+                    points: [],
+                    total_points: 0
+                }
+            }
+            teams[teamid].kills.push(data.kills);
+            teams[teamid].placements.push(data.placement);
+        }
+    }
+    showMatchResult(gameid, all = false) {
+        this.#matchresult.clear();
+        const teams = {};
+        if (all) {
+            this.#matchresult.setTitle(this.#_game.params.name + " ALL");
+            for (const result of this.#_results) {
+                this.resultToTeamsData(teams, result);
+            }
+        } else {
+            this.#matchresult.setTitle(this.#_game.params.name + " Game " + (gameid + 1));
+            if (gameid < this.#_results.length) {
+                const result = this.#_results[gameid];
+                this.resultToTeamsData(teams, result);
+            }
+        }
+
+        // ポイント計算
+        for (const [teamid, team] of teams) {
+            for (let i = 0; i < team.kills.length; ++i) {
+                const points = team.kills[i] + this.points_table[team.placements[i]];
+                team.points.push(points);
+            }
+            // totalを入れておく
+            team.total_points = team.points.reduce((a, c) => a + c, 0);
+        }
+
+        // results -> table
+        const p = Object.keys(teams);
+
+        p.sort((a, b) => {
+            const ta = teams[a];
+            const tb = teams[b];
+            // 現在のトータルポイント比較
+            if (ta.total_points > tb.total_points) return -1;
+            if (ta.total_points < tb.total_points) return  1;
+
+            // ソート
+            ta.points.reverse();
+            tb.points.reverse();
+            ta.placements.sort();
+            tb.placements.sort();
+            ta.kills.reverse();
+            tb.kills.reverse();
+
+            // 同点の場合は、過去のゲームの最高ポイント
+            for (let i = 0; i < ta.points.length && i < tb.points.length; ++i) {
+                if (ta.points[i] > tb.points[i]) return -1;
+                if (tb.points[i] < tb.points[i]) return  1;
+            }
+
+            // 同点の場合は、過去のゲームの最高順位
+            for (let i = 0; i < ta.placements.length && i < tb.placements.length; ++i) {
+                if (ta.placements[i] > tb.placements[i]) return  1;
+                if (ta.placements[i] < tb.placements[i]) return -1;
+            }
+
+            // 同点の場合は、過去のゲームの最高キル数
+            for (let i = 0; i < ta.kills.length && i < tb.kills.length; ++i) {
+                if (ta.kills[i] > tb.kills[i]) return -1;
+                if (ta.kills[i] < tb.kills[i]) return  1;
+            }
+
+            // イレギュラー: 試合数多いほうが勝ち(比較対象が多い)
+            if (ta.points.length > tb.points.length) return -1;
+            if (ta.points.length < tb.points.length) return  1;
+
+            return 0;
+        });
+        this.#matchresult.show();
+    }
 
     hideLeaderBoard() {
         this.#leaderboard.hide();
@@ -1337,6 +1524,9 @@ export class Overlay {
     }
     hideSquadEliminated() {
         this.#squadeliminated.hide();
+    }
+    hideMatchResult() {
+        this.#matchresult.hide();
     }
 
     showAll() {
