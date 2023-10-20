@@ -818,9 +818,9 @@ class MatchResult extends OverlayBase {
         this.#teams[rank].setKills(kills);
     }
 
-    setPlacementPoints(rank, points) {
+    setTotalPoints(rank, points) {
         this.#precheckRank(rank);
-        this.#teams[rank].setPlacementPoints(points);
+        this.#teams[rank].setTotalPoints(points);
     }
 
     clear() {
@@ -847,6 +847,8 @@ export class Overlay {
     #matchresult;
     #camera;
     #getallprocessing;
+    #tournamentparams;
+    #teamparams;
     static points_table = [12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
 
     constructor(url = "ws://127.0.0.1:20081/") {
@@ -867,6 +869,8 @@ export class Overlay {
         this.#teams = {};
         this.#_results = [];
         this.#camera = { teamid: "0", playerid: 0, playerhash: "" };
+        this.#tournamentparams = {};
+        this.#teamparams = {};
 
         this.hideAll();
     }
@@ -884,6 +888,7 @@ export class Overlay {
                     this.#showHideFromGameState(this.#_game.state);
                     this.#getAllOverlayForceHideState();
                     this.#webapi.getTournamentParams();
+                    this.#getAllTeamParams();
                 }, () => {
                     this.getallprocessing = false;
                 });
@@ -965,19 +970,21 @@ export class Overlay {
         });
 
         this.#webapi.addEventListener("getteamparams", (ev) => {
+            this.#teamparams[ev.detail.teamid] = ev.detail.params;
             if (!('name' in ev.detail.params)) return;
             const teamid = ev.detail.teamid;
             this.#leaderboard.setTeamName(teamid, ev.detail.params.name);
-            if (ev.detail.team.id.toString() == this.#camera.teamid) {
+            if (ev.detail.teamid.toString() == this.#camera.teamid) {
                 this.#teambanner.setTeamName(ev.detail.params.name);
             }
         });
         
         this.#webapi.addEventListener("setteamparams", (ev) => {
+            this.#teamparams[ev.detail.teamid] = ev.detail.params;
             if (!('name' in ev.detail.params)) return;
             const teamid = ev.detail.teamid;
             this.#leaderboard.setTeamName(teamid, ev.detail.params.name);
-            if (ev.detail.team.id.toString() == this.#camera.teamid) {
+            if (ev.detail.teamid.toString() == this.#camera.teamid) {
                 this.#teambanner.setTeamName(ev.detail.params.name);
             }
         });
@@ -1105,11 +1112,13 @@ export class Overlay {
 
         // Overlayの表示状態
         this.#webapi.addEventListener("gettournamentparams", (ev) => {
+            this.#tournamentparams = ev.detail.params;
             this.#setForceHideFromParams(ev.detail.params);
         });
 
         this.#webapi.addEventListener("settournamentparams", (ev) => {
             if (ev.detail.result) {
+                this.#tournamentparams = ev.detail.params;
                 this.#setForceHideFromParams(ev.detail.params);
             }
         });
@@ -1133,6 +1142,12 @@ export class Overlay {
 
     #getAllOverlayForceHideState() {
         this.#webapi.broadcastObject({type: "getalloverlaystate"});
+    }
+
+    #getAllTeamParams() {
+        for (let i = 0; i < 30; ++i) {
+            this.#webapi.getTeamParams(i);
+        }
     }
 
     #calcPoints() {
@@ -1417,9 +1432,10 @@ export class Overlay {
         this.#squadeliminated.set(placement, teamid, teamname);
     }
     resultToTeamsData(teams, result) {
-        for (const [teamid, data] of result) {
+        for (const [teamid, data] of Object.entries(result.teams)) {
             if (!(teamid in teams)) {
                 teams[teamid] = {
+                    name: data.name,
                     kills: [],
                     placements: [],
                     points: [],
@@ -1434,7 +1450,11 @@ export class Overlay {
         this.#matchresult.clear();
         const teams = {};
         if (all) {
-            this.#matchresult.setTitle(this.#_game.params.name + " ALL");
+            if ('name' in this.#tournamentparams) {
+                this.#matchresult.setTitle(this.#tournamentparams.name + " - ALL");
+            } else {
+                this.#matchresult.setTitle("Match Result - ALL");
+            }
             for (const result of this.#_results) {
                 this.resultToTeamsData(teams, result);
             }
@@ -1447,9 +1467,9 @@ export class Overlay {
         }
 
         // ポイント計算
-        for (const [teamid, team] of teams) {
+        for (const [teamid, team] of Object.entries(teams)) {
             for (let i = 0; i < team.kills.length; ++i) {
-                const points = team.kills[i] + this.points_table[team.placements[i]];
+                const points = team.kills[i] + Overlay.points_table[team.placements[i]];
                 team.points.push(points);
             }
             // totalを入れておく
@@ -1498,7 +1518,23 @@ export class Overlay {
 
             return 0;
         });
+
+        // 表示
+        for (let i = 0; i < p.length; ++i) {
+            const teamid = p[i];
+            const team = teams[teamid];
+            if (teamid in this.#teamparams && 'name' in this.#teamparams[teamid]) {
+                this.#matchresult.setName(i, this.#teamparams[teamid].name);
+            } else {
+                this.#matchresult.setName(i, team.name);
+            }
+            this.#matchresult.setTotalPoints(i, team.total_points);
+            const total_kills = team.kills.reduce((a, c) => a + c, 0);
+            this.#matchresult.setKills(i, total_kills);
+            this.#matchresult.setPlacementPoints(i, team.total_points - total_kills);
+        }
         this.#matchresult.show();
+        console.log(teams);
     }
 
     hideLeaderBoard() {
