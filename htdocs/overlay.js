@@ -922,7 +922,6 @@ export class Overlay {
                 this.#webapi.getTournamentResults().then(() => {
                     this.#getallprocessing = false;
                     this.#showHideFromGameState(this.#_game.state);
-                    this.#getAllOverlayForceHideState();
                     this.#webapi.getTournamentParams();
                     this.#getAllTeamParams();
                     this.#webapi.getCurrentTournament();
@@ -1163,6 +1162,23 @@ export class Overlay {
         this.#webapi.addEventListener("getcurrenttournament", (ev) => {
             this.#tournamentname = ev.detail.name;
         });
+
+        // MatchResultの表示非表示命令
+        this.#webapi.addEventListener("broadcastobject", (ev) => {
+            if (ev.detail.data) {
+                const data = ev.detail.data;
+                if ("type" in data) {
+                    switch (data.type) {
+                        case "showmatchresult":
+                            this.showMatchResult(data.gameid, data.all);
+                            break;
+                        case "hidematchresult":
+                            this.hideMatchResult();
+                            break;
+                    }
+                }
+            }
+        });
     }
 
     #checkGameStatePlaying(state) {
@@ -1179,10 +1195,6 @@ export class Overlay {
         } else {
             this.hideAll();
         }
-    }
-
-    #getAllOverlayForceHideState() {
-        this.#webapi.broadcastObject({type: "getalloverlaystate"});
     }
 
     #getAllTeamParams() {

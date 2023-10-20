@@ -612,6 +612,11 @@
     <p>
         <label><input type="checkbox" id="overlay-hide-teamplayerinfo" /> Force hide Team/Player Overlay</label>
     </p>
+    <h4>match result</h4>
+    <label><input type="radio" id="overlay-show-all-results" name="overlay-result-radio" value="all" checked />ALL</label><br />
+    <label><input type="radio" id="overlay-show-one-result" name="overlay-result-radio" value="one" />GAMEID: <input type="number" id="overlay-show-one-result-number" min="0" value="0" />(Game1 → 0)</label>
+    <p><button id="overlay-show-matchresult">show match result</button></p>
+    <p><button id="overlay-hide-matchresult">hide match result</button></p>
 </div>
 
 <div id="announce" class="hide">
@@ -2121,6 +2126,34 @@ class WebAPIConfig {
                 this.#updateOverlayStatus(id);
             }
             this.#webapi.setTournamentParams(this.#tournament_params);
+        });
+
+        // show/hide matchresult
+        document.getElementById('overlay-show-matchresult').addEventListener('click', (ev) => {
+            let checked = "all";
+            for (const node of document.getElementsByName("overlay-result-radio")) {
+                if (node.checked) checked = node.value;
+            }
+            if (checked == "all") {
+                this.#webapi.broadcastObject({
+                    type: "showmatchresult",
+                    gameid: 0,
+                    all: true
+                });
+            } else {
+                const gameid = document.getElementById("overlay-show-one-result-number").value;
+                this.#webapi.broadcastObject({
+                    type: "showmatchresult",
+                    gameid: parseInt(gameid, 10),
+                    all: false
+                });
+            }
+        });
+
+        document.getElementById('overlay-hide-matchresult').addEventListener('click', (ev) => {
+            this.#webapi.broadcastObject({
+                type: "hidematchresult"
+            });
         });
     }
 
