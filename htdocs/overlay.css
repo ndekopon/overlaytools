@@ -56,6 +56,10 @@ html {
     --overlay-squadeliminated-height: 32px;
     --overlay-squadeliminated-color: rgb(255, 255, 255);
     --overlay-squadeliminated-bgcolor: rgba(176, 48, 57, 0.90);
+    
+    --overlay-matchresult-color: rgb(255, 255, 255);
+    --overlay-matchresult-bgcolor: rgba(0, 0, 0, 0.99);
+    --overlay-matchresult-rank-bgcolor: rgba(176, 48, 57, 0.90);
 }
 
 * {
@@ -525,4 +529,97 @@ body {
     to {
         opacity: 0.0;
     }
+}
+
+/* MatchResult */
+#matchresult {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    color: var(--overlay-matchresult-color);
+    background-color: var(--overlay-matchresult-bgcolor);
+    box-sizing: border-box;
+    padding: 60px;
+    display: grid;
+    place-content: center;
+    grid-template-columns: 100%;
+}
+#matchresult.hide {
+    display: none;
+}
+#matchresult div {
+    box-sizing: border-box;
+    overflow: clip;
+    white-space: nowrap;
+}
+#matchresult > div {
+    width: 100%;
+}
+.mr_title {
+    font-size: 200%;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+.mr_header {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(1, auto);
+    column-gap: 60px;
+}
+#matchresult:has(> .mr_teams > :nth-child(11)) > .mr_header {
+    grid-template-columns: 1fr 1fr;
+}
+.mr_header > div, .mr_teams > div {
+    grid-template-columns: 64px 1fr 80px 80px 80px;
+    margin: 5px 0;
+}
+.mr_header > div {
+    display: none;
+    line-height: 32px;
+}
+.mr_header > :nth-child(1) {
+    display: grid;
+}
+#matchresult:has(> .mr_teams > :nth-child(11)) > .mr_header > :nth-child(2) {
+    display: grid;
+}
+.mr_header > div > div {
+    font-size: 80%;
+    font-weight: bold;
+    border-bottom: 1px solid var(--overlay-matchresult-rank-bgcolor);
+}
+.mr_teams {
+    display: grid;
+    grid-auto-flow: column;
+    line-height: 1.5em;
+    grid-template-rows: repeat(10, auto);
+    row-gap: 5px;
+    column-gap: 60px;
+    font-size: 200%;
+}
+.mr_teams > div {
+    display: grid;
+}
+.mr_teams:has(> :nth-child(11)) {
+    grid-template-columns: 1fr 1fr;
+}
+.mr_teams:has(> :nth-child(11)):has(> :nth-child(21)) {
+    grid-template-rows: repeat(15, auto);
+    font-size: 150%;
+}
+
+.mr_header_rank, .mr_header_placement_points, .mr_header_kills, .mr_header_total_points, .mr_rank, .mr_placement_points, .mr_kills, .mr_total_points {
+    text-align: center;
+}
+
+.mr_rank {
+    font-size: 70%;
+    background-color: var(--overlay-matchresult-rank-bgcolor);
+}
+.mr_header_name, .mr_name {
+    padding: 0 30px;
+    overflow: clip;
+    white-space: nowrap;
 }

@@ -729,6 +729,31 @@ class SquadEliminated extends OverlayBase {
     }
 }
 
+class MatchResultHeaderNode extends OverlayBase {
+    constructor(id, prefix, root) {
+        super(id, prefix, root);
+
+        super.addNode("header_rank");
+        super.addNode("header_name");
+        super.addNode("header_placement_points");
+        super.addNode("header_kills");
+        super.addNode("header_total_points");
+
+        // append
+        this.nodes.base.appendChild(this.nodes.header_rank);
+        this.nodes.base.appendChild(this.nodes.header_name);
+        this.nodes.base.appendChild(this.nodes.header_placement_points);
+        this.nodes.base.appendChild(this.nodes.header_kills);
+        this.nodes.base.appendChild(this.nodes.header_total_points);
+        
+        this.nodes.header_rank.innerText = "#";
+        this.nodes.header_name.innerText = "TEAM";
+        this.nodes.header_placement_points.innerText = "PP";
+        this.nodes.header_kills.innerText = "KILLS";
+        this.nodes.header_total_points.innerText = "TOTAL";
+    }
+}
+
 class MatchResultTeamNode extends OverlayBase {
     constructor(id, prefix, root) {
         super(id, prefix, root);
@@ -777,19 +802,28 @@ class MatchResult extends OverlayBase {
         this.#ID = "matchresult";
         this.#PREFIX = "mr_";
         super.addNode("title");
+        super.addNode("header");
         super.addNode("teams");
 
         this.#teams = [];
 
         // append
         this.nodes.base.appendChild(this.nodes.title);
+        this.nodes.base.appendChild(this.nodes.header);
         this.nodes.base.appendChild(this.nodes.teams);
+
+        // 初期状態はhide
+        super.hide();
+
+        // ヘッダーを追加
+        for (let i = 0; i < 2; ++i) {
+            const node = new MatchResultHeaderNode(this.#ID + "_header_" + i, this.#PREFIX, this.nodes.header);
+        }
     }
 
     #appendTeam(rank) {
         const node = new MatchResultTeamNode(this.#ID + "_" + rank, this.#PREFIX, this.nodes.teams);
         this.#teams.push(node);
-        this.nodes.teams.appendChild(node.nodes.base);
         node.setRank(rank);
     }
 
@@ -848,6 +882,7 @@ export class Overlay {
     #camera;
     #getallprocessing;
     #tournamentparams;
+    #tournamentname;
     #teamparams;
     static points_table = [12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
 
@@ -870,6 +905,7 @@ export class Overlay {
         this.#_results = [];
         this.#camera = { teamid: "0", playerid: 0, playerhash: "" };
         this.#tournamentparams = {};
+        this.#tournamentname = "";
         this.#teamparams = {};
 
         this.hideAll();
@@ -889,6 +925,7 @@ export class Overlay {
                     this.#getAllOverlayForceHideState();
                     this.#webapi.getTournamentParams();
                     this.#getAllTeamParams();
+                    this.#webapi.getCurrentTournament();
                 }, () => {
                     this.getallprocessing = false;
                 });
@@ -1121,6 +1158,10 @@ export class Overlay {
                 this.#tournamentparams = ev.detail.params;
                 this.#setForceHideFromParams(ev.detail.params);
             }
+        });
+
+        this.#webapi.addEventListener("getcurrenttournament", (ev) => {
+            this.#tournamentname = ev.detail.name;
         });
     }
 
@@ -1450,16 +1491,20 @@ export class Overlay {
         this.#matchresult.clear();
         const teams = {};
         if (all) {
-            if ('name' in this.#tournamentparams) {
-                this.#matchresult.setTitle(this.#tournamentparams.name + " - ALL");
+            if (this.#tournamentname != "") {
+                this.#matchresult.setTitle(this.#tournamentname + " - OVERALL");
             } else {
-                this.#matchresult.setTitle("Match Result - ALL");
+                this.#matchresult.setTitle("Match Result - OVERALL");
             }
             for (const result of this.#_results) {
                 this.resultToTeamsData(teams, result);
             }
         } else {
-            this.#matchresult.setTitle(this.#_game.params.name + " Game " + (gameid + 1));
+            if (this.#tournamentname != "") {
+                this.#matchresult.setTitle(this.#tournamentname + " - GAME " + (gameid + 1));
+            } else {
+                this.#matchresult.setTitle("Match Result - GAME " + (gameid + 1));
+            }
             if (gameid < this.#_results.length) {
                 const result = this.#_results[gameid];
                 this.resultToTeamsData(teams, result);
@@ -1469,7 +1514,7 @@ export class Overlay {
         // ポイント計算
         for (const [teamid, team] of Object.entries(teams)) {
             for (let i = 0; i < team.kills.length; ++i) {
-                const points = team.kills[i] + Overlay.points_table[team.placements[i]];
+                const points = team.kills[i] + Overlay.points_table[team.placements[i] - 1];
                 team.points.push(points);
             }
             // totalを入れておく

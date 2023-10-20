@@ -47,12 +47,14 @@ window.onload = (event) => {
         div.appendChild(document.createElement('div'));
         div.appendChild(document.createElement('div'));
         div.appendChild(document.createElement('div'));
+        div.appendChild(document.createElement('div'));
         div.children[0].innerText = 'show all';
         div.children[1].innerText = 'hide all';
         div.children[2].innerText = 'Print Game 2';
         div.children[3].innerText = 'show champion banner';
         div.children[4].innerText = 'show squad eliminated';
         div.children[5].innerText = 'show result all';
+        div.children[6].innerText = 'show result game 1';
         div.children[0].addEventListener('click', (ev) => {
             overlay.showAll();
         });
@@ -70,6 +72,9 @@ window.onload = (event) => {
         });
         div.children[5].addEventListener('click', (ev) => {
             overlay.showMatchResult(0, true);
+        })
+        div.children[6].addEventListener('click', (ev) => {
+            overlay.showMatchResult(0);
         })
     };
 
