@@ -32,7 +32,7 @@ namespace app {
 		bool init_texture();
 
 		HRESULT get_desktop_as_texture();
-		bool copy_to_buffer(std::vector<uint32_t>& _buffer, uint16_t _top, uint16_t _width, uint16_t _height);
+		bool copy_to_buffer(std::vector<uint32_t>& _buffer);
 
 	public:
 
@@ -50,6 +50,6 @@ namespace app {
 
 		std::vector<std::wstring> get_monitors();
 
-		GetFrameError get_frame(std::vector<uint32_t>& _buffer, uint16_t _top, uint16_t _width, uint16_t _height);
+		GetFrameError get_frame(std::vector<uint32_t>& _buffer);
 	};
 }

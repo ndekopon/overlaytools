@@ -303,39 +303,46 @@ namespace app {
 		return hr;
 	}
 
-	bool duplicator::copy_to_buffer(std::vector<uint32_t>& _buffer, uint16_t _top, uint16_t _width, uint16_t _height)
+	bool duplicator::copy_to_buffer(std::vector<uint32_t>& _buffer)
 	{
 		D3D11_MAPPED_SUBRESOURCE resource;
 		UINT subresource = D3D11CalcSubresource(0, 0, 0);
 		device_context_->Map(cpu_texture_, subresource, D3D11_MAP_READ_WRITE, 0, &resource);
 
 
-		if (_buffer.size() < _width * _height)
+		if (_buffer.size() < CAPTURE_WIDTH * CAPTURE_HEIGHT)
 		{
-			_buffer.resize(_width * _height);
+			_buffer.resize(CAPTURE_WIDTH * CAPTURE_HEIGHT);
 		}
 
-		rsize_t copybytes = std::min<rsize_t>(_width * 4, resource.RowPitch);
+		rsize_t copybytes = std::min<rsize_t>(CAPTURE_SQUARE_WIDTH * 4, resource.RowPitch);
 
 		// ポインタの準備
-		BYTE* sptr = reinterpret_cast<BYTE*>(resource.pData) + _top * resource.RowPitch;
-		uint32_t* dptr = _buffer.data() + _width * (_height - 1);
-
-		// BMPの順序でコピーする
-		for (size_t y = _top; y < _top + _height && y < height_; ++y)
+		const auto points = std::array<std::pair<size_t, size_t>, 4>({ { 42, 734 }, { 1616, 50 }, { 1844, 1030 }, { 60, 992 } });
+		for (size_t i = 0; i < points.size(); ++i)
 		{
-			std::memcpy(dptr, sptr, copybytes);
-			
-			sptr += resource.RowPitch;
-			dptr -= _width;
-		}
+			const auto x = points.at(i).first;
+			const auto y = points.at(i).second;
 
-		device_context_->Unmap(cpu_texture_, subresource);
+			BYTE* sptr = reinterpret_cast<BYTE*>(resource.pData) + y * resource.RowPitch + x * 4;
+			uint32_t* dptr = _buffer.data() + CAPTURE_WIDTH * (CAPTURE_HEIGHT - 1) + i * CAPTURE_SQUARE_WIDTH;
+
+			// BMPの順序でコピーする
+			for (size_t tmp_y = y; tmp_y < y + CAPTURE_HEIGHT && tmp_y < height_; ++tmp_y)
+			{
+				std::memcpy(dptr, sptr, copybytes);
+
+				sptr += resource.RowPitch;
+				dptr -= CAPTURE_WIDTH;
+			}
+
+			device_context_->Unmap(cpu_texture_, subresource);
+		}
 
 		return true;
 	}
 
-	duplicator::GetFrameError duplicator::get_frame(std::vector<uint32_t>& _buffer, uint16_t _top, uint16_t _width, uint16_t _height)
+	duplicator::GetFrameError duplicator::get_frame(std::vector<uint32_t>& _buffer)
 	{
 		HRESULT hr;
 
@@ -377,7 +384,7 @@ namespace app {
 			return GetFrameError::Error_Action_Exit;
 		}
 
-		if (!copy_to_buffer(_buffer, _top, _width, _height)) return GetFrameError::Error_Action_Exit;
+		if (!copy_to_buffer(_buffer)) return GetFrameError::Error_Action_Exit;
 
 		return GetFrameError::No_Error;
 	}

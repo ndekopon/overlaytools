@@ -17,9 +17,105 @@ namespace {
 			std::chrono::system_clock::now().time_since_epoch())
 			.count();
 	};
+
+	union rgba_t {
+		uint32_t c;
+		struct { // little-endian 0xAARRGGBB
+			uint8_t b;
+			uint8_t g;
+			uint8_t r;
+			uint8_t a;
+		};
+	};
+	inline bool is_teambanner_white(uint32_t _c)
+	{
+		rgba_t d = { .c = _c };
+		if (d.r < 0xfa) return false;
+		if (d.g < 0xfa) return false;
+		if (d.b < 0xfa) return false;
+		return true;
+	}
+	inline bool is_teambanner_green(uint32_t _c)
+	{
+		rgba_t d = { .c = _c };
+		// r:a6-b6 g:cc-d9 b:a6-b6
+		if (d.r < 0xa5 || 0xb7 < d.r) return false;
+		if (d.g < 0xcb || 0xda < d.g) return false;
+		if (d.b < 0xa5 || 0xb7 < d.b) return false;
+		return true;
+	}
+
+	inline bool is_craftpoint_green(uint32_t _c)
+	{
+		rgba_t d = { .c = _c };
+		// r:00-17 g:fa-fe b:ea-ed
+		if (0x18 < d.r) return false;
+		if (d.g < 0xf9) return false;
+		if (d.b < 0xe9 || 0xee < d.b) return false;
+		return true;
+	}
+
+	inline bool is_button_white(uint32_t _c)
+	{
+		rgba_t d = { .c = _c };
+		// r:de-de g:de-de b:de-de
+		if (d.r < 0xdd || 0xdf < d.r) return false;
+		if (d.g < 0xdd || 0xdf < d.g) return false;
+		if (d.b < 0xdd || 0xdf < d.b) return false;
+		return true;
+	}
+	
+	inline bool is_button_gray(uint32_t _c)
+	{
+		rgba_t d = { .c = _c };
+		// r:36-36 g:36-36 b:36-36
+		if (d.r < 0x35 || 0x37 < d.r) return false;
+		if (d.g < 0x35 || 0x37 < d.g) return false;
+		if (d.b < 0x35 || 0x37 < d.b) return false;
+		return true;
+	}
 }
 
 namespace app {
+
+	inline bool is_shown_teambanner(const std::vector<uint32_t>& _buffer)
+	{
+		if (!is_teambanner_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 10 - 1) + 6))) return false;
+		else if (!is_teambanner_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 17 - 1) + 10))) return false;
+		else if (!is_teambanner_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 11))) return false;
+		else if (!is_teambanner_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 11))) return false;
+		else if (!is_teambanner_green(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 29 - 1) + 18))) return false;
+		return true;
+	}
+
+	inline bool is_shown_craftpoint(const std::vector<uint32_t>& _buffer)
+	{
+		bool r = true;
+		// (37,0) (37,31)
+		if (!is_craftpoint_green(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 37))) return false;
+		else if (!is_craftpoint_green(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 37))) return false;
+		return r;
+	}
+
+	inline bool is_shown_b_button(const std::vector<uint32_t>& _buffer)
+	{
+		bool r = true;
+		if (!is_button_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 7 - 1) + 71))) return false;
+		else if (!is_button_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 88))) return false;
+		else if (!is_button_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 11 - 1) + 76))) return false;
+		else if (!is_button_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 83))) return false;
+		return r;
+	}
+
+	inline bool is_shown_esc_button(const std::vector<uint32_t>& _buffer)
+	{
+		bool r = true;
+		if (!is_button_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 28 - 1) + 97))) return false;
+		else if (!is_button_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 3 - 1) + 126))) return false;
+		else if (!is_button_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 99))) return false;
+		else if (!is_button_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 126))) return false;
+		return r;
+	}
 
 	duplication_thread::duplication_thread()
 		: window_(nullptr)
@@ -101,7 +197,7 @@ namespace app {
 				{
 					// capture
 					if (!monitor_available) continue;
-					auto result = dup.get_frame(buffer, CAPTURE_TOP, CAPTURE_WIDTH, CAPTURE_HEIGHT);
+					auto result = dup.get_frame(buffer);
 					if (result == duplicator::Error_Action_Skip)
 					{
 						frame_skipped++;
@@ -115,14 +211,16 @@ namespace app {
 					{
 						frame_captured++;
 
-						// 0xAARRGGBB
-						// 49,41 50,41 -> FFFFFF
-						// 48,46 49,46 -> FFFFFF
-						bool teambanner_show = true;
-						if (buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 41 - 1) + 49) != 0xffffffff) teambanner_show = false;
-						if (buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 41 - 1) + 50) != 0xffffffff) teambanner_show = false;
-						if (buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 46 - 1) + 48) != 0xffffffff) teambanner_show = false;
-						if (buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 46 - 1) + 49) != 0xffffffff) teambanner_show = false;
+						bool teambanner = is_shown_teambanner(buffer);
+						bool craftpoint = is_shown_craftpoint(buffer);
+						bool b_button = is_shown_b_button(buffer);
+						bool esc_button = is_shown_esc_button(buffer);
+						bool teambanner_show = teambanner_show_prev;
+						if (teambanner && craftpoint && b_button) teambanner_show = true;
+						else if (craftpoint && b_button) teambanner_show = false;
+						else if (b_button) teambanner_show = false;
+						else if (esc_button) teambanner_show = false;
+
 						if (teambanner_show != teambanner_show_prev)
 						{
 							log(LOG_DUPLICATION, L"Info: teambanner_show=%s.", teambanner_show ? L"true" : L"false");
@@ -136,8 +234,6 @@ namespace app {
 							}
 							teambanner_show_prev = teambanner_show;
 						}
-
-						// TODO: gray color check
 
 						// main_window用バッファへコピー
 						{

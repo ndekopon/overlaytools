@@ -28,7 +28,7 @@ namespace app {
 	constexpr UINT CWM_MENUBANNER_STATE = WM_APP + 5;
 	constexpr UINT LOGNUMS = 5;
 
-	constexpr UINT CAPTURE_TOP = 700;
-	constexpr UINT CAPTURE_WIDTH = 200;
-	constexpr UINT CAPTURE_HEIGHT = 100;
+	constexpr UINT CAPTURE_SQUARE_WIDTH = 32;
+	constexpr UINT CAPTURE_WIDTH = CAPTURE_SQUARE_WIDTH * 4;
+	constexpr UINT CAPTURE_HEIGHT = CAPTURE_SQUARE_WIDTH;
 }
