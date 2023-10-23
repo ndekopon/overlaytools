@@ -85,11 +85,6 @@ class LeaderBoardTeamNode extends OverlayBase {
         // CANVASサイズ設定
         this.nodes.alives.width = 35;
         this.nodes.alives.height = 37;
-
-        // CANVAS初期化
-        for (let i = 0; i < 3; ++i) {
-            this.setPlayerState(i, ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE);
-        }
     
         // 順位表示設定
         this.setRank(20);
@@ -228,6 +223,11 @@ class LeaderBoard extends OverlayBase {
             if (!team.isEliminated()) alives++;
         }
         return alives;
+    }
+
+    hasTeam(teamid) {
+        if (teamid in this.#teamnodes) return true;
+        else false;
     }
 
     setTeamName(teamid, name) {
@@ -1009,7 +1009,9 @@ export class Overlay {
             this.#teamparams[ev.detail.teamid] = ev.detail.params;
             if (!('name' in ev.detail.params)) return;
             const teamid = ev.detail.teamid;
-            this.#leaderboard.setTeamName(teamid, ev.detail.params.name);
+            if (this.#leaderboard.hasTeam(teamid)) {
+                this.#leaderboard.setTeamName(teamid, ev.detail.params.name);
+            }
             if (ev.detail.teamid.toString() == this.#camera.teamid) {
                 this.#teambanner.setTeamName(ev.detail.params.name);
             }
@@ -1019,7 +1021,9 @@ export class Overlay {
             this.#teamparams[ev.detail.teamid] = ev.detail.params;
             if (!('name' in ev.detail.params)) return;
             const teamid = ev.detail.teamid;
-            this.#leaderboard.setTeamName(teamid, ev.detail.params.name);
+            if (this.#leaderboard.hasTeam(teamid)) {
+                this.#leaderboard.setTeamName(teamid, ev.detail.params.name);
+            }
             if (ev.detail.teamid.toString() == this.#camera.teamid) {
                 this.#teambanner.setTeamName(ev.detail.params.name);
             }
@@ -1074,6 +1078,12 @@ export class Overlay {
         });
 
         // プレーヤーステータス変更
+        this.#webapi.addEventListener("playerhash", (ev) => {
+            const teamid = ev.detail.team.id;
+            const playerid = ev.detail.player.id;
+            this.#leaderboard.setPlayerState(teamid, playerid, ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE);
+        });
+
         this.#webapi.addEventListener("statealive", (ev) => {
             const teamid = ev.detail.team.id;
             const playerid = ev.detail.player.id;
