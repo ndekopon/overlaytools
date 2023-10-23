@@ -1825,6 +1825,7 @@ class WebAPIConfig {
     #realtimeview;
     #observerconfig;
     #resultview;
+    #firstproccurrenthash;
 
     constructor(url) {
         this.#tournament_id = "";
@@ -1835,6 +1836,7 @@ class WebAPIConfig {
         this.#realtimeview = new RealtimeView();
         this.#observerconfig = new ObserverConfig();
         this.#resultview = new ResultView();
+        this.#firstproccurrenthash = true;
 
         this.#setupWebAPI(url);
         this.#setupButton();
@@ -1877,6 +1879,10 @@ class WebAPIConfig {
 
         /* 設定変更イベント */
         this.#webapi.addEventListener('getcurrenttournament', (ev) => {
+            if (this.#firstproccurrenthash) {
+                this.#procCurrentHash(location.hash);
+                this.#firstproccurrenthash = false;
+            }
             if (ev.detail.id != '' && this.#tournament_id != ev.detail.id) {
                 // 現在のトーナメントIDが変わった場合
                 this.#getTeamNames();
@@ -2173,7 +2179,6 @@ class WebAPIConfig {
     }
 
     #setupMenuSelect() {
-        this.#procCurrentHash(location.hash);
         window.addEventListener("hashchange", (ev) => {
             this.#procCurrentHash(location.hash);
         });
