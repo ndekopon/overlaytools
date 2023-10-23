@@ -55,23 +55,23 @@ namespace {
 		return true;
 	}
 
-	inline bool is_button_white(uint32_t _c)
+	inline bool is_menu_white(uint32_t _c)
 	{
 		rgba_t d = { .c = _c };
-		// r:de-de g:de-de b:de-de
-		if (d.r < 0xdd || 0xdf < d.r) return false;
-		if (d.g < 0xdd || 0xdf < d.g) return false;
-		if (d.b < 0xdd || 0xdf < d.b) return false;
+		// r:ff-ff g:ff-ff b:ff-ff
+		if (d.r < 0xfe) return false;
+		if (d.g < 0xfe) return false;
+		if (d.b < 0xfe) return false;
 		return true;
 	}
 	
-	inline bool is_button_gray(uint32_t _c)
+	inline bool is_team1frame_color(uint32_t _c)
 	{
 		rgba_t d = { .c = _c };
-		// r:36-36 g:36-36 b:36-36
-		if (d.r < 0x35 || 0x37 < d.r) return false;
-		if (d.g < 0x35 || 0x37 < d.g) return false;
-		if (d.b < 0x35 || 0x37 < d.b) return false;
+		// r:05-05 g:78-78 b:8b-8b
+		if (d.r < 0x04 || 0x06 < d.r) return false;
+		if (d.g < 0x77 || 0x79 < d.g) return false;
+		if (d.b < 0x8a || 0x8c < d.b) return false;
 		return true;
 	}
 }
@@ -90,31 +90,28 @@ namespace app {
 
 	inline bool is_shown_craftpoint(const std::vector<uint32_t>& _buffer)
 	{
-		bool r = true;
 		// (37,0) (37,31)
 		if (!is_craftpoint_green(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 37))) return false;
 		else if (!is_craftpoint_green(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 37))) return false;
-		return r;
+		return true;
 	}
 
-	inline bool is_shown_b_button(const std::vector<uint32_t>& _buffer)
+	inline bool is_shown_menu(const std::vector<uint32_t>& _buffer)
 	{
-		bool r = true;
-		if (!is_button_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 7 - 1) + 71))) return false;
-		else if (!is_button_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 88))) return false;
-		else if (!is_button_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 11 - 1) + 76))) return false;
-		else if (!is_button_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 83))) return false;
-		return r;
+		// (72,9) (79,15) (97,21)
+		if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 72))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 79))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 97))) return false;
+		return true;
 	}
 
-	inline bool is_shown_esc_button(const std::vector<uint32_t>& _buffer)
+	inline bool is_shown_team1frame(const std::vector<uint32_t>& _buffer)
 	{
-		bool r = true;
-		if (!is_button_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 28 - 1) + 97))) return false;
-		else if (!is_button_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 3 - 1) + 126))) return false;
-		else if (!is_button_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 99))) return false;
-		else if (!is_button_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 126))) return false;
-		return r;
+		// (112,13) (127, 14) (113, 31)
+		if (!is_team1frame_color(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 13 - 1) + 112))) return false;
+		else if (!is_team1frame_color(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 14 - 1) + 127))) return false;
+		else if (!is_team1frame_color(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 113))) return false;
+		return true;
 	}
 
 	duplication_thread::duplication_thread()
@@ -213,13 +210,13 @@ namespace app {
 
 						bool teambanner = is_shown_teambanner(buffer);
 						bool craftpoint = is_shown_craftpoint(buffer);
-						bool b_button = is_shown_b_button(buffer);
-						bool esc_button = is_shown_esc_button(buffer);
+						bool menu = is_shown_menu(buffer);
+						bool team1frame = is_shown_team1frame(buffer);
 						bool teambanner_show = teambanner_show_prev;
-						if (teambanner && craftpoint && b_button) teambanner_show = true;
-						else if (craftpoint && b_button) teambanner_show = false;
-						else if (b_button) teambanner_show = false;
-						else if (esc_button) teambanner_show = false;
+						if (teambanner && craftpoint && menu) teambanner_show = true;
+						else if (craftpoint && menu) teambanner_show = false;
+						else if (menu) teambanner_show = false;
+						else if (team1frame) teambanner_show = false;
 
 						if (teambanner_show != teambanner_show_prev)
 						{
