@@ -999,9 +999,11 @@ export class Overlay {
 
         // チーム名系
         this.#webapi.addEventListener("teamname", (ev) => {
-            this.#leaderboard.setTeamName(ev.detail.team.id, ev.detail.team.name);
-            if (ev.detail.team.id.toString() == this.#camera.teamid) {
-                this.#teambanner.setTeamName(ev.detail.team.name);
+            const teamid = ev.detail.team.id;
+            const name = ev.detail.team.name;
+            this.#leaderboard.setTeamName(teamid, name);
+            if (teamid.toString() == this.#camera.teamid) {
+                this.#teambanner.setTeamName(name);
             }
         });
 
