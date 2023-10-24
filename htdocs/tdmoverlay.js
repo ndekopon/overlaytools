@@ -1,70 +1,75 @@
+import { OverlayBase } from "./overlay-common.js";
 import * as ApexWebAPI from "./apex-webapi.js";
 
-class TDMScoreBoard {
-    static #ID = "tdmscoreboard";
-    static #PREFIX = "tdmsb_";
-    static #TEAM1_CLASS = TDMScoreBoard.#PREFIX + "team1";
-    static #TEAM2_CLASS = TDMScoreBoard.#PREFIX + "team2";
-    static #TEAMNAME_CLASS = TDMScoreBoard.#PREFIX + "teamname";
-    static #LABEL_CLASS = TDMScoreBoard.#PREFIX + "label";
-    static #PLAYER_CLASS = TDMScoreBoard.#PREFIX + "player";
-    static #PLAYERNAME_CLASS = TDMScoreBoard.#PREFIX + "name";
-    static #KILLS_CLASS = TDMScoreBoard.#PREFIX + "kills";
-    static #KILLED_CLASS = TDMScoreBoard.#PREFIX + "killed";
-    static #DAMAGEDEALT_CLASS = TDMScoreBoard.#PREFIX + "damagedealt";
-    static #DAMAGETAKEN_CLASS = TDMScoreBoard.#PREFIX + "damagetaken";
-    static #STATEKILLED_CLASS = TDMScoreBoard.#PREFIX + "statekilled";
-    static #PLAYERSELECTED_CLASS = TDMScoreBoard.#PREFIX + "selected";
+class TDMScoreBoardPlayerNode extends OverlayBase {
+    constructor(id, prefix, root) {
+        super(id, prefix, root);
 
-    #nodes;
-    #playernodes;
-    
-    constructor() {
-        // nodeの生成
-        this.#nodes = {
-            base: document.createElement('div'),
-            teams: []
-        };
-        for (const i of [0, 1]) {
-            this.#nodes.teams.push({
-                base: document.createElement('div'),
-                name: document.createElement('div'),
-                label: document.createElement('div'),
-                players: document.createElement('div')
-            });
-        }
-        this.#playernodes = {};
+        super.addNode("playername");
+        super.addNode("kills");
+        super.addNode("killed");
+        super.addNode("dealt");
+        super.addNode("taken");
 
-        // ID設定
-        this.#nodes.base.id = TDMScoreBoard.#ID;
+        this.nodes.base.appendChild(this.nodes.playername);
+        this.nodes.base.appendChild(this.nodes.kills);
+        this.nodes.base.appendChild(this.nodes.killed);
+        this.nodes.base.appendChild(this.nodes.dealt);
+        this.nodes.base.appendChild(this.nodes.taken);
 
         // クラス設定
-        this.#nodes.teams[0].base.classList.add(TDMScoreBoard.#TEAM1_CLASS);
-        this.#nodes.teams[1].base.classList.add(TDMScoreBoard.#TEAM2_CLASS);
-        this.#nodes.teams[0].name.classList.add(TDMScoreBoard.#TEAMNAME_CLASS);
-        this.#nodes.teams[1].name.classList.add(TDMScoreBoard.#TEAMNAME_CLASS);
-        this.#nodes.teams[0].label.classList.add(TDMScoreBoard.#LABEL_CLASS);
-        this.#nodes.teams[1].label.classList.add(TDMScoreBoard.#LABEL_CLASS);
-
-        // 追加
-        document.body.appendChild(this.#nodes.base);
-        for (const i of [0, 1]) {
-            this.#nodes.base.appendChild(this.#nodes.teams[i].base);
-            this.#nodes.teams[i].base.appendChild(this.#nodes.teams[i].name);
-            this.#nodes.teams[i].base.appendChild(this.#nodes.teams[i].label);
-            this.#nodes.teams[i].base.appendChild(this.#nodes.teams[i].players);
-
-        }
-        // ラベルテキスト設定
-        this.appendLabel(0);
-        this.appendLabel(1);
+        this.nodes.base.classList.add(prefix + "player");
     }
+}
 
-    appendLabel(teamid) {
-        for (const l of ["NAME", "K", "D", "DMG", "TKN"]) {
-            const div = document.createElement('div');
-            div.innerText = l;
-            this.#nodes.teams[teamid].label.appendChild(div);
+class TDMScoreBoardTeamNode extends OverlayBase {
+    constructor(id, prefix, root) {
+        super(id, prefix, root);
+        super.addNode("teamname");
+        super.addNode("label");
+        super.addNode("players");
+        super.addNode("label_name");
+        super.addNode("label_kills");
+        super.addNode("label_killed");
+        super.addNode("label_damage_dealt");
+        super.addNode("label_damage_taken");
+
+        // append
+        this.nodes.base.appendChild(this.nodes.teamname);
+        this.nodes.base.appendChild(this.nodes.label);
+        this.nodes.base.appendChild(this.nodes.players);
+        this.nodes.label.appendChild(this.nodes.label_name);
+        this.nodes.label.appendChild(this.nodes.label_kills);
+        this.nodes.label.appendChild(this.nodes.label_killed);
+        this.nodes.label.appendChild(this.nodes.label_damage_dealt);
+        this.nodes.label.appendChild(this.nodes.label_damage_taken);
+
+        this.nodes.label_name.innerText = "NAME";
+        this.nodes.label_kills.innerText = "K";
+        this.nodes.label_killed.innerText = "D";
+        this.nodes.label_damage_dealt.innerText = "DMG";
+        this.nodes.label_damage_taken.innerText = "TKN";
+    }
+}
+
+class TDMScoreBoard extends OverlayBase {
+    #id;
+    #prefix;
+    #playernodes;
+    #teams;
+
+    constructor() {
+        const id = "tdmscoreboard";
+        const prefix = "tdmsb_";
+        super(id, prefix);
+
+        this.#id = id;
+        this.#prefix = prefix;
+        this.#teams = [];
+        this.#playernodes = {};
+
+        for (const i of [0, 1]) {
+            this.#teams.push(new TDMScoreBoardTeamNode(id + "_team_" + i, prefix, this.nodes.base));
         }
     }
 
@@ -73,107 +78,68 @@ class TDMScoreBoard {
         if (hash in this.#playernodes) return;
 
         // 生成
-        this.#playernodes[hash] = {
-            base: document.createElement('div'),
-            name: document.createElement('div'),
-            kills: document.createElement('div'),
-            killed: document.createElement('div'),
-            dealt: document.createElement('div'),
-            taken: document.createElement('div'),
-        };
-
-        const nodes = this.#playernodes[hash];
-
-        // クラス設定
-        nodes.base.classList.add(TDMScoreBoard.#PLAYER_CLASS);
-        nodes.name.classList.add(TDMScoreBoard.#PLAYERNAME_CLASS);
-        nodes.kills.classList.add(TDMScoreBoard.#KILLS_CLASS);
-        nodes.killed.classList.add(TDMScoreBoard.#KILLED_CLASS);
-        nodes.dealt.classList.add(TDMScoreBoard.#DAMAGEDEALT_CLASS);
-        nodes.taken.classList.add(TDMScoreBoard.#DAMAGETAKEN_CLASS);
-
-        // 追加
-        this.#nodes.teams[id].players.appendChild(nodes.base);
-        nodes.base.appendChild(nodes.name);
-        nodes.base.appendChild(nodes.kills);
-        nodes.base.appendChild(nodes.killed);
-        nodes.base.appendChild(nodes.dealt);
-        nodes.base.appendChild(nodes.taken);
+        this.#playernodes[hash] = new TDMScoreBoardPlayerNode(this.#id + "_player_" + hash, this.#prefix, this.#teams[id].nodes.players);
 
         // 初期テキスト設定
-        nodes.kills.innerText = '0';
-        nodes.killed.innerText = '0';
-        nodes.dealt.innerText = '0';
-        nodes.taken.innerText = '0';
+        this.setKills(hash, 0);
+        this.setKilled(hash, 0);
+        this.setDamage(hash, 0, 0);
     }
     
     setTeamName(id, name) {
         const target = (id % 2);
-        this.#nodes.teams[target].name.innerText = name;
+        this.#teams[target].nodes.teamname.innerText = name;
     }
 
     setPlayerName(hash, name) {
         if (!(hash in this.#playernodes)) return;
-        this.#playernodes[hash].name.innerText = name;
+        this.#playernodes[hash].nodes.playername.innerText = name;
     }
 
     setKills(hash, kills) {
         if (!(hash in this.#playernodes)) return;
-        this.#playernodes[hash].kills.innerText = kills;
+        this.#playernodes[hash].nodes.kills.innerText = kills;
     }
 
     setKilled(hash, killed) {
         if (!(hash in this.#playernodes)) return;
-        this.#playernodes[hash].killed.innerText = killed;
+        this.#playernodes[hash].nodes.killed.innerText = killed;
     }
 
     setDamage(hash, dealt, taken) {
         if (!(hash in this.#playernodes)) return;
-        this.#playernodes[hash].dealt.innerText = dealt;
-        this.#playernodes[hash].taken.innerText = taken;
+        this.#playernodes[hash].nodes.dealt.innerText = dealt;
+        this.#playernodes[hash].nodes.taken.innerText = taken;
     }
 
     setAlive(hash, alive) {
         if (!(hash in this.#playernodes)) return;
-        const node = this.#playernodes[hash].base;
+        const node = this.#playernodes[hash];
         if (alive) {
-            node.classList.remove(TDMScoreBoard.#STATEKILLED_CLASS);
+            node.removeClass("statekilled");
         } else {
-            node.classList.add(TDMScoreBoard.#STATEKILLED_CLASS);
+            node.addClass("statekilled");
         }
     }
 
     select(hash) {
         if (!(hash in this.#playernodes)) return;
-        for (const node of document.querySelectorAll('.' + TDMScoreBoard.#PLAYERSELECTED_CLASS)) {
-            node.classList.remove(TDMScoreBoard.#PLAYERSELECTED_CLASS);
+        const classname = this.#prefix + "selected";
+        for (const node of document.querySelectorAll('.' + classname)) {
+            node.classList.remove(classname);
         }
-        this.#playernodes[hash].base.classList.add(TDMScoreBoard.#PLAYERSELECTED_CLASS);
+        this.#playernodes[hash].addClass("selected");
     }
 
     clear() {
         for (const i of [0, 1]) {
-            this.#nodes.teams[i].players.innerHTML = '';
+            this.#teams[i].nodes.players.innerHTML = '';
         }
         this.#playernodes = {};
-    }
-    show() {
-        this.#nodes.base.classList.remove(TDMOverlay.HIDE_CLASS);
-    }
-    hide() {
-        this.#nodes.base.classList.add(TDMOverlay.HIDE_CLASS);
-    }
-    addForceHide() {
-        this.#nodes.base.classList.add(TDMOverlay.FORCEHIDE_CLASS);
-    }
-    removeForceHide() {
-        this.#nodes.base.classList.remove(TDMOverlay.FORCEHIDE_CLASS);
     }
 }
 
 export class TDMOverlay {
-    static HIDE_CLASS = "hide";
-    static FORCEHIDE_CLASS = "forcehide";
     #webapi;
     #_game; // WebAPIのゲームオブジェクト(変更しない)
     #scoreboard;

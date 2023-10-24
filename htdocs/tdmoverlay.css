@@ -30,29 +30,29 @@ body {
     display: none;
 }
 
-.tdmsb_team1, .tdmsb_team2 {
+#tdmscoreboard_team_0, #tdmscoreboard_team_1 {
     box-sizing: border-box;
     width: 100%;
     padding: 2px;
 }
 
-.tdmsb_team1 {
+#tdmscoreboard_team_0 {
     margin-bottom: 2px;
 }
 
-.tdmsb_team1 {
+#tdmscoreboard_team_0 {
     border: 1px solid rgb(66, 194, 255);
 }
 
-.tdmsb_team1 > .tdmsb_teamname {
+#tdmscoreboard_team_0 > .tdmsb_teamname {
     background-color: rgb(32, 79, 104);
 }
 
-.tdmsb_team2 {
+#tdmscoreboard_team_1 {
     border: 1px solid rgb(254, 97, 57);
 }
 
-.tdmsb_team2 > .tdmsb_teamname {
+#tdmscoreboard_team_1 > .tdmsb_teamname {
     background-color: rgb(107, 43, 32);
 }
 
@@ -63,7 +63,6 @@ body {
     font-size: 90%;
     font-weight: bold;
 }
-
 
 .tdmsb_label, .tdmsb_player {
     display: grid;
