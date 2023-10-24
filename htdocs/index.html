@@ -420,6 +420,18 @@
         .result-single-player-damage {
             text-align: center;
         }
+
+        /* Test */
+        #test {
+            line-height: 1.5em;
+            display: grid;
+            gap: 10px;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+        #test > div {
+            padding: 10px;
+            border: 1px solid #000;
+        }
     </style>
 </head>
 
@@ -477,6 +489,7 @@
                 <li><a href="#result-all">all</a></li>
             </ul>
         </li>
+        <li><a href="#test">Test</a>
     </ul>
 </div>
 
@@ -617,6 +630,92 @@
         <div id="result-all-right"></div>
     </div>
     <div id="result-single" class="hide"></div>
+</div>
+
+<div id="test" class="hide">
+    <div>
+        <h3>Leaderboard</h3>
+        <button id="test-show-leaderboard">Show</button>
+    </div>
+    <div>
+        <h3>TeamBanner</h3>
+        <div>
+            TeamID: <input type="number" min="0" max="29" id="test-teambanner-teamid" placeholder="0-29" value="0" /><br />
+            <button id="test-show-teambanner">Show</button>
+        </div>
+    </div>
+    <div>
+        <h3>PlayerBanner</h3>
+        <div>
+            Player Name: <input type="text" id="test-playerbanner-name" value="" /><br />
+            <button id="test-show-playerbanner">Show</button>
+        </div>
+    </div>
+    <div>
+        <h3>TeamKills</h3>
+        <div>
+            Kills: <input type="number" min="0" id="test-teamkills-kills" placeholder="0-" value="0" /><br />
+            <button id="test-show-teamkills">Show</button>
+        </div>
+    </div>
+    <div>
+        <h3>OwnedItems</h3>
+        <div>
+            BackPack:
+            <select id="test-owneditems-backpack">
+                <option value="0">none</option>
+                <option value="1">White (level 1)</option>
+                <option value="2">Blue (level 2)</option>
+                <option value="3">Purple (level 3)</option>
+                <option value="4">Gold (level 4)</option>
+            </select>
+            <br />
+            KnockdownShield:
+            <select id="test-owneditems-knockdownshield">
+                <option value="0">none</option>
+                <option value="1">White (level 1)</option>
+                <option value="2">Blue (level 2)</option>
+                <option value="3">Purple (level 3)</option>
+                <option value="4">Gold (level 4)</option>
+            </select>
+            <br />
+            Syringe: <input type="number" min="0" max=30 id="test-owneditems-syringe" placeholder="0-30" value="0" /><br />
+            MedKit: <input type="number" min="0" max=30 id="test-owneditems-medkit" placeholder="0-30" value="0" /><br />
+            ShieldCell: <input type="number" min="0" max=30 id="test-owneditems-shieldcell" placeholder="0-30" value="0" /><br />
+            ShieldBattery: <input type="number" min="0" max=30 id="test-owneditems-shieldbattery" placeholder="0-30" value="0" /><br />
+            PhoenixKit: <input type="number" min="0" max=30 id="test-owneditems-phoenixkit" placeholder="0-30" value="0" /><br />
+            UltimateAccelerant: <input type="number" min="0" max=30 id="test-owneditems-ultimateaccelerant" placeholder="0-30" value="0" /><br />
+            ThermitGrenade: <input type="number" min="0" max=30 id="test-owneditems-thermitgrenade" placeholder="0-30" value="0" /><br />
+            FragGrenade: <input type="number" min="0" max=30 id="test-owneditems-"fraggrenade"" placeholder="0-30" value="0" /><br />
+            ArcStar: <input type="number" min="0" max=30 id="test-owneditems-arcstar" placeholder="0-30" value="0" /><br />
+            <button id="test-show-owneditems">Show</button>
+        </div>
+    </div>
+    <div>
+        <h3>GameInfo</h3>
+        <div>
+            GameID: <input type="number" min="0" id="test-gameinfo-gameid" placeholder="0-" value="0" /><br />
+            <button id="test-show-gameinfo">Show</button>
+        </div>
+    </div>
+    <div>
+        <h3>SquadEliminated</h3>
+        <div>
+            TeamID: <input type="number" min="0" max="29" id="test-squadeliminated-teamid" placeholder="0-29" value="0" /><br />
+            <button id="test-show-squadeliminated">Show</button>
+        </div>
+    </div>
+    <div>
+        <h3>ChampionBanner</h3>
+        <div>
+            TeamID: <input type="number" min="0" max="29" id="test-championbanner-teamid" placeholder="0-29" value="0" /><br />
+            <button id="test-show-championbanner">Show</button>
+        </div>
+    </div>
+    <div>
+        <h3>Hide</h3>
+        <button id="test-hideall">Hide All</button>
+    </div>
 </div>
 </div>
 
@@ -2019,7 +2118,7 @@ class WebAPIConfig {
             }
         });
         this.#webapi.addEventListener('playeritem', (ev) => {
-        })
+        });
 
         /* result用 */
         this.#webapi.addEventListener('gettournamentresults', (ev) => {
@@ -2140,6 +2239,89 @@ class WebAPIConfig {
         document.getElementById('overlay-hide-matchresult').addEventListener('click', (ev) => {
             this.#webapi.broadcastObject({
                 type: "hidematchresult"
+            });
+        });
+
+        // Test
+        document.getElementById('test-show-leaderboard').addEventListener('click', (ev) => {
+
+        });
+        document.getElementById('test-show-teambanner').addEventListener('click', (ev) => {
+            const teamid = parseInt(document.getElementById("test-teambanner-teamid").value, 10);
+            if (teamid >= 0) {
+                this.#webapi.broadcastObject({
+                    type: "testteambanner",
+                    teamid: teamid
+                });
+            }
+        });
+        document.getElementById('test-show-playerbanner').addEventListener('click', (ev) => {
+            const name = document.getElementById("test-playerbanner-name").value;
+            if (name != "") {
+                this.#webapi.broadcastObject({
+                    type: "testplayerbanner",
+                    name: name
+                });
+            }
+        });
+        document.getElementById('test-show-teamkills').addEventListener('click', (ev) => {
+            const kills = parseInt(document.getElementById("test-teamkills-kills").value, 10);
+            if (kills >= 0) {
+                this.#webapi.broadcastObject({
+                    type: "testteamkills",
+                    kills: kills
+                });
+            }
+        });
+        document.getElementById('test-show-owneditems').addEventListener('click', (ev) => {
+            const items = ["backpack", "knockdownshield", "syringe", "medkit", "shieldcell", "shieldbattery", "phoenixkit", "ultimateaccelerant", "thermitgrenade", "thermitgrenade", "arcstar"];
+            const data = {type: "testowneditems"};
+            for (const item of items) {
+                const v = parseInt(document.getElementById("test-owneditems-" + item).value, 10);
+                switch(item) {
+                    case "backpack":
+                    case "knockdownshield":
+                        if (v < 0) return;
+                        if (v > 4) return;
+                        break;
+                    default:
+                        if (v < 0) return;
+                        break;
+                }
+                data[item] = v;
+            }
+            this.#webapi.broadcastObject(data);
+        });
+        document.getElementById('test-show-gameinfo').addEventListener('click', (ev) => {
+            const gameid = parseInt(document.getElementById("test-gameinfo-gameid").value, 10);
+            if (gameid >= 0) {
+                this.#webapi.broadcastObject({
+                    type: "testgameinfo",
+                    gameid: gameid
+                });
+            }
+        });
+        document.getElementById('test-show-squadeliminated').addEventListener('click', (ev) => {
+            const teamid = parseInt(document.getElementById("test-squadeliminated-teamid").value, 10);
+            if (teamid >= 0) {
+                this.#webapi.broadcastObject({
+                    type: "testsquadeliminated",
+                    teamid: teamid
+                });
+            }
+        });
+        document.getElementById('test-show-championbanner').addEventListener('click', (ev) => {
+            const teamid = parseInt(document.getElementById("test-championbanner-teamid").value, 10);
+            if (teamid >= 0) {
+                this.#webapi.broadcastObject({
+                    type: "testchampionbanner",
+                    teamid: teamid
+                });
+            }
+        });
+        document.getElementById('test-hideall').addEventListener('click', (ev) => {
+            this.#webapi.broadcastObject({
+                type: "testhideall"
             });
         });
     }

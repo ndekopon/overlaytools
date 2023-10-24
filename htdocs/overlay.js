@@ -1187,7 +1187,80 @@ export class Overlay {
                         case "hidematchresult":
                             this.hideMatchResult();
                             break;
+                        case "testleaderboard": {
+                            this.#leaderboard.show();
+                            break;
+                        }
+                        case "testteambanner": {
+                            const teamid = data.teamid;
+                            if (teamid in this.#teamparams && 'name' in this.#teamparams[teamid]) {
+                                this.#teambanner.setTeamName(this.#teamparams[teamid].name);
+                            } else {
+                                this.#teambanner.setTeamName('Team ' + (data.teamid + 1));
+                            }
+                            this.#teambanner.setRank(1);
+                            this.#teambanner.setPoints(20);
+                            this.#teambanner.show();
+                            break;
+                        }
+                        case "testplayerbanner": {
+                            const name = data.name;
+                            this.#playerbanner.setText(name);
+                            this.#playerbanner.show();
+                            break;
+                        }
+                        case "testteamkills": {
+                            const kills = data.kills;
+                            this.#teamkills.setText(kills);
+                            this.#teamkills.show();
+                            break;
+                        }
+                        case "testowneditems": {
+                            const items = ["backpack", "knockdownshield", "syringe", "medkit", "shieldcell", "shieldbattery", "phoenixkit", "ultimateaccelerant", "thermitgrenade", "thermitgrenade", "arcstar"];
+                            for (const [item, count] of Object.entries(data)) {
+                                if (items.indexOf(item) >= 0) {
+                                    this.#owneditems.procUpdateItem(item, count);
+                                }
+                            }
+                            this.#owneditems.show();
+                            break;
+                        }
+                        case "testgameinfo": {
+                            const gameid = data.gameid;
+                            this.#gameinfo.setGameCount(gameid);
+                            this.#gameinfo.show();
+                            break;
+                        }
+                        case "testsquadeliminated": {
+                            const teamid = data.teamid;
+                            let name = "";
+                            if (teamid in this.#teamparams && 'name' in this.#teamparams[teamid]) {
+                                name = this.#teamparams[teamid].name;
+                            } else {
+                                name = 'Team ' + (data.teamid + 1);
+                            }
+                            this.#squadeliminated.set(1, teamid, name);
+                            break;
+                        }
+                        case "testchampionbanner": {
+                            const teamid = data.teamid;
+                            let name = "";
+                            if (teamid in this.#teamparams && 'name' in this.#teamparams[teamid]) {
+                                name = this.#teamparams[teamid].name;
+                            } else {
+                                name = 'Team ' + (data.teamid + 1);
+                            }
+                            this.#championbanner.setId(teamid);
+                            this.#championbanner.setTeamName(name)
+                            this.#championbanner.show();
+                            break;
+                        }
+                        case "testhideall": {
+                            this.hideAll();
+                            break;
+                        }
                     }
+                    console.log(data);
                 }
             }
         });
