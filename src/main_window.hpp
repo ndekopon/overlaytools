@@ -39,7 +39,7 @@ namespace app
 		HWND create_tab();
 		void add_tab_item(UINT _id, const WCHAR *_text);
 		void select_tab_item(UINT _id);
-		HWND create_label(HMENU _id, const WCHAR* _text, DWORD _x, DWORD _y, DWORD _width, DWORD _height);
+		HWND create_label(const WCHAR* _text, DWORD _x, DWORD _y, DWORD _width, DWORD _height);
 		HWND create_edit(HMENU, DWORD, DWORD, DWORD, DWORD);
 		void create_menu(const std::vector<std::wstring>& _monitors);
 

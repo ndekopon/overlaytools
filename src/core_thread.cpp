@@ -155,7 +155,9 @@ namespace app {
 			ctx_.revent_.at(0),
 			ctx_.revent_.at(1),
 			local_.get_event_wq(),
-			event_message_
+			event_message_,
+			ctx_.sevent_.at(0),
+			ctx_.sevent_.at(1)
 		};
 
 		// 初回のデータロード
@@ -231,6 +233,22 @@ namespace app {
 					q.pop();
 					proc_message(message);
 				}
+			}
+			else if (id == WAIT_OBJECT_0 + 5)
+			{
+				// stats(0)
+				auto stats = ctx_.get_stats(0);
+				::PostMessageW(window_, CWM_WEBSOCKET_STATS_CONNECTION_COUNT, 0, std::get<0>(stats));
+				::PostMessageW(window_, CWM_WEBSOCKET_STATS_RECV_COUNT, 0, std::get<1>(stats));
+				::PostMessageW(window_, CWM_WEBSOCKET_STATS_SEND_COUNT, 0, std::get<2>(stats));
+			}
+			else if (id == WAIT_OBJECT_0 + 6)
+			{
+				// stats(1)
+				auto stats = ctx_.get_stats(1);
+				::PostMessageW(window_, CWM_WEBSOCKET_STATS_CONNECTION_COUNT, 1, std::get<0>(stats));
+				::PostMessageW(window_, CWM_WEBSOCKET_STATS_RECV_COUNT, 1, std::get<1>(stats));
+				::PostMessageW(window_, CWM_WEBSOCKET_STATS_SEND_COUNT, 1, std::get<2>(stats));
 			}
 		}
 		log(LOG_CORE, L"Info: thread end.");
@@ -1555,6 +1573,10 @@ namespace app {
 			break;
 		case CORE_MESSAGE_TEAMBANNER_STATE_HIDE:
 			send_webapi_teambanner_state(0);
+			break;
+		case CORE_MESSAGE_GET_STATS:
+			liveapi_.get_stats();
+			webapi_.get_stats();
 			break;
 		}
 	}

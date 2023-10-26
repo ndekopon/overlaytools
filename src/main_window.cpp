@@ -207,11 +207,11 @@ namespace app
 		item.cchTextMax = text.length();
 		::SendMessageW(tab_, TCM_INSERTITEMW, _id, (LPARAM)&item);
 	}
-	HWND main_window::create_label(HMENU _id, const WCHAR* _text, DWORD _x, DWORD _y, DWORD _width, DWORD _height)
+	HWND main_window::create_label(const WCHAR* _text, DWORD _x, DWORD _y, DWORD _width, DWORD _height)
 	{
 		auto label = ::CreateWindowExW(
 			0, WC_STATICW, _text, WS_CHILD | WS_VISIBLE,
-			_x, _y, _width, _height, window_, _id, instance_, NULL);
+			_x, _y, _width, _height, window_, NULL, instance_, NULL);
 		if (label)
 		{
 			::SendMessageW(label, WM_SETFONT, (WPARAM)font_, MAKELPARAM(1, 0));
@@ -301,26 +301,38 @@ namespace app
 
 				// IP等の情報
 				top = tabitemrect.bottom + 10;
-				items_.at(0).push_back(create_label((HMENU)MID_EDIT_LOG_LIVEAPI, L"LiveAPI Websocket", 10, top, rect.right - 20, 12));
+				items_.at(0).push_back(create_label(L"LiveAPI Websocket", 10, top, rect.right - 20, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label((HMENU)MID_EDIT_LOG_LIVEAPI, (L"Listen Address:" + s_to_ws(ini_.get_liveapi_ipaddress() + ":" + std::to_string(ini_.get_liveapi_port()))).c_str(), 20, top, rect.right - 30, 12));
+				items_.at(0).push_back(create_label((L"Listen Address: " + s_to_ws(ini_.get_liveapi_ipaddress() + ":" + std::to_string(ini_.get_liveapi_port()))).c_str(), 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label((HMENU)MID_EDIT_LOG_LIVEAPI, L"WebAPI Websocket", 10, top, rect.right - 20, 12));
+				items_.at(0).push_back(create_label(L"conn count: 0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label((HMENU)MID_EDIT_LOG_LIVEAPI, (L"Listen Address:" + s_to_ws(ini_.get_webapi_ipaddress() + ":" + std::to_string(ini_.get_webapi_port()))).c_str(), 20, top, rect.right - 30, 12));
+				items_.at(0).push_back(create_label(L"recv count: 0", 20, top, rect.right - 30, 12));
+				top += 12 + 5;
+				items_.at(0).push_back(create_label(L"send count: 0", 20, top, rect.right - 30, 12));
+				top += 12 + 5;
+				items_.at(0).push_back(create_label(L"WebAPI Websocket", 10, top, rect.right - 20, 12));
+				top += 12 + 5;
+				items_.at(0).push_back(create_label((L"Listen Address: " + s_to_ws(ini_.get_webapi_ipaddress() + ":" + std::to_string(ini_.get_webapi_port()))).c_str(), 20, top, rect.right - 30, 12));
+				top += 12 + 5;
+				items_.at(0).push_back(create_label(L"conn count: 0", 20, top, rect.right - 30, 12));
+				top += 12 + 5;
+				items_.at(0).push_back(create_label(L"recv count: 0", 20, top, rect.right - 30, 12));
+				top += 12 + 5;
+				items_.at(0).push_back(create_label(L"send count: 0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
 				frame_rect_.left = 10;
 				frame_rect_.top = top;
 				frame_rect_.right = frame_rect_.left + CAPTURE_WIDTH;
 				frame_rect_.bottom = frame_rect_.top + CAPTURE_HEIGHT;
 				top += CAPTURE_HEIGHT + 5;
-				items_.at(0).push_back(create_label((HMENU)MID_EDIT_LOG_LIVEAPI, L"Capture FPS:0", 20, top, rect.right - 30, 12));
+				items_.at(0).push_back(create_label(L"Capture FPS:0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label((HMENU)MID_EDIT_LOG_LIVEAPI, L"Capture Total:0", 20, top, rect.right - 30, 12));
+				items_.at(0).push_back(create_label(L"Capture Total:0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label((HMENU)MID_EDIT_LOG_LIVEAPI, L"Capture Skipped:0", 20, top, rect.right - 30, 12));
+				items_.at(0).push_back(create_label(L"Capture Skipped:0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label((HMENU)MID_EDIT_LOG_LIVEAPI, L"Capture Exited:0", 20, top, rect.right - 30, 12));
+				items_.at(0).push_back(create_label(L"Capture Exited:0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
 
 
@@ -473,6 +485,7 @@ namespace app
 				return 0;
 			case TIMER_ID_STATS:
 				duplication_thread_.request_stats();
+				core_thread_.push_message(CORE_MESSAGE_GET_STATS);
 				return 0;
 			}
 			break;
@@ -513,11 +526,38 @@ namespace app
 			auto stats = duplication_thread_.get_stats();
 			if (7 < items_.at(0).size())
 			{
-				::SetWindowTextW(items_.at(0).at(4), (L"Capture FPS: " + std::to_wstring(stats.fps)).c_str());
-				::SetWindowTextW(items_.at(0).at(5), (L"Capture Total: " + std::to_wstring(stats.total)).c_str());
-				::SetWindowTextW(items_.at(0).at(6), (L"Capture Skipped: " + std::to_wstring(stats.skipped)).c_str());
-				::SetWindowTextW(items_.at(0).at(7), (L"Capture Exited: " + std::to_wstring(stats.exited)).c_str());
+				::SetWindowTextW(items_.at(0).at(10), (L"Capture FPS: " + std::to_wstring(stats.fps)).c_str());
+				::SetWindowTextW(items_.at(0).at(11), (L"Capture Total: " + std::to_wstring(stats.total)).c_str());
+				::SetWindowTextW(items_.at(0).at(12), (L"Capture Skipped: " + std::to_wstring(stats.skipped)).c_str());
+				::SetWindowTextW(items_.at(0).at(13), (L"Capture Exited: " + std::to_wstring(stats.exited)).c_str());
 			}
+			break;
+		}
+
+		case CWM_WEBSOCKET_STATS_CONNECTION_COUNT:
+		{
+			// 2,7
+			size_t id = _wparam;
+			uint64_t count = _lparam;
+			::SetWindowTextW(items_.at(0).at(id == 0 ? 2 : 7), (L"conn count: " + std::to_wstring(count)).c_str());
+			break;
+		}
+
+		case CWM_WEBSOCKET_STATS_RECV_COUNT:
+		{
+			// 3,8
+			size_t id = _wparam;
+			uint64_t count = _lparam;
+			::SetWindowTextW(items_.at(0).at(id == 0 ? 3 : 8), (L"recv count: " + std::to_wstring(count)).c_str());
+			break;
+		}
+
+		case CWM_WEBSOCKET_STATS_SEND_COUNT:
+		{
+			// 4,9
+			size_t id = _wparam;
+			uint64_t count = _lparam;
+			::SetWindowTextW(items_.at(0).at(id == 0 ? 4 : 9), (L"send count: " + std::to_wstring(count)).c_str());
 			break;
 		}
 

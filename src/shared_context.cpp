@@ -7,11 +7,18 @@ namespace app {
 		, rq_()
 		, wmtx_()
 		, wq_()
+		, smtx_()
+		, stats_({})
 		, revent_({ NULL })
+		, sevent_({ NULL })
 	{
 	}
 	shared_context::~shared_context()
 	{
+		for (const auto& e : sevent_)
+		{
+			::CloseHandle(e);
+		}
 		for (const auto& e : revent_)
 		{
 			::CloseHandle(e);
@@ -21,6 +28,11 @@ namespace app {
 	bool shared_context::init()
 	{
 		for (auto &e : revent_)
+		{
+			e = ::CreateEventW(NULL, FALSE, FALSE, NULL);
+			if (e == NULL) return false;
+		}
+		for (auto& e : sevent_)
 		{
 			e = ::CreateEventW(NULL, FALSE, FALSE, NULL);
 			if (e == NULL) return false;
@@ -57,6 +69,15 @@ namespace app {
 		}
 		return q;
 	}
+	
+	void shared_context::set_stats(DWORD _id, uint64_t _current, uint64_t _recv, uint64_t _send)
+	{
+		{
+			std::lock_guard<std::mutex> lock(smtx_.at(_id));
+			stats_.at(_id) = std::make_tuple(_current, _recv, _send);
+		}
+		::SetEvent(sevent_.at(_id));
+	}
 
 	void shared_context::push_wq(DWORD _id, ctx_data_t &&_data)
 	{
@@ -84,5 +105,11 @@ namespace app {
 			}
 		}
 		return std::move(q);
+	}
+
+	std::tuple<uint64_t, uint64_t, uint64_t> shared_context::get_stats(DWORD _id)
+	{
+		std::lock_guard<std::mutex> lock(smtx_.at(_id));
+		return stats_.at(_id);
 	}
 }

@@ -39,6 +39,8 @@ namespace app {
 			log(logid_, L"Info: websocket_server::prepare() success.");
 
 			auto port = ::CreateIoCompletionPort((HANDLE)ws.sock, compport_, 0, 0);
+			uint64_t recv_count = 0;
+			uint64_t send_count = 0;
 
 			// 接続待ち
 			if (!ws.acceptex())
@@ -82,6 +84,12 @@ namespace app {
 								ws.send_binary(q->first, *(q->second), q->second->size());
 							}
 						}
+					}
+					else if (transferred == 3)
+					{
+						// statsの保存
+						uint64_t conn_count = ws.count();
+						ctx_.set_stats(ctxid_, conn_count, recv_count, send_count);
 					}
 				}
 				if (compkey == 0 && ov != NULL)
@@ -137,6 +145,7 @@ namespace app {
 							{
 								// rqに渡す
 								ctx_.push_rq(ctxid_, std::move(data));
+								recv_count++;
 							}
 						}
 
@@ -157,6 +166,7 @@ namespace app {
 						{
 							log(logid_, L"Error: websocket_server::send() failed.");
 						}
+						send_count++;
 					}
 				}
 			}
@@ -196,6 +206,14 @@ namespace app {
 		if (thread_ != NULL && compport_ != NULL)
 		{
 			::PostQueuedCompletionStatus(compport_, 2, 0, NULL);
+		}
+	}
+
+	void websocket_thread::get_stats()
+	{
+		if (thread_ != NULL && compport_ != NULL)
+		{
+			::PostQueuedCompletionStatus(compport_, 3, 0, NULL);
 		}
 	}
 

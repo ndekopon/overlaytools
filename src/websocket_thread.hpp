@@ -41,6 +41,7 @@ namespace app
 		bool run(HWND);
 		void ping();
 		void tell_wq();
+		void get_stats();
 		void stop();
 	};
 }

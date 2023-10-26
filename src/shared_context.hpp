@@ -8,6 +8,7 @@
 #include <memory>
 #include <vector>
 #include <utility>
+#include <tuple>
 
 
 namespace app {
@@ -25,9 +26,12 @@ namespace app {
 		std::array<ctx_queue_t, 2> rq_;
 		std::array<std::mutex, 2> wmtx_;
 		std::array<ctx_queue_t, 2> wq_;
+		std::array<std::mutex, 2> smtx_;
+		std::array<std::tuple<uint64_t, uint64_t, uint64_t>, 2> stats_;
 
 	public:
 		std::array<HANDLE, 2> revent_;
+		std::array<HANDLE, 2> sevent_;
 
 		shared_context();
 		~shared_context();
@@ -44,9 +48,11 @@ namespace app {
 		// called by websocket
 		void push_rq(DWORD _id, ctx_data_t&&_data);
 		std::unique_ptr<ctx_queue_t> pull_wq(DWORD _id);
+		void set_stats(DWORD _id, uint64_t _current, uint64_t _recv, uint64_t _send);
 
 		// called by core
 		void push_wq(DWORD _id, ctx_data_t&& _data);
 		std::unique_ptr<ctx_queue_t> pull_rq(DWORD _id);
+		std::tuple<uint64_t, uint64_t, uint64_t> get_stats(DWORD _id);
 	};
 }
