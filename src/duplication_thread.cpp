@@ -98,10 +98,10 @@ namespace app {
 
 	inline bool is_shown_menu(const std::vector<uint32_t>& _buffer)
 	{
-		// (72,9) (79,15) (97,21)
+		// (72,9) (79,15) (87,21)
 		if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 72))) return false;
 		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 79))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 97))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 87))) return false;
 		return true;
 	}
 
