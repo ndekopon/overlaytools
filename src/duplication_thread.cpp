@@ -30,18 +30,18 @@ namespace {
 	inline bool is_teambanner_white(uint32_t _c)
 	{
 		rgba_t d = { .c = _c };
-		if (d.r < 0xfa) return false;
-		if (d.g < 0xfa) return false;
-		if (d.b < 0xfa) return false;
+		if (d.r < 0xf0) return false;
+		if (d.g < 0xf0) return false;
+		if (d.b < 0xf0) return false;
 		return true;
 	}
 	inline bool is_teambanner_green(uint32_t _c)
 	{
 		rgba_t d = { .c = _c };
 		// r:a6-b6 g:cc-d9 b:a6-b6
-		if (d.r < 0xa5 || 0xb7 < d.r) return false;
-		if (d.g < 0xcb || 0xda < d.g) return false;
-		if (d.b < 0xa5 || 0xb7 < d.b) return false;
+		if (d.r < 0xa0 || 0xbf < d.r) return false;
+		if (d.g < 0xc0 || 0xdf < d.g) return false;
+		if (d.b < 0xa0 || 0xbf < d.b) return false;
 		return true;
 	}
 
@@ -49,9 +49,9 @@ namespace {
 	{
 		rgba_t d = { .c = _c };
 		// r:00-17 g:fa-fe b:ea-ed
-		if (0x18 < d.r) return false;
-		if (d.g < 0xf9) return false;
-		if (d.b < 0xe9 || 0xee < d.b) return false;
+		if (0x20 < d.r) return false;
+		if (d.g < 0xf0) return false;
+		if (d.b < 0xe0 || 0xf5 < d.b) return false;
 		return true;
 	}
 
@@ -59,9 +59,9 @@ namespace {
 	{
 		rgba_t d = { .c = _c };
 		// r:ff-ff g:ff-ff b:ff-ff
-		if (d.r < 0xfe) return false;
-		if (d.g < 0xfe) return false;
-		if (d.b < 0xfe) return false;
+		if (d.r < 0xf8) return false;
+		if (d.g < 0xf8) return false;
+		if (d.b < 0xf8) return false;
 		return true;
 	}
 	
@@ -69,9 +69,9 @@ namespace {
 	{
 		rgba_t d = { .c = _c };
 		// r:05-05 g:78-78 b:8b-8b
-		if (d.r < 0x04 || 0x06 < d.r) return false;
-		if (d.g < 0x77 || 0x79 < d.g) return false;
-		if (d.b < 0x8a || 0x8c < d.b) return false;
+		if (0x10 < d.r) return false;
+		if (d.g < 0x70 || 0x7f < d.g) return false;
+		if (d.b < 0x80 || 0x8f < d.b) return false;
 		return true;
 	}
 }
