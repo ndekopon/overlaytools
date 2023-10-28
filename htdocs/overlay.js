@@ -1,4 +1,10 @@
-import { OverlayBase } from "./overlay-common.js";
+import {
+    calcPoints,
+    OverlayBase,
+    appendToTeamResults,
+    resultsToTeamResults,
+    setRankParameterToTeamResults,
+} from "./overlay-common.js";
 import * as ApexWebAPI from "./apex-webapi.js";
 
 class LeaderBoardTeamNode extends OverlayBase {
@@ -826,6 +832,7 @@ export class Overlay {
     #camera;
     #getallprocessing;
     #tournamentparams;
+    #savedrankorder;
     #tournamentname;
     #teamparams;
     static points_table = [12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
@@ -849,6 +856,7 @@ export class Overlay {
         this.#_results = [];
         this.#camera = { teamid: "0", playerid: 0, playerhash: "" };
         this.#tournamentparams = {};
+        this.#savedrankorder = [];
         this.#tournamentname = "";
         this.#teamparams = {};
 
@@ -1233,121 +1241,45 @@ export class Overlay {
     }
 
     #calcPoints() {
-        // 計算用に必要なデータをteamsに格納
-        for (let i = 0; i < this.#_game.teams.length; ++i) {
-            const src = this.#_game.teams[i];
-            if (!(i.toString() in this.#teams)) {
-                this.#teams[i] = {};
-            } 
-            const dst = this.#teams[i];
-            if (this.#calcresultsonly) {
-                dst.points = 0;
-            } else {
-                dst.eliminated = src.eliminated;
-                dst.placement = src.placement;
-                dst.kills = src.kills;
-                dst.points = Overlay.points_table[dst.placement - 1];
-                dst.points += src.kills;
-                dst.status = [];
-
-                for (const player of src.players) {
-                    dst.status.push(player.state);
+        // リザルトデータを格納
+        this.#teams = resultsToTeamResults(this.#_results);
+        if (!this.#calcresultsonly) {
+            // 現在の試合のポイントをいれる
+            for (let teamid = 0; teamid < this.#_game.teams.length; ++teamid) {
+                const src = this.#_game.teams[teamid];
+                if (src.players.length > 0) {
+                    appendToTeamResults(this.#teams, this.#_results.length, teamid, src.name, src.kills, src.placement);
+                    const dst = this.#teams[teamid];
+                    dst.eliminated = src.eliminated;
+                    for (const player of src.players) {
+                        dst.status.push(player.state);
+                    }
                 }
             }
+        }
 
-            // 過去のゲームのポイントを加算
-            for (const result of this.#_results) {
-                if ('teams' in result && i.toString() in result.teams) {
-                    const pteam = result.teams[i];
-                    dst.points += pteam.kills + Overlay.points_table[pteam.placement - 1];
-                }
+        // ポイントを計算して追加
+        for (const [_, team] of Object.entries(this.#teams)) {
+            for (let gameid = 0; gameid < team.kills.length && gameid < team.placements.length; ++gameid) {
+                const points = calcPoints(gameid, team.placements[gameid], team.kills[gameid]);
+                team.points.push(points);
             }
+            team.total_points = team.points.reduce((a, c) => a + c, 0);
         }
     }
 
     #calcRank() {
-        // 計算対象のteamid配列格納
-        const p = Object.keys(this.#teams);
-
-        p.sort((a, b) => {
-            // 現在のトータルポイント比較
-            if (this.#teams[a].points > this.#teams[b].points) return -1;
-            if (this.#teams[a].points < this.#teams[b].points) return  1;
-            
-            // 過去のゲームから比較用のポイントを抜き出す
-            const points = {};
-            const place = {};
-            const kills = {};
-            points[a] = [];
-            points[b] = [];
-            place[a] = [];
-            place[b] = [];
-            kills[a] = [];
-            kills[b] = [];
-            for (const result of this.#_results) {
-                for (const tid of [a, b]) {
-                    if (tid in result.teams) {
-                        const team = result.teams[tid];
-                        if ('points' in team) points[tid].push(team.points);
-                        if ('placement' in team) place[tid].push(team.placement);
-                        if ('kills' in team) points[tid].push(team.kills);
-                    }
-                }
-            }
-
-            // ソート
-            points[a].reverse();
-            points[b].reverse();
-            place[a].sort();
-            place[b].sort();
-            kills[a].reverse();
-            kills[b].reverse();
-
-            // 同点の場合は、過去のゲームの最高ポイント
-            for (let i = 0; i < points[a].length && i < points[b].length; ++i) {
-                if (points[a][i] > points[b][i]) return -1;
-                if (points[a][i] < points[b][i]) return  1;
-            }
-
-            // 同点の場合は、過去のゲームの最高順位
-            for (let i = 0; i < place[a].length && i < place[b].length; ++i) {
-                if (place[a][i] > place[b][i]) return  1;
-                if (place[a][i] < place[b][i]) return -1;
-            }
-
-            // 同点の場合は、過去のゲームの最高キル数
-            for (let i = 0; i < kills[a].length && i < kills[b].length; ++i) {
-                if (kills[a][i] > kills[b][i]) return -1;
-                if (kills[a][i] < kills[b][i]) return  1;
-            }
-
-            // イレギュラー: 試合数多いほうが勝ち(比較対象が多い)
-            if (points[a].length > points[b].length) return -1;
-            if (points[a].length < points[b].length) return  1;
-
-            return 0;
-        });
-
-        // 計算した順番を保存
-        for (let i = 0; i < p.length; ++i) {
-            const teamid = p[i];
-            const team = this.#teams[teamid];
-            team.rank = i;
-        }
+        this.#savedrankorder = setRankParameterToTeamResults(this.#teams);
     }
 
     #getCurrentRank() {
-        return Object.keys(this.#teams).sort((a, b) => {
-            if (this.#teams[a].rank > this.#teams[b].rank) return  1;
-            if (this.#teams[a].rank < this.#teams[b].rank) return -1;
-            return 0;
-        });
+        return this.#savedrankorder;
     }
     
     #getCurrentPoints() {
         const points = {};
         for (const [key, team] of Object.entries(this.#teams)) {
-            points[key] = team.points;
+            points[key] = team.points.reduce((a, c) => a + c, 0);
         }
         return points;
     }
@@ -1530,16 +1462,15 @@ export class Overlay {
     }
     showMatchResult(gameid, all = false) {
         this.#matchresult.clear();
-        const teams = {};
+        /** @type {teamresults} */
+        let teams = null;
         if (all) {
             if (this.#tournamentname != "") {
                 this.#matchresult.setTitle(this.#tournamentname + " - OVERALL");
             } else {
                 this.#matchresult.setTitle("Match Result - OVERALL");
             }
-            for (const result of this.#_results) {
-                this.resultToTeamsData(teams, result);
-            }
+            teams = resultsToTeamResults(this.#_results);
         } else {
             if (this.#tournamentname != "") {
                 this.#matchresult.setTitle(this.#tournamentname + " - GAME " + (gameid + 1));
@@ -1547,15 +1478,20 @@ export class Overlay {
                 this.#matchresult.setTitle("Match Result - GAME " + (gameid + 1));
             }
             if (gameid < this.#_results.length) {
-                const result = this.#_results[gameid];
-                this.resultToTeamsData(teams, result);
+                const results = [this.#_results[gameid]];
+                teams = resultsToTeamResults(results);
             }
         }
 
         // ポイント計算
-        for (const [teamid, team] of Object.entries(teams)) {
+        for (const [_, team] of Object.entries(teams)) {
             for (let i = 0; i < team.kills.length; ++i) {
-                const points = team.kills[i] + Overlay.points_table[team.placements[i] - 1];
+                let points = 0;
+                if (all) {
+                    points = calcPoints(i, team.placements[i], team.kills[i]);
+                } else {
+                    points = calcPoints(gameid, team.placements[i], team.kills[i]);
+                }
                 team.points.push(points);
             }
             // totalを入れておく
@@ -1563,47 +1499,7 @@ export class Overlay {
         }
 
         // results -> table
-        const p = Object.keys(teams);
-
-        p.sort((a, b) => {
-            const ta = teams[a];
-            const tb = teams[b];
-            // 現在のトータルポイント比較
-            if (ta.total_points > tb.total_points) return -1;
-            if (ta.total_points < tb.total_points) return  1;
-
-            // ソート
-            ta.points.reverse();
-            tb.points.reverse();
-            ta.placements.sort();
-            tb.placements.sort();
-            ta.kills.reverse();
-            tb.kills.reverse();
-
-            // 同点の場合は、過去のゲームの最高ポイント
-            for (let i = 0; i < ta.points.length && i < tb.points.length; ++i) {
-                if (ta.points[i] > tb.points[i]) return -1;
-                if (tb.points[i] < tb.points[i]) return  1;
-            }
-
-            // 同点の場合は、過去のゲームの最高順位
-            for (let i = 0; i < ta.placements.length && i < tb.placements.length; ++i) {
-                if (ta.placements[i] > tb.placements[i]) return  1;
-                if (ta.placements[i] < tb.placements[i]) return -1;
-            }
-
-            // 同点の場合は、過去のゲームの最高キル数
-            for (let i = 0; i < ta.kills.length && i < tb.kills.length; ++i) {
-                if (ta.kills[i] > tb.kills[i]) return -1;
-                if (ta.kills[i] < tb.kills[i]) return  1;
-            }
-
-            // イレギュラー: 試合数多いほうが勝ち(比較対象が多い)
-            if (ta.points.length > tb.points.length) return -1;
-            if (ta.points.length < tb.points.length) return  1;
-
-            return 0;
-        });
+        const p = setRankParameterToTeamResults(teams);
 
         // 表示
         for (let i = 0; i < p.length; ++i) {
@@ -1697,10 +1593,10 @@ export class Overlay {
                 this.#teambanner.setRank(team.rank + 1);
             }
             if ('points' in team) {
-                this.#teambanner.setPoints(team.points);
+                this.#teambanner.setPoints(team.points.reduce((a, c) => a + c, 0));
             }
             if ('kills' in team) {
-                this.#teamkills.setText(team.kills);  
+                this.#teamkills.setText(team.kills.reduce((a, c) => a + c, 0));  
             }
         }
 
