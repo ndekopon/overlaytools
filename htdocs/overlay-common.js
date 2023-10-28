@@ -1,7 +1,3 @@
-/**
- * オーバーレイの基本パーツ
- * @static HIDE_CLASS 
- */
 export class OverlayBase {
     /** @type {string} hide()/show()で付与・削除されるクラス名 */
     static HIDE_CLASS = "hide";
