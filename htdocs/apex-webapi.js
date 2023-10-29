@@ -963,7 +963,7 @@ export class ApexWebAPI extends EventTarget {
     return {
       id: id,
       players: [],
-      placement: 0,
+      placement: 0xff,
       kills: 0,
       eliminated: false
     };
