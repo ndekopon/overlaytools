@@ -572,7 +572,7 @@ body {
     grid-template-columns: 1fr 1fr;
 }
 .mr_header > div, .mr_teams > div {
-    grid-template-columns: 64px 1fr 80px 80px 80px;
+    grid-template-columns: 64px minmax(0, 1fr) 80px 80px 80px;
     margin: 5px 0;
 }
 .mr_header > div {
@@ -620,6 +620,7 @@ body {
 }
 .mr_header_name, .mr_name {
     padding: 0 30px;
-    overflow: clip;
-    white-space: nowrap;
+}
+div.mr_name {
+    text-overflow: ellipsis;
 }
