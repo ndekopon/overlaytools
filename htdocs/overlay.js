@@ -869,7 +869,7 @@ export class Overlay {
         this.#tournamentname = "";
         this.#teamparams = {};
 
-        this.hideAll();
+        this.#hideAll();
     }
 
     #setupApexWebAPI(url) {
@@ -887,7 +887,7 @@ export class Overlay {
                     this.#getAllTeamParams();
                     this.#webapi.getCurrentTournament();
                 }, () => {
-                    this.getallprocessing = false;
+                    this.#getallprocessing = false;
                 });
             });
         });
@@ -924,7 +924,7 @@ export class Overlay {
             if (ev.detail.gameid == this.#_results.length) {
                 this.#_results.push(ev.detail.result);
                 this.#calcAndDisplay();
-                this.updateGameInfo();
+                this.#updateGameInfo();
             } else {
                 this.#webapi.getTournamentResults();
             }
@@ -933,19 +933,19 @@ export class Overlay {
         this.#webapi.addEventListener("gettournamentresults", (ev) => {
             this.#_results = ev.detail.results;
             this.#calcAndDisplay();
-            this.updateGameInfo();
+            this.#updateGameInfo();
         });
 
         // 勝者確定
         this.#webapi.addEventListener("winnerdetermine", (ev) => {
             // 全てのUIを隠す
-            this.hideAll();
+            this.#hideAll();
 
             // ChampionBannerの表示
             const name = this.#getTeamName(ev.detail.team.id);
             this.#championbanner.setId(ev.detail.team.id);
             this.#championbanner.setTeamName(name);
-            this.showChampionBanner();
+            this.#showChampionBanner();
         });
 
         /* SquadEliminated */
@@ -1080,14 +1080,14 @@ export class Overlay {
             // カメラ変更
             const teamid = ev.detail.team.id;
             const playerid = ev.detail.player.id;
-            this.changeCamera(teamid, playerid);
+            this.#changeCamera(teamid, playerid);
         });
 
         this.#webapi.addEventListener("initcamera", (ev) => {
             // カメラ初期設定
             const teamid = ev.detail.teamid;
             const playerid = ev.detail.playerid;
-            this.changeCamera(teamid, playerid);
+            this.#changeCamera(teamid, playerid);
         });
 
         this.#webapi.addEventListener("playeritem", (ev) => {
@@ -1106,15 +1106,15 @@ export class Overlay {
             const state = ev.detail.state;
             if (this.#checkGameStatePlaying(this.#_game.state)) {
                 if (state > 0) {
-                    this.showTeamBanner();
-                    this.showPlayerBanner();
-                    this.showTeamKills();
-                    this.showOwnedItems();
+                    this.#showTeamBanner();
+                    this.#showPlayerBanner();
+                    this.#showTeamKills();
+                    this.#showOwnedItems();
                 } else {
-                    this.hideTeamBanner();
-                    this.hidePlayerBanner();
-                    this.hideTeamKills();
-                    this.hideOwnedItems();
+                    this.#hideTeamBanner();
+                    this.#hidePlayerBanner();
+                    this.#hideTeamKills();
+                    this.#hideOwnedItems();
                 }
             }
         });
@@ -1144,13 +1144,13 @@ export class Overlay {
                     switch (data.type) {
                         case "showmatchresult":
                             if (data.all) {
-                                this.showMatchResult('all');
+                                this.#showMatchResult('all');
                             } else {
-                                this.showMatchResult(data.gameid);
+                                this.#showMatchResult(data.gameid);
                             }
                             break;
                         case "hidematchresult":
-                            this.hideMatchResult();
+                            this.#hideMatchResult();
                             break;
                         case "testleaderboard": {
                             this.#leaderboard.show();
@@ -1221,7 +1221,7 @@ export class Overlay {
                             break;
                         }
                         case "testhideall": {
-                            this.hideAll();
+                            this.#hideAll();
                             break;
                         }
                     }
@@ -1241,9 +1241,9 @@ export class Overlay {
 
     #showHideFromGameState(state) {
         if (this.#checkGameStatePlaying(state)) {
-            this.showAll();
+            this.#showAll();
         } else {
-            this.hideAll();
+            this.#hideAll();
         }
     }
 
@@ -1447,35 +1447,35 @@ export class Overlay {
         }
     }
 
-    updateGameInfo(count = null) {
+    #updateGameInfo(count = null) {
         if (count == null) {
             count = this.#getGameCount() + 1;
         }
         this.#gameinfo.setGameCount(count);
     }
 
-    showLeaderBoard() {
+    #showLeaderBoard() {
         this.#leaderboard.show();
     }
-    showTeamBanner() {
+    #showTeamBanner() {
         this.#teambanner.show();
     }
-    showPlayerBanner() {
+    #showPlayerBanner() {
         this.#playerbanner.show();
     }
-    showTeamKills() {
+    #showTeamKills() {
         this.#teamkills.show();
     }
-    showOwnedItems() {
+    #showOwnedItems() {
         this.#owneditems.show();
     }
-    showGameInfo() {
+    #showGameInfo() {
         this.#gameinfo.show();
     }
-    showChampionBanner() {
+    #showChampionBanner() {
         this.#championbanner.show();
     }
-    setSquadEliminated(placement, teamid, teamname) {
+    #setSquadEliminated(placement, teamid, teamname) {
         this.#squadeliminated.set(placement, teamid, teamname);
     }
 
@@ -1483,7 +1483,7 @@ export class Overlay {
      * マッチリザルトのオーバーレイを表示する
      * @param {number|string} gameid ゲームID(0～)もしくは'all'を指定する
      */
-    showMatchResult(gameid) {
+    #showMatchResult(gameid) {
         this.#matchresult.clear();
         /** @type {teamresults} */
         let teams = null;
@@ -1541,58 +1541,58 @@ export class Overlay {
         this.#matchresult.show();
     }
 
-    hideLeaderBoard() {
+    #hideLeaderBoard() {
         this.#leaderboard.hide();
     }
-    hideTeamBanner() {
+    #hideTeamBanner() {
         this.#teambanner.hide();
     }
-    hidePlayerBanner() {
+    #hidePlayerBanner() {
         this.#playerbanner.hide();
     }
-    hideTeamKills() {
+    #hideTeamKills() {
         this.#teamkills.hide();
     }
-    hideOwnedItems() {
+    #hideOwnedItems() {
         this.#owneditems.hide();
     }
-    hideGameInfo() {
+    #hideGameInfo() {
         this.#gameinfo.hide();
     }
-    hideChampionBanner() {
+    #hideChampionBanner() {
         this.#championbanner.hide();
     }
-    hideSquadEliminated() {
+    #hideSquadEliminated() {
         this.#squadeliminated.hide();
     }
-    hideMatchResult() {
+    #hideMatchResult() {
         this.#matchresult.hide();
     }
 
     /**
      * 常時表示系のオーバーレイを表示する
      */
-    showAll() {
-        this.showLeaderBoard();
-        this.showTeamBanner();
-        this.showPlayerBanner();
-        this.showTeamKills();
-        this.showOwnedItems();
-        this.showGameInfo();
+    #showAll() {
+        this.#showLeaderBoard();
+        this.#showTeamBanner();
+        this.#showPlayerBanner();
+        this.#showTeamKills();
+        this.#showOwnedItems();
+        this.#showGameInfo();
     }
 
     /**
      * 全てのオーバーレイを非表示にする(MatchResultを除く)
      */
-    hideAll() {
-        this.hideLeaderBoard();
-        this.hideTeamBanner();
-        this.hidePlayerBanner();
-        this.hideTeamKills();
-        this.hideOwnedItems();
-        this.hideGameInfo();
-        this.hideChampionBanner();
-        this.hideSquadEliminated();
+    #hideAll() {
+        this.#hideLeaderBoard();
+        this.#hideTeamBanner();
+        this.#hidePlayerBanner();
+        this.#hideTeamKills();
+        this.#hideOwnedItems();
+        this.#hideGameInfo();
+        this.#hideChampionBanner();
+        this.#hideSquadEliminated();
     }
 
     /**
@@ -1600,7 +1600,7 @@ export class Overlay {
      * @param {object} team チームデータ(参照)
      * @param {number} playerid プレイヤーID(=squadindex)
      */
-    updateAllItems(team, playerid) {
+    #updateAllItems(team, playerid) {
         if (!('players' in team)) return;
         if (playerid >= team.players.length) return;
         const player = team.players[playerid];
@@ -1615,7 +1615,7 @@ export class Overlay {
      * @param {numbner} teamid チームID(0～)
      * @param {number} playerid プレイヤーのID(=squadindex)
      */
-    changeCamera(teamid, playerid) {
+    #changeCamera(teamid, playerid) {
         this.#camera.teamid = teamid.toString(); // Object index(string)
         this.#camera.playerid = playerid; // array index
 
@@ -1639,7 +1639,7 @@ export class Overlay {
 
         if (this.#_game && 'teams' in this.#_game) {
             if (teamid < this.#_game.teams.length) {
-                this.updateAllItems(this.#_game.teams[teamid], playerid);
+                this.#updateAllItems(this.#_game.teams[teamid], playerid);
 
                 if (playerid < this.#_game.teams[teamid].players.length) {
                     this.#camera.playerhash = this.#_game.teams[teamid].players[playerid].hash;
