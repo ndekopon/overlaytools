@@ -2290,6 +2290,9 @@ namespace app {
 			if (t.players.size() > 0 && !t.eliminated) ++alive;
 		}
 
+		// 全部いなくなった場合は何もしない
+		if (alive == 0) return;
+
 		for (size_t i = 2; i < game_.teams.size(); ++i)
 		{
 			auto& t = game_.teams.at(i);
@@ -2579,8 +2582,11 @@ namespace app {
 				else
 				{
 					// 生存チームの順位を一つ上げる
-					t.place = alive - 1;
-					send_webapi_team_placement(INVALID_SOCKET, i, t.place);
+					if (alive > 1)
+					{
+						t.place = alive - 1;
+						send_webapi_team_placement(INVALID_SOCKET, i, t.place);
+					}
 				}
 			}
 		}
