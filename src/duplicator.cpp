@@ -155,12 +155,10 @@ namespace app {
 				DXGI_OUTPUT_DESC odesc;
 				output->GetDesc(&odesc);
 
-				auto monitor = ::trim(::get_monitor_name(odesc.Monitor));
-				if (monitor == L"")
-				{
-					monitor = odesc.DeviceName;
-					if (monitor == L"") continue;
-				}
+				std::wstring monitor = odesc.DeviceName;
+				monitor += L"[";
+				monitor += ::trim(::get_monitor_name(odesc.Monitor));
+				monitor += L"]";
 				
 				// 実際にAPIを使えるか試してみる
 				CComPtr<IDXGIOutput1> output1;
@@ -216,8 +214,11 @@ namespace app {
 				DXGI_OUTPUT_DESC odesc;
 				output->GetDesc(&odesc);
 
-				auto monitor = ::trim(::get_monitor_name(odesc.Monitor));
-				if (monitor == L"") monitor = odesc.DeviceName;
+				std::wstring monitor = odesc.DeviceName;
+				monitor += L"[";
+				monitor += ::trim(::get_monitor_name(odesc.Monitor));
+				monitor += L"]";
+
 				if (monitor != L"") {
 					std::wstring name = adapter_desc + L" - " + monitor;
 
