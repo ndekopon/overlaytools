@@ -78,7 +78,7 @@ class LeaderBoardTeamNode extends OverlayBase {
      * チーム名を設定する
      * @param {string} name チーム名
      */
-    setName(name) {
+    setTeamName(name) {
         this.nodes.name.innerText = name;
     }
 
@@ -249,7 +249,7 @@ class LeaderBoard extends OverlayBase {
      */
     setTeamName(teamid, name) {
         this.#preprocessTeam(teamid);
-        this.#teamnodes[teamid].setName(name);
+        this.#teamnodes[teamid].setTeamName(name);
     }
 
     /**
@@ -535,10 +535,10 @@ class PlayerBanner extends OverlayBase {
 
     /**
      * プレイヤー名を表示する
-     * @param {*} userName ユーザー名
+     * @param {*} playerName ユーザー名
      */
-    setUserName(userName) {
-        this.nodes.name.innerText = userName;
+    setPlayerName(playerName) {
+        this.nodes.name.innerText = playerName;
     }
 }
 
@@ -1015,7 +1015,12 @@ class MatchResultTeamNode extends OverlayBase {
 class MatchResult extends OverlayBase {
     #ID;
     #PREFIX;
+    /** @type {MatchResultTeamNode[]} MatchResultTeamNodeの格納先(順位昇順) */
     #teams;
+
+    /**
+     * コンストラクタ
+     */
     constructor() {
         super("matchresult", "mr_");
         this.#ID = "matchresult";
@@ -1040,42 +1045,77 @@ class MatchResult extends OverlayBase {
         }
     }
 
+    /**
+     * 指定した順位のノードを追加する
+     * @param {number} rank 順位(1～)
+     */
     #appendTeam(rank) {
         const node = new MatchResultTeamNode(this.#ID + "_" + rank, this.#PREFIX, this.nodes.teams);
         this.#teams.push(node);
-        node.setRank(rank + 1);
+        node.setRank(rank);
     }
 
+    /**
+     * 指定した順位までのチームを追加する
+     * @param {number} rank 順位(0～)
+     */
     #precheckRank(rank) {
         for (let i = this.#teams.length; i <= rank; ++i) {
-            this.#appendTeam(i);
+            this.#appendTeam(i + 1);
         }
     }
 
+    /**
+     * マッチリザルトに表示するトーナメント名を設定する
+     * @param {string} title トーナメントのタイトル
+     */
     setTitle(title) {
         this.nodes.title.innerText = title;
     }
 
-    setName(rank, name) {
+    /**
+     * チーム名を設定
+     * @param {number} rank 順位(0～)
+     * @param {string} name チーム名
+     */
+    setTeamName(rank, name) {
         this.#precheckRank(rank);
-        this.#teams[rank].setName(name);
+        this.#teams[rank].setTeamName(name);
     }
 
+    /**
+     * 順位ポイントを設定
+     * @param {number} rank 順位(0～)
+     * @param {number} points 順位ポイント
+     */
     setPlacementPoints(rank, points) {
         this.#precheckRank(rank);
         this.#teams[rank].setPlacementPoints(points);
     }
 
+    /**
+     * キル数を設定
+     * @param {number} rank 順位(0～)
+     * @param {number} kills キル数
+     */
     setKills(rank, kills) {
         this.#precheckRank(rank);
         this.#teams[rank].setKills(kills);
     }
 
+    /**
+     * 合計ポイントを設定
+     * @param {number} rank 順位(0～)
+     * @param {number} points 合計ポイント
+     */
     setTotalPoints(rank, points) {
         this.#precheckRank(rank);
         this.#teams[rank].setTotalPoints(points);
     }
 
+    /**
+     * 可変要素を全部クリアする
+     */
     clear() {
         this.setTitle("");
         this.nodes.teams.innerHTML = "";
@@ -1110,6 +1150,10 @@ export class Overlay {
     #teamparams;
     #tournamentparams;
 
+    /**
+     * コンストラクタ
+     * @param {string} url 接続先WebSocketのURL
+     */
     constructor(url = "ws://127.0.0.1:20081/") {
         this.#leaderboard = new LeaderBoard();
         this.#teambanner = new TeamBanner();
@@ -1136,6 +1180,10 @@ export class Overlay {
         this.#hideAll();
     }
 
+    /**
+     * WebAPIに関連する部分のセットアップを行う
+     * @param {string} url 接続先WebSocketのURL
+     */
     #setupApexWebAPI(url) {
         this.#webapi = new ApexWebAPI.ApexWebAPI(url);
 
@@ -1260,7 +1308,7 @@ export class Overlay {
         this.#webapi.addEventListener("playername", (ev) => {
             if (ev.detail.team.id.toString() == this.#camera.teamid &&
                 ev.detail.player.id == this.#camera.playerid) {
-                this.#playerbanner.setName(ev.detail.player.name);
+                this.#playerbanner.setPlayerName(ev.detail.player.name);
             }
         });
 
@@ -1268,14 +1316,14 @@ export class Overlay {
             if (!('name' in ev.detail.params)) return;
             if (this.#camera.playerhash == "") return;
             if (ev.detail.hash != this.#camera.playerhash) return;
-            this.#playerbanner.setName(ev.detail.params.name);
+            this.#playerbanner.setPlayerName(ev.detail.params.name);
         });
         
         this.#webapi.addEventListener("setteamparams", (ev) => {
             if (!('name' in ev.detail.params)) return;
             if (this.#camera.playerhash == "") return;
             if (ev.detail.hash != this.#camera.playerhash) return;
-            this.#playerbanner.setName(ev.detail.params.name);
+            this.#playerbanner.setPlayerName(ev.detail.params.name);
         });
 
         this.#webapi.addEventListener("teamplacement", (ev) => {
@@ -1434,7 +1482,7 @@ export class Overlay {
                         }
                         case "testplayerbanner": {
                             const name = data.name;
-                            this.#playerbanner.setName(name);
+                            this.#playerbanner.setPlayerName(name);
                             this.#playerbanner.show();
                             break;
                         }
@@ -1495,6 +1543,11 @@ export class Overlay {
         });
     }
 
+    /**
+     * ゲームが進行中か確認する
+     * @param {string} state ゲームの進行状況
+     * @returns {boolean} true=ゲーム進行中,false=それ以外
+     */
     #checkGameStatePlaying(state) {
         // "WaitingForPlayers","PickLoadout","Prematch","Resolution","Postmatch"
         if (state == "Playing") {
@@ -1503,6 +1556,10 @@ export class Overlay {
         return false;
     }
 
+    /**
+     * ゲームの進行状況から表示/非表示を行う
+     * @param {string} state ゲームの進行状況
+     */
     #showHideFromGameState(state) {
         if (this.#checkGameStatePlaying(state)) {
             this.#showAll();
@@ -1511,12 +1568,18 @@ export class Overlay {
         }
     }
 
+    /**
+     * 全てのチームのパラメータを取得する(1～30)
+     */
     #getAllTeamParams() {
         for (let i = 0; i < 30; ++i) {
             this.#webapi.getTeamParams(i);
         }
     }
 
+    /**
+     * 現在の順位・キル数からポイントを計算する
+     */
     #calcPoints() {
         // リザルトデータを格納
         this.#teams = resultsToTeamResults(this.#_results);
@@ -1545,6 +1608,9 @@ export class Overlay {
         }
     }
 
+    /**
+     * ポイントから順位を計算する
+     */
     #calcRank() {
         this.#savedrankorder = setRankParameterToTeamResults(this.#teams);
     }
@@ -1571,6 +1637,9 @@ export class Overlay {
         return points;
     }
 
+    /**
+     * 計算～表示までの処理を行う
+     */
     #calcAndDisplay() {
         // 計算前のポイント等を保持
         const prev_rank = this.#getCurrentRank();
@@ -1613,7 +1682,7 @@ export class Overlay {
     }
     /**
      * 保存されたチーム用paramsや現在プレイ中のチーム情報から名前を取得する
-     * @param {string|number} teamid チームID
+     * @param {string|number} teamid チームID(0～)
      * @returns {string} チーム名
      */
     #getTeamName(teamid) {
@@ -1630,7 +1699,14 @@ export class Overlay {
         return "チーム " + teamid;
     }
 
+    /**
+     * 保存されたプレイヤー用prams等からプレイヤー情報を取得する
+     * @param {string|number} teamid チームID(0～)
+     * @param {number} playerid プレイヤーID(=squadindex)
+     * @returns {string} プレイヤー名
+     */
     #getPlayerName(teamid, playerid) {
+        if (typeof teamid == "string") teamid = parseInt(teamid, 10);
         if (teamid < this.#_game.teams.length) {
             const team = this.#_game.teams[teamid];
             if ('players' in team && playerid < team.players.length) {
@@ -1786,9 +1862,9 @@ export class Overlay {
             const teamid = p[i];
             const team = teams[teamid];
             if (teamid in this.#teamparams && 'name' in this.#teamparams[teamid]) {
-                this.#matchresult.setName(i, this.#teamparams[teamid].name);
+                this.#matchresult.setTeamName(i, this.#teamparams[teamid].name);
             } else {
-                this.#matchresult.setName(i, team.name);
+                this.#matchresult.setTeamName(i, team.name);
             }
             this.#matchresult.setTotalPoints(i, team.total_points);
             const total_kills = team.kills.reduce((a, c) => a + c, 0);
@@ -1901,7 +1977,7 @@ export class Overlay {
 
         this.#teambanner.setId(teamid);
         this.#teambanner.setTeamName(this.#getTeamName(teamid));
-        this.#playerbanner.setName(this.#getPlayerName(teamid, playerid));
+        this.#playerbanner.setPlayerName(this.#getPlayerName(teamid, playerid));
 
         if (this.#camera.teamid in this.#teams) {
             const team = this.#teams[teamid];
