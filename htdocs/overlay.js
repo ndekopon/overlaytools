@@ -54,10 +54,18 @@ class LeaderBoardTeamNode extends OverlayBase {
         });
     }
 
+    /**
+     * 現在の順位をテキストに設定する
+     * @param {number|string} rank 現在の順位(1～)
+     */
     setRank(rank) {
         this.nodes.rank.innerText = '#' + rank;
     }
 
+    /**
+     * 排除済みクラスを設定・削除する
+     * @param {boolean} eliminated 排除されたかどうか
+     */
     setEliminated(eliminated) {
         if (eliminated) {
             this.nodes.base.classList.add(LeaderBoardTeamNode.#ELIMINATED_CLASS);
@@ -66,26 +74,51 @@ class LeaderBoardTeamNode extends OverlayBase {
         }
     }
 
+    /**
+     * チーム名を設定する
+     * @param {string} name チーム名
+     */
     setName(name) {
         this.nodes.name.innerText = name;
     }
 
+    /**
+     * 合計ポイントを設定する
+     * @param {number} points 合計ポイント
+     */
     setPoints(points) {
         this.nodes.points.innerText = points;
     }
 
+    /**
+     * 排除済みのクラスが設定済みか確認する
+     * @returns {boolean} true=排除済,false=未排除
+     */
     isEliminated() {
         return this.nodes.base.classList.contains(LeaderBoardTeamNode.#ELIMINATED_CLASS);
     }
 
+    /**
+     * 非表示にされているか確認する
+     * @returns {boolean} true=非表示,false=表示
+     */
     isHidden() {
         return this.nodes.base.classList.contains(OverlayBase.HIDE_CLASS);
     }
 
+    /**
+     * フェードアウトアニメーション用のクラスが設定されているか確認する
+     * @returns {boolean} true=設定済,false=未設定
+     */
     hasFadeOut() {
         return this.nodes.base.classList.contains(LeaderBoardTeamNode.#FADEOUT_CLASS);
     }
-    
+
+    /**
+     * プレーヤーの生存状況をcanvasに反映する
+     * @param {number} index squadindex(0～)
+     * @param {number} state プレーヤーの状態(生存/ダウン/死亡など)
+     */
     setPlayerState(index, state) {
         if (index >= 3) return;
         const canvas = this.nodes.alives;
@@ -114,6 +147,9 @@ class LeaderBoardTeamNode extends OverlayBase {
         }
     }
 
+    /**
+     * フェードインアニメーション設定
+     */
     fadeIn() {
         super.show();
         this.nodes.base.classList.remove(LeaderBoardTeamNode.#CHANGED_CLASS);
@@ -121,12 +157,18 @@ class LeaderBoardTeamNode extends OverlayBase {
         this.nodes.base.classList.add(LeaderBoardTeamNode.#FADEIN_CLASS);
     }
 
+    /**
+     * フェードアウトアニメーション設定
+     */
     fadeOut() {
         this.nodes.base.classList.remove(LeaderBoardTeamNode.#CHANGED_CLASS);
         this.nodes.base.classList.remove(LeaderBoardTeamNode.#FADEIN_CLASS);
         this.nodes.base.classList.add(LeaderBoardTeamNode.#FADEOUT_CLASS);
     }
 
+    /**
+     * 変更アニメーション設定
+     */
     setChanged() {
         // fadeout中は何もしない
         if (this.hasFadeOut()) return;
@@ -135,6 +177,9 @@ class LeaderBoardTeamNode extends OverlayBase {
         super.show();
     }
 
+    /**
+     * 全てのアニメーションを停止
+     */
     stopAnimation() {
         this.nodes.base.classList.remove(LeaderBoardTeamNode.#CHANGED_CLASS);
         this.nodes.base.classList.remove(LeaderBoardTeamNode.#FADEIN_CLASS);
@@ -143,6 +188,7 @@ class LeaderBoardTeamNode extends OverlayBase {
 }
 
 class LeaderBoard extends OverlayBase {
+    /** @type {Object.<number, LeaderBoardTeamNode>} チーム用のノード保存用 */
     #teamnodes;
     #currentshowindex;
     #nextshowindex;
@@ -153,7 +199,7 @@ class LeaderBoard extends OverlayBase {
     constructor() {
         super("leaderboard", "lb_");
         this.#teamnodes = {};
-        this.#timerid = null;
+        this.#timerid = -1;
         this.#currentshowindex = 0;
         this.#nextshowindex = 0;
         this.#shownum = 5;
@@ -161,35 +207,62 @@ class LeaderBoard extends OverlayBase {
         this.#alivesonly = false;
     }
 
+    /**
+     * Objectが存在していない場合に新規作成する
+     * @param {number} teamid チームID(0～)
+     */
     #preprocessTeam(teamid) {
-        if (typeof teamid == "number") teamid = teamid.toString();
-        if (teamid in this.#teamnodes) return; // 既に存在
+        if (this.hasTeam(teamid)) return; // 既に存在
         this.#teamnodes[teamid] = new LeaderBoardTeamNode("leaderboardteam" + teamid, "lb_", this.nodes.base);
     }
 
+    /**
+     * 現在の生存チーム数を取得
+     * @returns {number} 生存しているチーム数
+     */
     #countAlives() {
         let alives = 0;
-        for (const [teamid, team] of Object.entries(this.#teamnodes)) {
+        for (const team of Object.values(this.#teamnodes)) {
             if (!team.isEliminated()) alives++;
         }
         return alives;
     }
 
+    /**
+     * 既にチームが作成済みか確認する
+     * @param {number|string} teamid チームID(0～)
+     * @returns {boolean} true=作成済,false=未作成
+     */
     hasTeam(teamid) {
         if (teamid in this.#teamnodes) return true;
         else false;
     }
 
+    /**
+     * チーム名を設定する
+     * @param {number|string} teamid チームID(0～)
+     * @param {string} name チーム名
+     */
     setTeamName(teamid, name) {
         this.#preprocessTeam(teamid);
         this.#teamnodes[teamid].setName(name);
     }
 
+    /**
+     * チームポイントを設定する
+     * @param {number|string} teamid チームID(0～)
+     * @param {number} points ポイント数
+     */
     setTeamPoints(teamid, points) {
         this.#preprocessTeam(teamid);
         this.#teamnodes[teamid].setPoints(points);
     }
 
+    /**
+     * チームの排除状態を設定する
+     * @param {number|string} teamid チームID(0～)
+     * @param {boolean} eliminated true=排除済,false=未排除
+     */
     setTeamEliminated(teamid, eliminated) {
         this.#preprocessTeam(teamid);
         this.#teamnodes[teamid].setEliminated(eliminated);
@@ -209,11 +282,20 @@ class LeaderBoard extends OverlayBase {
         }
     }
 
+    /**
+     * プレーヤーの状態を設定する
+     * @param {number|string} teamid チームID(0～)
+     * @param {number} playerid プレーヤーID(=squadindex)
+     * @param {number} state プレーヤーの状態(生存・ダウン・死亡など)
+     */
     setPlayerState(teamid, playerid, state) {
         this.#preprocessTeam(teamid);
         this.#teamnodes[teamid].setPlayerState(playerid, state);
     }
 
+    /**
+     * 生存しているチームのみ表示に切り替え
+     */
     #switchToAlivesOnly() {
         this.#stopAnimation();
         for (const [_, node] of Object.entries(this.#teamnodes)) {
@@ -226,7 +308,7 @@ class LeaderBoard extends OverlayBase {
     }
 
     /**
-     * @typedef {object} changedrank
+     * @typedef {object} changedrank チームの順位表示用のオブジェクト
      * @prop {string} id チームID(0～)
      * @prop {boolean} changed 順位変動があったかどうか
      */
@@ -264,6 +346,11 @@ class LeaderBoard extends OverlayBase {
         }
     }
 
+    /**
+     * HTMLノードを所有しているLeaderBoardTeamNodeを返す
+     * @param {HTMLElement} basenode 検索対象のbaseノード
+     * @returns {LeaderBoardTeamNode} 
+     */
     #getTeamNode(basenode) {
         for (const teamnode of Object.values(this.#teamnodes)) {
             if (teamnode.nodes.base == basenode) {
@@ -273,6 +360,9 @@ class LeaderBoard extends OverlayBase {
         return null;
     }
 
+    /**
+     * フェードインアニメーションを開始する
+     */
     #startFadeIn() {
         if (this.#alivesonly) return;
 
@@ -293,12 +383,15 @@ class LeaderBoard extends OverlayBase {
                 this.#startFadeOut();
             }, this.#showinterval);
         } else {
-            this.#timerid = null;
+            this.#timerid = -1;
         }
     }
 
+    /**
+     * フェードアウトアニメーションを開始する
+     */
     #startFadeOut() {
-        this.#timerid = null;
+        this.#timerid = -1;
         if (this.#alivesonly) return;
         if (this.nodes.base.children.length <= this.#shownum) return;
 
@@ -310,8 +403,11 @@ class LeaderBoard extends OverlayBase {
         this.#timerid = setTimeout(() => { this.#startFadeIn(); }, 500); // 次のfadeinを予約
     }
 
+    /**
+     * アニメーションを開始する
+     */
     #startAnimation() {
-        if (this.#timerid != null) return;
+        if (this.#timerid <= 0) return;
         for (const teamnode of Object.values(this.#teamnodes)) {
             if (teamnode.hasFadeOut()) return;
         }
@@ -324,16 +420,22 @@ class LeaderBoard extends OverlayBase {
         this.#startFadeIn();
     }
 
+    /**
+     * アニメーションを停止する
+     */
     #stopAnimation() {
-        if (this.#timerid != null) {
+        if (this.#timerid <= 0) {
             clearTimeout(this.#timerid);
-            this.#timerid = null;
+            this.#timerid = -1;
         }
         for (const teamnode of Object.values(this.#teamnodes)) {
             teamnode.stopAnimation();
         }
     }
 
+    /**
+     * 全てのノードをクリアする
+     */
     clear() {
         this.#stopAnimation();
         while (this.nodes.base.lastChild != null) {
@@ -347,11 +449,17 @@ class LeaderBoard extends OverlayBase {
         this.#nextshowindex = 0;
     }
 
+    /**
+     * LeaderBoardを表示する
+     */
     show() {
         super.show();
         this.#startAnimation();
     }
 
+    /**
+     * LeaderBoardを非表示にする
+     */
     hide() {
         this.#stopAnimation();
         super.hide();
@@ -824,10 +932,13 @@ class MatchResult extends OverlayBase {
 }
 
 export class Overlay {
+    /** @type {ApexWebAPI.ApexWebAPI} */
     #webapi;
-    #teams; // 計算用
+    /** @type {import("./overlay-common.js").teamresults} 計算用チームデータ */
+    #teams;
     #_game; // WebAPIのゲームオブジェクト(変更しない)
     #_results; // WebAPIから取得したリザルト(変更しない、追加のみ)
+    /** @type {boolean} 現在の試合のデータを順位・ポイント計算に含めるかどうか */
     #calcresultsonly;
     #leaderboard;
     #teambanner;
@@ -839,12 +950,13 @@ export class Overlay {
     #squadeliminated;
     #matchresult;
     #camera;
+    /** @type {boolean} getAll進行中 */
     #getallprocessing;
-    #tournamentparams;
+    /** @type {string[]} チームID(0～)を順位でソートした配列 */
     #savedrankorder;
     #tournamentname;
     #teamparams;
-    static points_table = [12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0];
+    #tournamentparams;
 
     constructor(url = "ws://127.0.0.1:20081/") {
         this.#leaderboard = new LeaderBoard();
@@ -1080,14 +1192,14 @@ export class Overlay {
             // カメラ変更
             const teamid = ev.detail.team.id;
             const playerid = ev.detail.player.id;
-            this.#changeCamera(teamid, playerid);
+            this.#onChangeCamera(teamid, playerid);
         });
 
         this.#webapi.addEventListener("initcamera", (ev) => {
             // カメラ初期設定
             const teamid = ev.detail.teamid;
             const playerid = ev.detail.playerid;
-            this.#changeCamera(teamid, playerid);
+            this.#onChangeCamera(teamid, playerid);
         });
 
         this.#webapi.addEventListener("playeritem", (ev) => {
@@ -1328,10 +1440,8 @@ export class Overlay {
                 changed = true;
             }
             rank.push({id: curr_rank[i], changed: changed});
-
-            // カメラのランク表示
-            if (curr_rank[i] == this.#camera.teamid && changed) {
-                this.#teambanner.setRank(i + 1);
+            if (changed) {
+                this.#onTeamRankChanged(curr_rank[i], i);
             }
         }
 
@@ -1345,12 +1455,7 @@ export class Overlay {
                 changed = true;
             }
             if (changed) {
-                this.#leaderboard.setTeamPoints(teamid, curr_points[teamid]);
-
-                // カメラのポイント表示
-                if (teamid == this.#camera.teamid) {
-                    this.#teambanner.setPoints(curr_points[teamid]);
-                }
+                this.#onTeamPointsChanged(teamid, curr_points[teamid]);
             }
         }
     }
@@ -1596,6 +1701,29 @@ export class Overlay {
     }
 
     /**
+     * チームの順位が変わった場合に呼び出される
+     * @param {string} teamid チームID(0～)
+     * @param {number} rank 現在の順位(0～)
+     */
+    #onTeamRankChanged(teamid, rank) {
+        if (teamid == this.#camera.teamid) {
+            this.#teambanner.setRank(rank + 1);
+        }
+    }
+
+    /**
+     * チームの合計ポイントが変わった場合に呼び出される
+     * @param {string} teamid チームID(0～)
+     * @param {number} points 現在の合計ポイント
+     */
+    #onTeamPointsChanged(teamid, points) {
+        this.#leaderboard.setTeamPoints(teamid, points);
+        if (teamid == this.#camera.teamid) {
+            this.#teambanner.setPoints(points);
+        }
+    }
+
+    /**
      * 表示中のアイテム全てを更新する
      * @param {object} team チームデータ(参照)
      * @param {number} playerid プレイヤーID(=squadindex)
@@ -1615,7 +1743,7 @@ export class Overlay {
      * @param {numbner} teamid チームID(0～)
      * @param {number} playerid プレイヤーのID(=squadindex)
      */
-    #changeCamera(teamid, playerid) {
+    #onChangeCamera(teamid, playerid) {
         this.#camera.teamid = teamid.toString(); // Object index(string)
         this.#camera.playerid = playerid; // array index
 
