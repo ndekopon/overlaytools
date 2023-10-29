@@ -196,6 +196,10 @@ class LeaderBoard extends OverlayBase {
     #shownum;
     #showinterval;
     #alivesonly;
+
+    /**
+     * コンストラクタ
+     */
     constructor() {
         super("leaderboard", "lb_");
         this.#teamnodes = {};
@@ -467,6 +471,10 @@ class LeaderBoard extends OverlayBase {
 }
 
 class TeamBanner extends OverlayBase {
+
+    /**
+     * コンストラクタ
+     */
     constructor() {
         super("teambanner", "tb_");
         super.addNode("rank");
@@ -479,25 +487,44 @@ class TeamBanner extends OverlayBase {
         this.nodes.base.appendChild(this.nodes.points);
     }
 
+    /**
+     * チームIDを設定する
+     * @param {number|string} teamid チームID(0～)
+     */
     setId(teamid) {
         super.clearClasses("teamid_");
         super.addClass("teamid_" + teamid);
     }
 
+    /**
+     * 現在の順位を設定する
+     * @param {number|string} rank 現在の順位(1～)
+     */
     setRank(rank) {
         this.nodes.rank.innerText = '#' + rank;
     }
 
+    /**
+     * チーム名を設定する
+     * @param {string} teamName チーム名
+     */
     setTeamName(teamName) {
         this.nodes.teamname.innerText = teamName;
     }
 
+    /**
+     * 合計ポイントを設定する
+     * @param {number} points 合計ポイント
+     */
     setPoints(points) {
         this.nodes.points.innerText = points;
     }
 }
 
 class PlayerBanner extends OverlayBase {
+    /**
+     * コンストラクタ
+     */
     constructor() {
         super("playerbanner", "pb_");
         super.addNode("name");
@@ -506,12 +533,19 @@ class PlayerBanner extends OverlayBase {
         this.nodes.base.appendChild(this.nodes.name);
     }
 
-    setText(userName) {
+    /**
+     * プレイヤー名を表示する
+     * @param {*} userName ユーザー名
+     */
+    setUserName(userName) {
         this.nodes.name.innerText = userName;
     }
 }
 
 class TeamKills extends OverlayBase {
+    /**
+     * コンストラクタ
+     */
     constructor() {
         super("teamkills", "tk_");
         super.addNode("icon");
@@ -525,7 +559,11 @@ class TeamKills extends OverlayBase {
         this.nodes.icon.innerText = `💀`;
     }
 
-    setText(kills) {
+    /**
+     * 合計キル数を設定する
+     * @param {number} kills 合計キル数
+     */
+    setKills(kills) {
         this.nodes.kills.innerText = kills;
     }
 }
@@ -537,6 +575,10 @@ class OwnedItems extends OverlayBase {
     static ITEM_BACKPACK_LV3_CLASS = "oi_backpack_lv3";
     static ITEM_BACKPACK_LV4_CLASS = "oi_backpack_lv4";
     static TRANSPARENT_CLASS = "oi_transparent";
+
+    /**
+     * コンストラクタ
+     */
     constructor() {
         super("owneditems", "oi_");
         
@@ -582,6 +624,11 @@ class OwnedItems extends OverlayBase {
         this.nodes.backpack.classList.add(OwnedItems.ITEM_BACKPACK_LV0_CLASS);
     }
 
+    /**
+     * アイテムの個数を更新する
+     * @param {string} itemid アイテム識別子
+     * @param {number} count アイテム数
+     */
     procUpdateItem(itemid, count) {
         switch(itemid) {
             case "syringe":
@@ -624,6 +671,9 @@ class OwnedItems extends OverlayBase {
 }
 
 class GameInfo extends OverlayBase {
+    /**
+     * コンストラクタ
+     */
     constructor() {
         super("gameinfo", "gi_");
         super.addNode("gamecount");
@@ -632,6 +682,10 @@ class GameInfo extends OverlayBase {
         this.nodes.base.appendChild(this.nodes.gamecount);
     }
 
+    /**
+     * ゲームカウントを設定する
+     * @param {number|string} count 現在のゲーム数(1～)
+     */
     setGameCount(count) {
         super.clearClasses("gameid_");
         super.addClass("gameid_" + count);
@@ -645,6 +699,9 @@ class ChampionBanner extends OverlayBase {
     static FADEIN_ANIMATION_NAME = "cb_fadein_animation";
     static FADEOUT_ANIMATION_NAME = "cb_fadeout_animation";
 
+    /**
+     * コンストラクタ
+     */
     constructor() {
         super("championbanner", "cb_");
         super.addNode("teamname");
@@ -666,36 +723,59 @@ class ChampionBanner extends OverlayBase {
         });
     }
 
+    /**
+     * チームIDを設定する
+     * @param {number|string} teamid チームID(0～)
+     */
     setId(teamid) {
         super.clearClasses("teamid_");
         super.addClass("teamid_" + teamid);
     }
 
+    /**
+     * チーム名を設定する
+     * @param {string} name チーム名
+     */
     setTeamName(name) {
         this.nodes.teamname.innerText = name;
     }
 
+    /**
+     * フェードインアニメーションを開始
+     */
     startFadeIn() {
         this.nodes.base.classList.add(ChampionBanner.FADEIN_CLASS);
         // 6秒で消える(5.7秒でフェードアウト開始)
         setTimeout(() => { this.startFadeOut(); }, 5700);
     }
 
+    /**
+     * フェードアウトアニメーションを開始
+     */
     startFadeOut() {
         this.nodes.base.classList.add(ChampionBanner.FADEOUT_CLASS);
     }
 
+    /**
+     * ChampionBannerを表示
+     */
     show() {
         this.startFadeIn();
         super.show();
     }
 
+    /**
+     * ChampoinBannerを非表示
+     */
     hide() {
         super.hide();
         this.nodes.base.classList.remove(ChampionBanner.FADEIN_CLASS);
         this.nodes.base.classList.remove(ChampionBanner.FADEOUT_CLASS);
     }
 
+    /**
+     * ChampionBannerを強制非表示
+     */
     addForceHide() {
         super.addForceHide();
         this.nodes.base.classList.remove(ChampionBanner.FADEIN_CLASS);
@@ -708,8 +788,20 @@ class SquadEliminated extends OverlayBase {
     static FADEOUT_CLASS = "se_fadeout";
     static FADEIN_ANIMATION_NAME = "se_fadein_animation";
     static FADEOUT_ANIMATION_NAME = "se_fadeout_animation";
+    /**
+     * @typedef {object} queuedata
+     * @prop {number} placement 順位(1～)
+     * @prop {number|string} teamid チームID(0～)
+     * @prop {string} teamname チーム名
+     */
+
+    /** @type {queuedata[]} */
     #queue;
     #timerid;
+
+    /**
+     * コンストラクタ
+     */
     constructor() {
         super("squadeliminated", "se_");
         super.addNode("teamname");
@@ -731,6 +823,13 @@ class SquadEliminated extends OverlayBase {
         });
     }
 
+    /**
+     * チーム排除情報を設定する
+     * @param {number} placement 順位(1～)
+     * @param {number|string} teamid チームID(0～)
+     * @param {string} teamname チーム名
+     * @returns 
+     */
     set(placement, teamid, teamname) {
         // 非表示状態の場合は追加しない
         if (this.nodes.base.classList.contains(OverlayBase.FORCEHIDE_CLASS)) return;
@@ -743,6 +842,9 @@ class SquadEliminated extends OverlayBase {
         this.#checkNext();
     }
 
+    /**
+     * フェードインを開始する
+     */
     startFadeIn() {
         this.nodes.base.classList.add(SquadEliminated.FADEIN_CLASS);
         super.show();
@@ -750,11 +852,17 @@ class SquadEliminated extends OverlayBase {
         this.#timerid = setTimeout(() => { this.startFadeOut(); }, 3700);
     }
 
+    /**
+     * フェードアウトを開始する
+     */
     startFadeOut() {
         this.#timerid = -1;
         this.nodes.base.classList.add(SquadEliminated.FADEOUT_CLASS);
     }
 
+    /**
+     * 次のデータがあるかどうか確認して次の動作を行う
+     */
     #checkNext() {
         if (this.#queue.length > 0) {
             if (this.#timerid > 0) return; // タイマー発火待ち
@@ -770,15 +878,24 @@ class SquadEliminated extends OverlayBase {
             super.hide();
         }
     }
-    
+
+    /**
+     * 現在の表示キューを削除する
+     */
     clear() {
         this.#queue.splice(0);
     }
 
+    /**
+     * SquadEliminatedを表示する
+     */
     show() {
         this.#checkNext();
     }
 
+    /**
+     * SquadEliminatedを非表示にする
+     */
     hide() {
         if (this.#timerid > 0) {
             clearTimeout(this.#timerid);
@@ -789,6 +906,9 @@ class SquadEliminated extends OverlayBase {
         this.nodes.base.classList.remove(SquadEliminated.FADEOUT_CLASS);
     }
 
+    /**
+     * SquadEliminatedを強制非表示にする
+     */
     addForceHide() {
         super.addForceHide();
         this.nodes.base.classList.remove(SquadEliminated.FADEIN_CLASS);
@@ -797,6 +917,12 @@ class SquadEliminated extends OverlayBase {
 }
 
 class MatchResultHeaderNode extends OverlayBase {
+    /**
+     * コンストラクタ
+     * @param {string} id baseノードに設定するID
+     * @param {string} prefix 追加するノードに付与するクラスの接頭辞
+     * @param {string} root baseノードの追加先ノード
+     */
     constructor(id, prefix, root) {
         super(id, prefix, root);
 
@@ -822,6 +948,12 @@ class MatchResultHeaderNode extends OverlayBase {
 }
 
 class MatchResultTeamNode extends OverlayBase {
+    /**
+     * コンストラクタ
+     * @param {string} id baseノードに設定するID
+     * @param {string} prefix 追加するノードに付与するクラスの接頭辞
+     * @param {string} root baseノードの追加先ノード
+     */
     constructor(id, prefix, root) {
         super(id, prefix, root);
 
@@ -839,22 +971,42 @@ class MatchResultTeamNode extends OverlayBase {
         this.nodes.base.appendChild(this.nodes.total_points);
     }
 
+    /**
+     * 順位を設定する
+     * @param {number} rank 順位(1～)
+     */
     setRank(rank) {
-        this.nodes.rank.innerText = rank + 1;
+        this.nodes.rank.innerText = rank;
     }
 
-    setName(name) {
+    /**
+     * チーム名を設定する
+     * @param {string} name チーム名
+     */
+    setTeamName(name) {
         this.nodes.name.innerText = name;
     }
-    
+
+    /**
+     * 順位ポイントを設定する
+     * @param {number} points 順位ポイント
+     */
     setPlacementPoints(points) {
         this.nodes.placement_points.innerText = points;
     }
-    
+
+    /**
+     * 合計キル数を設定する
+     * @param {number} kills 合計キル数
+     */
     setKills(kills) {
         this.nodes.kills.innerText = kills;
     }
 
+    /**
+     * 合計ポイントを設定する
+     * @param {number} points 合計ポイント
+     */
     setTotalPoints(points) {
         this.nodes.total_points.innerText = points;
     }
@@ -891,7 +1043,7 @@ class MatchResult extends OverlayBase {
     #appendTeam(rank) {
         const node = new MatchResultTeamNode(this.#ID + "_" + rank, this.#PREFIX, this.nodes.teams);
         this.#teams.push(node);
-        node.setRank(rank);
+        node.setRank(rank + 1);
     }
 
     #precheckRank(rank) {
@@ -1108,7 +1260,7 @@ export class Overlay {
         this.#webapi.addEventListener("playername", (ev) => {
             if (ev.detail.team.id.toString() == this.#camera.teamid &&
                 ev.detail.player.id == this.#camera.playerid) {
-                this.#playerbanner.setText(ev.detail.player.name);
+                this.#playerbanner.setName(ev.detail.player.name);
             }
         });
 
@@ -1116,14 +1268,14 @@ export class Overlay {
             if (!('name' in ev.detail.params)) return;
             if (this.#camera.playerhash == "") return;
             if (ev.detail.hash != this.#camera.playerhash) return;
-            this.#playerbanner.setText(ev.detail.params.name);
+            this.#playerbanner.setName(ev.detail.params.name);
         });
         
         this.#webapi.addEventListener("setteamparams", (ev) => {
             if (!('name' in ev.detail.params)) return;
             if (this.#camera.playerhash == "") return;
             if (ev.detail.hash != this.#camera.playerhash) return;
-            this.#playerbanner.setText(ev.detail.params.name);
+            this.#playerbanner.setName(ev.detail.params.name);
         });
 
         this.#webapi.addEventListener("teamplacement", (ev) => {
@@ -1148,7 +1300,7 @@ export class Overlay {
             if (this.#_game == null) return;
             this.#calcAndDisplay();
             if (ev.detail.team.id.toString() == this.#camera.teamid) {
-                this.#teamkills.setText(ev.detail.team.kills);
+                this.#teamkills.setKills(ev.detail.team.kills);
             }
         });
 
@@ -1282,13 +1434,13 @@ export class Overlay {
                         }
                         case "testplayerbanner": {
                             const name = data.name;
-                            this.#playerbanner.setText(name);
+                            this.#playerbanner.setName(name);
                             this.#playerbanner.show();
                             break;
                         }
                         case "testteamkills": {
                             const kills = data.kills;
-                            this.#teamkills.setText(kills);
+                            this.#teamkills.setKills(kills);
                             this.#teamkills.show();
                             break;
                         }
@@ -1749,7 +1901,7 @@ export class Overlay {
 
         this.#teambanner.setId(teamid);
         this.#teambanner.setTeamName(this.#getTeamName(teamid));
-        this.#playerbanner.setText(this.#getPlayerName(teamid, playerid));
+        this.#playerbanner.setName(this.#getPlayerName(teamid, playerid));
 
         if (this.#camera.teamid in this.#teams) {
             const team = this.#teams[teamid];
@@ -1761,7 +1913,7 @@ export class Overlay {
                 this.#teambanner.setPoints(team.points.reduce((a, c) => a + c, 0));
             }
             if ('kills' in team) {
-                this.#teamkills.setText(team.kills.reduce((a, c) => a + c, 0));  
+                this.#teamkills.setKills(team.kills.reduce((a, c) => a + c, 0));
             }
         }
 
