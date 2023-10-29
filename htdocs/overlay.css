@@ -624,3 +624,31 @@ body {
 div.mr_name {
     text-overflow: ellipsis;
 }
+
+/* ErrorStatus */
+#errorstatus {
+    --overlay-errorstatus-width: 500px;
+    --overlay-errorstatus-height: 200px;
+    position: fixed;
+    top: calc(50% - var(--overlay-errorstatus-height)/2);
+    left: calc(50% - var(--overlay-errorstatus-width)/2);
+    width: var(--overlay-errorstatus-width);
+    height: var(--overlay-errorstatus-height);
+}
+#errorstatus > div {
+    border: 3px solid #F00;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    background-color: #FFF;
+}
+#errorstatus > div.es_webapi.hide {
+    display: none;
+}
+
+/* ErrorStatus */
+#errorstatus > div.es_liveapi.hide {
+    display: none;
+}

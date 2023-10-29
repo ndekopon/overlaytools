@@ -1123,6 +1123,53 @@ class MatchResult extends OverlayBase {
     }
 }
 
+class ErrorStatus extends OverlayBase {
+    /**
+     * コンストラクタ
+     */
+    constructor() {
+        super("errorstatus", "es_");
+        super.addNode("webapi");
+        super.addNode("liveapi");
+        
+        // append
+        this.nodes.base.appendChild(this.nodes.webapi);
+        this.nodes.base.appendChild(this.nodes.liveapi);
+
+        // テキスト設定
+        this.nodes.webapi.innerText = "Overlay is not connected via WebAPI.";
+        this.nodes.liveapi.innerText = "ApexLegends is not connected via LiveAPI.";
+
+        // 初期状態
+        this.setWebAPIStatus(false);
+        this.setLiveAPIStatus(true);
+    }
+
+    /**
+     * WebAPIの接続状況によってメッセージを表示する
+     * @param {boolean} connected true=接続済,false=未接続
+     */
+    setWebAPIStatus(connected) {
+        if (connected) {
+            this.nodes.webapi.classList.add('hide');
+        } else {
+            this.nodes.webapi.classList.remove('hide');
+        }
+    }
+
+    /**
+     * LiveAPIの接続状況によってメッセージを表示する
+     * @param {boolean} connected true=接続済,false=未接続
+     */
+    setLiveAPIStatus(connected) {
+        if (connected) {
+            this.nodes.liveapi.classList.add('hide');
+        } else {
+            this.nodes.liveapi.classList.remove('hide');
+        }
+    }
+}
+
 export class Overlay {
     /** @type {ApexWebAPI.ApexWebAPI} */
     #webapi;
@@ -1141,6 +1188,7 @@ export class Overlay {
     #championbanner;
     #squadeliminated;
     #matchresult;
+    #errorstatus;
     #camera;
     /** @type {boolean} getAll進行中 */
     #getallprocessing;
@@ -1164,6 +1212,7 @@ export class Overlay {
         this.#championbanner = new ChampionBanner();
         this.#squadeliminated = new SquadEliminated();
         this.#matchresult = new MatchResult();
+        this.#errorstatus = new ErrorStatus();
         this.#getallprocessing = false;
 
         this.#setupApexWebAPI(url);
@@ -1189,6 +1238,7 @@ export class Overlay {
 
         // 接続時にすべてのデータを取得
         this.#webapi.addEventListener("open", (ev) => {
+            this.#errorstatus.setWebAPIStatus(true);
             this.#getallprocessing = true;
             this.#_game = ev.detail.game;
             this.#webapi.getAll().then(() => {
@@ -1202,6 +1252,14 @@ export class Overlay {
                     this.#getallprocessing = false;
                 });
             });
+        });
+
+        this.#webapi.addEventListener("close", (ev) => {
+            this.#errorstatus.setWebAPIStatus(false);
+        });
+
+        this.#webapi.addEventListener("error", (ev) => {
+            this.#errorstatus.setWebAPIStatus(false);
         });
 
         this.#webapi.addEventListener("clearlivedata", (ev) => {
@@ -1431,6 +1489,12 @@ export class Overlay {
             }
         });
 
+        // LiveAPI側の接続状況
+        this.#webapi.addEventListener("liveapisocketstats", (ev) => {
+            const connection_count = ev.detail.conn;
+            this.#errorstatus.setLiveAPIStatus(connection_count > 0);
+        });
+
         // Overlayの表示状態
         this.#webapi.addEventListener("gettournamentparams", (ev) => {
             this.#tournamentparams = ev.detail.params;
@@ -1537,7 +1601,6 @@ export class Overlay {
                             break;
                         }
                     }
-                    console.log(data);
                 }
             }
         });

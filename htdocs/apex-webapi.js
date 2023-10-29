@@ -232,8 +232,10 @@ export class ApexWebAPI extends EventTarget {
 
   static WEBAPI_EVENT_TEAMBANNER_STATE = 0xc0;
 
+  static WEBAPI_EVENT_LIVEAPI_SOCKET_STATS = 0xd0;
+
   static WEBAPI_BROADCAST_OBJECT = 0xf0;
-  
+
   static WEBAPI_DATA_BOOL = 0x00;
   static WEBAPI_DATA_UINT8 = 0x01;
   static WEBAPI_DATA_UINT16 = 0x02;
@@ -847,6 +849,10 @@ export class ApexWebAPI extends EventTarget {
       case ApexWebAPI.WEBAPI_EVENT_TEAMBANNER_STATE:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('teambannerstate', {detail: {state: data_array[0]}}));
+        break;
+      case ApexWebAPI.WEBAPI_EVENT_LIVEAPI_SOCKET_STATS:
+        if (count != 3) return false;
+        this.dispatchEvent(new CustomEvent('liveapisocketstats', {detail: {conn: data_array[0], recv: data_array[1], send: data_array[2]}}));
         break;
       case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SENDCHAT:
         if (count != 1) return false;

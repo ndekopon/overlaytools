@@ -108,6 +108,8 @@ namespace app {
 
 		void send_webapi_teambanner_state(uint8_t _state);
 
+		void send_webapi_liveapi_socket_stats(uint64_t _conn_count, uint64_t _recv_count, uint64_t _send_count);
+
 		// reply
 		void reply_webapi_send_custommatch_createlobby(SOCKET _sock, uint32_t _sequence);
 		void reply_webapi_send_custommatch_sendchat(SOCKET _sock, uint32_t _sequence);

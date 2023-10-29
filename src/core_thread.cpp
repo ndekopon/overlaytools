@@ -238,9 +238,14 @@ namespace app {
 			{
 				// stats(0)
 				auto stats = ctx_.get_stats(0);
-				::PostMessageW(window_, CWM_WEBSOCKET_STATS_CONNECTION_COUNT, 0, std::get<0>(stats));
-				::PostMessageW(window_, CWM_WEBSOCKET_STATS_RECV_COUNT, 0, std::get<1>(stats));
-				::PostMessageW(window_, CWM_WEBSOCKET_STATS_SEND_COUNT, 0, std::get<2>(stats));
+				auto conn_count = std::get<0>(stats);
+				auto recv_count = std::get<1>(stats);
+				auto send_count = std::get<2>(stats);
+				::PostMessageW(window_, CWM_WEBSOCKET_STATS_CONNECTION_COUNT, 0, conn_count);
+				::PostMessageW(window_, CWM_WEBSOCKET_STATS_RECV_COUNT, 0, recv_count);
+				::PostMessageW(window_, CWM_WEBSOCKET_STATS_SEND_COUNT, 0, send_count);
+
+				send_webapi_liveapi_socket_stats(conn_count, recv_count, send_count);
 			}
 			else if (id == WAIT_OBJECT_0 + 6)
 			{
@@ -1837,6 +1842,15 @@ namespace app {
 	{
 		send_webapi_data sdata(WEBAPI_EVENT_TEAMBANNER_STATE);
 		if (sdata.append(_state))
+		{
+			sendto_webapi(std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::send_webapi_liveapi_socket_stats(uint64_t _conn_count, uint64_t _recv_count, uint64_t _send_count)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_LIVEAPI_SOCKET_STATS);
+		if (sdata.append(_conn_count) && sdata.append(_recv_count) && sdata.append(_send_count))
 		{
 			sendto_webapi(std::move(sdata.buffer_));
 		}
