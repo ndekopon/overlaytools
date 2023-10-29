@@ -225,6 +225,15 @@ class LeaderBoard extends OverlayBase {
         }
     }
 
+    /**
+     * @typedef {object} changedrank
+     * @prop {string} id チームID(0～)
+     * @prop {boolean} changed 順位変動があったかどうか
+     */
+    /**
+     * リーダーボードに順位表示反映・順番入替を実施
+     * @param {changedrank} teamids チームIDと順位変動を含むデータ
+     */
     setTeamRank(teamids) {
         for (let i = 0; i < teamids.length; ++i) {
             const teamid = teamids[i].id;
@@ -1134,7 +1143,11 @@ export class Overlay {
                 if ("type" in data) {
                     switch (data.type) {
                         case "showmatchresult":
-                            this.showMatchResult(data.gameid, data.all);
+                            if (data.all) {
+                                this.showMatchResult('all');
+                            } else {
+                                this.showMatchResult(data.gameid);
+                            }
                             break;
                         case "hidematchresult":
                             this.hideMatchResult();
@@ -1271,15 +1284,25 @@ export class Overlay {
     #calcRank() {
         this.#savedrankorder = setRankParameterToTeamResults(this.#teams);
     }
-
+    /**
+     * 現在の順位を配列で返す
+     * @returns {string[]} チームID(0～)を含む文字列(rank順)
+     */
     #getCurrentRank() {
         return this.#savedrankorder;
     }
-    
+
+    /**
+     * @typedef {Object.<number, number>} currentpoints key=チームID, value=合計ポイント
+     */
+    /**
+     * 現在の合計ポイントを返す
+     * @returns {currentpoints}
+     */
     #getCurrentPoints() {
         const points = {};
-        for (const [key, team] of Object.entries(this.#teams)) {
-            points[key] = team.points.reduce((a, c) => a + c, 0);
+        for (const [teamid, team] of Object.entries(this.#teams)) {
+            points[teamid] = team.points.reduce((a, c) => a + c, 0);
         }
         return points;
     }
@@ -1296,7 +1319,8 @@ export class Overlay {
         const curr_rank = this.#getCurrentRank();
         const curr_points = this.#getCurrentPoints();
 
-        // 変わった部分に変更をかける
+        // 順位変動確認
+        /** @type {changedrank[]} */
         const rank = [];
         for (let i = 0; i < curr_rank.length; ++i) {
             let changed = false;
@@ -1311,9 +1335,10 @@ export class Overlay {
             }
         }
 
-        // リーダーボードに反映
+        // 順位計算結果をリーダーボードに反映
         this.#leaderboard.setTeamRank(rank);
 
+        // ポイント変動確認
         for (const teamid of Object.keys(curr_points)) {
             let changed = false;
             if (!(teamid in prev_points) || prev_points[teamid] != curr_points[teamid]) {
@@ -1329,7 +1354,11 @@ export class Overlay {
             }
         }
     }
-
+    /**
+     * 保存されたチーム用paramsや現在プレイ中のチーム情報から名前を取得する
+     * @param {string|number} teamid チームID
+     * @returns {string} チーム名
+     */
     #getTeamName(teamid) {
         if (typeof teamid == "string") teamid = parseInt(teamid, 10);
         if (teamid < this.#_game.teams.length) {
@@ -1360,10 +1389,14 @@ export class Overlay {
         return "tm" + teamid + " pl" + playerid;
     }
 
+    /**
+     * 現在のゲームカウントを取得する
+     * @returns {number} ゲームID(0～)
+     */
     #getGameCount() {
         if (!this.#_results) return 0;
         const result_count = this.#_results.length;
-        return result_count + 1;
+        return result_count;
     }
 
     #setForceHideFromParams(params) {
@@ -1416,7 +1449,7 @@ export class Overlay {
 
     updateGameInfo(count = null) {
         if (count == null) {
-            count = this.#getGameCount();
+            count = this.#getGameCount() + 1;
         }
         this.#gameinfo.setGameCount(count);
     }
@@ -1445,26 +1478,16 @@ export class Overlay {
     setSquadEliminated(placement, teamid, teamname) {
         this.#squadeliminated.set(placement, teamid, teamname);
     }
-    resultToTeamsData(teams, result) {
-        for (const [teamid, data] of Object.entries(result.teams)) {
-            if (!(teamid in teams)) {
-                teams[teamid] = {
-                    name: data.name,
-                    kills: [],
-                    placements: [],
-                    points: [],
-                    total_points: 0
-                }
-            }
-            teams[teamid].kills.push(data.kills);
-            teams[teamid].placements.push(data.placement);
-        }
-    }
-    showMatchResult(gameid, all = false) {
+
+    /**
+     * マッチリザルトのオーバーレイを表示する
+     * @param {number|string} gameid ゲームID(0～)もしくは'all'を指定する
+     */
+    showMatchResult(gameid) {
         this.#matchresult.clear();
         /** @type {teamresults} */
         let teams = null;
-        if (all) {
+        if (gameid == 'all') {
             if (this.#tournamentname != "") {
                 this.#matchresult.setTitle(this.#tournamentname + " - OVERALL");
             } else {
@@ -1487,7 +1510,7 @@ export class Overlay {
         for (const [_, team] of Object.entries(teams)) {
             for (let i = 0; i < team.kills.length; ++i) {
                 let points = 0;
-                if (all) {
+                if (gameid == 'all') {
                     points = calcPoints(i, team.placements[i], team.kills[i]);
                 } else {
                     points = calcPoints(gameid, team.placements[i], team.kills[i]);
@@ -1516,7 +1539,6 @@ export class Overlay {
             this.#matchresult.setPlacementPoints(i, team.total_points - total_kills);
         }
         this.#matchresult.show();
-        console.log(teams);
     }
 
     hideLeaderBoard() {
@@ -1547,6 +1569,9 @@ export class Overlay {
         this.#matchresult.hide();
     }
 
+    /**
+     * 常時表示系のオーバーレイを表示する
+     */
     showAll() {
         this.showLeaderBoard();
         this.showTeamBanner();
@@ -1556,6 +1581,9 @@ export class Overlay {
         this.showGameInfo();
     }
 
+    /**
+     * 全てのオーバーレイを非表示にする(MatchResultを除く)
+     */
     hideAll() {
         this.hideLeaderBoard();
         this.hideTeamBanner();
@@ -1567,6 +1595,11 @@ export class Overlay {
         this.hideSquadEliminated();
     }
 
+    /**
+     * 表示中のアイテム全てを更新する
+     * @param {object} team チームデータ(参照)
+     * @param {number} playerid プレイヤーID(=squadindex)
+     */
     updateAllItems(team, playerid) {
         if (!('players' in team)) return;
         if (playerid >= team.players.length) return;
@@ -1577,7 +1610,11 @@ export class Overlay {
             this.#owneditems.procUpdateItem(itemid, count);
         }
     }
-
+    /**
+     * カメラが切り替わった際に呼び出される
+     * @param {numbner} teamid チームID(0～)
+     * @param {number} playerid プレイヤーのID(=squadindex)
+     */
     changeCamera(teamid, playerid) {
         this.#camera.teamid = teamid.toString(); // Object index(string)
         this.#camera.playerid = playerid; // array index

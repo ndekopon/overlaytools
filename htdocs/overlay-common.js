@@ -130,8 +130,7 @@ export function calcPoints(gameid, placement, kills) {
 
 /**
  * 計算用のチームオブジェクト入れ
- * @typedef {object} teamresults
- * @prop {Object.<number, teamresult>}
+ * @typedef {Object.<number, teamresult>} teamresults
  */
 
 /**
