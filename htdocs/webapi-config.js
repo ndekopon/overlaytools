@@ -1,5 +1,35 @@
 import * as ApexWebAPI from "./apex-webapi.js";
 
+class WebAPIConfigBase {
+    /** @type {Object.<string, HTMLElement>} 関連するノードを格納 */
+    nodes;
+    /** @type {string} getElementByIdを行う際の接頭辞 */
+    prefix;
+
+    /**
+     * コンストラクタ
+     * @param {string} prefix getElementByIdを行う際の接頭辞
+     */
+    constructor(prefix) {
+        this.nodes = {};
+        this.prefix = prefix;
+    }
+
+    /**
+     * HTMLノードを取得し、nodesに格納する
+     * @param {string} name 取得するノードのIDに含まれる文字列
+     * @returns {HTMLElement|null} 取得したノード、失敗した場合はnull
+     */
+    getNode(name) {
+        const node = document.getElementById(this.prefix + name);
+        if (node) {
+            this.nodes[name] = node;
+            return node;
+        }
+        return null;
+    }
+}
+
 class ObserverConfig {
     #callback;
     #observers;
@@ -1958,7 +1988,7 @@ export class WebAPIConfig {
         }
         textarea.value = text;
         this.#procTeamNameTextareaUpdate(textarea.value);
-    };
+    }
 
     #showResult(submenu) {
         if (submenu == 'all') {
