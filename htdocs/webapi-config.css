@@ -1,0 +1,427 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Consolas', 'Meiryo UI', 'メイリオ', monospace;
+}
+html {
+    width: 100%;
+}
+body {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20em auto;
+}
+
+/* サイドバー関係 */
+#sidebar {
+    box-sizing: border-box;
+    padding: 1em;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+#sidebar h3 {
+    margin: 0.4em 0;
+    padding: 0;
+}
+#sidebar div {
+    padding-left: 1em;
+}
+#sidebar dl {
+    margin: 0;
+    padding-left: 1em;
+    font-size: 90%;
+}
+#sidebar dt {
+    margin: 0;
+    padding: 0;
+}
+#sidebar dd {
+    margin: 0;
+    padding-left: 1em;
+}
+#sidebar ul {
+    margin: 0;
+    padding-left: 1em;
+}
+#sidebar li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.sidebar-selected {
+    background-color: #FFCCCC;
+}
+#sidebar button {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#sidebar p {
+    margin: 0;
+    padding: 0;
+}
+
+/* main */
+#main {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 1em;
+}
+#main > div.hide {
+    display: none;
+}
+
+#main h3 {
+    margin: 0.5em 0;
+}
+
+#main h4 {
+    margin: 0.4em 0;
+}
+
+#main button {
+    line-height: 1.3em;
+    padding: 0 2em;
+}
+
+/* tournament-set */
+#tournament-set input, #tournament-rename input {
+    width: 40em;
+    line-height: 1.3em;
+}
+#tournament-set table {
+    border-collapse: collapse;
+}
+#tournament-set th {
+    border: 1px solid black;
+    padding: 0.1em 1em;
+}
+#tournament-set td {
+    border: 1px solid black;
+    padding: 0.1em 1em;
+}
+#tournament-set tr:hover:has(>td) {
+    background-color: #FFFFCC;
+}
+#tournament-set tr.tournament-set-selected {
+    background-color: #FFCCCC;
+}
+
+/* observer-set */
+
+#observer-set table {
+    border-collapse: collapse;
+}
+#observer-set th {
+    border: 1px solid black;
+    padding: 0.1em 1em;
+}
+#observer-set td {
+    border: 1px solid black;
+    padding: 0.1em 1em;
+}
+#observer-set tr:hover:has(>td) {
+    background-color: #FFFFCC;
+}
+#observer-set tr.observer-set-selected {
+    background-color: #FFCCCC;
+}
+
+/* player-name */
+#player-name table {
+    border-collapse: collapse;
+}
+#player-name th {
+    border: 1px solid black;
+    padding: 0.1em 1em;
+}
+#player-name td {
+    border: 1px solid black;
+    padding: 0.1em 1em;
+}
+#player-name input {
+    width: 12em;
+    line-height: 1.3em;
+}
+
+/* team-name */
+#team-name #team-name-container {
+    display: grid;
+    grid-template-columns: 2em 1fr 1fr;
+}
+#team-name #team-name-num {
+    text-align: right;
+    line-height: 1.2em;
+    font-size: 100%;
+    background-color: #CCC;
+}
+#team-name textarea {
+    font-size: 100%;
+    height: 36em;
+    line-height: 1.2em;
+    overflow: clip;
+    padding-left: 0.1em;
+}
+#team-name #team-name-output {
+    line-height: 1.2em;
+    font-size: 100%;
+    background-color: #CCC;
+}
+
+/* realtime */
+#realtime #realtime-gameinfo {
+    position: fixed;
+    right: 1em;
+    top: 1em;
+    font-size: 50%;
+    width: 60em;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    box-sizing: border-box;
+    border: 1px solid black;
+
+}
+#realtime #realtime-gameinfo > div {
+    margin-right: 1em;
+    align-items: baseline;
+}
+#realtime #realtime-teams {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+#realtime .realtime-team-banner {
+    display: grid;
+    grid-template-columns: 2em 1fr 2em 2em;
+}
+#realtime-teams > div {
+    box-sizing: border-box;
+    border: 1px solid black;
+    margin: 1px;
+}
+.realtime-team-kills-header, .realtime-team-placement-header {
+    font-size: 30%;
+    text-align: center;
+}
+.realtime-team-number, .realtime-team-name {
+    line-height: 2em;
+}
+.realtime-team-name {
+    overflow: clip;
+    font-weight: bold;
+}
+.realtime-team-number, .realtime-team-kills-value, .realtime-team-placement-value {
+    text-align: center;
+}
+.realtime-team-eliminated {
+    opacity: 0.3;
+}
+.realtime-player-base {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    box-sizing: border-box;
+    border-top: 1px solid black;
+    padding: 0 2px;
+}
+.realtime-player-base.realtime-player-state-collected {
+    color: rgb(109, 198, 24);
+}
+.realtime-player-base.realtime-player-state-down {
+    color: rgb(213, 25, 26);
+}
+.realtime-player-base.realtime-player-state-killed {
+    color: #999;
+}
+.realtime-player-name {
+    font-size: 90%;
+    font-weight: bold;
+    overflow: clip;
+}
+.realtime-player-hpshield {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+}
+.realtime-player-hpbar, .realtime-player-shieldbar {
+    margin-top: 3px;
+}
+.realtime-player-right, .realtime-player-character,.realtime-player-hp, .realtime-player-shield {
+    font-size: 30%;
+    overflow: clip;
+}
+.realtime-player-base.realtime-player-selected {
+    background-color: #FFCCCC;
+}
+.realtime-player-state-alive:hover {
+    background-color: #FFFFCC;
+}
+.realtime-player-changed-damage-dealt {
+    animation: 1s realtime-player-changed-damage-dealt-animation forwards;
+}
+
+@keyframes realtime-player-changed-damage-dealt-animation {
+    from {
+        background-color: #db6ec9;
+    }
+    to {
+    }
+}
+
+/* announce */
+#announce input {
+    width: 40em;
+    line-height: 1.3em;
+}
+
+/* result */
+#result-game-info {
+    display: flex;
+    font-size: 50%;
+}
+
+.result-game-info-number {
+    font-weight: bold;
+}
+
+#result-game-info > div {
+    box-sizing: border-box;
+    border: 1px solid black;
+    margin: 1px;
+    padding: 2px;
+}
+
+#result-game-info > div:hover {
+    background-color: #FFFFCC;
+}
+
+.result-game-info-selected {
+    background-color: #FFCCCC;
+}
+
+#result-all-base {
+    margin-top: 1em;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    box-sizing: border-box;
+}
+#result-all-base.hide {
+    display: none;
+}
+
+.result-all-team-base {
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    box-sizing: border-box;
+}
+.result-all-team-banner {
+    display: grid;
+    grid-template-columns: 2em 1fr 4em 4em 4em;
+    line-height: 3em;
+}
+.result-all-team-name {
+    font-weight: bold;
+    padding-left: 1em;
+}
+.result-all-team-rank {
+    text-align: right;
+}
+.result-all-team-kills, .result-all-team-placement, .result-all-team-points {
+    text-align: center;
+    line-height: 2em;
+}
+.result-all-team-points {
+    font-weight: bold;
+}
+.result-all-team-kills-label, .result-all-team-placement-label, .result-all-team-points-label {
+    font-size: 50%;
+    line-height: 1;
+}
+.result-all-team-placement span {
+    font-size: 50%;
+}
+
+.result-all-player-base {
+    margin: 0 4em 0 8em;
+    display: grid;
+    grid-template-columns: 1fr 4em;
+    padding-left: 1em;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    box-sizing: border-box;
+}
+
+#result-single {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    box-sizing: border-box;
+    margin-top: 1em;
+}
+#result-single.hide {
+    display: none;
+}
+
+.result-single-team-base {
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+
+}
+.result-single-team-banner {
+    display: grid;
+    grid-template-columns: 1fr 2.2em 2.2em 2.4em;
+}
+.result-single-team-name {
+    font-weight: bold;
+    line-height: 2em;
+    padding-left: 1em;
+    overflow: clip;
+}
+.result-single-team-placement-label, .result-single-team-kills-label, .result-single-team-points-label {
+    font-size: 50%;
+    text-align: center;
+}
+.result-single-team-placement-value, .result-single-team-kills-value, .result-single-team-points-value {
+    text-align: center;
+}
+.result-single-player-label-base > div {
+    font-size: 50%;
+    text-align: center;
+    background-color: #CCC;
+}
+.result-single-player-label-base, .result-single-player-base {
+    font-size: 80%;
+    display: grid;
+    grid-template-columns: 1fr 5em 2em 2em 3em;
+}
+.result-single-player-base {
+    line-height: 2em;
+}
+.result-single-player-name {
+    padding-left: 0.5em;
+    overflow: clip;
+}
+.result-single-player-kills, .result-single-player-assists {
+    text-align: center;
+}
+.result-single-player-character {
+    text-align: center;
+    overflow: clip;
+    white-space: nowrap;
+    font-size: 50%;
+}
+.result-single-player-damage {
+    text-align: center;
+}
+
+/* Test */
+#test {
+    line-height: 1.5em;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+#test > div {
+    padding: 10px;
+    border: 1px solid #000;
+}
