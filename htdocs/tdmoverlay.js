@@ -139,13 +139,62 @@ class TDMScoreBoard extends OverlayBase {
     }
 }
 
+class ErrorStatus extends OverlayBase {
+    /**
+     * コンストラクタ
+     */
+    constructor() {
+        super("errorstatus", "es_");
+        super.addNode("webapi");
+        super.addNode("liveapi");
+        
+        // append
+        this.nodes.base.appendChild(this.nodes.webapi);
+        this.nodes.base.appendChild(this.nodes.liveapi);
+
+        // テキスト設定
+        this.nodes.webapi.innerText = "Overlay is not connected via WebAPI.";
+        this.nodes.liveapi.innerText = "ApexLegends is not connected via LiveAPI.";
+
+        // 初期状態
+        this.setWebAPIStatus(false);
+        this.setLiveAPIStatus(true);
+    }
+
+    /**
+     * WebAPIの接続状況によってメッセージを表示する
+     * @param {boolean} connected true=接続済,false=未接続
+     */
+    setWebAPIStatus(connected) {
+        if (connected) {
+            this.nodes.webapi.classList.add('hide');
+        } else {
+            this.nodes.webapi.classList.remove('hide');
+        }
+    }
+
+    /**
+     * LiveAPIの接続状況によってメッセージを表示する
+     * @param {boolean} connected true=接続済,false=未接続
+     */
+    setLiveAPIStatus(connected) {
+        if (connected) {
+            this.nodes.liveapi.classList.add('hide');
+        } else {
+            this.nodes.liveapi.classList.remove('hide');
+        }
+    }
+}
+
 export class TDMOverlay {
     #webapi;
     #_game; // WebAPIのゲームオブジェクト(変更しない)
     #scoreboard;
+    #errorstatus;
 
     constructor(url = "ws://127.0.0.1:20081/") {
         this.#scoreboard = new TDMScoreBoard();
+        this.#errorstatus = new ErrorStatus();
 
         this.#setupApexWebAPI(url);
 
@@ -155,11 +204,20 @@ export class TDMOverlay {
     #setupApexWebAPI(url) {
         this.#webapi = new ApexWebAPI.ApexWebAPI(url);
         this.#webapi.addEventListener("open", () => {
+            this.#errorstatus.setWebAPIStatus(true);
             this.#webapi.getAll().then((game) => {
                 this.#_game = game;
                 this.#webapi.getTournamentParams();
             });
         });
+
+        this.#webapi.addEventListener("close", () => {
+            this.#errorstatus.setWebAPIStatus(false);
+        })
+
+        this.#webapi.addEventListener("error", () => {
+            this.#errorstatus.setWebAPIStatus(false);
+        })
 
         this.#webapi.addEventListener("clearlivedata", (ev) => {
             this.#_game = ev.detail.game;
@@ -258,6 +316,12 @@ export class TDMOverlay {
             if (ev.detail.player) {
                 this.#scoreboard.select(ev.detail.player.hash);
             }
+        });
+
+        // LiveAPI側の接続状況
+        this.#webapi.addEventListener("liveapisocketstats", (ev) => {
+            const connection_count = ev.detail.conn;
+            this.#errorstatus.setLiveAPIStatus(connection_count > 0);
         });
 
         // Overlayの表示状態
