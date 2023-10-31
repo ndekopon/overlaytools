@@ -1,15 +1,17 @@
 # overlaytools
 
-ApexLegends のカスタムマッチ用オーバーレイツール。  
-リーダーボードやチーム名、プレイヤー名、アイテム数などの表示を行う。
+ApexLegends のカスタムマッチ向けオーバーレイツール。  
+大会を開いた際に、配信上の神視点画面にリアルタイム順位やチーム名、プレイヤー名、所有アイテム数などの表示を行う。  
 
-![image](https://github.com/ndekopon/overlaytools/assets/92087784/ad3d606b-e488-4755-9ada-aebd3a677d40)
-![image](https://github.com/ndekopon/overlaytools/assets/92087784/3665c1e7-6546-44b0-ad5d-bfe5eb51983a)
+
+![リーダーボード](https://github.com/ndekopon/overlaytools/assets/92087784/ad3d606b-e488-4755-9ada-aebd3a677d40)
+![アイテム数](https://github.com/ndekopon/overlaytools/assets/92087784/3665c1e7-6546-44b0-ad5d-bfe5eb51983a)
+![リザルト](https://github.com/ndekopon/overlaytools/assets/92087784/b06ccc4e-476b-452e-98ab-3260bd5aa429)
 
 ## 概要
 
 ApexLegendsからWebSocket経由でLiveAPIデータを取得し、WebブラウザとWebSocket経由でそのデータをやり取りするプログラム。  
-OBSにブラウザソースがあるので、それを使ってカスタムマッチ用のオーバーレイを表示する。
+OBSのソースにあるブラウザを利用してカスタムマッチ用のオーバーレイパーツを表示する。
 
 
 ## 必要環境
@@ -32,17 +34,18 @@ WebView2(基本的にインストール済)
 
 ## 特徴
 
-リモートのサーバーを介さずローカルのみで完結。  
+外部にあるサーバーなどへの接続は行わず、神視点を行うプレイヤーのPCのみで利用可能。  
 以下の機能がある。
 
 - オーバーレイ
-    - リーダーボード
+    - リーダーボード(リアルタイム順位表)
     - チームバナー
     - プレーヤーバナー
     - アイテム所持数表示
     - チームキル数
     - 現在のゲーム数
     - チャンピオンチーム名表示
+    - チーム排除情報表示
 - チームデスマッチ用オーバーレイ
     - スコアボード
 - 管理画面
