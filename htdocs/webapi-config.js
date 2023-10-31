@@ -30,6 +30,23 @@ class WebAPIConfigBase {
     }
 }
 
+class WebAPIConnectionStatus extends WebAPIConfigBase {
+    /**
+     * コンストラクタ
+     */
+    constructor() {
+        super('connection-status-webapi-');
+        this.getNode('state');
+    }
+    /**
+     * WebAPIの接続ステータスを設定する
+     * @param {string} state 接続状況
+     */
+    setStatus(state) {
+        this.nodes.state.innerText = state;
+    }
+}
+
 class LiveAPIConnectionStatus extends WebAPIConfigBase {
     /**
      * コンストラクタ
@@ -1245,6 +1262,7 @@ class ResultView {
 export class WebAPIConfig {
     #webapi;
     #_game;
+    #webapiconnectionstatus;
     #liveapiconnectionstatus;
     #tournament_id;
     #tournament_name;
@@ -1265,6 +1283,7 @@ export class WebAPIConfig {
         this.#realtimeview = new RealtimeView();
         this.#observerconfig = new ObserverConfig();
         this.#resultview = new ResultView();
+        this.#webapiconnectionstatus = new WebAPIConnectionStatus();
         this.#liveapiconnectionstatus = new LiveAPIConnectionStatus();
         this.#firstproccurrenthash = true;
 
@@ -1284,7 +1303,7 @@ export class WebAPIConfig {
             this.#_game = ev.detail.game;
             this.#realtimeview.setGame(ev.detail.game);
             this.#resultview.setGame(ev.detail.game);
-            this.#setConnectionStatus('open');
+            this.#webapiconnectionstatus.setStatus('open');
 
             /* 初回情報取得 */
             this.#webapi.getCurrentTournament();
@@ -1300,11 +1319,11 @@ export class WebAPIConfig {
         });
 
         this.#webapi.addEventListener('close', (ev) => {
-            this.#setConnectionStatus('close');
+            this.#webapiconnectionstatus.setStatus('close');
         });
 
         this.#webapi.addEventListener('error', (ev) => {
-            this.#setConnectionStatus('error');
+            this.#webapiconnectionstatus.setStatus('error');
         });
 
         /* 設定変更イベント */
@@ -1486,6 +1505,7 @@ export class WebAPIConfig {
     #setupButton() {
 
         document.getElementById('connectbtn').addEventListener('click', (ev) => {
+            this.#webapiconnectionstatus.setStatus('connecting...');
             this.#webapi.forceReconnect();
         });
 
@@ -2029,10 +2049,6 @@ export class WebAPIConfig {
                 this.#resultview.showSingleGameResult(gameid);
             }
         }
-    }
-
-    #setConnectionStatus(status) {
-        document.getElementById('connectstatus').innerText = status;
     }
 
     #setCurrentTournament(id, name) {
