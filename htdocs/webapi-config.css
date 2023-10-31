@@ -15,16 +15,16 @@ body {
 /* サイドバー関係 */
 #sidebar {
     box-sizing: border-box;
-    padding: 1em;
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
+}
+#sidebar > div {
+    border: 1px solid black;
+    box-sizing: border-box;
+    margin: 0.5em;
+    padding: 0.5em;
 }
 #sidebar h3 {
-    margin: 0.4em 0;
     padding: 0;
-}
-#sidebar div {
-    padding-left: 1em;
+    margin: 0.4em 0;
 }
 #sidebar dl {
     margin: 0;

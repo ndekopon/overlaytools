@@ -10,59 +10,72 @@
 <body>
 
 <div id="sidebar">
-    <h3>WebAPI Connection</h3>
     <div>
-        <button id="connectbtn">force reconnect</button>
-        <p>status: <span id="connectstatus">connecting...</span></p>
+        <h3>MENU</h3>
+        <ul id="sidebarmenu">
+            <li>
+                Tournament
+                <ul>
+                    <li><a href="#tournament-set">set</a></li>
+                    <li><a href="#tournament-rename">rename</a></li>
+                </ul>
+            </li>
+            <li>
+                Observer
+                <ul>
+                    <li><a href="#observer-set">set</a></li>
+                </ul>
+            </li>
+            <li>Player
+                <ul>
+                    <li><a href="#player-name">set name</a></li>
+                </ul>
+            </li>
+            <li>Team
+                <ul>
+                    <li><a href="#team-name">set name</a></li>
+                </ul>
+            </li>
+            <li><a href="#realtime">Realtime View</a></li>
+            <li><a href="#overlay">Overlay</a></li>
+            <li><a href="#announce">Announce</a></li>
+            <li>
+                Result
+                <ul id="ulresult">
+                    <li><a href="#result-all">all</a></li>
+                </ul>
+            </li>
+            <li><a href="#test">Test</a>
+        </ul>
     </div>
-    <h3>Current Tournament</h3>
-    <dl>
-        <dt>Name:</dt>
-        <dd id="current_tournament_name">noname</dd>
-        <dt>ID:</dt>
-        <dd id="current_tournament_id">none</dd>
-    </dl>
-    <h3>Current Observer</h3>
-    <dl>
-        <dt>ID:</dt>
-        <dd id="current_observer_id">none</dd>
-    </dl>
-    <h3>MENU</h3>
-    <ul id="sidebarmenu">
-        <li>
-            Tournament
-            <ul>
-                <li><a href="#tournament-set">set</a></li>
-                <li><a href="#tournament-rename">rename</a></li>
-            </ul>
-        </li>
-        <li>
-            Observer
-            <ul>
-                <li><a href="#observer-set">set</a></li>
-            </ul>
-        </li>
-        <li>Player
-            <ul>
-                <li><a href="#player-name">set name</a></li>
-            </ul>
-        </li>
-        <li>Team
-            <ul>
-                <li><a href="#team-name">set name</a></li>
-            </ul>
-        </li>
-        <li><a href="#realtime">Realtime View</a></li>
-        <li><a href="#overlay">Overlay</a></li>
-        <li><a href="#announce">Announce</a></li>
-        <li>
-            Result
-            <ul id="ulresult">
-                <li><a href="#result-all">all</a></li>
-            </ul>
-        </li>
-        <li><a href="#test">Test</a>
-    </ul>
+    <div>
+        <h3>Current Tournament</h3>
+        <dl>
+            <dt>Name:</dt>
+            <dd id="current_tournament_name">noname</dd>
+            <dt>ID:</dt>
+            <dd id="current_tournament_id">none</dd>
+        </dl>
+        <h3>Current Observer</h3>
+        <dl>
+            <dt>ID:</dt>
+            <dd id="current_observer_id">none</dd>
+        </dl>
+    </div>
+    <!-- 接続状態の表示 -->
+    <div id="connection-status">
+        <h3>WebAPI Connection</h3>
+        <div>
+            <button id="connectbtn">force reconnect</button>
+            <p>status: <span id="connectstatus">connecting...</span></p>
+        </div>
+        <h3>LiveAPI Connection</h3>
+        <div>
+            <p>connection count: <span id="connection-status-liveapi-connection">0</span></p>
+            <p>recv packet count: <span id="connection-status-liveapi-recv">0</span></p>
+            <p>send packet count: <span id="connection-status-liveapi-send">0</span></p>
+        </div>
+    </div>
 </div>
 
 <div id="main">

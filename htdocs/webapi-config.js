@@ -30,6 +30,29 @@ class WebAPIConfigBase {
     }
 }
 
+class LiveAPIConnectionStatus extends WebAPIConfigBase {
+    /**
+     * コンストラクタ
+     */
+    constructor() {
+        super('connection-status-liveapi-');
+        this.getNode('connection');
+        this.getNode('recv');
+        this.getNode('send');
+    }
+    /**
+     * LiveAPIの接続ステータスを設定する
+     * @param {number} conn コネクション数
+     * @param {number} recv 受信パケット数
+     * @param {number} send 送信パケット数
+     */
+    setStatus(conn, recv, send) {
+        this.nodes.connection.innerText = conn;
+        this.nodes.recv.innerText = recv;
+        this.nodes.send.innerText = send;
+    }
+}
+
 class ObserverConfig {
     #callback;
     #observers;
@@ -1222,6 +1245,7 @@ class ResultView {
 export class WebAPIConfig {
     #webapi;
     #_game;
+    #liveapiconnectionstatus;
     #tournament_id;
     #tournament_name;
     #tournament_ids;
@@ -1241,6 +1265,7 @@ export class WebAPIConfig {
         this.#realtimeview = new RealtimeView();
         this.#observerconfig = new ObserverConfig();
         this.#resultview = new ResultView();
+        this.#liveapiconnectionstatus = new LiveAPIConnectionStatus();
         this.#firstproccurrenthash = true;
 
         this.#setupWebAPI(url);
@@ -1450,6 +1475,11 @@ export class WebAPIConfig {
                 this.#tournament_params = ev.detail.params;
                 this.#setOverlayStatusFromParams(ev.detail.params);
             }
+        });
+
+        /** LiveAPI側の接続状況を表示 */
+        this.#webapi.addEventListener('liveapisocketstats', (ev) => {
+            this.#liveapiconnectionstatus.setStatus(ev.detail.conn, ev.detail.recv, ev.detail.send);
         });
     }
 
