@@ -574,6 +574,11 @@ class OwnedItems extends OverlayBase {
     static ITEM_BACKPACK_LV2_CLASS = "oi_backpack_lv2";
     static ITEM_BACKPACK_LV3_CLASS = "oi_backpack_lv3";
     static ITEM_BACKPACK_LV4_CLASS = "oi_backpack_lv4";
+    static ITEM_KNOCKDOWNSHIELD_LV0_CLASS = "oi_knockdownshield_lv0";
+    static ITEM_KNOCKDOWNSHIELD_LV1_CLASS = "oi_knockdownshield_lv1";
+    static ITEM_KNOCKDOWNSHIELD_LV2_CLASS = "oi_knockdownshield_lv2";
+    static ITEM_KNOCKDOWNSHIELD_LV3_CLASS = "oi_knockdownshield_lv3";
+    static ITEM_KNOCKDOWNSHIELD_LV4_CLASS = "oi_knockdownshield_lv4";
     static TRANSPARENT_CLASS = "oi_transparent";
 
     /**
@@ -588,7 +593,7 @@ class OwnedItems extends OverlayBase {
             "shieldcell", "shieldbattery",
             "phoenixkit", "ultimateaccelerant",
             "thermitgrenade", "fraggrenade", "arcstar",
-            "backpack"
+            "backpack", "knockdownshield"
         ];
         for (const id of ids) {
             super.addNode(id);
@@ -598,6 +603,7 @@ class OwnedItems extends OverlayBase {
         this.nodes.base.appendChild(this.nodes.top);
         this.nodes.base.appendChild(this.nodes.middle);
         this.nodes.base.appendChild(this.nodes.bottom);
+        this.nodes.top.appendChild(this.nodes.knockdownshield);
         this.nodes.top.appendChild(this.nodes.backpack);
         this.nodes.middle.appendChild(this.nodes.thermitgrenade);
         this.nodes.middle.appendChild(this.nodes.fraggrenade);
@@ -622,6 +628,7 @@ class OwnedItems extends OverlayBase {
 
         /* 追加のclass設定 */
         this.nodes.backpack.classList.add(OwnedItems.ITEM_BACKPACK_LV0_CLASS);
+        this.nodes.knockdownshield.classList.add(OwnedItems.ITEM_KNOCKDOWNSHIELD_LV0_CLASS);
     }
 
     /**
@@ -656,6 +663,24 @@ class OwnedItems extends OverlayBase {
                     OwnedItems.ITEM_BACKPACK_LV2_CLASS,
                     OwnedItems.ITEM_BACKPACK_LV3_CLASS,
                     OwnedItems.ITEM_BACKPACK_LV4_CLASS,
+                ];
+                for (let i = 0; i < lists.length; ++i) {
+                    if (i == count) {
+                        target.classList.add(lists[i]);
+                    } else {
+                        target.classList.remove(lists[i]);
+                    }
+                }
+                break;
+            }
+            case "knockdownshield": {
+                const target = this.nodes[itemid];
+                const lists = [
+                    OwnedItems.ITEM_KNOCKDOWNSHIELD_LV0_CLASS,
+                    OwnedItems.ITEM_KNOCKDOWNSHIELD_LV1_CLASS,
+                    OwnedItems.ITEM_KNOCKDOWNSHIELD_LV2_CLASS,
+                    OwnedItems.ITEM_KNOCKDOWNSHIELD_LV3_CLASS,
+                    OwnedItems.ITEM_KNOCKDOWNSHIELD_LV4_CLASS,
                 ];
                 for (let i = 0; i < lists.length; ++i) {
                     if (i == count) {

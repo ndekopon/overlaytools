@@ -33,9 +33,9 @@ html {
     --overlay-owneditems-height: 48px;
     --overlay-owneditems-bgcolor: rgba(0, 0, 0, 0.5);
     --overlay-owneditems-color: rgb(255, 255, 255);
-    --overlay-owneditems-backpack-blue-bgcolor: rgba(34, 181, 230, 0.5);
-    --overlay-owneditems-backpack-purple-bgcolor: rgba(181, 34, 230, 0.5);
-    --overlay-owneditems-backpack-gold-bgcolor: rgba(230, 178, 23, 0.5);
+    --overlay-owneditems-blue-bgcolor: rgba(34, 181, 230, 0.5);
+    --overlay-owneditems-purple-bgcolor: rgba(181, 34, 230, 0.5);
+    --overlay-owneditems-gold-bgcolor: rgba(230, 178, 23, 0.5);
     --overlay-owneditems-textshadowcolor: rgb(0, 0, 0);
     
     --overlay-gameinfo-top: 600px;
@@ -386,19 +386,42 @@ body {
 #owneditems > div > div.oi_backpack_lv2 {
     background-image: url('icon/backpack2.png');
     background-size: 55%;
-    background-color: var(--overlay-owneditems-backpack-blue-bgcolor);
+    background-color: var(--overlay-owneditems-blue-bgcolor);
 }
 
 #owneditems > div > div.oi_backpack_lv3 {
     background-image: url('icon/backpack3.png');
     background-size: 60%;
-    background-color: var(--overlay-owneditems-backpack-purple-bgcolor);
+    background-color: var(--overlay-owneditems-purple-bgcolor);
 }
 
 #owneditems > div > div.oi_backpack_lv4 {
     background-image: url('icon/backpack3.png');
     background-size: 60%;
-    background-color: var(--overlay-owneditems-backpack-gold-bgcolor);
+    background-color: var(--overlay-owneditems-gold-bgcolor);
+}
+
+.oi_knockdownshield_lv1 {
+    background-image: url('icon/knockdownshield.png');
+    background-size: 60%;
+}
+
+#owneditems > div > div.oi_knockdownshield_lv2 {
+    background-image: url('icon/knockdownshield.png');
+    background-size: 60%;
+    background-color: var(--overlay-owneditems-blue-bgcolor);
+}
+
+#owneditems > div > div.oi_knockdownshield_lv3 {
+    background-image: url('icon/knockdownshield.png');
+    background-size: 60%;
+    background-color: var(--overlay-owneditems-purple-bgcolor);
+}
+
+#owneditems > div > div.oi_knockdownshield_lv4 {
+    background-image: url('icon/knockdownshield.png');
+    background-size: 60%;
+    background-color: var(--overlay-owneditems-gold-bgcolor);
 }
 
 .oi_transparent {
