@@ -701,10 +701,20 @@ class GameInfo extends OverlayBase {
      */
     constructor() {
         super("gameinfo", "gi_");
+        super.addNode("title");
         super.addNode("gamecount");
 
         // append
+        this.nodes.base.appendChild(this.nodes.title);
         this.nodes.base.appendChild(this.nodes.gamecount);
+    }
+
+    /**
+     * ゲームのタイトルを設定する
+     * @param {string} title ゲームのタイトル
+     */
+    setTitle(title) {
+        this.nodes.title.innerText = title;
     }
 
     /**
@@ -1535,6 +1545,7 @@ export class Overlay {
 
         this.#webapi.addEventListener("getcurrenttournament", (ev) => {
             this.#tournamentname = ev.detail.name;
+            this.#gameinfo.setTitle(ev.detail.name);
         });
 
         // MatchResultの表示非表示命令

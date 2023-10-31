@@ -447,10 +447,18 @@ body {
     display: none; 
 }
 
-.gi_gamecount {
+.gi_title {
     font-size: 120%;
+    font-weight: bold;
     text-align: center;
-    line-height: var(--overlay-gameinfo-height);
+    line-height: calc(var(--overlay-gameinfo-height)/2);
+}
+
+.gi_gamecount {
+    font-size: 110%;
+    font-weight: bold;
+    text-align: center;
+    line-height: calc(var(--overlay-gameinfo-height)/2);
 }
 
 /* ChampionBanner */
