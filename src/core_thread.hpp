@@ -49,7 +49,7 @@ namespace app {
 		// player
 		void proc_player(const rtech::liveapi::Player& _player);
 		void proc_connected(uint8_t _teamid, uint8_t _squadindex);
-		void proc_disconnected(uint8_t _teamid, uint8_t _squadindex, bool _canreconnect);
+		void proc_disconnected(uint8_t _teamid, uint8_t _squadindex, bool _canreconnect, bool _alive);
 		void proc_player_stats(uint8_t _teamid, uint8_t _squadindex, const std::string& _stat, uint32_t _v);
 		void proc_item(uint8_t _teamid, uint8_t _squadindex, uint8_t _item, int _quantity);
 		void proc_respawn(uint8_t _teamid, uint8_t _squadindex);

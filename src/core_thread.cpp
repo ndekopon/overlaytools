@@ -1188,7 +1188,7 @@ namespace app {
 				uint8_t teamid = p.player().teamid();
 				uint8_t squadindex = get_squadindex(p.player());
 
-				proc_disconnected(teamid, squadindex, p.canreconnect());
+				proc_disconnected(teamid, squadindex, p.canreconnect(), p.isalive());
 			}
 		}
 		else if (_any.Is<api::PlayerStatChanged>())
@@ -2321,7 +2321,7 @@ namespace app {
 		}
 	}
 
-	void core_thread::proc_disconnected(uint8_t _teamid, uint8_t _squadindex, bool _canreconnect)
+	void core_thread::proc_disconnected(uint8_t _teamid, uint8_t _squadindex, bool _canreconnect, bool _alive)
 	{
 		auto& player = game_.teams.at(_teamid).players.at(_squadindex);
 		if (!player.disconnected)
