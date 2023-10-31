@@ -187,6 +187,9 @@ namespace app {
 			monitors.push_back(monitor_);
 		}
 
+		// ソート
+		std::sort(monitors.begin(), monitors.end());
+
 		return monitors;
 	}
 
