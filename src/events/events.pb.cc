@@ -457,6 +457,7 @@ PROTOBUF_CONSTEXPR PlayerDisconnected::PlayerDisconnected(::_pbi::ConstantInitia
       /*decltype(_impl_.player_)*/ nullptr,
       /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
       /*decltype(_impl_.canreconnect_)*/ false,
+      /*decltype(_impl_.isalive_)*/ false,
     } {}
 struct PlayerDisconnectedDefaultTypeInternal {
   PROTOBUF_CONSTEXPR PlayerDisconnectedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
@@ -1257,6 +1258,26 @@ struct CustomMatch_SetSettingsDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_SetSettingsDefaultTypeInternal _CustomMatch_SetSettings_default_instance_;
         template <typename>
+PROTOBUF_CONSTEXPR CustomMatch_SetTeamName::CustomMatch_SetTeamName(::_pbi::ConstantInitialized)
+    : _impl_{
+      /*decltype(_impl_.teamname_)*/ {
+          &::_pbi::fixed_address_empty_string,
+          ::_pbi::ConstantInitialized{},
+      },
+      /*decltype(_impl_.teamid_)*/ 0,
+      /*decltype(_impl_._cached_size_)*/ {},
+    } {}
+struct CustomMatch_SetTeamNameDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CustomMatch_SetTeamNameDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CustomMatch_SetTeamNameDefaultTypeInternal() {}
+  union {
+    CustomMatch_SetTeamName _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_SetTeamNameDefaultTypeInternal _CustomMatch_SetTeamName_default_instance_;
+        template <typename>
 PROTOBUF_CONSTEXPR CustomMatch_SendChat::CustomMatch_SendChat(::_pbi::ConstantInitialized)
     : _impl_{
       /*decltype(_impl_.text_)*/ {
@@ -1354,7 +1375,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LiveAPIEventDefaultTypeInternal _LiveAPIEvent_default_instance_;
 }  // namespace liveapi
 }  // namespace rtech
-static ::_pb::Metadata file_level_metadata_events_2eproto[56];
+static ::_pb::Metadata file_level_metadata_events_2eproto[57];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_events_2eproto[1];
 static constexpr const ::_pb::ServiceDescriptor**
     file_level_service_descriptors_events_2eproto = nullptr;
@@ -1632,9 +1653,11 @@ const ::uint32_t TableStruct_events_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerDisconnected, _impl_.category_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerDisconnected, _impl_.player_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerDisconnected, _impl_.canreconnect_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerDisconnected, _impl_.isalive_),
     ~0u,
     ~0u,
     0,
+    ~0u,
     ~0u,
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerStatChanged, _impl_._has_bits_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerStatChanged, _internal_metadata_),
@@ -2138,6 +2161,16 @@ const ::uint32_t TableStruct_events_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_SetSettings, _impl_.aimassist_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_SetSettings, _impl_.anonmode_),
     ~0u,  // no _has_bits_
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_SetTeamName, _internal_metadata_),
+    ~0u,  // no _extensions_
+    ~0u,  // no _oneof_case_
+    ~0u,  // no _weak_field_map_
+    ~0u,  // no _inlined_string_donated_
+    ~0u,  // no _split_
+    ~0u,  // no sizeof(Split)
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_SetTeamName, _impl_.teamid_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_SetTeamName, _impl_.teamname_),
+    ~0u,  // no _has_bits_
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_SendChat, _internal_metadata_),
     ~0u,  // no _extensions_
     ~0u,  // no _oneof_case_
@@ -2156,6 +2189,7 @@ const ::uint32_t TableStruct_events_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
     ~0u,  // no sizeof(Split)
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Request, _impl_.withack_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Request, _impl_.presharedkey_),
+    ::_pbi::kInvalidFieldOffsetTag,
     ::_pbi::kInvalidFieldOffsetTag,
     ::_pbi::kInvalidFieldOffsetTag,
     ::_pbi::kInvalidFieldOffsetTag,
@@ -2222,46 +2256,47 @@ static const ::_pbi::MigrationSchema
         {204, 219, -1, sizeof(::rtech::liveapi::RingStartClosing)},
         {226, 240, -1, sizeof(::rtech::liveapi::RingFinishedClosing)},
         {246, 257, -1, sizeof(::rtech::liveapi::PlayerConnected)},
-        {260, 272, -1, sizeof(::rtech::liveapi::PlayerDisconnected)},
-        {276, 289, -1, sizeof(::rtech::liveapi::PlayerStatChanged)},
-        {294, 308, -1, sizeof(::rtech::liveapi::PlayerDamaged)},
-        {314, 328, -1, sizeof(::rtech::liveapi::PlayerKilled)},
-        {334, 347, -1, sizeof(::rtech::liveapi::PlayerDowned)},
-        {352, 365, -1, sizeof(::rtech::liveapi::PlayerAssist)},
-        {370, -1, -1, sizeof(::rtech::liveapi::SquadEliminated)},
-        {381, 394, -1, sizeof(::rtech::liveapi::GibraltarShieldAbsorbed)},
-        {399, 411, -1, sizeof(::rtech::liveapi::PlayerRespawnTeam)},
-        {415, 427, -1, sizeof(::rtech::liveapi::PlayerRevive)},
-        {431, 444, -1, sizeof(::rtech::liveapi::ArenasItemSelected)},
-        {449, 462, -1, sizeof(::rtech::liveapi::ArenasItemDeselected)},
-        {467, 480, -1, sizeof(::rtech::liveapi::InventoryPickUp)},
-        {485, 499, -1, sizeof(::rtech::liveapi::InventoryDrop)},
-        {505, 518, -1, sizeof(::rtech::liveapi::InventoryUse)},
-        {523, 535, -1, sizeof(::rtech::liveapi::BannerCollected)},
-        {539, 551, -1, sizeof(::rtech::liveapi::PlayerAbilityUsed)},
-        {555, 567, -1, sizeof(::rtech::liveapi::ZiplineUsed)},
-        {571, 583, -1, sizeof(::rtech::liveapi::GrenadeThrown)},
-        {587, 599, -1, sizeof(::rtech::liveapi::BlackMarketAction)},
-        {603, 614, -1, sizeof(::rtech::liveapi::WraithPortal)},
-        {617, 628, -1, sizeof(::rtech::liveapi::WarpGateUsed)},
-        {631, 646, -1, sizeof(::rtech::liveapi::AmmoUsed)},
-        {653, 666, -1, sizeof(::rtech::liveapi::WeaponSwitched)},
-        {671, -1, -1, sizeof(::rtech::liveapi::ChangeCamera)},
-        {682, -1, -1, sizeof(::rtech::liveapi::PauseToggle)},
-        {691, -1, -1, sizeof(::rtech::liveapi::CustomMatch_CreateLobby)},
-        {699, -1, -1, sizeof(::rtech::liveapi::CustomMatch_JoinLobby)},
-        {708, -1, -1, sizeof(::rtech::liveapi::CustomMatch_LeaveLobby)},
-        {716, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetReady)},
-        {725, -1, -1, sizeof(::rtech::liveapi::CustomMatch_GetLobbyPlayers)},
-        {733, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetMatchmaking)},
-        {742, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetTeam)},
-        {753, -1, -1, sizeof(::rtech::liveapi::CustomMatch_KickPlayer)},
-        {763, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetSettings)},
-        {777, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SendChat)},
-        {786, -1, -1, sizeof(::rtech::liveapi::Request)},
-        {809, -1, -1, sizeof(::rtech::liveapi::RequestStatus)},
-        {818, 828, -1, sizeof(::rtech::liveapi::Response)},
-        {830, 840, -1, sizeof(::rtech::liveapi::LiveAPIEvent)},
+        {260, 273, -1, sizeof(::rtech::liveapi::PlayerDisconnected)},
+        {278, 291, -1, sizeof(::rtech::liveapi::PlayerStatChanged)},
+        {296, 310, -1, sizeof(::rtech::liveapi::PlayerDamaged)},
+        {316, 330, -1, sizeof(::rtech::liveapi::PlayerKilled)},
+        {336, 349, -1, sizeof(::rtech::liveapi::PlayerDowned)},
+        {354, 367, -1, sizeof(::rtech::liveapi::PlayerAssist)},
+        {372, -1, -1, sizeof(::rtech::liveapi::SquadEliminated)},
+        {383, 396, -1, sizeof(::rtech::liveapi::GibraltarShieldAbsorbed)},
+        {401, 413, -1, sizeof(::rtech::liveapi::PlayerRespawnTeam)},
+        {417, 429, -1, sizeof(::rtech::liveapi::PlayerRevive)},
+        {433, 446, -1, sizeof(::rtech::liveapi::ArenasItemSelected)},
+        {451, 464, -1, sizeof(::rtech::liveapi::ArenasItemDeselected)},
+        {469, 482, -1, sizeof(::rtech::liveapi::InventoryPickUp)},
+        {487, 501, -1, sizeof(::rtech::liveapi::InventoryDrop)},
+        {507, 520, -1, sizeof(::rtech::liveapi::InventoryUse)},
+        {525, 537, -1, sizeof(::rtech::liveapi::BannerCollected)},
+        {541, 553, -1, sizeof(::rtech::liveapi::PlayerAbilityUsed)},
+        {557, 569, -1, sizeof(::rtech::liveapi::ZiplineUsed)},
+        {573, 585, -1, sizeof(::rtech::liveapi::GrenadeThrown)},
+        {589, 601, -1, sizeof(::rtech::liveapi::BlackMarketAction)},
+        {605, 616, -1, sizeof(::rtech::liveapi::WraithPortal)},
+        {619, 630, -1, sizeof(::rtech::liveapi::WarpGateUsed)},
+        {633, 648, -1, sizeof(::rtech::liveapi::AmmoUsed)},
+        {655, 668, -1, sizeof(::rtech::liveapi::WeaponSwitched)},
+        {673, -1, -1, sizeof(::rtech::liveapi::ChangeCamera)},
+        {684, -1, -1, sizeof(::rtech::liveapi::PauseToggle)},
+        {693, -1, -1, sizeof(::rtech::liveapi::CustomMatch_CreateLobby)},
+        {701, -1, -1, sizeof(::rtech::liveapi::CustomMatch_JoinLobby)},
+        {710, -1, -1, sizeof(::rtech::liveapi::CustomMatch_LeaveLobby)},
+        {718, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetReady)},
+        {727, -1, -1, sizeof(::rtech::liveapi::CustomMatch_GetLobbyPlayers)},
+        {735, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetMatchmaking)},
+        {744, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetTeam)},
+        {755, -1, -1, sizeof(::rtech::liveapi::CustomMatch_KickPlayer)},
+        {765, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetSettings)},
+        {779, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetTeamName)},
+        {789, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SendChat)},
+        {798, -1, -1, sizeof(::rtech::liveapi::Request)},
+        {822, -1, -1, sizeof(::rtech::liveapi::RequestStatus)},
+        {831, 841, -1, sizeof(::rtech::liveapi::Response)},
+        {843, 853, -1, sizeof(::rtech::liveapi::LiveAPIEvent)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -2316,6 +2351,7 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::rtech::liveapi::_CustomMatch_SetTeam_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_KickPlayer_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_SetSettings_default_instance_._instance,
+    &::rtech::liveapi::_CustomMatch_SetTeamName_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_SendChat_default_instance_._instance,
     &::rtech::liveapi::_Request_default_instance_._instance,
     &::rtech::liveapi::_RequestStatus_default_instance_._instance,
@@ -2376,134 +2412,138 @@ const char descriptor_table_protodef_events_2eproto[] PROTOBUF_SECTION_VARIABLE(
     "\001(\002\022\026\n\016shrinkDuration\030\007 \001(\002\"]\n\017PlayerCon"
     "nected\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 "
     "\001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Play"
-    "er\"v\n\022PlayerDisconnected\022\021\n\ttimestamp\030\001 "
-    "\001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025."
-    "rtech.liveapi.Player\022\024\n\014canReconnect\030\004 \001"
-    "(\010\"\203\001\n\021PlayerStatChanged\022\021\n\ttimestamp\030\001 "
-    "\001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025."
-    "rtech.liveapi.Player\022\020\n\010statName\030\004 \001(\t\022\020"
-    "\n\010newValue\030\005 \001(\r\"\255\001\n\rPlayerDamaged\022\021\n\tti"
-    "mestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\'\n\010attac"
-    "ker\030\003 \001(\0132\025.rtech.liveapi.Player\022%\n\006vict"
-    "im\030\004 \001(\0132\025.rtech.liveapi.Player\022\016\n\006weapo"
-    "n\030\005 \001(\t\022\027\n\017damageInflicted\030\006 \001(\r\"\275\001\n\014Pla"
-    "yerKilled\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category"
-    "\030\002 \001(\t\022\'\n\010attacker\030\003 \001(\0132\025.rtech.liveapi"
-    ".Player\022%\n\006victim\030\004 \001(\0132\025.rtech.liveapi."
-    "Player\022(\n\tawardedTo\030\005 \001(\0132\025.rtech.liveap"
-    "i.Player\022\016\n\006weapon\030\006 \001(\t\"\223\001\n\014PlayerDowne"
-    "d\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\'"
-    "\n\010attacker\030\003 \001(\0132\025.rtech.liveapi.Player\022"
-    "%\n\006victim\030\004 \001(\0132\025.rtech.liveapi.Player\022\016"
-    "\n\006weapon\030\005 \001(\t\"\224\001\n\014PlayerAssist\022\021\n\ttimes"
-    "tamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022(\n\tassistan"
-    "t\030\003 \001(\0132\025.rtech.liveapi.Player\022%\n\006victim"
-    "\030\004 \001(\0132\025.rtech.liveapi.Player\022\016\n\006weapon\030"
-    "\005 \001(\t\"^\n\017SquadEliminated\022\021\n\ttimestamp\030\001 "
-    "\001(\004\022\020\n\010category\030\002 \001(\t\022&\n\007players\030\003 \003(\0132\025"
-    ".rtech.liveapi.Player\"\247\001\n\027GibraltarShiel"
-    "dAbsorbed\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category"
-    "\030\002 \001(\t\022\'\n\010attacker\030\003 \001(\0132\025.rtech.liveapi"
-    ".Player\022%\n\006victim\030\004 \001(\0132\025.rtech.liveapi."
-    "Player\022\027\n\017damageInflicted\030\006 \001(\r\"r\n\021Playe"
-    "rRespawnTeam\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010categ"
-    "ory\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveap"
-    "i.Player\022\021\n\trespawned\030\004 \001(\t\"\202\001\n\014PlayerRe"
-    "vive\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001("
-    "\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Player"
-    "\022&\n\007revived\030\004 \001(\0132\025.rtech.liveapi.Player"
-    "\"\200\001\n\022ArenasItemSelected\022\021\n\ttimestamp\030\001 \001"
-    "(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.r"
-    "tech.liveapi.Player\022\014\n\004item\030\004 \001(\t\022\020\n\010qua"
-    "ntity\030\005 \001(\005\"\202\001\n\024ArenasItemDeselected\022\021\n\t"
-    "timestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006pla"
-    "yer\030\003 \001(\0132\025.rtech.liveapi.Player\022\014\n\004item"
-    "\030\004 \001(\t\022\020\n\010quantity\030\005 \001(\005\"}\n\017InventoryPic"
-    "kUp\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t"
-    "\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Player\022"
-    "\014\n\004item\030\004 \001(\t\022\020\n\010quantity\030\005 \001(\005\"\216\001\n\rInve"
-    "ntoryDrop\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category"
-    "\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.P"
-    "layer\022\014\n\004item\030\004 \001(\t\022\020\n\010quantity\030\005 \001(\005\022\021\n"
-    "\textraData\030\006 \003(\t\"z\n\014InventoryUse\022\021\n\ttime"
-    "stamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030"
-    "\003 \001(\0132\025.rtech.liveapi.Player\022\014\n\004item\030\004 \001"
-    "(\t\022\020\n\010quantity\030\005 \001(\005\"\207\001\n\017BannerCollected"
-    "\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n"
-    "\006player\030\003 \001(\0132\025.rtech.liveapi.Player\022(\n\t"
-    "collected\030\004 \001(\0132\025.rtech.liveapi.Player\"u"
-    "\n\021PlayerAbilityUsed\022\021\n\ttimestamp\030\001 \001(\004\022\020"
-    "\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech"
-    ".liveapi.Player\022\024\n\014linkedEntity\030\004 \001(\t\"o\n"
-    "\013ZiplineUsed\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010categ"
-    "ory\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveap"
-    "i.Player\022\024\n\014linkedEntity\030\004 \001(\t\"q\n\rGrenad"
-    "eThrown\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002"
-    " \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Pla"
-    "yer\022\024\n\014linkedEntity\030\004 \001(\t\"m\n\021BlackMarket"
-    "Action\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 "
-    "\001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Play"
-    "er\022\014\n\004item\030\004 \001(\t\"Z\n\014WraithPortal\022\021\n\ttime"
-    "stamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030"
-    "\003 \001(\0132\025.rtech.liveapi.Player\"Z\n\014WarpGate"
-    "Used\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001("
-    "\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Player"
-    "\"\250\001\n\010AmmoUsed\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010cate"
-    "gory\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.livea"
-    "pi.Player\022\020\n\010ammoType\030\004 \001(\t\022\022\n\namountUse"
-    "d\030\005 \001(\r\022\024\n\014oldAmmoCount\030\006 \001(\r\022\024\n\014newAmmo"
-    "Count\030\007 \001(\r\"\202\001\n\016WeaponSwitched\022\021\n\ttimest"
+    "er\"\207\001\n\022PlayerDisconnected\022\021\n\ttimestamp\030\001"
+    " \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025"
+    ".rtech.liveapi.Player\022\024\n\014canReconnect\030\004 "
+    "\001(\010\022\017\n\007isAlive\030\005 \001(\010\"\203\001\n\021PlayerStatChang"
+    "ed\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022"
+    "%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Player\022\020"
+    "\n\010statName\030\004 \001(\t\022\020\n\010newValue\030\005 \001(\r\"\255\001\n\rP"
+    "layerDamaged\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010categ"
+    "ory\030\002 \001(\t\022\'\n\010attacker\030\003 \001(\0132\025.rtech.live"
+    "api.Player\022%\n\006victim\030\004 \001(\0132\025.rtech.livea"
+    "pi.Player\022\016\n\006weapon\030\005 \001(\t\022\027\n\017damageInfli"
+    "cted\030\006 \001(\r\"\275\001\n\014PlayerKilled\022\021\n\ttimestamp"
+    "\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\'\n\010attacker\030\003 \001"
+    "(\0132\025.rtech.liveapi.Player\022%\n\006victim\030\004 \001("
+    "\0132\025.rtech.liveapi.Player\022(\n\tawardedTo\030\005 "
+    "\001(\0132\025.rtech.liveapi.Player\022\016\n\006weapon\030\006 \001"
+    "(\t\"\223\001\n\014PlayerDowned\022\021\n\ttimestamp\030\001 \001(\004\022\020"
+    "\n\010category\030\002 \001(\t\022\'\n\010attacker\030\003 \001(\0132\025.rte"
+    "ch.liveapi.Player\022%\n\006victim\030\004 \001(\0132\025.rtec"
+    "h.liveapi.Player\022\016\n\006weapon\030\005 \001(\t\"\224\001\n\014Pla"
+    "yerAssist\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category"
+    "\030\002 \001(\t\022(\n\tassistant\030\003 \001(\0132\025.rtech.liveap"
+    "i.Player\022%\n\006victim\030\004 \001(\0132\025.rtech.liveapi"
+    ".Player\022\016\n\006weapon\030\005 \001(\t\"^\n\017SquadEliminat"
+    "ed\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022"
+    "&\n\007players\030\003 \003(\0132\025.rtech.liveapi.Player\""
+    "\247\001\n\027GibraltarShieldAbsorbed\022\021\n\ttimestamp"
+    "\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\'\n\010attacker\030\003 \001"
+    "(\0132\025.rtech.liveapi.Player\022%\n\006victim\030\004 \001("
+    "\0132\025.rtech.liveapi.Player\022\027\n\017damageInflic"
+    "ted\030\006 \001(\r\"r\n\021PlayerRespawnTeam\022\021\n\ttimest"
     "amp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 "
-    "\001(\0132\025.rtech.liveapi.Player\022\021\n\toldWeapon\030"
-    "\004 \001(\t\022\021\n\tnewWeapon\030\005 \001(\t\"X\n\014ChangeCamera"
-    "\022.\n\003poi\030\001 \001(\0162\037.rtech.liveapi.PlayerOfIn"
-    "terestH\000\022\016\n\004name\030\002 \001(\tH\000B\010\n\006target\"\037\n\013Pa"
-    "useToggle\022\020\n\010preTimer\030\001 \001(\002\"\031\n\027CustomMat"
-    "ch_CreateLobby\"*\n\025CustomMatch_JoinLobby\022"
-    "\021\n\troleToken\030\001 \001(\t\"\030\n\026CustomMatch_LeaveL"
-    "obby\"\'\n\024CustomMatch_SetReady\022\017\n\007isReady\030"
-    "\001 \001(\010\"\035\n\033CustomMatch_GetLobbyPlayers\"-\n\032"
-    "CustomMatch_SetMatchmaking\022\017\n\007enabled\030\001 "
-    "\001(\010\"\\\n\023CustomMatch_SetTeam\022\016\n\006teamId\030\001 \001"
-    "(\005\022\032\n\022targetHardwareName\030\002 \001(\t\022\031\n\021target"
-    "NucleusHash\030\003 \001(\t\"O\n\026CustomMatch_KickPla"
-    "yer\022\032\n\022targetHardwareName\030\001 \001(\t\022\031\n\021targe"
-    "tNucleusHash\030\002 \001(\t\"\217\001\n\027CustomMatch_SetSe"
-    "ttings\022\024\n\014playlistName\030\001 \001(\t\022\021\n\tadminCha"
-    "t\030\002 \001(\010\022\022\n\nteamRename\030\003 \001(\010\022\022\n\nselfAssig"
-    "n\030\004 \001(\010\022\021\n\taimAssist\030\005 \001(\010\022\020\n\010anonMode\030\006"
-    " \001(\010\"$\n\024CustomMatch_SendChat\022\014\n\004text\030\001 \001"
-    "(\t\"\200\007\n\007Request\022\017\n\007withAck\030\001 \001(\010\022\024\n\014preSh"
-    "aredKey\030\002 \001(\t\0220\n\tchangeCam\030\004 \001(\0132\033.rtech"
-    ".liveapi.ChangeCameraH\000\0221\n\013pauseToggle\030\005"
-    " \001(\0132\032.rtech.liveapi.PauseToggleH\000\022I\n\027cu"
-    "stomMatch_CreateLobby\030\n \001(\0132&.rtech.live"
-    "api.CustomMatch_CreateLobbyH\000\022E\n\025customM"
-    "atch_JoinLobby\030\013 \001(\0132$.rtech.liveapi.Cus"
-    "tomMatch_JoinLobbyH\000\022G\n\026customMatch_Leav"
-    "eLobby\030\014 \001(\0132%.rtech.liveapi.CustomMatch"
-    "_LeaveLobbyH\000\022C\n\024customMatch_SetReady\030\r "
-    "\001(\0132#.rtech.liveapi.CustomMatch_SetReady"
-    "H\000\022O\n\032customMatch_SetMatchmaking\030\016 \001(\0132)"
-    ".rtech.liveapi.CustomMatch_SetMatchmakin"
-    "gH\000\022A\n\023customMatch_SetTeam\030\017 \001(\0132\".rtech"
-    ".liveapi.CustomMatch_SetTeamH\000\022G\n\026custom"
-    "Match_KickPlayer\030\020 \001(\0132%.rtech.liveapi.C"
-    "ustomMatch_KickPlayerH\000\022I\n\027customMatch_S"
-    "etSettings\030\021 \001(\0132&.rtech.liveapi.CustomM"
-    "atch_SetSettingsH\000\022C\n\024customMatch_SendCh"
-    "at\030\022 \001(\0132#.rtech.liveapi.CustomMatch_Sen"
-    "dChatH\000\022Q\n\033customMatch_GetLobbyPlayers\030\023"
-    " \001(\0132*.rtech.liveapi.CustomMatch_GetLobb"
-    "yPlayersH\000B\t\n\007actions\"\037\n\rRequestStatus\022\016"
-    "\n\006status\030\001 \001(\t\"A\n\010Response\022\017\n\007success\030\001 "
-    "\001(\010\022$\n\006result\030\002 \001(\0132\024.google.protobuf.An"
-    "y\"M\n\014LiveAPIEvent\022\022\n\nevent_size\030\001 \001(\007\022)\n"
-    "\013gameMessage\030\003 \001(\0132\024.google.protobuf.Any"
-    "*\210\001\n\020PlayerOfInterest\022\017\n\013UNSPECIFIED\020\000\022\010"
-    "\n\004NEXT\020\001\022\014\n\010PREVIOUS\020\002\022\017\n\013KILL_LEADER\020\003\022"
-    "\021\n\rCLOSEST_ENEMY\020\004\022\022\n\016CLOSEST_PLAYER\020\005\022\023"
-    "\n\017LATEST_ATTACKER\020\006b\006proto3"
+    "\001(\0132\025.rtech.liveapi.Player\022\021\n\trespawned\030"
+    "\004 \001(\t\"\202\001\n\014PlayerRevive\022\021\n\ttimestamp\030\001 \001("
+    "\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rt"
+    "ech.liveapi.Player\022&\n\007revived\030\004 \001(\0132\025.rt"
+    "ech.liveapi.Player\"\200\001\n\022ArenasItemSelecte"
+    "d\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%"
+    "\n\006player\030\003 \001(\0132\025.rtech.liveapi.Player\022\014\n"
+    "\004item\030\004 \001(\t\022\020\n\010quantity\030\005 \001(\005\"\202\001\n\024Arenas"
+    "ItemDeselected\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010cat"
+    "egory\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.live"
+    "api.Player\022\014\n\004item\030\004 \001(\t\022\020\n\010quantity\030\005 \001"
+    "(\005\"}\n\017InventoryPickUp\022\021\n\ttimestamp\030\001 \001(\004"
+    "\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rte"
+    "ch.liveapi.Player\022\014\n\004item\030\004 \001(\t\022\020\n\010quant"
+    "ity\030\005 \001(\005\"\216\001\n\rInventoryDrop\022\021\n\ttimestamp"
+    "\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\013"
+    "2\025.rtech.liveapi.Player\022\014\n\004item\030\004 \001(\t\022\020\n"
+    "\010quantity\030\005 \001(\005\022\021\n\textraData\030\006 \003(\t\"z\n\014In"
+    "ventoryUse\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010categor"
+    "y\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi."
+    "Player\022\014\n\004item\030\004 \001(\t\022\020\n\010quantity\030\005 \001(\005\"\207"
+    "\001\n\017BannerCollected\022\021\n\ttimestamp\030\001 \001(\004\022\020\n"
+    "\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech."
+    "liveapi.Player\022(\n\tcollected\030\004 \001(\0132\025.rtec"
+    "h.liveapi.Player\"u\n\021PlayerAbilityUsed\022\021\n"
+    "\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006pl"
+    "ayer\030\003 \001(\0132\025.rtech.liveapi.Player\022\024\n\014lin"
+    "kedEntity\030\004 \001(\t\"o\n\013ZiplineUsed\022\021\n\ttimest"
+    "amp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 "
+    "\001(\0132\025.rtech.liveapi.Player\022\024\n\014linkedEnti"
+    "ty\030\004 \001(\t\"q\n\rGrenadeThrown\022\021\n\ttimestamp\030\001"
+    " \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025"
+    ".rtech.liveapi.Player\022\024\n\014linkedEntity\030\004 "
+    "\001(\t\"m\n\021BlackMarketAction\022\021\n\ttimestamp\030\001 "
+    "\001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025."
+    "rtech.liveapi.Player\022\014\n\004item\030\004 \001(\t\"Z\n\014Wr"
+    "aithPortal\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010categor"
+    "y\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi."
+    "Player\"Z\n\014WarpGateUsed\022\021\n\ttimestamp\030\001 \001("
+    "\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rt"
+    "ech.liveapi.Player\"\250\001\n\010AmmoUsed\022\021\n\ttimes"
+    "tamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003"
+    " \001(\0132\025.rtech.liveapi.Player\022\020\n\010ammoType\030"
+    "\004 \001(\t\022\022\n\namountUsed\030\005 \001(\r\022\024\n\014oldAmmoCoun"
+    "t\030\006 \001(\r\022\024\n\014newAmmoCount\030\007 \001(\r\"\202\001\n\016Weapon"
+    "Switched\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030"
+    "\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Pl"
+    "ayer\022\021\n\toldWeapon\030\004 \001(\t\022\021\n\tnewWeapon\030\005 \001"
+    "(\t\"X\n\014ChangeCamera\022.\n\003poi\030\001 \001(\0162\037.rtech."
+    "liveapi.PlayerOfInterestH\000\022\016\n\004name\030\002 \001(\t"
+    "H\000B\010\n\006target\"\037\n\013PauseToggle\022\020\n\010preTimer\030"
+    "\001 \001(\002\"\031\n\027CustomMatch_CreateLobby\"*\n\025Cust"
+    "omMatch_JoinLobby\022\021\n\troleToken\030\001 \001(\t\"\030\n\026"
+    "CustomMatch_LeaveLobby\"\'\n\024CustomMatch_Se"
+    "tReady\022\017\n\007isReady\030\001 \001(\010\"\035\n\033CustomMatch_G"
+    "etLobbyPlayers\"-\n\032CustomMatch_SetMatchma"
+    "king\022\017\n\007enabled\030\001 \001(\010\"\\\n\023CustomMatch_Set"
+    "Team\022\016\n\006teamId\030\001 \001(\005\022\032\n\022targetHardwareNa"
+    "me\030\002 \001(\t\022\031\n\021targetNucleusHash\030\003 \001(\t\"O\n\026C"
+    "ustomMatch_KickPlayer\022\032\n\022targetHardwareN"
+    "ame\030\001 \001(\t\022\031\n\021targetNucleusHash\030\002 \001(\t\"\217\001\n"
+    "\027CustomMatch_SetSettings\022\024\n\014playlistName"
+    "\030\001 \001(\t\022\021\n\tadminChat\030\002 \001(\010\022\022\n\nteamRename\030"
+    "\003 \001(\010\022\022\n\nselfAssign\030\004 \001(\010\022\021\n\taimAssist\030\005"
+    " \001(\010\022\020\n\010anonMode\030\006 \001(\010\";\n\027CustomMatch_Se"
+    "tTeamName\022\016\n\006teamId\030\001 \001(\005\022\020\n\010teamName\030\002 "
+    "\001(\t\"$\n\024CustomMatch_SendChat\022\014\n\004text\030\001 \001("
+    "\t\"\313\007\n\007Request\022\017\n\007withAck\030\001 \001(\010\022\024\n\014preSha"
+    "redKey\030\002 \001(\t\0220\n\tchangeCam\030\004 \001(\0132\033.rtech."
+    "liveapi.ChangeCameraH\000\0221\n\013pauseToggle\030\005 "
+    "\001(\0132\032.rtech.liveapi.PauseToggleH\000\022I\n\027cus"
+    "tomMatch_CreateLobby\030\n \001(\0132&.rtech.livea"
+    "pi.CustomMatch_CreateLobbyH\000\022E\n\025customMa"
+    "tch_JoinLobby\030\013 \001(\0132$.rtech.liveapi.Cust"
+    "omMatch_JoinLobbyH\000\022G\n\026customMatch_Leave"
+    "Lobby\030\014 \001(\0132%.rtech.liveapi.CustomMatch_"
+    "LeaveLobbyH\000\022C\n\024customMatch_SetReady\030\r \001"
+    "(\0132#.rtech.liveapi.CustomMatch_SetReadyH"
+    "\000\022O\n\032customMatch_SetMatchmaking\030\016 \001(\0132)."
+    "rtech.liveapi.CustomMatch_SetMatchmaking"
+    "H\000\022A\n\023customMatch_SetTeam\030\017 \001(\0132\".rtech."
+    "liveapi.CustomMatch_SetTeamH\000\022G\n\026customM"
+    "atch_KickPlayer\030\020 \001(\0132%.rtech.liveapi.Cu"
+    "stomMatch_KickPlayerH\000\022I\n\027customMatch_Se"
+    "tSettings\030\021 \001(\0132&.rtech.liveapi.CustomMa"
+    "tch_SetSettingsH\000\022C\n\024customMatch_SendCha"
+    "t\030\022 \001(\0132#.rtech.liveapi.CustomMatch_Send"
+    "ChatH\000\022Q\n\033customMatch_GetLobbyPlayers\030\023 "
+    "\001(\0132*.rtech.liveapi.CustomMatch_GetLobby"
+    "PlayersH\000\022I\n\027customMatch_SetTeamName\030\024 \001"
+    "(\0132&.rtech.liveapi.CustomMatch_SetTeamNa"
+    "meH\000B\t\n\007actions\"\037\n\rRequestStatus\022\016\n\006stat"
+    "us\030\001 \001(\t\"A\n\010Response\022\017\n\007success\030\001 \001(\010\022$\n"
+    "\006result\030\002 \001(\0132\024.google.protobuf.Any\"M\n\014L"
+    "iveAPIEvent\022\022\n\nevent_size\030\001 \001(\007\022)\n\013gameM"
+    "essage\030\003 \001(\0132\024.google.protobuf.Any*\210\001\n\020P"
+    "layerOfInterest\022\017\n\013UNSPECIFIED\020\000\022\010\n\004NEXT"
+    "\020\001\022\014\n\010PREVIOUS\020\002\022\017\n\013KILL_LEADER\020\003\022\021\n\rCLO"
+    "SEST_ENEMY\020\004\022\022\n\016CLOSEST_PLAYER\020\005\022\023\n\017LATE"
+    "ST_ATTACKER\020\006b\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_events_2eproto_deps[1] =
     {
@@ -2513,13 +2553,13 @@ static ::absl::once_flag descriptor_table_events_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_events_2eproto = {
     false,
     false,
-    7227,
+    7381,
     descriptor_table_protodef_events_2eproto,
     "events.proto",
     &descriptor_table_events_2eproto_once,
     descriptor_table_events_2eproto_deps,
     1,
-    56,
+    57,
     schemas,
     file_default_instances,
     TableStruct_events_2eproto::offsets,
@@ -7955,6 +7995,7 @@ PlayerDisconnected::PlayerDisconnected(const PlayerDisconnected& from) : ::googl
       decltype(_impl_.player_){nullptr},
       decltype(_impl_.timestamp_){},
       decltype(_impl_.canreconnect_){},
+      decltype(_impl_.isalive_){},
   };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
@@ -7969,8 +8010,8 @@ PlayerDisconnected::PlayerDisconnected(const PlayerDisconnected& from) : ::googl
     _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
   }
   ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.canreconnect_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.canreconnect_));
+    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.isalive_) -
+    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.isalive_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.PlayerDisconnected)
 }
@@ -7983,6 +8024,7 @@ inline void PlayerDisconnected::SharedCtor(::_pb::Arena* arena) {
       decltype(_impl_.player_){nullptr},
       decltype(_impl_.timestamp_){::uint64_t{0u}},
       decltype(_impl_.canreconnect_){false},
+      decltype(_impl_.isalive_){false},
   };
   _impl_.category_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -8016,8 +8058,8 @@ PROTOBUF_NOINLINE void PlayerDisconnected::Clear() {
     _impl_.player_->Clear();
   }
   ::memset(&_impl_.timestamp_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.canreconnect_) -
-      reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.canreconnect_));
+      reinterpret_cast<char*>(&_impl_.isalive_) -
+      reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.isalive_));
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -8030,23 +8072,21 @@ const char* PlayerDisconnected::_InternalParse(
 
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 4, 1, 49, 2> PlayerDisconnected::_table_ = {
+const ::_pbi::TcParseTable<3, 5, 1, 49, 2> PlayerDisconnected::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(PlayerDisconnected, _impl_._has_bits_),
     0, // no _extensions_
-    4, 24,  // max_field_number, fast_idx_mask
+    5, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967280,  // skipmap
+    4294967264,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    4,  // num_field_entries
+    5,  // num_field_entries
     1,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     &_PlayerDisconnected_default_instance_._instance,
     ::_pbi::TcParser::GenericFallback,  // fallback
   }, {{
-    // bool canReconnect = 4;
-    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(PlayerDisconnected, _impl_.canreconnect_), 63>(),
-     {32, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerDisconnected, _impl_.canreconnect_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // uint64 timestamp = 1;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(PlayerDisconnected, _impl_.timestamp_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerDisconnected, _impl_.timestamp_)}},
@@ -8056,6 +8096,14 @@ const ::_pbi::TcParseTable<2, 4, 1, 49, 2> PlayerDisconnected::_table_ = {
     // .rtech.liveapi.Player player = 3;
     {::_pbi::TcParser::FastMtS1,
      {26, 0, 0, PROTOBUF_FIELD_OFFSET(PlayerDisconnected, _impl_.player_)}},
+    // bool canReconnect = 4;
+    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(PlayerDisconnected, _impl_.canreconnect_), 63>(),
+     {32, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerDisconnected, _impl_.canreconnect_)}},
+    // bool isAlive = 5;
+    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(PlayerDisconnected, _impl_.isalive_), 63>(),
+     {40, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerDisconnected, _impl_.isalive_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
@@ -8070,6 +8118,9 @@ const ::_pbi::TcParseTable<2, 4, 1, 49, 2> PlayerDisconnected::_table_ = {
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // bool canReconnect = 4;
     {PROTOBUF_FIELD_OFFSET(PlayerDisconnected, _impl_.canreconnect_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kBool)},
+    // bool isAlive = 5;
+    {PROTOBUF_FIELD_OFFSET(PlayerDisconnected, _impl_.isalive_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kBool)},
   }}, {{
     {::_pbi::TcParser::GetTable<::rtech::liveapi::Player>()},
@@ -8117,6 +8168,13 @@ const ::_pbi::TcParseTable<2, 4, 1, 49, 2> PlayerDisconnected::_table_ = {
         4, this->_internal_canreconnect(), target);
   }
 
+  // bool isAlive = 5;
+  if (this->_internal_isalive() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(
+        5, this->_internal_isalive(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target =
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -8159,6 +8217,11 @@ const ::_pbi::TcParseTable<2, 4, 1, 49, 2> PlayerDisconnected::_table_ = {
     total_size += 2;
   }
 
+  // bool isAlive = 5;
+  if (this->_internal_isalive() != 0) {
+    total_size += 2;
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -8190,6 +8253,9 @@ void PlayerDisconnected::MergeImpl(::google::protobuf::Message& to_msg, const ::
   if (from._internal_canreconnect() != 0) {
     _this->_internal_set_canreconnect(from._internal_canreconnect());
   }
+  if (from._internal_isalive() != 0) {
+    _this->_internal_set_isalive(from._internal_isalive());
+  }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -8213,8 +8279,8 @@ void PlayerDisconnected::InternalSwap(PlayerDisconnected* other) {
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
                                        &other->_impl_.category_, rhs_arena);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(PlayerDisconnected, _impl_.canreconnect_)
-      + sizeof(PlayerDisconnected::_impl_.canreconnect_)
+      PROTOBUF_FIELD_OFFSET(PlayerDisconnected, _impl_.isalive_)
+      + sizeof(PlayerDisconnected::_impl_.isalive_)
       - PROTOBUF_FIELD_OFFSET(PlayerDisconnected, _impl_.player_)>(
           reinterpret_cast<char*>(&_impl_.player_),
           reinterpret_cast<char*>(&other->_impl_.player_));
@@ -17865,6 +17931,224 @@ void CustomMatch_SetSettings::InternalSwap(CustomMatch_SetSettings* other) {
 }
 // ===================================================================
 
+class CustomMatch_SetTeamName::_Internal {
+ public:
+};
+
+CustomMatch_SetTeamName::CustomMatch_SetTeamName(::google::protobuf::Arena* arena)
+    : ::google::protobuf::Message(arena) {
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_SetTeamName)
+}
+CustomMatch_SetTeamName::CustomMatch_SetTeamName(const CustomMatch_SetTeamName& from) : ::google::protobuf::Message() {
+  CustomMatch_SetTeamName* const _this = this;
+  (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.teamname_){},
+      decltype(_impl_.teamid_){},
+      /*decltype(_impl_._cached_size_)*/ {},
+  };
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  _impl_.teamname_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        _impl_.teamname_.Set("", GetArenaForAllocation());
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_teamname().empty()) {
+    _this->_impl_.teamname_.Set(from._internal_teamname(), _this->GetArenaForAllocation());
+  }
+  _this->_impl_.teamid_ = from._impl_.teamid_;
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CustomMatch_SetTeamName)
+}
+inline void CustomMatch_SetTeamName::SharedCtor(::_pb::Arena* arena) {
+  (void)arena;
+  new (&_impl_) Impl_{
+      decltype(_impl_.teamname_){},
+      decltype(_impl_.teamid_){0},
+      /*decltype(_impl_._cached_size_)*/ {},
+  };
+  _impl_.teamname_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        _impl_.teamname_.Set("", GetArenaForAllocation());
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+CustomMatch_SetTeamName::~CustomMatch_SetTeamName() {
+  // @@protoc_insertion_point(destructor:rtech.liveapi.CustomMatch_SetTeamName)
+  _internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  SharedDtor();
+}
+inline void CustomMatch_SetTeamName::SharedDtor() {
+  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.teamname_.Destroy();
+}
+void CustomMatch_SetTeamName::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+PROTOBUF_NOINLINE void CustomMatch_SetTeamName::Clear() {
+// @@protoc_insertion_point(message_clear_start:rtech.liveapi.CustomMatch_SetTeamName)
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.teamname_.ClearToEmpty();
+  _impl_.teamid_ = 0;
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+const char* CustomMatch_SetTeamName::_InternalParse(
+    const char* ptr, ::_pbi::ParseContext* ctx) {
+  ptr = ::_pbi::TcParser::ParseLoop(this, ptr, ctx, &_table_.header);
+  return ptr;
+}
+
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<1, 2, 0, 54, 2> CustomMatch_SetTeamName::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    2, 8,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967292,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    2,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    &_CustomMatch_SetTeamName_default_instance_._instance,
+    ::_pbi::TcParser::GenericFallback,  // fallback
+  }, {{
+    // string teamName = 2;
+    {::_pbi::TcParser::FastUS1,
+     {18, 63, 0, PROTOBUF_FIELD_OFFSET(CustomMatch_SetTeamName, _impl_.teamname_)}},
+    // int32 teamId = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(CustomMatch_SetTeamName, _impl_.teamid_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(CustomMatch_SetTeamName, _impl_.teamid_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // int32 teamId = 1;
+    {PROTOBUF_FIELD_OFFSET(CustomMatch_SetTeamName, _impl_.teamid_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+    // string teamName = 2;
+    {PROTOBUF_FIELD_OFFSET(CustomMatch_SetTeamName, _impl_.teamname_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+  }},
+  // no aux_entries
+  {{
+    "\45\0\10\0\0\0\0\0"
+    "rtech.liveapi.CustomMatch_SetTeamName"
+    "teamName"
+  }},
+};
+
+::uint8_t* CustomMatch_SetTeamName::_InternalSerialize(
+    ::uint8_t* target,
+    ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:rtech.liveapi.CustomMatch_SetTeamName)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  // int32 teamId = 1;
+  if (this->_internal_teamid() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::
+        WriteInt32ToArrayWithField<1>(
+            stream, this->_internal_teamid(), target);
+  }
+
+  // string teamName = 2;
+  if (!this->_internal_teamname().empty()) {
+    const std::string& _s = this->_internal_teamname();
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.CustomMatch_SetTeamName.teamName");
+    target = stream->WriteStringMaybeAliased(2, _s, target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rtech.liveapi.CustomMatch_SetTeamName)
+  return target;
+}
+
+::size_t CustomMatch_SetTeamName::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:rtech.liveapi.CustomMatch_SetTeamName)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string teamName = 2;
+  if (!this->_internal_teamname().empty()) {
+    total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                    this->_internal_teamname());
+  }
+
+  // int32 teamId = 1;
+  if (this->_internal_teamid() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+        this->_internal_teamid());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::google::protobuf::Message::ClassData CustomMatch_SetTeamName::_class_data_ = {
+    ::google::protobuf::Message::CopyWithSourceCheck,
+    CustomMatch_SetTeamName::MergeImpl
+};
+const ::google::protobuf::Message::ClassData*CustomMatch_SetTeamName::GetClassData() const { return &_class_data_; }
+
+
+void CustomMatch_SetTeamName::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
+  auto* const _this = static_cast<CustomMatch_SetTeamName*>(&to_msg);
+  auto& from = static_cast<const CustomMatch_SetTeamName&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:rtech.liveapi.CustomMatch_SetTeamName)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_teamname().empty()) {
+    _this->_internal_set_teamname(from._internal_teamname());
+  }
+  if (from._internal_teamid() != 0) {
+    _this->_internal_set_teamid(from._internal_teamid());
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void CustomMatch_SetTeamName::CopyFrom(const CustomMatch_SetTeamName& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:rtech.liveapi.CustomMatch_SetTeamName)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+PROTOBUF_NOINLINE bool CustomMatch_SetTeamName::IsInitialized() const {
+  return true;
+}
+
+void CustomMatch_SetTeamName::InternalSwap(CustomMatch_SetTeamName* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.teamname_, lhs_arena,
+                                       &other->_impl_.teamname_, rhs_arena);
+        swap(_impl_.teamid_, other->_impl_.teamid_);
+}
+
+::google::protobuf::Metadata CustomMatch_SetTeamName::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
+      file_level_metadata_events_2eproto[51]);
+}
+// ===================================================================
+
 class CustomMatch_SendChat::_Internal {
  public:
 };
@@ -18052,7 +18336,7 @@ void CustomMatch_SendChat::InternalSwap(CustomMatch_SendChat* other) {
 ::google::protobuf::Metadata CustomMatch_SendChat::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[51]);
+      file_level_metadata_events_2eproto[52]);
 }
 // ===================================================================
 
@@ -18072,6 +18356,7 @@ class Request::_Internal {
   static const ::rtech::liveapi::CustomMatch_SetSettings& custommatch_setsettings(const Request* msg);
   static const ::rtech::liveapi::CustomMatch_SendChat& custommatch_sendchat(const Request* msg);
   static const ::rtech::liveapi::CustomMatch_GetLobbyPlayers& custommatch_getlobbyplayers(const Request* msg);
+  static const ::rtech::liveapi::CustomMatch_SetTeamName& custommatch_setteamname(const Request* msg);
 };
 
 const ::rtech::liveapi::ChangeCamera& Request::_Internal::changecam(const Request* msg) {
@@ -18109,6 +18394,9 @@ const ::rtech::liveapi::CustomMatch_SendChat& Request::_Internal::custommatch_se
 }
 const ::rtech::liveapi::CustomMatch_GetLobbyPlayers& Request::_Internal::custommatch_getlobbyplayers(const Request* msg) {
   return *msg->_impl_.actions_.custommatch_getlobbyplayers_;
+}
+const ::rtech::liveapi::CustomMatch_SetTeamName& Request::_Internal::custommatch_setteamname(const Request* msg) {
+  return *msg->_impl_.actions_.custommatch_setteamname_;
 }
 void Request::set_allocated_changecam(::rtech::liveapi::ChangeCamera* changecam) {
   ::google::protobuf::Arena* message_arena = GetArenaForAllocation();
@@ -18290,6 +18578,21 @@ void Request::set_allocated_custommatch_getlobbyplayers(::rtech::liveapi::Custom
   }
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_GetLobbyPlayers)
 }
+void Request::set_allocated_custommatch_setteamname(::rtech::liveapi::CustomMatch_SetTeamName* custommatch_setteamname) {
+  ::google::protobuf::Arena* message_arena = GetArenaForAllocation();
+  clear_actions();
+  if (custommatch_setteamname) {
+    ::google::protobuf::Arena* submessage_arena =
+      ::google::protobuf::Arena::InternalGetOwningArena(custommatch_setteamname);
+    if (message_arena != submessage_arena) {
+      custommatch_setteamname = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, custommatch_setteamname, submessage_arena);
+    }
+    set_has_custommatch_setteamname();
+    _impl_.actions_.custommatch_setteamname_ = custommatch_setteamname;
+  }
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_SetTeamName)
+}
 Request::Request(::google::protobuf::Arena* arena)
     : ::google::protobuf::Message(arena) {
   SharedCtor(arena);
@@ -18375,6 +18678,11 @@ Request::Request(const Request& from) : ::google::protobuf::Message() {
     case kCustomMatchGetLobbyPlayers: {
       _this->_internal_mutable_custommatch_getlobbyplayers()->::rtech::liveapi::CustomMatch_GetLobbyPlayers::MergeFrom(
           from._internal_custommatch_getlobbyplayers());
+      break;
+    }
+    case kCustomMatchSetTeamName: {
+      _this->_internal_mutable_custommatch_setteamname()->::rtech::liveapi::CustomMatch_SetTeamName::MergeFrom(
+          from._internal_custommatch_setteamname());
       break;
     }
     case ACTIONS_NOT_SET: {
@@ -18490,6 +18798,12 @@ void Request::clear_actions() {
       }
       break;
     }
+    case kCustomMatchSetTeamName: {
+      if (GetArenaForAllocation() == nullptr) {
+        delete _impl_.actions_.custommatch_setteamname_;
+      }
+      break;
+    }
     case ACTIONS_NOT_SET: {
       break;
     }
@@ -18518,16 +18832,16 @@ const char* Request::_InternalParse(
 
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 14, 12, 50, 2> Request::_table_ = {
+const ::_pbi::TcParseTable<1, 15, 13, 50, 2> Request::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    19, 8,  // max_field_number, fast_idx_mask
+    20, 8,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294443492,  // skipmap
+    4293919204,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    14,  // num_field_entries
-    12,  // num_aux_entries
+    15,  // num_field_entries
+    13,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     &_Request_default_instance_._instance,
     ::_pbi::TcParser::GenericFallback,  // fallback
@@ -18583,6 +18897,9 @@ const ::_pbi::TcParseTable<1, 14, 12, 50, 2> Request::_table_ = {
     // .rtech.liveapi.CustomMatch_GetLobbyPlayers customMatch_GetLobbyPlayers = 19;
     {PROTOBUF_FIELD_OFFSET(Request, _impl_.actions_.custommatch_getlobbyplayers_), _Internal::kOneofCaseOffset + 0, 11,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvDefault)},
+    // .rtech.liveapi.CustomMatch_SetTeamName customMatch_SetTeamName = 20;
+    {PROTOBUF_FIELD_OFFSET(Request, _impl_.actions_.custommatch_setteamname_), _Internal::kOneofCaseOffset + 0, 12,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::rtech::liveapi::ChangeCamera>()},
     {::_pbi::TcParser::GetTable<::rtech::liveapi::PauseToggle>()},
@@ -18596,6 +18913,7 @@ const ::_pbi::TcParseTable<1, 14, 12, 50, 2> Request::_table_ = {
     {::_pbi::TcParser::GetTable<::rtech::liveapi::CustomMatch_SetSettings>()},
     {::_pbi::TcParser::GetTable<::rtech::liveapi::CustomMatch_SendChat>()},
     {::_pbi::FieldAuxDefaultMessage{}, &::rtech::liveapi::_CustomMatch_GetLobbyPlayers_default_instance_},
+    {::_pbi::TcParser::GetTable<::rtech::liveapi::CustomMatch_SetTeamName>()},
   }}, {{
     "\25\0\14\0\0\0\0\0\0\0\0\0\0\0\0\0"
     "rtech.liveapi.Request"
@@ -18696,6 +19014,12 @@ const ::_pbi::TcParseTable<1, 14, 12, 50, 2> Request::_table_ = {
       target = ::google::protobuf::internal::WireFormatLite::
         InternalWriteMessage(19, _Internal::custommatch_getlobbyplayers(this),
           _Internal::custommatch_getlobbyplayers(this).GetCachedSize(), target, stream);
+      break;
+    }
+    case kCustomMatchSetTeamName: {
+      target = ::google::protobuf::internal::WireFormatLite::
+        InternalWriteMessage(20, _Internal::custommatch_setteamname(this),
+          _Internal::custommatch_setteamname(this).GetCachedSize(), target, stream);
       break;
     }
     default:
@@ -18814,6 +19138,13 @@ const ::_pbi::TcParseTable<1, 14, 12, 50, 2> Request::_table_ = {
           *_impl_.actions_.custommatch_getlobbyplayers_);
       break;
     }
+    // .rtech.liveapi.CustomMatch_SetTeamName customMatch_SetTeamName = 20;
+    case kCustomMatchSetTeamName: {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *_impl_.actions_.custommatch_setteamname_);
+      break;
+    }
     case ACTIONS_NOT_SET: {
       break;
     }
@@ -18903,6 +19234,11 @@ void Request::MergeImpl(::google::protobuf::Message& to_msg, const ::google::pro
           from._internal_custommatch_getlobbyplayers());
       break;
     }
+    case kCustomMatchSetTeamName: {
+      _this->_internal_mutable_custommatch_setteamname()->::rtech::liveapi::CustomMatch_SetTeamName::MergeFrom(
+          from._internal_custommatch_setteamname());
+      break;
+    }
     case ACTIONS_NOT_SET: {
       break;
     }
@@ -18936,7 +19272,7 @@ void Request::InternalSwap(Request* other) {
 ::google::protobuf::Metadata Request::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[52]);
+      file_level_metadata_events_2eproto[53]);
 }
 // ===================================================================
 
@@ -19127,7 +19463,7 @@ void RequestStatus::InternalSwap(RequestStatus* other) {
 ::google::protobuf::Metadata RequestStatus::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[53]);
+      file_level_metadata_events_2eproto[54]);
 }
 // ===================================================================
 
@@ -19359,7 +19695,7 @@ void Response::InternalSwap(Response* other) {
 ::google::protobuf::Metadata Response::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[54]);
+      file_level_metadata_events_2eproto[55]);
 }
 // ===================================================================
 
@@ -19593,7 +19929,7 @@ void LiveAPIEvent::InternalSwap(LiveAPIEvent* other) {
 ::google::protobuf::Metadata LiveAPIEvent::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[55]);
+      file_level_metadata_events_2eproto[56]);
 }
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace liveapi

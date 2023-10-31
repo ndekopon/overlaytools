@@ -115,6 +115,9 @@ extern CustomMatch_SetSettingsDefaultTypeInternal _CustomMatch_SetSettings_defau
 class CustomMatch_SetTeam;
 struct CustomMatch_SetTeamDefaultTypeInternal;
 extern CustomMatch_SetTeamDefaultTypeInternal _CustomMatch_SetTeam_default_instance_;
+class CustomMatch_SetTeamName;
+struct CustomMatch_SetTeamNameDefaultTypeInternal;
+extern CustomMatch_SetTeamNameDefaultTypeInternal _CustomMatch_SetTeamName_default_instance_;
 class Datacenter;
 struct DatacenterDefaultTypeInternal;
 extern DatacenterDefaultTypeInternal _Datacenter_default_instance_;
@@ -3968,6 +3971,7 @@ class PlayerDisconnected final :
     kPlayerFieldNumber = 3,
     kTimestampFieldNumber = 1,
     kCanReconnectFieldNumber = 4,
+    kIsAliveFieldNumber = 5,
   };
   // string category = 2;
   void clear_category() ;
@@ -4020,12 +4024,22 @@ class PlayerDisconnected final :
   void _internal_set_canreconnect(bool value);
 
   public:
+  // bool isAlive = 5;
+  void clear_isalive() ;
+  bool isalive() const;
+  void set_isalive(bool value);
+
+  private:
+  bool _internal_isalive() const;
+  void _internal_set_isalive(bool value);
+
+  public:
   // @@protoc_insertion_point(class_scope:rtech.liveapi.PlayerDisconnected)
  private:
   class _Internal;
 
   friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<2, 4, 1, 49, 2> _table_;
+  static const ::google::protobuf::internal::TcParseTable<3, 5, 1, 49, 2> _table_;
   template <typename T> friend class ::google::protobuf::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
@@ -4036,6 +4050,7 @@ class PlayerDisconnected final :
     ::rtech::liveapi::Player* player_;
     ::uint64_t timestamp_;
     bool canreconnect_;
+    bool isalive_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -10938,6 +10953,182 @@ class CustomMatch_SetSettings final :
   friend struct ::TableStruct_events_2eproto;
 };// -------------------------------------------------------------------
 
+class CustomMatch_SetTeamName final :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:rtech.liveapi.CustomMatch_SetTeamName) */ {
+ public:
+  inline CustomMatch_SetTeamName() : CustomMatch_SetTeamName(nullptr) {}
+  ~CustomMatch_SetTeamName() override;
+  template<typename = void>
+  explicit PROTOBUF_CONSTEXPR CustomMatch_SetTeamName(::google::protobuf::internal::ConstantInitialized);
+
+  CustomMatch_SetTeamName(const CustomMatch_SetTeamName& from);
+  CustomMatch_SetTeamName(CustomMatch_SetTeamName&& from) noexcept
+    : CustomMatch_SetTeamName() {
+    *this = ::std::move(from);
+  }
+
+  inline CustomMatch_SetTeamName& operator=(const CustomMatch_SetTeamName& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CustomMatch_SetTeamName& operator=(CustomMatch_SetTeamName&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CustomMatch_SetTeamName& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CustomMatch_SetTeamName* internal_default_instance() {
+    return reinterpret_cast<const CustomMatch_SetTeamName*>(
+               &_CustomMatch_SetTeamName_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    51;
+
+  friend void swap(CustomMatch_SetTeamName& a, CustomMatch_SetTeamName& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CustomMatch_SetTeamName* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CustomMatch_SetTeamName* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CustomMatch_SetTeamName* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<CustomMatch_SetTeamName>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const CustomMatch_SetTeamName& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom( const CustomMatch_SetTeamName& from) {
+    CustomMatch_SetTeamName::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  ::size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::google::protobuf::internal::ParseContext* ctx) final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target, ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CustomMatch_SetTeamName* other);
+
+  private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() {
+    return "rtech.liveapi.CustomMatch_SetTeamName";
+  }
+  protected:
+  explicit CustomMatch_SetTeamName(::google::protobuf::Arena* arena);
+  public:
+
+  static const ClassData _class_data_;
+  const ::google::protobuf::Message::ClassData*GetClassData() const final;
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTeamNameFieldNumber = 2,
+    kTeamIdFieldNumber = 1,
+  };
+  // string teamName = 2;
+  void clear_teamname() ;
+  const std::string& teamname() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_teamname(Arg_&& arg, Args_... args);
+  std::string* mutable_teamname();
+  PROTOBUF_NODISCARD std::string* release_teamname();
+  void set_allocated_teamname(std::string* ptr);
+
+  private:
+  const std::string& _internal_teamname() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_teamname(
+      const std::string& value);
+  std::string* _internal_mutable_teamname();
+
+  public:
+  // int32 teamId = 1;
+  void clear_teamid() ;
+  ::int32_t teamid() const;
+  void set_teamid(::int32_t value);
+
+  private:
+  ::int32_t _internal_teamid() const;
+  void _internal_set_teamid(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.CustomMatch_SetTeamName)
+ private:
+  class _Internal;
+
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<1, 2, 0, 54, 2> _table_;
+  template <typename T> friend class ::google::protobuf::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::google::protobuf::internal::ArenaStringPtr teamname_;
+    ::int32_t teamid_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_events_2eproto;
+};// -------------------------------------------------------------------
+
 class CustomMatch_SendChat final :
     public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:rtech.liveapi.CustomMatch_SendChat) */ {
  public:
@@ -10994,7 +11185,7 @@ class CustomMatch_SendChat final :
                &_CustomMatch_SendChat_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    51;
+    52;
 
   friend void swap(CustomMatch_SendChat& a, CustomMatch_SendChat& b) {
     a.Swap(&b);
@@ -11166,6 +11357,7 @@ class Request final :
     kCustomMatchSetSettings = 17,
     kCustomMatchSendChat = 18,
     kCustomMatchGetLobbyPlayers = 19,
+    kCustomMatchSetTeamName = 20,
     ACTIONS_NOT_SET = 0,
   };
 
@@ -11174,7 +11366,7 @@ class Request final :
                &_Request_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    52;
+    53;
 
   friend void swap(Request& a, Request& b) {
     a.Swap(&b);
@@ -11260,6 +11452,7 @@ class Request final :
     kCustomMatchSetSettingsFieldNumber = 17,
     kCustomMatchSendChatFieldNumber = 18,
     kCustomMatchGetLobbyPlayersFieldNumber = 19,
+    kCustomMatchSetTeamNameFieldNumber = 20,
   };
   // string preSharedKey = 2;
   void clear_presharedkey() ;
@@ -11515,6 +11708,25 @@ class Request final :
   ::rtech::liveapi::CustomMatch_GetLobbyPlayers* _internal_mutable_custommatch_getlobbyplayers();
 
   public:
+  // .rtech.liveapi.CustomMatch_SetTeamName customMatch_SetTeamName = 20;
+  bool has_custommatch_setteamname() const;
+  private:
+  bool _internal_has_custommatch_setteamname() const;
+
+  public:
+  void clear_custommatch_setteamname() ;
+  const ::rtech::liveapi::CustomMatch_SetTeamName& custommatch_setteamname() const;
+  PROTOBUF_NODISCARD ::rtech::liveapi::CustomMatch_SetTeamName* release_custommatch_setteamname();
+  ::rtech::liveapi::CustomMatch_SetTeamName* mutable_custommatch_setteamname();
+  void set_allocated_custommatch_setteamname(::rtech::liveapi::CustomMatch_SetTeamName* value);
+  void unsafe_arena_set_allocated_custommatch_setteamname(::rtech::liveapi::CustomMatch_SetTeamName* value);
+  ::rtech::liveapi::CustomMatch_SetTeamName* unsafe_arena_release_custommatch_setteamname();
+
+  private:
+  const ::rtech::liveapi::CustomMatch_SetTeamName& _internal_custommatch_setteamname() const;
+  ::rtech::liveapi::CustomMatch_SetTeamName* _internal_mutable_custommatch_setteamname();
+
+  public:
   void clear_actions();
   ActionsCase actions_case() const;
   // @@protoc_insertion_point(class_scope:rtech.liveapi.Request)
@@ -11532,12 +11744,13 @@ class Request final :
   void set_has_custommatch_setsettings();
   void set_has_custommatch_sendchat();
   void set_has_custommatch_getlobbyplayers();
+  void set_has_custommatch_setteamname();
 
   inline bool has_actions() const;
   inline void clear_has_actions();
 
   friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<1, 14, 12, 50, 2> _table_;
+  static const ::google::protobuf::internal::TcParseTable<1, 15, 13, 50, 2> _table_;
   template <typename T> friend class ::google::protobuf::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
@@ -11559,6 +11772,7 @@ class Request final :
       ::rtech::liveapi::CustomMatch_SetSettings* custommatch_setsettings_;
       ::rtech::liveapi::CustomMatch_SendChat* custommatch_sendchat_;
       ::rtech::liveapi::CustomMatch_GetLobbyPlayers* custommatch_getlobbyplayers_;
+      ::rtech::liveapi::CustomMatch_SetTeamName* custommatch_setteamname_;
     } actions_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -11625,7 +11839,7 @@ class RequestStatus final :
                &_RequestStatus_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    53;
+    54;
 
   friend void swap(RequestStatus& a, RequestStatus& b) {
     a.Swap(&b);
@@ -11789,7 +12003,7 @@ class Response final :
                &_Response_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    54;
+    55;
 
   friend void swap(Response& a, Response& b) {
     a.Swap(&b);
@@ -11965,7 +12179,7 @@ class LiveAPIEvent final :
                &_LiveAPIEvent_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    55;
+    56;
 
   friend void swap(LiveAPIEvent& a, LiveAPIEvent& b) {
     a.Swap(&b);
@@ -15832,6 +16046,28 @@ inline void PlayerDisconnected::_internal_set_canreconnect(bool value) {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ;
   _impl_.canreconnect_ = value;
+}
+
+// bool isAlive = 5;
+inline void PlayerDisconnected::clear_isalive() {
+  _impl_.isalive_ = false;
+}
+inline bool PlayerDisconnected::isalive() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.PlayerDisconnected.isAlive)
+  return _internal_isalive();
+}
+inline void PlayerDisconnected::set_isalive(bool value) {
+  _internal_set_isalive(value);
+  // @@protoc_insertion_point(field_set:rtech.liveapi.PlayerDisconnected.isAlive)
+}
+inline bool PlayerDisconnected::_internal_isalive() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.isalive_;
+}
+inline void PlayerDisconnected::_internal_set_isalive(bool value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.isalive_ = value;
 }
 
 // -------------------------------------------------------------------
@@ -22464,6 +22700,83 @@ inline void CustomMatch_SetSettings::_internal_set_anonmode(bool value) {
 
 // -------------------------------------------------------------------
 
+// CustomMatch_SetTeamName
+
+// int32 teamId = 1;
+inline void CustomMatch_SetTeamName::clear_teamid() {
+  _impl_.teamid_ = 0;
+}
+inline ::int32_t CustomMatch_SetTeamName::teamid() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.CustomMatch_SetTeamName.teamId)
+  return _internal_teamid();
+}
+inline void CustomMatch_SetTeamName::set_teamid(::int32_t value) {
+  _internal_set_teamid(value);
+  // @@protoc_insertion_point(field_set:rtech.liveapi.CustomMatch_SetTeamName.teamId)
+}
+inline ::int32_t CustomMatch_SetTeamName::_internal_teamid() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.teamid_;
+}
+inline void CustomMatch_SetTeamName::_internal_set_teamid(::int32_t value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.teamid_ = value;
+}
+
+// string teamName = 2;
+inline void CustomMatch_SetTeamName::clear_teamname() {
+  _impl_.teamname_.ClearToEmpty();
+}
+inline const std::string& CustomMatch_SetTeamName::teamname() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.CustomMatch_SetTeamName.teamName)
+  return _internal_teamname();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void CustomMatch_SetTeamName::set_teamname(Arg_&& arg,
+                                                     Args_... args) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.teamname_.Set(static_cast<Arg_&&>(arg), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:rtech.liveapi.CustomMatch_SetTeamName.teamName)
+}
+inline std::string* CustomMatch_SetTeamName::mutable_teamname() {
+  std::string* _s = _internal_mutable_teamname();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.CustomMatch_SetTeamName.teamName)
+  return _s;
+}
+inline const std::string& CustomMatch_SetTeamName::_internal_teamname() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.teamname_.Get();
+}
+inline void CustomMatch_SetTeamName::_internal_set_teamname(const std::string& value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.teamname_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CustomMatch_SetTeamName::_internal_mutable_teamname() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  return _impl_.teamname_.Mutable( GetArenaForAllocation());
+}
+inline std::string* CustomMatch_SetTeamName::release_teamname() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.CustomMatch_SetTeamName.teamName)
+  return _impl_.teamname_.Release();
+}
+inline void CustomMatch_SetTeamName::set_allocated_teamname(std::string* value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.teamname_.SetAllocated(value, GetArenaForAllocation());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.teamname_.IsDefault()) {
+          _impl_.teamname_.Set("", GetArenaForAllocation());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.CustomMatch_SetTeamName.teamName)
+}
+
+// -------------------------------------------------------------------
+
 // CustomMatch_SendChat
 
 // string text = 1;
@@ -23479,6 +23792,80 @@ inline ::rtech::liveapi::CustomMatch_GetLobbyPlayers* Request::_internal_mutable
 inline ::rtech::liveapi::CustomMatch_GetLobbyPlayers* Request::mutable_custommatch_getlobbyplayers() {
   ::rtech::liveapi::CustomMatch_GetLobbyPlayers* _msg = _internal_mutable_custommatch_getlobbyplayers();
   // @@protoc_insertion_point(field_mutable:rtech.liveapi.Request.customMatch_GetLobbyPlayers)
+  return _msg;
+}
+
+// .rtech.liveapi.CustomMatch_SetTeamName customMatch_SetTeamName = 20;
+inline bool Request::has_custommatch_setteamname() const {
+  return actions_case() == kCustomMatchSetTeamName;
+}
+inline bool Request::_internal_has_custommatch_setteamname() const {
+  return actions_case() == kCustomMatchSetTeamName;
+}
+inline void Request::set_has_custommatch_setteamname() {
+  _impl_._oneof_case_[0] = kCustomMatchSetTeamName;
+}
+inline void Request::clear_custommatch_setteamname() {
+  if (actions_case() == kCustomMatchSetTeamName) {
+    if (GetArenaForAllocation() == nullptr) {
+      delete _impl_.actions_.custommatch_setteamname_;
+    }
+    clear_has_actions();
+  }
+}
+inline ::rtech::liveapi::CustomMatch_SetTeamName* Request::release_custommatch_setteamname() {
+  // @@protoc_insertion_point(field_release:rtech.liveapi.Request.customMatch_SetTeamName)
+  if (actions_case() == kCustomMatchSetTeamName) {
+    clear_has_actions();
+    ::rtech::liveapi::CustomMatch_SetTeamName* temp = _impl_.actions_.custommatch_setteamname_;
+    if (GetArenaForAllocation() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.actions_.custommatch_setteamname_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::rtech::liveapi::CustomMatch_SetTeamName& Request::_internal_custommatch_setteamname() const {
+  return actions_case() == kCustomMatchSetTeamName
+      ? *_impl_.actions_.custommatch_setteamname_
+      : reinterpret_cast<::rtech::liveapi::CustomMatch_SetTeamName&>(::rtech::liveapi::_CustomMatch_SetTeamName_default_instance_);
+}
+inline const ::rtech::liveapi::CustomMatch_SetTeamName& Request::custommatch_setteamname() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.Request.customMatch_SetTeamName)
+  return _internal_custommatch_setteamname();
+}
+inline ::rtech::liveapi::CustomMatch_SetTeamName* Request::unsafe_arena_release_custommatch_setteamname() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:rtech.liveapi.Request.customMatch_SetTeamName)
+  if (actions_case() == kCustomMatchSetTeamName) {
+    clear_has_actions();
+    ::rtech::liveapi::CustomMatch_SetTeamName* temp = _impl_.actions_.custommatch_setteamname_;
+    _impl_.actions_.custommatch_setteamname_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Request::unsafe_arena_set_allocated_custommatch_setteamname(::rtech::liveapi::CustomMatch_SetTeamName* custommatch_setteamname) {
+  clear_actions();
+  if (custommatch_setteamname) {
+    set_has_custommatch_setteamname();
+    _impl_.actions_.custommatch_setteamname_ = custommatch_setteamname;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:rtech.liveapi.Request.customMatch_SetTeamName)
+}
+inline ::rtech::liveapi::CustomMatch_SetTeamName* Request::_internal_mutable_custommatch_setteamname() {
+  if (actions_case() != kCustomMatchSetTeamName) {
+    clear_actions();
+    set_has_custommatch_setteamname();
+    _impl_.actions_.custommatch_setteamname_ = CreateMaybeMessage< ::rtech::liveapi::CustomMatch_SetTeamName >(GetArenaForAllocation());
+  }
+  return _impl_.actions_.custommatch_setteamname_;
+}
+inline ::rtech::liveapi::CustomMatch_SetTeamName* Request::mutable_custommatch_setteamname() {
+  ::rtech::liveapi::CustomMatch_SetTeamName* _msg = _internal_mutable_custommatch_setteamname();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.Request.customMatch_SetTeamName)
   return _msg;
 }
 
