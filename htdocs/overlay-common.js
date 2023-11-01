@@ -207,7 +207,7 @@ export function appendToTeamResults(teamresults, gameid, teamid, name, kills, pl
  * @return {string[]}
  */
 export function setRankParameterToTeamResults(teamresults) {
-    const sorted_teamids = Object.keys(teamresults).toSorted((a, b) => {
+    const sorted_teamids = Object.keys(teamresults).sort((a, b) => {
         // 現在のトータルポイント比較
             const ta = teamresults[a];
             const tb = teamresults[b];

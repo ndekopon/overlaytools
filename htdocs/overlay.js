@@ -1307,6 +1307,7 @@ export class Overlay {
         });
 
         this.#webapi.addEventListener("gamestatechange", (ev) => {
+            console.log(ev);
             const state = ev.detail.game.state;
             this.#showHideFromGameState(state);
             switch(state) {
