@@ -208,6 +208,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_SEND_CUSTOMMATCH_GETLOBBYPLAYERS = 0x52;
   static WEBAPI_SEND_CUSTOMMATCH_SETSETTINGS = 0x53;
   static WEBAPI_SEND_CHANGECAMERA = 0x54;
+  static WEBAPI_SEND_CUSTOMMATCH_SETTEAMNAME = 0x55;
 
   static WEBAPI_LIVEDATA_GET_GAME = 0x60;
   static WEBAPI_LIVEDATA_GET_TEAMS = 0x61;
@@ -870,6 +871,10 @@ export class ApexWebAPI extends EventTarget {
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('changecamera', {detail: {sequence: data_array[0]}}));
         break;
+      case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETTEAMNAME:
+        if (count != 1) return false;
+        this.dispatchEvent(new CustomEvent('setteamname', {detail: {sequence: data_array[0]}}));
+        break;
       case ApexWebAPI.WEBAPI_LIVEDATA_GET_GAME:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('getgame', {detail: {sequence: data_array[0], game: this.#game}}));
@@ -1249,6 +1254,20 @@ export class ApexWebAPI extends EventTarget {
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_BOOL, aimassist)) precheck = false;
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_BOOL, anonmode)) precheck = false;
     return this.#sendAndReceiveReply(buffer, "setsettings", precheck);
+  }
+
+  /**
+   * ゲーム内のチーム名を設定する
+   * @param {number} teamid チームID(0～)
+   * @param {string} teamname チーム名
+   * @returns {Promise<CustomEvent>}
+   */
+  sendSetTeamName(teamid, teamname) {
+    let precheck = true;
+    const buffer = new SendBuffer(ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETTEAMNAME);
+    if (!buffer.append(ApexWebAPI.WEBAPI_DATA_UINT8, teamid + 2)) precheck = false;
+    if (!buffer.append(ApexWebAPI.WEBAPI_DATA_STRING, teamname, this.#encoder)) precheck = false;
+    return this.#sendAndReceiveReply(buffer, "setteamname", precheck);
   }
 
   sendChat(str) {

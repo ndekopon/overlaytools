@@ -704,6 +704,45 @@ namespace app {
 			}
 			break;
 		}
+		case WEBAPI_SEND_CUSTOMMATCH_SETTEAMNAME:
+		{
+			log(LOG_CORE, L"Info: WEBAPI_SEND_CUSTOMMATCH_SETTEAMNAME received.");
+
+			if (wdata.size() != 3)
+			{
+				log(LOG_CORE, L"Error: sended data size is not 3. (size=%d)", wdata.size());
+				return;
+			}
+
+			// CustomMatch_SetTeamName
+			rtech::liveapi::Request req;
+			auto act = new rtech::liveapi::CustomMatch_SetTeamName();
+
+			try
+			{
+				act->set_teamid((int32_t)wdata.get_uint8(1));
+				act->set_teamname(wdata.get_string(2));
+			}
+			catch (...)
+			{
+				log(LOG_CORE, L"Error: data parse failed.");
+				return;
+			}
+
+			req.set_withack(true);
+			req.set_allocated_custommatch_setteamname(act);
+
+			// 送信
+			auto buf = std::make_unique<std::vector<uint8_t>>();
+			buf->resize(req.ByteSizeLong());
+			if (buf->size() > 0)
+			{
+				req.SerializeToArray(buf->data(), buf->size());
+				sendto_liveapi(std::move(buf));
+				reply_webapi_send_custommatch_setteamname(socket, sequence);
+			}
+			break;
+		}
 		case WEBAPI_SEND_CUSTOMMATCH_SENDCHAT:
 		{
 			log(LOG_CORE, L"Info: WEBAPI_SEND_CUSTOMMATCH_SENDCHAT received.");
@@ -2081,6 +2120,15 @@ namespace app {
 	void core_thread::reply_webapi_send_changecamera(SOCKET _sock, uint32_t _sequence)
 	{
 		send_webapi_data sdata(WEBAPI_SEND_CHANGECAMERA);
+		if (sdata.append(_sequence))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::reply_webapi_send_custommatch_setteamname(SOCKET _sock, uint32_t _sequence)
+	{
+		send_webapi_data sdata(WEBAPI_SEND_CUSTOMMATCH_SETTEAMNAME);
 		if (sdata.append(_sequence))
 		{
 			sendto_webapi(_sock, std::move(sdata.buffer_));

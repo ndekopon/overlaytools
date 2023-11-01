@@ -1680,6 +1680,14 @@ export class WebAPIConfig {
                 type: "testhideall"
             });
         });
+
+        document.getElementById('test-setteamname').addEventListener('click', (ev) => {
+            const teamid = parseInt(document.getElementById("test-setteamname-teamid").value, 10);
+            const teamname = document.getElementById("test-setteamname-teamname").value;
+            if (teamname && teamname != "") {
+                this.#webapi.sendSetTeamName(teamid, teamname);
+            }
+        });
     }
 
     #setupCallback() {
