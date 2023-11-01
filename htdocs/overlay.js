@@ -557,6 +557,9 @@ class TeamKills extends OverlayBase {
 
         // アイコン設定
         this.nodes.icon.innerText = `💀`;
+
+        // 初期値
+        this.setKills(0);
     }
 
     /**
@@ -2089,7 +2092,10 @@ export class Overlay {
                 this.#teambanner.setPoints(team.points.reduce((a, c) => a + c, 0));
             }
             if ('kills' in team) {
-                this.#teamkills.setKills(team.kills.reduce((a, c) => a + c, 0));
+                if (team.kills.length > 0) {
+                // 最新ゲームのキルを取得
+                this.#teamkills.setKills(team.kills[team.kills.length - 1]);
+                }
             }
         }
 
