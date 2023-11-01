@@ -27,21 +27,24 @@ namespace {
 			uint8_t a;
 		};
 	};
-	inline bool is_teambanner_white(uint32_t _c)
+
+	inline bool is_playerframe_gray(uint32_t _c)
 	{
 		rgba_t d = { .c = _c };
-		if (d.r < 0xf0) return false;
-		if (d.g < 0xf0) return false;
-		if (d.b < 0xf0) return false;
+		// r:88-8f g:88-8f b:88-8f
+		if (d.r < 0x84 || 0x93 < d.r) return false;
+		if (d.g < 0x84 || 0x93 < d.g) return false;
+		if (d.b < 0x84 || 0x93 < d.b) return false;
 		return true;
 	}
-	inline bool is_teambanner_green(uint32_t _c)
+
+	inline bool is_playerframe_red(uint32_t _c)
 	{
 		rgba_t d = { .c = _c };
-		// r:a6-b6 g:cc-d9 b:a6-b6
-		if (d.r < 0xa0 || 0xbf < d.r) return false;
-		if (d.g < 0xc0 || 0xdf < d.g) return false;
-		if (d.b < 0xa0 || 0xbf < d.b) return false;
+		// r:88-8f g:88-8f b:88-8f
+		if (d.r < 0xd8) return false;
+		if (0x27 < d.g) return false;
+		if (0x27 < d.b) return false;
 		return true;
 	}
 
@@ -78,14 +81,31 @@ namespace {
 
 namespace app {
 
-	inline bool is_shown_teambanner(const std::vector<uint32_t>& _buffer)
+	inline bool is_shown_playerframe_gray(const std::vector<uint32_t>& _buffer)
 	{
-		if (!is_teambanner_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 10 - 1) + 6))) return false;
-		else if (!is_teambanner_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 17 - 1) + 10))) return false;
-		else if (!is_teambanner_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 11))) return false;
-		else if (!is_teambanner_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 11))) return false;
-		else if (!is_teambanner_green(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 29 - 1) + 18))) return false;
+		if      (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 0))) return false;
+		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 1))) return false;
+		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 15))) return false;
+		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 16))) return false;
+		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 30))) return false;
+		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 31))) return false;
 		return true;
+	}
+
+	inline bool is_shown_playerframe_red(const std::vector<uint32_t>& _buffer)
+	{
+		if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 0))) return false;
+		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 1))) return false;
+		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 15))) return false;
+		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 16))) return false;
+		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 30))) return false;
+		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 31))) return false;
+		return true;
+	}
+
+	inline bool is_shown_playerframe(const std::vector<uint32_t>& _buffer)
+	{
+		return is_shown_playerframe_gray(_buffer) || is_shown_playerframe_red(_buffer);
 	}
 
 	inline bool is_shown_craftpoint(const std::vector<uint32_t>& _buffer)
@@ -208,12 +228,12 @@ namespace app {
 					{
 						frame_captured++;
 
-						bool teambanner = is_shown_teambanner(buffer);
+						bool playerframe = is_shown_playerframe(buffer);
 						bool craftpoint = is_shown_craftpoint(buffer);
 						bool menu = is_shown_menu(buffer);
 						bool team1frame = is_shown_team1frame(buffer);
 						bool teambanner_show = teambanner_show_prev;
-						if (teambanner && craftpoint && menu) teambanner_show = true;
+						if (playerframe && craftpoint && menu) teambanner_show = true;
 						else if (craftpoint && menu) teambanner_show = false;
 						else if (menu) teambanner_show = false;
 						else if (team1frame) teambanner_show = false;
