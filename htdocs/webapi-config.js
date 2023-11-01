@@ -1688,6 +1688,13 @@ export class WebAPIConfig {
                 this.#webapi.sendSetTeamName(teamid, teamname);
             }
         });
+
+        document.getElementById('test-pausetoggle').addEventListener('click', (ev) => {
+            const pretimer = parseFloat(document.getElementById("test-pausetoggle-pretimer").value);
+            if (0.0 < pretimer && pretimer < 10.0) {
+                this.#webapi.pauseToggle(pretimer);
+            }
+        });
     }
 
     #setupCallback() {

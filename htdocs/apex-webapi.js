@@ -209,6 +209,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_SEND_CUSTOMMATCH_SETSETTINGS = 0x53;
   static WEBAPI_SEND_CHANGECAMERA = 0x54;
   static WEBAPI_SEND_CUSTOMMATCH_SETTEAMNAME = 0x55;
+  static WEBAPI_SEND_PAUSETOGGLE = 0x56;
 
   static WEBAPI_LIVEDATA_GET_GAME = 0x60;
   static WEBAPI_LIVEDATA_GET_TEAMS = 0x61;
@@ -871,6 +872,10 @@ export class ApexWebAPI extends EventTarget {
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('changecamera', {detail: {sequence: data_array[0]}}));
         break;
+      case ApexWebAPI.WEBAPI_SEND_PAUSETOGGLE:
+        if (count != 1) return false;
+        this.dispatchEvent(new CustomEvent('pausetoggle', {detail: {sequence: data_array[0]}}));
+        break;
       case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETTEAMNAME:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('setteamname', {detail: {sequence: data_array[0]}}));
@@ -1275,6 +1280,18 @@ export class ApexWebAPI extends EventTarget {
     const buffer = new SendBuffer(ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SENDCHAT);
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_STRING, str, this.#encoder)) precheck = false;
     return this.#sendAndReceiveReply(buffer, "sendchat", precheck);
+  }
+
+  /**
+   * ゲームの進行・停止を切り替える
+   * @param {number} pretimer 動作させるまでにかかる時間(0.0～)
+   * @returns {Promise<CustomEvent>}
+   */
+  pauseToggle(pretimer) {
+    let precheck = true;
+    const buffer = new SendBuffer(ApexWebAPI.WEBAPI_SEND_PAUSETOGGLE);
+    if (!buffer.append(ApexWebAPI.WEBAPI_DATA_FLOAT32, pretimer)) precheck = false;
+    return this.#sendAndReceiveReply(buffer, "pausetoggle", precheck);
   }
   
   changeCamera(name) {
