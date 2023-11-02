@@ -297,7 +297,6 @@ namespace app {
 	{
 		bool result = false;
 		auto socket = _data->first;
-		log(LOG_CORE, L"Info: receive data from liveapi size=%zu", _data->second->size());
 
 		// メッセージとして処理
 		if (!result)
@@ -310,7 +309,6 @@ namespace app {
 				{
 
 					// メッセージの場合は書き込む
-					log(LOG_CORE, L"Info: data is LiveAPIEvent. event_size = %u", ev.event_size());
 					proc_liveapi_any(ev.gamemessage());
 
 					// ファイルに書き込む
@@ -340,7 +338,6 @@ namespace app {
 		uint32_t sequence = 0;
 		received_webapi_data wdata;
 
-		log(LOG_CORE, L"Info: receive data from webapi size=%zu", _data->second->size());
 		if (!wdata.set(std::move(_data->second)))
 		{
 			log(LOG_CORE, L"Error: receive data parse failed.");
@@ -1081,8 +1078,6 @@ namespace app {
 			if (!_any.UnpackTo(&p)) return;
 
 			log(LOG_CORE, L"Info: CustomMatch_LobbyPlayers received.");
-			log(LOG_CORE, L"Info: .playertoken=%s", s_to_ws(p.playertoken()).c_str());
-			log(LOG_CORE, L"Info: .players_size=%d", p.players_size());
 
 			for (int i = 0; i < p.players_size(); ++i)
 			{
