@@ -22,136 +22,20 @@ namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
 namespace rtech {
 namespace liveapi {
-        template <typename>
-PROTOBUF_CONSTEXPR Vector3::Vector3(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.x_)*/ 0,
-      /*decltype(_impl_.y_)*/ 0,
-      /*decltype(_impl_.z_)*/ 0,
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct Vector3DefaultTypeInternal {
-  PROTOBUF_CONSTEXPR Vector3DefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~Vector3DefaultTypeInternal() {}
-  union {
-    Vector3 _instance;
-  };
-};
 
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 Vector3DefaultTypeInternal _Vector3_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR Player::Player(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.name_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.nucleushash_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.hardwarename_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.teamname_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.character_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.skin_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.pos_)*/ nullptr,
-      /*decltype(_impl_.angles_)*/ nullptr,
-      /*decltype(_impl_.teamid_)*/ 0u,
-      /*decltype(_impl_.currenthealth_)*/ 0u,
-      /*decltype(_impl_.maxhealth_)*/ 0u,
-      /*decltype(_impl_.shieldhealth_)*/ 0u,
-      /*decltype(_impl_.shieldmaxhealth_)*/ 0u,
-      /*decltype(_impl_.squadindex_)*/ 0u,
-    } {}
-struct PlayerDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PlayerDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PlayerDefaultTypeInternal() {}
-  union {
-    Player _instance;
-  };
-};
+inline constexpr Version::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : revision_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        major_num_{0u},
+        minor_num_{0u},
+        build_stamp_{0u},
+        _cached_size_{0} {}
 
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerDefaultTypeInternal _Player_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR CustomMatch_LobbyPlayer::CustomMatch_LobbyPlayer(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.name_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.nucleushash_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.hardwarename_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.teamid_)*/ 0u,
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct CustomMatch_LobbyPlayerDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CustomMatch_LobbyPlayerDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CustomMatch_LobbyPlayerDefaultTypeInternal() {}
-  union {
-    CustomMatch_LobbyPlayer _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_LobbyPlayerDefaultTypeInternal _CustomMatch_LobbyPlayer_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR Datacenter::Datacenter(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.name_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct DatacenterDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR DatacenterDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~DatacenterDefaultTypeInternal() {}
-  union {
-    Datacenter _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DatacenterDefaultTypeInternal _Datacenter_default_instance_;
-        template <typename>
+template <typename>
 PROTOBUF_CONSTEXPR Version::Version(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.revision_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.major_num_)*/ 0u,
-      /*decltype(_impl_.minor_num_)*/ 0u,
-      /*decltype(_impl_.build_stamp_)*/ 0u,
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
+    : _impl_(::_pbi::ConstantInitialized()) {}
 struct VersionDefaultTypeInternal {
   PROTOBUF_CONSTEXPR VersionDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
   ~VersionDefaultTypeInternal() {}
@@ -162,933 +46,57 @@ struct VersionDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 VersionDefaultTypeInternal _Version_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR Init::Init(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.gameversion_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.platform_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.name_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.apiversion_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct InitDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR InitDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~InitDefaultTypeInternal() {}
+
+inline constexpr Vector3::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : x_{0},
+        y_{0},
+        z_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR Vector3::Vector3(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct Vector3DefaultTypeInternal {
+  PROTOBUF_CONSTEXPR Vector3DefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~Vector3DefaultTypeInternal() {}
   union {
-    Init _instance;
+    Vector3 _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InitDefaultTypeInternal _Init_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR CustomMatch_LobbyPlayers::CustomMatch_LobbyPlayers(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.players_)*/ {},
-      /*decltype(_impl_.playertoken_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct CustomMatch_LobbyPlayersDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CustomMatch_LobbyPlayersDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CustomMatch_LobbyPlayersDefaultTypeInternal() {}
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 Vector3DefaultTypeInternal _Vector3_default_instance_;
+
+inline constexpr RequestStatus::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : status_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR RequestStatus::RequestStatus(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct RequestStatusDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RequestStatusDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RequestStatusDefaultTypeInternal() {}
   union {
-    CustomMatch_LobbyPlayers _instance;
+    RequestStatus _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_LobbyPlayersDefaultTypeInternal _CustomMatch_LobbyPlayers_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR ObserverSwitched::ObserverSwitched(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.targetteam_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.observer_)*/ nullptr,
-      /*decltype(_impl_.target_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct ObserverSwitchedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ObserverSwitchedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ObserverSwitchedDefaultTypeInternal() {}
-  union {
-    ObserverSwitched _instance;
-  };
-};
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RequestStatusDefaultTypeInternal _RequestStatus_default_instance_;
 
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ObserverSwitchedDefaultTypeInternal _ObserverSwitched_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR ObserverAnnotation::ObserverAnnotation(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_.annotationserial_)*/ 0,
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct ObserverAnnotationDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ObserverAnnotationDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ObserverAnnotationDefaultTypeInternal() {}
-  union {
-    ObserverAnnotation _instance;
-  };
-};
+inline constexpr PauseToggle::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : pretimer_{0},
+        _cached_size_{0} {}
 
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ObserverAnnotationDefaultTypeInternal _ObserverAnnotation_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR MatchSetup::MatchSetup(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.map_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.playlistname_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.playlistdesc_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.serverid_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.datacenter_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_.aimassiston_)*/ false,
-      /*decltype(_impl_.anonymousmode_)*/ false,
-    } {}
-struct MatchSetupDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR MatchSetupDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~MatchSetupDefaultTypeInternal() {}
-  union {
-    MatchSetup _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MatchSetupDefaultTypeInternal _MatchSetup_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR GameStateChanged::GameStateChanged(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.state_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct GameStateChangedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR GameStateChangedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~GameStateChangedDefaultTypeInternal() {}
-  union {
-    GameStateChanged _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GameStateChangedDefaultTypeInternal _GameStateChanged_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR CharacterSelected::CharacterSelected(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct CharacterSelectedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CharacterSelectedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CharacterSelectedDefaultTypeInternal() {}
-  union {
-    CharacterSelected _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CharacterSelectedDefaultTypeInternal _CharacterSelected_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR MatchStateEnd::MatchStateEnd(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.winners_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.state_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct MatchStateEndDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR MatchStateEndDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~MatchStateEndDefaultTypeInternal() {}
-  union {
-    MatchStateEnd _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MatchStateEndDefaultTypeInternal _MatchStateEnd_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR RingStartClosing::RingStartClosing(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.center_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_.stage_)*/ 0u,
-      /*decltype(_impl_.currentradius_)*/ 0,
-      /*decltype(_impl_.endradius_)*/ 0,
-      /*decltype(_impl_.shrinkduration_)*/ 0,
-    } {}
-struct RingStartClosingDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR RingStartClosingDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~RingStartClosingDefaultTypeInternal() {}
-  union {
-    RingStartClosing _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RingStartClosingDefaultTypeInternal _RingStartClosing_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR RingFinishedClosing::RingFinishedClosing(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.center_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_.stage_)*/ 0u,
-      /*decltype(_impl_.currentradius_)*/ 0,
-      /*decltype(_impl_.shrinkduration_)*/ 0,
-    } {}
-struct RingFinishedClosingDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR RingFinishedClosingDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~RingFinishedClosingDefaultTypeInternal() {}
-  union {
-    RingFinishedClosing _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RingFinishedClosingDefaultTypeInternal _RingFinishedClosing_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR PlayerConnected::PlayerConnected(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct PlayerConnectedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PlayerConnectedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PlayerConnectedDefaultTypeInternal() {}
-  union {
-    PlayerConnected _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerConnectedDefaultTypeInternal _PlayerConnected_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR PlayerDisconnected::PlayerDisconnected(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_.canreconnect_)*/ false,
-      /*decltype(_impl_.isalive_)*/ false,
-    } {}
-struct PlayerDisconnectedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PlayerDisconnectedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PlayerDisconnectedDefaultTypeInternal() {}
-  union {
-    PlayerDisconnected _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerDisconnectedDefaultTypeInternal _PlayerDisconnected_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR PlayerStatChanged::PlayerStatChanged(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.statname_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_.newvalue_)*/ 0u,
-    } {}
-struct PlayerStatChangedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PlayerStatChangedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PlayerStatChangedDefaultTypeInternal() {}
-  union {
-    PlayerStatChanged _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerStatChangedDefaultTypeInternal _PlayerStatChanged_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR PlayerDamaged::PlayerDamaged(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.weapon_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.attacker_)*/ nullptr,
-      /*decltype(_impl_.victim_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_.damageinflicted_)*/ 0u,
-    } {}
-struct PlayerDamagedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PlayerDamagedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PlayerDamagedDefaultTypeInternal() {}
-  union {
-    PlayerDamaged _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerDamagedDefaultTypeInternal _PlayerDamaged_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR PlayerKilled::PlayerKilled(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.weapon_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.attacker_)*/ nullptr,
-      /*decltype(_impl_.victim_)*/ nullptr,
-      /*decltype(_impl_.awardedto_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct PlayerKilledDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PlayerKilledDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PlayerKilledDefaultTypeInternal() {}
-  union {
-    PlayerKilled _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerKilledDefaultTypeInternal _PlayerKilled_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR PlayerDowned::PlayerDowned(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.weapon_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.attacker_)*/ nullptr,
-      /*decltype(_impl_.victim_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct PlayerDownedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PlayerDownedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PlayerDownedDefaultTypeInternal() {}
-  union {
-    PlayerDowned _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerDownedDefaultTypeInternal _PlayerDowned_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR PlayerAssist::PlayerAssist(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.weapon_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.assistant_)*/ nullptr,
-      /*decltype(_impl_.victim_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct PlayerAssistDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PlayerAssistDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PlayerAssistDefaultTypeInternal() {}
-  union {
-    PlayerAssist _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerAssistDefaultTypeInternal _PlayerAssist_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR SquadEliminated::SquadEliminated(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.players_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct SquadEliminatedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR SquadEliminatedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~SquadEliminatedDefaultTypeInternal() {}
-  union {
-    SquadEliminated _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SquadEliminatedDefaultTypeInternal _SquadEliminated_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR GibraltarShieldAbsorbed::GibraltarShieldAbsorbed(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.attacker_)*/ nullptr,
-      /*decltype(_impl_.victim_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_.damageinflicted_)*/ 0u,
-    } {}
-struct GibraltarShieldAbsorbedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR GibraltarShieldAbsorbedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~GibraltarShieldAbsorbedDefaultTypeInternal() {}
-  union {
-    GibraltarShieldAbsorbed _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GibraltarShieldAbsorbedDefaultTypeInternal _GibraltarShieldAbsorbed_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR PlayerRespawnTeam::PlayerRespawnTeam(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.respawned_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct PlayerRespawnTeamDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PlayerRespawnTeamDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PlayerRespawnTeamDefaultTypeInternal() {}
-  union {
-    PlayerRespawnTeam _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerRespawnTeamDefaultTypeInternal _PlayerRespawnTeam_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR PlayerRevive::PlayerRevive(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.revived_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct PlayerReviveDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PlayerReviveDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PlayerReviveDefaultTypeInternal() {}
-  union {
-    PlayerRevive _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerReviveDefaultTypeInternal _PlayerRevive_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR ArenasItemSelected::ArenasItemSelected(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.item_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_.quantity_)*/ 0,
-    } {}
-struct ArenasItemSelectedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ArenasItemSelectedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ArenasItemSelectedDefaultTypeInternal() {}
-  union {
-    ArenasItemSelected _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ArenasItemSelectedDefaultTypeInternal _ArenasItemSelected_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR ArenasItemDeselected::ArenasItemDeselected(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.item_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_.quantity_)*/ 0,
-    } {}
-struct ArenasItemDeselectedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ArenasItemDeselectedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ArenasItemDeselectedDefaultTypeInternal() {}
-  union {
-    ArenasItemDeselected _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ArenasItemDeselectedDefaultTypeInternal _ArenasItemDeselected_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR InventoryPickUp::InventoryPickUp(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.item_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_.quantity_)*/ 0,
-    } {}
-struct InventoryPickUpDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR InventoryPickUpDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~InventoryPickUpDefaultTypeInternal() {}
-  union {
-    InventoryPickUp _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InventoryPickUpDefaultTypeInternal _InventoryPickUp_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR InventoryDrop::InventoryDrop(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.extradata_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.item_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_.quantity_)*/ 0,
-    } {}
-struct InventoryDropDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR InventoryDropDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~InventoryDropDefaultTypeInternal() {}
-  union {
-    InventoryDrop _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InventoryDropDefaultTypeInternal _InventoryDrop_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR InventoryUse::InventoryUse(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.item_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_.quantity_)*/ 0,
-    } {}
-struct InventoryUseDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR InventoryUseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~InventoryUseDefaultTypeInternal() {}
-  union {
-    InventoryUse _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InventoryUseDefaultTypeInternal _InventoryUse_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR BannerCollected::BannerCollected(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.collected_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct BannerCollectedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR BannerCollectedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~BannerCollectedDefaultTypeInternal() {}
-  union {
-    BannerCollected _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BannerCollectedDefaultTypeInternal _BannerCollected_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR PlayerAbilityUsed::PlayerAbilityUsed(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.linkedentity_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct PlayerAbilityUsedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR PlayerAbilityUsedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~PlayerAbilityUsedDefaultTypeInternal() {}
-  union {
-    PlayerAbilityUsed _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerAbilityUsedDefaultTypeInternal _PlayerAbilityUsed_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR ZiplineUsed::ZiplineUsed(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.linkedentity_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct ZiplineUsedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ZiplineUsedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ZiplineUsedDefaultTypeInternal() {}
-  union {
-    ZiplineUsed _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ZiplineUsedDefaultTypeInternal _ZiplineUsed_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR GrenadeThrown::GrenadeThrown(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.linkedentity_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct GrenadeThrownDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR GrenadeThrownDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~GrenadeThrownDefaultTypeInternal() {}
-  union {
-    GrenadeThrown _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GrenadeThrownDefaultTypeInternal _GrenadeThrown_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR BlackMarketAction::BlackMarketAction(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.item_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct BlackMarketActionDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR BlackMarketActionDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~BlackMarketActionDefaultTypeInternal() {}
-  union {
-    BlackMarketAction _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BlackMarketActionDefaultTypeInternal _BlackMarketAction_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR WraithPortal::WraithPortal(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct WraithPortalDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR WraithPortalDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~WraithPortalDefaultTypeInternal() {}
-  union {
-    WraithPortal _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 WraithPortalDefaultTypeInternal _WraithPortal_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR WarpGateUsed::WarpGateUsed(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct WarpGateUsedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR WarpGateUsedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~WarpGateUsedDefaultTypeInternal() {}
-  union {
-    WarpGateUsed _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 WarpGateUsedDefaultTypeInternal _WarpGateUsed_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR AmmoUsed::AmmoUsed(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.ammotype_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-      /*decltype(_impl_.amountused_)*/ 0u,
-      /*decltype(_impl_.oldammocount_)*/ 0u,
-      /*decltype(_impl_.newammocount_)*/ 0u,
-    } {}
-struct AmmoUsedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR AmmoUsedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~AmmoUsedDefaultTypeInternal() {}
-  union {
-    AmmoUsed _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AmmoUsedDefaultTypeInternal _AmmoUsed_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR WeaponSwitched::WeaponSwitched(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.category_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.oldweapon_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.newweapon_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.player_)*/ nullptr,
-      /*decltype(_impl_.timestamp_)*/ ::uint64_t{0u},
-    } {}
-struct WeaponSwitchedDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR WeaponSwitchedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~WeaponSwitchedDefaultTypeInternal() {}
-  union {
-    WeaponSwitched _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 WeaponSwitchedDefaultTypeInternal _WeaponSwitched_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR ChangeCamera::ChangeCamera(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.target_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_._oneof_case_)*/ {},
-    } {}
-struct ChangeCameraDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ChangeCameraDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ChangeCameraDefaultTypeInternal() {}
-  union {
-    ChangeCamera _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ChangeCameraDefaultTypeInternal _ChangeCamera_default_instance_;
-        template <typename>
+template <typename>
 PROTOBUF_CONSTEXPR PauseToggle::PauseToggle(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.pretimer_)*/ 0,
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
+    : _impl_(::_pbi::ConstantInitialized()) {}
 struct PauseToggleDefaultTypeInternal {
   PROTOBUF_CONSTEXPR PauseToggleDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
   ~PauseToggleDefaultTypeInternal() {}
@@ -1099,37 +107,239 @@ struct PauseToggleDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PauseToggleDefaultTypeInternal _PauseToggle_default_instance_;
-      template <typename>
-PROTOBUF_CONSTEXPR CustomMatch_CreateLobby::CustomMatch_CreateLobby(::_pbi::ConstantInitialized) {}
-struct CustomMatch_CreateLobbyDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CustomMatch_CreateLobbyDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CustomMatch_CreateLobbyDefaultTypeInternal() {}
+
+inline constexpr ObserverAnnotation::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        timestamp_{::uint64_t{0u}},
+        annotationserial_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ObserverAnnotation::ObserverAnnotation(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct ObserverAnnotationDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ObserverAnnotationDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ObserverAnnotationDefaultTypeInternal() {}
   union {
-    CustomMatch_CreateLobby _instance;
+    ObserverAnnotation _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_CreateLobbyDefaultTypeInternal _CustomMatch_CreateLobby_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR CustomMatch_JoinLobby::CustomMatch_JoinLobby(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.roletoken_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct CustomMatch_JoinLobbyDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CustomMatch_JoinLobbyDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CustomMatch_JoinLobbyDefaultTypeInternal() {}
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ObserverAnnotationDefaultTypeInternal _ObserverAnnotation_default_instance_;
+
+inline constexpr GameStateChanged::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        state_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        timestamp_{::uint64_t{0u}},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR GameStateChanged::GameStateChanged(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct GameStateChangedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR GameStateChangedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~GameStateChangedDefaultTypeInternal() {}
   union {
-    CustomMatch_JoinLobby _instance;
+    GameStateChanged _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_JoinLobbyDefaultTypeInternal _CustomMatch_JoinLobby_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GameStateChangedDefaultTypeInternal _GameStateChanged_default_instance_;
+
+inline constexpr Datacenter::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        name_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        timestamp_{::uint64_t{0u}},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR Datacenter::Datacenter(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct DatacenterDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR DatacenterDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~DatacenterDefaultTypeInternal() {}
+  union {
+    Datacenter _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DatacenterDefaultTypeInternal _Datacenter_default_instance_;
+
+inline constexpr CustomMatch_SetTeamName::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : teamname_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        teamid_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR CustomMatch_SetTeamName::CustomMatch_SetTeamName(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct CustomMatch_SetTeamNameDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CustomMatch_SetTeamNameDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CustomMatch_SetTeamNameDefaultTypeInternal() {}
+  union {
+    CustomMatch_SetTeamName _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_SetTeamNameDefaultTypeInternal _CustomMatch_SetTeamName_default_instance_;
+
+inline constexpr CustomMatch_SetTeam::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : targethardwarename_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        targetnucleushash_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        teamid_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR CustomMatch_SetTeam::CustomMatch_SetTeam(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct CustomMatch_SetTeamDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CustomMatch_SetTeamDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CustomMatch_SetTeamDefaultTypeInternal() {}
+  union {
+    CustomMatch_SetTeam _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_SetTeamDefaultTypeInternal _CustomMatch_SetTeam_default_instance_;
+
+inline constexpr CustomMatch_SetSettings::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : playlistname_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        adminchat_{false},
+        teamrename_{false},
+        selfassign_{false},
+        aimassist_{false},
+        anonmode_{false},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR CustomMatch_SetSettings::CustomMatch_SetSettings(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct CustomMatch_SetSettingsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CustomMatch_SetSettingsDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CustomMatch_SetSettingsDefaultTypeInternal() {}
+  union {
+    CustomMatch_SetSettings _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_SetSettingsDefaultTypeInternal _CustomMatch_SetSettings_default_instance_;
+
+inline constexpr CustomMatch_SetReady::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : isready_{false},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR CustomMatch_SetReady::CustomMatch_SetReady(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct CustomMatch_SetReadyDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CustomMatch_SetReadyDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CustomMatch_SetReadyDefaultTypeInternal() {}
+  union {
+    CustomMatch_SetReady _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_SetReadyDefaultTypeInternal _CustomMatch_SetReady_default_instance_;
+
+inline constexpr CustomMatch_SetMatchmaking::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : enabled_{false},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR CustomMatch_SetMatchmaking::CustomMatch_SetMatchmaking(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct CustomMatch_SetMatchmakingDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CustomMatch_SetMatchmakingDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CustomMatch_SetMatchmakingDefaultTypeInternal() {}
+  union {
+    CustomMatch_SetMatchmaking _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_SetMatchmakingDefaultTypeInternal _CustomMatch_SetMatchmaking_default_instance_;
+
+inline constexpr CustomMatch_SendChat::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : text_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR CustomMatch_SendChat::CustomMatch_SendChat(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct CustomMatch_SendChatDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CustomMatch_SendChatDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CustomMatch_SendChatDefaultTypeInternal() {}
+  union {
+    CustomMatch_SendChat _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_SendChatDefaultTypeInternal _CustomMatch_SendChat_default_instance_;
+
+inline constexpr CustomMatch_LobbyPlayer::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : name_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        nucleushash_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        hardwarename_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        teamid_{0u},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR CustomMatch_LobbyPlayer::CustomMatch_LobbyPlayer(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct CustomMatch_LobbyPlayerDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CustomMatch_LobbyPlayerDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CustomMatch_LobbyPlayerDefaultTypeInternal() {}
+  union {
+    CustomMatch_LobbyPlayer _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_LobbyPlayerDefaultTypeInternal _CustomMatch_LobbyPlayer_default_instance_;
       template <typename>
 PROTOBUF_CONSTEXPR CustomMatch_LeaveLobby::CustomMatch_LeaveLobby(::_pbi::ConstantInitialized) {}
 struct CustomMatch_LeaveLobbyDefaultTypeInternal {
@@ -1142,22 +352,51 @@ struct CustomMatch_LeaveLobbyDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_LeaveLobbyDefaultTypeInternal _CustomMatch_LeaveLobby_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR CustomMatch_SetReady::CustomMatch_SetReady(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.isready_)*/ false,
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct CustomMatch_SetReadyDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CustomMatch_SetReadyDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CustomMatch_SetReadyDefaultTypeInternal() {}
+
+inline constexpr CustomMatch_KickPlayer::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : targethardwarename_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        targetnucleushash_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR CustomMatch_KickPlayer::CustomMatch_KickPlayer(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct CustomMatch_KickPlayerDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CustomMatch_KickPlayerDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CustomMatch_KickPlayerDefaultTypeInternal() {}
   union {
-    CustomMatch_SetReady _instance;
+    CustomMatch_KickPlayer _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_SetReadyDefaultTypeInternal _CustomMatch_SetReady_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_KickPlayerDefaultTypeInternal _CustomMatch_KickPlayer_default_instance_;
+
+inline constexpr CustomMatch_JoinLobby::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : roletoken_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR CustomMatch_JoinLobby::CustomMatch_JoinLobby(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct CustomMatch_JoinLobbyDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CustomMatch_JoinLobbyDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CustomMatch_JoinLobbyDefaultTypeInternal() {}
+  union {
+    CustomMatch_JoinLobby _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_JoinLobbyDefaultTypeInternal _CustomMatch_JoinLobby_default_instance_;
       template <typename>
 PROTOBUF_CONSTEXPR CustomMatch_GetLobbyPlayers::CustomMatch_GetLobbyPlayers(::_pbi::ConstantInitialized) {}
 struct CustomMatch_GetLobbyPlayersDefaultTypeInternal {
@@ -1170,181 +409,101 @@ struct CustomMatch_GetLobbyPlayersDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_GetLobbyPlayersDefaultTypeInternal _CustomMatch_GetLobbyPlayers_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR CustomMatch_SetMatchmaking::CustomMatch_SetMatchmaking(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.enabled_)*/ false,
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct CustomMatch_SetMatchmakingDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CustomMatch_SetMatchmakingDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CustomMatch_SetMatchmakingDefaultTypeInternal() {}
+      template <typename>
+PROTOBUF_CONSTEXPR CustomMatch_CreateLobby::CustomMatch_CreateLobby(::_pbi::ConstantInitialized) {}
+struct CustomMatch_CreateLobbyDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CustomMatch_CreateLobbyDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CustomMatch_CreateLobbyDefaultTypeInternal() {}
   union {
-    CustomMatch_SetMatchmaking _instance;
+    CustomMatch_CreateLobby _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_SetMatchmakingDefaultTypeInternal _CustomMatch_SetMatchmaking_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR CustomMatch_SetTeam::CustomMatch_SetTeam(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.targethardwarename_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.targetnucleushash_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.teamid_)*/ 0,
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct CustomMatch_SetTeamDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CustomMatch_SetTeamDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CustomMatch_SetTeamDefaultTypeInternal() {}
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_CreateLobbyDefaultTypeInternal _CustomMatch_CreateLobby_default_instance_;
+
+inline constexpr ChangeCamera::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : target_{},
+        _cached_size_{0},
+        _oneof_case_{} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ChangeCamera::ChangeCamera(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct ChangeCameraDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ChangeCameraDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ChangeCameraDefaultTypeInternal() {}
   union {
-    CustomMatch_SetTeam _instance;
+    ChangeCamera _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_SetTeamDefaultTypeInternal _CustomMatch_SetTeam_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR CustomMatch_KickPlayer::CustomMatch_KickPlayer(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.targethardwarename_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.targetnucleushash_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct CustomMatch_KickPlayerDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CustomMatch_KickPlayerDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CustomMatch_KickPlayerDefaultTypeInternal() {}
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ChangeCameraDefaultTypeInternal _ChangeCamera_default_instance_;
+
+inline constexpr RingStartClosing::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        center_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        stage_{0u},
+        currentradius_{0},
+        endradius_{0},
+        shrinkduration_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR RingStartClosing::RingStartClosing(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct RingStartClosingDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RingStartClosingDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RingStartClosingDefaultTypeInternal() {}
   union {
-    CustomMatch_KickPlayer _instance;
+    RingStartClosing _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_KickPlayerDefaultTypeInternal _CustomMatch_KickPlayer_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR CustomMatch_SetSettings::CustomMatch_SetSettings(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.playlistname_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.adminchat_)*/ false,
-      /*decltype(_impl_.teamrename_)*/ false,
-      /*decltype(_impl_.selfassign_)*/ false,
-      /*decltype(_impl_.aimassist_)*/ false,
-      /*decltype(_impl_.anonmode_)*/ false,
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct CustomMatch_SetSettingsDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CustomMatch_SetSettingsDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CustomMatch_SetSettingsDefaultTypeInternal() {}
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RingStartClosingDefaultTypeInternal _RingStartClosing_default_instance_;
+
+inline constexpr RingFinishedClosing::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        center_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        stage_{0u},
+        currentradius_{0},
+        shrinkduration_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR RingFinishedClosing::RingFinishedClosing(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct RingFinishedClosingDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RingFinishedClosingDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RingFinishedClosingDefaultTypeInternal() {}
   union {
-    CustomMatch_SetSettings _instance;
+    RingFinishedClosing _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_SetSettingsDefaultTypeInternal _CustomMatch_SetSettings_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR CustomMatch_SetTeamName::CustomMatch_SetTeamName(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.teamname_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.teamid_)*/ 0,
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct CustomMatch_SetTeamNameDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CustomMatch_SetTeamNameDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CustomMatch_SetTeamNameDefaultTypeInternal() {}
-  union {
-    CustomMatch_SetTeamName _instance;
-  };
-};
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RingFinishedClosingDefaultTypeInternal _RingFinishedClosing_default_instance_;
 
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_SetTeamNameDefaultTypeInternal _CustomMatch_SetTeamName_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR CustomMatch_SendChat::CustomMatch_SendChat(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.text_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct CustomMatch_SendChatDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR CustomMatch_SendChatDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~CustomMatch_SendChatDefaultTypeInternal() {}
-  union {
-    CustomMatch_SendChat _instance;
-  };
-};
+inline constexpr Response::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        result_{nullptr},
+        success_{false} {}
 
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_SendChatDefaultTypeInternal _CustomMatch_SendChat_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR Request::Request(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.presharedkey_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_.withack_)*/ false,
-      /*decltype(_impl_.actions_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_._oneof_case_)*/ {},
-    } {}
-struct RequestDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR RequestDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~RequestDefaultTypeInternal() {}
-  union {
-    Request _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RequestDefaultTypeInternal _Request_default_instance_;
-        template <typename>
-PROTOBUF_CONSTEXPR RequestStatus::RequestStatus(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_.status_)*/ {
-          &::_pbi::fixed_address_empty_string,
-          ::_pbi::ConstantInitialized{},
-      },
-      /*decltype(_impl_._cached_size_)*/ {},
-    } {}
-struct RequestStatusDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR RequestStatusDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~RequestStatusDefaultTypeInternal() {}
-  union {
-    RequestStatus _instance;
-  };
-};
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RequestStatusDefaultTypeInternal _RequestStatus_default_instance_;
-        template <typename>
+template <typename>
 PROTOBUF_CONSTEXPR Response::Response(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.result_)*/ nullptr,
-      /*decltype(_impl_.success_)*/ false,
-    } {}
+    : _impl_(::_pbi::ConstantInitialized()) {}
 struct ResponseDefaultTypeInternal {
   PROTOBUF_CONSTEXPR ResponseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
   ~ResponseDefaultTypeInternal() {}
@@ -1355,14 +514,121 @@ struct ResponseDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ResponseDefaultTypeInternal _Response_default_instance_;
-        template <typename>
+
+inline constexpr Request::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : presharedkey_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        withack_{false},
+        actions_{},
+        _cached_size_{0},
+        _oneof_case_{} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR Request::Request(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct RequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RequestDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RequestDefaultTypeInternal() {}
+  union {
+    Request _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RequestDefaultTypeInternal _Request_default_instance_;
+
+inline constexpr Player::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        name_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        nucleushash_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        hardwarename_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        teamname_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        character_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        skin_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        pos_{nullptr},
+        angles_{nullptr},
+        teamid_{0u},
+        currenthealth_{0u},
+        maxhealth_{0u},
+        shieldhealth_{0u},
+        shieldmaxhealth_{0u},
+        squadindex_{0u} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR Player::Player(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct PlayerDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PlayerDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PlayerDefaultTypeInternal() {}
+  union {
+    Player _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerDefaultTypeInternal _Player_default_instance_;
+
+inline constexpr MatchSetup::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        map_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        playlistname_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        playlistdesc_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        serverid_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        datacenter_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        aimassiston_{false},
+        anonymousmode_{false} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR MatchSetup::MatchSetup(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct MatchSetupDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR MatchSetupDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~MatchSetupDefaultTypeInternal() {}
+  union {
+    MatchSetup _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MatchSetupDefaultTypeInternal _MatchSetup_default_instance_;
+
+inline constexpr LiveAPIEvent::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        gamemessage_{nullptr},
+        event_size_{0u} {}
+
+template <typename>
 PROTOBUF_CONSTEXPR LiveAPIEvent::LiveAPIEvent(::_pbi::ConstantInitialized)
-    : _impl_{
-      /*decltype(_impl_._has_bits_)*/ {},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_.gamemessage_)*/ nullptr,
-      /*decltype(_impl_.event_size_)*/ 0u,
-    } {}
+    : _impl_(::_pbi::ConstantInitialized()) {}
 struct LiveAPIEventDefaultTypeInternal {
   PROTOBUF_CONSTEXPR LiveAPIEventDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
   ~LiveAPIEventDefaultTypeInternal() {}
@@ -1373,6 +639,785 @@ struct LiveAPIEventDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LiveAPIEventDefaultTypeInternal _LiveAPIEvent_default_instance_;
+
+inline constexpr Init::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        gameversion_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        platform_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        name_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        apiversion_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR Init::Init(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct InitDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR InitDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~InitDefaultTypeInternal() {}
+  union {
+    Init _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InitDefaultTypeInternal _Init_default_instance_;
+
+inline constexpr CustomMatch_LobbyPlayers::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : players_{},
+        playertoken_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR CustomMatch_LobbyPlayers::CustomMatch_LobbyPlayers(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct CustomMatch_LobbyPlayersDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CustomMatch_LobbyPlayersDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CustomMatch_LobbyPlayersDefaultTypeInternal() {}
+  union {
+    CustomMatch_LobbyPlayers _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_LobbyPlayersDefaultTypeInternal _CustomMatch_LobbyPlayers_default_instance_;
+
+inline constexpr ZiplineUsed::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        linkedentity_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ZiplineUsed::ZiplineUsed(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct ZiplineUsedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ZiplineUsedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ZiplineUsedDefaultTypeInternal() {}
+  union {
+    ZiplineUsed _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ZiplineUsedDefaultTypeInternal _ZiplineUsed_default_instance_;
+
+inline constexpr WraithPortal::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR WraithPortal::WraithPortal(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct WraithPortalDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR WraithPortalDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~WraithPortalDefaultTypeInternal() {}
+  union {
+    WraithPortal _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 WraithPortalDefaultTypeInternal _WraithPortal_default_instance_;
+
+inline constexpr WeaponSwitched::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        oldweapon_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        newweapon_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR WeaponSwitched::WeaponSwitched(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct WeaponSwitchedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR WeaponSwitchedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~WeaponSwitchedDefaultTypeInternal() {}
+  union {
+    WeaponSwitched _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 WeaponSwitchedDefaultTypeInternal _WeaponSwitched_default_instance_;
+
+inline constexpr WarpGateUsed::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR WarpGateUsed::WarpGateUsed(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct WarpGateUsedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR WarpGateUsedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~WarpGateUsedDefaultTypeInternal() {}
+  union {
+    WarpGateUsed _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 WarpGateUsedDefaultTypeInternal _WarpGateUsed_default_instance_;
+
+inline constexpr SquadEliminated::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : players_{},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        timestamp_{::uint64_t{0u}},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR SquadEliminated::SquadEliminated(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct SquadEliminatedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SquadEliminatedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SquadEliminatedDefaultTypeInternal() {}
+  union {
+    SquadEliminated _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SquadEliminatedDefaultTypeInternal _SquadEliminated_default_instance_;
+
+inline constexpr PlayerStatChanged::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        statname_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        newvalue_{0u} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR PlayerStatChanged::PlayerStatChanged(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct PlayerStatChangedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PlayerStatChangedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PlayerStatChangedDefaultTypeInternal() {}
+  union {
+    PlayerStatChanged _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerStatChangedDefaultTypeInternal _PlayerStatChanged_default_instance_;
+
+inline constexpr PlayerRevive::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        revived_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR PlayerRevive::PlayerRevive(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct PlayerReviveDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PlayerReviveDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PlayerReviveDefaultTypeInternal() {}
+  union {
+    PlayerRevive _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerReviveDefaultTypeInternal _PlayerRevive_default_instance_;
+
+inline constexpr PlayerRespawnTeam::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        respawned_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR PlayerRespawnTeam::PlayerRespawnTeam(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct PlayerRespawnTeamDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PlayerRespawnTeamDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PlayerRespawnTeamDefaultTypeInternal() {}
+  union {
+    PlayerRespawnTeam _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerRespawnTeamDefaultTypeInternal _PlayerRespawnTeam_default_instance_;
+
+inline constexpr PlayerKilled::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        weapon_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        attacker_{nullptr},
+        victim_{nullptr},
+        awardedto_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR PlayerKilled::PlayerKilled(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct PlayerKilledDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PlayerKilledDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PlayerKilledDefaultTypeInternal() {}
+  union {
+    PlayerKilled _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerKilledDefaultTypeInternal _PlayerKilled_default_instance_;
+
+inline constexpr PlayerDowned::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        weapon_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        attacker_{nullptr},
+        victim_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR PlayerDowned::PlayerDowned(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct PlayerDownedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PlayerDownedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PlayerDownedDefaultTypeInternal() {}
+  union {
+    PlayerDowned _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerDownedDefaultTypeInternal _PlayerDowned_default_instance_;
+
+inline constexpr PlayerDisconnected::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        canreconnect_{false},
+        isalive_{false} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR PlayerDisconnected::PlayerDisconnected(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct PlayerDisconnectedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PlayerDisconnectedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PlayerDisconnectedDefaultTypeInternal() {}
+  union {
+    PlayerDisconnected _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerDisconnectedDefaultTypeInternal _PlayerDisconnected_default_instance_;
+
+inline constexpr PlayerDamaged::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        weapon_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        attacker_{nullptr},
+        victim_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        damageinflicted_{0u} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR PlayerDamaged::PlayerDamaged(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct PlayerDamagedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PlayerDamagedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PlayerDamagedDefaultTypeInternal() {}
+  union {
+    PlayerDamaged _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerDamagedDefaultTypeInternal _PlayerDamaged_default_instance_;
+
+inline constexpr PlayerConnected::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR PlayerConnected::PlayerConnected(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct PlayerConnectedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PlayerConnectedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PlayerConnectedDefaultTypeInternal() {}
+  union {
+    PlayerConnected _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerConnectedDefaultTypeInternal _PlayerConnected_default_instance_;
+
+inline constexpr PlayerAssist::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        weapon_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        assistant_{nullptr},
+        victim_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR PlayerAssist::PlayerAssist(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct PlayerAssistDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PlayerAssistDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PlayerAssistDefaultTypeInternal() {}
+  union {
+    PlayerAssist _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerAssistDefaultTypeInternal _PlayerAssist_default_instance_;
+
+inline constexpr PlayerAbilityUsed::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        linkedentity_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR PlayerAbilityUsed::PlayerAbilityUsed(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct PlayerAbilityUsedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PlayerAbilityUsedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PlayerAbilityUsedDefaultTypeInternal() {}
+  union {
+    PlayerAbilityUsed _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerAbilityUsedDefaultTypeInternal _PlayerAbilityUsed_default_instance_;
+
+inline constexpr ObserverSwitched::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        targetteam_{},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        observer_{nullptr},
+        target_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ObserverSwitched::ObserverSwitched(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct ObserverSwitchedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ObserverSwitchedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ObserverSwitchedDefaultTypeInternal() {}
+  union {
+    ObserverSwitched _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ObserverSwitchedDefaultTypeInternal _ObserverSwitched_default_instance_;
+
+inline constexpr MatchStateEnd::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : winners_{},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        state_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        timestamp_{::uint64_t{0u}},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR MatchStateEnd::MatchStateEnd(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct MatchStateEndDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR MatchStateEndDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~MatchStateEndDefaultTypeInternal() {}
+  union {
+    MatchStateEnd _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MatchStateEndDefaultTypeInternal _MatchStateEnd_default_instance_;
+
+inline constexpr InventoryUse::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        item_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        quantity_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR InventoryUse::InventoryUse(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct InventoryUseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR InventoryUseDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~InventoryUseDefaultTypeInternal() {}
+  union {
+    InventoryUse _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InventoryUseDefaultTypeInternal _InventoryUse_default_instance_;
+
+inline constexpr InventoryPickUp::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        item_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        quantity_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR InventoryPickUp::InventoryPickUp(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct InventoryPickUpDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR InventoryPickUpDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~InventoryPickUpDefaultTypeInternal() {}
+  union {
+    InventoryPickUp _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InventoryPickUpDefaultTypeInternal _InventoryPickUp_default_instance_;
+
+inline constexpr InventoryDrop::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        extradata_{},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        item_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        quantity_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR InventoryDrop::InventoryDrop(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct InventoryDropDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR InventoryDropDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~InventoryDropDefaultTypeInternal() {}
+  union {
+    InventoryDrop _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InventoryDropDefaultTypeInternal _InventoryDrop_default_instance_;
+
+inline constexpr GrenadeThrown::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        linkedentity_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR GrenadeThrown::GrenadeThrown(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct GrenadeThrownDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR GrenadeThrownDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~GrenadeThrownDefaultTypeInternal() {}
+  union {
+    GrenadeThrown _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GrenadeThrownDefaultTypeInternal _GrenadeThrown_default_instance_;
+
+inline constexpr GibraltarShieldAbsorbed::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        attacker_{nullptr},
+        victim_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        damageinflicted_{0u} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR GibraltarShieldAbsorbed::GibraltarShieldAbsorbed(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct GibraltarShieldAbsorbedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR GibraltarShieldAbsorbedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~GibraltarShieldAbsorbedDefaultTypeInternal() {}
+  union {
+    GibraltarShieldAbsorbed _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GibraltarShieldAbsorbedDefaultTypeInternal _GibraltarShieldAbsorbed_default_instance_;
+
+inline constexpr CharacterSelected::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR CharacterSelected::CharacterSelected(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct CharacterSelectedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CharacterSelectedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CharacterSelectedDefaultTypeInternal() {}
+  union {
+    CharacterSelected _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CharacterSelectedDefaultTypeInternal _CharacterSelected_default_instance_;
+
+inline constexpr BlackMarketAction::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        item_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR BlackMarketAction::BlackMarketAction(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct BlackMarketActionDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR BlackMarketActionDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~BlackMarketActionDefaultTypeInternal() {}
+  union {
+    BlackMarketAction _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BlackMarketActionDefaultTypeInternal _BlackMarketAction_default_instance_;
+
+inline constexpr BannerCollected::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        collected_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR BannerCollected::BannerCollected(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct BannerCollectedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR BannerCollectedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~BannerCollectedDefaultTypeInternal() {}
+  union {
+    BannerCollected _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BannerCollectedDefaultTypeInternal _BannerCollected_default_instance_;
+
+inline constexpr ArenasItemSelected::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        item_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        quantity_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ArenasItemSelected::ArenasItemSelected(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct ArenasItemSelectedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ArenasItemSelectedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ArenasItemSelectedDefaultTypeInternal() {}
+  union {
+    ArenasItemSelected _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ArenasItemSelectedDefaultTypeInternal _ArenasItemSelected_default_instance_;
+
+inline constexpr ArenasItemDeselected::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        item_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        quantity_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR ArenasItemDeselected::ArenasItemDeselected(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct ArenasItemDeselectedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ArenasItemDeselectedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ArenasItemDeselectedDefaultTypeInternal() {}
+  union {
+    ArenasItemDeselected _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ArenasItemDeselectedDefaultTypeInternal _ArenasItemDeselected_default_instance_;
+
+inline constexpr AmmoUsed::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        ammotype_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        amountused_{0u},
+        oldammocount_{0u},
+        newammocount_{0u} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR AmmoUsed::AmmoUsed(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct AmmoUsedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR AmmoUsedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~AmmoUsedDefaultTypeInternal() {}
+  union {
+    AmmoUsed _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AmmoUsedDefaultTypeInternal _AmmoUsed_default_instance_;
 }  // namespace liveapi
 }  // namespace rtech
 static ::_pb::Metadata file_level_metadata_events_2eproto[57];
@@ -2591,19 +2636,10 @@ const ::google::protobuf::EnumDescriptor* PlayerOfInterest_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_events_2eproto);
   return file_level_enum_descriptors_events_2eproto[0];
 }
+PROTOBUF_CONSTINIT const uint32_t PlayerOfInterest_internal_data_[] = {
+    458752u, 0u, };
 bool PlayerOfInterest_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-      return true;
-    default:
-      return false;
-  }
+  return 0 <= value && value <= 6;
 }
 // ===================================================================
 
@@ -2616,20 +2652,24 @@ Vector3::Vector3(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.Vector3)
 }
-Vector3::Vector3(const Vector3& from)
-    : ::google::protobuf::Message(), _impl_(from._impl_) {
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.Vector3)
+Vector3::Vector3(
+    ::google::protobuf::Arena* arena, const Vector3& from)
+    : Vector3(arena) {
+  MergeFrom(from);
 }
+inline PROTOBUF_NDEBUG_INLINE Vector3::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
 inline void Vector3::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.x_){0},
-      decltype(_impl_.y_){0},
-      decltype(_impl_.z_){0},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, x_),
+           0,
+           offsetof(Impl_, z_) -
+               offsetof(Impl_, x_) +
+               sizeof(Impl_::z_));
 }
 Vector3::~Vector3() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.Vector3)
@@ -2637,14 +2677,13 @@ Vector3::~Vector3() {
   SharedDtor();
 }
 inline void Vector3::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
-}
-void Vector3::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  ABSL_DCHECK(GetArena() == nullptr);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void Vector3::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.Vector3)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -2799,11 +2838,12 @@ const ::_pbi::TcParseTable<2, 3, 0, 0, 2> Vector3::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData Vector3::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    Vector3::MergeImpl
+    Vector3::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*Vector3::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* Vector3::GetClassData() const {
+  return &_class_data_;
+}
 
 void Vector3::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<Vector3*>(&to_msg);
@@ -2851,7 +2891,10 @@ PROTOBUF_NOINLINE bool Vector3::IsInitialized() const {
   return true;
 }
 
-void Vector3::InternalSwap(Vector3* other) {
+::_pbi::CachedSize* Vector3::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void Vector3::InternalSwap(Vector3* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
@@ -2895,127 +2938,63 @@ Player::Player(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.Player)
 }
-Player::Player(const Player& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE Player::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        name_(arena, from.name_),
+        nucleushash_(arena, from.nucleushash_),
+        hardwarename_(arena, from.hardwarename_),
+        teamname_(arena, from.teamname_),
+        character_(arena, from.character_),
+        skin_(arena, from.skin_) {}
+
+Player::Player(
+    ::google::protobuf::Arena* arena,
+    const Player& from)
+    : ::google::protobuf::Message(arena) {
   Player* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.name_){},
-      decltype(_impl_.nucleushash_){},
-      decltype(_impl_.hardwarename_){},
-      decltype(_impl_.teamname_){},
-      decltype(_impl_.character_){},
-      decltype(_impl_.skin_){},
-      decltype(_impl_.pos_){nullptr},
-      decltype(_impl_.angles_){nullptr},
-      decltype(_impl_.teamid_){},
-      decltype(_impl_.currenthealth_){},
-      decltype(_impl_.maxhealth_){},
-      decltype(_impl_.shieldhealth_){},
-      decltype(_impl_.shieldmaxhealth_){},
-      decltype(_impl_.squadindex_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.name_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_name().empty()) {
-    _this->_impl_.name_.Set(from._internal_name(), _this->GetArenaForAllocation());
-  }
-  _impl_.nucleushash_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.nucleushash_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_nucleushash().empty()) {
-    _this->_impl_.nucleushash_.Set(from._internal_nucleushash(), _this->GetArenaForAllocation());
-  }
-  _impl_.hardwarename_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.hardwarename_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_hardwarename().empty()) {
-    _this->_impl_.hardwarename_.Set(from._internal_hardwarename(), _this->GetArenaForAllocation());
-  }
-  _impl_.teamname_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.teamname_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_teamname().empty()) {
-    _this->_impl_.teamname_.Set(from._internal_teamname(), _this->GetArenaForAllocation());
-  }
-  _impl_.character_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.character_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_character().empty()) {
-    _this->_impl_.character_.Set(from._internal_character(), _this->GetArenaForAllocation());
-  }
-  _impl_.skin_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.skin_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_skin().empty()) {
-    _this->_impl_.skin_.Set(from._internal_skin(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.pos_ = new ::rtech::liveapi::Vector3(*from._impl_.pos_);
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000002u) != 0) {
-    _this->_impl_.angles_ = new ::rtech::liveapi::Vector3(*from._impl_.angles_);
-  }
-  ::memcpy(&_impl_.teamid_, &from._impl_.teamid_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.squadindex_) -
-    reinterpret_cast<char*>(&_impl_.teamid_)) + sizeof(_impl_.squadindex_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.pos_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Vector3>(arena, *from._impl_.pos_)
+                : nullptr;
+  _impl_.angles_ = (cached_has_bits & 0x00000002u)
+                ? CreateMaybeMessage<::rtech::liveapi::Vector3>(arena, *from._impl_.angles_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, teamid_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, teamid_),
+           offsetof(Impl_, squadindex_) -
+               offsetof(Impl_, teamid_) +
+               sizeof(Impl_::squadindex_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.Player)
 }
+inline PROTOBUF_NDEBUG_INLINE Player::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        name_(arena),
+        nucleushash_(arena),
+        hardwarename_(arena),
+        teamname_(arena),
+        character_(arena),
+        skin_(arena) {}
+
 inline void Player::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.name_){},
-      decltype(_impl_.nucleushash_){},
-      decltype(_impl_.hardwarename_){},
-      decltype(_impl_.teamname_){},
-      decltype(_impl_.character_){},
-      decltype(_impl_.skin_){},
-      decltype(_impl_.pos_){nullptr},
-      decltype(_impl_.angles_){nullptr},
-      decltype(_impl_.teamid_){0u},
-      decltype(_impl_.currenthealth_){0u},
-      decltype(_impl_.maxhealth_){0u},
-      decltype(_impl_.shieldhealth_){0u},
-      decltype(_impl_.shieldmaxhealth_){0u},
-      decltype(_impl_.squadindex_){0u},
-  };
-  _impl_.name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.name_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.nucleushash_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.nucleushash_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.hardwarename_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.hardwarename_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.teamname_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.teamname_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.character_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.character_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.skin_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.skin_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, pos_),
+           0,
+           offsetof(Impl_, squadindex_) -
+               offsetof(Impl_, pos_) +
+               sizeof(Impl_::squadindex_));
 }
 Player::~Player() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.Player)
@@ -3023,22 +3002,21 @@ Player::~Player() {
   SharedDtor();
 }
 inline void Player::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.name_.Destroy();
   _impl_.nucleushash_.Destroy();
   _impl_.hardwarename_.Destroy();
   _impl_.teamname_.Destroy();
   _impl_.character_.Destroy();
   _impl_.skin_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.pos_;
-  if (this != internal_default_instance()) delete _impl_.angles_;
-}
-void Player::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.pos_;
+  delete _impl_.angles_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void Player::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.Player)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -3218,15 +3196,15 @@ const ::_pbi::TcParseTable<4, 14, 2, 85, 2> Player::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Vector3 pos = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::pos(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::pos(this),
         _Internal::pos(this).GetCachedSize(), target, stream);
   }
 
   // .rtech.liveapi.Vector3 angles = 4;
   if (cached_has_bits & 0x00000002u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::angles(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        4, _Internal::angles(this),
         _Internal::angles(this).GetCachedSize(), target, stream);
   }
 
@@ -3362,16 +3340,14 @@ const ::_pbi::TcParseTable<4, 14, 2, 85, 2> Player::_table_ = {
   if (cached_has_bits & 0x00000003u) {
     // .rtech.liveapi.Vector3 pos = 3;
     if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.pos_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.pos_);
     }
 
     // .rtech.liveapi.Vector3 angles = 4;
     if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.angles_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.angles_);
     }
 
   }
@@ -3415,11 +3391,12 @@ const ::_pbi::TcParseTable<4, 14, 2, 85, 2> Player::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData Player::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    Player::MergeImpl
+    Player::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*Player::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* Player::GetClassData() const {
+  return &_class_data_;
+}
 
 void Player::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<Player*>(&to_msg);
@@ -3490,24 +3467,21 @@ PROTOBUF_NOINLINE bool Player::IsInitialized() const {
   return true;
 }
 
-void Player::InternalSwap(Player* other) {
+::_pbi::CachedSize* Player::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void Player::InternalSwap(Player* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, lhs_arena,
-                                       &other->_impl_.name_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.nucleushash_, lhs_arena,
-                                       &other->_impl_.nucleushash_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.hardwarename_, lhs_arena,
-                                       &other->_impl_.hardwarename_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.teamname_, lhs_arena,
-                                       &other->_impl_.teamname_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.character_, lhs_arena,
-                                       &other->_impl_.character_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.skin_, lhs_arena,
-                                       &other->_impl_.skin_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, &other->_impl_.name_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.nucleushash_, &other->_impl_.nucleushash_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.hardwarename_, &other->_impl_.hardwarename_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.teamname_, &other->_impl_.teamname_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.character_, &other->_impl_.character_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.skin_, &other->_impl_.skin_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(Player, _impl_.squadindex_)
       + sizeof(Player::_impl_.squadindex_)
@@ -3532,64 +3506,38 @@ CustomMatch_LobbyPlayer::CustomMatch_LobbyPlayer(::google::protobuf::Arena* aren
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_LobbyPlayer)
 }
-CustomMatch_LobbyPlayer::CustomMatch_LobbyPlayer(const CustomMatch_LobbyPlayer& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_LobbyPlayer::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : name_(arena, from.name_),
+        nucleushash_(arena, from.nucleushash_),
+        hardwarename_(arena, from.hardwarename_),
+        _cached_size_{0} {}
+
+CustomMatch_LobbyPlayer::CustomMatch_LobbyPlayer(
+    ::google::protobuf::Arena* arena,
+    const CustomMatch_LobbyPlayer& from)
+    : ::google::protobuf::Message(arena) {
   CustomMatch_LobbyPlayer* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.name_){},
-      decltype(_impl_.nucleushash_){},
-      decltype(_impl_.hardwarename_){},
-      decltype(_impl_.teamid_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.name_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_name().empty()) {
-    _this->_impl_.name_.Set(from._internal_name(), _this->GetArenaForAllocation());
-  }
-  _impl_.nucleushash_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.nucleushash_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_nucleushash().empty()) {
-    _this->_impl_.nucleushash_.Set(from._internal_nucleushash(), _this->GetArenaForAllocation());
-  }
-  _impl_.hardwarename_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.hardwarename_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_hardwarename().empty()) {
-    _this->_impl_.hardwarename_.Set(from._internal_hardwarename(), _this->GetArenaForAllocation());
-  }
-  _this->_impl_.teamid_ = from._impl_.teamid_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  _impl_.teamid_ = from._impl_.teamid_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CustomMatch_LobbyPlayer)
 }
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_LobbyPlayer::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : name_(arena),
+        nucleushash_(arena),
+        hardwarename_(arena),
+        _cached_size_{0} {}
+
 inline void CustomMatch_LobbyPlayer::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.name_){},
-      decltype(_impl_.nucleushash_){},
-      decltype(_impl_.hardwarename_){},
-      decltype(_impl_.teamid_){0u},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
-  _impl_.name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.name_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.nucleushash_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.nucleushash_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.hardwarename_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.hardwarename_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.teamid_ = {};
 }
 CustomMatch_LobbyPlayer::~CustomMatch_LobbyPlayer() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.CustomMatch_LobbyPlayer)
@@ -3597,17 +3545,16 @@ CustomMatch_LobbyPlayer::~CustomMatch_LobbyPlayer() {
   SharedDtor();
 }
 inline void CustomMatch_LobbyPlayer::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.name_.Destroy();
   _impl_.nucleushash_.Destroy();
   _impl_.hardwarename_.Destroy();
-}
-void CustomMatch_LobbyPlayer::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void CustomMatch_LobbyPlayer::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.CustomMatch_LobbyPlayer)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -3762,11 +3709,12 @@ const ::_pbi::TcParseTable<2, 4, 0, 73, 2> CustomMatch_LobbyPlayer::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData CustomMatch_LobbyPlayer::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    CustomMatch_LobbyPlayer::MergeImpl
+    CustomMatch_LobbyPlayer::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*CustomMatch_LobbyPlayer::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* CustomMatch_LobbyPlayer::GetClassData() const {
+  return &_class_data_;
+}
 
 void CustomMatch_LobbyPlayer::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<CustomMatch_LobbyPlayer*>(&to_msg);
@@ -3802,17 +3750,17 @@ PROTOBUF_NOINLINE bool CustomMatch_LobbyPlayer::IsInitialized() const {
   return true;
 }
 
-void CustomMatch_LobbyPlayer::InternalSwap(CustomMatch_LobbyPlayer* other) {
+::_pbi::CachedSize* CustomMatch_LobbyPlayer::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void CustomMatch_LobbyPlayer::InternalSwap(CustomMatch_LobbyPlayer* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, lhs_arena,
-                                       &other->_impl_.name_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.nucleushash_, lhs_arena,
-                                       &other->_impl_.nucleushash_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.hardwarename_, lhs_arena,
-                                       &other->_impl_.hardwarename_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, &other->_impl_.name_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.nucleushash_, &other->_impl_.nucleushash_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.hardwarename_, &other->_impl_.hardwarename_, arena);
         swap(_impl_.teamid_, other->_impl_.teamid_);
 }
 
@@ -3832,51 +3780,36 @@ Datacenter::Datacenter(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.Datacenter)
 }
-Datacenter::Datacenter(const Datacenter& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE Datacenter::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : category_(arena, from.category_),
+        name_(arena, from.name_),
+        _cached_size_{0} {}
+
+Datacenter::Datacenter(
+    ::google::protobuf::Arena* arena,
+    const Datacenter& from)
+    : ::google::protobuf::Message(arena) {
   Datacenter* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.category_){},
-      decltype(_impl_.name_){},
-      decltype(_impl_.timestamp_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.name_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_name().empty()) {
-    _this->_impl_.name_.Set(from._internal_name(), _this->GetArenaForAllocation());
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.Datacenter)
 }
+inline PROTOBUF_NDEBUG_INLINE Datacenter::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : category_(arena),
+        name_(arena),
+        _cached_size_{0} {}
+
 inline void Datacenter::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.category_){},
-      decltype(_impl_.name_){},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.name_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.timestamp_ = {};
 }
 Datacenter::~Datacenter() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.Datacenter)
@@ -3884,16 +3817,15 @@ Datacenter::~Datacenter() {
   SharedDtor();
 }
 inline void Datacenter::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.name_.Destroy();
-}
-void Datacenter::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void Datacenter::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.Datacenter)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -4027,11 +3959,12 @@ const ::_pbi::TcParseTable<2, 3, 0, 45, 2> Datacenter::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData Datacenter::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    Datacenter::MergeImpl
+    Datacenter::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*Datacenter::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* Datacenter::GetClassData() const {
+  return &_class_data_;
+}
 
 void Datacenter::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<Datacenter*>(&to_msg);
@@ -4064,15 +3997,16 @@ PROTOBUF_NOINLINE bool Datacenter::IsInitialized() const {
   return true;
 }
 
-void Datacenter::InternalSwap(Datacenter* other) {
+::_pbi::CachedSize* Datacenter::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void Datacenter::InternalSwap(Datacenter* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, lhs_arena,
-                                       &other->_impl_.name_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, &other->_impl_.name_, arena);
         swap(_impl_.timestamp_, other->_impl_.timestamp_);
 }
 
@@ -4092,44 +4026,45 @@ Version::Version(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.Version)
 }
-Version::Version(const Version& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE Version::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : revision_(arena, from.revision_),
+        _cached_size_{0} {}
+
+Version::Version(
+    ::google::protobuf::Arena* arena,
+    const Version& from)
+    : ::google::protobuf::Message(arena) {
   Version* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.revision_){},
-      decltype(_impl_.major_num_){},
-      decltype(_impl_.minor_num_){},
-      decltype(_impl_.build_stamp_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.revision_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.revision_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_revision().empty()) {
-    _this->_impl_.revision_.Set(from._internal_revision(), _this->GetArenaForAllocation());
-  }
-  ::memcpy(&_impl_.major_num_, &from._impl_.major_num_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.build_stamp_) -
-    reinterpret_cast<char*>(&_impl_.major_num_)) + sizeof(_impl_.build_stamp_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, major_num_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, major_num_),
+           offsetof(Impl_, build_stamp_) -
+               offsetof(Impl_, major_num_) +
+               sizeof(Impl_::build_stamp_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.Version)
 }
+inline PROTOBUF_NDEBUG_INLINE Version::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : revision_(arena),
+        _cached_size_{0} {}
+
 inline void Version::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.revision_){},
-      decltype(_impl_.major_num_){0u},
-      decltype(_impl_.minor_num_){0u},
-      decltype(_impl_.build_stamp_){0u},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
-  _impl_.revision_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.revision_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, major_num_),
+           0,
+           offsetof(Impl_, build_stamp_) -
+               offsetof(Impl_, major_num_) +
+               sizeof(Impl_::build_stamp_));
 }
 Version::~Version() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.Version)
@@ -4137,15 +4072,14 @@ Version::~Version() {
   SharedDtor();
 }
 inline void Version::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.revision_.Destroy();
-}
-void Version::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void Version::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.Version)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -4296,11 +4230,12 @@ const ::_pbi::TcParseTable<2, 4, 0, 38, 2> Version::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData Version::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    Version::MergeImpl
+    Version::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*Version::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* Version::GetClassData() const {
+  return &_class_data_;
+}
 
 void Version::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<Version*>(&to_msg);
@@ -4336,13 +4271,15 @@ PROTOBUF_NOINLINE bool Version::IsInitialized() const {
   return true;
 }
 
-void Version::InternalSwap(Version* other) {
+::_pbi::CachedSize* Version::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void Version::InternalSwap(Version* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.revision_, lhs_arena,
-                                       &other->_impl_.revision_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.revision_, &other->_impl_.revision_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(Version, _impl_.build_stamp_)
       + sizeof(Version::_impl_.build_stamp_)
@@ -4377,84 +4314,50 @@ Init::Init(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.Init)
 }
-Init::Init(const Init& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE Init::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        gameversion_(arena, from.gameversion_),
+        platform_(arena, from.platform_),
+        name_(arena, from.name_) {}
+
+Init::Init(
+    ::google::protobuf::Arena* arena,
+    const Init& from)
+    : ::google::protobuf::Message(arena) {
   Init* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.gameversion_){},
-      decltype(_impl_.platform_){},
-      decltype(_impl_.name_){},
-      decltype(_impl_.apiversion_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.gameversion_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.gameversion_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_gameversion().empty()) {
-    _this->_impl_.gameversion_.Set(from._internal_gameversion(), _this->GetArenaForAllocation());
-  }
-  _impl_.platform_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.platform_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_platform().empty()) {
-    _this->_impl_.platform_.Set(from._internal_platform(), _this->GetArenaForAllocation());
-  }
-  _impl_.name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.name_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_name().empty()) {
-    _this->_impl_.name_.Set(from._internal_name(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.apiversion_ = new ::rtech::liveapi::Version(*from._impl_.apiversion_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.apiversion_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Version>(arena, *from._impl_.apiversion_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.Init)
 }
+inline PROTOBUF_NDEBUG_INLINE Init::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        gameversion_(arena),
+        platform_(arena),
+        name_(arena) {}
+
 inline void Init::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.gameversion_){},
-      decltype(_impl_.platform_){},
-      decltype(_impl_.name_){},
-      decltype(_impl_.apiversion_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.gameversion_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.gameversion_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.platform_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.platform_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.name_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, apiversion_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, apiversion_) +
+               sizeof(Impl_::timestamp_));
 }
 Init::~Init() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.Init)
@@ -4462,19 +4365,18 @@ Init::~Init() {
   SharedDtor();
 }
 inline void Init::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.gameversion_.Destroy();
   _impl_.platform_.Destroy();
   _impl_.name_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.apiversion_;
-}
-void Init::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.apiversion_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void Init::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.Init)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -4601,8 +4503,8 @@ const ::_pbi::TcParseTable<3, 6, 1, 58, 2> Init::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Version apiVersion = 4;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::apiversion(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        4, _Internal::apiversion(this),
         _Internal::apiversion(this).GetCachedSize(), target, stream);
   }
 
@@ -4666,9 +4568,8 @@ const ::_pbi::TcParseTable<3, 6, 1, 58, 2> Init::_table_ = {
   // .rtech.liveapi.Version apiVersion = 4;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.apiversion_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.apiversion_);
   }
 
   // uint64 timestamp = 1;
@@ -4681,11 +4582,12 @@ const ::_pbi::TcParseTable<3, 6, 1, 58, 2> Init::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData Init::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    Init::MergeImpl
+    Init::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*Init::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* Init::GetClassData() const {
+  return &_class_data_;
+}
 
 void Init::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<Init*>(&to_msg);
@@ -4728,20 +4630,19 @@ PROTOBUF_NOINLINE bool Init::IsInitialized() const {
   return true;
 }
 
-void Init::InternalSwap(Init* other) {
+::_pbi::CachedSize* Init::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void Init::InternalSwap(Init* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.gameversion_, lhs_arena,
-                                       &other->_impl_.gameversion_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.platform_, lhs_arena,
-                                       &other->_impl_.platform_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, lhs_arena,
-                                       &other->_impl_.name_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.gameversion_, &other->_impl_.gameversion_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.platform_, &other->_impl_.platform_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, &other->_impl_.name_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(Init, _impl_.timestamp_)
       + sizeof(Init::_impl_.timestamp_)
@@ -4766,37 +4667,34 @@ CustomMatch_LobbyPlayers::CustomMatch_LobbyPlayers(::google::protobuf::Arena* ar
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_LobbyPlayers)
 }
-CustomMatch_LobbyPlayers::CustomMatch_LobbyPlayers(const CustomMatch_LobbyPlayers& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_LobbyPlayers::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : players_{visibility, arena, from.players_},
+        playertoken_(arena, from.playertoken_),
+        _cached_size_{0} {}
+
+CustomMatch_LobbyPlayers::CustomMatch_LobbyPlayers(
+    ::google::protobuf::Arena* arena,
+    const CustomMatch_LobbyPlayers& from)
+    : ::google::protobuf::Message(arena) {
   CustomMatch_LobbyPlayers* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.players_){from._impl_.players_},
-      decltype(_impl_.playertoken_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.playertoken_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.playertoken_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_playertoken().empty()) {
-    _this->_impl_.playertoken_.Set(from._internal_playertoken(), _this->GetArenaForAllocation());
-  }
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CustomMatch_LobbyPlayers)
 }
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_LobbyPlayers::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : players_{visibility, arena},
+        playertoken_(arena),
+        _cached_size_{0} {}
+
 inline void CustomMatch_LobbyPlayers::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.players_){arena},
-      decltype(_impl_.playertoken_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
-  _impl_.playertoken_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.playertoken_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
 }
 CustomMatch_LobbyPlayers::~CustomMatch_LobbyPlayers() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.CustomMatch_LobbyPlayers)
@@ -4804,21 +4702,19 @@ CustomMatch_LobbyPlayers::~CustomMatch_LobbyPlayers() {
   SharedDtor();
 }
 inline void CustomMatch_LobbyPlayers::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.players_.~RepeatedPtrField();
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.playertoken_.Destroy();
-}
-void CustomMatch_LobbyPlayers::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void CustomMatch_LobbyPlayers::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.CustomMatch_LobbyPlayers)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _internal_mutable_players()->Clear();
+  _impl_.players_.Clear();
   _impl_.playertoken_.ClearToEmpty();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
@@ -4925,11 +4821,12 @@ const ::_pbi::TcParseTable<1, 2, 1, 58, 2> CustomMatch_LobbyPlayers::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData CustomMatch_LobbyPlayers::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    CustomMatch_LobbyPlayers::MergeImpl
+    CustomMatch_LobbyPlayers::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*CustomMatch_LobbyPlayers::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* CustomMatch_LobbyPlayers::GetClassData() const {
+  return &_class_data_;
+}
 
 void CustomMatch_LobbyPlayers::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<CustomMatch_LobbyPlayers*>(&to_msg);
@@ -4939,7 +4836,8 @@ void CustomMatch_LobbyPlayers::MergeImpl(::google::protobuf::Message& to_msg, co
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_internal_mutable_players()->MergeFrom(from._internal_players());
+  _this->_internal_mutable_players()->MergeFrom(
+      from._internal_players());
   if (!from._internal_playertoken().empty()) {
     _this->_internal_set_playertoken(from._internal_playertoken());
   }
@@ -4957,14 +4855,16 @@ PROTOBUF_NOINLINE bool CustomMatch_LobbyPlayers::IsInitialized() const {
   return true;
 }
 
-void CustomMatch_LobbyPlayers::InternalSwap(CustomMatch_LobbyPlayers* other) {
+::_pbi::CachedSize* CustomMatch_LobbyPlayers::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void CustomMatch_LobbyPlayers::InternalSwap(CustomMatch_LobbyPlayers* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.players_.InternalSwap(&other->_impl_.players_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.playertoken_, lhs_arena,
-                                       &other->_impl_.playertoken_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.playertoken_, &other->_impl_.playertoken_, arena);
 }
 
 ::google::protobuf::Metadata CustomMatch_LobbyPlayers::GetMetadata() const {
@@ -5000,52 +4900,49 @@ ObserverSwitched::ObserverSwitched(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.ObserverSwitched)
 }
-ObserverSwitched::ObserverSwitched(const ObserverSwitched& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE ObserverSwitched::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        targetteam_{visibility, arena, from.targetteam_},
+        category_(arena, from.category_) {}
+
+ObserverSwitched::ObserverSwitched(
+    ::google::protobuf::Arena* arena,
+    const ObserverSwitched& from)
+    : ::google::protobuf::Message(arena) {
   ObserverSwitched* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.targetteam_){from._impl_.targetteam_},
-      decltype(_impl_.category_){},
-      decltype(_impl_.observer_){nullptr},
-      decltype(_impl_.target_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.observer_ = new ::rtech::liveapi::Player(*from._impl_.observer_);
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000002u) != 0) {
-    _this->_impl_.target_ = new ::rtech::liveapi::Player(*from._impl_.target_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.observer_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.observer_)
+                : nullptr;
+  _impl_.target_ = (cached_has_bits & 0x00000002u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.target_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.ObserverSwitched)
 }
+inline PROTOBUF_NDEBUG_INLINE ObserverSwitched::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        targetteam_{visibility, arena},
+        category_(arena) {}
+
 inline void ObserverSwitched::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.targetteam_){arena},
-      decltype(_impl_.category_){},
-      decltype(_impl_.observer_){nullptr},
-      decltype(_impl_.target_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, observer_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, observer_) +
+               sizeof(Impl_::timestamp_));
 }
 ObserverSwitched::~ObserverSwitched() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.ObserverSwitched)
@@ -5053,23 +4950,21 @@ ObserverSwitched::~ObserverSwitched() {
   SharedDtor();
 }
 inline void ObserverSwitched::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.targetteam_.~RepeatedPtrField();
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.observer_;
-  if (this != internal_default_instance()) delete _impl_.target_;
-}
-void ObserverSwitched::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.observer_;
+  delete _impl_.target_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void ObserverSwitched::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.ObserverSwitched)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _internal_mutable_targetteam()->Clear();
+  _impl_.targetteam_.Clear();
   _impl_.category_.ClearToEmpty();
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000003u) {
@@ -5181,15 +5076,15 @@ const ::_pbi::TcParseTable<3, 5, 3, 47, 2> ObserverSwitched::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player observer = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::observer(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::observer(this),
         _Internal::observer(this).GetCachedSize(), target, stream);
   }
 
   // .rtech.liveapi.Player target = 4;
   if (cached_has_bits & 0x00000002u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::target(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        4, _Internal::target(this),
         _Internal::target(this).GetCachedSize(), target, stream);
   }
 
@@ -5234,16 +5129,14 @@ const ::_pbi::TcParseTable<3, 5, 3, 47, 2> ObserverSwitched::_table_ = {
   if (cached_has_bits & 0x00000003u) {
     // .rtech.liveapi.Player observer = 3;
     if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.observer_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.observer_);
     }
 
     // .rtech.liveapi.Player target = 4;
     if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.target_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.target_);
     }
 
   }
@@ -5257,11 +5150,12 @@ const ::_pbi::TcParseTable<3, 5, 3, 47, 2> ObserverSwitched::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData ObserverSwitched::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    ObserverSwitched::MergeImpl
+    ObserverSwitched::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*ObserverSwitched::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* ObserverSwitched::GetClassData() const {
+  return &_class_data_;
+}
 
 void ObserverSwitched::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<ObserverSwitched*>(&to_msg);
@@ -5271,7 +5165,8 @@ void ObserverSwitched::MergeImpl(::google::protobuf::Message& to_msg, const ::go
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_internal_mutable_targetteam()->MergeFrom(from._internal_targetteam());
+  _this->_internal_mutable_targetteam()->MergeFrom(
+      from._internal_targetteam());
   if (!from._internal_category().empty()) {
     _this->_internal_set_category(from._internal_category());
   }
@@ -5303,15 +5198,17 @@ PROTOBUF_NOINLINE bool ObserverSwitched::IsInitialized() const {
   return true;
 }
 
-void ObserverSwitched::InternalSwap(ObserverSwitched* other) {
+::_pbi::CachedSize* ObserverSwitched::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void ObserverSwitched::InternalSwap(ObserverSwitched* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   _impl_.targetteam_.InternalSwap(&other->_impl_.targetteam_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(ObserverSwitched, _impl_.timestamp_)
       + sizeof(ObserverSwitched::_impl_.timestamp_)
@@ -5336,42 +5233,45 @@ ObserverAnnotation::ObserverAnnotation(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.ObserverAnnotation)
 }
-ObserverAnnotation::ObserverAnnotation(const ObserverAnnotation& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE ObserverAnnotation::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : category_(arena, from.category_),
+        _cached_size_{0} {}
+
+ObserverAnnotation::ObserverAnnotation(
+    ::google::protobuf::Arena* arena,
+    const ObserverAnnotation& from)
+    : ::google::protobuf::Message(arena) {
   ObserverAnnotation* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.category_){},
-      decltype(_impl_.timestamp_){},
-      decltype(_impl_.annotationserial_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.annotationserial_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.annotationserial_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, annotationserial_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::annotationserial_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.ObserverAnnotation)
 }
+inline PROTOBUF_NDEBUG_INLINE ObserverAnnotation::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : category_(arena),
+        _cached_size_{0} {}
+
 inline void ObserverAnnotation::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.category_){},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      decltype(_impl_.annotationserial_){0},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           0,
+           offsetof(Impl_, annotationserial_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::annotationserial_));
 }
 ObserverAnnotation::~ObserverAnnotation() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.ObserverAnnotation)
@@ -5379,15 +5279,14 @@ ObserverAnnotation::~ObserverAnnotation() {
   SharedDtor();
 }
 inline void ObserverAnnotation::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
-}
-void ObserverAnnotation::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void ObserverAnnotation::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.ObserverAnnotation)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -5520,11 +5419,12 @@ const ::_pbi::TcParseTable<2, 3, 0, 49, 2> ObserverAnnotation::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData ObserverAnnotation::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    ObserverAnnotation::MergeImpl
+    ObserverAnnotation::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*ObserverAnnotation::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* ObserverAnnotation::GetClassData() const {
+  return &_class_data_;
+}
 
 void ObserverAnnotation::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<ObserverAnnotation*>(&to_msg);
@@ -5557,13 +5457,15 @@ PROTOBUF_NOINLINE bool ObserverAnnotation::IsInitialized() const {
   return true;
 }
 
-void ObserverAnnotation::InternalSwap(ObserverAnnotation* other) {
+::_pbi::CachedSize* ObserverAnnotation::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void ObserverAnnotation::InternalSwap(ObserverAnnotation* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(ObserverAnnotation, _impl_.annotationserial_)
       + sizeof(ObserverAnnotation::_impl_.annotationserial_)
@@ -5598,103 +5500,58 @@ MatchSetup::MatchSetup(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.MatchSetup)
 }
-MatchSetup::MatchSetup(const MatchSetup& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE MatchSetup::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        map_(arena, from.map_),
+        playlistname_(arena, from.playlistname_),
+        playlistdesc_(arena, from.playlistdesc_),
+        serverid_(arena, from.serverid_) {}
+
+MatchSetup::MatchSetup(
+    ::google::protobuf::Arena* arena,
+    const MatchSetup& from)
+    : ::google::protobuf::Message(arena) {
   MatchSetup* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.map_){},
-      decltype(_impl_.playlistname_){},
-      decltype(_impl_.playlistdesc_){},
-      decltype(_impl_.serverid_){},
-      decltype(_impl_.datacenter_){nullptr},
-      decltype(_impl_.timestamp_){},
-      decltype(_impl_.aimassiston_){},
-      decltype(_impl_.anonymousmode_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.map_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.map_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_map().empty()) {
-    _this->_impl_.map_.Set(from._internal_map(), _this->GetArenaForAllocation());
-  }
-  _impl_.playlistname_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.playlistname_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_playlistname().empty()) {
-    _this->_impl_.playlistname_.Set(from._internal_playlistname(), _this->GetArenaForAllocation());
-  }
-  _impl_.playlistdesc_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.playlistdesc_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_playlistdesc().empty()) {
-    _this->_impl_.playlistdesc_.Set(from._internal_playlistdesc(), _this->GetArenaForAllocation());
-  }
-  _impl_.serverid_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.serverid_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_serverid().empty()) {
-    _this->_impl_.serverid_.Set(from._internal_serverid(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.datacenter_ = new ::rtech::liveapi::Datacenter(*from._impl_.datacenter_);
-  }
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.anonymousmode_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.anonymousmode_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.datacenter_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Datacenter>(arena, *from._impl_.datacenter_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, anonymousmode_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::anonymousmode_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.MatchSetup)
 }
+inline PROTOBUF_NDEBUG_INLINE MatchSetup::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        map_(arena),
+        playlistname_(arena),
+        playlistdesc_(arena),
+        serverid_(arena) {}
+
 inline void MatchSetup::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.map_){},
-      decltype(_impl_.playlistname_){},
-      decltype(_impl_.playlistdesc_){},
-      decltype(_impl_.serverid_){},
-      decltype(_impl_.datacenter_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      decltype(_impl_.aimassiston_){false},
-      decltype(_impl_.anonymousmode_){false},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.map_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.map_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.playlistname_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.playlistname_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.playlistdesc_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.playlistdesc_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.serverid_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.serverid_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, datacenter_),
+           0,
+           offsetof(Impl_, anonymousmode_) -
+               offsetof(Impl_, datacenter_) +
+               sizeof(Impl_::anonymousmode_));
 }
 MatchSetup::~MatchSetup() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.MatchSetup)
@@ -5702,20 +5559,19 @@ MatchSetup::~MatchSetup() {
   SharedDtor();
 }
 inline void MatchSetup::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.map_.Destroy();
   _impl_.playlistname_.Destroy();
   _impl_.playlistdesc_.Destroy();
   _impl_.serverid_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.datacenter_;
-}
-void MatchSetup::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.datacenter_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void MatchSetup::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.MatchSetup)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -5885,8 +5741,8 @@ const ::_pbi::TcParseTable<4, 9, 1, 84, 2> MatchSetup::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Datacenter datacenter = 6;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(6, _Internal::datacenter(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        6, _Internal::datacenter(this),
         _Internal::datacenter(this).GetCachedSize(), target, stream);
   }
 
@@ -5962,9 +5818,8 @@ const ::_pbi::TcParseTable<4, 9, 1, 84, 2> MatchSetup::_table_ = {
   // .rtech.liveapi.Datacenter datacenter = 6;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.datacenter_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.datacenter_);
   }
 
   // uint64 timestamp = 1;
@@ -5987,11 +5842,12 @@ const ::_pbi::TcParseTable<4, 9, 1, 84, 2> MatchSetup::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData MatchSetup::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    MatchSetup::MergeImpl
+    MatchSetup::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*MatchSetup::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* MatchSetup::GetClassData() const {
+  return &_class_data_;
+}
 
 void MatchSetup::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<MatchSetup*>(&to_msg);
@@ -6043,22 +5899,20 @@ PROTOBUF_NOINLINE bool MatchSetup::IsInitialized() const {
   return true;
 }
 
-void MatchSetup::InternalSwap(MatchSetup* other) {
+::_pbi::CachedSize* MatchSetup::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void MatchSetup::InternalSwap(MatchSetup* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.map_, lhs_arena,
-                                       &other->_impl_.map_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.playlistname_, lhs_arena,
-                                       &other->_impl_.playlistname_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.playlistdesc_, lhs_arena,
-                                       &other->_impl_.playlistdesc_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.serverid_, lhs_arena,
-                                       &other->_impl_.serverid_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.map_, &other->_impl_.map_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.playlistname_, &other->_impl_.playlistname_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.playlistdesc_, &other->_impl_.playlistdesc_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.serverid_, &other->_impl_.serverid_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(MatchSetup, _impl_.anonymousmode_)
       + sizeof(MatchSetup::_impl_.anonymousmode_)
@@ -6083,51 +5937,36 @@ GameStateChanged::GameStateChanged(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.GameStateChanged)
 }
-GameStateChanged::GameStateChanged(const GameStateChanged& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE GameStateChanged::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : category_(arena, from.category_),
+        state_(arena, from.state_),
+        _cached_size_{0} {}
+
+GameStateChanged::GameStateChanged(
+    ::google::protobuf::Arena* arena,
+    const GameStateChanged& from)
+    : ::google::protobuf::Message(arena) {
   GameStateChanged* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.category_){},
-      decltype(_impl_.state_){},
-      decltype(_impl_.timestamp_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.state_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.state_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_state().empty()) {
-    _this->_impl_.state_.Set(from._internal_state(), _this->GetArenaForAllocation());
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.GameStateChanged)
 }
+inline PROTOBUF_NDEBUG_INLINE GameStateChanged::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : category_(arena),
+        state_(arena),
+        _cached_size_{0} {}
+
 inline void GameStateChanged::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.category_){},
-      decltype(_impl_.state_){},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.state_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.state_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.timestamp_ = {};
 }
 GameStateChanged::~GameStateChanged() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.GameStateChanged)
@@ -6135,16 +5974,15 @@ GameStateChanged::~GameStateChanged() {
   SharedDtor();
 }
 inline void GameStateChanged::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.state_.Destroy();
-}
-void GameStateChanged::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void GameStateChanged::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.GameStateChanged)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -6278,11 +6116,12 @@ const ::_pbi::TcParseTable<2, 3, 0, 52, 2> GameStateChanged::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData GameStateChanged::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    GameStateChanged::MergeImpl
+    GameStateChanged::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*GameStateChanged::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* GameStateChanged::GetClassData() const {
+  return &_class_data_;
+}
 
 void GameStateChanged::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<GameStateChanged*>(&to_msg);
@@ -6315,15 +6154,16 @@ PROTOBUF_NOINLINE bool GameStateChanged::IsInitialized() const {
   return true;
 }
 
-void GameStateChanged::InternalSwap(GameStateChanged* other) {
+::_pbi::CachedSize* GameStateChanged::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void GameStateChanged::InternalSwap(GameStateChanged* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.state_, lhs_arena,
-                                       &other->_impl_.state_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.state_, &other->_impl_.state_, arena);
         swap(_impl_.timestamp_, other->_impl_.timestamp_);
 }
 
@@ -6353,45 +6193,44 @@ CharacterSelected::CharacterSelected(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CharacterSelected)
 }
-CharacterSelected::CharacterSelected(const CharacterSelected& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE CharacterSelected::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_) {}
+
+CharacterSelected::CharacterSelected(
+    ::google::protobuf::Arena* arena,
+    const CharacterSelected& from)
+    : ::google::protobuf::Message(arena) {
   CharacterSelected* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CharacterSelected)
 }
+inline PROTOBUF_NDEBUG_INLINE CharacterSelected::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena) {}
+
 inline void CharacterSelected::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::timestamp_));
 }
 CharacterSelected::~CharacterSelected() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.CharacterSelected)
@@ -6399,16 +6238,15 @@ CharacterSelected::~CharacterSelected() {
   SharedDtor();
 }
 inline void CharacterSelected::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void CharacterSelected::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void CharacterSelected::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.CharacterSelected)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -6502,8 +6340,8 @@ const ::_pbi::TcParseTable<2, 3, 1, 48, 2> CharacterSelected::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -6533,9 +6371,8 @@ const ::_pbi::TcParseTable<2, 3, 1, 48, 2> CharacterSelected::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -6548,11 +6385,12 @@ const ::_pbi::TcParseTable<2, 3, 1, 48, 2> CharacterSelected::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData CharacterSelected::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    CharacterSelected::MergeImpl
+    CharacterSelected::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*CharacterSelected::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* CharacterSelected::GetClassData() const {
+  return &_class_data_;
+}
 
 void CharacterSelected::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<CharacterSelected*>(&to_msg);
@@ -6586,14 +6424,16 @@ PROTOBUF_NOINLINE bool CharacterSelected::IsInitialized() const {
   return true;
 }
 
-void CharacterSelected::InternalSwap(CharacterSelected* other) {
+::_pbi::CachedSize* CharacterSelected::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void CharacterSelected::InternalSwap(CharacterSelected* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(CharacterSelected, _impl_.timestamp_)
       + sizeof(CharacterSelected::_impl_.timestamp_)
@@ -6618,53 +6458,38 @@ MatchStateEnd::MatchStateEnd(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.MatchStateEnd)
 }
-MatchStateEnd::MatchStateEnd(const MatchStateEnd& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE MatchStateEnd::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : winners_{visibility, arena, from.winners_},
+        category_(arena, from.category_),
+        state_(arena, from.state_),
+        _cached_size_{0} {}
+
+MatchStateEnd::MatchStateEnd(
+    ::google::protobuf::Arena* arena,
+    const MatchStateEnd& from)
+    : ::google::protobuf::Message(arena) {
   MatchStateEnd* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.winners_){from._impl_.winners_},
-      decltype(_impl_.category_){},
-      decltype(_impl_.state_){},
-      decltype(_impl_.timestamp_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.state_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.state_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_state().empty()) {
-    _this->_impl_.state_.Set(from._internal_state(), _this->GetArenaForAllocation());
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.MatchStateEnd)
 }
+inline PROTOBUF_NDEBUG_INLINE MatchStateEnd::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : winners_{visibility, arena},
+        category_(arena),
+        state_(arena),
+        _cached_size_{0} {}
+
 inline void MatchStateEnd::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.winners_){arena},
-      decltype(_impl_.category_){},
-      decltype(_impl_.state_){},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.state_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.state_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.timestamp_ = {};
 }
 MatchStateEnd::~MatchStateEnd() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.MatchStateEnd)
@@ -6672,22 +6497,20 @@ MatchStateEnd::~MatchStateEnd() {
   SharedDtor();
 }
 inline void MatchStateEnd::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.winners_.~RepeatedPtrField();
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.state_.Destroy();
-}
-void MatchStateEnd::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void MatchStateEnd::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.MatchStateEnd)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _internal_mutable_winners()->Clear();
+  _impl_.winners_.Clear();
   _impl_.category_.ClearToEmpty();
   _impl_.state_.ClearToEmpty();
   _impl_.timestamp_ = ::uint64_t{0u};
@@ -6836,11 +6659,12 @@ const ::_pbi::TcParseTable<2, 4, 1, 49, 2> MatchStateEnd::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData MatchStateEnd::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    MatchStateEnd::MergeImpl
+    MatchStateEnd::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*MatchStateEnd::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* MatchStateEnd::GetClassData() const {
+  return &_class_data_;
+}
 
 void MatchStateEnd::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<MatchStateEnd*>(&to_msg);
@@ -6850,7 +6674,8 @@ void MatchStateEnd::MergeImpl(::google::protobuf::Message& to_msg, const ::googl
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_internal_mutable_winners()->MergeFrom(from._internal_winners());
+  _this->_internal_mutable_winners()->MergeFrom(
+      from._internal_winners());
   if (!from._internal_category().empty()) {
     _this->_internal_set_category(from._internal_category());
   }
@@ -6874,16 +6699,17 @@ PROTOBUF_NOINLINE bool MatchStateEnd::IsInitialized() const {
   return true;
 }
 
-void MatchStateEnd::InternalSwap(MatchStateEnd* other) {
+::_pbi::CachedSize* MatchStateEnd::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void MatchStateEnd::InternalSwap(MatchStateEnd* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.winners_.InternalSwap(&other->_impl_.winners_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.state_, lhs_arena,
-                                       &other->_impl_.state_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.state_, &other->_impl_.state_, arena);
         swap(_impl_.timestamp_, other->_impl_.timestamp_);
 }
 
@@ -6913,55 +6739,50 @@ RingStartClosing::RingStartClosing(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.RingStartClosing)
 }
-RingStartClosing::RingStartClosing(const RingStartClosing& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE RingStartClosing::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_) {}
+
+RingStartClosing::RingStartClosing(
+    ::google::protobuf::Arena* arena,
+    const RingStartClosing& from)
+    : ::google::protobuf::Message(arena) {
   RingStartClosing* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.center_){nullptr},
-      decltype(_impl_.timestamp_){},
-      decltype(_impl_.stage_){},
-      decltype(_impl_.currentradius_){},
-      decltype(_impl_.endradius_){},
-      decltype(_impl_.shrinkduration_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.center_ = new ::rtech::liveapi::Vector3(*from._impl_.center_);
-  }
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.shrinkduration_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.shrinkduration_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.center_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Vector3>(arena, *from._impl_.center_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, shrinkduration_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::shrinkduration_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.RingStartClosing)
 }
+inline PROTOBUF_NDEBUG_INLINE RingStartClosing::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena) {}
+
 inline void RingStartClosing::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.center_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      decltype(_impl_.stage_){0u},
-      decltype(_impl_.currentradius_){0},
-      decltype(_impl_.endradius_){0},
-      decltype(_impl_.shrinkduration_){0},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, center_),
+           0,
+           offsetof(Impl_, shrinkduration_) -
+               offsetof(Impl_, center_) +
+               sizeof(Impl_::shrinkduration_));
 }
 RingStartClosing::~RingStartClosing() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.RingStartClosing)
@@ -6969,16 +6790,15 @@ RingStartClosing::~RingStartClosing() {
   SharedDtor();
 }
 inline void RingStartClosing::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.center_;
-}
-void RingStartClosing::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.center_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void RingStartClosing::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.RingStartClosing)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -7105,8 +6925,8 @@ const ::_pbi::TcParseTable<3, 7, 1, 47, 2> RingStartClosing::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Vector3 center = 4;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::center(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        4, _Internal::center(this),
         _Internal::center(this).GetCachedSize(), target, stream);
   }
 
@@ -7172,9 +6992,8 @@ const ::_pbi::TcParseTable<3, 7, 1, 47, 2> RingStartClosing::_table_ = {
   // .rtech.liveapi.Vector3 center = 4;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.center_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.center_);
   }
 
   // uint64 timestamp = 1;
@@ -7223,11 +7042,12 @@ const ::_pbi::TcParseTable<3, 7, 1, 47, 2> RingStartClosing::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData RingStartClosing::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    RingStartClosing::MergeImpl
+    RingStartClosing::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*RingStartClosing::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* RingStartClosing::GetClassData() const {
+  return &_class_data_;
+}
 
 void RingStartClosing::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<RingStartClosing*>(&to_msg);
@@ -7288,14 +7108,16 @@ PROTOBUF_NOINLINE bool RingStartClosing::IsInitialized() const {
   return true;
 }
 
-void RingStartClosing::InternalSwap(RingStartClosing* other) {
+::_pbi::CachedSize* RingStartClosing::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void RingStartClosing::InternalSwap(RingStartClosing* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(RingStartClosing, _impl_.shrinkduration_)
       + sizeof(RingStartClosing::_impl_.shrinkduration_)
@@ -7330,53 +7152,50 @@ RingFinishedClosing::RingFinishedClosing(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.RingFinishedClosing)
 }
-RingFinishedClosing::RingFinishedClosing(const RingFinishedClosing& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE RingFinishedClosing::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_) {}
+
+RingFinishedClosing::RingFinishedClosing(
+    ::google::protobuf::Arena* arena,
+    const RingFinishedClosing& from)
+    : ::google::protobuf::Message(arena) {
   RingFinishedClosing* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.center_){nullptr},
-      decltype(_impl_.timestamp_){},
-      decltype(_impl_.stage_){},
-      decltype(_impl_.currentradius_){},
-      decltype(_impl_.shrinkduration_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.center_ = new ::rtech::liveapi::Vector3(*from._impl_.center_);
-  }
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.shrinkduration_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.shrinkduration_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.center_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Vector3>(arena, *from._impl_.center_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, shrinkduration_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::shrinkduration_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.RingFinishedClosing)
 }
+inline PROTOBUF_NDEBUG_INLINE RingFinishedClosing::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena) {}
+
 inline void RingFinishedClosing::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.center_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      decltype(_impl_.stage_){0u},
-      decltype(_impl_.currentradius_){0},
-      decltype(_impl_.shrinkduration_){0},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, center_),
+           0,
+           offsetof(Impl_, shrinkduration_) -
+               offsetof(Impl_, center_) +
+               sizeof(Impl_::shrinkduration_));
 }
 RingFinishedClosing::~RingFinishedClosing() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.RingFinishedClosing)
@@ -7384,16 +7203,15 @@ RingFinishedClosing::~RingFinishedClosing() {
   SharedDtor();
 }
 inline void RingFinishedClosing::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.center_;
-}
-void RingFinishedClosing::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.center_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void RingFinishedClosing::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.RingFinishedClosing)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -7515,8 +7333,8 @@ const ::_pbi::TcParseTable<3, 6, 1, 50, 2> RingFinishedClosing::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Vector3 center = 4;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::center(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        4, _Internal::center(this),
         _Internal::center(this).GetCachedSize(), target, stream);
   }
 
@@ -7570,9 +7388,8 @@ const ::_pbi::TcParseTable<3, 6, 1, 50, 2> RingFinishedClosing::_table_ = {
   // .rtech.liveapi.Vector3 center = 4;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.center_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.center_);
   }
 
   // uint64 timestamp = 1;
@@ -7611,11 +7428,12 @@ const ::_pbi::TcParseTable<3, 6, 1, 50, 2> RingFinishedClosing::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData RingFinishedClosing::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    RingFinishedClosing::MergeImpl
+    RingFinishedClosing::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*RingFinishedClosing::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* RingFinishedClosing::GetClassData() const {
+  return &_class_data_;
+}
 
 void RingFinishedClosing::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<RingFinishedClosing*>(&to_msg);
@@ -7668,14 +7486,16 @@ PROTOBUF_NOINLINE bool RingFinishedClosing::IsInitialized() const {
   return true;
 }
 
-void RingFinishedClosing::InternalSwap(RingFinishedClosing* other) {
+::_pbi::CachedSize* RingFinishedClosing::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void RingFinishedClosing::InternalSwap(RingFinishedClosing* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(RingFinishedClosing, _impl_.shrinkduration_)
       + sizeof(RingFinishedClosing::_impl_.shrinkduration_)
@@ -7710,45 +7530,44 @@ PlayerConnected::PlayerConnected(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.PlayerConnected)
 }
-PlayerConnected::PlayerConnected(const PlayerConnected& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE PlayerConnected::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_) {}
+
+PlayerConnected::PlayerConnected(
+    ::google::protobuf::Arena* arena,
+    const PlayerConnected& from)
+    : ::google::protobuf::Message(arena) {
   PlayerConnected* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.PlayerConnected)
 }
+inline PROTOBUF_NDEBUG_INLINE PlayerConnected::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena) {}
+
 inline void PlayerConnected::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::timestamp_));
 }
 PlayerConnected::~PlayerConnected() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.PlayerConnected)
@@ -7756,16 +7575,15 @@ PlayerConnected::~PlayerConnected() {
   SharedDtor();
 }
 inline void PlayerConnected::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void PlayerConnected::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void PlayerConnected::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.PlayerConnected)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -7859,8 +7677,8 @@ const ::_pbi::TcParseTable<2, 3, 1, 46, 2> PlayerConnected::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -7890,9 +7708,8 @@ const ::_pbi::TcParseTable<2, 3, 1, 46, 2> PlayerConnected::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -7905,11 +7722,12 @@ const ::_pbi::TcParseTable<2, 3, 1, 46, 2> PlayerConnected::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData PlayerConnected::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    PlayerConnected::MergeImpl
+    PlayerConnected::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*PlayerConnected::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* PlayerConnected::GetClassData() const {
+  return &_class_data_;
+}
 
 void PlayerConnected::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<PlayerConnected*>(&to_msg);
@@ -7943,14 +7761,16 @@ PROTOBUF_NOINLINE bool PlayerConnected::IsInitialized() const {
   return true;
 }
 
-void PlayerConnected::InternalSwap(PlayerConnected* other) {
+::_pbi::CachedSize* PlayerConnected::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void PlayerConnected::InternalSwap(PlayerConnected* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(PlayerConnected, _impl_.timestamp_)
       + sizeof(PlayerConnected::_impl_.timestamp_)
@@ -7985,51 +7805,50 @@ PlayerDisconnected::PlayerDisconnected(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.PlayerDisconnected)
 }
-PlayerDisconnected::PlayerDisconnected(const PlayerDisconnected& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE PlayerDisconnected::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_) {}
+
+PlayerDisconnected::PlayerDisconnected(
+    ::google::protobuf::Arena* arena,
+    const PlayerDisconnected& from)
+    : ::google::protobuf::Message(arena) {
   PlayerDisconnected* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-      decltype(_impl_.canreconnect_){},
-      decltype(_impl_.isalive_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.isalive_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.isalive_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, isalive_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::isalive_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.PlayerDisconnected)
 }
+inline PROTOBUF_NDEBUG_INLINE PlayerDisconnected::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena) {}
+
 inline void PlayerDisconnected::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      decltype(_impl_.canreconnect_){false},
-      decltype(_impl_.isalive_){false},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, isalive_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::isalive_));
 }
 PlayerDisconnected::~PlayerDisconnected() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.PlayerDisconnected)
@@ -8037,16 +7856,15 @@ PlayerDisconnected::~PlayerDisconnected() {
   SharedDtor();
 }
 inline void PlayerDisconnected::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void PlayerDisconnected::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void PlayerDisconnected::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.PlayerDisconnected)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -8156,8 +7974,8 @@ const ::_pbi::TcParseTable<3, 5, 1, 49, 2> PlayerDisconnected::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -8201,9 +8019,8 @@ const ::_pbi::TcParseTable<3, 5, 1, 49, 2> PlayerDisconnected::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -8226,11 +8043,12 @@ const ::_pbi::TcParseTable<3, 5, 1, 49, 2> PlayerDisconnected::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData PlayerDisconnected::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    PlayerDisconnected::MergeImpl
+    PlayerDisconnected::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*PlayerDisconnected::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* PlayerDisconnected::GetClassData() const {
+  return &_class_data_;
+}
 
 void PlayerDisconnected::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<PlayerDisconnected*>(&to_msg);
@@ -8270,14 +8088,16 @@ PROTOBUF_NOINLINE bool PlayerDisconnected::IsInitialized() const {
   return true;
 }
 
-void PlayerDisconnected::InternalSwap(PlayerDisconnected* other) {
+::_pbi::CachedSize* PlayerDisconnected::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void PlayerDisconnected::InternalSwap(PlayerDisconnected* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(PlayerDisconnected, _impl_.isalive_)
       + sizeof(PlayerDisconnected::_impl_.isalive_)
@@ -8312,62 +8132,52 @@ PlayerStatChanged::PlayerStatChanged(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.PlayerStatChanged)
 }
-PlayerStatChanged::PlayerStatChanged(const PlayerStatChanged& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE PlayerStatChanged::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        statname_(arena, from.statname_) {}
+
+PlayerStatChanged::PlayerStatChanged(
+    ::google::protobuf::Arena* arena,
+    const PlayerStatChanged& from)
+    : ::google::protobuf::Message(arena) {
   PlayerStatChanged* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.statname_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-      decltype(_impl_.newvalue_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.statname_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.statname_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_statname().empty()) {
-    _this->_impl_.statname_.Set(from._internal_statname(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.newvalue_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.newvalue_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, newvalue_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::newvalue_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.PlayerStatChanged)
 }
+inline PROTOBUF_NDEBUG_INLINE PlayerStatChanged::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        statname_(arena) {}
+
 inline void PlayerStatChanged::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.statname_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      decltype(_impl_.newvalue_){0u},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.statname_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.statname_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, newvalue_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::newvalue_));
 }
 PlayerStatChanged::~PlayerStatChanged() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.PlayerStatChanged)
@@ -8375,17 +8185,16 @@ PlayerStatChanged::~PlayerStatChanged() {
   SharedDtor();
 }
 inline void PlayerStatChanged::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.statname_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void PlayerStatChanged::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void PlayerStatChanged::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.PlayerStatChanged)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -8497,8 +8306,8 @@ const ::_pbi::TcParseTable<3, 5, 1, 56, 2> PlayerStatChanged::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -8549,9 +8358,8 @@ const ::_pbi::TcParseTable<3, 5, 1, 56, 2> PlayerStatChanged::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -8570,11 +8378,12 @@ const ::_pbi::TcParseTable<3, 5, 1, 56, 2> PlayerStatChanged::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData PlayerStatChanged::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    PlayerStatChanged::MergeImpl
+    PlayerStatChanged::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*PlayerStatChanged::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* PlayerStatChanged::GetClassData() const {
+  return &_class_data_;
+}
 
 void PlayerStatChanged::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<PlayerStatChanged*>(&to_msg);
@@ -8614,16 +8423,17 @@ PROTOBUF_NOINLINE bool PlayerStatChanged::IsInitialized() const {
   return true;
 }
 
-void PlayerStatChanged::InternalSwap(PlayerStatChanged* other) {
+::_pbi::CachedSize* PlayerStatChanged::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void PlayerStatChanged::InternalSwap(PlayerStatChanged* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.statname_, lhs_arena,
-                                       &other->_impl_.statname_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.statname_, &other->_impl_.statname_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(PlayerStatChanged, _impl_.newvalue_)
       + sizeof(PlayerStatChanged::_impl_.newvalue_)
@@ -8665,67 +8475,55 @@ PlayerDamaged::PlayerDamaged(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.PlayerDamaged)
 }
-PlayerDamaged::PlayerDamaged(const PlayerDamaged& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE PlayerDamaged::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        weapon_(arena, from.weapon_) {}
+
+PlayerDamaged::PlayerDamaged(
+    ::google::protobuf::Arena* arena,
+    const PlayerDamaged& from)
+    : ::google::protobuf::Message(arena) {
   PlayerDamaged* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.weapon_){},
-      decltype(_impl_.attacker_){nullptr},
-      decltype(_impl_.victim_){nullptr},
-      decltype(_impl_.timestamp_){},
-      decltype(_impl_.damageinflicted_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.weapon_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.weapon_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_weapon().empty()) {
-    _this->_impl_.weapon_.Set(from._internal_weapon(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.attacker_ = new ::rtech::liveapi::Player(*from._impl_.attacker_);
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000002u) != 0) {
-    _this->_impl_.victim_ = new ::rtech::liveapi::Player(*from._impl_.victim_);
-  }
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.damageinflicted_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.damageinflicted_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.attacker_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.attacker_)
+                : nullptr;
+  _impl_.victim_ = (cached_has_bits & 0x00000002u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.victim_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, damageinflicted_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::damageinflicted_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.PlayerDamaged)
 }
+inline PROTOBUF_NDEBUG_INLINE PlayerDamaged::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        weapon_(arena) {}
+
 inline void PlayerDamaged::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.weapon_){},
-      decltype(_impl_.attacker_){nullptr},
-      decltype(_impl_.victim_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      decltype(_impl_.damageinflicted_){0u},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.weapon_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.weapon_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, attacker_),
+           0,
+           offsetof(Impl_, damageinflicted_) -
+               offsetof(Impl_, attacker_) +
+               sizeof(Impl_::damageinflicted_));
 }
 PlayerDamaged::~PlayerDamaged() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.PlayerDamaged)
@@ -8733,18 +8531,17 @@ PlayerDamaged::~PlayerDamaged() {
   SharedDtor();
 }
 inline void PlayerDamaged::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.weapon_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.attacker_;
-  if (this != internal_default_instance()) delete _impl_.victim_;
-}
-void PlayerDamaged::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.attacker_;
+  delete _impl_.victim_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void PlayerDamaged::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.PlayerDamaged)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -8868,15 +8665,15 @@ const ::_pbi::TcParseTable<3, 6, 2, 50, 2> PlayerDamaged::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player attacker = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::attacker(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::attacker(this),
         _Internal::attacker(this).GetCachedSize(), target, stream);
   }
 
   // .rtech.liveapi.Player victim = 4;
   if (cached_has_bits & 0x00000002u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::victim(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        4, _Internal::victim(this),
         _Internal::victim(this).GetCachedSize(), target, stream);
   }
 
@@ -8928,16 +8725,14 @@ const ::_pbi::TcParseTable<3, 6, 2, 50, 2> PlayerDamaged::_table_ = {
   if (cached_has_bits & 0x00000003u) {
     // .rtech.liveapi.Player attacker = 3;
     if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.attacker_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.attacker_);
     }
 
     // .rtech.liveapi.Player victim = 4;
     if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.victim_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.victim_);
     }
 
   }
@@ -8957,11 +8752,12 @@ const ::_pbi::TcParseTable<3, 6, 2, 50, 2> PlayerDamaged::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData PlayerDamaged::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    PlayerDamaged::MergeImpl
+    PlayerDamaged::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*PlayerDamaged::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* PlayerDamaged::GetClassData() const {
+  return &_class_data_;
+}
 
 void PlayerDamaged::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<PlayerDamaged*>(&to_msg);
@@ -9008,16 +8804,17 @@ PROTOBUF_NOINLINE bool PlayerDamaged::IsInitialized() const {
   return true;
 }
 
-void PlayerDamaged::InternalSwap(PlayerDamaged* other) {
+::_pbi::CachedSize* PlayerDamaged::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void PlayerDamaged::InternalSwap(PlayerDamaged* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.weapon_, lhs_arena,
-                                       &other->_impl_.weapon_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.weapon_, &other->_impl_.weapon_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(PlayerDamaged, _impl_.damageinflicted_)
       + sizeof(PlayerDamaged::_impl_.damageinflicted_)
@@ -9066,68 +8863,52 @@ PlayerKilled::PlayerKilled(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.PlayerKilled)
 }
-PlayerKilled::PlayerKilled(const PlayerKilled& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE PlayerKilled::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        weapon_(arena, from.weapon_) {}
+
+PlayerKilled::PlayerKilled(
+    ::google::protobuf::Arena* arena,
+    const PlayerKilled& from)
+    : ::google::protobuf::Message(arena) {
   PlayerKilled* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.weapon_){},
-      decltype(_impl_.attacker_){nullptr},
-      decltype(_impl_.victim_){nullptr},
-      decltype(_impl_.awardedto_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.weapon_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.weapon_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_weapon().empty()) {
-    _this->_impl_.weapon_.Set(from._internal_weapon(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.attacker_ = new ::rtech::liveapi::Player(*from._impl_.attacker_);
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000002u) != 0) {
-    _this->_impl_.victim_ = new ::rtech::liveapi::Player(*from._impl_.victim_);
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000004u) != 0) {
-    _this->_impl_.awardedto_ = new ::rtech::liveapi::Player(*from._impl_.awardedto_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.attacker_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.attacker_)
+                : nullptr;
+  _impl_.victim_ = (cached_has_bits & 0x00000002u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.victim_)
+                : nullptr;
+  _impl_.awardedto_ = (cached_has_bits & 0x00000004u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.awardedto_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.PlayerKilled)
 }
+inline PROTOBUF_NDEBUG_INLINE PlayerKilled::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        weapon_(arena) {}
+
 inline void PlayerKilled::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.weapon_){},
-      decltype(_impl_.attacker_){nullptr},
-      decltype(_impl_.victim_){nullptr},
-      decltype(_impl_.awardedto_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.weapon_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.weapon_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, attacker_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, attacker_) +
+               sizeof(Impl_::timestamp_));
 }
 PlayerKilled::~PlayerKilled() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.PlayerKilled)
@@ -9135,19 +8916,18 @@ PlayerKilled::~PlayerKilled() {
   SharedDtor();
 }
 inline void PlayerKilled::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.weapon_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.attacker_;
-  if (this != internal_default_instance()) delete _impl_.victim_;
-  if (this != internal_default_instance()) delete _impl_.awardedto_;
-}
-void PlayerKilled::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.attacker_;
+  delete _impl_.victim_;
+  delete _impl_.awardedto_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void PlayerKilled::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.PlayerKilled)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -9274,22 +9054,22 @@ const ::_pbi::TcParseTable<3, 6, 3, 49, 2> PlayerKilled::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player attacker = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::attacker(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::attacker(this),
         _Internal::attacker(this).GetCachedSize(), target, stream);
   }
 
   // .rtech.liveapi.Player victim = 4;
   if (cached_has_bits & 0x00000002u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::victim(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        4, _Internal::victim(this),
         _Internal::victim(this).GetCachedSize(), target, stream);
   }
 
   // .rtech.liveapi.Player awardedTo = 5;
   if (cached_has_bits & 0x00000004u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(5, _Internal::awardedto(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        5, _Internal::awardedto(this),
         _Internal::awardedto(this).GetCachedSize(), target, stream);
   }
 
@@ -9334,23 +9114,20 @@ const ::_pbi::TcParseTable<3, 6, 3, 49, 2> PlayerKilled::_table_ = {
   if (cached_has_bits & 0x00000007u) {
     // .rtech.liveapi.Player attacker = 3;
     if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.attacker_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.attacker_);
     }
 
     // .rtech.liveapi.Player victim = 4;
     if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.victim_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.victim_);
     }
 
     // .rtech.liveapi.Player awardedTo = 5;
     if (cached_has_bits & 0x00000004u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.awardedto_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.awardedto_);
     }
 
   }
@@ -9364,11 +9141,12 @@ const ::_pbi::TcParseTable<3, 6, 3, 49, 2> PlayerKilled::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData PlayerKilled::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    PlayerKilled::MergeImpl
+    PlayerKilled::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*PlayerKilled::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* PlayerKilled::GetClassData() const {
+  return &_class_data_;
+}
 
 void PlayerKilled::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<PlayerKilled*>(&to_msg);
@@ -9416,16 +9194,17 @@ PROTOBUF_NOINLINE bool PlayerKilled::IsInitialized() const {
   return true;
 }
 
-void PlayerKilled::InternalSwap(PlayerKilled* other) {
+::_pbi::CachedSize* PlayerKilled::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void PlayerKilled::InternalSwap(PlayerKilled* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.weapon_, lhs_arena,
-                                       &other->_impl_.weapon_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.weapon_, &other->_impl_.weapon_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(PlayerKilled, _impl_.timestamp_)
       + sizeof(PlayerKilled::_impl_.timestamp_)
@@ -9467,63 +9246,49 @@ PlayerDowned::PlayerDowned(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.PlayerDowned)
 }
-PlayerDowned::PlayerDowned(const PlayerDowned& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE PlayerDowned::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        weapon_(arena, from.weapon_) {}
+
+PlayerDowned::PlayerDowned(
+    ::google::protobuf::Arena* arena,
+    const PlayerDowned& from)
+    : ::google::protobuf::Message(arena) {
   PlayerDowned* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.weapon_){},
-      decltype(_impl_.attacker_){nullptr},
-      decltype(_impl_.victim_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.weapon_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.weapon_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_weapon().empty()) {
-    _this->_impl_.weapon_.Set(from._internal_weapon(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.attacker_ = new ::rtech::liveapi::Player(*from._impl_.attacker_);
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000002u) != 0) {
-    _this->_impl_.victim_ = new ::rtech::liveapi::Player(*from._impl_.victim_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.attacker_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.attacker_)
+                : nullptr;
+  _impl_.victim_ = (cached_has_bits & 0x00000002u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.victim_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.PlayerDowned)
 }
+inline PROTOBUF_NDEBUG_INLINE PlayerDowned::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        weapon_(arena) {}
+
 inline void PlayerDowned::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.weapon_){},
-      decltype(_impl_.attacker_){nullptr},
-      decltype(_impl_.victim_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.weapon_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.weapon_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, attacker_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, attacker_) +
+               sizeof(Impl_::timestamp_));
 }
 PlayerDowned::~PlayerDowned() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.PlayerDowned)
@@ -9531,18 +9296,17 @@ PlayerDowned::~PlayerDowned() {
   SharedDtor();
 }
 inline void PlayerDowned::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.weapon_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.attacker_;
-  if (this != internal_default_instance()) delete _impl_.victim_;
-}
-void PlayerDowned::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.attacker_;
+  delete _impl_.victim_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void PlayerDowned::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.PlayerDowned)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -9659,15 +9423,15 @@ const ::_pbi::TcParseTable<3, 5, 2, 49, 2> PlayerDowned::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player attacker = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::attacker(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::attacker(this),
         _Internal::attacker(this).GetCachedSize(), target, stream);
   }
 
   // .rtech.liveapi.Player victim = 4;
   if (cached_has_bits & 0x00000002u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::victim(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        4, _Internal::victim(this),
         _Internal::victim(this).GetCachedSize(), target, stream);
   }
 
@@ -9712,16 +9476,14 @@ const ::_pbi::TcParseTable<3, 5, 2, 49, 2> PlayerDowned::_table_ = {
   if (cached_has_bits & 0x00000003u) {
     // .rtech.liveapi.Player attacker = 3;
     if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.attacker_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.attacker_);
     }
 
     // .rtech.liveapi.Player victim = 4;
     if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.victim_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.victim_);
     }
 
   }
@@ -9735,11 +9497,12 @@ const ::_pbi::TcParseTable<3, 5, 2, 49, 2> PlayerDowned::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData PlayerDowned::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    PlayerDowned::MergeImpl
+    PlayerDowned::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*PlayerDowned::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* PlayerDowned::GetClassData() const {
+  return &_class_data_;
+}
 
 void PlayerDowned::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<PlayerDowned*>(&to_msg);
@@ -9783,16 +9546,17 @@ PROTOBUF_NOINLINE bool PlayerDowned::IsInitialized() const {
   return true;
 }
 
-void PlayerDowned::InternalSwap(PlayerDowned* other) {
+::_pbi::CachedSize* PlayerDowned::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void PlayerDowned::InternalSwap(PlayerDowned* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.weapon_, lhs_arena,
-                                       &other->_impl_.weapon_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.weapon_, &other->_impl_.weapon_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(PlayerDowned, _impl_.timestamp_)
       + sizeof(PlayerDowned::_impl_.timestamp_)
@@ -9834,63 +9598,49 @@ PlayerAssist::PlayerAssist(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.PlayerAssist)
 }
-PlayerAssist::PlayerAssist(const PlayerAssist& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE PlayerAssist::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        weapon_(arena, from.weapon_) {}
+
+PlayerAssist::PlayerAssist(
+    ::google::protobuf::Arena* arena,
+    const PlayerAssist& from)
+    : ::google::protobuf::Message(arena) {
   PlayerAssist* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.weapon_){},
-      decltype(_impl_.assistant_){nullptr},
-      decltype(_impl_.victim_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.weapon_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.weapon_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_weapon().empty()) {
-    _this->_impl_.weapon_.Set(from._internal_weapon(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.assistant_ = new ::rtech::liveapi::Player(*from._impl_.assistant_);
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000002u) != 0) {
-    _this->_impl_.victim_ = new ::rtech::liveapi::Player(*from._impl_.victim_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.assistant_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.assistant_)
+                : nullptr;
+  _impl_.victim_ = (cached_has_bits & 0x00000002u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.victim_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.PlayerAssist)
 }
+inline PROTOBUF_NDEBUG_INLINE PlayerAssist::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        weapon_(arena) {}
+
 inline void PlayerAssist::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.weapon_){},
-      decltype(_impl_.assistant_){nullptr},
-      decltype(_impl_.victim_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.weapon_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.weapon_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, assistant_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, assistant_) +
+               sizeof(Impl_::timestamp_));
 }
 PlayerAssist::~PlayerAssist() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.PlayerAssist)
@@ -9898,18 +9648,17 @@ PlayerAssist::~PlayerAssist() {
   SharedDtor();
 }
 inline void PlayerAssist::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.weapon_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.assistant_;
-  if (this != internal_default_instance()) delete _impl_.victim_;
-}
-void PlayerAssist::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.assistant_;
+  delete _impl_.victim_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void PlayerAssist::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.PlayerAssist)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -10026,15 +9775,15 @@ const ::_pbi::TcParseTable<3, 5, 2, 49, 2> PlayerAssist::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player assistant = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::assistant(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::assistant(this),
         _Internal::assistant(this).GetCachedSize(), target, stream);
   }
 
   // .rtech.liveapi.Player victim = 4;
   if (cached_has_bits & 0x00000002u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::victim(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        4, _Internal::victim(this),
         _Internal::victim(this).GetCachedSize(), target, stream);
   }
 
@@ -10079,16 +9828,14 @@ const ::_pbi::TcParseTable<3, 5, 2, 49, 2> PlayerAssist::_table_ = {
   if (cached_has_bits & 0x00000003u) {
     // .rtech.liveapi.Player assistant = 3;
     if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.assistant_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.assistant_);
     }
 
     // .rtech.liveapi.Player victim = 4;
     if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.victim_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.victim_);
     }
 
   }
@@ -10102,11 +9849,12 @@ const ::_pbi::TcParseTable<3, 5, 2, 49, 2> PlayerAssist::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData PlayerAssist::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    PlayerAssist::MergeImpl
+    PlayerAssist::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*PlayerAssist::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* PlayerAssist::GetClassData() const {
+  return &_class_data_;
+}
 
 void PlayerAssist::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<PlayerAssist*>(&to_msg);
@@ -10150,16 +9898,17 @@ PROTOBUF_NOINLINE bool PlayerAssist::IsInitialized() const {
   return true;
 }
 
-void PlayerAssist::InternalSwap(PlayerAssist* other) {
+::_pbi::CachedSize* PlayerAssist::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void PlayerAssist::InternalSwap(PlayerAssist* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.weapon_, lhs_arena,
-                                       &other->_impl_.weapon_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.weapon_, &other->_impl_.weapon_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(PlayerAssist, _impl_.timestamp_)
       + sizeof(PlayerAssist::_impl_.timestamp_)
@@ -10184,40 +9933,36 @@ SquadEliminated::SquadEliminated(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.SquadEliminated)
 }
-SquadEliminated::SquadEliminated(const SquadEliminated& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE SquadEliminated::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : players_{visibility, arena, from.players_},
+        category_(arena, from.category_),
+        _cached_size_{0} {}
+
+SquadEliminated::SquadEliminated(
+    ::google::protobuf::Arena* arena,
+    const SquadEliminated& from)
+    : ::google::protobuf::Message(arena) {
   SquadEliminated* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.players_){from._impl_.players_},
-      decltype(_impl_.category_){},
-      decltype(_impl_.timestamp_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.SquadEliminated)
 }
+inline PROTOBUF_NDEBUG_INLINE SquadEliminated::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : players_{visibility, arena},
+        category_(arena),
+        _cached_size_{0} {}
+
 inline void SquadEliminated::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.players_){arena},
-      decltype(_impl_.category_){},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.timestamp_ = {};
 }
 SquadEliminated::~SquadEliminated() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.SquadEliminated)
@@ -10225,21 +9970,19 @@ SquadEliminated::~SquadEliminated() {
   SharedDtor();
 }
 inline void SquadEliminated::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.players_.~RepeatedPtrField();
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
-}
-void SquadEliminated::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void SquadEliminated::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.SquadEliminated)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _internal_mutable_players()->Clear();
+  _impl_.players_.Clear();
   _impl_.category_.ClearToEmpty();
   _impl_.timestamp_ = ::uint64_t{0u};
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
@@ -10367,11 +10110,12 @@ const ::_pbi::TcParseTable<2, 3, 1, 46, 2> SquadEliminated::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData SquadEliminated::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    SquadEliminated::MergeImpl
+    SquadEliminated::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*SquadEliminated::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* SquadEliminated::GetClassData() const {
+  return &_class_data_;
+}
 
 void SquadEliminated::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<SquadEliminated*>(&to_msg);
@@ -10381,7 +10125,8 @@ void SquadEliminated::MergeImpl(::google::protobuf::Message& to_msg, const ::goo
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_internal_mutable_players()->MergeFrom(from._internal_players());
+  _this->_internal_mutable_players()->MergeFrom(
+      from._internal_players());
   if (!from._internal_category().empty()) {
     _this->_internal_set_category(from._internal_category());
   }
@@ -10402,14 +10147,16 @@ PROTOBUF_NOINLINE bool SquadEliminated::IsInitialized() const {
   return true;
 }
 
-void SquadEliminated::InternalSwap(SquadEliminated* other) {
+::_pbi::CachedSize* SquadEliminated::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void SquadEliminated::InternalSwap(SquadEliminated* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.players_.InternalSwap(&other->_impl_.players_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
         swap(_impl_.timestamp_, other->_impl_.timestamp_);
 }
 
@@ -10446,54 +10193,53 @@ GibraltarShieldAbsorbed::GibraltarShieldAbsorbed(::google::protobuf::Arena* aren
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.GibraltarShieldAbsorbed)
 }
-GibraltarShieldAbsorbed::GibraltarShieldAbsorbed(const GibraltarShieldAbsorbed& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE GibraltarShieldAbsorbed::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_) {}
+
+GibraltarShieldAbsorbed::GibraltarShieldAbsorbed(
+    ::google::protobuf::Arena* arena,
+    const GibraltarShieldAbsorbed& from)
+    : ::google::protobuf::Message(arena) {
   GibraltarShieldAbsorbed* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.attacker_){nullptr},
-      decltype(_impl_.victim_){nullptr},
-      decltype(_impl_.timestamp_){},
-      decltype(_impl_.damageinflicted_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.attacker_ = new ::rtech::liveapi::Player(*from._impl_.attacker_);
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000002u) != 0) {
-    _this->_impl_.victim_ = new ::rtech::liveapi::Player(*from._impl_.victim_);
-  }
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.damageinflicted_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.damageinflicted_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.attacker_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.attacker_)
+                : nullptr;
+  _impl_.victim_ = (cached_has_bits & 0x00000002u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.victim_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, damageinflicted_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::damageinflicted_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.GibraltarShieldAbsorbed)
 }
+inline PROTOBUF_NDEBUG_INLINE GibraltarShieldAbsorbed::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena) {}
+
 inline void GibraltarShieldAbsorbed::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.attacker_){nullptr},
-      decltype(_impl_.victim_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      decltype(_impl_.damageinflicted_){0u},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, attacker_),
+           0,
+           offsetof(Impl_, damageinflicted_) -
+               offsetof(Impl_, attacker_) +
+               sizeof(Impl_::damageinflicted_));
 }
 GibraltarShieldAbsorbed::~GibraltarShieldAbsorbed() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.GibraltarShieldAbsorbed)
@@ -10501,17 +10247,16 @@ GibraltarShieldAbsorbed::~GibraltarShieldAbsorbed() {
   SharedDtor();
 }
 inline void GibraltarShieldAbsorbed::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.attacker_;
-  if (this != internal_default_instance()) delete _impl_.victim_;
-}
-void GibraltarShieldAbsorbed::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.attacker_;
+  delete _impl_.victim_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void GibraltarShieldAbsorbed::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.GibraltarShieldAbsorbed)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -10628,15 +10373,15 @@ const ::_pbi::TcParseTable<3, 5, 2, 54, 2> GibraltarShieldAbsorbed::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player attacker = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::attacker(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::attacker(this),
         _Internal::attacker(this).GetCachedSize(), target, stream);
   }
 
   // .rtech.liveapi.Player victim = 4;
   if (cached_has_bits & 0x00000002u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::victim(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        4, _Internal::victim(this),
         _Internal::victim(this).GetCachedSize(), target, stream);
   }
 
@@ -10674,16 +10419,14 @@ const ::_pbi::TcParseTable<3, 5, 2, 54, 2> GibraltarShieldAbsorbed::_table_ = {
   if (cached_has_bits & 0x00000003u) {
     // .rtech.liveapi.Player attacker = 3;
     if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.attacker_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.attacker_);
     }
 
     // .rtech.liveapi.Player victim = 4;
     if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.victim_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.victim_);
     }
 
   }
@@ -10703,11 +10446,12 @@ const ::_pbi::TcParseTable<3, 5, 2, 54, 2> GibraltarShieldAbsorbed::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData GibraltarShieldAbsorbed::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    GibraltarShieldAbsorbed::MergeImpl
+    GibraltarShieldAbsorbed::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*GibraltarShieldAbsorbed::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* GibraltarShieldAbsorbed::GetClassData() const {
+  return &_class_data_;
+}
 
 void GibraltarShieldAbsorbed::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<GibraltarShieldAbsorbed*>(&to_msg);
@@ -10751,14 +10495,16 @@ PROTOBUF_NOINLINE bool GibraltarShieldAbsorbed::IsInitialized() const {
   return true;
 }
 
-void GibraltarShieldAbsorbed::InternalSwap(GibraltarShieldAbsorbed* other) {
+::_pbi::CachedSize* GibraltarShieldAbsorbed::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void GibraltarShieldAbsorbed::InternalSwap(GibraltarShieldAbsorbed* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(GibraltarShieldAbsorbed, _impl_.damageinflicted_)
       + sizeof(GibraltarShieldAbsorbed::_impl_.damageinflicted_)
@@ -10793,58 +10539,46 @@ PlayerRespawnTeam::PlayerRespawnTeam(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.PlayerRespawnTeam)
 }
-PlayerRespawnTeam::PlayerRespawnTeam(const PlayerRespawnTeam& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE PlayerRespawnTeam::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        respawned_(arena, from.respawned_) {}
+
+PlayerRespawnTeam::PlayerRespawnTeam(
+    ::google::protobuf::Arena* arena,
+    const PlayerRespawnTeam& from)
+    : ::google::protobuf::Message(arena) {
   PlayerRespawnTeam* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.respawned_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.respawned_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.respawned_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_respawned().empty()) {
-    _this->_impl_.respawned_.Set(from._internal_respawned(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.PlayerRespawnTeam)
 }
+inline PROTOBUF_NDEBUG_INLINE PlayerRespawnTeam::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        respawned_(arena) {}
+
 inline void PlayerRespawnTeam::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.respawned_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.respawned_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.respawned_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::timestamp_));
 }
 PlayerRespawnTeam::~PlayerRespawnTeam() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.PlayerRespawnTeam)
@@ -10852,17 +10586,16 @@ PlayerRespawnTeam::~PlayerRespawnTeam() {
   SharedDtor();
 }
 inline void PlayerRespawnTeam::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.respawned_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void PlayerRespawnTeam::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void PlayerRespawnTeam::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.PlayerRespawnTeam)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -10963,8 +10696,8 @@ const ::_pbi::TcParseTable<2, 4, 1, 57, 2> PlayerRespawnTeam::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -11008,9 +10741,8 @@ const ::_pbi::TcParseTable<2, 4, 1, 57, 2> PlayerRespawnTeam::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -11023,11 +10755,12 @@ const ::_pbi::TcParseTable<2, 4, 1, 57, 2> PlayerRespawnTeam::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData PlayerRespawnTeam::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    PlayerRespawnTeam::MergeImpl
+    PlayerRespawnTeam::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*PlayerRespawnTeam::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* PlayerRespawnTeam::GetClassData() const {
+  return &_class_data_;
+}
 
 void PlayerRespawnTeam::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<PlayerRespawnTeam*>(&to_msg);
@@ -11064,16 +10797,17 @@ PROTOBUF_NOINLINE bool PlayerRespawnTeam::IsInitialized() const {
   return true;
 }
 
-void PlayerRespawnTeam::InternalSwap(PlayerRespawnTeam* other) {
+::_pbi::CachedSize* PlayerRespawnTeam::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void PlayerRespawnTeam::InternalSwap(PlayerRespawnTeam* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.respawned_, lhs_arena,
-                                       &other->_impl_.respawned_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.respawned_, &other->_impl_.respawned_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(PlayerRespawnTeam, _impl_.timestamp_)
       + sizeof(PlayerRespawnTeam::_impl_.timestamp_)
@@ -11115,50 +10849,47 @@ PlayerRevive::PlayerRevive(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.PlayerRevive)
 }
-PlayerRevive::PlayerRevive(const PlayerRevive& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE PlayerRevive::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_) {}
+
+PlayerRevive::PlayerRevive(
+    ::google::protobuf::Arena* arena,
+    const PlayerRevive& from)
+    : ::google::protobuf::Message(arena) {
   PlayerRevive* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.revived_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000002u) != 0) {
-    _this->_impl_.revived_ = new ::rtech::liveapi::Player(*from._impl_.revived_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  _impl_.revived_ = (cached_has_bits & 0x00000002u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.revived_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.PlayerRevive)
 }
+inline PROTOBUF_NDEBUG_INLINE PlayerRevive::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena) {}
+
 inline void PlayerRevive::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.revived_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::timestamp_));
 }
 PlayerRevive::~PlayerRevive() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.PlayerRevive)
@@ -11166,17 +10897,16 @@ PlayerRevive::~PlayerRevive() {
   SharedDtor();
 }
 inline void PlayerRevive::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-  if (this != internal_default_instance()) delete _impl_.revived_;
-}
-void PlayerRevive::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  delete _impl_.revived_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void PlayerRevive::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.PlayerRevive)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -11282,15 +11012,15 @@ const ::_pbi::TcParseTable<2, 4, 2, 43, 2> PlayerRevive::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
   // .rtech.liveapi.Player revived = 4;
   if (cached_has_bits & 0x00000002u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::revived(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        4, _Internal::revived(this),
         _Internal::revived(this).GetCachedSize(), target, stream);
   }
 
@@ -11321,16 +11051,14 @@ const ::_pbi::TcParseTable<2, 4, 2, 43, 2> PlayerRevive::_table_ = {
   if (cached_has_bits & 0x00000003u) {
     // .rtech.liveapi.Player player = 3;
     if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.player_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
     }
 
     // .rtech.liveapi.Player revived = 4;
     if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.revived_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.revived_);
     }
 
   }
@@ -11344,11 +11072,12 @@ const ::_pbi::TcParseTable<2, 4, 2, 43, 2> PlayerRevive::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData PlayerRevive::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    PlayerRevive::MergeImpl
+    PlayerRevive::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*PlayerRevive::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* PlayerRevive::GetClassData() const {
+  return &_class_data_;
+}
 
 void PlayerRevive::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<PlayerRevive*>(&to_msg);
@@ -11389,14 +11118,16 @@ PROTOBUF_NOINLINE bool PlayerRevive::IsInitialized() const {
   return true;
 }
 
-void PlayerRevive::InternalSwap(PlayerRevive* other) {
+::_pbi::CachedSize* PlayerRevive::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void PlayerRevive::InternalSwap(PlayerRevive* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(PlayerRevive, _impl_.timestamp_)
       + sizeof(PlayerRevive::_impl_.timestamp_)
@@ -11431,62 +11162,52 @@ ArenasItemSelected::ArenasItemSelected(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.ArenasItemSelected)
 }
-ArenasItemSelected::ArenasItemSelected(const ArenasItemSelected& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE ArenasItemSelected::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        item_(arena, from.item_) {}
+
+ArenasItemSelected::ArenasItemSelected(
+    ::google::protobuf::Arena* arena,
+    const ArenasItemSelected& from)
+    : ::google::protobuf::Message(arena) {
   ArenasItemSelected* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.item_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-      decltype(_impl_.quantity_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.item_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.item_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_item().empty()) {
-    _this->_impl_.item_.Set(from._internal_item(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.quantity_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.quantity_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, quantity_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::quantity_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.ArenasItemSelected)
 }
+inline PROTOBUF_NDEBUG_INLINE ArenasItemSelected::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        item_(arena) {}
+
 inline void ArenasItemSelected::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.item_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      decltype(_impl_.quantity_){0},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.item_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.item_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, quantity_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::quantity_));
 }
 ArenasItemSelected::~ArenasItemSelected() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.ArenasItemSelected)
@@ -11494,17 +11215,16 @@ ArenasItemSelected::~ArenasItemSelected() {
   SharedDtor();
 }
 inline void ArenasItemSelected::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.item_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void ArenasItemSelected::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void ArenasItemSelected::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.ArenasItemSelected)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -11616,8 +11336,8 @@ const ::_pbi::TcParseTable<3, 5, 1, 53, 2> ArenasItemSelected::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -11668,9 +11388,8 @@ const ::_pbi::TcParseTable<3, 5, 1, 53, 2> ArenasItemSelected::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -11689,11 +11408,12 @@ const ::_pbi::TcParseTable<3, 5, 1, 53, 2> ArenasItemSelected::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData ArenasItemSelected::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    ArenasItemSelected::MergeImpl
+    ArenasItemSelected::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*ArenasItemSelected::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* ArenasItemSelected::GetClassData() const {
+  return &_class_data_;
+}
 
 void ArenasItemSelected::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<ArenasItemSelected*>(&to_msg);
@@ -11733,16 +11453,17 @@ PROTOBUF_NOINLINE bool ArenasItemSelected::IsInitialized() const {
   return true;
 }
 
-void ArenasItemSelected::InternalSwap(ArenasItemSelected* other) {
+::_pbi::CachedSize* ArenasItemSelected::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void ArenasItemSelected::InternalSwap(ArenasItemSelected* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.item_, lhs_arena,
-                                       &other->_impl_.item_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.item_, &other->_impl_.item_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(ArenasItemSelected, _impl_.quantity_)
       + sizeof(ArenasItemSelected::_impl_.quantity_)
@@ -11777,62 +11498,52 @@ ArenasItemDeselected::ArenasItemDeselected(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.ArenasItemDeselected)
 }
-ArenasItemDeselected::ArenasItemDeselected(const ArenasItemDeselected& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE ArenasItemDeselected::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        item_(arena, from.item_) {}
+
+ArenasItemDeselected::ArenasItemDeselected(
+    ::google::protobuf::Arena* arena,
+    const ArenasItemDeselected& from)
+    : ::google::protobuf::Message(arena) {
   ArenasItemDeselected* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.item_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-      decltype(_impl_.quantity_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.item_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.item_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_item().empty()) {
-    _this->_impl_.item_.Set(from._internal_item(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.quantity_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.quantity_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, quantity_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::quantity_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.ArenasItemDeselected)
 }
+inline PROTOBUF_NDEBUG_INLINE ArenasItemDeselected::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        item_(arena) {}
+
 inline void ArenasItemDeselected::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.item_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      decltype(_impl_.quantity_){0},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.item_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.item_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, quantity_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::quantity_));
 }
 ArenasItemDeselected::~ArenasItemDeselected() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.ArenasItemDeselected)
@@ -11840,17 +11551,16 @@ ArenasItemDeselected::~ArenasItemDeselected() {
   SharedDtor();
 }
 inline void ArenasItemDeselected::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.item_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void ArenasItemDeselected::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void ArenasItemDeselected::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.ArenasItemDeselected)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -11962,8 +11672,8 @@ const ::_pbi::TcParseTable<3, 5, 1, 55, 2> ArenasItemDeselected::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -12014,9 +11724,8 @@ const ::_pbi::TcParseTable<3, 5, 1, 55, 2> ArenasItemDeselected::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -12035,11 +11744,12 @@ const ::_pbi::TcParseTable<3, 5, 1, 55, 2> ArenasItemDeselected::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData ArenasItemDeselected::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    ArenasItemDeselected::MergeImpl
+    ArenasItemDeselected::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*ArenasItemDeselected::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* ArenasItemDeselected::GetClassData() const {
+  return &_class_data_;
+}
 
 void ArenasItemDeselected::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<ArenasItemDeselected*>(&to_msg);
@@ -12079,16 +11789,17 @@ PROTOBUF_NOINLINE bool ArenasItemDeselected::IsInitialized() const {
   return true;
 }
 
-void ArenasItemDeselected::InternalSwap(ArenasItemDeselected* other) {
+::_pbi::CachedSize* ArenasItemDeselected::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void ArenasItemDeselected::InternalSwap(ArenasItemDeselected* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.item_, lhs_arena,
-                                       &other->_impl_.item_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.item_, &other->_impl_.item_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(ArenasItemDeselected, _impl_.quantity_)
       + sizeof(ArenasItemDeselected::_impl_.quantity_)
@@ -12123,62 +11834,52 @@ InventoryPickUp::InventoryPickUp(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.InventoryPickUp)
 }
-InventoryPickUp::InventoryPickUp(const InventoryPickUp& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE InventoryPickUp::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        item_(arena, from.item_) {}
+
+InventoryPickUp::InventoryPickUp(
+    ::google::protobuf::Arena* arena,
+    const InventoryPickUp& from)
+    : ::google::protobuf::Message(arena) {
   InventoryPickUp* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.item_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-      decltype(_impl_.quantity_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.item_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.item_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_item().empty()) {
-    _this->_impl_.item_.Set(from._internal_item(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.quantity_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.quantity_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, quantity_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::quantity_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.InventoryPickUp)
 }
+inline PROTOBUF_NDEBUG_INLINE InventoryPickUp::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        item_(arena) {}
+
 inline void InventoryPickUp::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.item_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      decltype(_impl_.quantity_){0},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.item_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.item_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, quantity_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::quantity_));
 }
 InventoryPickUp::~InventoryPickUp() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.InventoryPickUp)
@@ -12186,17 +11887,16 @@ InventoryPickUp::~InventoryPickUp() {
   SharedDtor();
 }
 inline void InventoryPickUp::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.item_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void InventoryPickUp::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void InventoryPickUp::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.InventoryPickUp)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -12308,8 +12008,8 @@ const ::_pbi::TcParseTable<3, 5, 1, 50, 2> InventoryPickUp::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -12360,9 +12060,8 @@ const ::_pbi::TcParseTable<3, 5, 1, 50, 2> InventoryPickUp::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -12381,11 +12080,12 @@ const ::_pbi::TcParseTable<3, 5, 1, 50, 2> InventoryPickUp::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData InventoryPickUp::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    InventoryPickUp::MergeImpl
+    InventoryPickUp::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*InventoryPickUp::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* InventoryPickUp::GetClassData() const {
+  return &_class_data_;
+}
 
 void InventoryPickUp::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<InventoryPickUp*>(&to_msg);
@@ -12425,16 +12125,17 @@ PROTOBUF_NOINLINE bool InventoryPickUp::IsInitialized() const {
   return true;
 }
 
-void InventoryPickUp::InternalSwap(InventoryPickUp* other) {
+::_pbi::CachedSize* InventoryPickUp::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void InventoryPickUp::InternalSwap(InventoryPickUp* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.item_, lhs_arena,
-                                       &other->_impl_.item_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.item_, &other->_impl_.item_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(InventoryPickUp, _impl_.quantity_)
       + sizeof(InventoryPickUp::_impl_.quantity_)
@@ -12469,64 +12170,54 @@ InventoryDrop::InventoryDrop(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.InventoryDrop)
 }
-InventoryDrop::InventoryDrop(const InventoryDrop& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE InventoryDrop::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        extradata_{visibility, arena, from.extradata_},
+        category_(arena, from.category_),
+        item_(arena, from.item_) {}
+
+InventoryDrop::InventoryDrop(
+    ::google::protobuf::Arena* arena,
+    const InventoryDrop& from)
+    : ::google::protobuf::Message(arena) {
   InventoryDrop* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.extradata_){from._impl_.extradata_},
-      decltype(_impl_.category_){},
-      decltype(_impl_.item_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-      decltype(_impl_.quantity_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.item_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.item_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_item().empty()) {
-    _this->_impl_.item_.Set(from._internal_item(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.quantity_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.quantity_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, quantity_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::quantity_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.InventoryDrop)
 }
+inline PROTOBUF_NDEBUG_INLINE InventoryDrop::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        extradata_{visibility, arena},
+        category_(arena),
+        item_(arena) {}
+
 inline void InventoryDrop::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.extradata_){arena},
-      decltype(_impl_.category_){},
-      decltype(_impl_.item_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      decltype(_impl_.quantity_){0},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.item_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.item_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, quantity_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::quantity_));
 }
 InventoryDrop::~InventoryDrop() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.InventoryDrop)
@@ -12534,23 +12225,21 @@ InventoryDrop::~InventoryDrop() {
   SharedDtor();
 }
 inline void InventoryDrop::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
-  _internal_mutable_extradata()->~RepeatedPtrField();
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.item_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void InventoryDrop::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void InventoryDrop::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.InventoryDrop)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _internal_mutable_extradata()->Clear();
+  _impl_.extradata_.Clear();
   _impl_.category_.ClearToEmpty();
   _impl_.item_.ClearToEmpty();
   cached_has_bits = _impl_._has_bits_[0];
@@ -12664,8 +12353,8 @@ const ::_pbi::TcParseTable<3, 6, 1, 57, 2> InventoryDrop::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -12730,9 +12419,8 @@ const ::_pbi::TcParseTable<3, 6, 1, 57, 2> InventoryDrop::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -12751,11 +12439,12 @@ const ::_pbi::TcParseTable<3, 6, 1, 57, 2> InventoryDrop::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData InventoryDrop::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    InventoryDrop::MergeImpl
+    InventoryDrop::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*InventoryDrop::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* InventoryDrop::GetClassData() const {
+  return &_class_data_;
+}
 
 void InventoryDrop::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<InventoryDrop*>(&to_msg);
@@ -12796,17 +12485,18 @@ PROTOBUF_NOINLINE bool InventoryDrop::IsInitialized() const {
   return true;
 }
 
-void InventoryDrop::InternalSwap(InventoryDrop* other) {
+::_pbi::CachedSize* InventoryDrop::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void InventoryDrop::InternalSwap(InventoryDrop* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   _impl_.extradata_.InternalSwap(&other->_impl_.extradata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.item_, lhs_arena,
-                                       &other->_impl_.item_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.item_, &other->_impl_.item_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(InventoryDrop, _impl_.quantity_)
       + sizeof(InventoryDrop::_impl_.quantity_)
@@ -12841,62 +12531,52 @@ InventoryUse::InventoryUse(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.InventoryUse)
 }
-InventoryUse::InventoryUse(const InventoryUse& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE InventoryUse::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        item_(arena, from.item_) {}
+
+InventoryUse::InventoryUse(
+    ::google::protobuf::Arena* arena,
+    const InventoryUse& from)
+    : ::google::protobuf::Message(arena) {
   InventoryUse* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.item_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-      decltype(_impl_.quantity_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.item_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.item_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_item().empty()) {
-    _this->_impl_.item_.Set(from._internal_item(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.quantity_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.quantity_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, quantity_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::quantity_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.InventoryUse)
 }
+inline PROTOBUF_NDEBUG_INLINE InventoryUse::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        item_(arena) {}
+
 inline void InventoryUse::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.item_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      decltype(_impl_.quantity_){0},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.item_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.item_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, quantity_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::quantity_));
 }
 InventoryUse::~InventoryUse() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.InventoryUse)
@@ -12904,17 +12584,16 @@ InventoryUse::~InventoryUse() {
   SharedDtor();
 }
 inline void InventoryUse::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.item_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void InventoryUse::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void InventoryUse::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.InventoryUse)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -13026,8 +12705,8 @@ const ::_pbi::TcParseTable<3, 5, 1, 47, 2> InventoryUse::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -13078,9 +12757,8 @@ const ::_pbi::TcParseTable<3, 5, 1, 47, 2> InventoryUse::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -13099,11 +12777,12 @@ const ::_pbi::TcParseTable<3, 5, 1, 47, 2> InventoryUse::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData InventoryUse::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    InventoryUse::MergeImpl
+    InventoryUse::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*InventoryUse::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* InventoryUse::GetClassData() const {
+  return &_class_data_;
+}
 
 void InventoryUse::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<InventoryUse*>(&to_msg);
@@ -13143,16 +12822,17 @@ PROTOBUF_NOINLINE bool InventoryUse::IsInitialized() const {
   return true;
 }
 
-void InventoryUse::InternalSwap(InventoryUse* other) {
+::_pbi::CachedSize* InventoryUse::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void InventoryUse::InternalSwap(InventoryUse* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.item_, lhs_arena,
-                                       &other->_impl_.item_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.item_, &other->_impl_.item_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(InventoryUse, _impl_.quantity_)
       + sizeof(InventoryUse::_impl_.quantity_)
@@ -13194,50 +12874,47 @@ BannerCollected::BannerCollected(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.BannerCollected)
 }
-BannerCollected::BannerCollected(const BannerCollected& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE BannerCollected::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_) {}
+
+BannerCollected::BannerCollected(
+    ::google::protobuf::Arena* arena,
+    const BannerCollected& from)
+    : ::google::protobuf::Message(arena) {
   BannerCollected* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.collected_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000002u) != 0) {
-    _this->_impl_.collected_ = new ::rtech::liveapi::Player(*from._impl_.collected_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  _impl_.collected_ = (cached_has_bits & 0x00000002u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.collected_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.BannerCollected)
 }
+inline PROTOBUF_NDEBUG_INLINE BannerCollected::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena) {}
+
 inline void BannerCollected::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.collected_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::timestamp_));
 }
 BannerCollected::~BannerCollected() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.BannerCollected)
@@ -13245,17 +12922,16 @@ BannerCollected::~BannerCollected() {
   SharedDtor();
 }
 inline void BannerCollected::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-  if (this != internal_default_instance()) delete _impl_.collected_;
-}
-void BannerCollected::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  delete _impl_.collected_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void BannerCollected::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.BannerCollected)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -13361,15 +13037,15 @@ const ::_pbi::TcParseTable<2, 4, 2, 46, 2> BannerCollected::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
   // .rtech.liveapi.Player collected = 4;
   if (cached_has_bits & 0x00000002u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::collected(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        4, _Internal::collected(this),
         _Internal::collected(this).GetCachedSize(), target, stream);
   }
 
@@ -13400,16 +13076,14 @@ const ::_pbi::TcParseTable<2, 4, 2, 46, 2> BannerCollected::_table_ = {
   if (cached_has_bits & 0x00000003u) {
     // .rtech.liveapi.Player player = 3;
     if (cached_has_bits & 0x00000001u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.player_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
     }
 
     // .rtech.liveapi.Player collected = 4;
     if (cached_has_bits & 0x00000002u) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.collected_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.collected_);
     }
 
   }
@@ -13423,11 +13097,12 @@ const ::_pbi::TcParseTable<2, 4, 2, 46, 2> BannerCollected::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData BannerCollected::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    BannerCollected::MergeImpl
+    BannerCollected::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*BannerCollected::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* BannerCollected::GetClassData() const {
+  return &_class_data_;
+}
 
 void BannerCollected::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<BannerCollected*>(&to_msg);
@@ -13468,14 +13143,16 @@ PROTOBUF_NOINLINE bool BannerCollected::IsInitialized() const {
   return true;
 }
 
-void BannerCollected::InternalSwap(BannerCollected* other) {
+::_pbi::CachedSize* BannerCollected::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void BannerCollected::InternalSwap(BannerCollected* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(BannerCollected, _impl_.timestamp_)
       + sizeof(BannerCollected::_impl_.timestamp_)
@@ -13510,58 +13187,46 @@ PlayerAbilityUsed::PlayerAbilityUsed(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.PlayerAbilityUsed)
 }
-PlayerAbilityUsed::PlayerAbilityUsed(const PlayerAbilityUsed& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE PlayerAbilityUsed::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        linkedentity_(arena, from.linkedentity_) {}
+
+PlayerAbilityUsed::PlayerAbilityUsed(
+    ::google::protobuf::Arena* arena,
+    const PlayerAbilityUsed& from)
+    : ::google::protobuf::Message(arena) {
   PlayerAbilityUsed* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.linkedentity_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.linkedentity_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.linkedentity_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_linkedentity().empty()) {
-    _this->_impl_.linkedentity_.Set(from._internal_linkedentity(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.PlayerAbilityUsed)
 }
+inline PROTOBUF_NDEBUG_INLINE PlayerAbilityUsed::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        linkedentity_(arena) {}
+
 inline void PlayerAbilityUsed::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.linkedentity_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.linkedentity_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.linkedentity_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::timestamp_));
 }
 PlayerAbilityUsed::~PlayerAbilityUsed() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.PlayerAbilityUsed)
@@ -13569,17 +13234,16 @@ PlayerAbilityUsed::~PlayerAbilityUsed() {
   SharedDtor();
 }
 inline void PlayerAbilityUsed::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.linkedentity_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void PlayerAbilityUsed::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void PlayerAbilityUsed::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.PlayerAbilityUsed)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -13680,8 +13344,8 @@ const ::_pbi::TcParseTable<2, 4, 1, 60, 2> PlayerAbilityUsed::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -13725,9 +13389,8 @@ const ::_pbi::TcParseTable<2, 4, 1, 60, 2> PlayerAbilityUsed::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -13740,11 +13403,12 @@ const ::_pbi::TcParseTable<2, 4, 1, 60, 2> PlayerAbilityUsed::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData PlayerAbilityUsed::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    PlayerAbilityUsed::MergeImpl
+    PlayerAbilityUsed::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*PlayerAbilityUsed::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* PlayerAbilityUsed::GetClassData() const {
+  return &_class_data_;
+}
 
 void PlayerAbilityUsed::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<PlayerAbilityUsed*>(&to_msg);
@@ -13781,16 +13445,17 @@ PROTOBUF_NOINLINE bool PlayerAbilityUsed::IsInitialized() const {
   return true;
 }
 
-void PlayerAbilityUsed::InternalSwap(PlayerAbilityUsed* other) {
+::_pbi::CachedSize* PlayerAbilityUsed::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void PlayerAbilityUsed::InternalSwap(PlayerAbilityUsed* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.linkedentity_, lhs_arena,
-                                       &other->_impl_.linkedentity_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.linkedentity_, &other->_impl_.linkedentity_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(PlayerAbilityUsed, _impl_.timestamp_)
       + sizeof(PlayerAbilityUsed::_impl_.timestamp_)
@@ -13825,58 +13490,46 @@ ZiplineUsed::ZiplineUsed(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.ZiplineUsed)
 }
-ZiplineUsed::ZiplineUsed(const ZiplineUsed& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE ZiplineUsed::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        linkedentity_(arena, from.linkedentity_) {}
+
+ZiplineUsed::ZiplineUsed(
+    ::google::protobuf::Arena* arena,
+    const ZiplineUsed& from)
+    : ::google::protobuf::Message(arena) {
   ZiplineUsed* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.linkedentity_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.linkedentity_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.linkedentity_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_linkedentity().empty()) {
-    _this->_impl_.linkedentity_.Set(from._internal_linkedentity(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.ZiplineUsed)
 }
+inline PROTOBUF_NDEBUG_INLINE ZiplineUsed::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        linkedentity_(arena) {}
+
 inline void ZiplineUsed::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.linkedentity_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.linkedentity_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.linkedentity_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::timestamp_));
 }
 ZiplineUsed::~ZiplineUsed() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.ZiplineUsed)
@@ -13884,17 +13537,16 @@ ZiplineUsed::~ZiplineUsed() {
   SharedDtor();
 }
 inline void ZiplineUsed::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.linkedentity_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void ZiplineUsed::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void ZiplineUsed::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.ZiplineUsed)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -13995,8 +13647,8 @@ const ::_pbi::TcParseTable<2, 4, 1, 54, 2> ZiplineUsed::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -14040,9 +13692,8 @@ const ::_pbi::TcParseTable<2, 4, 1, 54, 2> ZiplineUsed::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -14055,11 +13706,12 @@ const ::_pbi::TcParseTable<2, 4, 1, 54, 2> ZiplineUsed::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData ZiplineUsed::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    ZiplineUsed::MergeImpl
+    ZiplineUsed::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*ZiplineUsed::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* ZiplineUsed::GetClassData() const {
+  return &_class_data_;
+}
 
 void ZiplineUsed::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<ZiplineUsed*>(&to_msg);
@@ -14096,16 +13748,17 @@ PROTOBUF_NOINLINE bool ZiplineUsed::IsInitialized() const {
   return true;
 }
 
-void ZiplineUsed::InternalSwap(ZiplineUsed* other) {
+::_pbi::CachedSize* ZiplineUsed::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void ZiplineUsed::InternalSwap(ZiplineUsed* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.linkedentity_, lhs_arena,
-                                       &other->_impl_.linkedentity_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.linkedentity_, &other->_impl_.linkedentity_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(ZiplineUsed, _impl_.timestamp_)
       + sizeof(ZiplineUsed::_impl_.timestamp_)
@@ -14140,58 +13793,46 @@ GrenadeThrown::GrenadeThrown(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.GrenadeThrown)
 }
-GrenadeThrown::GrenadeThrown(const GrenadeThrown& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE GrenadeThrown::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        linkedentity_(arena, from.linkedentity_) {}
+
+GrenadeThrown::GrenadeThrown(
+    ::google::protobuf::Arena* arena,
+    const GrenadeThrown& from)
+    : ::google::protobuf::Message(arena) {
   GrenadeThrown* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.linkedentity_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.linkedentity_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.linkedentity_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_linkedentity().empty()) {
-    _this->_impl_.linkedentity_.Set(from._internal_linkedentity(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.GrenadeThrown)
 }
+inline PROTOBUF_NDEBUG_INLINE GrenadeThrown::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        linkedentity_(arena) {}
+
 inline void GrenadeThrown::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.linkedentity_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.linkedentity_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.linkedentity_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::timestamp_));
 }
 GrenadeThrown::~GrenadeThrown() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.GrenadeThrown)
@@ -14199,17 +13840,16 @@ GrenadeThrown::~GrenadeThrown() {
   SharedDtor();
 }
 inline void GrenadeThrown::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.linkedentity_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void GrenadeThrown::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void GrenadeThrown::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.GrenadeThrown)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -14310,8 +13950,8 @@ const ::_pbi::TcParseTable<2, 4, 1, 56, 2> GrenadeThrown::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -14355,9 +13995,8 @@ const ::_pbi::TcParseTable<2, 4, 1, 56, 2> GrenadeThrown::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -14370,11 +14009,12 @@ const ::_pbi::TcParseTable<2, 4, 1, 56, 2> GrenadeThrown::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData GrenadeThrown::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    GrenadeThrown::MergeImpl
+    GrenadeThrown::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*GrenadeThrown::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* GrenadeThrown::GetClassData() const {
+  return &_class_data_;
+}
 
 void GrenadeThrown::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<GrenadeThrown*>(&to_msg);
@@ -14411,16 +14051,17 @@ PROTOBUF_NOINLINE bool GrenadeThrown::IsInitialized() const {
   return true;
 }
 
-void GrenadeThrown::InternalSwap(GrenadeThrown* other) {
+::_pbi::CachedSize* GrenadeThrown::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void GrenadeThrown::InternalSwap(GrenadeThrown* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.linkedentity_, lhs_arena,
-                                       &other->_impl_.linkedentity_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.linkedentity_, &other->_impl_.linkedentity_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(GrenadeThrown, _impl_.timestamp_)
       + sizeof(GrenadeThrown::_impl_.timestamp_)
@@ -14455,58 +14096,46 @@ BlackMarketAction::BlackMarketAction(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.BlackMarketAction)
 }
-BlackMarketAction::BlackMarketAction(const BlackMarketAction& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE BlackMarketAction::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        item_(arena, from.item_) {}
+
+BlackMarketAction::BlackMarketAction(
+    ::google::protobuf::Arena* arena,
+    const BlackMarketAction& from)
+    : ::google::protobuf::Message(arena) {
   BlackMarketAction* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.item_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.item_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.item_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_item().empty()) {
-    _this->_impl_.item_.Set(from._internal_item(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.BlackMarketAction)
 }
+inline PROTOBUF_NDEBUG_INLINE BlackMarketAction::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        item_(arena) {}
+
 inline void BlackMarketAction::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.item_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.item_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.item_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::timestamp_));
 }
 BlackMarketAction::~BlackMarketAction() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.BlackMarketAction)
@@ -14514,17 +14143,16 @@ BlackMarketAction::~BlackMarketAction() {
   SharedDtor();
 }
 inline void BlackMarketAction::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.item_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void BlackMarketAction::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void BlackMarketAction::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.BlackMarketAction)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -14625,8 +14253,8 @@ const ::_pbi::TcParseTable<2, 4, 1, 52, 2> BlackMarketAction::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -14670,9 +14298,8 @@ const ::_pbi::TcParseTable<2, 4, 1, 52, 2> BlackMarketAction::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -14685,11 +14312,12 @@ const ::_pbi::TcParseTable<2, 4, 1, 52, 2> BlackMarketAction::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData BlackMarketAction::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    BlackMarketAction::MergeImpl
+    BlackMarketAction::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*BlackMarketAction::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* BlackMarketAction::GetClassData() const {
+  return &_class_data_;
+}
 
 void BlackMarketAction::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<BlackMarketAction*>(&to_msg);
@@ -14726,16 +14354,17 @@ PROTOBUF_NOINLINE bool BlackMarketAction::IsInitialized() const {
   return true;
 }
 
-void BlackMarketAction::InternalSwap(BlackMarketAction* other) {
+::_pbi::CachedSize* BlackMarketAction::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void BlackMarketAction::InternalSwap(BlackMarketAction* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.item_, lhs_arena,
-                                       &other->_impl_.item_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.item_, &other->_impl_.item_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(BlackMarketAction, _impl_.timestamp_)
       + sizeof(BlackMarketAction::_impl_.timestamp_)
@@ -14770,45 +14399,44 @@ WraithPortal::WraithPortal(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.WraithPortal)
 }
-WraithPortal::WraithPortal(const WraithPortal& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE WraithPortal::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_) {}
+
+WraithPortal::WraithPortal(
+    ::google::protobuf::Arena* arena,
+    const WraithPortal& from)
+    : ::google::protobuf::Message(arena) {
   WraithPortal* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.WraithPortal)
 }
+inline PROTOBUF_NDEBUG_INLINE WraithPortal::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena) {}
+
 inline void WraithPortal::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::timestamp_));
 }
 WraithPortal::~WraithPortal() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.WraithPortal)
@@ -14816,16 +14444,15 @@ WraithPortal::~WraithPortal() {
   SharedDtor();
 }
 inline void WraithPortal::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void WraithPortal::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void WraithPortal::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.WraithPortal)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -14919,8 +14546,8 @@ const ::_pbi::TcParseTable<2, 3, 1, 43, 2> WraithPortal::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -14950,9 +14577,8 @@ const ::_pbi::TcParseTable<2, 3, 1, 43, 2> WraithPortal::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -14965,11 +14591,12 @@ const ::_pbi::TcParseTable<2, 3, 1, 43, 2> WraithPortal::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData WraithPortal::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    WraithPortal::MergeImpl
+    WraithPortal::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*WraithPortal::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* WraithPortal::GetClassData() const {
+  return &_class_data_;
+}
 
 void WraithPortal::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<WraithPortal*>(&to_msg);
@@ -15003,14 +14630,16 @@ PROTOBUF_NOINLINE bool WraithPortal::IsInitialized() const {
   return true;
 }
 
-void WraithPortal::InternalSwap(WraithPortal* other) {
+::_pbi::CachedSize* WraithPortal::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void WraithPortal::InternalSwap(WraithPortal* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(WraithPortal, _impl_.timestamp_)
       + sizeof(WraithPortal::_impl_.timestamp_)
@@ -15045,45 +14674,44 @@ WarpGateUsed::WarpGateUsed(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.WarpGateUsed)
 }
-WarpGateUsed::WarpGateUsed(const WarpGateUsed& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE WarpGateUsed::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_) {}
+
+WarpGateUsed::WarpGateUsed(
+    ::google::protobuf::Arena* arena,
+    const WarpGateUsed& from)
+    : ::google::protobuf::Message(arena) {
   WarpGateUsed* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.WarpGateUsed)
 }
+inline PROTOBUF_NDEBUG_INLINE WarpGateUsed::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena) {}
+
 inline void WarpGateUsed::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::timestamp_));
 }
 WarpGateUsed::~WarpGateUsed() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.WarpGateUsed)
@@ -15091,16 +14719,15 @@ WarpGateUsed::~WarpGateUsed() {
   SharedDtor();
 }
 inline void WarpGateUsed::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void WarpGateUsed::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void WarpGateUsed::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.WarpGateUsed)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -15194,8 +14821,8 @@ const ::_pbi::TcParseTable<2, 3, 1, 43, 2> WarpGateUsed::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -15225,9 +14852,8 @@ const ::_pbi::TcParseTable<2, 3, 1, 43, 2> WarpGateUsed::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -15240,11 +14866,12 @@ const ::_pbi::TcParseTable<2, 3, 1, 43, 2> WarpGateUsed::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData WarpGateUsed::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    WarpGateUsed::MergeImpl
+    WarpGateUsed::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*WarpGateUsed::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* WarpGateUsed::GetClassData() const {
+  return &_class_data_;
+}
 
 void WarpGateUsed::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<WarpGateUsed*>(&to_msg);
@@ -15278,14 +14905,16 @@ PROTOBUF_NOINLINE bool WarpGateUsed::IsInitialized() const {
   return true;
 }
 
-void WarpGateUsed::InternalSwap(WarpGateUsed* other) {
+::_pbi::CachedSize* WarpGateUsed::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void WarpGateUsed::InternalSwap(WarpGateUsed* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(WarpGateUsed, _impl_.timestamp_)
       + sizeof(WarpGateUsed::_impl_.timestamp_)
@@ -15320,66 +14949,52 @@ AmmoUsed::AmmoUsed(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.AmmoUsed)
 }
-AmmoUsed::AmmoUsed(const AmmoUsed& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE AmmoUsed::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        ammotype_(arena, from.ammotype_) {}
+
+AmmoUsed::AmmoUsed(
+    ::google::protobuf::Arena* arena,
+    const AmmoUsed& from)
+    : ::google::protobuf::Message(arena) {
   AmmoUsed* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.ammotype_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-      decltype(_impl_.amountused_){},
-      decltype(_impl_.oldammocount_){},
-      decltype(_impl_.newammocount_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.ammotype_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.ammotype_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_ammotype().empty()) {
-    _this->_impl_.ammotype_.Set(from._internal_ammotype(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  ::memcpy(&_impl_.timestamp_, &from._impl_.timestamp_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.newammocount_) -
-    reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.newammocount_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, newammocount_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::newammocount_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.AmmoUsed)
 }
+inline PROTOBUF_NDEBUG_INLINE AmmoUsed::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        ammotype_(arena) {}
+
 inline void AmmoUsed::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.ammotype_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-      decltype(_impl_.amountused_){0u},
-      decltype(_impl_.oldammocount_){0u},
-      decltype(_impl_.newammocount_){0u},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.ammotype_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.ammotype_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, newammocount_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::newammocount_));
 }
 AmmoUsed::~AmmoUsed() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.AmmoUsed)
@@ -15387,17 +15002,16 @@ AmmoUsed::~AmmoUsed() {
   SharedDtor();
 }
 inline void AmmoUsed::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.ammotype_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void AmmoUsed::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void AmmoUsed::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.AmmoUsed)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -15519,8 +15133,8 @@ const ::_pbi::TcParseTable<3, 7, 1, 47, 2> AmmoUsed::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -15585,9 +15199,8 @@ const ::_pbi::TcParseTable<3, 7, 1, 47, 2> AmmoUsed::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -15618,11 +15231,12 @@ const ::_pbi::TcParseTable<3, 7, 1, 47, 2> AmmoUsed::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData AmmoUsed::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    AmmoUsed::MergeImpl
+    AmmoUsed::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*AmmoUsed::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* AmmoUsed::GetClassData() const {
+  return &_class_data_;
+}
 
 void AmmoUsed::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<AmmoUsed*>(&to_msg);
@@ -15668,16 +15282,17 @@ PROTOBUF_NOINLINE bool AmmoUsed::IsInitialized() const {
   return true;
 }
 
-void AmmoUsed::InternalSwap(AmmoUsed* other) {
+::_pbi::CachedSize* AmmoUsed::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void AmmoUsed::InternalSwap(AmmoUsed* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.ammotype_, lhs_arena,
-                                       &other->_impl_.ammotype_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.ammotype_, &other->_impl_.ammotype_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(AmmoUsed, _impl_.newammocount_)
       + sizeof(AmmoUsed::_impl_.newammocount_)
@@ -15712,71 +15327,48 @@ WeaponSwitched::WeaponSwitched(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.WeaponSwitched)
 }
-WeaponSwitched::WeaponSwitched(const WeaponSwitched& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE WeaponSwitched::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        oldweapon_(arena, from.oldweapon_),
+        newweapon_(arena, from.newweapon_) {}
+
+WeaponSwitched::WeaponSwitched(
+    ::google::protobuf::Arena* arena,
+    const WeaponSwitched& from)
+    : ::google::protobuf::Message(arena) {
   WeaponSwitched* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.oldweapon_){},
-      decltype(_impl_.newweapon_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_category().empty()) {
-    _this->_impl_.category_.Set(from._internal_category(), _this->GetArenaForAllocation());
-  }
-  _impl_.oldweapon_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.oldweapon_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_oldweapon().empty()) {
-    _this->_impl_.oldweapon_.Set(from._internal_oldweapon(), _this->GetArenaForAllocation());
-  }
-  _impl_.newweapon_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.newweapon_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_newweapon().empty()) {
-    _this->_impl_.newweapon_.Set(from._internal_newweapon(), _this->GetArenaForAllocation());
-  }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.player_ = new ::rtech::liveapi::Player(*from._impl_.player_);
-  }
-  _this->_impl_.timestamp_ = from._impl_.timestamp_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.WeaponSwitched)
 }
+inline PROTOBUF_NDEBUG_INLINE WeaponSwitched::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        oldweapon_(arena),
+        newweapon_(arena) {}
+
 inline void WeaponSwitched::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.category_){},
-      decltype(_impl_.oldweapon_){},
-      decltype(_impl_.newweapon_){},
-      decltype(_impl_.player_){nullptr},
-      decltype(_impl_.timestamp_){::uint64_t{0u}},
-  };
-  _impl_.category_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.category_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.oldweapon_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.oldweapon_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.newweapon_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.newweapon_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::timestamp_));
 }
 WeaponSwitched::~WeaponSwitched() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.WeaponSwitched)
@@ -15784,18 +15376,17 @@ WeaponSwitched::~WeaponSwitched() {
   SharedDtor();
 }
 inline void WeaponSwitched::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.category_.Destroy();
   _impl_.oldweapon_.Destroy();
   _impl_.newweapon_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.player_;
-}
-void WeaponSwitched::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  delete _impl_.player_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void WeaponSwitched::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.WeaponSwitched)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -15907,8 +15498,8 @@ const ::_pbi::TcParseTable<3, 5, 1, 63, 2> WeaponSwitched::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .rtech.liveapi.Player player = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::player(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
         _Internal::player(this).GetCachedSize(), target, stream);
   }
 
@@ -15966,9 +15557,8 @@ const ::_pbi::TcParseTable<3, 5, 1, 63, 2> WeaponSwitched::_table_ = {
   // .rtech.liveapi.Player player = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.player_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
   }
 
   // uint64 timestamp = 1;
@@ -15981,11 +15571,12 @@ const ::_pbi::TcParseTable<3, 5, 1, 63, 2> WeaponSwitched::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData WeaponSwitched::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    WeaponSwitched::MergeImpl
+    WeaponSwitched::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*WeaponSwitched::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* WeaponSwitched::GetClassData() const {
+  return &_class_data_;
+}
 
 void WeaponSwitched::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<WeaponSwitched*>(&to_msg);
@@ -16025,18 +15616,18 @@ PROTOBUF_NOINLINE bool WeaponSwitched::IsInitialized() const {
   return true;
 }
 
-void WeaponSwitched::InternalSwap(WeaponSwitched* other) {
+::_pbi::CachedSize* WeaponSwitched::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void WeaponSwitched::InternalSwap(WeaponSwitched* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, lhs_arena,
-                                       &other->_impl_.category_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.oldweapon_, lhs_arena,
-                                       &other->_impl_.oldweapon_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.newweapon_, lhs_arena,
-                                       &other->_impl_.newweapon_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.oldweapon_, &other->_impl_.oldweapon_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.newweapon_, &other->_impl_.newweapon_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(WeaponSwitched, _impl_.timestamp_)
       + sizeof(WeaponSwitched::_impl_.timestamp_)
@@ -16063,41 +15654,44 @@ ChangeCamera::ChangeCamera(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.ChangeCamera)
 }
-ChangeCamera::ChangeCamera(const ChangeCamera& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE ChangeCamera::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : target_{},
+        _cached_size_{0},
+        _oneof_case_{from._oneof_case_[0]} {}
+
+ChangeCamera::ChangeCamera(
+    ::google::protobuf::Arena* arena,
+    const ChangeCamera& from)
+    : ::google::protobuf::Message(arena) {
   ChangeCamera* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.target_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_._oneof_case_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  clear_has_target();
-  switch (from.target_case()) {
-    case kPoi: {
-      _this->_internal_set_poi(from._internal_poi());
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  switch (target_case()) {
+    case TARGET_NOT_SET:
       break;
-    }
-    case kName: {
-      _this->_internal_set_name(from._internal_name());
-      break;
-    }
-    case TARGET_NOT_SET: {
-      break;
-    }
+      case kPoi:
+        _impl_.target_.poi_ = from._impl_.target_.poi_;
+        break;
+      case kName:
+        new (&_impl_.target_.name_) decltype(_impl_.target_.name_){arena, from._impl_.target_.name_};
+        break;
   }
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.ChangeCamera)
 }
+inline PROTOBUF_NDEBUG_INLINE ChangeCamera::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : target_{},
+        _cached_size_{0},
+        _oneof_case_{} {}
+
 inline void ChangeCamera::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.target_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_._oneof_case_)*/ {},
-  };
-  clear_has_target();
+  new (&_impl_) Impl_(internal_visibility(), arena);
 }
 ChangeCamera::~ChangeCamera() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.ChangeCamera)
@@ -16105,17 +15699,16 @@ ChangeCamera::~ChangeCamera() {
   SharedDtor();
 }
 inline void ChangeCamera::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   if (has_target()) {
     clear_target();
   }
-}
-void ChangeCamera::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 void ChangeCamera::clear_target() {
 // @@protoc_insertion_point(one_of_clear_start:rtech.liveapi.ChangeCamera)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   switch (target_case()) {
     case kPoi: {
       // No need to clear
@@ -16135,6 +15728,7 @@ void ChangeCamera::clear_target() {
 
 PROTOBUF_NOINLINE void ChangeCamera::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.ChangeCamera)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -16246,11 +15840,12 @@ const ::_pbi::TcParseTable<0, 2, 0, 39, 2> ChangeCamera::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData ChangeCamera::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    ChangeCamera::MergeImpl
+    ChangeCamera::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*ChangeCamera::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* ChangeCamera::GetClassData() const {
+  return &_class_data_;
+}
 
 void ChangeCamera::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<ChangeCamera*>(&to_msg);
@@ -16287,7 +15882,10 @@ PROTOBUF_NOINLINE bool ChangeCamera::IsInitialized() const {
   return true;
 }
 
-void ChangeCamera::InternalSwap(ChangeCamera* other) {
+::_pbi::CachedSize* ChangeCamera::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void ChangeCamera::InternalSwap(ChangeCamera* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_.target_, other->_impl_.target_);
@@ -16310,18 +15908,19 @@ PauseToggle::PauseToggle(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.PauseToggle)
 }
-PauseToggle::PauseToggle(const PauseToggle& from)
-    : ::google::protobuf::Message(), _impl_(from._impl_) {
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.PauseToggle)
+PauseToggle::PauseToggle(
+    ::google::protobuf::Arena* arena, const PauseToggle& from)
+    : PauseToggle(arena) {
+  MergeFrom(from);
 }
+inline PROTOBUF_NDEBUG_INLINE PauseToggle::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
 inline void PauseToggle::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.pretimer_){0},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.pretimer_ = {};
 }
 PauseToggle::~PauseToggle() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.PauseToggle)
@@ -16329,14 +15928,13 @@ PauseToggle::~PauseToggle() {
   SharedDtor();
 }
 inline void PauseToggle::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
-}
-void PauseToggle::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  ABSL_DCHECK(GetArena() == nullptr);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void PauseToggle::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.PauseToggle)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -16432,11 +16030,12 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> PauseToggle::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData PauseToggle::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    PauseToggle::MergeImpl
+    PauseToggle::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*PauseToggle::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* PauseToggle::GetClassData() const {
+  return &_class_data_;
+}
 
 void PauseToggle::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<PauseToggle*>(&to_msg);
@@ -16468,7 +16067,10 @@ PROTOBUF_NOINLINE bool PauseToggle::IsInitialized() const {
   return true;
 }
 
-void PauseToggle::InternalSwap(PauseToggle* other) {
+::_pbi::CachedSize* PauseToggle::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void PauseToggle::InternalSwap(PauseToggle* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
         swap(_impl_.pretimer_, other->_impl_.pretimer_);
@@ -16489,7 +16091,10 @@ CustomMatch_CreateLobby::CustomMatch_CreateLobby(::google::protobuf::Arena* aren
     : ::google::protobuf::internal::ZeroFieldsBase(arena) {
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_CreateLobby)
 }
-CustomMatch_CreateLobby::CustomMatch_CreateLobby(const CustomMatch_CreateLobby& from) : ::google::protobuf::internal::ZeroFieldsBase() {
+CustomMatch_CreateLobby::CustomMatch_CreateLobby(
+    ::google::protobuf::Arena* arena,
+    const CustomMatch_CreateLobby& from)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
   CustomMatch_CreateLobby* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
@@ -16499,13 +16104,6 @@ CustomMatch_CreateLobby::CustomMatch_CreateLobby(const CustomMatch_CreateLobby& 
 }
 
 
-
-
-const ::google::protobuf::Message::ClassData CustomMatch_CreateLobby::_class_data_ = {
-    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl,
-    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl,
-};
-const ::google::protobuf::Message::ClassData*CustomMatch_CreateLobby::GetClassData() const { return &_class_data_; }
 
 
 
@@ -16529,35 +16127,32 @@ CustomMatch_JoinLobby::CustomMatch_JoinLobby(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_JoinLobby)
 }
-CustomMatch_JoinLobby::CustomMatch_JoinLobby(const CustomMatch_JoinLobby& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_JoinLobby::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : roletoken_(arena, from.roletoken_),
+        _cached_size_{0} {}
+
+CustomMatch_JoinLobby::CustomMatch_JoinLobby(
+    ::google::protobuf::Arena* arena,
+    const CustomMatch_JoinLobby& from)
+    : ::google::protobuf::Message(arena) {
   CustomMatch_JoinLobby* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.roletoken_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.roletoken_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.roletoken_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_roletoken().empty()) {
-    _this->_impl_.roletoken_.Set(from._internal_roletoken(), _this->GetArenaForAllocation());
-  }
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CustomMatch_JoinLobby)
 }
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_JoinLobby::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : roletoken_(arena),
+        _cached_size_{0} {}
+
 inline void CustomMatch_JoinLobby::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.roletoken_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
-  _impl_.roletoken_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.roletoken_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
 }
 CustomMatch_JoinLobby::~CustomMatch_JoinLobby() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.CustomMatch_JoinLobby)
@@ -16565,15 +16160,14 @@ CustomMatch_JoinLobby::~CustomMatch_JoinLobby() {
   SharedDtor();
 }
 inline void CustomMatch_JoinLobby::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.roletoken_.Destroy();
-}
-void CustomMatch_JoinLobby::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void CustomMatch_JoinLobby::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.CustomMatch_JoinLobby)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -16664,11 +16258,12 @@ const ::_pbi::TcParseTable<0, 1, 0, 53, 2> CustomMatch_JoinLobby::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData CustomMatch_JoinLobby::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    CustomMatch_JoinLobby::MergeImpl
+    CustomMatch_JoinLobby::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*CustomMatch_JoinLobby::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* CustomMatch_JoinLobby::GetClassData() const {
+  return &_class_data_;
+}
 
 void CustomMatch_JoinLobby::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<CustomMatch_JoinLobby*>(&to_msg);
@@ -16695,13 +16290,15 @@ PROTOBUF_NOINLINE bool CustomMatch_JoinLobby::IsInitialized() const {
   return true;
 }
 
-void CustomMatch_JoinLobby::InternalSwap(CustomMatch_JoinLobby* other) {
+::_pbi::CachedSize* CustomMatch_JoinLobby::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void CustomMatch_JoinLobby::InternalSwap(CustomMatch_JoinLobby* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.roletoken_, lhs_arena,
-                                       &other->_impl_.roletoken_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.roletoken_, &other->_impl_.roletoken_, arena);
 }
 
 ::google::protobuf::Metadata CustomMatch_JoinLobby::GetMetadata() const {
@@ -16719,7 +16316,10 @@ CustomMatch_LeaveLobby::CustomMatch_LeaveLobby(::google::protobuf::Arena* arena)
     : ::google::protobuf::internal::ZeroFieldsBase(arena) {
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_LeaveLobby)
 }
-CustomMatch_LeaveLobby::CustomMatch_LeaveLobby(const CustomMatch_LeaveLobby& from) : ::google::protobuf::internal::ZeroFieldsBase() {
+CustomMatch_LeaveLobby::CustomMatch_LeaveLobby(
+    ::google::protobuf::Arena* arena,
+    const CustomMatch_LeaveLobby& from)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
   CustomMatch_LeaveLobby* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
@@ -16729,13 +16329,6 @@ CustomMatch_LeaveLobby::CustomMatch_LeaveLobby(const CustomMatch_LeaveLobby& fro
 }
 
 
-
-
-const ::google::protobuf::Message::ClassData CustomMatch_LeaveLobby::_class_data_ = {
-    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl,
-    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl,
-};
-const ::google::protobuf::Message::ClassData*CustomMatch_LeaveLobby::GetClassData() const { return &_class_data_; }
 
 
 
@@ -16759,18 +16352,19 @@ CustomMatch_SetReady::CustomMatch_SetReady(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_SetReady)
 }
-CustomMatch_SetReady::CustomMatch_SetReady(const CustomMatch_SetReady& from)
-    : ::google::protobuf::Message(), _impl_(from._impl_) {
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CustomMatch_SetReady)
+CustomMatch_SetReady::CustomMatch_SetReady(
+    ::google::protobuf::Arena* arena, const CustomMatch_SetReady& from)
+    : CustomMatch_SetReady(arena) {
+  MergeFrom(from);
 }
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_SetReady::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
 inline void CustomMatch_SetReady::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.isready_){false},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.isready_ = {};
 }
 CustomMatch_SetReady::~CustomMatch_SetReady() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.CustomMatch_SetReady)
@@ -16778,14 +16372,13 @@ CustomMatch_SetReady::~CustomMatch_SetReady() {
   SharedDtor();
 }
 inline void CustomMatch_SetReady::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
-}
-void CustomMatch_SetReady::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  ABSL_DCHECK(GetArena() == nullptr);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void CustomMatch_SetReady::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.CustomMatch_SetReady)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -16871,11 +16464,12 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> CustomMatch_SetReady::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData CustomMatch_SetReady::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    CustomMatch_SetReady::MergeImpl
+    CustomMatch_SetReady::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*CustomMatch_SetReady::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* CustomMatch_SetReady::GetClassData() const {
+  return &_class_data_;
+}
 
 void CustomMatch_SetReady::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<CustomMatch_SetReady*>(&to_msg);
@@ -16902,7 +16496,10 @@ PROTOBUF_NOINLINE bool CustomMatch_SetReady::IsInitialized() const {
   return true;
 }
 
-void CustomMatch_SetReady::InternalSwap(CustomMatch_SetReady* other) {
+::_pbi::CachedSize* CustomMatch_SetReady::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void CustomMatch_SetReady::InternalSwap(CustomMatch_SetReady* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
         swap(_impl_.isready_, other->_impl_.isready_);
@@ -16923,7 +16520,10 @@ CustomMatch_GetLobbyPlayers::CustomMatch_GetLobbyPlayers(::google::protobuf::Are
     : ::google::protobuf::internal::ZeroFieldsBase(arena) {
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_GetLobbyPlayers)
 }
-CustomMatch_GetLobbyPlayers::CustomMatch_GetLobbyPlayers(const CustomMatch_GetLobbyPlayers& from) : ::google::protobuf::internal::ZeroFieldsBase() {
+CustomMatch_GetLobbyPlayers::CustomMatch_GetLobbyPlayers(
+    ::google::protobuf::Arena* arena,
+    const CustomMatch_GetLobbyPlayers& from)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
   CustomMatch_GetLobbyPlayers* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
@@ -16933,13 +16533,6 @@ CustomMatch_GetLobbyPlayers::CustomMatch_GetLobbyPlayers(const CustomMatch_GetLo
 }
 
 
-
-
-const ::google::protobuf::Message::ClassData CustomMatch_GetLobbyPlayers::_class_data_ = {
-    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl,
-    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl,
-};
-const ::google::protobuf::Message::ClassData*CustomMatch_GetLobbyPlayers::GetClassData() const { return &_class_data_; }
 
 
 
@@ -16963,18 +16556,19 @@ CustomMatch_SetMatchmaking::CustomMatch_SetMatchmaking(::google::protobuf::Arena
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_SetMatchmaking)
 }
-CustomMatch_SetMatchmaking::CustomMatch_SetMatchmaking(const CustomMatch_SetMatchmaking& from)
-    : ::google::protobuf::Message(), _impl_(from._impl_) {
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CustomMatch_SetMatchmaking)
+CustomMatch_SetMatchmaking::CustomMatch_SetMatchmaking(
+    ::google::protobuf::Arena* arena, const CustomMatch_SetMatchmaking& from)
+    : CustomMatch_SetMatchmaking(arena) {
+  MergeFrom(from);
 }
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_SetMatchmaking::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
 inline void CustomMatch_SetMatchmaking::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.enabled_){false},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.enabled_ = {};
 }
 CustomMatch_SetMatchmaking::~CustomMatch_SetMatchmaking() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.CustomMatch_SetMatchmaking)
@@ -16982,14 +16576,13 @@ CustomMatch_SetMatchmaking::~CustomMatch_SetMatchmaking() {
   SharedDtor();
 }
 inline void CustomMatch_SetMatchmaking::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
-}
-void CustomMatch_SetMatchmaking::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  ABSL_DCHECK(GetArena() == nullptr);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void CustomMatch_SetMatchmaking::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.CustomMatch_SetMatchmaking)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -17075,11 +16668,12 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> CustomMatch_SetMatchmaking::_table_ = 
 }
 
 const ::google::protobuf::Message::ClassData CustomMatch_SetMatchmaking::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    CustomMatch_SetMatchmaking::MergeImpl
+    CustomMatch_SetMatchmaking::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*CustomMatch_SetMatchmaking::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* CustomMatch_SetMatchmaking::GetClassData() const {
+  return &_class_data_;
+}
 
 void CustomMatch_SetMatchmaking::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<CustomMatch_SetMatchmaking*>(&to_msg);
@@ -17106,7 +16700,10 @@ PROTOBUF_NOINLINE bool CustomMatch_SetMatchmaking::IsInitialized() const {
   return true;
 }
 
-void CustomMatch_SetMatchmaking::InternalSwap(CustomMatch_SetMatchmaking* other) {
+::_pbi::CachedSize* CustomMatch_SetMatchmaking::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void CustomMatch_SetMatchmaking::InternalSwap(CustomMatch_SetMatchmaking* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
         swap(_impl_.enabled_, other->_impl_.enabled_);
@@ -17128,51 +16725,36 @@ CustomMatch_SetTeam::CustomMatch_SetTeam(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_SetTeam)
 }
-CustomMatch_SetTeam::CustomMatch_SetTeam(const CustomMatch_SetTeam& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_SetTeam::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : targethardwarename_(arena, from.targethardwarename_),
+        targetnucleushash_(arena, from.targetnucleushash_),
+        _cached_size_{0} {}
+
+CustomMatch_SetTeam::CustomMatch_SetTeam(
+    ::google::protobuf::Arena* arena,
+    const CustomMatch_SetTeam& from)
+    : ::google::protobuf::Message(arena) {
   CustomMatch_SetTeam* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.targethardwarename_){},
-      decltype(_impl_.targetnucleushash_){},
-      decltype(_impl_.teamid_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.targethardwarename_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.targethardwarename_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_targethardwarename().empty()) {
-    _this->_impl_.targethardwarename_.Set(from._internal_targethardwarename(), _this->GetArenaForAllocation());
-  }
-  _impl_.targetnucleushash_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.targetnucleushash_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_targetnucleushash().empty()) {
-    _this->_impl_.targetnucleushash_.Set(from._internal_targetnucleushash(), _this->GetArenaForAllocation());
-  }
-  _this->_impl_.teamid_ = from._impl_.teamid_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  _impl_.teamid_ = from._impl_.teamid_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CustomMatch_SetTeam)
 }
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_SetTeam::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : targethardwarename_(arena),
+        targetnucleushash_(arena),
+        _cached_size_{0} {}
+
 inline void CustomMatch_SetTeam::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.targethardwarename_){},
-      decltype(_impl_.targetnucleushash_){},
-      decltype(_impl_.teamid_){0},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
-  _impl_.targethardwarename_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.targethardwarename_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.targetnucleushash_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.targetnucleushash_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.teamid_ = {};
 }
 CustomMatch_SetTeam::~CustomMatch_SetTeam() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.CustomMatch_SetTeam)
@@ -17180,16 +16762,15 @@ CustomMatch_SetTeam::~CustomMatch_SetTeam() {
   SharedDtor();
 }
 inline void CustomMatch_SetTeam::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.targethardwarename_.Destroy();
   _impl_.targetnucleushash_.Destroy();
-}
-void CustomMatch_SetTeam::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void CustomMatch_SetTeam::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.CustomMatch_SetTeam)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -17323,11 +16904,12 @@ const ::_pbi::TcParseTable<2, 3, 0, 77, 2> CustomMatch_SetTeam::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData CustomMatch_SetTeam::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    CustomMatch_SetTeam::MergeImpl
+    CustomMatch_SetTeam::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*CustomMatch_SetTeam::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* CustomMatch_SetTeam::GetClassData() const {
+  return &_class_data_;
+}
 
 void CustomMatch_SetTeam::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<CustomMatch_SetTeam*>(&to_msg);
@@ -17360,15 +16942,16 @@ PROTOBUF_NOINLINE bool CustomMatch_SetTeam::IsInitialized() const {
   return true;
 }
 
-void CustomMatch_SetTeam::InternalSwap(CustomMatch_SetTeam* other) {
+::_pbi::CachedSize* CustomMatch_SetTeam::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void CustomMatch_SetTeam::InternalSwap(CustomMatch_SetTeam* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.targethardwarename_, lhs_arena,
-                                       &other->_impl_.targethardwarename_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.targetnucleushash_, lhs_arena,
-                                       &other->_impl_.targetnucleushash_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.targethardwarename_, &other->_impl_.targethardwarename_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.targetnucleushash_, &other->_impl_.targetnucleushash_, arena);
         swap(_impl_.teamid_, other->_impl_.teamid_);
 }
 
@@ -17388,48 +16971,34 @@ CustomMatch_KickPlayer::CustomMatch_KickPlayer(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_KickPlayer)
 }
-CustomMatch_KickPlayer::CustomMatch_KickPlayer(const CustomMatch_KickPlayer& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_KickPlayer::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : targethardwarename_(arena, from.targethardwarename_),
+        targetnucleushash_(arena, from.targetnucleushash_),
+        _cached_size_{0} {}
+
+CustomMatch_KickPlayer::CustomMatch_KickPlayer(
+    ::google::protobuf::Arena* arena,
+    const CustomMatch_KickPlayer& from)
+    : ::google::protobuf::Message(arena) {
   CustomMatch_KickPlayer* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.targethardwarename_){},
-      decltype(_impl_.targetnucleushash_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.targethardwarename_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.targethardwarename_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_targethardwarename().empty()) {
-    _this->_impl_.targethardwarename_.Set(from._internal_targethardwarename(), _this->GetArenaForAllocation());
-  }
-  _impl_.targetnucleushash_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.targetnucleushash_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_targetnucleushash().empty()) {
-    _this->_impl_.targetnucleushash_.Set(from._internal_targetnucleushash(), _this->GetArenaForAllocation());
-  }
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CustomMatch_KickPlayer)
 }
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_KickPlayer::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : targethardwarename_(arena),
+        targetnucleushash_(arena),
+        _cached_size_{0} {}
+
 inline void CustomMatch_KickPlayer::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.targethardwarename_){},
-      decltype(_impl_.targetnucleushash_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
-  _impl_.targethardwarename_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.targethardwarename_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.targetnucleushash_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.targetnucleushash_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
 }
 CustomMatch_KickPlayer::~CustomMatch_KickPlayer() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.CustomMatch_KickPlayer)
@@ -17437,16 +17006,15 @@ CustomMatch_KickPlayer::~CustomMatch_KickPlayer() {
   SharedDtor();
 }
 inline void CustomMatch_KickPlayer::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.targethardwarename_.Destroy();
   _impl_.targetnucleushash_.Destroy();
-}
-void CustomMatch_KickPlayer::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void CustomMatch_KickPlayer::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.CustomMatch_KickPlayer)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -17559,11 +17127,12 @@ const ::_pbi::TcParseTable<1, 2, 0, 80, 2> CustomMatch_KickPlayer::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData CustomMatch_KickPlayer::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    CustomMatch_KickPlayer::MergeImpl
+    CustomMatch_KickPlayer::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*CustomMatch_KickPlayer::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* CustomMatch_KickPlayer::GetClassData() const {
+  return &_class_data_;
+}
 
 void CustomMatch_KickPlayer::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<CustomMatch_KickPlayer*>(&to_msg);
@@ -17593,15 +17162,16 @@ PROTOBUF_NOINLINE bool CustomMatch_KickPlayer::IsInitialized() const {
   return true;
 }
 
-void CustomMatch_KickPlayer::InternalSwap(CustomMatch_KickPlayer* other) {
+::_pbi::CachedSize* CustomMatch_KickPlayer::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void CustomMatch_KickPlayer::InternalSwap(CustomMatch_KickPlayer* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.targethardwarename_, lhs_arena,
-                                       &other->_impl_.targethardwarename_, rhs_arena);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.targetnucleushash_, lhs_arena,
-                                       &other->_impl_.targetnucleushash_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.targethardwarename_, &other->_impl_.targethardwarename_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.targetnucleushash_, &other->_impl_.targetnucleushash_, arena);
 }
 
 ::google::protobuf::Metadata CustomMatch_KickPlayer::GetMetadata() const {
@@ -17620,48 +17190,45 @@ CustomMatch_SetSettings::CustomMatch_SetSettings(::google::protobuf::Arena* aren
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_SetSettings)
 }
-CustomMatch_SetSettings::CustomMatch_SetSettings(const CustomMatch_SetSettings& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_SetSettings::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : playlistname_(arena, from.playlistname_),
+        _cached_size_{0} {}
+
+CustomMatch_SetSettings::CustomMatch_SetSettings(
+    ::google::protobuf::Arena* arena,
+    const CustomMatch_SetSettings& from)
+    : ::google::protobuf::Message(arena) {
   CustomMatch_SetSettings* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.playlistname_){},
-      decltype(_impl_.adminchat_){},
-      decltype(_impl_.teamrename_){},
-      decltype(_impl_.selfassign_){},
-      decltype(_impl_.aimassist_){},
-      decltype(_impl_.anonmode_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.playlistname_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.playlistname_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_playlistname().empty()) {
-    _this->_impl_.playlistname_.Set(from._internal_playlistname(), _this->GetArenaForAllocation());
-  }
-  ::memcpy(&_impl_.adminchat_, &from._impl_.adminchat_,
-    static_cast<::size_t>(reinterpret_cast<char*>(&_impl_.anonmode_) -
-    reinterpret_cast<char*>(&_impl_.adminchat_)) + sizeof(_impl_.anonmode_));
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, adminchat_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, adminchat_),
+           offsetof(Impl_, anonmode_) -
+               offsetof(Impl_, adminchat_) +
+               sizeof(Impl_::anonmode_));
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CustomMatch_SetSettings)
 }
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_SetSettings::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : playlistname_(arena),
+        _cached_size_{0} {}
+
 inline void CustomMatch_SetSettings::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.playlistname_){},
-      decltype(_impl_.adminchat_){false},
-      decltype(_impl_.teamrename_){false},
-      decltype(_impl_.selfassign_){false},
-      decltype(_impl_.aimassist_){false},
-      decltype(_impl_.anonmode_){false},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
-  _impl_.playlistname_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.playlistname_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, adminchat_),
+           0,
+           offsetof(Impl_, anonmode_) -
+               offsetof(Impl_, adminchat_) +
+               sizeof(Impl_::anonmode_));
 }
 CustomMatch_SetSettings::~CustomMatch_SetSettings() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.CustomMatch_SetSettings)
@@ -17669,15 +17236,14 @@ CustomMatch_SetSettings::~CustomMatch_SetSettings() {
   SharedDtor();
 }
 inline void CustomMatch_SetSettings::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.playlistname_.Destroy();
-}
-void CustomMatch_SetSettings::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void CustomMatch_SetSettings::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.CustomMatch_SetSettings)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -17863,11 +17429,12 @@ const ::_pbi::TcParseTable<3, 6, 0, 58, 2> CustomMatch_SetSettings::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData CustomMatch_SetSettings::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    CustomMatch_SetSettings::MergeImpl
+    CustomMatch_SetSettings::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*CustomMatch_SetSettings::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* CustomMatch_SetSettings::GetClassData() const {
+  return &_class_data_;
+}
 
 void CustomMatch_SetSettings::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<CustomMatch_SetSettings*>(&to_msg);
@@ -17909,13 +17476,15 @@ PROTOBUF_NOINLINE bool CustomMatch_SetSettings::IsInitialized() const {
   return true;
 }
 
-void CustomMatch_SetSettings::InternalSwap(CustomMatch_SetSettings* other) {
+::_pbi::CachedSize* CustomMatch_SetSettings::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void CustomMatch_SetSettings::InternalSwap(CustomMatch_SetSettings* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.playlistname_, lhs_arena,
-                                       &other->_impl_.playlistname_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.playlistname_, &other->_impl_.playlistname_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(CustomMatch_SetSettings, _impl_.anonmode_)
       + sizeof(CustomMatch_SetSettings::_impl_.anonmode_)
@@ -17940,38 +17509,34 @@ CustomMatch_SetTeamName::CustomMatch_SetTeamName(::google::protobuf::Arena* aren
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_SetTeamName)
 }
-CustomMatch_SetTeamName::CustomMatch_SetTeamName(const CustomMatch_SetTeamName& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_SetTeamName::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : teamname_(arena, from.teamname_),
+        _cached_size_{0} {}
+
+CustomMatch_SetTeamName::CustomMatch_SetTeamName(
+    ::google::protobuf::Arena* arena,
+    const CustomMatch_SetTeamName& from)
+    : ::google::protobuf::Message(arena) {
   CustomMatch_SetTeamName* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.teamname_){},
-      decltype(_impl_.teamid_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.teamname_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.teamname_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_teamname().empty()) {
-    _this->_impl_.teamname_.Set(from._internal_teamname(), _this->GetArenaForAllocation());
-  }
-  _this->_impl_.teamid_ = from._impl_.teamid_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  _impl_.teamid_ = from._impl_.teamid_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CustomMatch_SetTeamName)
 }
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_SetTeamName::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : teamname_(arena),
+        _cached_size_{0} {}
+
 inline void CustomMatch_SetTeamName::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.teamname_){},
-      decltype(_impl_.teamid_){0},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
-  _impl_.teamname_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.teamname_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.teamid_ = {};
 }
 CustomMatch_SetTeamName::~CustomMatch_SetTeamName() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.CustomMatch_SetTeamName)
@@ -17979,15 +17544,14 @@ CustomMatch_SetTeamName::~CustomMatch_SetTeamName() {
   SharedDtor();
 }
 inline void CustomMatch_SetTeamName::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.teamname_.Destroy();
-}
-void CustomMatch_SetTeamName::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void CustomMatch_SetTeamName::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.CustomMatch_SetTeamName)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -18098,11 +17662,12 @@ const ::_pbi::TcParseTable<1, 2, 0, 54, 2> CustomMatch_SetTeamName::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData CustomMatch_SetTeamName::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    CustomMatch_SetTeamName::MergeImpl
+    CustomMatch_SetTeamName::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*CustomMatch_SetTeamName::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* CustomMatch_SetTeamName::GetClassData() const {
+  return &_class_data_;
+}
 
 void CustomMatch_SetTeamName::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<CustomMatch_SetTeamName*>(&to_msg);
@@ -18132,13 +17697,15 @@ PROTOBUF_NOINLINE bool CustomMatch_SetTeamName::IsInitialized() const {
   return true;
 }
 
-void CustomMatch_SetTeamName::InternalSwap(CustomMatch_SetTeamName* other) {
+::_pbi::CachedSize* CustomMatch_SetTeamName::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void CustomMatch_SetTeamName::InternalSwap(CustomMatch_SetTeamName* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.teamname_, lhs_arena,
-                                       &other->_impl_.teamname_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.teamname_, &other->_impl_.teamname_, arena);
         swap(_impl_.teamid_, other->_impl_.teamid_);
 }
 
@@ -18158,35 +17725,32 @@ CustomMatch_SendChat::CustomMatch_SendChat(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_SendChat)
 }
-CustomMatch_SendChat::CustomMatch_SendChat(const CustomMatch_SendChat& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_SendChat::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : text_(arena, from.text_),
+        _cached_size_{0} {}
+
+CustomMatch_SendChat::CustomMatch_SendChat(
+    ::google::protobuf::Arena* arena,
+    const CustomMatch_SendChat& from)
+    : ::google::protobuf::Message(arena) {
   CustomMatch_SendChat* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.text_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.text_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.text_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_text().empty()) {
-    _this->_impl_.text_.Set(from._internal_text(), _this->GetArenaForAllocation());
-  }
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CustomMatch_SendChat)
 }
+inline PROTOBUF_NDEBUG_INLINE CustomMatch_SendChat::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : text_(arena),
+        _cached_size_{0} {}
+
 inline void CustomMatch_SendChat::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.text_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
-  _impl_.text_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.text_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
 }
 CustomMatch_SendChat::~CustomMatch_SendChat() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.CustomMatch_SendChat)
@@ -18194,15 +17758,14 @@ CustomMatch_SendChat::~CustomMatch_SendChat() {
   SharedDtor();
 }
 inline void CustomMatch_SendChat::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.text_.Destroy();
-}
-void CustomMatch_SendChat::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void CustomMatch_SendChat::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.CustomMatch_SendChat)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -18293,11 +17856,12 @@ const ::_pbi::TcParseTable<0, 1, 0, 47, 2> CustomMatch_SendChat::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData CustomMatch_SendChat::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    CustomMatch_SendChat::MergeImpl
+    CustomMatch_SendChat::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*CustomMatch_SendChat::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* CustomMatch_SendChat::GetClassData() const {
+  return &_class_data_;
+}
 
 void CustomMatch_SendChat::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<CustomMatch_SendChat*>(&to_msg);
@@ -18324,13 +17888,15 @@ PROTOBUF_NOINLINE bool CustomMatch_SendChat::IsInitialized() const {
   return true;
 }
 
-void CustomMatch_SendChat::InternalSwap(CustomMatch_SendChat* other) {
+::_pbi::CachedSize* CustomMatch_SendChat::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void CustomMatch_SendChat::InternalSwap(CustomMatch_SendChat* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.text_, lhs_arena,
-                                       &other->_impl_.text_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.text_, &other->_impl_.text_, arena);
 }
 
 ::google::protobuf::Metadata CustomMatch_SendChat::GetMetadata() const {
@@ -18399,14 +17965,12 @@ const ::rtech::liveapi::CustomMatch_SetTeamName& Request::_Internal::custommatch
   return *msg->_impl_.actions_.custommatch_setteamname_;
 }
 void Request::set_allocated_changecam(::rtech::liveapi::ChangeCamera* changecam) {
-  ::google::protobuf::Arena* message_arena = GetArenaForAllocation();
+  ::google::protobuf::Arena* message_arena = GetArena();
   clear_actions();
   if (changecam) {
-    ::google::protobuf::Arena* submessage_arena =
-      ::google::protobuf::Arena::InternalGetOwningArena(changecam);
+    ::google::protobuf::Arena* submessage_arena = changecam->GetArena();
     if (message_arena != submessage_arena) {
-      changecam = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, changecam, submessage_arena);
+      changecam = ::google::protobuf::internal::GetOwnedMessage(message_arena, changecam, submessage_arena);
     }
     set_has_changecam();
     _impl_.actions_.changecam_ = changecam;
@@ -18414,14 +17978,12 @@ void Request::set_allocated_changecam(::rtech::liveapi::ChangeCamera* changecam)
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.changeCam)
 }
 void Request::set_allocated_pausetoggle(::rtech::liveapi::PauseToggle* pausetoggle) {
-  ::google::protobuf::Arena* message_arena = GetArenaForAllocation();
+  ::google::protobuf::Arena* message_arena = GetArena();
   clear_actions();
   if (pausetoggle) {
-    ::google::protobuf::Arena* submessage_arena =
-      ::google::protobuf::Arena::InternalGetOwningArena(pausetoggle);
+    ::google::protobuf::Arena* submessage_arena = pausetoggle->GetArena();
     if (message_arena != submessage_arena) {
-      pausetoggle = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, pausetoggle, submessage_arena);
+      pausetoggle = ::google::protobuf::internal::GetOwnedMessage(message_arena, pausetoggle, submessage_arena);
     }
     set_has_pausetoggle();
     _impl_.actions_.pausetoggle_ = pausetoggle;
@@ -18429,14 +17991,12 @@ void Request::set_allocated_pausetoggle(::rtech::liveapi::PauseToggle* pausetogg
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.pauseToggle)
 }
 void Request::set_allocated_custommatch_createlobby(::rtech::liveapi::CustomMatch_CreateLobby* custommatch_createlobby) {
-  ::google::protobuf::Arena* message_arena = GetArenaForAllocation();
+  ::google::protobuf::Arena* message_arena = GetArena();
   clear_actions();
   if (custommatch_createlobby) {
-    ::google::protobuf::Arena* submessage_arena =
-      ::google::protobuf::Arena::InternalGetOwningArena(custommatch_createlobby);
+    ::google::protobuf::Arena* submessage_arena = custommatch_createlobby->GetArena();
     if (message_arena != submessage_arena) {
-      custommatch_createlobby = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, custommatch_createlobby, submessage_arena);
+      custommatch_createlobby = ::google::protobuf::internal::GetOwnedMessage(message_arena, custommatch_createlobby, submessage_arena);
     }
     set_has_custommatch_createlobby();
     _impl_.actions_.custommatch_createlobby_ = custommatch_createlobby;
@@ -18444,14 +18004,12 @@ void Request::set_allocated_custommatch_createlobby(::rtech::liveapi::CustomMatc
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_CreateLobby)
 }
 void Request::set_allocated_custommatch_joinlobby(::rtech::liveapi::CustomMatch_JoinLobby* custommatch_joinlobby) {
-  ::google::protobuf::Arena* message_arena = GetArenaForAllocation();
+  ::google::protobuf::Arena* message_arena = GetArena();
   clear_actions();
   if (custommatch_joinlobby) {
-    ::google::protobuf::Arena* submessage_arena =
-      ::google::protobuf::Arena::InternalGetOwningArena(custommatch_joinlobby);
+    ::google::protobuf::Arena* submessage_arena = custommatch_joinlobby->GetArena();
     if (message_arena != submessage_arena) {
-      custommatch_joinlobby = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, custommatch_joinlobby, submessage_arena);
+      custommatch_joinlobby = ::google::protobuf::internal::GetOwnedMessage(message_arena, custommatch_joinlobby, submessage_arena);
     }
     set_has_custommatch_joinlobby();
     _impl_.actions_.custommatch_joinlobby_ = custommatch_joinlobby;
@@ -18459,14 +18017,12 @@ void Request::set_allocated_custommatch_joinlobby(::rtech::liveapi::CustomMatch_
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_JoinLobby)
 }
 void Request::set_allocated_custommatch_leavelobby(::rtech::liveapi::CustomMatch_LeaveLobby* custommatch_leavelobby) {
-  ::google::protobuf::Arena* message_arena = GetArenaForAllocation();
+  ::google::protobuf::Arena* message_arena = GetArena();
   clear_actions();
   if (custommatch_leavelobby) {
-    ::google::protobuf::Arena* submessage_arena =
-      ::google::protobuf::Arena::InternalGetOwningArena(custommatch_leavelobby);
+    ::google::protobuf::Arena* submessage_arena = custommatch_leavelobby->GetArena();
     if (message_arena != submessage_arena) {
-      custommatch_leavelobby = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, custommatch_leavelobby, submessage_arena);
+      custommatch_leavelobby = ::google::protobuf::internal::GetOwnedMessage(message_arena, custommatch_leavelobby, submessage_arena);
     }
     set_has_custommatch_leavelobby();
     _impl_.actions_.custommatch_leavelobby_ = custommatch_leavelobby;
@@ -18474,14 +18030,12 @@ void Request::set_allocated_custommatch_leavelobby(::rtech::liveapi::CustomMatch
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_LeaveLobby)
 }
 void Request::set_allocated_custommatch_setready(::rtech::liveapi::CustomMatch_SetReady* custommatch_setready) {
-  ::google::protobuf::Arena* message_arena = GetArenaForAllocation();
+  ::google::protobuf::Arena* message_arena = GetArena();
   clear_actions();
   if (custommatch_setready) {
-    ::google::protobuf::Arena* submessage_arena =
-      ::google::protobuf::Arena::InternalGetOwningArena(custommatch_setready);
+    ::google::protobuf::Arena* submessage_arena = custommatch_setready->GetArena();
     if (message_arena != submessage_arena) {
-      custommatch_setready = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, custommatch_setready, submessage_arena);
+      custommatch_setready = ::google::protobuf::internal::GetOwnedMessage(message_arena, custommatch_setready, submessage_arena);
     }
     set_has_custommatch_setready();
     _impl_.actions_.custommatch_setready_ = custommatch_setready;
@@ -18489,14 +18043,12 @@ void Request::set_allocated_custommatch_setready(::rtech::liveapi::CustomMatch_S
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_SetReady)
 }
 void Request::set_allocated_custommatch_setmatchmaking(::rtech::liveapi::CustomMatch_SetMatchmaking* custommatch_setmatchmaking) {
-  ::google::protobuf::Arena* message_arena = GetArenaForAllocation();
+  ::google::protobuf::Arena* message_arena = GetArena();
   clear_actions();
   if (custommatch_setmatchmaking) {
-    ::google::protobuf::Arena* submessage_arena =
-      ::google::protobuf::Arena::InternalGetOwningArena(custommatch_setmatchmaking);
+    ::google::protobuf::Arena* submessage_arena = custommatch_setmatchmaking->GetArena();
     if (message_arena != submessage_arena) {
-      custommatch_setmatchmaking = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, custommatch_setmatchmaking, submessage_arena);
+      custommatch_setmatchmaking = ::google::protobuf::internal::GetOwnedMessage(message_arena, custommatch_setmatchmaking, submessage_arena);
     }
     set_has_custommatch_setmatchmaking();
     _impl_.actions_.custommatch_setmatchmaking_ = custommatch_setmatchmaking;
@@ -18504,14 +18056,12 @@ void Request::set_allocated_custommatch_setmatchmaking(::rtech::liveapi::CustomM
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_SetMatchmaking)
 }
 void Request::set_allocated_custommatch_setteam(::rtech::liveapi::CustomMatch_SetTeam* custommatch_setteam) {
-  ::google::protobuf::Arena* message_arena = GetArenaForAllocation();
+  ::google::protobuf::Arena* message_arena = GetArena();
   clear_actions();
   if (custommatch_setteam) {
-    ::google::protobuf::Arena* submessage_arena =
-      ::google::protobuf::Arena::InternalGetOwningArena(custommatch_setteam);
+    ::google::protobuf::Arena* submessage_arena = custommatch_setteam->GetArena();
     if (message_arena != submessage_arena) {
-      custommatch_setteam = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, custommatch_setteam, submessage_arena);
+      custommatch_setteam = ::google::protobuf::internal::GetOwnedMessage(message_arena, custommatch_setteam, submessage_arena);
     }
     set_has_custommatch_setteam();
     _impl_.actions_.custommatch_setteam_ = custommatch_setteam;
@@ -18519,14 +18069,12 @@ void Request::set_allocated_custommatch_setteam(::rtech::liveapi::CustomMatch_Se
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_SetTeam)
 }
 void Request::set_allocated_custommatch_kickplayer(::rtech::liveapi::CustomMatch_KickPlayer* custommatch_kickplayer) {
-  ::google::protobuf::Arena* message_arena = GetArenaForAllocation();
+  ::google::protobuf::Arena* message_arena = GetArena();
   clear_actions();
   if (custommatch_kickplayer) {
-    ::google::protobuf::Arena* submessage_arena =
-      ::google::protobuf::Arena::InternalGetOwningArena(custommatch_kickplayer);
+    ::google::protobuf::Arena* submessage_arena = custommatch_kickplayer->GetArena();
     if (message_arena != submessage_arena) {
-      custommatch_kickplayer = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, custommatch_kickplayer, submessage_arena);
+      custommatch_kickplayer = ::google::protobuf::internal::GetOwnedMessage(message_arena, custommatch_kickplayer, submessage_arena);
     }
     set_has_custommatch_kickplayer();
     _impl_.actions_.custommatch_kickplayer_ = custommatch_kickplayer;
@@ -18534,14 +18082,12 @@ void Request::set_allocated_custommatch_kickplayer(::rtech::liveapi::CustomMatch
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_KickPlayer)
 }
 void Request::set_allocated_custommatch_setsettings(::rtech::liveapi::CustomMatch_SetSettings* custommatch_setsettings) {
-  ::google::protobuf::Arena* message_arena = GetArenaForAllocation();
+  ::google::protobuf::Arena* message_arena = GetArena();
   clear_actions();
   if (custommatch_setsettings) {
-    ::google::protobuf::Arena* submessage_arena =
-      ::google::protobuf::Arena::InternalGetOwningArena(custommatch_setsettings);
+    ::google::protobuf::Arena* submessage_arena = custommatch_setsettings->GetArena();
     if (message_arena != submessage_arena) {
-      custommatch_setsettings = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, custommatch_setsettings, submessage_arena);
+      custommatch_setsettings = ::google::protobuf::internal::GetOwnedMessage(message_arena, custommatch_setsettings, submessage_arena);
     }
     set_has_custommatch_setsettings();
     _impl_.actions_.custommatch_setsettings_ = custommatch_setsettings;
@@ -18549,14 +18095,12 @@ void Request::set_allocated_custommatch_setsettings(::rtech::liveapi::CustomMatc
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_SetSettings)
 }
 void Request::set_allocated_custommatch_sendchat(::rtech::liveapi::CustomMatch_SendChat* custommatch_sendchat) {
-  ::google::protobuf::Arena* message_arena = GetArenaForAllocation();
+  ::google::protobuf::Arena* message_arena = GetArena();
   clear_actions();
   if (custommatch_sendchat) {
-    ::google::protobuf::Arena* submessage_arena =
-      ::google::protobuf::Arena::InternalGetOwningArena(custommatch_sendchat);
+    ::google::protobuf::Arena* submessage_arena = custommatch_sendchat->GetArena();
     if (message_arena != submessage_arena) {
-      custommatch_sendchat = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, custommatch_sendchat, submessage_arena);
+      custommatch_sendchat = ::google::protobuf::internal::GetOwnedMessage(message_arena, custommatch_sendchat, submessage_arena);
     }
     set_has_custommatch_sendchat();
     _impl_.actions_.custommatch_sendchat_ = custommatch_sendchat;
@@ -18564,14 +18108,12 @@ void Request::set_allocated_custommatch_sendchat(::rtech::liveapi::CustomMatch_S
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_SendChat)
 }
 void Request::set_allocated_custommatch_getlobbyplayers(::rtech::liveapi::CustomMatch_GetLobbyPlayers* custommatch_getlobbyplayers) {
-  ::google::protobuf::Arena* message_arena = GetArenaForAllocation();
+  ::google::protobuf::Arena* message_arena = GetArena();
   clear_actions();
   if (custommatch_getlobbyplayers) {
-    ::google::protobuf::Arena* submessage_arena =
-      ::google::protobuf::Arena::InternalGetOwningArena(custommatch_getlobbyplayers);
+    ::google::protobuf::Arena* submessage_arena = custommatch_getlobbyplayers->GetArena();
     if (message_arena != submessage_arena) {
-      custommatch_getlobbyplayers = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, custommatch_getlobbyplayers, submessage_arena);
+      custommatch_getlobbyplayers = ::google::protobuf::internal::GetOwnedMessage(message_arena, custommatch_getlobbyplayers, submessage_arena);
     }
     set_has_custommatch_getlobbyplayers();
     _impl_.actions_.custommatch_getlobbyplayers_ = custommatch_getlobbyplayers;
@@ -18579,14 +18121,12 @@ void Request::set_allocated_custommatch_getlobbyplayers(::rtech::liveapi::Custom
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_GetLobbyPlayers)
 }
 void Request::set_allocated_custommatch_setteamname(::rtech::liveapi::CustomMatch_SetTeamName* custommatch_setteamname) {
-  ::google::protobuf::Arena* message_arena = GetArenaForAllocation();
+  ::google::protobuf::Arena* message_arena = GetArena();
   clear_actions();
   if (custommatch_setteamname) {
-    ::google::protobuf::Arena* submessage_arena =
-      ::google::protobuf::Arena::InternalGetOwningArena(custommatch_setteamname);
+    ::google::protobuf::Arena* submessage_arena = custommatch_setteamname->GetArena();
     if (message_arena != submessage_arena) {
-      custommatch_setteamname = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, custommatch_setteamname, submessage_arena);
+      custommatch_setteamname = ::google::protobuf::internal::GetOwnedMessage(message_arena, custommatch_setteamname, submessage_arena);
     }
     set_has_custommatch_setteamname();
     _impl_.actions_.custommatch_setteamname_ = custommatch_setteamname;
@@ -18598,114 +18138,81 @@ Request::Request(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.Request)
 }
-Request::Request(const Request& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE Request::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : presharedkey_(arena, from.presharedkey_),
+        actions_{},
+        _cached_size_{0},
+        _oneof_case_{from._oneof_case_[0]} {}
+
+Request::Request(
+    ::google::protobuf::Arena* arena,
+    const Request& from)
+    : ::google::protobuf::Message(arena) {
   Request* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.presharedkey_){},
-      decltype(_impl_.withack_){},
-      decltype(_impl_.actions_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_._oneof_case_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.presharedkey_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.presharedkey_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_presharedkey().empty()) {
-    _this->_impl_.presharedkey_.Set(from._internal_presharedkey(), _this->GetArenaForAllocation());
-  }
-  _this->_impl_.withack_ = from._impl_.withack_;
-  clear_has_actions();
-  switch (from.actions_case()) {
-    case kChangeCam: {
-      _this->_internal_mutable_changecam()->::rtech::liveapi::ChangeCamera::MergeFrom(
-          from._internal_changecam());
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  _impl_.withack_ = from._impl_.withack_;
+  switch (actions_case()) {
+    case ACTIONS_NOT_SET:
       break;
-    }
-    case kPauseToggle: {
-      _this->_internal_mutable_pausetoggle()->::rtech::liveapi::PauseToggle::MergeFrom(
-          from._internal_pausetoggle());
-      break;
-    }
-    case kCustomMatchCreateLobby: {
-      _this->_internal_mutable_custommatch_createlobby()->::rtech::liveapi::CustomMatch_CreateLobby::MergeFrom(
-          from._internal_custommatch_createlobby());
-      break;
-    }
-    case kCustomMatchJoinLobby: {
-      _this->_internal_mutable_custommatch_joinlobby()->::rtech::liveapi::CustomMatch_JoinLobby::MergeFrom(
-          from._internal_custommatch_joinlobby());
-      break;
-    }
-    case kCustomMatchLeaveLobby: {
-      _this->_internal_mutable_custommatch_leavelobby()->::rtech::liveapi::CustomMatch_LeaveLobby::MergeFrom(
-          from._internal_custommatch_leavelobby());
-      break;
-    }
-    case kCustomMatchSetReady: {
-      _this->_internal_mutable_custommatch_setready()->::rtech::liveapi::CustomMatch_SetReady::MergeFrom(
-          from._internal_custommatch_setready());
-      break;
-    }
-    case kCustomMatchSetMatchmaking: {
-      _this->_internal_mutable_custommatch_setmatchmaking()->::rtech::liveapi::CustomMatch_SetMatchmaking::MergeFrom(
-          from._internal_custommatch_setmatchmaking());
-      break;
-    }
-    case kCustomMatchSetTeam: {
-      _this->_internal_mutable_custommatch_setteam()->::rtech::liveapi::CustomMatch_SetTeam::MergeFrom(
-          from._internal_custommatch_setteam());
-      break;
-    }
-    case kCustomMatchKickPlayer: {
-      _this->_internal_mutable_custommatch_kickplayer()->::rtech::liveapi::CustomMatch_KickPlayer::MergeFrom(
-          from._internal_custommatch_kickplayer());
-      break;
-    }
-    case kCustomMatchSetSettings: {
-      _this->_internal_mutable_custommatch_setsettings()->::rtech::liveapi::CustomMatch_SetSettings::MergeFrom(
-          from._internal_custommatch_setsettings());
-      break;
-    }
-    case kCustomMatchSendChat: {
-      _this->_internal_mutable_custommatch_sendchat()->::rtech::liveapi::CustomMatch_SendChat::MergeFrom(
-          from._internal_custommatch_sendchat());
-      break;
-    }
-    case kCustomMatchGetLobbyPlayers: {
-      _this->_internal_mutable_custommatch_getlobbyplayers()->::rtech::liveapi::CustomMatch_GetLobbyPlayers::MergeFrom(
-          from._internal_custommatch_getlobbyplayers());
-      break;
-    }
-    case kCustomMatchSetTeamName: {
-      _this->_internal_mutable_custommatch_setteamname()->::rtech::liveapi::CustomMatch_SetTeamName::MergeFrom(
-          from._internal_custommatch_setteamname());
-      break;
-    }
-    case ACTIONS_NOT_SET: {
-      break;
-    }
+      case kChangeCam:
+        _impl_.actions_.changecam_ = CreateMaybeMessage<::rtech::liveapi::ChangeCamera>(arena, *from._impl_.actions_.changecam_);
+        break;
+      case kPauseToggle:
+        _impl_.actions_.pausetoggle_ = CreateMaybeMessage<::rtech::liveapi::PauseToggle>(arena, *from._impl_.actions_.pausetoggle_);
+        break;
+      case kCustomMatchCreateLobby:
+        _impl_.actions_.custommatch_createlobby_ = CreateMaybeMessage<::rtech::liveapi::CustomMatch_CreateLobby>(arena, *from._impl_.actions_.custommatch_createlobby_);
+        break;
+      case kCustomMatchJoinLobby:
+        _impl_.actions_.custommatch_joinlobby_ = CreateMaybeMessage<::rtech::liveapi::CustomMatch_JoinLobby>(arena, *from._impl_.actions_.custommatch_joinlobby_);
+        break;
+      case kCustomMatchLeaveLobby:
+        _impl_.actions_.custommatch_leavelobby_ = CreateMaybeMessage<::rtech::liveapi::CustomMatch_LeaveLobby>(arena, *from._impl_.actions_.custommatch_leavelobby_);
+        break;
+      case kCustomMatchSetReady:
+        _impl_.actions_.custommatch_setready_ = CreateMaybeMessage<::rtech::liveapi::CustomMatch_SetReady>(arena, *from._impl_.actions_.custommatch_setready_);
+        break;
+      case kCustomMatchSetMatchmaking:
+        _impl_.actions_.custommatch_setmatchmaking_ = CreateMaybeMessage<::rtech::liveapi::CustomMatch_SetMatchmaking>(arena, *from._impl_.actions_.custommatch_setmatchmaking_);
+        break;
+      case kCustomMatchSetTeam:
+        _impl_.actions_.custommatch_setteam_ = CreateMaybeMessage<::rtech::liveapi::CustomMatch_SetTeam>(arena, *from._impl_.actions_.custommatch_setteam_);
+        break;
+      case kCustomMatchKickPlayer:
+        _impl_.actions_.custommatch_kickplayer_ = CreateMaybeMessage<::rtech::liveapi::CustomMatch_KickPlayer>(arena, *from._impl_.actions_.custommatch_kickplayer_);
+        break;
+      case kCustomMatchSetSettings:
+        _impl_.actions_.custommatch_setsettings_ = CreateMaybeMessage<::rtech::liveapi::CustomMatch_SetSettings>(arena, *from._impl_.actions_.custommatch_setsettings_);
+        break;
+      case kCustomMatchSendChat:
+        _impl_.actions_.custommatch_sendchat_ = CreateMaybeMessage<::rtech::liveapi::CustomMatch_SendChat>(arena, *from._impl_.actions_.custommatch_sendchat_);
+        break;
+      case kCustomMatchGetLobbyPlayers:
+        _impl_.actions_.custommatch_getlobbyplayers_ = CreateMaybeMessage<::rtech::liveapi::CustomMatch_GetLobbyPlayers>(arena, *from._impl_.actions_.custommatch_getlobbyplayers_);
+        break;
+      case kCustomMatchSetTeamName:
+        _impl_.actions_.custommatch_setteamname_ = CreateMaybeMessage<::rtech::liveapi::CustomMatch_SetTeamName>(arena, *from._impl_.actions_.custommatch_setteamname_);
+        break;
   }
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.Request)
 }
+inline PROTOBUF_NDEBUG_INLINE Request::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : presharedkey_(arena),
+        actions_{},
+        _cached_size_{0},
+        _oneof_case_{} {}
+
 inline void Request::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.presharedkey_){},
-      decltype(_impl_.withack_){false},
-      decltype(_impl_.actions_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      /*decltype(_impl_._oneof_case_)*/ {},
-  };
-  _impl_.presharedkey_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.presharedkey_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  clear_has_actions();
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.withack_ = {};
 }
 Request::~Request() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.Request)
@@ -18713,93 +18220,92 @@ Request::~Request() {
   SharedDtor();
 }
 inline void Request::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.presharedkey_.Destroy();
   if (has_actions()) {
     clear_actions();
   }
-}
-void Request::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 void Request::clear_actions() {
 // @@protoc_insertion_point(one_of_clear_start:rtech.liveapi.Request)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   switch (actions_case()) {
     case kChangeCam: {
-      if (GetArenaForAllocation() == nullptr) {
+      if (GetArena() == nullptr) {
         delete _impl_.actions_.changecam_;
       }
       break;
     }
     case kPauseToggle: {
-      if (GetArenaForAllocation() == nullptr) {
+      if (GetArena() == nullptr) {
         delete _impl_.actions_.pausetoggle_;
       }
       break;
     }
     case kCustomMatchCreateLobby: {
-      if (GetArenaForAllocation() == nullptr) {
+      if (GetArena() == nullptr) {
         delete _impl_.actions_.custommatch_createlobby_;
       }
       break;
     }
     case kCustomMatchJoinLobby: {
-      if (GetArenaForAllocation() == nullptr) {
+      if (GetArena() == nullptr) {
         delete _impl_.actions_.custommatch_joinlobby_;
       }
       break;
     }
     case kCustomMatchLeaveLobby: {
-      if (GetArenaForAllocation() == nullptr) {
+      if (GetArena() == nullptr) {
         delete _impl_.actions_.custommatch_leavelobby_;
       }
       break;
     }
     case kCustomMatchSetReady: {
-      if (GetArenaForAllocation() == nullptr) {
+      if (GetArena() == nullptr) {
         delete _impl_.actions_.custommatch_setready_;
       }
       break;
     }
     case kCustomMatchSetMatchmaking: {
-      if (GetArenaForAllocation() == nullptr) {
+      if (GetArena() == nullptr) {
         delete _impl_.actions_.custommatch_setmatchmaking_;
       }
       break;
     }
     case kCustomMatchSetTeam: {
-      if (GetArenaForAllocation() == nullptr) {
+      if (GetArena() == nullptr) {
         delete _impl_.actions_.custommatch_setteam_;
       }
       break;
     }
     case kCustomMatchKickPlayer: {
-      if (GetArenaForAllocation() == nullptr) {
+      if (GetArena() == nullptr) {
         delete _impl_.actions_.custommatch_kickplayer_;
       }
       break;
     }
     case kCustomMatchSetSettings: {
-      if (GetArenaForAllocation() == nullptr) {
+      if (GetArena() == nullptr) {
         delete _impl_.actions_.custommatch_setsettings_;
       }
       break;
     }
     case kCustomMatchSendChat: {
-      if (GetArenaForAllocation() == nullptr) {
+      if (GetArena() == nullptr) {
         delete _impl_.actions_.custommatch_sendchat_;
       }
       break;
     }
     case kCustomMatchGetLobbyPlayers: {
-      if (GetArenaForAllocation() == nullptr) {
+      if (GetArena() == nullptr) {
         delete _impl_.actions_.custommatch_getlobbyplayers_;
       }
       break;
     }
     case kCustomMatchSetTeamName: {
-      if (GetArenaForAllocation() == nullptr) {
+      if (GetArena() == nullptr) {
         delete _impl_.actions_.custommatch_setteamname_;
       }
       break;
@@ -18814,6 +18320,7 @@ void Request::clear_actions() {
 
 PROTOBUF_NOINLINE void Request::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.Request)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -18945,80 +18452,80 @@ const ::_pbi::TcParseTable<1, 15, 13, 50, 2> Request::_table_ = {
 
   switch (actions_case()) {
     case kChangeCam: {
-      target = ::google::protobuf::internal::WireFormatLite::
-        InternalWriteMessage(4, _Internal::changecam(this),
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          4, _Internal::changecam(this),
           _Internal::changecam(this).GetCachedSize(), target, stream);
       break;
     }
     case kPauseToggle: {
-      target = ::google::protobuf::internal::WireFormatLite::
-        InternalWriteMessage(5, _Internal::pausetoggle(this),
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          5, _Internal::pausetoggle(this),
           _Internal::pausetoggle(this).GetCachedSize(), target, stream);
       break;
     }
     case kCustomMatchCreateLobby: {
-      target = ::google::protobuf::internal::WireFormatLite::
-        InternalWriteMessage(10, _Internal::custommatch_createlobby(this),
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          10, _Internal::custommatch_createlobby(this),
           _Internal::custommatch_createlobby(this).GetCachedSize(), target, stream);
       break;
     }
     case kCustomMatchJoinLobby: {
-      target = ::google::protobuf::internal::WireFormatLite::
-        InternalWriteMessage(11, _Internal::custommatch_joinlobby(this),
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          11, _Internal::custommatch_joinlobby(this),
           _Internal::custommatch_joinlobby(this).GetCachedSize(), target, stream);
       break;
     }
     case kCustomMatchLeaveLobby: {
-      target = ::google::protobuf::internal::WireFormatLite::
-        InternalWriteMessage(12, _Internal::custommatch_leavelobby(this),
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          12, _Internal::custommatch_leavelobby(this),
           _Internal::custommatch_leavelobby(this).GetCachedSize(), target, stream);
       break;
     }
     case kCustomMatchSetReady: {
-      target = ::google::protobuf::internal::WireFormatLite::
-        InternalWriteMessage(13, _Internal::custommatch_setready(this),
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          13, _Internal::custommatch_setready(this),
           _Internal::custommatch_setready(this).GetCachedSize(), target, stream);
       break;
     }
     case kCustomMatchSetMatchmaking: {
-      target = ::google::protobuf::internal::WireFormatLite::
-        InternalWriteMessage(14, _Internal::custommatch_setmatchmaking(this),
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          14, _Internal::custommatch_setmatchmaking(this),
           _Internal::custommatch_setmatchmaking(this).GetCachedSize(), target, stream);
       break;
     }
     case kCustomMatchSetTeam: {
-      target = ::google::protobuf::internal::WireFormatLite::
-        InternalWriteMessage(15, _Internal::custommatch_setteam(this),
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          15, _Internal::custommatch_setteam(this),
           _Internal::custommatch_setteam(this).GetCachedSize(), target, stream);
       break;
     }
     case kCustomMatchKickPlayer: {
-      target = ::google::protobuf::internal::WireFormatLite::
-        InternalWriteMessage(16, _Internal::custommatch_kickplayer(this),
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          16, _Internal::custommatch_kickplayer(this),
           _Internal::custommatch_kickplayer(this).GetCachedSize(), target, stream);
       break;
     }
     case kCustomMatchSetSettings: {
-      target = ::google::protobuf::internal::WireFormatLite::
-        InternalWriteMessage(17, _Internal::custommatch_setsettings(this),
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          17, _Internal::custommatch_setsettings(this),
           _Internal::custommatch_setsettings(this).GetCachedSize(), target, stream);
       break;
     }
     case kCustomMatchSendChat: {
-      target = ::google::protobuf::internal::WireFormatLite::
-        InternalWriteMessage(18, _Internal::custommatch_sendchat(this),
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          18, _Internal::custommatch_sendchat(this),
           _Internal::custommatch_sendchat(this).GetCachedSize(), target, stream);
       break;
     }
     case kCustomMatchGetLobbyPlayers: {
-      target = ::google::protobuf::internal::WireFormatLite::
-        InternalWriteMessage(19, _Internal::custommatch_getlobbyplayers(this),
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          19, _Internal::custommatch_getlobbyplayers(this),
           _Internal::custommatch_getlobbyplayers(this).GetCachedSize(), target, stream);
       break;
     }
     case kCustomMatchSetTeamName: {
-      target = ::google::protobuf::internal::WireFormatLite::
-        InternalWriteMessage(20, _Internal::custommatch_setteamname(this),
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          20, _Internal::custommatch_setteamname(this),
           _Internal::custommatch_setteamname(this).GetCachedSize(), target, stream);
       break;
     }
@@ -19056,93 +18563,80 @@ const ::_pbi::TcParseTable<1, 15, 13, 50, 2> Request::_table_ = {
   switch (actions_case()) {
     // .rtech.liveapi.ChangeCamera changeCam = 4;
     case kChangeCam: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.actions_.changecam_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.actions_.changecam_);
       break;
     }
     // .rtech.liveapi.PauseToggle pauseToggle = 5;
     case kPauseToggle: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.actions_.pausetoggle_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.actions_.pausetoggle_);
       break;
     }
     // .rtech.liveapi.CustomMatch_CreateLobby customMatch_CreateLobby = 10;
     case kCustomMatchCreateLobby: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.actions_.custommatch_createlobby_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.actions_.custommatch_createlobby_);
       break;
     }
     // .rtech.liveapi.CustomMatch_JoinLobby customMatch_JoinLobby = 11;
     case kCustomMatchJoinLobby: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.actions_.custommatch_joinlobby_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.actions_.custommatch_joinlobby_);
       break;
     }
     // .rtech.liveapi.CustomMatch_LeaveLobby customMatch_LeaveLobby = 12;
     case kCustomMatchLeaveLobby: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.actions_.custommatch_leavelobby_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.actions_.custommatch_leavelobby_);
       break;
     }
     // .rtech.liveapi.CustomMatch_SetReady customMatch_SetReady = 13;
     case kCustomMatchSetReady: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.actions_.custommatch_setready_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.actions_.custommatch_setready_);
       break;
     }
     // .rtech.liveapi.CustomMatch_SetMatchmaking customMatch_SetMatchmaking = 14;
     case kCustomMatchSetMatchmaking: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.actions_.custommatch_setmatchmaking_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.actions_.custommatch_setmatchmaking_);
       break;
     }
     // .rtech.liveapi.CustomMatch_SetTeam customMatch_SetTeam = 15;
     case kCustomMatchSetTeam: {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.actions_.custommatch_setteam_);
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.actions_.custommatch_setteam_);
       break;
     }
     // .rtech.liveapi.CustomMatch_KickPlayer customMatch_KickPlayer = 16;
     case kCustomMatchKickPlayer: {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.actions_.custommatch_kickplayer_);
+      total_size +=
+          2 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.actions_.custommatch_kickplayer_);
       break;
     }
     // .rtech.liveapi.CustomMatch_SetSettings customMatch_SetSettings = 17;
     case kCustomMatchSetSettings: {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.actions_.custommatch_setsettings_);
+      total_size +=
+          2 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.actions_.custommatch_setsettings_);
       break;
     }
     // .rtech.liveapi.CustomMatch_SendChat customMatch_SendChat = 18;
     case kCustomMatchSendChat: {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.actions_.custommatch_sendchat_);
+      total_size +=
+          2 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.actions_.custommatch_sendchat_);
       break;
     }
     // .rtech.liveapi.CustomMatch_GetLobbyPlayers customMatch_GetLobbyPlayers = 19;
     case kCustomMatchGetLobbyPlayers: {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.actions_.custommatch_getlobbyplayers_);
+      total_size +=
+          2 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.actions_.custommatch_getlobbyplayers_);
       break;
     }
     // .rtech.liveapi.CustomMatch_SetTeamName customMatch_SetTeamName = 20;
     case kCustomMatchSetTeamName: {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *_impl_.actions_.custommatch_setteamname_);
+      total_size +=
+          2 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.actions_.custommatch_setteamname_);
       break;
     }
     case ACTIONS_NOT_SET: {
@@ -19153,11 +18647,12 @@ const ::_pbi::TcParseTable<1, 15, 13, 50, 2> Request::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData Request::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    Request::MergeImpl
+    Request::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*Request::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* Request::GetClassData() const {
+  return &_class_data_;
+}
 
 void Request::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<Request*>(&to_msg);
@@ -19257,13 +18752,15 @@ PROTOBUF_NOINLINE bool Request::IsInitialized() const {
   return true;
 }
 
-void Request::InternalSwap(Request* other) {
+::_pbi::CachedSize* Request::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void Request::InternalSwap(Request* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.presharedkey_, lhs_arena,
-                                       &other->_impl_.presharedkey_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.presharedkey_, &other->_impl_.presharedkey_, arena);
         swap(_impl_.withack_, other->_impl_.withack_);
   swap(_impl_.actions_, other->_impl_.actions_);
   swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
@@ -19285,35 +18782,32 @@ RequestStatus::RequestStatus(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.RequestStatus)
 }
-RequestStatus::RequestStatus(const RequestStatus& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE RequestStatus::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : status_(arena, from.status_),
+        _cached_size_{0} {}
+
+RequestStatus::RequestStatus(
+    ::google::protobuf::Arena* arena,
+    const RequestStatus& from)
+    : ::google::protobuf::Message(arena) {
   RequestStatus* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.status_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  _impl_.status_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.status_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_status().empty()) {
-    _this->_impl_.status_.Set(from._internal_status(), _this->GetArenaForAllocation());
-  }
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.RequestStatus)
 }
+inline PROTOBUF_NDEBUG_INLINE RequestStatus::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : status_(arena),
+        _cached_size_{0} {}
+
 inline void RequestStatus::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_.status_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-  };
-  _impl_.status_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        _impl_.status_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  new (&_impl_) Impl_(internal_visibility(), arena);
 }
 RequestStatus::~RequestStatus() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.RequestStatus)
@@ -19321,15 +18815,14 @@ RequestStatus::~RequestStatus() {
   SharedDtor();
 }
 inline void RequestStatus::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
+  ABSL_DCHECK(GetArena() == nullptr);
   _impl_.status_.Destroy();
-}
-void RequestStatus::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void RequestStatus::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.RequestStatus)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -19420,11 +18913,12 @@ const ::_pbi::TcParseTable<0, 1, 0, 42, 2> RequestStatus::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData RequestStatus::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    RequestStatus::MergeImpl
+    RequestStatus::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*RequestStatus::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* RequestStatus::GetClassData() const {
+  return &_class_data_;
+}
 
 void RequestStatus::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<RequestStatus*>(&to_msg);
@@ -19451,13 +18945,15 @@ PROTOBUF_NOINLINE bool RequestStatus::IsInitialized() const {
   return true;
 }
 
-void RequestStatus::InternalSwap(RequestStatus* other) {
+::_pbi::CachedSize* RequestStatus::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void RequestStatus::InternalSwap(RequestStatus* PROTOBUF_RESTRICT other) {
   using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.status_, lhs_arena,
-                                       &other->_impl_.status_, rhs_arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.status_, &other->_impl_.status_, arena);
 }
 
 ::google::protobuf::Metadata RequestStatus::GetMetadata() const {
@@ -19482,6 +18978,7 @@ const ::google::protobuf::Any& Response::_Internal::result(const Response* msg) 
   return *msg->_impl_.result_;
 }
 void Response::clear_result() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   if (_impl_.result_ != nullptr) _impl_.result_->Clear();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
@@ -19490,32 +18987,42 @@ Response::Response(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.Response)
 }
-Response::Response(const Response& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE Response::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0} {}
+
+Response::Response(
+    ::google::protobuf::Arena* arena,
+    const Response& from)
+    : ::google::protobuf::Message(arena) {
   Response* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.result_){nullptr},
-      decltype(_impl_.success_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.result_ = new ::google::protobuf::Any(*from._impl_.result_);
-  }
-  _this->_impl_.success_ = from._impl_.success_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.result_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::google::protobuf::Any>(arena, *from._impl_.result_)
+                : nullptr;
+  _impl_.success_ = from._impl_.success_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.Response)
 }
+inline PROTOBUF_NDEBUG_INLINE Response::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
 inline void Response::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.result_){nullptr},
-      decltype(_impl_.success_){false},
-  };
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, result_),
+           0,
+           offsetof(Impl_, success_) -
+               offsetof(Impl_, result_) +
+               sizeof(Impl_::success_));
 }
 Response::~Response() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.Response)
@@ -19523,15 +19030,14 @@ Response::~Response() {
   SharedDtor();
 }
 inline void Response::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete _impl_.result_;
-}
-void Response::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  ABSL_DCHECK(GetArena() == nullptr);
+  delete _impl_.result_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void Response::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.Response)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -19606,8 +19112,8 @@ const ::_pbi::TcParseTable<1, 2, 1, 0, 2> Response::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .google.protobuf.Any result = 2;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::result(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        2, _Internal::result(this),
         _Internal::result(this).GetCachedSize(), target, stream);
   }
 
@@ -19631,9 +19137,8 @@ const ::_pbi::TcParseTable<1, 2, 1, 0, 2> Response::_table_ = {
   // .google.protobuf.Any result = 2;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.result_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.result_);
   }
 
   // bool success = 1;
@@ -19645,11 +19150,12 @@ const ::_pbi::TcParseTable<1, 2, 1, 0, 2> Response::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData Response::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    Response::MergeImpl
+    Response::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*Response::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* Response::GetClassData() const {
+  return &_class_data_;
+}
 
 void Response::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<Response*>(&to_msg);
@@ -19680,7 +19186,10 @@ PROTOBUF_NOINLINE bool Response::IsInitialized() const {
   return true;
 }
 
-void Response::InternalSwap(Response* other) {
+::_pbi::CachedSize* Response::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void Response::InternalSwap(Response* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
@@ -19714,6 +19223,7 @@ const ::google::protobuf::Any& LiveAPIEvent::_Internal::gamemessage(const LiveAP
   return *msg->_impl_.gamemessage_;
 }
 void LiveAPIEvent::clear_gamemessage() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   if (_impl_.gamemessage_ != nullptr) _impl_.gamemessage_->Clear();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
@@ -19722,32 +19232,42 @@ LiveAPIEvent::LiveAPIEvent(::google::protobuf::Arena* arena)
   SharedCtor(arena);
   // @@protoc_insertion_point(arena_constructor:rtech.liveapi.LiveAPIEvent)
 }
-LiveAPIEvent::LiveAPIEvent(const LiveAPIEvent& from) : ::google::protobuf::Message() {
+inline PROTOBUF_NDEBUG_INLINE LiveAPIEvent::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0} {}
+
+LiveAPIEvent::LiveAPIEvent(
+    ::google::protobuf::Arena* arena,
+    const LiveAPIEvent& from)
+    : ::google::protobuf::Message(arena) {
   LiveAPIEvent* const _this = this;
   (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){from._impl_._has_bits_},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.gamemessage_){nullptr},
-      decltype(_impl_.event_size_){},
-  };
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_impl_.gamemessage_ = new ::google::protobuf::Any(*from._impl_.gamemessage_);
-  }
-  _this->_impl_.event_size_ = from._impl_.event_size_;
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.gamemessage_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::google::protobuf::Any>(arena, *from._impl_.gamemessage_)
+                : nullptr;
+  _impl_.event_size_ = from._impl_.event_size_;
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.LiveAPIEvent)
 }
+inline PROTOBUF_NDEBUG_INLINE LiveAPIEvent::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0} {}
+
 inline void LiveAPIEvent::SharedCtor(::_pb::Arena* arena) {
-  (void)arena;
-  new (&_impl_) Impl_{
-      decltype(_impl_._has_bits_){},
-      /*decltype(_impl_._cached_size_)*/ {},
-      decltype(_impl_.gamemessage_){nullptr},
-      decltype(_impl_.event_size_){0u},
-  };
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, gamemessage_),
+           0,
+           offsetof(Impl_, event_size_) -
+               offsetof(Impl_, gamemessage_) +
+               sizeof(Impl_::event_size_));
 }
 LiveAPIEvent::~LiveAPIEvent() {
   // @@protoc_insertion_point(destructor:rtech.liveapi.LiveAPIEvent)
@@ -19755,15 +19275,14 @@ LiveAPIEvent::~LiveAPIEvent() {
   SharedDtor();
 }
 inline void LiveAPIEvent::SharedDtor() {
-  ABSL_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete _impl_.gamemessage_;
-}
-void LiveAPIEvent::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
+  ABSL_DCHECK(GetArena() == nullptr);
+  delete _impl_.gamemessage_;
+  _impl_.~Impl_();
 }
 
 PROTOBUF_NOINLINE void LiveAPIEvent::Clear() {
 // @@protoc_insertion_point(message_clear_start:rtech.liveapi.LiveAPIEvent)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -19840,8 +19359,8 @@ const ::_pbi::TcParseTable<2, 2, 1, 0, 2> LiveAPIEvent::_table_ = {
   cached_has_bits = _impl_._has_bits_[0];
   // .google.protobuf.Any gameMessage = 3;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::gamemessage(this),
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::gamemessage(this),
         _Internal::gamemessage(this).GetCachedSize(), target, stream);
   }
 
@@ -19865,9 +19384,8 @@ const ::_pbi::TcParseTable<2, 2, 1, 0, 2> LiveAPIEvent::_table_ = {
   // .google.protobuf.Any gameMessage = 3;
   cached_has_bits = _impl_._has_bits_[0];
   if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *_impl_.gamemessage_);
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.gamemessage_);
   }
 
   // fixed32 event_size = 1;
@@ -19879,11 +19397,12 @@ const ::_pbi::TcParseTable<2, 2, 1, 0, 2> LiveAPIEvent::_table_ = {
 }
 
 const ::google::protobuf::Message::ClassData LiveAPIEvent::_class_data_ = {
-    ::google::protobuf::Message::CopyWithSourceCheck,
-    LiveAPIEvent::MergeImpl
+    LiveAPIEvent::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
 };
-const ::google::protobuf::Message::ClassData*LiveAPIEvent::GetClassData() const { return &_class_data_; }
-
+const ::google::protobuf::Message::ClassData* LiveAPIEvent::GetClassData() const {
+  return &_class_data_;
+}
 
 void LiveAPIEvent::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
   auto* const _this = static_cast<LiveAPIEvent*>(&to_msg);
@@ -19914,7 +19433,10 @@ PROTOBUF_NOINLINE bool LiveAPIEvent::IsInitialized() const {
   return true;
 }
 
-void LiveAPIEvent::InternalSwap(LiveAPIEvent* other) {
+::_pbi::CachedSize* LiveAPIEvent::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void LiveAPIEvent::InternalSwap(LiveAPIEvent* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
