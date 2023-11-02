@@ -98,9 +98,24 @@ namespace app {
 
 	void core_thread::sendto_liveapi(ctx_buffer_t&& _data)
 	{
-		auto data = std::make_unique<std::pair<SOCKET, ctx_buffer_t>>(INVALID_SOCKET, std::move(_data));
-		ctx_.push_wq(CTX_LIVEAPI, std::move(data));
+		liveapi_queue_.push(std::move(_data));
+		sendto_liveapi_queuecheck();
+	}
+
+	void core_thread::sendto_liveapi_queuecheck()
+	{
+		uint64_t current = get_millis();
+		if ((!liveapi_available_) && current < liveapi_lastsend_ + 2000) return; // timeout
+		liveapi_available_ = true;
+		if (current < liveapi_lastresponse_ + 300) return; // 少なくとも300ms待つ
+		if (liveapi_queue_.empty()) return;
+		ctx_buffer_t data = std::move(liveapi_queue_.front());
+		liveapi_queue_.pop();
+
+		ctx_.push_wq(CTX_LIVEAPI, std::make_unique<std::pair<SOCKET, ctx_buffer_t>>(INVALID_SOCKET, std::move(data)));
 		liveapi_.tell_wq();
+		liveapi_available_ = false;
+		liveapi_lastsend_ = current;
 	}
 
 	void core_thread::sendto_webapi(ctx_buffer_t&& _data)
@@ -120,6 +135,7 @@ namespace app {
 		, thread_(NULL)
 		, event_close_(NULL)
 		, event_message_(NULL)
+		, event_queuecheck_(NULL)
 		, ctx_()
 		, liveapi_(LOG_LIVEAPI, CTX_LIVEAPI, ctx_, _lip, _lport, 2)
 		, webapi_(LOG_WEBAPI, CTX_WEBAPI, ctx_, _wip, _wport, _wmaxconn)
@@ -127,12 +143,19 @@ namespace app {
 		, filedump_()
 		, game_()
 		, observer_hash_("")
+		, mtx_()
+		, messages_()
+		, liveapi_queue_()
+		, liveapi_available_(true)
+		, liveapi_lastsend_(0)
+		, liveapi_lastresponse_(0)
 	{
 	}
 
 	core_thread::~core_thread()
 	{
 		stop();
+		if (event_queuecheck_) ::CloseHandle(event_queuecheck_);
 		if (event_message_) ::CloseHandle(event_message_);
 		if (event_close_) ::CloseHandle(event_close_);
 	}
@@ -157,7 +180,8 @@ namespace app {
 			local_.get_event_wq(),
 			event_message_,
 			ctx_.sevent_.at(0),
-			ctx_.sevent_.at(1)
+			ctx_.sevent_.at(1),
+			event_queuecheck_
 		};
 
 		// 初回のデータロード
@@ -254,6 +278,11 @@ namespace app {
 				::PostMessageW(window_, CWM_WEBSOCKET_STATS_CONNECTION_COUNT, 1, std::get<0>(stats));
 				::PostMessageW(window_, CWM_WEBSOCKET_STATS_RECV_COUNT, 1, std::get<1>(stats));
 				::PostMessageW(window_, CWM_WEBSOCKET_STATS_SEND_COUNT, 1, std::get<2>(stats));
+			}
+			else if (id == WAIT_OBJECT_0 + 7)
+			{
+				// queue check
+				sendto_liveapi_queuecheck();
 			}
 		}
 		log(LOG_CORE, L"Info: thread end.");
@@ -1025,6 +1054,11 @@ namespace app {
 		{
 			api::Response p;
 			if (!_any.UnpackTo(&p)) return;
+
+			// 溜まってるメッセージを確認
+			liveapi_available_ = true;
+			liveapi_lastresponse_ = get_millis();
+			sendto_liveapi_queuecheck();
 			
 			log(LOG_CORE, L"Info: Response received. success = %d", p.success() ? 1 : 0);
 			if (!p.has_result()) return;
@@ -2882,6 +2916,18 @@ namespace app {
 	}
 
 	//---------------------------------------------------------------------------------
+	// QUEUE CHECK
+	//---------------------------------------------------------------------------------
+	void core_thread::liveapi_queuecheck()
+	{
+		// 通知
+		if (event_queuecheck_)
+		{
+			::SetEvent(event_queuecheck_);
+		}
+	}
+
+	//---------------------------------------------------------------------------------
 	// RUN/STOP/PING
 	//---------------------------------------------------------------------------------
 	bool core_thread::run(HWND _window)
@@ -2928,6 +2974,12 @@ namespace app {
 		}
 		event_message_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
 		if (event_message_ == NULL)
+		{
+			log(LOG_CORE, L"Error: CreateEvent() failed.");
+			return false;
+		}
+		event_queuecheck_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
+		if (event_queuecheck_ == NULL)
 		{
 			log(LOG_CORE, L"Error: CreateEvent() failed.");
 			return false;

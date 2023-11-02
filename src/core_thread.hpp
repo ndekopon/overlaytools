@@ -24,6 +24,7 @@ namespace app {
 		HANDLE thread_;
 		HANDLE event_close_;
 		HANDLE event_message_;
+		HANDLE event_queuecheck_;
 		shared_context ctx_;
 		websocket_thread liveapi_;
 		websocket_thread webapi_;
@@ -33,6 +34,10 @@ namespace app {
 		std::string observer_hash_;
 		std::mutex mtx_;
 		std::queue<UINT> messages_;
+		std::queue<ctx_buffer_t> liveapi_queue_;
+		bool liveapi_available_;
+		uint64_t liveapi_lastsend_;
+		uint64_t liveapi_lastresponse_;
 
 		static DWORD WINAPI proc_common(LPVOID);
 		DWORD proc();
@@ -66,6 +71,7 @@ namespace app {
 		void sendto_liveapi(ctx_buffer_t&& _data);
 		void sendto_webapi(ctx_buffer_t&& _data);
 		void sendto_webapi(SOCKET _sock, ctx_buffer_t&& _data);
+		void sendto_liveapi_queuecheck();
 
 		void send_webapi_gamestatechanged(SOCKET _sock, const std::string& _state);
 		void send_webapi_matchstateend_winnerdetermined(SOCKET _sock, uint8_t _teamid);
@@ -164,5 +170,6 @@ namespace app {
 		void stop();
 		void ping();
 		void push_message(UINT _message);
+		void liveapi_queuecheck();
 	};
 }

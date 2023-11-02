@@ -1547,6 +1547,11 @@ export class WebAPIConfig {
             });
         });
 
+        document.getElementById('team-ingamename-button').addEventListener('click', (ev) => {
+            this.#procSetInGameTeamName().then((arr) => {
+            });
+        });
+
         document.getElementById('announce-button').addEventListener('click', (ev) => {
             const text = document.getElementById('announce-text').value;
             if (text != "") {
@@ -1849,23 +1854,47 @@ export class WebAPIConfig {
         t.innerText = dst;
     }
 
-    #procSetTeamName() {
+    /**
+     * テキストエリアからチーム名の配列を作る
+     * @returns {string[]} チーム名の入った配列
+     */
+    #getTeamNameFromTextArea() {
+        const text = document.getElementById('team-name-text').value;
+        return text.split(/\r\n|\n/).map((line) => line.trim());
+    }
+    
+    #procSetInGameTeamName() {
+        const lines = this.#getTeamNameFromTextArea();
+        const jobs = [];
+        for (let i = 0; i < 30; ++i) {
+            if (i < lines.length) {
+                const line = lines[i];
+                jobs.push(this.#webapi.sendSetTeamName(i, line));
+            } else {
+                jobs.push(this.#webapi.sendSetTeamName(i, ''));
+            }
+        }
         return new Promise((resolve, reject) => {
-            const text = document.getElementById('team-name-text').value;
-            const jobs = [];
-            const lines = text.split(/\r\n|\n/);
-            for (let i = 0; i < 30; ++i) {
-                if (i < lines.length) {
-                    const line = lines[i].trim();
-                    if (line != '') {
-                        jobs.push(this.#getAndSetTeamName(i, line));
-                    } else {
-                        jobs.push(this.#getAndRemoveTeamName(i));
-                    }
+            Promise.all(jobs).then(resolve, reject);
+        });
+    }
+
+    #procSetTeamName() {
+        const lines = this.#getTeamNameFromTextArea();
+        const jobs = [];
+        for (let i = 0; i < 30; ++i) {
+            if (i < lines.length) {
+                const line = lines[i];
+                if (line != '') {
+                    jobs.push(this.#getAndSetTeamName(i, line));
                 } else {
                     jobs.push(this.#getAndRemoveTeamName(i));
                 }
+            } else {
+                jobs.push(this.#getAndRemoveTeamName(i));
             }
+        }
+        return new Promise((resolve, reject) => {
             Promise.all(jobs).then(resolve, reject);
         });
     }

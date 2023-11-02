@@ -44,6 +44,7 @@ namespace app
 	constexpr UINT TIMER_ID_PING = 1;
 	constexpr UINT TIMER_ID_CAPTURE = 2;
 	constexpr UINT TIMER_ID_STATS = 3;
+	constexpr UINT TIMER_ID_LIVEAPI_QUEUECHECK = 4;
 
 	const wchar_t* main_window::window_class_ = L"apexliveapi_proxy-mainwindow";
 	const wchar_t* main_window::window_title_ = L"apexliveapi_proxy";
@@ -364,6 +365,7 @@ namespace app
 			::SetTimer(window_, TIMER_ID_PING, 20000, nullptr); // 20s
 			::SetTimer(window_, TIMER_ID_CAPTURE, 100, nullptr); // 100ms
 			::SetTimer(window_, TIMER_ID_STATS, 1000, nullptr); // 1s
+			::SetTimer(window_, TIMER_ID_LIVEAPI_QUEUECHECK, 100, nullptr); // 100ms
 
 			return 0;
 		}
@@ -486,6 +488,9 @@ namespace app
 			case TIMER_ID_STATS:
 				duplication_thread_.request_stats();
 				core_thread_.push_message(CORE_MESSAGE_GET_STATS);
+				return 0;
+			case TIMER_ID_LIVEAPI_QUEUECHECK:
+				core_thread_.liveapi_queuecheck();
 				return 0;
 			}
 			break;
