@@ -112,6 +112,10 @@ body {
     display: none;
 }
 
+#leaderboard > div:not(.lb_exists) {
+    opacity: 0.3;
+}
+
 #leaderboard > div > div {
     font-size: 120%;
     font-weight: 500;

@@ -12,6 +12,7 @@ class LeaderBoardTeamNode extends OverlayBase {
     static #FADEOUT_CLASS = "lb_fadeout";
     static #CHANGED_CLASS = "lb_changed";
     static #ELIMINATED_CLASS = "lb_eliminated";
+    static #EXISTS_CLASS = "lb_exists";
     static #FADEIN_ANIMATION_NAME ="lb_fadein_animation";
     static #FADEOUT_ANIMATION_NAME ="lb_fadeout_animation";
     static #CHANGED_ANIMATION_NAME ="lb_changed_animation";
@@ -75,6 +76,13 @@ class LeaderBoardTeamNode extends OverlayBase {
     }
 
     /**
+     * 存在するチームを設定する
+     */
+    setExists() {
+        this.nodes.base.classList.add(LeaderBoardTeamNode.#EXISTS_CLASS);
+    }
+
+    /**
      * チーム名を設定する
      * @param {string} name チーム名
      */
@@ -121,6 +129,8 @@ class LeaderBoardTeamNode extends OverlayBase {
      */
     setPlayerState(index, state) {
         if (index >= 3) return;
+        this.setExists();
+
         const canvas = this.nodes.alives;
         const ctx = canvas.getContext('2d');
 
@@ -411,7 +421,7 @@ class LeaderBoard extends OverlayBase {
      * アニメーションを開始する
      */
     #startAnimation() {
-        if (this.#timerid <= 0) return;
+        if (this.#timerid > 0) return;
         for (const teamnode of Object.values(this.#teamnodes)) {
             if (teamnode.hasFadeOut()) return;
         }

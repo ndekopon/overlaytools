@@ -110,7 +110,8 @@ const calcpoints_table = [12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1];
  */
 export function calcPoints(gameid, placement, kills) {
     // INFO: キル数制限等ある場合は、ここでキル数の調整を行う
-    if (placement <= 0) throw new Error('placement is more than 0.');
+    if (placement < 0) throw new Error('placement is >= 0.');
+    if (placement == 0) return 0; // 未参加試合は0ポイント
     if (placement - 1 >= calcpoints_table.length) return kills;
     return calcpoints_table[placement - 1] + kills;
 }
