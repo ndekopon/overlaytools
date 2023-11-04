@@ -147,7 +147,6 @@ class ObserverConfig {
     }
 }
 
-
 class PlayerName extends WebAPIConfigBase {
     /** @type {Object.<string, HTMLElement>} hashに対応するテーブル列を保持 */
     #players;
@@ -256,6 +255,61 @@ class PlayerName extends WebAPIConfigBase {
             const tr = this.#players[hash];
             tr.children[2].innerText = names.join();
         }
+    }
+}
+
+class TeamName extends WebAPIConfigBase {
+    /** @type {setPlayerNameCallback} */
+    #callback;
+
+    /**
+     * コンストラクタ
+     */
+    constructor() {
+        super('team-name-');
+        this.getNode('num');
+        this.getNode('text');
+        this.getNode('output');
+
+        this.nodes.text.addEventListener('change', (ev) => {
+            this.#updateOutput(ev.target.value);
+        });
+    }
+
+    /**
+     * テキストエリアを更新する
+     * @param {*} text テキストエリアに設定する文字列
+     */
+    updateText(text) {
+        const prev_text = this.nodes.text.value;
+        if (text != prev_text) {
+            this.nodes.text.value = text;
+            this.#updateOutput(text);
+        }
+    }
+
+    /**
+     * テキストエリアからチーム名の配列を作る
+     * @returns {string[]} チーム名の入った配列
+     */
+    getText() {
+        const text = this.nodes.text.value;
+        return text.split(/\r\n|\n/).map((line) => line.trim()).slice(0, 30);
+    }
+
+    /**
+     * 1行毎に「TeamXX: 」をつけてoutput側のTextAreaに設定
+     * @param {string} text 元のテキスト
+     */
+    #updateOutput(src) {
+        let dst = '';
+        const lines = src.split(/\r\n|\n/);
+        for (let i = 0; i < 30 && i < lines.length; ++i) {
+            const line = lines[i].trim();
+            if (dst != '') dst += '\r\n';
+            dst += (line == '' ? '' : 'Team' + (i + 1) + ': ' + line);
+        }
+        this.nodes.output.innerText = dst;
     }
 }
 
@@ -1382,9 +1436,12 @@ export class WebAPIConfig {
     #tournament_params;
     /** @type {Object.<string, object>} プレーヤーparamsの格納先 */
     #playerparams;
+    /** @type {Object.<string, object>} チームparamsの格納先 */
+    #teamparams;
     #realtimeview;
     #observerconfig;
     #playername;
+    #teamname;
     #resultview;
     #firstproccurrenthash;
 
@@ -1394,18 +1451,19 @@ export class WebAPIConfig {
         this.#tournament_ids = {};
         this.#tournament_params = {};
         this.#playerparams = {};
+        this.#teamparams = {};
         this.#realtimeview = new RealtimeView();
         this.#observerconfig = new ObserverConfig();
         this.#resultview = new ResultView();
         this.#webapiconnectionstatus = new WebAPIConnectionStatus();
         this.#liveapiconnectionstatus = new LiveAPIConnectionStatus();
         this.#playername = new PlayerName();
+        this.#teamname = new TeamName();
         this.#firstproccurrenthash = true;
 
         this.#setupWebAPI(url);
         this.#setupButton();
         this.#setupCallback();
-        this.#setupTextarea();
         this.#setupMenuSelect();
         this.#setupLineNumber();
     }
@@ -1534,18 +1592,24 @@ export class WebAPIConfig {
             this.#realtimeview.drawTeamEliminated(ev.detail.team.id);
         });
         this.#webapi.addEventListener('setteamparams', (ev) => {
-            const teamid = ev.detail.teamid;
-            this.#resultview.saveTeamParams(teamid, ev.detail.params);
-            if (teamid >= this.#_game.teams.length) return;
-            if (!('name' in this.#_game.teams[teamid])) return;
-            this.#realtimeview.drawTeamName(ev.detail.teamid);
+            if (ev.detail.result) {
+                const teamid = ev.detail.teamid;
+                const params = ev.detail.params;
+                this.#teamparams[teamid] = params;
+                this.#resultview.saveTeamParams(teamid, params);
+                if (teamid >= this.#_game.teams.length) return;
+                if (!('name' in this.#_game.teams[teamid])) return;
+                this.#realtimeview.drawTeamName(teamid);
+            }
         });
         this.#webapi.addEventListener('getteamparams', (ev) => {
             const teamid = ev.detail.teamid;
-            this.#resultview.saveTeamParams(teamid, ev.detail.params);
+            const params = ev.detail.params;
+            this.#teamparams[teamid] = params;
+            this.#resultview.saveTeamParams(teamid, params);
             if (teamid >= this.#_game.teams.length) return;
             if (!('name' in this.#_game.teams[teamid])) return;
-            this.#realtimeview.drawTeamName(ev.detail.teamid);
+            this.#realtimeview.drawTeamName(teamid);
         });
         this.#webapi.addEventListener('playername', (ev) => {
             this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_NAME);
@@ -1587,7 +1651,7 @@ export class WebAPIConfig {
         /* result用 */
         this.#webapi.addEventListener('gettournamentresults', (ev) => {
             this.#resultview.setResults(ev.detail.results);
-            this.#getPlayerFromResults(ev.detail.results);
+            this.#procPlayerInGameNameFromResults(ev.detail.results);
         });
         this.#webapi.addEventListener('saveresult', (ev) => {
             this.#webapi.getTournamentResults();
@@ -1671,8 +1735,8 @@ export class WebAPIConfig {
         });
 
         document.getElementById('team-name-button').addEventListener('click', (ev) => {
-            this.#procSetTeamName().then((arr) => {
-                this.#paramsArrayToTextarea(arr);
+            this.#procSetTeamNames().then((arr) => {
+                this.#updateTeamNameTextArea();
             });
         });
 
@@ -1865,12 +1929,6 @@ export class WebAPIConfig {
         });
     }
 
-    #setupTextarea() {
-        document.getElementById('team-name-text').addEventListener('change', (ev) => {
-            this.#setTeamNameOutputTextArea(ev.target.value);
-        });
-    }
-
     #setupMenuSelect() {
         window.addEventListener("hashchange", (ev) => {
             this.#procCurrentHash(location.hash);
@@ -1977,33 +2035,8 @@ export class WebAPIConfig {
         }
     }
 
-    /**
-     * 1行毎に「TeamXX: 」をつけてoutput側のTextAreaに設定
-     * @param {string} src 元のテキスト
-     */
-    #setTeamNameOutputTextArea(src) {
-        const t = document.getElementById('team-name-output');
-        let dst = '';
-        const lines = src.split(/\r\n|\n/);
-        for (let i = 0; i < 30 && i < lines.length; ++i) {
-            const line = lines[i].trim();
-            if (dst != '') dst += '\r\n';
-            dst += (line == '' ? '' : 'Team' + (i + 1) + ': ' + line);
-        }
-        t.innerText = dst;
-    }
-
-    /**
-     * テキストエリアからチーム名の配列を作る
-     * @returns {string[]} チーム名の入った配列
-     */
-    #getTeamNameFromTextArea() {
-        const text = document.getElementById('team-name-text').value;
-        return text.split(/\r\n|\n/).map((line) => line.trim());
-    }
-
     #procSetInGameTeamName() {
-        const lines = this.#getTeamNameFromTextArea();
+        const lines = this.#teamname.getText();
         const jobs = [];
         for (let i = 0; i < 30; ++i) {
             if (i < lines.length) {
@@ -2018,19 +2051,26 @@ export class WebAPIConfig {
         });
     }
 
-    #procSetTeamName() {
-        const lines = this.#getTeamNameFromTextArea();
+    #procSetTeamNames() {
+        const lines = this.#teamname.getText();
         const jobs = [];
         for (let i = 0; i < 30; ++i) {
             if (i < lines.length) {
                 const line = lines[i];
+                const params = this.#teamparams[i];
                 if (line != '') {
-                    jobs.push(this.#getAndSetTeamName(i, line));
+                    if (!('name' in params) || line != params.name) {
+                        jobs.push(this.#setTeamName(i, line));
+                    }
                 } else {
-                    jobs.push(this.#getAndRemoveTeamName(i));
+                    if ('name' in params) {
+                        jobs.push(this.#removeTeamName(i));
+                    }
                 }
             } else {
-                jobs.push(this.#getAndRemoveTeamName(i));
+                if ('name' in params) {
+                    jobs.push(this.#removeTeamName(i));
+                }
             }
         }
         return new Promise((resolve, reject) => {
@@ -2066,7 +2106,7 @@ export class WebAPIConfig {
      * リザルト配列からプレーヤーのハッシュとインゲームの名前を処理する
      * @param {object[]} results リザルト配列
      */
-    #getPlayerFromResults(results) {
+    #procPlayerInGameNameFromResults(results) {
         for (const result of results) {
             for (const [_, team] of Object.entries(result.teams)) {
                 for (const player of team.players) {
@@ -2115,41 +2155,21 @@ export class WebAPIConfig {
      * @param {string} name チーム名
      * @returns チーム用params
      */
-    #getAndSetTeamName(teamid, name) {
-        return new Promise((resolve, reject) => {
-            this.#webapi.getTeamParams(teamid).then((getev) => {
-                const params = getev.detail.params;
-                params.name = name;
-                this.#webapi.setTeamParams(teamid, params).then((setev) => {
-                    if (setev.detail.result) {
-                        resolve(params);
-                    } else {
-                        reject();
-                    }
-                }, reject);
-            }, reject);
-        });
+    #setTeamName(teamid, name) {
+        const params = this.#teamparams[teamid];
+        params.name = name;
+        return this.#webapi.setTeamParams(teamid, params);
     }
 
     /**
      * チーム用のparamsを取得し、nameキーを削除して保存する
      * @param {number} teamid チームID(0～)
-     * @returns {object} チーム用params
+     * @returns {Promise} チーム用params
      */
-    #getAndRemoveTeamName(teamid) {
-        return new Promise((resolve, reject) => {
-            this.#webapi.getTeamParams(teamid).then((getev) => {
-                const params = getev.detail.params;
-                if ('name' in params) delete params.name;
-                this.#webapi.setTeamParams(teamid, params).then((setev) => {
-                    if (setev.detail.result) {
-                        resolve(params);
-                    } else {
-                        reject();
-                    }
-                }, reject);
-            }, reject);
-        });
+    #removeTeamName(teamid) {
+        const params = this.#teamparams[teamid];
+        if ('name' in params) delete params.name;
+        return this.#webapi.setTeamParams(teamid, params);
     }
 
     /**
@@ -2174,24 +2194,21 @@ export class WebAPIConfig {
      * チーム用のパラメータを取得してテキストエリアに反映する
      */
     #getTeamNames() {
-        this.#getAllTeamParams().then((arr) => { this.#paramsArrayToTextarea(arr); }, () => {});
+        this.#getAllTeamParams().then((arr) => { this.#updateTeamNameTextArea(); }, () => {});
     }
 
     /**
      * チームのparamsからチーム名を取り出しtextareaに設定する
-     * @param {object[]} params_array チームのparamsが入った配列
      */
-    #paramsArrayToTextarea(params_array) {
-        const textarea = document.getElementById('team-name-text');
+    #updateTeamNameTextArea() {
         let text = '';
-        for (const params of params_array) {
+        for (const params of Object.values(this.#teamparams)) {
             if (text != '') text += '\r\n';
             if ('name' in params) {
                 text += params.name;
             }
         }
-        textarea.value = text;
-        this.#setTeamNameOutputTextArea(textarea.value);
+        this.#teamname.updateText(text);
     }
 
     /**
