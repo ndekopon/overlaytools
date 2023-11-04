@@ -168,7 +168,7 @@ export function resultsToTeamResults(results) {
 
             // 参加していない試合分を埋める
             while (tr.kills.length < index) { tr.kills.push(0) }
-            while (tr.placements.length < index) { tr.placements.push(0) }
+            while (tr.placements.length < index) { tr.placements.push(0xff) }
 
             // 入っている試合分のデータを入れる
             tr.kills.push(team.kills);
@@ -195,7 +195,7 @@ export function appendToTeamResults(teamresults, gameid, teamid, name, kills, pl
 
     // 参加していない試合分を埋める
     while (tr.kills.length < gameid) { tr.kills.push(0) }
-    while (tr.placements.length < gameid) { tr.placements.push(Object.keys(teamresults).length) }
+    while (tr.placements.length < gameid) { tr.placements.push(0xff) }
 
     // 入っている試合分のデータを入れる
     tr.kills.push(kills);
