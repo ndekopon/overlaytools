@@ -1380,7 +1380,8 @@ export class WebAPIConfig {
     #tournament_name;
     #tournament_ids;
     #tournament_params;
-    #players;
+    /** @type {Object.<string, object>} プレーヤーparamsの格納先 */
+    #playerparams;
     #realtimeview;
     #observerconfig;
     #playername;
@@ -1392,7 +1393,7 @@ export class WebAPIConfig {
         this.#tournament_name = "noname";
         this.#tournament_ids = {};
         this.#tournament_params = {};
-        this.#players = {};
+        this.#playerparams = {};
         this.#realtimeview = new RealtimeView();
         this.#observerconfig = new ObserverConfig();
         this.#resultview = new ResultView();
@@ -1479,7 +1480,7 @@ export class WebAPIConfig {
 
         this.#webapi.addEventListener('getplayers', (ev) => {
             for (const [hash, params] of Object.entries(ev.detail.players)) {
-                this.#players[hash] = params;
+                this.#playerparams[hash] = params;
                 this.#realtimeview.redrawPlayerName(hash, params); // RealtimeViewの再描画
                 this.#resultview.savePlayerParams(hash, params); // ResultView用にも保存
                 if ('name' in params) this.#playername.setName(hash, params.name);
@@ -1548,6 +1549,7 @@ export class WebAPIConfig {
         });
         this.#webapi.addEventListener('playername', (ev) => {
             this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_NAME);
+            this.#procPlayerInGameName(ev.detail.player.hash, ev.detail.player.name);
         });
         this.#webapi.addEventListener('playercharacter', (ev) => {
             this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_CHARACTER);
@@ -1857,7 +1859,7 @@ export class WebAPIConfig {
         });
 
         this.#playername.setCallback((hash, name) => {
-            const params = this.#players[hash];
+            const params = this.#playerparams[hash];
             params.name = name;
             this.#webapi.setPlayerParams(hash, params);
         });
@@ -2043,10 +2045,10 @@ export class WebAPIConfig {
      */
     #procPlayerInGameName(hash, ingamename) {
         let updated = false;
-        if (!(hash in this.#players)) {
-            this.#players[hash] = {};
+        if (!(hash in this.#playerparams)) {
+            this.#playerparams[hash] = {};
         }
-        const params = this.#players[hash];
+        const params = this.#playerparams[hash];
         if (!('ingamenames' in params)) {
             params.ingamenames = [];
         }
