@@ -292,7 +292,7 @@ class TeamName extends WebAPIConfigBase {
      * テキストエリアからチーム名の配列を作る
      * @returns {string[]} チーム名の入った配列
      */
-    getText() {
+    getLines() {
         const text = this.nodes.text.value;
         return text.split(/\r\n|\n/).map((line) => line.trim()).slice(0, 30);
     }
@@ -1735,13 +1735,13 @@ export class WebAPIConfig {
         });
 
         document.getElementById('team-name-button').addEventListener('click', (ev) => {
-            this.#procSetTeamNames().then((arr) => {
+            this.#setTeamNames().then((arr) => {
                 this.#updateTeamNameTextArea();
             });
         });
 
         document.getElementById('team-ingamename-button').addEventListener('click', (ev) => {
-            this.#procSetInGameTeamName().then((arr) => {
+            this.#setInGameTeamNames().then((arr) => {
             });
         });
 
@@ -2035,8 +2035,8 @@ export class WebAPIConfig {
         }
     }
 
-    #procSetInGameTeamName() {
-        const lines = this.#teamname.getText();
+    #setInGameTeamNames() {
+        const lines = this.#teamname.getLines();
         const jobs = [];
         for (let i = 0; i < 30; ++i) {
             if (i < lines.length) {
@@ -2051,8 +2051,8 @@ export class WebAPIConfig {
         });
     }
 
-    #procSetTeamNames() {
-        const lines = this.#teamname.getText();
+    #setTeamNames() {
+        const lines = this.#teamname.getLines();
         const jobs = [];
         for (let i = 0; i < 30; ++i) {
             if (i < lines.length) {
