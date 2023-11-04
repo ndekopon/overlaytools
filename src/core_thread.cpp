@@ -1680,18 +1680,22 @@ namespace app {
 	//---------------------------------------------------------------------------------
 	void core_thread::proc_message(UINT _message)
 	{
-		log(LOG_CORE, L"Info: receive data from main_window size=%lu", _message);
 		switch (_message)
 		{
 		case CORE_MESSAGE_TEAMBANNER_STATE_SHOW:
+			log(LOG_CORE, L"Info: CORE_MESSAGE_TEAMBANNER_STATE_SHOW received.");
 			send_webapi_teambanner_state(1);
 			break;
 		case CORE_MESSAGE_TEAMBANNER_STATE_HIDE:
+			log(LOG_CORE, L"Info: CORE_MESSAGE_TEAMBANNER_STATE_HIDE received.");
 			send_webapi_teambanner_state(0);
 			break;
 		case CORE_MESSAGE_GET_STATS:
 			liveapi_.get_stats();
 			webapi_.get_stats();
+			break;
+		default:
+			log(LOG_CORE, L"Info: receive unknown message(=%lu) from main_window", _message);
 			break;
 		}
 	}
