@@ -147,6 +147,118 @@ class ObserverConfig {
     }
 }
 
+
+class PlayerName extends WebAPIConfigBase {
+    /** @type {Object.<string, HTMLElement>} hashに対応するテーブル列を保持 */
+    #players;
+    /** @type {setPlayerNameCallback} */
+    #callback;
+
+    /**
+     * コンストラクタ
+     */
+    constructor() {
+        super('player-name-');
+        this.getNode('list');
+        this.#players = {};
+        this.#callback = undefined;
+    }
+
+    /**
+     * 新しいHTMLElementを作る
+     * @param {string} hash プレイヤーID(hash)
+     */
+    #createTableRow(hash) {
+        const tr = document.createElement('tr');
+        this.#players[hash] = tr;
+        this.nodes.list.appendChild(tr);
+        tr.appendChild(document.createElement('td'));
+        tr.appendChild(document.createElement('td'));
+        tr.appendChild(document.createElement('td'));
+        tr.appendChild(document.createElement('td'));
+        // PlayerID格納
+        tr.children[0].innerText = hash;
+
+        // プレイヤー名更新用
+        const input = document.createElement('input');
+        const button = document.createElement('button')
+        tr.children[3].appendChild(input);
+
+        // ボタンの設定
+        tr.children[3].appendChild(button);
+        button.innerText = 'set';
+        button.addEventListener('click', () => {
+            const name = input.value.trim();
+            const prev_name = this.#getName(hash);
+            if (name != prev_name) {
+                if (this.#callback) {
+                    this.#callback(hash, name);
+                }
+            }
+        });
+    }
+
+    /**
+     * プレイヤー名の設定ボタンが押された場合のコールバック
+     * @callback setPlayerNameCallback
+     * @param {string} hash プレイヤーID(hash)
+     * @param {string} name 設定するプレイヤー名
+     */
+
+    /**
+     * コールバック関数
+     * @param {setPlayerNameCallback} func コールバック関数
+     */
+    setCallback(func) {
+        if (typeof func == 'function') {
+            this.#callback = func;
+        }
+    }
+
+    /**
+     * 現在表示されているバナー用プレイヤー名取得
+     * @param {string} hash プレイヤーID(hash)
+     * @returns {string} プレイヤー名
+     */
+    #getName(hash) {
+        if (hash in this.#players) {
+            const tr = this.#players[hash];
+            return tr.children[1].innerText;
+        }
+        return '';
+    }
+
+    /**
+     * バナー用プレイヤー名設定
+     * @param {string} hash プレイヤーID(hash)
+     * @param {string} name プレイヤー名
+     */
+    setName(hash, name) {
+        if (!(hash in this.#players)) {
+            this.#createTableRow(hash);
+        }
+        if (hash in this.#players) {
+            const tr = this.#players[hash];
+            tr.children[1].innerText = name;
+        }
+    }
+
+    /**
+     * インゲーム名リストを設定
+     * @param {string} hash プレイヤーID(hash)
+     * @param {string[]} names ゲーム内プレイヤー名の配列
+     */
+    setInGameNames(hash, names) {
+        if (!(hash in this.#players)) {
+            this.#createTableRow(hash);
+        }
+        if (hash in this.#players) {
+            const tr = this.#players[hash];
+            tr.children[2].innerText = names.join();
+        }
+    }
+}
+
 class RealtimeView {
     #_game;
     #basenode;
@@ -1271,6 +1383,7 @@ export class WebAPIConfig {
     #players;
     #realtimeview;
     #observerconfig;
+    #playername;
     #resultview;
     #firstproccurrenthash;
 
@@ -1285,6 +1398,7 @@ export class WebAPIConfig {
         this.#resultview = new ResultView();
         this.#webapiconnectionstatus = new WebAPIConnectionStatus();
         this.#liveapiconnectionstatus = new LiveAPIConnectionStatus();
+        this.#playername = new PlayerName();
         this.#firstproccurrenthash = true;
 
         this.#setupWebAPI(url);
@@ -1364,15 +1478,13 @@ export class WebAPIConfig {
         });
 
         this.#webapi.addEventListener('getplayers', (ev) => {
-            for (const [id, params] of Object.entries(ev.detail.players)) {
-                if (!(id in this.#players)) {
-                    this.#players[id] = {};
-                }
-                this.#players[id].params = params;
-                this.#realtimeview.redrawPlayerName(id, params); // RealtimeViewの再描画
-                this.#resultview.savePlayerParams(id, params); // ResultView用にも保存
+            for (const [hash, params] of Object.entries(ev.detail.players)) {
+                this.#players[hash] = params;
+                this.#realtimeview.redrawPlayerName(hash, params); // RealtimeViewの再描画
+                this.#resultview.savePlayerParams(hash, params); // ResultView用にも保存
+                if ('name' in params) this.#playername.setName(hash, params.name);
+                if ('ingamenames' in params) this.#playername.setInGameNames(hash, params.ingamenames);
             }
-            this.#procPlayers();
         });
 
         this.#webapi.addEventListener('lobbyplayer', (ev) => {
@@ -1473,14 +1585,31 @@ export class WebAPIConfig {
         /* result用 */
         this.#webapi.addEventListener('gettournamentresults', (ev) => {
             this.#resultview.setResults(ev.detail.results);
+            this.#getPlayerFromResults(ev.detail.results);
         });
         this.#webapi.addEventListener('saveresult', (ev) => {
             this.#webapi.getTournamentResults();
             this.#updateResultMenuFromResultsCount(ev.detail.gameid + 1);
         });
+
         this.#webapi.addEventListener('getplayerparams', (ev) => {
-            this.#resultview.savePlayerParams(ev.detail.hash, ev.detail.params);
-            this.#realtimeview.redrawPlayerName(ev.detail.hash, ev.detail.params); // RealtimeViewの再描画
+            const hash = ev.detail.hash;
+            const params = ev.detail.params;
+            this.#resultview.savePlayerParams(hash, params);
+            this.#realtimeview.redrawPlayerName(hash, params); // RealtimeViewの再描画
+            if ('name' in params) this.#playername.setName(hash, params.name);
+            if ('ingamenames' in params) this.#playername.setInGameNames(hash, params.ingamenames);
+        });
+
+        this.#webapi.addEventListener('setplayerparams', (ev) => {
+            if (ev.detail.result) {
+                const hash = ev.detail.hash;
+                const params = ev.detail.params;
+                this.#resultview.savePlayerParams(hash, params);
+                this.#realtimeview.redrawPlayerName(hash, params); // RealtimeViewの再描画
+                if ('name' in params) this.#playername.setName(hash, params.name);
+                if ('ingamenames' in params) this.#playername.setInGameNames(hash, params.ingamenames);
+            }
         });
 
         /* Overlay用 */
@@ -1528,9 +1657,7 @@ export class WebAPIConfig {
         });
 
         document.getElementById('player-name-getfromresults').addEventListener('click', (ev) => {
-            this.#webapi.getTournamentResults().then((ev) => {
-                this.#getPlayerFromResults(ev.detail.results);
-            }, () => {});
+            this.#webapi.getTournamentResults();
         });
 
         document.getElementById('player-name-getfromlivedata').addEventListener('click', (ev) => {
@@ -1538,7 +1665,7 @@ export class WebAPIConfig {
         });
 
         document.getElementById('player-name-getfromlobby').addEventListener('click', (ev) => {
-            this.#webapi.sendGetLobbyPlayers().then((ev) => {}, () => {});
+            this.#webapi.sendGetLobbyPlayers();
         });
 
         document.getElementById('team-name-button').addEventListener('click', (ev) => {
@@ -1728,6 +1855,12 @@ export class WebAPIConfig {
         this.#resultview.setUnknownIDCallback((playerhash) => {
             this.#webapi.getPlayerParams(playerhash);
         });
+
+        this.#playername.setCallback((hash, name) => {
+            const params = this.#players[hash];
+            params.name = name;
+            this.#webapi.setPlayerParams(hash, params);
+        });
     }
 
     #setupTextarea() {
@@ -1903,71 +2036,6 @@ export class WebAPIConfig {
         });
     }
 
-    #buildPlayerNameTR(hash, params) {
-        const tr = document.createElement('tr');
-        tr.appendChild(document.createElement('td'));
-        tr.appendChild(document.createElement('td'));
-        tr.appendChild(document.createElement('td'));
-        tr.appendChild(document.createElement('td'));
-        tr.children[0].innerText = hash;
-        const input = document.createElement('input');
-        const button = document.createElement('button')
-        tr.children[3].appendChild(input);
-        tr.children[3].appendChild(button);
-        button.innerText = 'set';
-        button.addEventListener('click', () => {
-            let changed = false;
-            const txt = input.value.trim();
-            if (txt == '') {
-                // 削除
-                if ('name' in params) {
-                    delete params.name;
-                    changed = true;
-                }
-            } else {
-                if (params.name != txt) {
-                    params.name = txt;
-                    changed = true;
-                }
-            }
-            if (changed) {
-                // 更新を送信
-                this.#webapi.setPlayerParams(hash, params).then((ev) => {
-                    if (ev.detail.result) {
-                        this.#setTextPlayerNameTR(tr, ev.detail.params);
-                    }
-                }, () => {});
-            }
-        });
-        return tr;
-    }
-
-    #setTextPlayerNameTR(node, params) {
-        if ('name' in params) node.children[1].innerText = params.name;
-        if ('ingamenames' in params) {
-            let txt = '';
-            for (const name of params.ingamenames) {
-                if (txt != '') txt += ',';
-                txt += name;
-            }
-            node.children[2].innerText = txt;
-        }
-    };
-
-    /**
-     * プレイヤー用のオブジェクトを更新処理する
-     */
-    #procPlayers() {
-        const tbody = document.getElementById('player-name-list');
-        for (const [hash, data] of Object.entries(this.#players)) {
-            if (!('node' in data)) {
-                data.node = this.#buildPlayerNameTR(hash, data.params);
-                tbody.appendChild(data.node);
-            }
-            this.#setTextPlayerNameTR(data.node, data.params);
-        }
-    }
-
     /**
      * プレイヤーのハッシュとインゲームの名前を処理
      * @param {string} hash プレイヤーID(hash)
@@ -1978,25 +2046,18 @@ export class WebAPIConfig {
         if (!(hash in this.#players)) {
             this.#players[hash] = {};
         }
-        const player = this.#players[hash];
-        if (!('params' in player)) {
-            player.params = {};
+        const params = this.#players[hash];
+        if (!('ingamenames' in params)) {
+            params.ingamenames = [];
         }
-        if (!('ingamenames' in player.params)) {
-            player.params.ingamenames = [];
-        }
-        if (player.params.ingamenames.indexOf(ingamename) == -1) {
-            player.params.ingamenames.push(ingamename);
+        if (params.ingamenames.indexOf(ingamename) == -1) {
+            params.ingamenames.push(ingamename);
             updated = true;
         }
-        if (!('node' in player)) {
-            player.node = this.#buildPlayerNameTR(hash, player.params);
-            document.getElementById('player-name-list').appendChild(player.node);
+        if (updated) {
+            // プレイヤーのパラメータを更新
+            this.#webapi.setPlayerParams(hash, params);
         }
-        this.#setTextPlayerNameTR(player.node, player.params);
-
-        // プレイヤーのパラメータを更新
-        this.#webapi.setPlayerParams(hash, player.params).then(() => {}, () => {});
     }
 
     /**
