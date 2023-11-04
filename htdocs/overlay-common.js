@@ -103,16 +103,44 @@ export class OverlayBase {
 const calcpoints_table = [12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1];
 
 /**
+ * ポイント詳細
+ * @typedef {object} detailpoints
+ * @prop {number} total 合計ポイント
+ * @prop {number} kills キルポイント
+ * @prop {number} placement 順位ポイント
+ * @prop {number} other その他ポイント
+ */
+
+/**
  * 順位ポイント・キル数からマッチのポイントを計算する
  * @param {number} gameid 計算対象のゲーム番号(0～)
  * @param {number} placement 順位(1～20)
  * @param {number} kills キル数
+ * @param {object} params トーナメントparams(ポイント計算用)
+ * @returns {detailpoints} ポイント(詳細データ)
  */
-export function calcPoints(gameid, placement, kills) {
+export function calcPoints(gameid, placement, kills, params) {
     // INFO: キル数制限等ある場合は、ここでキル数の調整を行う
     if (placement <= 0) throw new Error('placement is >= 0.');
-    if (placement - 1 >= calcpoints_table.length) return kills;
-    return calcpoints_table[placement - 1] + kills;
+    const points = {
+        total: 0,
+        kills: 0,
+        placement: 0,
+        other: 0
+    };
+
+    // キルによるポイント計算
+    points.kills = kills;
+
+    // 順位ポイント計算
+    if (placement - 1 < calcpoints_table.length) points.placement = calcpoints_table[placement - 1];
+
+    // その他のポイント計算
+    points.other = 0;
+
+    // 合計
+    points.total = points.kills + points.placement + points.other;
+    return points;
 }
 
 /**
@@ -123,6 +151,9 @@ export function calcPoints(gameid, placement, kills) {
  * @prop {number[]} points 各ゲームのポイント
  * @prop {number[]} placements 各ゲームの順位(1～)
  * @prop {number[]} kills 各ゲームのキル数
+ * @prop {number[]} kill_points 各ゲームのキルポイント
+ * @prop {number[]} placement_points 各ゲームの順位ポイント
+ * @prop {number[]} other_points 各ゲームのその他ポイント
  * @prop {number} rank 順位(-1は未評価, 0=1位,1=2位...)
  * @prop {boolean} eliminated 排除済みかどうか
  * @prop {number[]} status プレーヤーの生存状況
@@ -135,8 +166,9 @@ export function calcPoints(gameid, placement, kills) {
 
 /**
  * teamresultオブジェクトの初期化
+ * @param {number} teamid チームID(0～)
  * @param {string} name チーム名
- * @returns 
+ * @returns {teamresult} チームリザルト
  */
 function initTeamResult(teamid, name) {
     return {
@@ -146,6 +178,9 @@ function initTeamResult(teamid, name) {
         points: [],
         placements: [],
         kills: [],
+        kill_points: [],
+        placement_points: [],
+        other_points: [],
         eliminated: false,
         status: [],
         rank: -1

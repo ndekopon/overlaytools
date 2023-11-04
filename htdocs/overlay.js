@@ -1714,8 +1714,11 @@ export class Overlay {
         // ポイントを計算して追加
         for (const [_, team] of Object.entries(this.#teams)) {
             for (let gameid = 0; gameid < team.kills.length && gameid < team.placements.length; ++gameid) {
-                const points = calcPoints(gameid, team.placements[gameid], team.kills[gameid]);
-                team.points.push(points);
+                const points = calcPoints(gameid, team.placements[gameid], team.kills[gameid], this.#tournamentparams);
+                team.points.push(points.total);
+                team.kill_points.push(points.kills);
+                team.placement_points.push(points.placement);
+                team.other_points.push(points.other);
             }
             team.total_points = team.points.reduce((a, c) => a + c, 0);
         }
@@ -1955,13 +1958,16 @@ export class Overlay {
         // ポイント計算
         for (const [_, team] of Object.entries(teams)) {
             for (let i = 0; i < team.kills.length; ++i) {
-                let points = 0;
+                let points = {};
                 if (gameid == 'all') {
-                    points = calcPoints(i, team.placements[i], team.kills[i]);
+                    points = calcPoints(i, team.placements[i], team.kills[i], this.#tournamentparams);
                 } else {
-                    points = calcPoints(gameid, team.placements[i], team.kills[i]);
+                    points = calcPoints(gameid, team.placements[i], team.kills[i], this.#tournamentparams);
                 }
-                team.points.push(points);
+                team.points.push(points.total);
+                team.kill_points.push(points.kills);
+                team.placement_points.push(points.placement);
+                team.other_points.push(points.other);
             }
             // totalを入れておく
             team.total_points = team.points.reduce((a, c) => a + c, 0);
@@ -1982,7 +1988,8 @@ export class Overlay {
             this.#matchresult.setTotalPoints(i, team.total_points);
             const total_kills = team.kills.reduce((a, c) => a + c, 0);
             this.#matchresult.setKills(i, total_kills);
-            this.#matchresult.setPlacementPoints(i, team.total_points - total_kills);
+            const placement_points = team.placement_points.reduce((a, c) => a + c, 0);
+            this.#matchresult.setPlacementPoints(i, placement_points);
         }
         this.#matchresult.show();
     }

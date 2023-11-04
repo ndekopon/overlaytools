@@ -818,6 +818,7 @@ class RealtimeView {
 class ResultView {
     #_game;
     #_results;
+    #tournamentparams;
     #info;
     #all;
     #left;
@@ -838,6 +839,7 @@ class ResultView {
         this.#left = document.getElementById('result-all-left');
         this.#right = document.getElementById('result-all-right');
         this.#single = document.getElementById('result-single');
+        this.#tournamentparams = {};
         this.#nodes = [];
         this.#infonodes = [];
         this.#_game = null;
@@ -952,15 +954,20 @@ class ResultView {
         // テキスト設定
         const node = this.#nodes[rank];
         const kills = team.kills.reduce((a, c) => a + c, 0);
+        const kill_points = team.kill_points.reduce((a, c) => a + c, 0);
+        const placement_points = team.placement_points.reduce((a, c) => a + c, 0);
         node.rank.innerText = team.rank + 1;
         node.name.innerText = this.#getTeamName(team.id, team.name);
-        node.placement_value.innerText = team.total_points - kills;
         node.placement_label.innerText = 'PP';
+        node.placement_value.innerText = placement_points;
         if (placement != null) {
             node.placement_value.innerHTML += '<span>(' + placement + ')</span>';
         }
-        node.kills_value.innerText = kills;
         node.kills_label.innerText = 'KP';
+        node.kills_value.innerText = kill_points;
+        if (kills != kill_points) {
+            node.kills_value.innerHTML += '<span>(' + kills + ')</span>';
+        }
         node.points_value.innerText = team.total_points;
         node.points_label.innerText = 'TOTAL';
 
@@ -1175,13 +1182,16 @@ class ResultView {
         // ポイントを計算して追加
         for (const [_, team] of Object.entries(data)) {
             for (let i = 0; i < team.kills.length; ++i) {
-                let points = 0;
+                let points;
                 if (target == 'all') {
-                    points = calcPoints(i, team.placements[i], team.kills[i]);
+                    points = calcPoints(i, team.placements[i], team.kills[i], this.#tournamentparams);
                 } else {
-                    points = calcPoints(target, team.placements[i], team.kills[i]);
+                    points = calcPoints(target, team.placements[i], team.kills[i], this.#tournamentparams);
                 }
-                team.points.push(points);
+                team.points.push(points.total);
+                team.kill_points.push(points.kills);
+                team.placement_points.push(points.placement);
+                team.other_points.push(points.other);
             }
             team.total_points = team.points.reduce((a, c) => a + c, 0);
         }
@@ -1359,6 +1369,14 @@ class ResultView {
     setGame(game) {
         console.log(game);
         this.#_game = game;
+    }
+
+    /**
+     * ポイント計算用にトーナメントのparamsをセットする
+     * @param {object} params トーナメントparams
+     */
+    setTournamentParams(params) {
+        this.#tournamentparams = params;
     }
 
     setGameClickCallback(func) {
@@ -1626,12 +1644,14 @@ export class WebAPIConfig {
         this.#webapi.addEventListener('gettournamentparams', (ev) => {
             this.#tournament_params = ev.detail.params;
             this.#setOverlayStatusFromParams(ev.detail.params);
+            this.#resultview.setTournamentParams(ev.detail.params);
         });
 
         this.#webapi.addEventListener('settournamentparams', (ev) => {
             if (ev.detail.result) {
                 this.#tournament_params = ev.detail.params;
                 this.#setOverlayStatusFromParams(ev.detail.params);
+                this.#resultview.setTournamentParams(ev.detail.params);
             }
         });
 
