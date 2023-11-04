@@ -1344,7 +1344,7 @@ export class WebAPIConfig {
             } else {
                 this.#setCurrentTournament(ev.detail.id, ev.detail.name);
             }
-            this.#setCurrentResultsCount(ev.detail.count);
+            this.#updateResultMenuFromResultsCount(ev.detail.count);
         });
 
         this.#webapi.addEventListener('gettournamentids', (ev) => {
@@ -1476,7 +1476,7 @@ export class WebAPIConfig {
         });
         this.#webapi.addEventListener('saveresult', (ev) => {
             this.#webapi.getTournamentResults();
-            this.#setCurrentResultsCount(ev.detail.gameid + 1);
+            this.#updateResultMenuFromResultsCount(ev.detail.gameid + 1);
         });
         this.#webapi.addEventListener('getplayerparams', (ev) => {
             this.#resultview.savePlayerParams(ev.detail.hash, ev.detail.params);
@@ -1732,7 +1732,7 @@ export class WebAPIConfig {
 
     #setupTextarea() {
         document.getElementById('team-name-text').addEventListener('change', (ev) => {
-            this.#procTeamNameTextareaUpdate(ev.target.value);
+            this.#setTeamNameOutputTextArea(ev.target.value);
         });
     }
 
@@ -1842,7 +1842,11 @@ export class WebAPIConfig {
         }
     }
 
-    #procTeamNameTextareaUpdate(src) {
+    /**
+     * 1行毎に「TeamXX: 」をつけてoutput側のTextAreaに設定
+     * @param {string} src 元のテキスト
+     */
+    #setTeamNameOutputTextArea(src) {
         const t = document.getElementById('team-name-output');
         let dst = '';
         const lines = src.split(/\r\n|\n/);
@@ -1862,7 +1866,7 @@ export class WebAPIConfig {
         const text = document.getElementById('team-name-text').value;
         return text.split(/\r\n|\n/).map((line) => line.trim());
     }
-    
+
     #procSetInGameTeamName() {
         const lines = this.#getTeamNameFromTextArea();
         const jobs = [];
@@ -1950,6 +1954,9 @@ export class WebAPIConfig {
         }
     };
 
+    /**
+     * プレイヤー用のオブジェクトを更新処理する
+     */
     #procPlayers() {
         const tbody = document.getElementById('player-name-list');
         for (const [hash, data] of Object.entries(this.#players)) {
@@ -1961,6 +1968,11 @@ export class WebAPIConfig {
         }
     }
 
+    /**
+     * プレイヤーのハッシュとインゲームの名前を処理
+     * @param {string} hash プレイヤーID(hash)
+     * @param {string} ingamename プレイヤー名
+     */
     #procPlayerInGameName(hash, ingamename) {
         let updated = false;
         if (!(hash in this.#players)) {
@@ -1982,10 +1994,15 @@ export class WebAPIConfig {
             document.getElementById('player-name-list').appendChild(player.node);
         }
         this.#setTextPlayerNameTR(player.node, player.params);
-        
+
+        // プレイヤーのパラメータを更新
         this.#webapi.setPlayerParams(hash, player.params).then(() => {}, () => {});
     }
 
+    /**
+     * リザルト配列からプレーヤーのハッシュとインゲームの名前を処理する
+     * @param {object[]} results リザルト配列
+     */
     #getPlayerFromResults(results) {
         for (const result of results) {
             for (const [_, team] of Object.entries(result.teams)) {
@@ -1996,6 +2013,10 @@ export class WebAPIConfig {
         }
     }
 
+    /**
+     * オーバーレイの表示/非表示パラメータをトーナメントparamsに設定
+     * @param {string} id オーバーレイの名前
+     */
     #updateOverlayStatus(id) {
         const params = this.#tournament_params;
         const checked = document.getElementById('overlay-hide-' + id).checked;
@@ -2004,6 +2025,10 @@ export class WebAPIConfig {
         forcehide[id] = checked;
     }
 
+    /**
+     * トーナメントのparamsに含まれるパラメータからオーバーレイの強制非表示チェック状態を設定する
+     * @param {object} params トーナメントparams
+     */
     #setOverlayStatusFromParams(params) {
         if (!('forcehide' in params)) params.forcehide = {};
         const forcehide = params.forcehide;
@@ -2021,6 +2046,12 @@ export class WebAPIConfig {
         }
     }
 
+    /**
+     * チーム用のparamsを取得し、nameキーに名前を設定して保存する
+     * @param {number} teamid チームID(0～)
+     * @param {string} name チーム名
+     * @returns チーム用params
+     */
     #getAndSetTeamName(teamid, name) {
         return new Promise((resolve, reject) => {
             this.#webapi.getTeamParams(teamid).then((getev) => {
@@ -2037,6 +2068,11 @@ export class WebAPIConfig {
         });
     }
 
+    /**
+     * チーム用のparamsを取得し、nameキーを削除して保存する
+     * @param {number} teamid チームID(0～)
+     * @returns {object} チーム用params
+     */
     #getAndRemoveTeamName(teamid) {
         return new Promise((resolve, reject) => {
             this.#webapi.getTeamParams(teamid).then((getev) => {
@@ -2053,6 +2089,10 @@ export class WebAPIConfig {
         });
     }
 
+    /**
+     * 0～29のチームparamsを取得する
+     * @returns {object[]} チームのparamsが入った配列
+     */
     #getAllTeamParams() {
         return new Promise((resolve, reject) => {
             const jobs = [];
@@ -2067,23 +2107,34 @@ export class WebAPIConfig {
         });
     }
 
+    /**
+     * チーム用のパラメータを取得してテキストエリアに反映する
+     */
     #getTeamNames() {
         this.#getAllTeamParams().then((arr) => { this.#paramsArrayToTextarea(arr); }, () => {});
     }
 
-    #paramsArrayToTextarea(arr) {
+    /**
+     * チームのparamsからチーム名を取り出しtextareaに設定する
+     * @param {object[]} params_array チームのparamsが入った配列
+     */
+    #paramsArrayToTextarea(params_array) {
         const textarea = document.getElementById('team-name-text');
         let text = '';
-        for (const params of arr) {
+        for (const params of params_array) {
             if (text != '') text += '\r\n';
             if ('name' in params) {
                 text += params.name;
             }
         }
         textarea.value = text;
-        this.#procTeamNameTextareaUpdate(textarea.value);
+        this.#setTeamNameOutputTextArea(textarea.value);
     }
 
+    /**
+     * リザルトを表示する
+     * @param {string} submenu 'all'もしくは数字の文字列(1～)
+     */
     #showResult(submenu) {
         if (submenu == 'all') {
             this.#resultview.showAllResults();
@@ -2095,6 +2146,11 @@ export class WebAPIConfig {
         }
     }
 
+    /**
+     * 現在のトーナメントの選択状況を設定する
+     * @param {string} id トーナメントのID
+     * @param {string} name トーナメントの名前
+     */
     #setCurrentTournament(id, name) {
         document.getElementById('current_tournament_id').innerText = id;
         document.getElementById('current_tournament_name').innerText = name;
@@ -2107,7 +2163,11 @@ export class WebAPIConfig {
         }
     }
 
-    #setCurrentResultsCount(count) {
+    /**
+     * リザルト数から左メニューのリザルトリンクを作成する
+     * @param {number} count リザルト数(0～)
+     */
+    #updateResultMenuFromResultsCount(count) {
         const ul = document.getElementById('ulresult');
         if (count + 1 > ul.children.length) {
             // append
