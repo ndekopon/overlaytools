@@ -41,7 +41,7 @@ namespace {
 	inline bool is_playerframe_red(uint32_t _c)
 	{
 		rgba_t d = { .c = _c };
-		// r:88-8f g:88-8f b:88-8f
+		// r:d8-ff g:00-26 b:00-26
 		if (d.r < 0xd8) return false;
 		if (0x27 < d.g) return false;
 		if (0x27 < d.b) return false;
@@ -106,6 +106,17 @@ namespace app {
 	inline bool is_shown_playerframe(const std::vector<uint32_t>& _buffer)
 	{
 		return is_shown_playerframe_gray(_buffer) || is_shown_playerframe_red(_buffer);
+	}
+
+	inline bool is_shown_healitemframe(const std::vector<uint32_t>& _buffer)
+	{
+		if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 6))) return false;
+		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 31))) return false;
+		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 12))) return false;
+		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 18))) return false;
+		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 23))) return false;
+		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 28))) return false;
+		return true;
 	}
 
 	inline bool is_shown_craftpoint(const std::vector<uint32_t>& _buffer)
@@ -229,11 +240,12 @@ namespace app {
 						frame_captured++;
 
 						bool playerframe = is_shown_playerframe(buffer);
+						bool healitemframe = is_shown_healitemframe(buffer);
 						bool craftpoint = is_shown_craftpoint(buffer);
 						bool menu = is_shown_menu(buffer);
 						bool team1frame = is_shown_team1frame(buffer);
 						bool teambanner_show = teambanner_show_prev;
-						if (playerframe && craftpoint && menu) teambanner_show = true;
+						if ((playerframe || healitemframe) && craftpoint && menu) teambanner_show = true;
 						else if (craftpoint && menu) teambanner_show = false;
 						else if (menu) teambanner_show = false;
 						else if (team1frame) teambanner_show = false;

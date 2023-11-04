@@ -322,7 +322,7 @@ namespace app {
 		rsize_t copybytes = std::min<rsize_t>(CAPTURE_SQUARE_WIDTH * 4, resource.RowPitch);
 
 		// ポインタの準備(teambanner,craftpoint,menu,team1frame)
-		const auto points = std::array<std::pair<size_t, size_t>, 4>({ { 177, 1008 }, { 1616, 50 }, { 1872, 1030 }, { 86, 98 } });
+		const auto points = std::array<std::pair<size_t, size_t>, 5>({ { 177, 1008 }, { 1616, 50 }, { 1872, 1030 }, { 86, 98 }, { 455, 972 } });
 		for (size_t i = 0; i < points.size(); ++i)
 		{
 			const auto x = points.at(i).first;
