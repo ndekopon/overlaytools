@@ -138,8 +138,9 @@ export function calcPoints(gameid, placement, kills) {
  * @param {string} name チーム名
  * @returns 
  */
-function initTeamResult(name) {
+function initTeamResult(teamid, name) {
     return {
+        id: teamid,
         name: name,
         total_points: 0,
         points: [],
@@ -161,7 +162,7 @@ export function resultsToTeamResults(results) {
     results.forEach((result, index) => {
         for (const [teamid, team] of Object.entries(result.teams)) {
             if (!(teamid in teamresults)) {
-                teamresults[teamid] = initTeamResult(team.name);
+                teamresults[teamid] = initTeamResult(teamid, team.name);
             }
             const tr = teamresults[teamid];
 
@@ -188,7 +189,7 @@ export function resultsToTeamResults(results) {
  */
 export function appendToTeamResults(teamresults, gameid, teamid, name, kills, placement) {
     if (!(teamid in teamresults)) {
-        teamresults[teamid] = initTeamResult(name);
+        teamresults[teamid] = initTeamResult(teamid, name);
     }
     const tr = teamresults[teamid];
 
