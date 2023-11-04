@@ -603,7 +603,7 @@ body {
     grid-template-rows: repeat(1, auto);
     column-gap: 60px;
 }
-#matchresult:has(> .mr_teams > :nth-child(11)) > .mr_header {
+#matchresult.mr_over_10 > .mr_header {
     grid-template-columns: 1fr 1fr;
 }
 .mr_header > div, .mr_teams > div {
@@ -617,7 +617,7 @@ body {
 .mr_header > :nth-child(1) {
     display: grid;
 }
-#matchresult:has(> .mr_teams > :nth-child(11)) > .mr_header > :nth-child(2) {
+#matchresult.mr_over_10 > .mr_header > :nth-child(2) {
     display: grid;
 }
 .mr_header > div > div {
@@ -637,10 +637,10 @@ body {
 .mr_teams > div {
     display: grid;
 }
-.mr_teams:has(> :nth-child(11)) {
+.mr_over_10 > .mr_teams {
     grid-template-columns: 1fr 1fr;
 }
-.mr_teams:has(> :nth-child(11)):has(> :nth-child(21)) {
+.mr_over_10.mr_over_20 > .mr_teams {
     grid-template-rows: repeat(15, auto);
     font-size: 150%;
 }

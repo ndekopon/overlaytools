@@ -1101,6 +1101,13 @@ class MatchResult extends OverlayBase {
         const node = new MatchResultTeamNode(this.#ID + "_" + rank, this.#PREFIX, this.nodes.teams);
         this.#teams.push(node);
         node.setRank(rank);
+
+        if (this.#teams.length > 10) {
+            this.addClass("over_10");
+        }
+        if (this.#teams.length > 20) {
+            this.addClass("over_20");
+        }
     }
 
     /**
@@ -1168,6 +1175,7 @@ class MatchResult extends OverlayBase {
         this.setTitle("");
         this.nodes.teams.innerHTML = "";
         this.#teams.splice(0);
+        this.removeClass("over_");
     }
 }
 
