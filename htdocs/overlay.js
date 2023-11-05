@@ -1175,7 +1175,7 @@ class MatchResult extends OverlayBase {
         this.setTitle("");
         this.nodes.teams.innerHTML = "";
         this.#teams.splice(0);
-        this.removeClass("over_");
+        this.clearClasses("over_");
     }
 }
 
