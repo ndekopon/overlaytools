@@ -77,6 +77,272 @@ class LiveAPIConnectionStatus extends WebAPIConfigBase {
     }
 }
 
+class TournamentCalculationMethod extends WebAPIConfigBase {
+    /** @type {Object.<string, HTMLElement>[]} 入力要素を保持 */
+    #forms;
+    /**
+     * プレイヤー名の設定ボタンが押された場合のコールバック
+     * @callback dumpedCalcMethodCallabck
+     * @param {object} calcmethod 計算方法のオブジェクト
+     */
+
+    /**
+     * コールバック関数
+     * @param {dumpedCalcMethodCallabck} func コールバック関数
+     */
+    #callback;
+    /**
+     * コンストラクタ
+     */
+    constructor() {
+        super('tournament-calc-');
+        this.getNode('list');
+        this.getNode('count');
+        this.getNode('send');
+        this.#forms = [];
+        this.#appendTableRow();
+        this.#callback = undefined;
+
+        // イベント
+        this.nodes.count.addEventListener('change', (ev) => {
+            this.#changeTableSize(this.#getMatchCount());
+        });
+
+        this.nodes.send.addEventListener('click', (ev) => {
+            this.#dumpCalcMethod();
+        });
+    }
+
+    /**
+     * テーブルの末尾に要素を追加する(初期状態)
+     */
+    #appendTableRow() {
+        const form = {};
+        const index = this.nodes.list.children.length + 1;
+        const tr = document.createElement('tr');
+        tr.appendChild(document.createElement('td'));
+        tr.appendChild(document.createElement('td'));
+        tr.children[0].innerText = index;
+
+        // 設定
+        const td = tr.children[1];
+
+        {
+            // KILLCAP
+            const div = document.createElement('div');
+            const label = document.createElement('label');
+            const checkbox = document.createElement('input');
+            const label_text = document.createElement('span');
+            const input = document.createElement('input');
+
+            // 設定
+            checkbox.type = "checkbox";
+            input.type = "number";
+            input.min = 0;
+            input.max = 60;
+
+            // テキスト設定
+            label_text.innerText = "kill points cap: ";
+            input.value = 9;
+
+            // append
+            label.appendChild(checkbox);
+            label.appendChild(label_text);
+            label.appendChild(input);
+            div.appendChild(label);
+            td.appendChild(div);
+
+            form.killcap = checkbox;
+            form.killcap_value = input;
+        }
+
+        {
+            // KILLAMP
+            const div = document.createElement('div');
+            const label = document.createElement('label');
+            const checkbox = document.createElement('input');
+            const label_text = document.createElement('span');
+            const input = document.createElement('input');
+
+            // 設定
+            checkbox.type = "checkbox";
+            input.type = "number";
+            input.min = 2;
+            input.max = 4;
+
+            // テキスト設定
+            label_text.innerText = "kill points amp: ";
+            input.value = 2;
+            // append
+            label.appendChild(checkbox);
+            label.appendChild(label_text);
+            label.appendChild(input);
+            div.appendChild(label);
+            td.appendChild(div);
+
+            form.killamp = checkbox;
+            form.killamp_value = input;
+        }
+
+        {
+            // POINTS TABLE
+            const div = document.createElement('div');
+            const label = document.createElement('label');
+            const checkbox = document.createElement('input');
+            const label_text = document.createElement('span');
+            const input = document.createElement('input');
+
+            // 設定
+            checkbox.type = "checkbox";
+            input.type = "text";
+            input.placeholder = "comma spalated points [ex. 12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1]";
+
+            // テキスト設定
+            label_text.innerText = "custom placement points table: ";
+
+            // append
+            label.appendChild(checkbox);
+            label.appendChild(label_text);
+            label.appendChild(input);
+            div.appendChild(label);
+            td.appendChild(div);
+
+            form.customtable = checkbox;
+            form.customtable_value = input;
+        }
+
+        this.nodes.list.appendChild(tr);
+        this.#forms.push(form);
+    }
+
+    /**
+     * テーブルから末尾要素を削除する
+     */
+    #popTableRow() {
+        this.#forms.pop();
+        this.nodes.list.removeChild(this.nodes.list.lastChild);
+    }
+
+    /**
+     * テーブルの行数を変える
+     * @param {number} count 列数
+     */
+    #changeTableSize(count) {
+        while (true) {
+            const children_count = this.nodes.list.children.length;
+            if (count == children_count) break;
+            if (count > children_count) {
+                this.#appendTableRow();
+            } else {
+                this.#popTableRow();
+            }
+        }
+    }
+
+    /**
+     * select要素からマッチ数を取得する
+     * @returns {number} マッチ数(1～16)
+     */
+    #getMatchCount() {
+        const value = parseInt(this.nodes.count.value, 10);
+        if (value < 1) return 1;
+        if (value > 16) return 16;
+        return value;
+    }
+
+    #dumpCalcMethod() {
+        const dumpobject = {};
+
+        for (let gameid = 0; gameid < this.#forms.length; ++gameid) {
+            const form = this.#forms[gameid];
+            const data = {};
+            let dump_needed = false;
+
+            if (form.killcap.checked) {
+                dump_needed = true;
+                const killcap = parseInt(form.killcap_value.value, 10);
+                data.killcap = killcap < 0 ? 0 : killcap;
+            }
+
+            if (form.killamp.checked) {
+                dump_needed = true;
+                let killamp = parseInt(form.killamp_value.value, 10);
+                if (killamp < 2) killamp = 2;
+                if (killamp > 4) killamp = 4;
+                data.killamp = killamp;
+            }
+
+            if (form.customtable.checked) {
+                dump_needed = true;
+                const text = form.customtable_value.value;
+                const values = text.split(/,/).map((x) => {
+                    const v = parseInt(x.trim(), 10);
+                    if (Number.isNaN(v)) return 0;
+                    return v;
+                }).slice(0, 30);
+                data.customtable = values;
+            }
+
+            if (dump_needed) {
+                dumpobject[gameid] = data;
+            }
+        }
+        if (typeof(this.#callback) == "function") {
+            this.#callback(dumpobject);
+        }
+    }
+
+    /**
+     * トーナメントparamsに含まれるパラメータから現在の設定を表示に反映する
+     * @param {object} params 
+     */
+    importCalcMethod(params) {
+        if (!params) return;
+        for (const [k, v] of Object.entries(params)) {
+            const gameid = parseInt(k, 10);
+            if (Number.isNaN(gameid)) continue;
+            if (gameid < 0) continue;
+            if (15 < gameid) continue;
+            if (gameid >= this.#getMatchCount()) {
+                this.nodes.count.value = gameid + 1;
+                this.#changeTableSize(gameid + 1);
+            }
+            const form = this.#forms[gameid];
+            if ('killcap' in v) {
+                form.killcap.checked = true;
+                form.killcap_value.value = v.killcap;
+            }
+            if ('killamp' in v) {
+                form.killamp.checked = true;
+                form.killamp_value.value = v.killamp;
+            }
+            if ('customtable' in v) {
+                form.customtable.checked = true;
+                form.customtable_value.value = v.customtable.join();
+            }
+        }
+    }
+
+    /**
+     * コールバック関数を定義する
+     * @param {dumpedCalcMethodCallabck} func 計算方法を含むオブジェクトをdumpした際に呼び出される関数
+     */
+    setDumpedCalcMethodCallback(func) {
+        if (typeof func == "function") {
+            this.#callback = func;
+        }
+    }
+
+    /**
+     * 選択状況をクリアする
+     */
+    clear() {
+        this.#changeTableSize(0);
+        this.#changeTableSize(1);
+        this.nodes.count.value = 1;
+    }
+}
+
 class ObserverConfig {
     #callback;
     #observers;
@@ -1396,6 +1662,7 @@ export class WebAPIConfig {
     #tournament_name;
     #tournament_ids;
     #tournament_params;
+    #tournamentcalculationmethod;
     /** @type {Object.<string, object>} プレーヤーparamsの格納先 */
     #playerparams;
     /** @type {Object.<string, object>} チームparamsの格納先 */
@@ -1417,6 +1684,7 @@ export class WebAPIConfig {
         this.#realtimeview = new RealtimeView();
         this.#observerconfig = new ObserverConfig();
         this.#resultview = new ResultView();
+        this.#tournamentcalculationmethod = new TournamentCalculationMethod();
         this.#webapiconnectionstatus = new WebAPIConnectionStatus();
         this.#liveapiconnectionstatus = new LiveAPIConnectionStatus();
         this.#playername = new PlayerName();
@@ -1487,6 +1755,7 @@ export class WebAPIConfig {
         });
 
         this.#webapi.addEventListener('settournamentname', (ev) => {
+            this.#tournamentcalculationmethod.clear();
             this.#webapi.getCurrentTournament();
             this.#webapi.getTournamentIDs();
             this.#webapi.getTournamentResults();
@@ -1645,6 +1914,7 @@ export class WebAPIConfig {
             this.#tournament_params = ev.detail.params;
             this.#setOverlayStatusFromParams(ev.detail.params);
             this.#resultview.setTournamentParams(ev.detail.params);
+            this.#tournamentcalculationmethod.importCalcMethod(ev.detail.params['calcmethod']);
         });
 
         this.#webapi.addEventListener('settournamentparams', (ev) => {
@@ -1652,6 +1922,7 @@ export class WebAPIConfig {
                 this.#tournament_params = ev.detail.params;
                 this.#setOverlayStatusFromParams(ev.detail.params);
                 this.#resultview.setTournamentParams(ev.detail.params);
+                this.#tournamentcalculationmethod.importCalcMethod(ev.detail.params['calcmethod']);
             }
         });
 
@@ -1890,6 +2161,11 @@ export class WebAPIConfig {
             const params = this.#playerparams[hash];
             params.name = name;
             this.#webapi.setPlayerParams(hash, params);
+        });
+
+        this.#tournamentcalculationmethod.setDumpedCalcMethodCallback((calcmethod) => {
+            this.#tournament_params['calcmethod'] = calcmethod;
+            this.#webapi.setTournamentParams(this.#tournament_params);
         });
     }
 

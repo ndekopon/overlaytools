@@ -120,7 +120,6 @@ const calcpoints_table = [12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1];
  * @returns {detailpoints} ポイント(詳細データ)
  */
 export function calcPoints(gameid, placement, kills, params) {
-    // INFO: キル数制限等ある場合は、ここでキル数の調整を行う
     if (placement <= 0) throw new Error('placement is >= 0.');
     const points = {
         total: 0,
@@ -129,11 +128,24 @@ export function calcPoints(gameid, placement, kills, params) {
         other: 0
     };
 
+    let calcmethod = {};
+    if ('calcmethod' in params && gameid in params.calcmethod) calcmethod = params.calcmethod[gameid];
+
     // キルによるポイント計算
-    points.kills = kills;
+    let killamp = 1;
+    if ('killamp' in calcmethod) killamp = calcmethod.killamp;
+    points.kills = kills * killamp;
+
+    let killcap = 0xff;
+    if ('killcap' in calcmethod) killcap = calcmethod.killcap;
+    if (points.kills > killcap) points.kills = killcap;
 
     // 順位ポイント計算
-    if (placement - 1 < calcpoints_table.length) points.placement = calcpoints_table[placement - 1];
+    if ('customtable' in calcmethod) {
+        if (placement - 1 < calcmethod.customtable.length) points.placement = calcmethod.customtable[placement - 1];
+    } else {
+        if (placement - 1 < calcpoints_table.length) points.placement = calcpoints_table[placement - 1];
+    }
 
     // その他のポイント計算
     points.other = 0;

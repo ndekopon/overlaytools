@@ -107,6 +107,41 @@
     </p>
 </div>
 
+<div id="tournament-calc" class="hide">
+    <h3>Tournament: points calculation method</h3>
+    <h4>number of matches</h4>
+    <p>
+        <select id="tournament-calc-count">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+            <option>9</option>
+            <option>10</option>
+            <option>11</option>
+            <option>12</option>
+            <option>13</option>
+            <option>14</option>
+            <option>15</option>
+            <option>16</option>
+        </select>
+    </p>
+    <h4>select points calculation method</h4>
+    <table>
+        <thead>
+            <tr><th>#</th><th>detail</th></tr>
+        </thead>
+        <tbody id="tournament-calc-list"></tbody>
+    </table>
+    <p>
+        <button id="tournament-calc-send">set calculation method</button>
+    </p>
+</div>
+
 <div id="observer-set" class="hide">
     <h3>Observer: set</h3>
     <h4>gather observer hash</h4>
@@ -330,6 +365,7 @@ import {
 
 window.onload = (event) => {
     const config = new WebAPIConfig("ws://127.0.0.1:20081/");
+    console.log(config);
 }
 </script>
 </body>

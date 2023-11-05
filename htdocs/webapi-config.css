@@ -107,6 +107,33 @@ body {
     background-color: #FFCCCC;
 }
 
+/* tournament-calc */
+#tournament-calc table {
+    border-collapse: collapse;
+}
+#tournament-calc th {
+    border: 1px solid black;
+    padding: 0.1em 1em;
+}
+#tournament-calc td {
+    border: 1px solid black;
+    padding: 0.1em 1em;
+}
+#tournament-calc input {
+    vertical-align: middle;
+    margin-right: 4px;
+}
+#tournament-calc input[type=text] {
+    width: 40em;
+}
+#tournament-calc-custom-placement-points {
+    width: 40em;
+}
+#tournament-calc p {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
 /* observer-set */
 
 #observer-set table {
@@ -337,6 +364,9 @@ body {
     line-height: 1;
 }
 .result-all-team-placement span {
+    font-size: 50%;
+}
+.result-all-team-kills span {
     font-size: 50%;
 }
 
