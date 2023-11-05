@@ -250,6 +250,9 @@ class TournamentCalculationMethod extends WebAPIConfigBase {
         return value;
     }
 
+    /**
+     * 現在の設定・選択状況をObjectにしてコールバック関数を呼ぶ
+     */
     #dumpCalcMethod() {
         const dumpobject = {};
 
