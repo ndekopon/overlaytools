@@ -2205,12 +2205,16 @@ export class WebAPIConfig {
         return first >= 0 ? s.substring(first + 1) : '';
     }
 
+    /**
+     * URLのハッシュからページ表示・非表示する
+     * @param {string} hash URLのハッシュ
+     */
     #procCurrentHash(hash) {
         const fragment = this.#getFragment(hash);
         const mainmenu = this.#getMainMenu(fragment);
         const submenu = this.#getSubMenu(fragment);
 
-        if (this.#tournament_id == '' && ["realtime", "tournament-rename", "tournament-params", "team-name", "team-params", "overlay"].indexOf(fragment) >= 0) {
+        if (this.#tournament_id == '' && ["realtime", "tournament-rename", "tournament-params", "tournament-calc", "team-name", "team-params", "overlay"].indexOf(fragment) >= 0) {
             window.location.assign("#tournament-set");
             return;
         }
@@ -2249,6 +2253,10 @@ export class WebAPIConfig {
         }
     }
 
+    /**
+     * トーナメント一覧を表示する
+     * @param {Object.<string, string>[]} ids トーナメントのIDと名前の配列
+     */
     #procTournamentIDs(ids) {
         const tbody = document.getElementById('tournamentids');
         for (const [id, name] of Object.entries(ids)) {
@@ -2278,6 +2286,10 @@ export class WebAPIConfig {
         }
     }
 
+    /**
+     * テキストエリアの内容からゲーム内のチーム名を設定する
+     * @returns {Promise} 設定を行った結果を返す
+     */
     #setInGameTeamNames() {
         const lines = this.#teamname.getLines();
         const jobs = [];
@@ -2294,6 +2306,10 @@ export class WebAPIConfig {
         });
     }
 
+    /**
+     * テキストエリアの内容からチーム名をparamsに設定する
+     * @returns {Promise} 設定を行ったparamsの配列を返す
+     */
     #setTeamNames() {
         const lines = this.#teamname.getLines();
         const jobs = [];
