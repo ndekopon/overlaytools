@@ -547,9 +547,24 @@ class TeamName extends WebAPIConfigBase {
         this.getNode('text');
         this.getNode('output');
 
+        // テキスト設定
+        this.#setLineNumber();
+
         this.nodes.text.addEventListener('change', (ev) => {
             this.#updateOutput(ev.target.value);
         });
+    }
+
+    /**
+     * 行番号を設定する
+     */
+    #setLineNumber() {
+        let dst = '';
+        for(let i = 0; i < 30; ++i) {
+            if (dst != '') dst += '\r\n';
+            dst += (i + 1);
+        }
+        this.nodes.num.innerText = dst;
     }
 
     /**
@@ -1698,7 +1713,6 @@ export class WebAPIConfig {
         this.#setupButton();
         this.#setupCallback();
         this.#setupMenuSelect();
-        this.#setupLineNumber();
     }
 
     #setupWebAPI(url) {
@@ -2176,20 +2190,6 @@ export class WebAPIConfig {
         window.addEventListener("hashchange", (ev) => {
             this.#procCurrentHash(location.hash);
         });
-    }
-
-    #setupLineNumber() {
-        const targets = [
-            document.getElementById('team-name-num')
-        ];
-        let dst = '';
-        for(let i = 0; i < 30; ++i) {
-            if (dst != '') dst += '\r\n';
-            dst += (i + 1);
-        }
-        for (const t of targets) {
-            t.innerText = dst;
-        }
     }
 
     #getFragment(s) {
