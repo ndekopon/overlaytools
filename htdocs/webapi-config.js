@@ -1640,7 +1640,11 @@ class ResultView {
         // 表示切替
         this.#hideSingleGameResult();
     }
-    
+
+    /**
+     * 表示対象のリザルトを設定する
+     * @param {object[]} results 表示するリザルト
+     */
     setResults(results) {
         this.#_results = results;
         if (this.#current == 'all') {
@@ -1650,6 +1654,10 @@ class ResultView {
         }
     }
 
+    /**
+     * リザルト表示用にゲームオブジェクトを設定する
+     * @param {object} game webapiのゲームオブジェクト
+     */
     setGame(game) {
         console.log(game);
         this.#_game = game;
@@ -1663,10 +1671,19 @@ class ResultView {
         this.#tournamentparams = params;
     }
 
+    /**
+     * ゲームIDが選択された場合に呼び出されるコールバック関数を設定する
+     * @param {function} func コールバック関数
+     */
     setGameClickCallback(func) {
         this.#callback = func;
     }
-    setUnknownIDCallback(func) {
+
+    /**
+     * 不明なプレイヤーID(hash)が存在した場合に呼ばれるコールバック関数を設定する
+     * @param {function} func コールバック関数
+     */
+    setUnknownPlayerHashCallback(func) {
         this.#unknownidcallback = func;
     }
 }
@@ -2170,7 +2187,7 @@ export class WebAPIConfig {
             location.assign('#result-' + gameid);
         });
         
-        this.#resultview.setUnknownIDCallback((playerhash) => {
+        this.#resultview.setUnknownPlayerHashCallback((playerhash) => {
             this.#webapi.getPlayerParams(playerhash);
         });
 
