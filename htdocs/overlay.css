@@ -56,10 +56,14 @@ html {
     --overlay-squadeliminated-height: 32px;
     --overlay-squadeliminated-color: rgb(255, 255, 255);
     --overlay-squadeliminated-bgcolor: rgba(176, 48, 57, 0.90);
-    
+
     --overlay-matchresult-color: rgb(255, 255, 255);
     --overlay-matchresult-bgcolor: rgba(0, 0, 0, 0.99);
     --overlay-matchresult-rank-bgcolor: rgba(176, 48, 57, 0.90);
+
+    --overlay-playerleaderboard-color: rgb(255, 255, 255);
+    --overlay-playerleaderboard-bgcolor: rgba(0, 0, 0, 0.99);
+    --overlay-playerleaderboard-rank-bgcolor: rgba(176, 48, 57, 0.90);
 }
 
 * {
@@ -658,6 +662,73 @@ body {
 }
 div.mr_name {
     text-overflow: ellipsis;
+}
+
+/* PlayerLeaderBoard */
+#playerleaderboard {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    color: var(--overlay-playerleaderboard-color);
+    background-color: var(--overlay-playerleaderboard-bgcolor);
+    box-sizing: border-box;
+    padding-left: 160px;
+    padding-right: 160px;
+    display: grid;
+    place-content: center;
+    grid-template-columns: 100%;
+}
+#playerleaderboard.hide {
+    display: none;
+}
+#playerleaderboard > div {
+    box-sizing: border-box;
+    overflow: clip;
+    white-space: nowrap;
+}
+.pl_title {
+    font-size: 32px;
+    padding-bottom: 48px;
+}
+.pl_label {
+    margin-bottom: 5px;
+    border-bottom: solid 1px var(--overlay-matchresult-rank-bgcolor);
+}
+.pl_label, .pl_ranking > div {
+    width: 100%;
+    display: grid;
+    column-gap: 60px;
+    grid-template-columns: 64px minmax(0, 1fr) minmax(0, 1fr) 120px 120px 180px;
+}
+.pl_ranking > div > div:nth-child(1) {
+    background-color: var(--overlay-matchresult-rank-bgcolor);
+}
+.pl_label > div:nth-child(1),
+.pl_label > div:nth-child(4),
+.pl_label > div:nth-child(5),
+.pl_label > div:nth-child(6),
+.pl_ranking > div > div:nth-child(1),
+.pl_ranking > div > div:nth-child(4),
+.pl_ranking > div > div:nth-child(5),
+.pl_ranking > div > div:nth-child(6) {
+    text-align: center;
+}
+.pl_ranking > div > div {
+    margin: 5px 0;
+}
+.pl_label {
+    font-size: 16px;
+    font-weight: bold;
+}
+.pl_ranking {
+    font-size: 32px;
+}
+.mr_title {
+    font-size: 200%;
+    font-weight: bold;
+    margin-bottom: 30px;
 }
 
 /* ErrorStatus */

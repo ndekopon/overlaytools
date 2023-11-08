@@ -2059,9 +2059,36 @@ export class WebAPIConfig {
             }
         });
 
+        document.getElementById('overlay-show-playerleaderboard').addEventListener('click', (ev) => {
+            let checked = "all";
+            for (const node of document.getElementsByName("overlay-result-radio")) {
+                if (node.checked) checked = node.value;
+            }
+            const sortkey = document.getElementById('overlay-show-sortkey').value;
+            if (checked == "all") {
+                this.#webapi.broadcastObject({
+                    type: "showplayerleaderboard",
+                    gameid: 0,
+                    all: true,
+                    key: sortkey
+                });
+            } else {
+                const gameid = document.getElementById("overlay-show-one-result-number").value;
+                this.#webapi.broadcastObject({
+                    type: "showplayerleaderboard",
+                    gameid: parseInt(gameid, 10),
+                    all: false,
+                    key: sortkey
+                });
+            }
+        });
+
         document.getElementById('overlay-hide-matchresult').addEventListener('click', (ev) => {
             this.#webapi.broadcastObject({
                 type: "hidematchresult"
+            });
+            this.#webapi.broadcastObject({
+                type: "hideplayerleaderboard"
             });
         });
 

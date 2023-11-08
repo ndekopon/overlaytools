@@ -23,7 +23,10 @@ export class OverlayBase {
             base: document.createElement('div')
         };
 
-        this.nodes.base.id = this.ID;
+        if (id != "") {
+            this.nodes.base.id = this.ID;
+        }
+
         root.appendChild(this.nodes.base);
     }
 
@@ -276,7 +279,7 @@ export function setRankParameterToTeamResults(teamresults) {
             // 同点の場合は、過去のゲームの最高ポイント
             for (let i = 0; i < ta.points.length && i < tb.points.length; ++i) {
                 if (ta.points[i] > tb.points[i]) return -1;
-                if (tb.points[i] < tb.points[i]) return  1;
+                if (ta.points[i] < tb.points[i]) return  1;
             }
 
             // 同点の場合は、過去のゲームの最高順位
@@ -302,4 +305,66 @@ export function setRankParameterToTeamResults(teamresults) {
         teamresults[teamid].rank = rank;
     }
     return sorted_teamids;
+}
+
+/**
+ * 計算用のプレーヤー戦績オブジェクト
+ * @typedef {object} playerstat
+ * @prop {string} name プレイヤー名
+ * @prop {string} hash プレイヤーID(hash)
+ * @prop {string} teamname チーム名
+ * @prop {string} teamid チームID
+ * @prop {number} kills 各ゲームのポイント
+ * @prop {number} assists 各ゲームの順位(1～)
+ * @prop {number} damage 各ゲームのキル数
+ * @prop {number} rank 順位
+ */
+
+/**
+ * プレイヤー戦績
+ * @typedef {Object.<string, playerstat>} playerstats
+ */
+
+/**
+ * playerstatオブジェクトの初期化
+ * @param {string} hash プレイヤーID(hash)
+ * @param {string} name プレイヤー名
+ * @returns {playerstat} プレイヤー戦績
+ */
+function initPlayerStat(hash, name) {
+    return {
+        name: name,
+        hash: hash,
+        teamname: "",
+        teamid: "",
+        kills: 0,
+        assists: 0,
+        damage: 0,
+        rank: 0,
+    };
+}
+
+/**
+ * webapiで取得したリザルトをplayerstats形式にして返す
+ * @param {object[]} results webapi側で取得できるresultの入った配列
+ * @return {playerstats} playerstats形式のデータ
+ */
+export function resultsToPlayerStats(results) {
+    const playerstats = {};
+    for (const result of results) {
+        for (const [teamid, team] of Object.entries(result.teams)) {
+            for (const player of team.players) {
+                if (!(player.id in playerstats)) {
+                    playerstats[player.id] = initPlayerStat(player.id, player.name);
+                }
+                const stats = playerstats[player.id];
+                if (stats.teamid == "") stats.teamid = teamid;
+                if (stats.teamname == "") stats.teamname = team.name;
+                stats.kills += player.kills;
+                stats.assists += player.assists;
+                stats.damage += player.damage_dealt;
+            }
+        }
+    }
+    return playerstats;
 }

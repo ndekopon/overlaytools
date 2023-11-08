@@ -229,10 +229,18 @@
         <label><input type="checkbox" id="overlay-hide-teamplayerinfo" /> Force hide Team/Player Overlay</label>
     </p>
     <h4>match result</h4>
-    <label><input type="radio" id="overlay-show-all-results" name="overlay-result-radio" value="all" checked />ALL</label><br />
-    <label><input type="radio" id="overlay-show-one-result" name="overlay-result-radio" value="one" />GAMEID: <input type="number" id="overlay-show-one-result-number" min="0" value="0" />(Game1 → 0)</label>
+    <p>
+        <label><input type="radio" id="overlay-show-all-results" name="overlay-result-radio" value="all" checked />ALL</label><br />
+        <label><input type="radio" id="overlay-show-one-result" name="overlay-result-radio" value="one" />GAMEID: <input type="number" id="overlay-show-one-result-number" min="0" value="0" />(Game1 → 0)</label><br />
+        Sort By: <select id="overlay-show-sortkey" value="kills">
+            <option>kills</option>
+            <option>assists</option>
+            <option>damage</option>
+        </select>
+    </p>
     <p><button id="overlay-show-matchresult">show match result</button></p>
-    <p><button id="overlay-hide-matchresult">hide match result</button></p>
+    <p><button id="overlay-show-playerleaderboard">show player leaderboard</button></p>
+    <p><button id="overlay-hide-matchresult">hide match result / player leaderboard</button></p>
 </div>
 
 <div id="announce" class="hide">

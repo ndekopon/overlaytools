@@ -4,6 +4,7 @@ import {
     appendToTeamResults,
     resultsToTeamResults,
     setRankParameterToTeamResults,
+    resultsToPlayerStats,
 } from "./overlay-common.js";
 import * as ApexWebAPI from "./apex-webapi.js";
 
@@ -737,7 +738,7 @@ class GameInfo extends OverlayBase {
     setGameCount(count) {
         super.clearClasses("gameid_");
         super.addClass("gameid_" + count);
-        this.nodes.gamecount.innerText = 'Game ' + count;
+        this.nodes.gamecount.innerText = 'MATCH ' + count;
     }
 }
 
@@ -1179,6 +1180,161 @@ class MatchResult extends OverlayBase {
     }
 }
 
+
+class PlayerLeaderBoardRankingNode extends OverlayBase {
+    /**
+     * コンストラクタ
+     * @param {string} id baseノードに設定するID
+     * @param {string} prefix 追加するノードに付与するクラスの接頭辞
+     * @param {string} root baseノードの追加先ノード
+     */
+    constructor(id, prefix, root) {
+        super(id, prefix, root);
+
+        super.addNode("rank");
+        super.addNode("playername");
+        super.addNode("teamname");
+        super.addNode("kills");
+        super.addNode("assists");
+        super.addNode("damage");
+
+        // append
+        this.nodes.base.appendChild(this.nodes.rank);
+        this.nodes.base.appendChild(this.nodes.playername);
+        this.nodes.base.appendChild(this.nodes.teamname);
+        this.nodes.base.appendChild(this.nodes.kills);
+        this.nodes.base.appendChild(this.nodes.assists);
+        this.nodes.base.appendChild(this.nodes.damage);
+    }
+
+    /**
+     * 順位を設定する
+     * @param {number} rank 順位(1～)
+     */
+    setRank(rank) {
+        this.nodes.rank.innerText = rank;
+    }
+
+    /**
+     * プレーヤー名を設定する
+     * @param {string} playername チーム名
+     */
+    setPlayerName(playername) {
+        this.nodes.playername.innerText = playername;
+    }
+
+    /**
+     * チーム名を設定する
+     * @param {string} teamname チーム名
+     */
+    setTeamName(teamname) {
+        this.nodes.teamname.innerText = teamname;
+    }
+
+    /**
+     * 合計キル数を設定する
+     * @param {number} kills 合計キル数
+     */
+    setKills(kills) {
+        this.nodes.kills.innerText = kills;
+    }
+
+    /**
+     * 合計アシスト数を設定する
+     * @param {number} assists 合計アシスト数
+     */
+    setAssists(assists) {
+        this.nodes.assists.innerText = assists;
+    }
+
+    /**
+     * 合計ダメージを設定する
+     * @param {number} damage 合計ダメージ
+     */
+    setDamage(damage) {
+        this.nodes.damage.innerText = damage;
+    }
+}
+
+class PlayerLeaderBoard extends OverlayBase {
+    #ID;
+    #PREFIX;
+    /**
+     * コンストラクタ
+     */
+    constructor(id = "playerleaderboard", prefix = "pl_") {
+        super(id, prefix);
+        this.#ID = id;
+        this.#PREFIX = prefix;
+
+        super.addNode("title");
+        super.addNode("label");
+        super.addNode("label_rank");
+        super.addNode("label_playername");
+        super.addNode("label_teamname");
+        super.addNode("label_kills");
+        super.addNode("label_assists");
+        super.addNode("label_damage");
+        super.addNode("ranking");
+
+        this.nodes.base.appendChild(this.nodes.title);
+        this.nodes.base.appendChild(this.nodes.label);
+        this.nodes.base.appendChild(this.nodes.ranking);
+        this.nodes.label.appendChild(this.nodes.label_rank);
+        this.nodes.label.appendChild(this.nodes.label_playername);
+        this.nodes.label.appendChild(this.nodes.label_teamname);
+        this.nodes.label.appendChild(this.nodes.label_kills);
+        this.nodes.label.appendChild(this.nodes.label_assists);
+        this.nodes.label.appendChild(this.nodes.label_damage);
+
+        // 初期状態はhide
+        super.hide();
+
+        // テキスト設定
+        this.nodes.label_rank.innerText = "#";
+        this.nodes.label_playername.innerText = "PLAYER NAME";
+        this.nodes.label_teamname.innerText = "TEAM NAME";
+        this.nodes.label_kills.innerText = "KILLS";
+        this.nodes.label_assists.innerText = "ASSISTS";
+        this.nodes.label_damage.innerText = "DAMAGE";
+    }
+
+    /**
+     * 表示タイトルを設定する
+     */
+    setTitle(title) {
+        this.nodes.title.innerText = title;
+    }
+
+    /**
+     * 要素をクリアする
+     */
+    #clear() {
+        while (this.nodes.ranking.lastChild != null) {
+            this.nodes.ranking.removeChild(this.nodes.ranking.lastChild);
+        }
+    }
+
+    /**
+     * リーダーボードの値を設定する
+     * @param {object[]} プレイヤー情報の入った配列
+     */
+    setLeaderboard(players) {
+        this.#clear();
+        for (let i = 0; i < players.length; ++i) {
+            const player = players[i];
+            const node = new PlayerLeaderBoardRankingNode("", this.#PREFIX, this.nodes.ranking);
+            node.setRank(player.rank);
+            node.setPlayerName(player.name);
+            node.setTeamName(player.teamname);
+            node.setKills(player.kills);
+            node.setAssists(player.assists);
+            node.setDamage(player.damage);
+        }
+        super.show();
+    }
+}
+
 class ErrorStatus extends OverlayBase {
     /**
      * コンストラクタ
@@ -1244,6 +1400,7 @@ export class Overlay {
     #championbanner;
     #squadeliminated;
     #matchresult;
+    #playerleaderboard;
     #errorstatus;
     #camera;
     /** @type {boolean} getAll進行中 */
@@ -1252,6 +1409,7 @@ export class Overlay {
     #savedrankorder;
     #tournamentname;
     #teamparams;
+    #playerparams;
     #tournamentparams;
 
     /**
@@ -1268,6 +1426,7 @@ export class Overlay {
         this.#championbanner = new ChampionBanner();
         this.#squadeliminated = new SquadEliminated();
         this.#matchresult = new MatchResult();
+        this.#playerleaderboard = new PlayerLeaderBoard();
         this.#errorstatus = new ErrorStatus();
         this.#getallprocessing = false;
 
@@ -1281,6 +1440,7 @@ export class Overlay {
         this.#savedrankorder = [];
         this.#tournamentname = "";
         this.#teamparams = {};
+        this.#playerparams = {};
 
         this.#hideAll();
     }
@@ -1303,6 +1463,7 @@ export class Overlay {
                     this.#showHideFromGameState(this.#_game.state);
                     this.#webapi.getTournamentParams();
                     this.#getAllTeamParams();
+                    this.#getAllPlayerParams();
                     this.#webapi.getCurrentTournament();
                 }, () => {
                     this.#getallprocessing = false;
@@ -1328,7 +1489,6 @@ export class Overlay {
         });
 
         this.#webapi.addEventListener("gamestatechange", (ev) => {
-            console.log(ev);
             const state = ev.detail.game.state;
             this.#showHideFromGameState(state);
             switch(state) {
@@ -1428,12 +1588,19 @@ export class Overlay {
         });
 
         this.#webapi.addEventListener("getplayerparams", (ev) => {
+            this.#playerparams[ev.detail.hash] = ev.detail.params;
             if (!('name' in ev.detail.params)) return;
             if (this.#camera.playerhash == "") return;
             if (ev.detail.hash != this.#camera.playerhash) return;
             this.#playerbanner.setPlayerName(ev.detail.params.name);
         });
-        
+
+        this.#webapi.addEventListener("getplayerparams", (ev) => {
+            if (ev.detail.result) {
+                this.#playerparams[ev.detail.hash] = ev.detail.params;
+            }
+        });
+
         this.#webapi.addEventListener("setteamparams", (ev) => {
             if (!('name' in ev.detail.params)) return;
             if (this.#camera.playerhash == "") return;
@@ -1577,6 +1744,7 @@ export class Overlay {
                 if ("type" in data) {
                     switch (data.type) {
                         case "showmatchresult":
+                            this.#hidePlayerLeaderBoard();
                             if (data.all) {
                                 this.#showMatchResult('all');
                             } else {
@@ -1585,6 +1753,17 @@ export class Overlay {
                             break;
                         case "hidematchresult":
                             this.#hideMatchResult();
+                            break;
+                        case "showplayerleaderboard":
+                            this.#hideMatchResult();
+                            if (data.all) {
+                                this.#showPlayerLeaderBoard('all', data.key);
+                            } else {
+                                this.#showPlayerLeaderBoard(data.gameid, data.key);
+                            }
+                            break;
+                        case "hideplayerleaderboard":
+                            this.#hidePlayerLeaderBoard();
                             break;
                         case "testleaderboard": {
                             this.#leaderboard.show();
@@ -1696,6 +1875,17 @@ export class Overlay {
         for (let i = 0; i < 30; ++i) {
             this.#webapi.getTeamParams(i);
         }
+    }
+
+    /**
+     * 全てのプレイヤーパラメータを取得する
+     */
+    #getAllPlayerParams() {
+        this.#webapi.getPlayers().then((ev) => {
+            for (const [hash, params] of Object.entries(ev.detail.players)) {
+                this.#playerparams[hash] = params;
+            }
+        });
     }
 
     /**
@@ -1953,9 +2143,9 @@ export class Overlay {
             teams = resultsToTeamResults(this.#_results);
         } else {
             if (this.#tournamentname != "") {
-                this.#matchresult.setTitle(this.#tournamentname + " - GAME " + (gameid + 1));
+                this.#matchresult.setTitle(this.#tournamentname + " - MATCH " + (gameid + 1));
             } else {
-                this.#matchresult.setTitle("Match Result - GAME " + (gameid + 1));
+                this.#matchresult.setTitle("Match Result - MATCH " + (gameid + 1));
             }
             if (gameid < this.#_results.length) {
                 const results = [this.#_results[gameid]];
@@ -2001,6 +2191,96 @@ export class Overlay {
         }
         this.#matchresult.show();
     }
+    
+    /**
+     * プレーヤーリーダーボードのオーバーレイを表示する
+     * @param {number|string} gameid ゲームID(0～)もしくは'all'を指定する
+     * @param {string} sortkey ソートする対象
+     */
+    #showPlayerLeaderBoard(gameid, sortkey) {
+        /** @type {import("./overlay-common.js").playerstats} プレイヤー戦績 */
+        let playerstats = {};
+        if (gameid == 'all') {
+            if (this.#tournamentname != "") {
+                this.#playerleaderboard.setTitle(this.#tournamentname + " - Player Stats - OVERALL (" + sortkey + ")");
+            } else {
+                this.#playerleaderboard.setTitle("Player Stats - OVERALL (" + sortkey + ")");
+            }
+            playerstats = resultsToPlayerStats(this.#_results);
+        } else {
+            if (this.#tournamentname != "") {
+                this.#playerleaderboard.setTitle(this.#tournamentname + " - Player Stats - MATCH " + (gameid + 1) + " (" + sortkey + ")");
+            } else {
+                this.#playerleaderboard.setTitle("Player Stats - MATCH " + (gameid + 1) + "(" + sortkey + ")");
+            }
+            if (gameid < this.#_results.length) {
+                const results = [this.#_results[gameid]];
+                playerstats = resultsToPlayerStats(results);
+            }
+        }
+
+        // 表示名の更新
+        for (const [hash, stats] of Object.entries(playerstats)) {
+            if (hash in this.#playerparams && 'name' in this.#playerparams[hash]) {
+                stats.name = this.#playerparams[hash].name;
+            }
+            if (stats.teamid in this.#teamparams && 'name' in this.#teamparams[stats.teamid]) {
+                stats.teamname = this.#teamparams[stats.teamid].name;
+            }
+        }
+
+        // ソート
+        const p = Object.keys(playerstats).sort((a, b) => {
+            const sa = playerstats[a];
+            const sb = playerstats[b];
+            if (sortkey == "kills") {
+                if (sa.kills > sb.kills) return -1;
+                if (sa.kills < sb.kills) return  1;
+                if (sa.damage > sb.damage) return -1;
+                if (sa.damage < sb.damage) return  1;
+                if (sa.assists > sb.assists) return -1;
+                if (sa.assists < sb.assists) return  1;
+            } else if (sortkey == "assists") {
+                if (sa.assists > sb.assists) return -1;
+                if (sa.assists < sb.assists) return  1;
+                if (sa.kills > sb.kills) return -1;
+                if (sa.kills < sb.kills) return  1;
+                if (sa.damage > sb.damage) return -1;
+                if (sa.damage < sb.damage) return  1;
+            } else { // damage
+                if (sa.damage > sb.damage) return -1;
+                if (sa.damage < sb.damage) return  1;
+                if (sa.kills > sb.kills) return -1;
+                if (sa.kills < sb.kills) return  1;
+                if (sa.assists > sb.assists) return -1;
+                if (sa.assists < sb.assists) return  1;
+            }
+            return 0;
+        });
+
+        // 順位付け
+        for (let i = 0; i < p.length; ++i) {
+            const hash = p[i];
+            const stats = playerstats[hash];
+            if (i > 0) {
+                const prev_hash = p[i - 1];
+                const prev_stats = playerstats[prev_hash];
+                if (sortkey == "kills" && stats.kills == prev_stats.kills) stats.rank = prev_stats.rank;
+                if (sortkey == "assists" && stats.assists == prev_stats.assists) stats.rank = prev_stats.rank;
+                if (sortkey == "damage" && stats.damage == prev_stats.damage) stats.rank = prev_stats.rank;
+            }
+            if (stats.rank == 0) stats.rank = i + 1;
+        }
+
+        // 10位以内を配列へ
+        const players = [];
+        for (const hash of p) {
+            const stats = playerstats[hash];
+            if (stats.rank > 10) break;
+            players.push(stats);
+        }
+        this.#playerleaderboard.setLeaderboard(players);
+    }
 
     #hideLeaderBoard() {
         this.#leaderboard.hide();
@@ -2029,6 +2309,9 @@ export class Overlay {
     #hideMatchResult() {
         this.#matchresult.hide();
     }
+    #hidePlayerLeaderBoard() {
+        this.#playerleaderboard.hide();
+    }
 
     /**
      * 常時表示系のオーバーレイを表示する
@@ -2043,7 +2326,7 @@ export class Overlay {
     }
 
     /**
-     * 全てのオーバーレイを非表示にする(MatchResultを除く)
+     * 全てのオーバーレイを非表示にする(MatchResult/PlayerLeaderBoardを除く)
      */
     #hideAll() {
         this.#hideLeaderBoard();
