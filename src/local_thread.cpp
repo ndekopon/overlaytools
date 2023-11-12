@@ -181,7 +181,7 @@ namespace app {
 			}
 
 			std::ofstream s(base_ + L"\\index.json");
-			s << j;
+			s << j.dump(2);
 		}
 		catch (...)
 		{
@@ -233,7 +233,7 @@ namespace app {
 			if (j.type() == json::value_t::object)
 			{
 				std::ofstream s(path);
-				s << j;
+				s << j.dump(2);
 				return true;
 			}
 		}
@@ -274,7 +274,7 @@ namespace app {
 			if (j.type() == json::value_t::object)
 			{
 				std::ofstream s(path);
-				s << j;
+				s << j.dump(2);
 				return true;
 			}
 		}
@@ -343,7 +343,7 @@ namespace app {
 			if (j.type() == json::value_t::object)
 			{
 				std::ofstream s(path);
-				s << j;
+				s << j.dump(2);
 				return true;
 			}
 		}
@@ -449,7 +449,7 @@ namespace app {
 			if (j.type() == json::value_t::object)
 			{
 				std::ofstream s(path);
-				s << j;
+				s << j.dump(2);
 				return true;
 			}
 		}
@@ -615,7 +615,7 @@ namespace app {
 				try
 				{
 					std::ofstream s(path_ + L"\\observers\\index.json");
-					s << j << std::endl;
+					s << j.dump(2);
 				}
 				catch (...)
 				{
@@ -705,7 +705,7 @@ namespace app {
 
 				// データの保存
 				auto count = tournament_.count_results();
-				if (!tournament_.save_result_json(count, j.dump()))
+				if (!tournament_.save_result_json(count, j.dump(2)))
 				{
 					d->result = false;
 				}
