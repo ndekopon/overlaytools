@@ -61,6 +61,21 @@ body {
     padding: 0;
 }
 
+/* 言語選択 */
+#lang-select span {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.lang_selected {
+    background-color: #FFCCCC;
+}
+.en {
+    display: none;
+}
+.ja {
+    display: none;
+}
+
 /* main */
 #main {
     box-sizing: border-box;

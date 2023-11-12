@@ -77,6 +77,78 @@ class LiveAPIConnectionStatus extends WebAPIConfigBase {
     }
 }
 
+class LanguageSelect extends WebAPIConfigBase {
+    /** @type {HTMLElement[]} */
+    #languages;
+    /** コンストラクタ */
+    constructor() {
+        super('language-select-');
+
+        // 言語ノードの取得
+        this.#languages = [];
+        for (const node of document.querySelectorAll('#lang-select > span')) {
+            this.#languages.push(node);
+        }
+
+        for (const node of this.#languages) {
+            const lang = node.innerText;
+            node.addEventListener('click', (ev) => {
+                this.#setLanguage(lang);
+            });
+        }
+
+        // 保存されている言語選択による設定
+        const savedlang = window.localStorage.getItem("lang");
+        for (const node of this.#languages) {
+            if (node.innerText == savedlang) {
+                this.#setLanguage(savedlang);
+                return;
+            }
+        }
+
+        // ブラウザ言語設定による初期選択
+        const browserlang = window.navigator.languages[0];
+        for (const node of this.#languages) {
+            if (node.innerText == browserlang) {
+                this.#setLanguage(browserlang);
+                return;
+            }
+        }
+
+        this.#setLanguage('en');
+    }
+
+    /**
+     * 表示言語を設定する
+     * @param {string} lang 言語(en/ja)
+     */
+    #setLanguage(lang) {
+        const display_none = [];
+        const display_blank = [];
+        for (const node of this.#languages) {
+            if (lang == node.innerText) {
+                display_blank.push("." + node.innerText);
+                node.classList.add("lang_selected");
+                window.localStorage.setItem("lang", lang);
+            } else {
+                display_none.push("." + node.innerText);
+                node.classList.remove("lang_selected");
+            }
+        }
+        // CSSに反映
+        for (const sheet of document.styleSheets) {
+            for (const rule of sheet.cssRules) {
+                if (display_none.indexOf(rule.selectorText) >= 0) {
+                    rule.style.display = "none";
+                }
+                if (display_blank.indexOf(rule.selectorText) >= 0) {
+                    rule.style.display = "";
+                }
+            }
+        }
+    }
+}
+
 class TournamentCalculationMethod extends WebAPIConfigBase {
     /** @type {Object.<string, HTMLElement>[]} 入力要素を保持 */
     #forms;
@@ -142,7 +214,9 @@ class TournamentCalculationMethod extends WebAPIConfigBase {
             input.max = 60;
 
             // テキスト設定
-            label_text.innerText = "kill points cap: ";
+            label_text.innerHTML =
+                '<span class="en">kill points cap:</span>' +
+                '<span class="ja">キルポイント上限:</span>';
             input.value = 9;
 
             // append
@@ -171,7 +245,9 @@ class TournamentCalculationMethod extends WebAPIConfigBase {
             input.max = 4;
 
             // テキスト設定
-            label_text.innerText = "kill points amp: ";
+            label_text.innerHTML = 
+                '<span class="en">kill points amp:</span>' +
+                '<span class="ja">キルポイント倍率:</span>';
             input.value = 2;
             // append
             label.appendChild(checkbox);
@@ -198,7 +274,9 @@ class TournamentCalculationMethod extends WebAPIConfigBase {
             input.placeholder = "comma spalated points [ex. 12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1]";
 
             // テキスト設定
-            label_text.innerText = "custom placement points table: ";
+            label_text.innerHTML = 
+                '<span class="en">custom placement points table:</span>' +
+                '<span class="ja">カスタム順位ポイント:</span>';
 
             // append
             label.appendChild(checkbox);
@@ -1432,7 +1510,7 @@ class ResultView {
         for (let i = 0; i < this.#_results.length; ++i) {
             const result = this.#_results[i];
             const node = this.#infonodes[i];
-            node.gamenumber.innerText = 'Game ' + (i + 1);
+            node.gamenumber.innerHTML = '<span class="en">Game</span><span class="ja">マッチ</span> ' + (i + 1);
             node.datacenter.innerText = 'datacenter: ' + result.datacenter;
             node.serverid.innerText = 'serverid: '+ result.serverid;
             node.playlistname.innerText = 'playlistname: ' + result.playlistname;
@@ -1693,6 +1771,7 @@ export class WebAPIConfig {
     #_game;
     #webapiconnectionstatus;
     #liveapiconnectionstatus;
+    #languageselect;
     #tournament_id;
     #tournament_name;
     #tournament_ids;
@@ -1722,6 +1801,7 @@ export class WebAPIConfig {
         this.#tournamentcalculationmethod = new TournamentCalculationMethod();
         this.#webapiconnectionstatus = new WebAPIConnectionStatus();
         this.#liveapiconnectionstatus = new LiveAPIConnectionStatus();
+        this.#languageselect = new LanguageSelect();
         this.#playername = new PlayerName();
         this.#teamname = new TeamName();
         this.#firstproccurrenthash = true;
@@ -2558,7 +2638,7 @@ export class WebAPIConfig {
                 const li = document.createElement('li');
                 const a = document.createElement('a');
                 a.href = '#result-' + i;
-                a.innerText = "Game " + (i + 1);
+                a.innerHTML = '<span class="en">Game</span><span class="ja">マッチ</span> ' + (i + 1);
                 li.appendChild(a);
                 ul.appendChild(li);
 

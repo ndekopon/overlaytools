@@ -11,105 +11,256 @@
 
 <div id="sidebar">
     <div>
-        <h3>MENU</h3>
+        <h3>
+            <span class="en">MENU</span>
+            <span class="ja">メニュー</span>
+        </h3>
         <ul id="sidebarmenu">
             <li>
-                Tournament
+                <span class="en">Tournament</span>
+                <span class="ja">トーナメント</span>
                 <ul>
-                    <li><a href="#tournament-set">set</a></li>
-                    <li><a href="#tournament-rename">rename</a></li>
-                    <li><a href="#tournament-calc">points calc</a></li>
+                    <li>
+                        <a href="#tournament-set">
+                            <span class="en">create or select</span>
+                            <span class="ja">新規作成・選択</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tournament-rename">
+                            <span class="en">rename</span>
+                            <span class="ja">名前変更</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tournament-calc">
+                            <span class="en">points calc</span>
+                            <span class="ja">ポイント計算</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li>
-                Observer
+                <span class="en">Observer</span>
+                <span class="ja">オブザーバー</span>
                 <ul>
-                    <li><a href="#observer-set">set</a></li>
+                    <li>
+                        <a href="#observer-set">
+                            <span class="en">select</span>
+                            <span class="ja">オブザーバー選択</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
-            <li>Player
-                <ul>
-                    <li><a href="#player-name">set name</a></li>
-                </ul>
-            </li>
-            <li>Team
-                <ul>
-                    <li><a href="#team-name">set name</a></li>
-                </ul>
-            </li>
-            <li><a href="#realtime">Realtime View</a></li>
-            <li><a href="#overlay">Overlay</a></li>
-            <li><a href="#announce">Announce</a></li>
             <li>
-                Result
+                <span class="en">Player</span>
+                <span class="ja">プレーヤー</span>
+                <ul>
+                    <li>
+                        <a href="#player-name">
+                            <span class="en">set name</span>
+                            <span class="ja">名前設定</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <span class="en">Team</span>
+                <span class="ja">チーム</span>
+                <ul>
+                    <li>
+                        <a href="#team-name">
+                            <span class="en">set name</span>
+                            <span class="ja">名前設定</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#realtime">
+                    <span class="en">Realtime View</span>
+                    <span class="ja">リアルタイムデータ表示</span>
+                </a>
+            </li>
+            <li>
+                <a href="#overlay">
+                    <span class="en">Overlay</span>
+                    <span class="ja">オーバーレイ</span>
+                </a>
+            </li>
+            <li>
+                <a href="#announce">
+                    <span class="en">Announce</span>
+                    <span class="ja">ゲーム内チャット送信</span>
+                    
+                </a>
+            </li>
+            <li>
+                <span class="en">Result</span>
+                <span class="ja">リザルト</span>
                 <ul id="ulresult">
-                    <li><a href="#result-all">all</a></li>
+                    <li>
+                        <a href="#result-all">
+                            <span class="en">All</span>
+                            <span class="ja">全体</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
-            <li><a href="#test">Test</a>
+            <li>
+                <a href="#test">
+                    <span class="en">Test</span>
+                    <span class="ja">テスト</span>
+                </a>
         </ul>
     </div>
     <div>
-        <h3>Current Tournament</h3>
+        <h3>
+            <span class="en">Current Tournament</span>
+            <span class="ja">現在のトーナメント</span>
+        </h3>
         <dl>
-            <dt>Name:</dt>
+            <dt>
+                <span class="en">Name:</span>
+                <span class="ja">名前:</span>
+            </dt>
             <dd id="current_tournament_name">noname</dd>
-            <dt>ID:</dt>
+            <dt>
+                <span class="en">ID:</span>
+                <span class="ja">ID:</span>
+            </dt>
             <dd id="current_tournament_id">none</dd>
         </dl>
-        <h3>Current Observer</h3>
+        <h3>
+            <span class="en">Current Observer</span>
+            <span class="ja">現在のオブザーバー</span>
+        </h3>
         <dl>
-            <dt>ID:</dt>
+            <dt>
+                <span class="en">ID:</span>
+                <span class="ja">ID:</span>
+            </dt>
             <dd id="current_observer_id">none</dd>
         </dl>
     </div>
     <!-- 接続状態の表示 -->
     <div id="connection-status">
-        <h3>WebAPI Connection</h3>
+        <h3>
+            <span class="en">WebAPI Connection</span>
+            <span class="ja">WebAPI接続</span>
+        </h3>
         <div>
-            <button id="connectbtn">force reconnect</button>
-            <p>status: <span id="connection-status-webapi-state">connecting...</span></p>
+            <button id="connectbtn">
+                <span class="en">force reconnect</span>
+                <span class="ja">強制再接続</span>
+            </button>
+            <p>
+                <span class="en">status:</span>
+                <span class="ja">ステータス:</span>
+                <span id="connection-status-webapi-state">connecting...</span>
+            </p>
         </div>
-        <h3>LiveAPI Connection</h3>
+        <h3>
+            <span class="en">LiveAPI Connection</span>
+            <span class="ja">LiveAPI接続</span>
+        </h3>
         <div>
-            <p>connection count: <span id="connection-status-liveapi-connection">0</span></p>
-            <p>recv packet count: <span id="connection-status-liveapi-recv">0</span></p>
-            <p>send packet count: <span id="connection-status-liveapi-send">0</span></p>
+            <p>
+                <span class="en">connection count:</span>
+                <span class="ja">接続数:</span>
+                <span id="connection-status-liveapi-connection">0</span>
+            </p>
+            <p>
+                <span class="en">recv packet count:</span>
+                <span class="ja">受信パケット数:</span>
+                <span id="connection-status-liveapi-recv">0</span>
+            </p>
+            <p>
+                <span class="en">send packet count:</span>
+                <span class="ja">送信パケット数:</span>
+                <span id="connection-status-liveapi-send">0</span>
+            </p>
         </div>
+    </div>
+
+    <!-- 言語選択-->
+    <div id="lang-select">
+        [<span>en</span>][<span>ja</span>]
     </div>
 </div>
 
 <div id="main">
 <div id="tournament-set" class="hide">
-    <h3>Tournament: set name</h3>
-    <p>create new tournament or select exists tournament.</p>
-    <h4>create new tournament</h4>
+    <h3>
+        <span class="en">Tournament: create &amp; select</span>
+        <span class="ja">トーナメント: 新規作成＆選択</span>
+    </h3>
     <p>
-        <input type="text" id="tournament-set-text" placeholder="input tournament name" /><button id="tournament-set-button">create</button>
-        <br>
-        ** If there is already a tournament with the same name, the existing tournament will be selected.
+        <span class="en">create new tournament or select exists tournament.</span>
+        <span class="ja">トーナメントの新規作成や既存のトーナメントを選択します。</span>
     </p>
-    <h4>select exists tournament</h4>
+    <h4>
+        <span class="en">create new tournament</span>
+        <span class="ja">トーナメント新規作成</span>
+    </h4>
+    <p>
+        <input type="text" id="tournament-set-text" placeholder="input tournament name" />
+        <button id="tournament-set-button">
+            <span class="en">create</span>
+            <span class="ja">作成</span>
+        </button>
+        <br>
+        <span class="en">** If there is already a tournament with the same name, the existing tournament will be selected.</span>
+        <span class="ja">※既に同じ名前のトーナメントが存在する場合は、既存のトーナメントが選択されます。</span>
+    </p>
+    <h4>
+        <span class="en">select exists tournament</span>
+        <span class="ja">既存のトーナメント選択</span>
+    </h4>
     <table>
         <thead>
-            <tr><th>name</th><th>ID</th></tr>
+            <tr>
+                <th>
+                    <span class="en">name</span>
+                    <span class="ja">名前</span>
+                </th>
+                <th>
+                    ID
+                </th>
+            </tr>
         </thead>
         <tbody id="tournamentids"></tbody>
     </table>
 </div>
 
 <div id="tournament-rename" class="hide">
-    <h3>Tournament: rename</h3>
-    <p>rename current tournament.</p>
+    <h3>
+        <span class="en">Tournament: rename</span>
+        <span class="ja">トーナメント: 名前変更</span>
+    </h3>
     <p>
-        <input type="text" id="tournament-rename-text" placeholder="input tournament name" /><button id="tournament-rename-button">rename</button>
+        <span class="en">rename current tournament.</span>
+        <span class="ja">現在のトーナメントの名前を変更します。</span>
+    </p>
+    <p>
+        <input type="text" id="tournament-rename-text" placeholder="input tournament name" />
+        <button id="tournament-rename-button">
+            <span class="en">rename</span>
+            <span class="ja">名前変更</span>
+        </button>
         <br>
     </p>
 </div>
 
 <div id="tournament-calc" class="hide">
-    <h3>Tournament: points calculation method</h3>
-    <h4>number of matches</h4>
+    <h3>
+        <span class="en">Tournament: points calculation method</span>
+        <span class="ja">トーナメント: ポイント計算方法</span>
+    </h3>
+    <h4>
+        <span class="en">number of matches</span>
+        <span class="ja">マッチ数</span>
+    </h4>
     <p>
         <select id="tournament-calc-count">
             <option>1</option>
@@ -130,130 +281,326 @@
             <option>16</option>
         </select>
     </p>
-    <h4>select points calculation method</h4>
+    <h4>
+        <span class="en">select points calculation method</span>
+        <span class="ja">ポイント計算方法の選択</span>
+    </h4>
     <table>
         <thead>
-            <tr><th>#</th><th>detail</th></tr>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    <span class="en">detail</span>
+                    <span class="ja">詳細</span>
+                </th>
+            </tr>
         </thead>
         <tbody id="tournament-calc-list"></tbody>
     </table>
     <p>
-        <button id="tournament-calc-send">set calculation method</button>
+        <button id="tournament-calc-send">
+            <span class="en">set calculation method</span>
+            <span class="ja">ポイント計算方法の設定</span>
+        </button>
     </p>
 </div>
 
 <div id="observer-set" class="hide">
-    <h3>Observer: set</h3>
-    <h4>gather observer hash</h4>
+    <h3>
+        <span class="en">Observer: set</span>
+        <span class="ja">オブザーバー: 選択</span>
+    </h3>
+    <h4>
+        <span class="en">gather observer hash</span>
+        <span class="ja">オブザーバーのハッシュ収集</span>
+    </h4>
     <p>
-        <button id="observer-set-getfromlobby">get from lobby</button>
+        <button id="observer-set-getfromlobby">
+            <span class="en">get from lobby</span>
+            <span class="ja">カスタムロビーから取得する</span>
+        </button>
     </p>
-    <h4>select observer for overlay</h4>
+    <h4>
+        <span class="en">select observer for overlay</span>
+        <span class="ja">オーバーレイ表示用にオブザーバーを選択する</span>
+    </h4>
     <table>
         <thead>
-            <tr><th>ID</th><th>name</th></tr>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    <span class="en">name</span>
+                    <span class="ja">名前</span>
+                </th>
+            </tr>
         </thead>
         <tbody id="observer-set-list"></tbody>
     </table>
 </div>
 
 <div id="player-name" class="hide">
-    <h3>Player: set name</h3>
-    <h4>gather player hash</h4>
+    <h3>
+        <span class="en">Player: set name</span>
+        <span class="ja">プレイヤー: 名前設定</span>
+    </h3>
+    <h4>
+        <span class="en">gather player hash</span>
+        <span class="ja">プレイヤーハッシュの収集</span>
+    </h4>
     <p>
-        <button id="player-name-getfromresults">get from results</button>
-        <button id="player-name-getfromlivedata"><s>get from current game</s></button>
-        <button id="player-name-getfromlobby">get from lobby</button>
+        <button id="player-name-getfromresults">
+            <span class="en">get from results</span>
+            <span class="ja">リザルトから取得</span>
+        </button>
+        <button id="player-name-getfromlivedata">
+            <s>
+                <span class="en">get from current game</span>
+                <span class="ja">現在のゲームから取得</span>
+            </s>
+        </button>
+        <button id="player-name-getfromlobby">
+            <span class="en">get from lobby</span>
+            <span class="ja">カスタムロビーから取得</span>
+        </button>
     </p>
-    <h4>set player name</h4>
+    <h4>
+        <span class="en"></span>
+        <span class="ja"></span>
+        set player name
+    </h4>
     <table>
         <thead>
-            <tr><th>ID</th><th>name</th><th>in-game name</th><th>set name</th></tr>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    <span class="en">name</span>
+                    <span class="ja">名前</span>
+                </th>
+                <th>
+                    <span class="en">in-game name</span>
+                    <span class="ja">ゲーム内の名前</span>
+                </th>
+                <th>
+                    <span class="en">set name</span>
+                    <span class="ja">名前設定</span>
+                </th>
+            </tr>
         </thead>
         <tbody id="player-name-list"></tbody>
     </table>
 </div>
 
 <div id="team-name" class="hide">
-    <h3>Team: set name</h3>
+    <h3>
+        <span class="en">Team: set name</span>
+        <span class="ja">チーム: 名前設定</span>
+    </h3>
     <div id="team-name-container">
         <div></div>
-        <div>input</div>
-        <div>set name result</div>
+        <div>
+            <span class="en">input</span>
+            <span class="ja">入力</span>
+        </div>
+        <div>
+            <span class="en">set name result</span>
+            <span class="ja">反映予定</span>
+        </div>
         <pre id="team-name-num"></pre>
         <textarea id="team-name-text"></textarea>
         <pre id="team-name-output"></pre>
     </div>
-    <button id="team-name-button">set name</button>
-    <button id="team-ingamename-button">set in-game name</button>
+    <button id="team-name-button">
+        <span class="en">set name</span>
+        <span class="ja">チーム名設定</span>
+    </button>
+    <button id="team-ingamename-button">
+        <span class="en">set in-game name</span>
+        <span class="ja">ゲーム内チーム名設定</span>
+    </button>
 </div>
 
 <div id="realtime" class="hide">
-    <h3>Realtime View</h3>
+    <h3>
+        <span class="en">Realtime View</span>
+        <span class="ja">リアルタイムデータ表示</span>
+    </h3>
     <div id="realtime-gameinfo"></div>
     <div id="realtime-teams"></div>
 </div>
 
 <div id="overlay" class="hide">
-    <h3>Overlay</h3>
-    <h4>force hide overlay</h4>
+    <h3>
+        <span class="en">Overlay</span>
+        <span class="ja">オーバーレイ</span>
+    </h3>
+    <h4>
+        <span class="en">force hide overlay</span>
+        <span class="ja">オーバーレイ強制非表示</span>
+    </h4>
     <p>
-        <label><input type="checkbox" id="overlay-hide-leaderboard" /> Force hide LeaderBoard</label>
+        <label>
+            <input type="checkbox" id="overlay-hide-leaderboard" />
+            <span class="en">Force hide LeaderBoard</span>
+            <span class="ja">リーダーボード強制非表示</span>
+            
+        </label>
     </p>
     <p>
-        <label><input type="checkbox" id="overlay-hide-teambanner" /> Force hide TeamBanner</label>
+        <label>
+            <input type="checkbox" id="overlay-hide-teambanner" />
+            <span class="en">Force hide TeamBanner</span>
+            <span class="ja">チームバナー強制非表示</span>
+        </label>
     </p>
     <p>
-        <label><input type="checkbox" id="overlay-hide-playerbanner" /> Force hide PlayerBanner</label>
+        <label>
+            <input type="checkbox" id="overlay-hide-playerbanner" />
+            <span class="en">Force hide PlayerBanner</span>
+            <span class="ja">プレイヤーバナー強制非表示</span>
+        </label>
     </p>
     <p>
-        <label><input type="checkbox" id="overlay-hide-teamkills" /> Force hide TeamKills</label>
+        <label>
+            <input type="checkbox" id="overlay-hide-teamkills" />
+            <span class="en">Force hide TeamKills</span>
+            <span class="ja">チームキル数強制非表示</span>
+        </label>
     </p>
     <p>
-        <label><input type="checkbox" id="overlay-hide-owneditems" /> Force hide OwnedItems</label>
+        <label>
+            <input type="checkbox" id="overlay-hide-owneditems" />
+            <span class="en">Force hide OwnedItems</span>
+            <span class="ja">所有アイテム強制非表示</span>
+        </label>
     </p>
     <p>
-        <label><input type="checkbox" id="overlay-hide-gameinfo" /> Force hide GameInfo</label>
+        <label>
+            <input type="checkbox" id="overlay-hide-gameinfo" />
+            <span class="en">Force hide GameInfo</span>
+            <span class="ja">ゲーム情報強制非表示</span>
+        </label>
     </p>
     <p>
-        <label><input type="checkbox" id="overlay-hide-championbanner" /> Force hide ChampionBanner</label>
+        <label>
+            <input type="checkbox" id="overlay-hide-championbanner" />
+            <span class="en">Force hide ChampionBanner</span>
+            <span class="ja">チャンピオンバナー強制非表示</span>
+        </label>
     </p>
     <p>
-        <label><input type="checkbox" id="overlay-hide-squadeliminated" /> Force hide SquadEliminated</label>
+        <label>
+            <input type="checkbox" id="overlay-hide-squadeliminated" />
+            <span class="en">Force hide SquadEliminated</span>
+            <span class="ja">チーム排除情報強制非表示</span>
+        </label>
     </p>
     <p>
-        <label><input type="checkbox" id="overlay-hide-tdmscoreboard" /> Force hide TDMScoreBoard</label>
+        <label>
+            <input type="checkbox" id="overlay-hide-tdmscoreboard" />
+            <span class="en">Force hide TDMScoreBoard</span>
+            <span class="ja">チームデスマッチスコアボード強制非表示</span>
+        </label>
     </p>
-    <h4>select by group</h4>
+    <h4>
+        <span class="en">select by group</span>
+        <span class="ja">グループ選択</span>
+    </h4>
     <p>
-        <label><input type="checkbox" id="overlay-hide-teamplayerinfo" /> Force hide Team/Player Overlay</label>
+        <label>
+            <input type="checkbox" id="overlay-hide-teamplayerinfo" />
+            <span class="en">Force hide Team/Player Overlay</span>
+            <span class="ja">チーム・プレイヤー関連情報強制非表示</span>
+        </label>
     </p>
-    <h4>match result</h4>
+    <h4>
+        <span class="en">match result</span>
+        <span class="ja">マッチリザルト</span>
+    </h4>
     <p>
-        <label><input type="radio" id="overlay-show-all-results" name="overlay-result-radio" value="all" checked />ALL</label><br />
-        <label><input type="radio" id="overlay-show-one-result" name="overlay-result-radio" value="one" />GAMEID: <input type="number" id="overlay-show-one-result-number" min="0" value="0" />(Game1 → 0)</label><br />
-        Sort By: <select id="overlay-show-sortkey" value="kills">
-            <option>kills</option>
-            <option>assists</option>
-            <option>damage</option>
+        <label>
+            <input type="radio" id="overlay-show-all-results" name="overlay-result-radio" value="all" checked />
+            <span class="en">ALL</span>
+            <span class="ja">全体</span>
+        </label>
+        <br />
+        <label>
+            <input type="radio" id="overlay-show-one-result" name="overlay-result-radio" value="one" />
+            <span class="en">GAMEID:</span>
+            <span class="ja">マッチID:</span>
+            <input type="number" id="overlay-show-one-result-number" min="0" value="0" />
+            <span class="en">(Game1 → 0)</span>
+            <span class="ja">(マッチ1 → 0)</span>
+        </label>
+        <br />
+        <span class="en">Sort By:</span>
+        <span class="ja">並び替え:</span>
+        <select id="overlay-show-sortkey" value="kills">
+            <option>
+                kills
+            </option>
+            <option>
+                assists
+            </option>
+            <option>
+                damage
+            </option>
         </select>
     </p>
-    <p><button id="overlay-show-matchresult">show match result</button></p>
-    <p><button id="overlay-show-playerleaderboard">show player leaderboard</button></p>
-    <p><button id="overlay-hide-matchresult">hide match result / player leaderboard</button></p>
+    <p>
+        <button id="overlay-show-matchresult">
+            <span class="en">show match result</span>
+            <span class="ja">マッチリザルト表示</span>
+        </button>
+    </p>
+    <p>
+        <button id="overlay-show-playerleaderboard">
+            <span class="en">show player leaderboard</span>
+            <span class="ja">プレイヤー戦績表示</span>
+        </button>
+    </p>
+    <p>
+        <button id="overlay-hide-matchresult">
+            <span class="en">hide match result / player leaderboard</span>
+            <span class="ja">マッチリザルト＆プレイヤー戦績非表示</span>
+        </button>
+    </p>
 </div>
 
 <div id="announce" class="hide">
-    <h3>Announce</h3>
-    <h4>send chat</h4>
+    <h3>
+        <span class="en">Announce</span>
+        <span class="ja">ゲーム内チャット送信</span>
+    </h3>
+    <h4>
+        <span class="en">send chat</span>
+        <span class="ja">チャット送信</span>
+    </h4>
     <p>
-        <input type="text" id="announce-text" /><button id="announce-button">send</button>
+        <input type="text" id="announce-text" />
+        <button id="announce-button">
+            <span class="en">send</span>
+            <span class="ja">送信</span>
+        </button>
     </p>
 </div>
 
 <div id="result" class="hide">
-    <h3>Result</h3>
-    <p><a href="#result-all">show all results</a></p>
+    <h3>
+        <span class="en">Result</span>
+        <span class="ja">マッチリザルト</span>
+    </h3>
+    <p>
+        <a href="#result-all">
+            <span class="en">show all results</span>
+            <span class="ja">全体マッチリザルト表示</span>
+        </a>
+    </p>
     <div id="result-game-info"></div>
     <div id="result-all-base">
         <div id="result-all-left"></div>
@@ -264,101 +611,244 @@
 
 <div id="test" class="hide">
     <div>
-        <h3>Leaderboard</h3>
-        <button id="test-show-leaderboard">Show</button>
+        <h3>
+            <span class="en">Leaderboard</span>
+            <span class="ja">リーダーボード</span>
+        </h3>
+        <button id="test-show-leaderboard">
+            <span class="en">Show</span>
+            <span class="ja">表示</span>
+        </button>
     </div>
     <div>
-        <h3>TeamBanner</h3>
+        <h3>
+            <span class="en">TeamBanner</span>
+            <span class="ja">チームバナー</span>
+        </h3>
         <div>
-            TeamID: <input type="number" min="0" max="29" id="test-teambanner-teamid" placeholder="0-29" value="0" /><br />
-            <button id="test-show-teambanner">Show</button>
+            <span class="en">TeamID:</span>
+            <span class="ja">チームID:</span>
+            <input type="number" min="0" max="29" id="test-teambanner-teamid" placeholder="0-29" value="0" /><br />
+            <button id="test-show-teambanner">
+                <span class="en">Show</span>
+                <span class="ja">表示</span>
+            </button>
         </div>
     </div>
     <div>
-        <h3>PlayerBanner</h3>
+        <h3>
+            <span class="en">PlayerBanner</span>
+            <span class="ja">プレーヤーバナー</span>
+        </h3>
         <div>
-            Player Name: <input type="text" id="test-playerbanner-name" value="" /><br />
-            <button id="test-show-playerbanner">Show</button>
+            <span class="en">Player Name:</span>
+            <span class="ja">プレイヤー名:</span>
+            <input type="text" id="test-playerbanner-name" value="" /><br />
+            <button id="test-show-playerbanner">
+                <span class="en">Show</span>
+                <span class="ja">表示</span>
+            </button>
         </div>
     </div>
     <div>
-        <h3>TeamKills</h3>
+        <h3>
+            <span class="en">TeamKills</span>
+            <span class="ja">チームキル数</span>
+        </h3>
         <div>
-            Kills: <input type="number" min="0" id="test-teamkills-kills" placeholder="0-" value="0" /><br />
-            <button id="test-show-teamkills">Show</button>
+            <span class="en">Kills:</span>
+            <span class="ja">キル数:</span>
+            <input type="number" min="0" id="test-teamkills-kills" placeholder="0-" value="0" /><br />
+            <button id="test-show-teamkills">
+                <span class="en">Show</span>
+                <span class="ja">表示</span>
+            </button>
         </div>
     </div>
     <div>
-        <h3>OwnedItems</h3>
+        <h3>
+            <span class="en">OwnedItems</span>
+            <span class="ja">所持アイテム</span>
+        </h3>
         <div>
-            BackPack:
+            <span class="en">BackPack:</span>
+            <span class="ja">バックパック</span>
+            
             <select id="test-owneditems-backpack">
-                <option value="0">none</option>
-                <option value="1">White (level 1)</option>
-                <option value="2">Blue (level 2)</option>
-                <option value="3">Purple (level 3)</option>
-                <option value="4">Gold (level 4)</option>
+                <option value="0">
+                    none
+                </option>
+                <option value="1">
+                    White (level 1)
+                </option>
+                <option value="2">
+                    Blue (level 2)
+                </option>
+                <option value="3">
+                    Purple (level 3)
+                </option>
+                <option value="4">
+                    Gold (level 4)
+                </option>
             </select>
             <br />
-            KnockdownShield:
+            <span class="en">KnockdownShield:</span>
+            <span class="ja">ノックダウンシールド:</span>
+            
             <select id="test-owneditems-knockdownshield">
-                <option value="0">none</option>
-                <option value="1">White (level 1)</option>
-                <option value="2">Blue (level 2)</option>
-                <option value="3">Purple (level 3)</option>
-                <option value="4">Gold (level 4)</option>
+                <option value="0">
+                    none
+                </option>
+                <option value="1">
+                    White (level 1)
+                </option>
+                <option value="2">
+                    Blue (level 2)
+                </option>
+                <option value="3">
+                    Purple (level 3)
+                </option>
+                <option value="4">
+                    Gold (level 4)
+                </option>
             </select>
             <br />
-            Syringe: <input type="number" min="0" max=30 id="test-owneditems-syringe" placeholder="0-30" value="0" /><br />
-            MedKit: <input type="number" min="0" max=30 id="test-owneditems-medkit" placeholder="0-30" value="0" /><br />
-            ShieldCell: <input type="number" min="0" max=30 id="test-owneditems-shieldcell" placeholder="0-30" value="0" /><br />
-            ShieldBattery: <input type="number" min="0" max=30 id="test-owneditems-shieldbattery" placeholder="0-30" value="0" /><br />
-            PhoenixKit: <input type="number" min="0" max=30 id="test-owneditems-phoenixkit" placeholder="0-30" value="0" /><br />
-            UltimateAccelerant: <input type="number" min="0" max=30 id="test-owneditems-ultimateaccelerant" placeholder="0-30" value="0" /><br />
-            ThermitGrenade: <input type="number" min="0" max=30 id="test-owneditems-thermitgrenade" placeholder="0-30" value="0" /><br />
-            FragGrenade: <input type="number" min="0" max=30 id="test-owneditems-"fraggrenade"" placeholder="0-30" value="0" /><br />
-            ArcStar: <input type="number" min="0" max=30 id="test-owneditems-arcstar" placeholder="0-30" value="0" /><br />
-            <button id="test-show-owneditems">Show</button>
+            <span class="en">Syringe:</span>
+            <span class="ja">注射器:</span>
+            <input type="number" min="0" max=30 id="test-owneditems-syringe" placeholder="0-30" value="0" />
+            <br />
+            <span class="en">MedKit:</span>
+            <span class="ja">医療キット:</span>
+            <input type="number" min="0" max=30 id="test-owneditems-medkit" placeholder="0-30" value="0" />
+            <br />
+            <span class="en">ShieldCell:</span>
+            <span class="ja">シールドセル:</span>
+            <input type="number" min="0" max=30 id="test-owneditems-shieldcell" placeholder="0-30" value="0" />
+            <br />
+            <span class="en">ShieldBattery:</span>
+            <span class="ja">シールドバッテリー:</span>
+            <input type="number" min="0" max=30 id="test-owneditems-shieldbattery" placeholder="0-30" value="0" />
+            <br />
+            <span class="en">PhoenixKit:</span>
+            <span class="ja">フェニックスキット:</span>
+            <input type="number" min="0" max=30 id="test-owneditems-phoenixkit" placeholder="0-30" value="0" />
+            <br />
+            <span class="en">UltimateAccelerant:</span>
+            <span class="ja">アルティメット促進剤</span>
+            <input type="number" min="0" max=30 id="test-owneditems-ultimateaccelerant" placeholder="0-30" value="0" />
+            <br />
+            <span class="en">ThermitGrenade:</span>
+            <span class="ja">テルミットグレネード:</span>
+            <input type="number" min="0" max=30 id="test-owneditems-thermitgrenade" placeholder="0-30" value="0" />
+            <br />
+            <span class="en">FragGrenade:</span>
+            <span class="ja">フラググレネード:</span>
+            <input type="number" min="0" max=30 id="test-owneditems-"fraggrenade"" placeholder="0-30" value="0" />
+            <br />
+            <span class="en">ArcStar:</span>
+            <span class="ja">アークスター:</span>
+            <input type="number" min="0" max=30 id="test-owneditems-arcstar" placeholder="0-30" value="0" />
+            <br />
+            <button id="test-show-owneditems">
+                <span class="en">Show</span>
+                <span class="ja">表示</span>
+            </button>
         </div>
     </div>
     <div>
-        <h3>GameInfo</h3>
+        <h3>
+            <span class="en">GameInfo</span>
+            <span class="ja">ゲーム情報</span>
+        </h3>
         <div>
-            GameID: <input type="number" min="0" id="test-gameinfo-gameid" placeholder="0-" value="0" /><br />
-            <button id="test-show-gameinfo">Show</button>
+            <span class="en">GameID:</span>
+            <span class="ja">マッチID:</span>
+            <input type="number" min="0" id="test-gameinfo-gameid" placeholder="0-" value="0" />
+            <br />
+            <button id="test-show-gameinfo">
+                <span class="en">Show</span>
+                <span class="ja">表示</span>
+            </button>
         </div>
     </div>
     <div>
-        <h3>SquadEliminated</h3>
+        <h3>
+            <span class="en">SquadEliminated</span>
+            <span class="ja">チーム排除情報</span>
+        </h3>
         <div>
-            TeamID: <input type="number" min="0" max="29" id="test-squadeliminated-teamid" placeholder="0-29" value="0" /><br />
-            <button id="test-show-squadeliminated">Show</button>
+            <span class="en">TeamID:</span>
+            <span class="ja">チームID:</span>
+            <input type="number" min="0" max="29" id="test-squadeliminated-teamid" placeholder="0-29" value="0" />
+            <br />
+            <button id="test-show-squadeliminated">
+                <span class="en">Show</span>
+                <span class="ja">表示</span>
+            </button>
         </div>
     </div>
     <div>
-        <h3>ChampionBanner</h3>
+        <h3>
+            <span class="en">ChampionBanner</span>
+            <span class="ja">チャンピオンバナー</span>
+        </h3>
         <div>
-            TeamID: <input type="number" min="0" max="29" id="test-championbanner-teamid" placeholder="0-29" value="0" /><br />
-            <button id="test-show-championbanner">Show</button>
+            <span class="en">TeamID:</span>
+            <span class="ja">チームID:</span>
+            <input type="number" min="0" max="29" id="test-championbanner-teamid" placeholder="0-29" value="0" />
+            <br />
+            <button id="test-show-championbanner">
+                <span class="en">Show</span>
+                <span class="ja">表示</span>
+            </button>
         </div>
     </div>
     <div>
-        <h3>Hide</h3>
-        <button id="test-hideall">Hide All</button>
+        <h3>
+            <span class="en">Hide</span>
+            <span class="ja">非表示</span>
+            
+        </h3>
+        <button id="test-hideall">
+            <span class="en">Hide All</span>
+            <span class="ja">全て非表示にする</span>
+        </button>
     </div>
     <div>
-        <h3>Set In-Game TeamName</h3>
+        <h3>
+            <span class="en">Set In-Game TeamName</span>
+            <span class="ja">ゲーム内チーム名</span>
+        </h3>
         <div>
-            TeamID: <input type="number" min="0" max="29" id="test-setteamname-teamid" placeholder="0-29" value="0" /><br />
-            TeamName: <input type="text" id="test-setteamname-teamname" value="" /><br />
-            <button id="test-setteamname">Set</button>
+            <span class="en">TeamID:</span>
+            <span class="ja">チームID:</span>
+            <input type="number" min="0" max="29" id="test-setteamname-teamid" placeholder="0-29" value="0" />
+            <br />
+            <span class="en">TeamName:</span>
+            <span class="ja">チーム名:</span>
+            <input type="text" id="test-setteamname-teamname" value="" />
+            <br />
+            <button id="test-setteamname">
+                <span class="en">Set</span>
+                <span class="ja">設定</span>
+            </button>
         </div>
     </div>
     <div>
-        <h3>Game Pause Toggle</h3>
+        <h3>
+            <span class="en">Game Pause Toggle</span>
+            <span class="ja">ゲーム進行・停止切替</span>
+        </h3>
         <div>
-            PreTimer: <input type="number" min="0.1" max="9.9" id="test-pausetoggle-pretimer" placeholder="0.1-9.9" value="0.1" step="0.1" /><br />
-            <button id="test-pausetoggle">Set</button>
+            <span class="en">PreTimer:</span>
+            <span class="ja">切替までの時間(秒):</span>
+            <input type="number" min="0.1" max="9.9" id="test-pausetoggle-pretimer" placeholder="0.1-9.9" value="0.1" step="0.1" />
+            <br />
+            <button id="test-pausetoggle">
+                <span class="en">Set</span>
+                <span class="ja">設定</span>
+                
+            </button>
         </div>
     </div>
 </div>
@@ -374,6 +864,7 @@ import {
 window.onload = (event) => {
     const config = new WebAPIConfig("ws://127.0.0.1:20081/");
     console.log(config);
+    console.log(document.styleSheets);
 }
 </script>
 </body>
