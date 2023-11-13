@@ -211,13 +211,13 @@ class LeaderBoard extends OverlayBase {
     /**
      * コンストラクタ
      */
-    constructor() {
+    constructor(shownum = 5) {
         super("leaderboard", "lb_");
         this.#teamnodes = {};
         this.#timerid = -1;
         this.#currentshowindex = 0;
         this.#nextshowindex = 0;
-        this.#shownum = 5;
+        this.#shownum = shownum;
         this.#showinterval = 5000;
         this.#alivesonly = false;
     }
@@ -1416,8 +1416,12 @@ export class Overlay {
      * コンストラクタ
      * @param {string} url 接続先WebSocketのURL
      */
-    constructor(url = "ws://127.0.0.1:20081/") {
-        this.#leaderboard = new LeaderBoard();
+    constructor(params = {}) {
+        if ('leaderboard_shownum' in params) {
+            this.#leaderboard = new LeaderBoard(params.leaderboard_shownum);
+        } else {
+            this.#leaderboard = new LeaderBoard();
+        }
         this.#teambanner = new TeamBanner();
         this.#playerbanner = new PlayerBanner();
         this.#teamkills = new TeamKills();
@@ -1430,7 +1434,11 @@ export class Overlay {
         this.#errorstatus = new ErrorStatus();
         this.#getallprocessing = false;
 
-        this.#setupApexWebAPI(url);
+        if ('url' in params) {
+            this.#setupApexWebAPI(url);
+        } else {
+            this.#setupApexWebAPI("ws://127.0.0.1:20081/");
+        }
 
         this.#_game = null;
         this.#teams = {};
@@ -1857,6 +1865,23 @@ export class Overlay {
     }
 
     /**
+     * ゲームが終了ステータスでないか確認する
+     * @param {string} state ゲームの進行状況
+     * @returns {boolean} true=ゲーム進行中,false=それ以外
+     */
+    #checkGameStateNotEnded(state) {
+        // "WaitingForPlayers","PickLoadout","Prematch","Resolution","Postmatch"
+        switch(state) {
+        case "WaitingForPlayers":
+        case "PickLoadout":
+        case "Prematch":
+        case "Playing":
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * ゲームの進行状況から表示/非表示を行う
      * @param {string} state ゲームの進行状況
      */
@@ -1865,6 +1890,11 @@ export class Overlay {
             this.#showAll();
         } else {
             this.#hideAll();
+        }
+        if (this.#checkGameStateNotEnded(state)) {
+            this.#showGameInfo();
+        } else {
+            this.#hideGameInfo();
         }
     }
 
@@ -2322,7 +2352,6 @@ export class Overlay {
         this.#showPlayerBanner();
         this.#showTeamKills();
         this.#showOwnedItems();
-        this.#showGameInfo();
     }
 
     /**
@@ -2334,7 +2363,6 @@ export class Overlay {
         this.#hidePlayerBanner();
         this.#hideTeamKills();
         this.#hideOwnedItems();
-        this.#hideGameInfo();
         this.#hideChampionBanner();
         this.#hideSquadEliminated();
     }
