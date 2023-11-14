@@ -2427,12 +2427,6 @@ export class Overlay {
             if ('points' in team) {
                 this.#teambanner.setPoints(team.points.reduce((a, c) => a + c, 0));
             }
-            if ('kills' in team) {
-                if (team.kills.length > 0) {
-                // 最新ゲームのキルを取得
-                this.#teamkills.setKills(team.kills[team.kills.length - 1]);
-                }
-            }
         }
 
         if (this.#_game && 'teams' in this.#_game) {
@@ -2442,6 +2436,9 @@ export class Overlay {
                 if (playerid < this.#_game.teams[teamid].players.length) {
                     this.#camera.playerhash = this.#_game.teams[teamid].players[playerid].hash;
                 }
+
+                // チームキルの設定
+                this.#teamkills.setKills(this.#_game.teams[teamid].kills);
             }
         }
     }
