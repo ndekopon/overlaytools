@@ -269,12 +269,12 @@ export function setRankParameterToTeamResults(teamresults) {
             if (ta.total_points < tb.total_points) return  1;
 
             // ソート
-            ta.points.reverse();
-            tb.points.reverse();
+            ta.points.sort().reverse();
+            tb.points.sort().reverse();
             ta.placements.sort();
             tb.placements.sort();
-            ta.kills.reverse();
-            tb.kills.reverse();
+            ta.kills.sort().reverse();
+            tb.kills.sort().reverse();
 
             // 同点の場合は、過去のゲームの最高ポイント
             for (let i = 0; i < ta.points.length && i < tb.points.length; ++i) {
