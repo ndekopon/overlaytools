@@ -2217,9 +2217,7 @@ export class WebAPIConfig {
             this.#webapi.getObserver();
             this.#webapi.getObservers();
             this.#webapi.sendGetLobbyPlayers();
-            this.#webapi.getTournamentResults().then(() => {
-                this.#procCurrentHash(location.hash);
-            });
+            this.#webapi.getTournamentResults();
             this.#webapi.getTournamentParams();
             this.#getTeamNames();
         });
@@ -2381,6 +2379,7 @@ export class WebAPIConfig {
         /* result用 */
         this.#webapi.addEventListener('gettournamentresults', (ev) => {
             this.#_results = ev.detail.results;
+            this.#procCurrentHash(location.hash);
             this.#resultview.setResults(ev.detail.results);
             this.#procPlayerInGameNameFromResults(ev.detail.results);
         });
@@ -2704,7 +2703,11 @@ export class WebAPIConfig {
         });
 
         this.#resultfixview.setCallback((gameid, result) => {
-            console.log(result);
+            this.#webapi.setTournamentResult(gameid, result).then(ev => {
+                if (ev.detail.setresult) {
+                    this.#webapi.getTournamentResults();
+                }
+            });
         });
 
         this.#playername.setCallback((hash, name) => {

@@ -231,6 +231,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_LOCALDATA_GET_PLAYER_PARAMS = 0x7d;
   static WEBAPI_LOCALDATA_GET_PLAYERS = 0x7e;
   static WEBAPI_LOCALDATA_GET_CURRENT_TOURNAMENT = 0x7f;
+  static WEBAPI_LOCALDATA_SET_TOURNAMENT_RESULT = 0x80;
 
   static WEBAPI_EVENT_TEAMBANNER_STATE = 0xc0;
 
@@ -923,6 +924,10 @@ export class ApexWebAPI extends EventTarget {
         if (count != 3) return false;
         this.dispatchEvent(new CustomEvent('gettournamentparams', {detail: {sequence: data_array[0], id: data_array[1], params: data_array[2]}}));
         break;
+      case ApexWebAPI.WEBAPI_LOCALDATA_SET_TOURNAMENT_RESULT:
+        if (count != 5) return false;
+        this.dispatchEvent(new CustomEvent('settournamentresult', {detail: {sequence: data_array[0], id: data_array[1], gameid: data_array[2], setresult: data_array[3], result: data_array[4] }}));
+        break;
       case ApexWebAPI.WEBAPI_LOCALDATA_GET_TOURNAMENT_RESULT:
         if (count != 4) return false;
         this.dispatchEvent(new CustomEvent('gettournamentresult', {detail: {sequence: data_array[0], id: data_array[1], gameid: data_array[2], result: data_array[3]}}));
@@ -1348,6 +1353,14 @@ export class ApexWebAPI extends EventTarget {
   getTournamentParams() {
     const buffer = new SendBuffer(ApexWebAPI.WEBAPI_LOCALDATA_GET_TOURNAMENT_PARAMS);
     return this.#sendAndReceiveReply(buffer, "gettournamentparams");
+  }
+
+  setTournamentResult(gameid, result) {
+    let precheck = true;
+    const buffer = new SendBuffer(ApexWebAPI.WEBAPI_LOCALDATA_SET_TOURNAMENT_RESULT);
+    if (!buffer.append(ApexWebAPI.WEBAPI_DATA_UINT8, gameid)) precheck = false;
+    if (!buffer.append(ApexWebAPI.WEBAPI_DATA_JSON, result, this.#encoder)) precheck = false;
+    return this.#sendAndReceiveReply(buffer, "settournamentresult", precheck);
   }
 
   getTournamentResult(gameid) {
