@@ -3,6 +3,7 @@ import {
     calcPoints,
     OverlayBase,
     appendToTeamResults,
+    htmlToElement,
     resultsToTeamResults,
     setRankParameterToTeamResults,
 } from "./overlay-common.js";
@@ -1701,7 +1702,24 @@ class ResultView {
         }
 
         // 表示切替
+        this.#all.classList.remove('hide');
         this.#single.classList.remove('hide');
+    }
+
+    /**
+     * リザルト部分を表示する
+     */
+    showBothResultView() {
+        this.#all.classList.remove('hide');
+        this.#single.classList.remove('hide');
+    }
+
+    /**
+     * リザルト部分の表示を非表示にする
+     */
+    hideBothResultView() {
+        this.#all.classList.add('hide');
+        this.#single.classList.add('hide');
     }
 
     showAllResults() {
@@ -1716,6 +1734,7 @@ class ResultView {
         }
 
         // 表示切替
+        this.#all.classList.remove('hide');
         this.#hideSingleGameResult();
     }
 
@@ -1766,9 +1785,376 @@ class ResultView {
     }
 }
 
+class ResultFixView extends WebAPIConfigBase {
+    #gameid;
+    #result;
+    #dragging_teamid;
+    #callback;
+    constructor() {
+        super("result-fix-");
+        this.getNode("buttons");
+        this.getNode("placement-update-button");
+        this.getNode("kills-update-button");
+        this.getNode("placement");
+        this.getNode("placementnodes");
+        this.getNode("kills");
+        this.getNode("killsnodes");
+        this.#dragging_teamid = 0;
+        this.#callback = null;
+
+        this.nodes["placement-update-button"].addEventListener("click", (ev) => {
+            this.#updatePlacement();
+        });
+        this.nodes["kills-update-button"].addEventListener("click", (ev) => {
+            this.#updateKills();
+        });
+    }
+
+    hideAll() {
+        this.hideFixPlacementView();
+        this.hideFixKillsView();
+    }
+
+    /**
+     * リザルトのコピーを保持する
+     * @param {number} gameid ゲームID(0～)
+     * @param {object} result リザルト
+     */
+    setResult(gameid, result) {
+        this.#gameid = gameid;
+        this.#result = JSON.parse(JSON.stringify(result));
+    }
+
+    /**
+     * 順位修正用の画面を描画する
+     */
+    drawPlacement() {
+        // 全要素削除
+        const nodes = this.nodes.placementnodes;
+        while (nodes.children.length > 0) {
+            nodes.removeChild(nodes.firstChild);
+        }
+        // チームIDを抜き出す
+        const p = Object.keys(this.#result.teams);
+        p.sort((a, b) => {
+            const pa = this.#result.teams[a].placement;
+            const pb = this.#result.teams[b].placement;
+            if (pa < pb) return -1;
+            if (pa > pb) return  1;
+            return 0;
+        });
+
+        // 表示
+        for (let i = 0; i < p.length; ++i) {
+            const teamid = parseInt(p[i], 10);
+            const team = this.#result.teams[teamid];
+            const div = htmlToElement(
+                `<div class="rf-placement-node" draggable="true">
+                    <div class="rf-placement">
+                        <div class="rf-placement-label">
+                            <span class="en">rank</span>
+                            <span class="ja">順位</span>
+                        </div>
+                        <div class="rf-placement-value">
+                            ${i + 1}
+                        </div>
+                    </div>
+                    <div class="rf-prev-placement">
+                        <div class="rf-prev-placement-label">
+                            <span class="en">before</span>
+                            <span class="ja">修正前の順位</span>
+                        </div>
+                        <div class="rf-prev-placement-value">
+                            ${team.placement}
+                        </div>
+                    </div>
+                    <div class="rf-teamid">
+                        <div class="rf-teamid-label">
+                            <span class="en">team no.</span>
+                            <span class="ja">チーム番号</span>
+                        </div>
+                        <div class="rf-teamid-value">
+                            ${teamid + 1}
+                        </div>
+                    </div>
+                    <div class="rf-teamname">
+                        <div class="rf-teamname-label">
+                            <span class="en">team name</span>
+                            <span class="ja">チーム名</span>
+                        </div>
+                        <div class="rf-teamname-value">
+                            ${team.name}
+                        </div>
+                    </div>
+                </div>`
+            );
+            const getTeamIdFromNode = (node) => {
+                return parseInt(node.children[2].children[1].innerText, 10) - 1;
+            };
+            const getNodeFromTeamId = (id) => {
+                for (const node of nodes.children) {
+                    const nid = getTeamIdFromNode(node);
+                    if (id == nid) return node;
+                }
+                return null;
+            };
+            nodes.appendChild(div);
+            {
+                const n = nodes.lastChild;
+                n.addEventListener('dragstart', (ev) => {
+                    ev.dataTransfer.effectAllowed = "move";
+                    this.#dragging_teamid = teamid;
+                    n.classList.add('dragging');
+                });
+                n.addEventListener('dragenter', (ev) => {
+                    ev.preventDefault();
+                    ev.dataTransfer.dropEffect = "move";
+                    if (teamid != this.#dragging_teamid) {
+                        // 入れ替える
+                        const node = getNodeFromTeamId(this.#dragging_teamid);
+                        const children = [].slice.call(nodes.children);
+                        const dragging_index = children.indexOf(node);
+                        const target_index = children.indexOf(n);
+                        if (target_index < dragging_index) {
+                            nodes.insertBefore(node, n);
+                        } else {
+                            nodes.insertBefore(node, nodes.children[target_index + 1]);
+                        }
+
+                        // 入替後の順位確定
+                        for (let i = 0; i < nodes.children.length; ++i) {
+                            const node = nodes.children[i];
+                            node.children[0].children[1].innerText = i + 1;
+                            const curr = node.children[0].children[1].innerText;
+                            const prev = node.children[1].children[1].innerText;
+                            if (curr == prev) {
+                                node.children[0].children[1].classList.remove('rf-changed');
+                            } else {
+                                node.children[0].children[1].classList.add('rf-changed');
+                            }
+                        }
+                    }
+                });
+                n.addEventListener('dragleave', (ev) => {
+                    ev.preventDefault();
+                    ev.dataTransfer.dropEffect = "move";
+                });
+                n.addEventListener('dragover', (ev) => {
+                    ev.preventDefault();
+                    ev.dataTransfer.dropEffect = "move";
+                });
+                n.addEventListener('dragend', (ev) => {
+                    ev.preventDefault();
+                    n.classList.remove('dragging');
+                    ev.dataTransfer.dropEffect = "move";
+                });
+                n.addEventListener('drop', (ev) => {
+                    ev.preventDefault();
+                    n.classList.remove('dragging');
+                    ev.dataTransfer.dropEffect = "move";
+                });
+            }
+        }
+    }
+
+    /**
+     * キル数修正用の画面を表示する
+     */
+    drawKills() {
+        // 全要素削除
+        const nodes = this.nodes.killsnodes;
+        while (nodes.children.length > 0) {
+            nodes.removeChild(nodes.firstChild);
+        }
+
+        for (const [teamid, team] of Object.entries(this.#result.teams)) {
+            const div = htmlToElement(
+                `<div class="rf-kills-node">
+                    <div class="rf-kills-teamheader">
+                        <div class="rf-kills-teamid" data-teamid="${teamid}">
+                            ${parseInt(teamid, 10) + 1}
+                        </div>
+                        <div class="rf-kills-teamname">
+                            ${team.name}
+                        </div>
+                        <div class="rf-kills-teamkills" data-prev="${team.kills}">
+                            ${team.kills}
+                        </div>
+                    </div>
+                    <div class="rf-kills-players">
+                    </div>
+                </div>`
+            );
+            nodes.appendChild(div);
+            const tn = nodes.lastChild;
+            const checkTeamKills = (node) => {
+                let teamkills = 0;
+                for (const pn of node.children[1].children) {
+                    let kills = parseInt(pn.children[1].innerText, 10);
+                    teamkills += kills;
+                }
+                node.children[0].children[2].innerText = teamkills;
+                if (node.children[0].children[2].dataset.prev == teamkills.toString()) {
+                    node.children[0].children[2].classList.remove('rf-changed');
+                } else {
+                    node.children[0].children[2].classList.add('rf-changed');
+                }
+            };
+
+            for (const player of team.players) {
+                const div = htmlToElement(
+                    `<div class="rf-kills-player-node" data-id="${player.id}">
+                        <div class="rf-kills-player-name">
+                            ${player.name}
+                        </div>
+                        <div class="rf-kills-player-kills" data-prev="${player.kills}">
+                            ${player.kills}
+                        </div>
+                        <div class="rf-kills-player-buttons">
+                            <button>+</button><button>-</button>
+                        </div>
+                    </div>`
+                );
+                tn.children[1].appendChild(div);
+                const pn = tn.children[1].lastChild;
+                // 増加・減少操作
+                pn.children[2].children[0].addEventListener('click', (ev) => {
+                    // +
+                    let kills = parseInt(pn.children[1].innerText, 10);
+                    kills++;
+                    pn.children[1].innerText = kills;
+                    if (pn.children[1].dataset.prev == pn.children[1].innerText.trim()) {
+                        pn.children[1].classList.remove('rf-changed');
+                    } else {
+                        pn.children[1].classList.add('rf-changed');
+                    }
+                    checkTeamKills(tn);
+                });
+                pn.children[2].children[1].addEventListener('click', (ev) => {
+                    // -
+                    let kills = parseInt(pn.children[1].innerText, 10);
+                    if (kills > 0) kills--;
+                    pn.children[1].innerText = kills;
+                    if (pn.children[1].dataset.prev == pn.children[1].innerText.trim()) {
+                        pn.children[1].classList.remove('rf-changed');
+                    } else {
+                        pn.children[1].classList.add('rf-changed');
+                    }
+                    checkTeamKills(tn);
+                });
+            }
+        }
+    }
+
+    #updatePlacement() {
+        const nodes = this.nodes.placementnodes;
+
+        // 修正点の抜き出し
+        const updates = [];
+        for (const node of nodes.children) {
+            const curr_rank = parseInt(node.children[0].children[1].innerText, 10);
+            const prev_rank = parseInt(node.children[1].children[1].innerText, 10);
+            const teamid = parseInt(node.children[2].children[1].innerText, 10) - 1;
+            if (curr_rank != prev_rank) {
+                updates.push({ id: teamid, placement: curr_rank });
+            }
+        }
+
+        if (updates.length == 0) return;
+
+        // コピー
+        const result = JSON.parse(JSON.stringify(this.#result));
+
+        // 修正
+        for (const update of updates) {
+            result.teams[update.id].placement = update.placement;
+        }
+
+        // 修正送信
+        if (typeof(this.#callback) == 'function') {
+            this.#callback(this.#gameid, result);
+        }
+    }
+
+    #updateKills() {
+        const nodes = this.nodes.killsnodes;
+        // 修正点の抜き出し
+        const updates = {};
+        for (const node of nodes.children) {
+            const curr_team_kills = parseInt(node.children[0].children[2].innerText, 10);
+            const prev_team_kills = parseInt(node.children[0].children[2].dataset.prev, 10);
+            const teamid = node.children[0].children[0].dataset.teamid;
+            if (curr_team_kills != prev_team_kills) {
+                const playerupdate = {};
+                for (const pn of node.children[1].children) {
+                    const curr_kills = parseInt(pn.children[1].innerText.trim(), 10);
+                    const prev_kills = parseInt(pn.children[1].dataset.prev, 10);
+                    if (curr_kills != prev_kills) {
+                        const playerhash = pn.dataset.id;
+                        playerupdate[playerhash] = curr_kills;
+                    }
+                }
+                updates[teamid] = { kills: curr_team_kills, players: playerupdate };
+            }
+        }
+        if (Object.keys(updates).length == 0) return;
+
+        // コピー
+        const result = JSON.parse(JSON.stringify(this.#result));
+
+        // 修正
+        for (const [teamid, data] of Object.entries(updates)) {
+            const team = result.teams[teamid];
+            team.kills = data.kills;
+            for (const player of team.players) {
+                if (player.id in data.players) {
+                    player.kills = data.players[player.id];
+                }
+            }
+        }
+
+        // 修正送信
+        if (typeof(this.#callback) == 'function') {
+            this.#callback(this.#gameid, result);
+        }
+    }
+
+    showSwitchViewButton() {
+        this.nodes.buttons.classList.remove("hide");
+    }
+    hideSwitchViewButton() {
+        this.nodes.buttons.classList.add("hide");
+    }
+
+    showFixPlacementView() {
+        this.nodes.placement.classList.remove("hide");
+    }
+    hideFixPlacementView() {
+        this.nodes.placement.classList.add("hide");
+    }
+
+    showFixKillsView() {
+        this.nodes.kills.classList.remove("hide");
+    }
+    hideFixKillsView() {
+        this.nodes.kills.classList.add("hide");
+    }
+
+    /**
+     * リザルトが修正が要求された際に呼び出されるコールバック関数を設定する
+     * @param {function} func コールバック関数
+     */
+    setCallback(func) {
+        if (typeof(func) == 'function' && func.length == 2) {
+            this.#callback = func;
+        }
+    }
+}
+
 export class WebAPIConfig {
     #webapi;
     #_game;
+    #_results;
     #webapiconnectionstatus;
     #liveapiconnectionstatus;
     #languageselect;
@@ -1786,7 +2172,7 @@ export class WebAPIConfig {
     #playername;
     #teamname;
     #resultview;
-    #firstproccurrenthash;
+    #resultfixview;
 
     constructor(url) {
         this.#tournament_id = "";
@@ -1795,16 +2181,17 @@ export class WebAPIConfig {
         this.#tournament_params = {};
         this.#playerparams = {};
         this.#teamparams = {};
+        this._results = null;
         this.#realtimeview = new RealtimeView();
         this.#observerconfig = new ObserverConfig();
         this.#resultview = new ResultView();
+        this.#resultfixview = new ResultFixView();
         this.#tournamentcalculationmethod = new TournamentCalculationMethod();
         this.#webapiconnectionstatus = new WebAPIConnectionStatus();
         this.#liveapiconnectionstatus = new LiveAPIConnectionStatus();
         this.#languageselect = new LanguageSelect();
         this.#playername = new PlayerName();
         this.#teamname = new TeamName();
-        this.#firstproccurrenthash = true;
 
         this.#setupWebAPI(url);
         this.#setupButton();
@@ -1830,7 +2217,9 @@ export class WebAPIConfig {
             this.#webapi.getObserver();
             this.#webapi.getObservers();
             this.#webapi.sendGetLobbyPlayers();
-            this.#webapi.getTournamentResults();
+            this.#webapi.getTournamentResults().then(() => {
+                this.#procCurrentHash(location.hash);
+            });
             this.#webapi.getTournamentParams();
             this.#getTeamNames();
         });
@@ -1845,10 +2234,6 @@ export class WebAPIConfig {
 
         /* 設定変更イベント */
         this.#webapi.addEventListener('getcurrenttournament', (ev) => {
-            if (this.#firstproccurrenthash) {
-                this.#procCurrentHash(location.hash);
-                this.#firstproccurrenthash = false;
-            }
             if (ev.detail.id != '' && this.#tournament_id != ev.detail.id) {
                 // 現在のトーナメントIDが変わった場合
                 this.#getTeamNames();
@@ -1995,6 +2380,7 @@ export class WebAPIConfig {
 
         /* result用 */
         this.#webapi.addEventListener('gettournamentresults', (ev) => {
+            this.#_results = ev.detail.results;
             this.#resultview.setResults(ev.detail.results);
             this.#procPlayerInGameNameFromResults(ev.detail.results);
         });
@@ -2099,6 +2485,25 @@ export class WebAPIConfig {
             if (text != "") {
             this.#webapi.sendChat(text).then(() => {}, () => {});
             }
+        });
+
+        document.getElementById('result-view-button').addEventListener('click', (ev) => {
+            this.#resultview.showBothResultView();
+            this.#resultfixview.hideAll();
+        });
+
+        document.getElementById('result-fix-placement-button').addEventListener('click', (ev) => {
+            this.#resultview.hideBothResultView();
+            this.#resultfixview.drawPlacement();
+            this.#resultfixview.hideFixKillsView();
+            this.#resultfixview.showFixPlacementView();
+        });
+
+        document.getElementById('result-fix-kills-button').addEventListener('click', (ev) => {
+            this.#resultview.hideBothResultView();
+            this.#resultfixview.drawKills();
+            this.#resultfixview.hideFixPlacementView();
+            this.#resultfixview.showFixKillsView();
         });
 
         // checkbox
@@ -2296,6 +2701,10 @@ export class WebAPIConfig {
         
         this.#resultview.setUnknownPlayerHashCallback((playerhash) => {
             this.#webapi.getPlayerParams(playerhash);
+        });
+
+        this.#resultfixview.setCallback((gameid, result) => {
+            console.log(result);
         });
 
         this.#playername.setCallback((hash, name) => {
@@ -2601,10 +3010,14 @@ export class WebAPIConfig {
     #showResult(submenu) {
         if (submenu == 'all') {
             this.#resultview.showAllResults();
+            this.#resultfixview.hideSwitchViewButton();
         } else {
             const gameid = parseInt(submenu, 10);
             if (submenu == gameid.toString()) {
                 this.#resultview.showSingleGameResult(gameid);
+                this.#resultfixview.showSwitchViewButton();
+                this.#resultfixview.setResult(gameid, this.#_results[gameid]);
+                this.#resultfixview.hideAll();
             }
         }
     }

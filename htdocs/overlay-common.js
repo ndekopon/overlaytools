@@ -368,3 +368,13 @@ export function resultsToPlayerStats(results) {
     }
     return playerstats;
 }
+
+/**
+ * @param {string} html 1つの要素を含むHTML文字列
+ * @return {HTMLElement} 作成されたHTMLElement
+ */
+export function htmlToElement(html) {
+    const template = document.createElement('template');
+    template.innerHTML = html.trim();
+    return template.content;
+}

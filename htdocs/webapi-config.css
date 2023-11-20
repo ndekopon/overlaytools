@@ -338,6 +338,80 @@ body {
     background-color: #FFCCCC;
 }
 
+#result-fix-buttons {
+    margin-top: 1em;
+}
+
+#result-fix-buttons.hide {
+    display: none;
+}
+
+#result-fix-placement.hide {
+    display: none;
+}
+
+#result-fix-kills.hide {
+    display: none;
+}
+
+.rf-placement-node {
+    user-select: none;
+    width: 40em;
+    margin: 10px 0;
+    border: 1px solid black;
+    background-color: white;
+    display: grid;
+    grid-template-columns: 5em 5em 5em 1fr;
+    cursor: grab;
+}
+
+.rf-placement-node:active {
+    cursor: grabbing;
+}
+
+.rf-placement-node > div > div:first-child {
+    font-size: 50%;
+}
+
+.dragging {
+    opacity: 0.8;
+    background-color: #CFF;
+}
+
+.rf-changed {
+    font-weight: bold;
+    color: orangered;
+}
+#result-fix-killsnodes {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 5px;
+}
+.rf-kills-node {
+    border: 1px solid black;
+}
+.rf-kills-teamheader {
+    display: grid;
+    grid-template-columns: 2.5em 1fr 2.5em;
+    line-height: 2em;
+    border-bottom: 1px solid black;
+}
+.rf-kills-teamid, .rf-kills-teamkills, .rf-kills-player-kills {
+    text-align: center;
+}
+.rf-kills-player-node {
+    display: grid;
+    grid-template-columns: 1fr 2.5em auto;
+    padding-left: 1em;
+    line-height: 1.5em;
+}
+#result-fix-killsnodes .rf-kills-player-buttons > button {
+    padding: 0 5px;
+    margin: 0;
+}
+
 #result-all-base {
     margin-top: 1em;
     display: grid;
@@ -346,6 +420,7 @@ body {
     border-left: 1px solid black;
     box-sizing: border-box;
 }
+
 #result-all-base.hide {
     display: none;
 }
