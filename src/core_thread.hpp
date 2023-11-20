@@ -135,6 +135,7 @@ namespace app {
 		void reply_webapi_rename_tournament_name(SOCKET _sock, uint32_t _sequence, const std::string& _id, const std::string& _name, bool _result);
 		void reply_webapi_set_tournament_params(SOCKET _sock, uint32_t _sequence, const std::string& _id, bool _result, const std::string& _json);
 		void reply_webapi_get_tournament_params(SOCKET _sock, uint32_t _sequence, const std::string& _id, const std::string& _json);
+		void reply_webapi_set_tournament_result(SOCKET _sock, uint32_t _sequence, const std::string& _id, uint32_t _gameid, bool _result, const std::string& _json);
 		void reply_webapi_get_tournament_result(SOCKET _sock, uint32_t _sequence, const std::string& _id, uint32_t _gameid, const std::string& _json);
 		void reply_webapi_get_tournament_results(SOCKET _sock, uint32_t _sequence, const std::string& _id, const std::string& _json);
 		void reply_webapi_get_current_tournament(SOCKET _sock, uint32_t _sequence, const std::string& _id, const std::string& _name, uint32_t _gameid);

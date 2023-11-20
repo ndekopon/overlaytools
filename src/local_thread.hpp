@@ -24,6 +24,7 @@ namespace app
 		LOCAL_DATA_TYPE_RENAME_TOURNAMENT_NAME,
 		LOCAL_DATA_TYPE_SET_TOURNAMENT_PARAMS,
 		LOCAL_DATA_TYPE_GET_TOURNAMENT_PARAMS,
+		LOCAL_DATA_TYPE_SET_TOURNAMENT_RESULT,
 		LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULT,
 		LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULTS,
 		LOCAL_DATA_TYPE_SET_TEAM_PARAMS,
@@ -159,6 +160,7 @@ namespace app
 		void rename_tournament_name(SOCKET _sock, uint32_t _sequence, const std::string& _id, const std::string& _name);
 		void set_tournament_params(SOCKET _sock, uint32_t _sequence, const std::string& _json);
 		void get_tournament_params(SOCKET _sock, uint32_t _sequence);
+		void set_tournament_result(SOCKET _sock, uint32_t _sequence, uint32_t _gameid, const std::string& _json);
 		void get_tournament_result(SOCKET _sock, uint32_t _sequence, uint32_t _gameid);
 		void get_tournament_results(SOCKET _sock, uint32_t _sequence);
 		void get_current_tournament(SOCKET _sock, uint32_t _sequence);

@@ -755,6 +755,21 @@ namespace app {
 			d->tournament_id = tournament_.get_current_id();
 			d->json.reset(new std::string(tournament_.load_results_json()));
 			break;
+		case LOCAL_DATA_TYPE_SET_TOURNAMENT_RESULT:
+			log(logid_, L"Info: proc LOCAL_DATA_TYPE_SET_TOURNAMENT_RESULT event.");
+			d->tournament_id = tournament_.get_current_id();
+			d->game_id = _data->game_id;
+			if (_data->json != nullptr)
+			{
+				d->json = std::move(_data->json);
+				d->result = tournament_.save_result_json(_data->game_id, *d->json);
+			}
+			else
+			{
+				d->json.reset(new std::string("{}"));
+				d->result = false;
+			}
+			break;
 		case LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULT:
 			log(logid_, L"Info: proc LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULT event.");
 			d->tournament_id = tournament_.get_current_id();
@@ -1037,6 +1052,17 @@ namespace app {
 		d->data_type = LOCAL_DATA_TYPE_GET_TOURNAMENT_PARAMS;
 		d->sock = _sock;
 		d->sequence = _sequence;
+		push_rq(std::move(d));
+	}
+
+	void local_thread::set_tournament_result(SOCKET _sock, uint32_t _sequence, uint32_t _resultid, const std::string& _json)
+	{
+		local_queue_data_t d(new local_queue_data());
+		d->data_type = LOCAL_DATA_TYPE_SET_TOURNAMENT_RESULT;
+		d->sock = _sock;
+		d->sequence = _sequence;
+		d->result_id = _resultid;
+		d->json.reset(new std::string(_json));
 		push_rq(std::move(d));
 	}
 

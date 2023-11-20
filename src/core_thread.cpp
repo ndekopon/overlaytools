@@ -532,6 +532,30 @@ namespace app {
 			}
 			break;
 		}
+		case WEBAPI_LOCALDATA_SET_TOURNAMENT_RESULT:
+		{
+			log(LOG_CORE, L"Info: WEBAPI_LOCALDATA_SET_TOURNAMENT_RESULT received.");
+			if (wdata.size() != 3)
+			{
+				log(LOG_CORE, L"Error: sended data size is not 3. (size=%d)", wdata.size());
+				return;
+			}
+			try
+			{
+				uint32_t game_id = wdata.get_uint8(1);
+				auto json = wdata.get_json(2);
+				local_.set_tournament_result(socket, sequence, game_id, json);
+			}
+			catch (std::out_of_range& oor)
+			{
+				log(LOG_CORE, L"Error: data parse failed(%s)", s_to_ws(oor.what()));
+			}
+			catch (...)
+			{
+				log(LOG_CORE, L"Error: data parse failed.");
+			}
+			break;
+		}
 		case WEBAPI_LOCALDATA_GET_TOURNAMENT_RESULT:
 		{
 			log(LOG_CORE, L"Info: LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULT received.");
@@ -991,6 +1015,12 @@ namespace app {
 			if (_data->json != nullptr)
 			{
 				reply_webapi_get_tournament_params(_data->sock, _data->sequence, _data->tournament_id, *_data->json);
+			}
+			break;
+		case LOCAL_DATA_TYPE_SET_TOURNAMENT_RESULT:
+			if (_data->json != nullptr)
+			{
+				reply_webapi_set_tournament_result(_data->sock, _data->sequence, _data->tournament_id, _data->game_id, _data->result, *_data->json);
 			}
 			break;
 		case LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULT:
@@ -2088,6 +2118,15 @@ namespace app {
 	{
 		send_webapi_data sdata(WEBAPI_LOCALDATA_GET_TOURNAMENT_PARAMS);
 		if (sdata.append(_sequence) && sdata.append(_id) && sdata.append_json(_json))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::reply_webapi_set_tournament_result(SOCKET _sock, uint32_t _sequence, const std::string& _id, uint32_t _gameid, bool _result, const std::string& _json)
+	{
+		send_webapi_data sdata(WEBAPI_LOCALDATA_SET_TOURNAMENT_RESULT);
+		if (sdata.append(_sequence) && sdata.append(_id) && sdata.append(_gameid) && sdata.append(_result) && sdata.append_json(_json))
 		{
 			sendto_webapi(_sock, std::move(sdata.buffer_));
 		}
