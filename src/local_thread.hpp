@@ -99,7 +99,6 @@ namespace app
 		std::string tournament_id = "";
 		std::string tournament_name = "";
 		uint32_t game_id = 0;
-		uint32_t result_id = 0;
 		uint32_t result_count = 0;
 		std::unique_ptr<livedata::result> game_result = nullptr;
 	};

@@ -1055,24 +1055,24 @@ namespace app {
 		push_rq(std::move(d));
 	}
 
-	void local_thread::set_tournament_result(SOCKET _sock, uint32_t _sequence, uint32_t _resultid, const std::string& _json)
+	void local_thread::set_tournament_result(SOCKET _sock, uint32_t _sequence, uint32_t _gameid, const std::string& _json)
 	{
 		local_queue_data_t d(new local_queue_data());
 		d->data_type = LOCAL_DATA_TYPE_SET_TOURNAMENT_RESULT;
 		d->sock = _sock;
 		d->sequence = _sequence;
-		d->result_id = _resultid;
+		d->game_id = _gameid;
 		d->json.reset(new std::string(_json));
 		push_rq(std::move(d));
 	}
 
-	void local_thread::get_tournament_result(SOCKET _sock, uint32_t _sequence, uint32_t _resultid)
+	void local_thread::get_tournament_result(SOCKET _sock, uint32_t _sequence, uint32_t _gameid)
 	{
 		local_queue_data_t d(new local_queue_data());
 		d->data_type = LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULT;
 		d->sock = _sock;
 		d->sequence = _sequence;
-		d->result_id = _resultid;
+		d->game_id = _gameid;
 		push_rq(std::move(d));
 	}
 

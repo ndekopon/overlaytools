@@ -2383,6 +2383,11 @@ export class WebAPIConfig {
             this.#resultview.setResults(ev.detail.results);
             this.#procPlayerInGameNameFromResults(ev.detail.results);
         });
+        this.#webapi.addEventListener('settournamentresult', (ev) => {
+            if (ev.detail.setresult) {
+                this.#webapi.getTournamentResults();
+            }
+        });
         this.#webapi.addEventListener('saveresult', (ev) => {
             this.#webapi.getTournamentResults();
             this.#updateResultMenuFromResultsCount(ev.detail.gameid + 1);
@@ -2703,11 +2708,7 @@ export class WebAPIConfig {
         });
 
         this.#resultfixview.setCallback((gameid, result) => {
-            this.#webapi.setTournamentResult(gameid, result).then(ev => {
-                if (ev.detail.setresult) {
-                    this.#webapi.getTournamentResults();
-                }
-            });
+            this.#webapi.setTournamentResult(gameid, result);
         });
 
         this.#playername.setCallback((hash, name) => {
