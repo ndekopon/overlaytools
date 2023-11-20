@@ -1564,26 +1564,12 @@ export class Overlay {
         });
 
         this.#webapi.addEventListener("getteamparams", (ev) => {
-            this.#teamparams[ev.detail.teamid] = ev.detail.params;
-            if (!('name' in ev.detail.params)) return;
-            const teamid = ev.detail.teamid;
-            if (this.#leaderboard.hasTeam(teamid)) {
-                this.#leaderboard.setTeamName(teamid, ev.detail.params.name);
-            }
-            if (ev.detail.teamid.toString() == this.#camera.teamid) {
-                this.#teambanner.setTeamName(ev.detail.params.name);
-            }
+            this.#updatedTeamParams(ev.detail.teamid, ev.detail.params);
         });
         
         this.#webapi.addEventListener("setteamparams", (ev) => {
-            this.#teamparams[ev.detail.teamid] = ev.detail.params;
-            if (!('name' in ev.detail.params)) return;
-            const teamid = ev.detail.teamid;
-            if (this.#leaderboard.hasTeam(teamid)) {
-                this.#leaderboard.setTeamName(teamid, ev.detail.params.name);
-            }
-            if (ev.detail.teamid.toString() == this.#camera.teamid) {
-                this.#teambanner.setTeamName(ev.detail.params.name);
+            if (ev.detail.result) {
+                this.#updatedTeamParams(ev.detail.teamid, ev.detail.params);
             }
         });
 
@@ -1609,7 +1595,7 @@ export class Overlay {
             }
         });
 
-        this.#webapi.addEventListener("setteamparams", (ev) => {
+        this.#webapi.addEventListener("setplayerparams", (ev) => {
             if (!('name' in ev.detail.params)) return;
             if (this.#camera.playerhash == "") return;
             if (ev.detail.hash != this.#camera.playerhash) return;
@@ -1904,6 +1890,22 @@ export class Overlay {
     #getAllTeamParams() {
         for (let i = 0; i < 30; ++i) {
             this.#webapi.getTeamParams(i);
+        }
+    }
+
+    /**
+     * 現在の順位・キル数からポイントを計算する
+     * @param {number} teamid チームID(0～)
+     * @param {object} params チームのパラメータ
+     */
+    #updatedTeamParams(teamid, params) {
+        this.#teamparams[teamid] = params;
+        if (!('name' in params)) return;
+        if (this.#leaderboard.hasTeam(teamid)) {
+            this.#leaderboard.setTeamName(teamid, params.name);
+        }
+        if (teamid.toString() == this.#camera.teamid) {
+            this.#teambanner.setTeamName(params.name);
         }
     }
 
