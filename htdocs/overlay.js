@@ -1411,6 +1411,10 @@ export class Overlay {
     #teamparams;
     #playerparams;
     #tournamentparams;
+    /** @type {number} 再接続試行をカウントする */
+    #retry;
+    /** @type {boolean} 再接続試行中 */
+    #reconnecting;
 
     /**
      * コンストラクタ
@@ -1433,6 +1437,8 @@ export class Overlay {
         this.#playerleaderboard = new PlayerLeaderBoard();
         this.#errorstatus = new ErrorStatus();
         this.#getallprocessing = false;
+        this.#retry = 0;
+        this.#reconnecting = false;
 
         if ('url' in params) {
             this.#setupApexWebAPI(url);
@@ -1465,6 +1471,7 @@ export class Overlay {
             this.#errorstatus.setWebAPIStatus(true);
             this.#getallprocessing = true;
             this.#_game = ev.detail.game;
+            this.#retry = 0;
             this.#webapi.getAll().then(() => {
                 this.#webapi.getTournamentResults().then(() => {
                     this.#getallprocessing = false;
@@ -1481,10 +1488,12 @@ export class Overlay {
 
         this.#webapi.addEventListener("close", (ev) => {
             this.#errorstatus.setWebAPIStatus(false);
+            this.#tryReconnect();
         });
 
         this.#webapi.addEventListener("error", (ev) => {
             this.#errorstatus.setWebAPIStatus(false);
+            this.#tryReconnect();
         });
 
         this.#webapi.addEventListener("clearlivedata", (ev) => {
@@ -1608,7 +1617,7 @@ export class Overlay {
             this.#leaderboard.setTeamEliminated(teamid, true);
             this.#calcAndDisplay();
         });
-        
+
         this.#webapi.addEventListener("playerconnected", (ev) => {
             if (this.#_game == null) return;
             this.#calcAndDisplay();
@@ -1830,6 +1839,24 @@ export class Overlay {
                 }
             }
         });
+    }
+
+    /**
+     * 接続が切れたりエラーで失敗した場合の再接続処理
+     */
+    #tryReconnect() {
+        /** @type {number[]} 再接続試行の間隔(ms) */
+        const intervals = [1000, 2000, 4000, 8000];
+        let interval = intervals[intervals.length - 1];
+        if (this.#retry < intervals.length) interval = intervals[this.#retry];
+        if (!this.#reconnecting) {
+            this.#reconnecting = true;
+            setTimeout(() => {
+                this.#webapi.forceReconnect();
+                this.#reconnecting = false;
+            }, interval);
+            this.#retry++;
+        }
     }
 
     /**
