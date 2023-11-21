@@ -1522,6 +1522,13 @@ export class Overlay {
             }
         });
 
+        // トーナメントの変更・新規作成
+        this.#webapi.addEventListener("settournamentname", (ev) => {
+            this.#webapi.getCurrentTournament();
+            this.#webapi.getTournamentParams();
+            this.#webapi.getTournamentResults();
+        });
+
         // 結果の保存
         this.#webapi.addEventListener("saveresult", (ev) => {
             this.#calcresultsonly = true;
