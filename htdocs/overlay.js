@@ -1582,24 +1582,19 @@ export class Overlay {
         });
 
         this.#webapi.addEventListener("getplayerparams", (ev) => {
-            this.#playerparams[ev.detail.hash] = ev.detail.params;
-            if (!('name' in ev.detail.params)) return;
-            if (this.#camera.playerhash == "") return;
-            if (ev.detail.hash != this.#camera.playerhash) return;
-            this.#playerbanner.setPlayerName(ev.detail.params.name);
-        });
-
-        this.#webapi.addEventListener("getplayerparams", (ev) => {
-            if (ev.detail.result) {
-                this.#playerparams[ev.detail.hash] = ev.detail.params;
-            }
+            this.#updatedPlayerParams(ev.detail.hash, ev.detail.params);
         });
 
         this.#webapi.addEventListener("setplayerparams", (ev) => {
-            if (!('name' in ev.detail.params)) return;
-            if (this.#camera.playerhash == "") return;
-            if (ev.detail.hash != this.#camera.playerhash) return;
-            this.#playerbanner.setPlayerName(ev.detail.params.name);
+            if (ev.detail.result) {
+                this.#updatedPlayerParams(ev.detail.hash, ev.detail.params);
+            }
+        });
+
+        this.#webapi.addEventListener("getplayers", (ev) => {
+            for (const [hash, params] of Object.entries(ev.detail.players)) {
+                this.#updatedPlayerParams(hash, params);
+            }
         });
 
         this.#webapi.addEventListener("teamplacement", (ev) => {
@@ -1894,7 +1889,7 @@ export class Overlay {
     }
 
     /**
-     * 現在の順位・キル数からポイントを計算する
+     * チームのパラメータが更新された際の処理
      * @param {number} teamid チームID(0～)
      * @param {object} params チームのパラメータ
      */
@@ -1918,6 +1913,19 @@ export class Overlay {
                 this.#playerparams[hash] = params;
             }
         });
+    }
+
+    /**
+     * プレイヤーのパラメータが更新された際の処理
+     * @param {string} hash プレイヤーID
+     * @param {object} params プレイヤーのパラメータ
+     */
+    #updatedPlayerParams(hash, params) {
+        this.#playerparams[hash] = params;
+        if (!('name' in params)) return;
+        if (this.#camera.playerhash == "") return;
+        if (ev.detail.hash != this.#camera.playerhash) return;
+        this.#playerbanner.setPlayerName(ev.detail.params.name);
     }
 
     /**
