@@ -2173,6 +2173,7 @@ export class WebAPIConfig {
     #teamname;
     #resultview;
     #resultfixview;
+    #tryconnecting;
 
     constructor(url) {
         this.#tournament_id = "";
@@ -2192,6 +2193,7 @@ export class WebAPIConfig {
         this.#languageselect = new LanguageSelect();
         this.#playername = new PlayerName();
         this.#teamname = new TeamName();
+        this.#tryconnecting = false;
 
         this.#setupWebAPI(url);
         this.#setupButton();
@@ -2224,10 +2226,12 @@ export class WebAPIConfig {
 
         this.#webapi.addEventListener('close', (ev) => {
             this.#webapiconnectionstatus.setStatus('close');
+            this.#tryReconnect();
         });
 
         this.#webapi.addEventListener('error', (ev) => {
             this.#webapiconnectionstatus.setStatus('error');
+            this.#tryReconnect();
         });
 
         /* 設定変更イベント */
@@ -2434,6 +2438,16 @@ export class WebAPIConfig {
         this.#webapi.addEventListener('liveapisocketstats', (ev) => {
             this.#liveapiconnectionstatus.setStatus(ev.detail.conn, ev.detail.recv, ev.detail.send);
         });
+    }
+
+    #tryReconnect() {
+        if (!this.#tryconnecting) {
+            this.#tryconnecting = true;
+            setTimeout(() => {
+                this.#webapi.forceReconnect();
+                this.#tryconnecting = false;
+            }, 10000);
+        }
     }
 
     #setupButton() {
