@@ -1473,16 +1473,12 @@ export class Overlay {
             this.#_game = ev.detail.game;
             this.#retry = 0;
             this.#webapi.getAll().then(() => {
-                this.#webapi.getTournamentResults().then(() => {
-                    this.#getallprocessing = false;
-                    this.#showHideFromGameState(this.#_game.state);
-                    this.#webapi.getTournamentParams();
-                    this.#getAllTeamParams();
-                    this.#getAllPlayerParams();
-                    this.#webapi.getCurrentTournament();
-                }, () => {
-                    this.#getallprocessing = false;
-                });
+                this.#getallprocessing = false;
+                this.#showHideFromGameState(this.#_game.state);
+                this.#getAllPlayerParams();
+                this.#webapi.getCurrentTournament();
+            }, () => {
+                this.#getallprocessing = false;
             });
         });
 
@@ -1494,6 +1490,25 @@ export class Overlay {
         this.#webapi.addEventListener("error", (ev) => {
             this.#errorstatus.setWebAPIStatus(false);
             this.#tryReconnect();
+        });
+
+        this.#webapi.addEventListener("getcurrenttournament", (ev) => {
+            this.#getAllTeamParams();
+            this.#webapi.getTournamentResults();
+            this.#webapi.getTournamentParams();
+
+            // トーナメント設定
+            this.#tournamentname = ev.detail.name;
+            this.#gameinfo.setTitle(ev.detail.name);
+        });
+
+        this.#webapi.addEventListener('renametournamentname', (ev) => {
+            console.log(ev);
+            if (ev.detail.result) {
+                // トーナメント設定
+                this.#tournamentname = ev.detail.name;
+                this.#gameinfo.setTitle(ev.detail.name);
+            }
         });
 
         this.#webapi.addEventListener("clearlivedata", (ev) => {
@@ -1525,8 +1540,6 @@ export class Overlay {
         // トーナメントの変更・新規作成
         this.#webapi.addEventListener("settournamentname", (ev) => {
             this.#webapi.getCurrentTournament();
-            this.#webapi.getTournamentParams();
-            this.#webapi.getTournamentResults();
         });
 
         // 結果の保存
@@ -1545,6 +1558,12 @@ export class Overlay {
             this.#_results = ev.detail.results;
             this.#calcAndDisplay();
             this.#updateGameInfo();
+        });
+
+        this.#webapi.addEventListener('settournamentresult', (ev) => {
+            if (ev.detail.setresult) {
+                this.#webapi.getTournamentResults();
+            }
         });
 
         // 勝者確定
@@ -1735,11 +1754,6 @@ export class Overlay {
                 this.#tournamentparams = ev.detail.params;
                 this.#setForceHideFromParams(ev.detail.params);
             }
-        });
-
-        this.#webapi.addEventListener("getcurrenttournament", (ev) => {
-            this.#tournamentname = ev.detail.name;
-            this.#gameinfo.setTitle(ev.detail.name);
         });
 
         // MatchResultの表示非表示命令

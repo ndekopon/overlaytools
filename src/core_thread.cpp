@@ -1003,7 +1003,7 @@ namespace app {
 			reply_webapi_set_tournament_name(INVALID_SOCKET, _data->sequence, _data->tournament_id, _data->tournament_name);
 			break;
 		case LOCAL_DATA_TYPE_RENAME_TOURNAMENT_NAME:
-			reply_webapi_rename_tournament_name(_data->sock, _data->sequence, _data->tournament_id, _data->tournament_name, _data->result);
+			reply_webapi_rename_tournament_name(INVALID_SOCKET, _data->sequence, _data->tournament_id, _data->tournament_name, _data->result);
 			break;
 		case LOCAL_DATA_TYPE_SET_TOURNAMENT_PARAMS:
 			if (_data->json != nullptr)
@@ -1020,7 +1020,7 @@ namespace app {
 		case LOCAL_DATA_TYPE_SET_TOURNAMENT_RESULT:
 			if (_data->json != nullptr)
 			{
-				reply_webapi_set_tournament_result(_data->sock, _data->sequence, _data->tournament_id, _data->game_id, _data->result, *_data->json);
+				reply_webapi_set_tournament_result(INVALID_SOCKET, _data->sequence, _data->tournament_id, _data->game_id, _data->result, *_data->json);
 			}
 			break;
 		case LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULT:
