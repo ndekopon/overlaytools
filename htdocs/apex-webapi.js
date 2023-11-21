@@ -317,6 +317,7 @@ export class ApexWebAPI extends EventTarget {
     });
 
     this.#socket.addEventListener("open", (event) => {
+      this.#game = new Game();
       this.dispatchEvent(new CustomEvent('open', {
         detail: {
           origin: event,
