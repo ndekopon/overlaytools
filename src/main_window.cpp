@@ -208,6 +208,7 @@ namespace app
 		item.cchTextMax = text.length();
 		::SendMessageW(tab_, TCM_INSERTITEMW, _id, (LPARAM)&item);
 	}
+
 	HWND main_window::create_label(const WCHAR* _text, DWORD _x, DWORD _y, DWORD _width, DWORD _height)
 	{
 		auto label = ::CreateWindowExW(
@@ -361,6 +362,10 @@ namespace app
 			if (!core_thread_.run(window_)) return -1;
 			if (!duplication_thread_.run(window_)) return -1;
 
+			// 初期モニター設定
+			monitor_ = ini_.get_monitor();
+			duplication_thread_.request_set_monitor(monitor_);
+
 			// タイマー設定
 			::SetTimer(window_, TIMER_ID_PING, 20000, nullptr); // 20s
 			::SetTimer(window_, TIMER_ID_CAPTURE, 100, nullptr); // 100ms
@@ -422,6 +427,7 @@ namespace app
 					{
 						monitor_ = L"";
 						duplication_thread_.request_set_monitor(monitor_);
+						ini_.set_monitor(monitor_);
 						std::fill(buffer_.begin(), buffer_.end(), 0);
 						::InvalidateRect(window_, &frame_rect_, FALSE);
 					}
@@ -432,6 +438,7 @@ namespace app
 						{
 							monitor_ = monitors_.at(mid);
 							duplication_thread_.request_set_monitor(monitor_);
+							ini_.set_monitor(monitor_);
 						}
 					}
 				}

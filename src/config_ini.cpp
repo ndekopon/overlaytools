@@ -23,6 +23,7 @@ namespace {
 
 namespace app {
 
+	const WCHAR main_section_name[] = L"MAIN";
 	const WCHAR liveapi_section_name[] = L"LIVEAPI";
 	const WCHAR webapi_section_name[] = L"WEBAPI";
 
@@ -79,5 +80,17 @@ namespace app {
 	uint16_t config_ini::get_webapi_maxconnection()
 	{
 		return get_uint16(webapi_section_name, L"CONNECTIONS", 16);
+	}
+
+	std::wstring config_ini::get_monitor()
+	{
+		std::vector<WCHAR> buffer(512, L'\0');
+		auto readed = ::GetPrivateProfileStringW(main_section_name, L"MONITOR", L"", buffer.data(), buffer.size(), path_.c_str());
+		return buffer.data();
+	}
+
+	bool config_ini::set_monitor(const std::wstring& _monitor)
+	{
+		return ::WritePrivateProfileStringW(main_section_name, L"MONITOR", _monitor.c_str(), path_.c_str()) == TRUE;
 	}
 }

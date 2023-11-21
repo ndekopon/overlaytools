@@ -27,5 +27,9 @@ namespace app
 		std::string get_webapi_ipaddress();
 		uint16_t get_webapi_port();
 		uint16_t get_webapi_maxconnection();
+
+		// 画面キャプチャ設定
+		std::wstring get_monitor();
+		bool set_monitor(const std::wstring& _monitor);
 	};
 }
