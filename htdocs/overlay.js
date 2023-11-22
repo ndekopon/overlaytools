@@ -439,7 +439,7 @@ class LeaderBoard extends OverlayBase {
      * アニメーションを停止する
      */
     #stopAnimation() {
-        if (this.#timerid <= 0) {
+        if (this.#timerid >= 0) {
             clearTimeout(this.#timerid);
             this.#timerid = -1;
         }
