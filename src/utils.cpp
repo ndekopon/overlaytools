@@ -2,6 +2,10 @@
 
 #include <vector>
 
+#include <Knownfolders.h>
+#include <shlobj_core.h>
+
+
 namespace app {
 	std::wstring get_exe_directory()
 	{
@@ -37,6 +41,33 @@ namespace app {
 		r += buf.data();
 
 		return r;
+	}
+
+
+	std::wstring get_respawn_liveapi_directory()
+	{
+		std::wstring path = L"";
+		PWSTR savedgames;
+		HRESULT hr = ::SHGetKnownFolderPath(FOLDERID_SavedGames, KF_FLAG_CREATE | KF_FLAG_NO_ALIAS, NULL, &savedgames);
+		if (hr == S_OK)
+		{
+			path = savedgames;
+		}
+		::CoTaskMemFree(savedgames);
+		if (path == L"") return L"";
+
+		// パスの合成
+		std::wstring prefix = L"";
+		if (path.at(0) == L'\\' && path.at(1) == L'\\')
+		{
+			prefix += L"\\\\?\\UN";
+			path.at(0) = L'C';
+		}
+		else
+		{
+			prefix += L"\\\\?\\";
+		}
+		return prefix + path + L"\\Respawn\\Apex\\assets\\temp\\live_api";
 	}
 
 	std::wstring s_to_ws(const std::string& _s)

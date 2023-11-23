@@ -711,6 +711,47 @@ namespace app {
 			}
 			break;
 		}
+		case WEBAPI_LOCALDATA_SET_LIVEAPI_CONFIG:
+		{
+			log(LOG_CORE, L"Info: WEBAPI_LOCALDATA_SET_LIVEAPI_CONFIG received.");
+			if (wdata.size() != 2)
+			{
+				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				return;
+			}
+			try
+			{
+				auto json = wdata.get_json(1);
+				local_.set_liveapi_config(socket, sequence, json);
+			}
+			catch (std::out_of_range& oor)
+			{
+				log(LOG_CORE, L"Error: data parse failed(%s)", s_to_ws(oor.what()));
+			}
+			catch (...)
+			{
+				log(LOG_CORE, L"Error: data parse failed.");
+			}
+			break;
+		}
+		case WEBAPI_LOCALDATA_GET_LIVEAPI_CONFIG:
+		{
+			log(LOG_CORE, L"Info: WEBAPI_LOCALDATA_GET_LIVEAPI_CONFIG received.");
+			if (wdata.size() != 1)
+			{
+				log(LOG_CORE, L"Error: sended data size is not 1. (size=%d)", wdata.size());
+				return;
+			}
+			try
+			{
+				local_.get_liveapi_config(socket, sequence);
+			}
+			catch (...)
+			{
+				log(LOG_CORE, L"Error: data parse failed.");
+			}
+			break;
+		}
 		case WEBAPI_SEND_CUSTOMMATCH_SETSETTINGS:
 		{
 			log(LOG_CORE, L"Info: WEBAPI_SEND_CUSTOMMATCH_SETSETTINGS received.");
@@ -1066,6 +1107,18 @@ namespace app {
 			if (_data->json != nullptr)
 			{
 				reply_webapi_get_players(_data->sock, _data->sequence, *_data->json);
+			}
+			break;
+		case LOCAL_DATA_TYPE_SET_LIVEAPI_CONFIG:
+			if (_data->json != nullptr)
+			{
+				reply_webapi_set_liveapi_config(INVALID_SOCKET, _data->sequence, _data->result, *_data->json);
+			}
+			break;
+		case LOCAL_DATA_TYPE_GET_LIVEAPI_CONFIG:
+			if (_data->json != nullptr)
+			{
+				reply_webapi_get_liveapi_config(_data->sock, _data->sequence, *_data->json);
 			}
 			break;
 		}
@@ -2198,6 +2251,24 @@ namespace app {
 	void core_thread::reply_webapi_get_players(SOCKET _sock, uint32_t _sequence, const std::string& _json)
 	{
 		send_webapi_data sdata(WEBAPI_LOCALDATA_GET_PLAYERS);
+		if (sdata.append(_sequence) && sdata.append_json(_json))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::reply_webapi_set_liveapi_config(SOCKET _sock, uint32_t _sequence, bool _result, const std::string& _json)
+	{
+		send_webapi_data sdata(WEBAPI_LOCALDATA_SET_LIVEAPI_CONFIG);
+		if (sdata.append(_sequence) && sdata.append(_result) && sdata.append_json(_json))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::reply_webapi_get_liveapi_config(SOCKET _sock, uint32_t _sequence, const std::string& _json)
+	{
+		send_webapi_data sdata(WEBAPI_LOCALDATA_GET_LIVEAPI_CONFIG);
 		if (sdata.append(_sequence) && sdata.append_json(_json))
 		{
 			sendto_webapi(_sock, std::move(sdata.buffer_));

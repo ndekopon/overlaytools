@@ -33,6 +33,8 @@ namespace app
 		LOCAL_DATA_TYPE_GET_PLAYER_PARAMS,
 		LOCAL_DATA_TYPE_GET_PLAYERS,
 		LOCAL_DATA_TYPE_GET_CURRENT_TOURNAMENT,
+		LOCAL_DATA_TYPE_SET_LIVEAPI_CONFIG,
+		LOCAL_DATA_TYPE_GET_LIVEAPI_CONFIG,
 	};
 
 	class local_tournament_data {
@@ -87,6 +89,16 @@ namespace app
 		std::string load_players();
 	};
 
+	class local_liveapi_config {
+	private:
+		std::wstring path_;
+	public:
+		local_liveapi_config();
+		~local_liveapi_config();
+		bool save(const std::string& _json);
+		std::string load();
+	};
+
 	struct local_queue_data
 	{
 		uint32_t data_type = LOCAL_DATA_TYPE_NONE;
@@ -121,6 +133,7 @@ namespace app
 		std::queue<local_queue_data_t> wq_;
 		std::queue<local_queue_data_t> rq_;
 		local_tournament_data tournament_;
+		local_liveapi_config liveapi_config_;
 
 		static DWORD WINAPI proc_common(LPVOID);
 		DWORD proc();
@@ -172,5 +185,8 @@ namespace app
 		void get_players(SOCKET _sock, uint32_t _sequence);
 
 		void save_result(std::unique_ptr<livedata::result>&& _result);
+
+		void set_liveapi_config(SOCKET _sock, uint32_t _sequence, const std::string& _json);
+		void get_liveapi_config(SOCKET _sock, uint32_t _sequence);
 	};
 }

@@ -508,6 +508,61 @@ namespace app {
 		return players.dump();
 	}
 
+	local_liveapi_config::local_liveapi_config()
+		: path_(L"")
+	{
+		path_ = get_respawn_liveapi_directory();
+		if (path_ != L"")
+		{
+			std::filesystem::create_directories(path_);
+			path_ += L"\\config.json";
+		}
+	}
+
+	local_liveapi_config::~local_liveapi_config()
+	{
+	}
+
+	bool local_liveapi_config::save(const std::string& _json)
+	{
+		if (path_ == L"") return false;
+		try
+		{
+			json j = json::parse(_json);
+			if (j.type() == json::value_t::object)
+			{
+				std::ofstream s(path_);
+				s << j.dump(2);
+				return true;
+			}
+		}
+		catch (...)
+		{
+		}
+		return false;
+	}
+
+	std::string local_liveapi_config::load()
+	{
+		if (path_ == L"") return "{}";
+		if (std::filesystem::is_regular_file(path_))
+		{
+			try
+			{
+				std::ifstream s(path_);
+				json j = json::parse(s);
+				if (j.type() == json::value_t::object)
+				{
+					return j.dump();
+				}
+			}
+			catch (...)
+			{
+			}
+		}
+		return "{}";
+	}
+
 	local_thread::local_thread(DWORD _logid)
 		: logid_(_logid)
 		, window_(NULL)
@@ -521,6 +576,7 @@ namespace app {
 		, wq_()
 		, rq_()
 		, tournament_(path_)
+		, liveapi_config_()
 	{
 	}
 
@@ -833,6 +889,23 @@ namespace app {
 			d->json.reset(new std::string(p.load_players()));
 			break;
 		}
+		case LOCAL_DATA_TYPE_SET_LIVEAPI_CONFIG:
+			log(logid_, L"Info: proc LOCAL_DATA_TYPE_SET_LIVEAPI_CONFIG event.");
+			if (_data->json != nullptr)
+			{
+				d->json = std::move(_data->json);
+				d->result = liveapi_config_.save(*d->json);
+			}
+			else
+			{
+				d->json.reset(new std::string("{}"));
+				d->result = false;
+			}
+			break;
+		case LOCAL_DATA_TYPE_GET_LIVEAPI_CONFIG:
+			log(logid_, L"Info: proc LOCAL_DATA_TYPE_GET_LIVEAPI_CONFIG event.");
+			d->json.reset(new std::string(liveapi_config_.load()));
+			break;
 		}
 
 		// wqに返す
@@ -1152,4 +1225,24 @@ namespace app {
 		d->game_result = std::move(_result);
 		push_rq(std::move(d));
 	}
+
+	void local_thread::set_liveapi_config(SOCKET _sock, uint32_t _sequence, const std::string& _json)
+	{
+		local_queue_data_t d(new local_queue_data());
+		d->data_type = LOCAL_DATA_TYPE_SET_LIVEAPI_CONFIG;
+		d->sock = _sock;
+		d->sequence = _sequence;
+		d->json.reset(new std::string(_json));
+		push_rq(std::move(d));
+	}
+
+	void local_thread::get_liveapi_config(SOCKET _sock, uint32_t _sequence)
+	{
+		local_queue_data_t d(new local_queue_data());
+		d->data_type = LOCAL_DATA_TYPE_GET_LIVEAPI_CONFIG;
+		d->sock = _sock;
+		d->sequence = _sequence;
+		push_rq(std::move(d));
+	}
+
 }
