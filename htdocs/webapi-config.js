@@ -78,6 +78,92 @@ class LiveAPIConnectionStatus extends WebAPIConfigBase {
     }
 }
 
+class LiveAPIConfig extends WebAPIConfigBase {
+    #config;
+    #callback;
+    #url;
+    /**
+     * コンストラクタ
+     */
+    constructor(url) {
+        super('liveapi-config-');
+        this.getNode('connections');
+        this.getNode('submit');
+        this.getNode('current');
+
+        this.#config = {};
+        this.#callback = null;
+        this.#url = url;
+
+        this.nodes.submit.addEventListener('click', (ev) => {
+            if (!('settings' in this.#config)) this.#config.settings = {};
+            const settings = this.#config.settings;
+            settings.cl_liveapi_use_v2 = true;
+            settings.cl_liveapi_use_websocket = true;
+            settings.cl_liveapi_allow_requests = true;
+            settings.cl_liveapi_ws_retry_count = 50;
+            settings.cl_liveapi_ws_retry_time = 5;
+            settings.cl_liveapi_ws_timeout = 3600;
+            settings.cl_liveapi_ws_keepalive = 10;
+            settings.cl_liveapi_use_protobuf = true;
+            settings.cl_liveapi_pretty_print_log = false;
+            if (!('servers' in this.#config)) this.#config.servers = [];
+            const servers = this.#config.servers;
+            if (servers.indexOf(url) < 0) servers.push(url);
+            if (typeof(this.#callback) == "function") {
+                this.#callback(this.#config);
+            }
+        });
+    }
+
+    /**
+     * configを設定する
+     * @param {object} config 設定オブジェクト
+     */
+    setConfig(config) {
+        this.#config = config;
+
+        // 現在表示中の接続先をクリア
+        while (this.nodes.connections.children.length > 0) {
+            this.nodes.connections.removeChild(this.nodes.connections.lastChild);
+        }
+
+        // config中の接続先を追加
+        if ('servers' in this.#config) {
+            for (const server of this.#config.servers) {
+                const div = document.createElement('div');
+                div.classList.add("lc_connection");
+                div.innerText = server;
+                if (server == this.#url) {
+                    div.classList.add("lc_connection_added");
+                }
+                this.nodes.connections.appendChild(div);
+            }
+        }
+
+        this.nodes.current.innerText = JSON.stringify(this.#config, null, "  ");
+    }
+
+    setCallback(func) {
+        if (typeof(func) == "function" && func.length == 1) {
+            this.#callback = func;
+        }
+    }
+
+    
+    /**
+     * LiveAPIの接続ステータスを設定する
+     * @param {number} conn コネクション数
+     * @param {number} recv 受信パケット数
+     * @param {number} send 送信パケット数
+     */
+    setStatus(conn, recv, send) {
+        this.nodes.connection.innerText = conn;
+        this.nodes.recv.innerText = recv;
+        this.nodes.send.innerText = send;
+    }
+}
+
 class LanguageSelect extends WebAPIConfigBase {
     /** @type {HTMLElement[]} */
     #languages;
@@ -2155,6 +2241,7 @@ export class WebAPIConfig {
     #webapi;
     #_game;
     #_results;
+    #liveapiconfig;
     #webapiconnectionstatus;
     #liveapiconnectionstatus;
     #languageselect;
@@ -2175,7 +2262,7 @@ export class WebAPIConfig {
     #resultfixview;
     #tryconnecting;
 
-    constructor(url) {
+    constructor(url, liveapi_url) {
         this.#tournament_id = "";
         this.#tournament_name = "noname";
         this.#tournament_ids = {};
@@ -2188,6 +2275,7 @@ export class WebAPIConfig {
         this.#resultview = new ResultView();
         this.#resultfixview = new ResultFixView();
         this.#tournamentcalculationmethod = new TournamentCalculationMethod();
+        this.#liveapiconfig = new LiveAPIConfig(liveapi_url);
         this.#webapiconnectionstatus = new WebAPIConnectionStatus();
         this.#liveapiconnectionstatus = new LiveAPIConnectionStatus();
         this.#languageselect = new LanguageSelect();
@@ -2221,6 +2309,7 @@ export class WebAPIConfig {
             this.#webapi.sendGetLobbyPlayers();
             this.#webapi.getTournamentResults();
             this.#webapi.getTournamentParams();
+            this.#webapi.getLiveAPIConfig();
             this.#getTeamNames();
         });
 
@@ -2244,7 +2333,6 @@ export class WebAPIConfig {
             this.#tournament_name = ev.detail.name;
             if (ev.detail.id == '') {
                 this.#setCurrentTournament('none', 'noname');
-                window.location.assign("#tournament-set");
             } else {
                 this.#setCurrentTournament(ev.detail.id, ev.detail.name);
             }
@@ -2437,6 +2525,18 @@ export class WebAPIConfig {
         /** LiveAPI側の接続状況を表示 */
         this.#webapi.addEventListener('liveapisocketstats', (ev) => {
             this.#liveapiconnectionstatus.setStatus(ev.detail.conn, ev.detail.recv, ev.detail.send);
+        });
+
+        /** LiveAPIの設定関係 */
+        this.#webapi.addEventListener('getliveapiconfig', (ev) => {
+            console.log(ev);
+            this.#liveapiconfig.setConfig(ev.detail.config);
+        });
+
+        this.#webapi.addEventListener('setliveapiconfig', (ev) => {
+            if (ev.detail.result) {
+                this.#liveapiconfig.setConfig(ev.detail.config);
+            }
         });
     }
 
@@ -2735,6 +2835,10 @@ export class WebAPIConfig {
             this.#tournament_params['calcmethod'] = calcmethod;
             this.#webapi.setTournamentParams(this.#tournament_params);
         });
+
+        this.#liveapiconfig.setCallback((config) => {
+            this.#webapi.setLiveAPIConfig(config);
+        });
     }
 
     #setupMenuSelect() {
@@ -2764,7 +2868,7 @@ export class WebAPIConfig {
         const fragment = this.#getFragment(hash);
         const mainmenu = this.#getMainMenu(fragment);
         const submenu = this.#getSubMenu(fragment);
-
+        console.log(fragment);
         if (this.#tournament_id == '' && ["realtime", "tournament-rename", "tournament-params", "tournament-calc", "team-name", "team-params", "overlay"].indexOf(fragment) >= 0) {
             window.location.assign("#tournament-set");
             return;

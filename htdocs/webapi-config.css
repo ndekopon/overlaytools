@@ -99,6 +99,21 @@ body {
     padding: 0 2em;
 }
 
+/* liveapi-config */
+#liveapi-config-connections {
+    margin: 1em 1em;
+}
+.lc_connection {
+    text-decoration: underline;
+}
+.lc_connection_added {
+    color: green;
+}
+#liveapi-config pre {
+    background-color: #EEE;
+    border: 1px solid black;
+}
+
 /* tournament-set */
 #tournament-set input, #tournament-rename input {
     width: 40em;

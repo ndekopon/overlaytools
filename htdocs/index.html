@@ -17,6 +17,18 @@
         </h3>
         <ul id="sidebarmenu">
             <li>
+                <span class="en">LiveAPI</span>
+                <span class="ja">LiveAPI</span>
+                <ul>
+                    <li>
+                        <a href="#liveapi-config">
+                            <span class="en">settings</span>
+                            <span class="ja">設定</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
                 <span class="en">Tournament</span>
                 <span class="ja">トーナメント</span>
                 <ul>
@@ -190,6 +202,31 @@
 </div>
 
 <div id="main">
+
+<div id="liveapi-config" class="hide">
+    <h3>
+        <span class="en">LiveAPI: config</span>
+        <span class="ja">LiveAPI: 設定</span>
+    </h3>
+    <h4>
+        <span class="en">current LiveAPI connections</span>
+        <span class="ja">現在のLiveAPI接続先</span>
+    </h4>
+    <div id="liveapi-config-connections">
+    </div>
+    <p>
+        <button id="liveapi-config-submit">
+            <span class="en">write config</span>
+            <span class="ja">設定書込</span>
+        </button>
+    </p>
+    <h4>
+        <span class="en">current config file(config.json)</span>
+        <span class="ja">現在の設定ファイル内容(config.json)</span>
+    </h4>
+    <pre><code id="liveapi-config-current"></code></pre>
+</div>
+
 <div id="tournament-set" class="hide">
     <h3>
         <span class="en">Tournament: create &amp; select</span>
@@ -894,7 +931,7 @@ import {
 } from "./webapi-config.js";
 
 window.onload = (event) => {
-    const config = new WebAPIConfig("ws://127.0.0.1:20081/");
+    const config = new WebAPIConfig("ws://127.0.0.1:20081", "ws://127.0.0.1:20080");
     console.log(config);
     console.log(document.styleSheets);
 }
