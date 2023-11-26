@@ -269,12 +269,22 @@ export function setRankParameterToTeamResults(teamresults) {
             if (ta.total_points < tb.total_points) return  1;
 
             // ソート
-            ta.points.sort().reverse();
-            tb.points.sort().reverse();
-            ta.placements.sort();
-            tb.placements.sort();
-            ta.kills.sort().reverse();
-            tb.kills.sort().reverse();
+            const numsort = (a, b) => {
+                if (a < b) return -1;
+                if (a > b) return 1;
+                return 0;
+            };
+            const numrevsort = (a, b) => {
+                if (a < b) return 1;
+                if (a > b) return -1;
+                return 0;
+            };
+            ta.points.sort(numrevsort);
+            tb.points.sort(numrevsort);
+            ta.placements.sort(numsort);
+            tb.placements.sort(numsort);
+            ta.kills.sort(numrevsort);
+            tb.kills.sort(numrevsort);
 
             // 同点の場合は、過去のゲームの最高ポイント
             for (let i = 0; i < ta.points.length && i < tb.points.length; ++i) {
