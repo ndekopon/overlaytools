@@ -32,9 +32,9 @@ namespace {
 	{
 		rgba_t d = { .c = _c };
 		// r:88-8f g:88-8f b:88-8f
-		if (d.r < 0x84 || 0x93 < d.r) return false;
-		if (d.g < 0x84 || 0x93 < d.g) return false;
-		if (d.b < 0x84 || 0x93 < d.b) return false;
+		if (d.r < 0x84 || 0xa9 < d.r) return false;
+		if (d.g < 0x84 || 0xa9 < d.g) return false;
+		if (d.b < 0x84 || 0xa9 < d.b) return false;
 		return true;
 	}
 
@@ -43,8 +43,8 @@ namespace {
 		rgba_t d = { .c = _c };
 		// r:d8-ff g:00-26 b:00-26
 		if (d.r < 0xd8) return false;
-		if (0x27 < d.g) return false;
-		if (0x27 < d.b) return false;
+		if (0x30 < d.g) return false;
+		if (0x30 < d.b) return false;
 		return true;
 	}
 
@@ -52,9 +52,9 @@ namespace {
 	{
 		rgba_t d = { .c = _c };
 		// r:00-17 g:fa-fe b:ea-ed
-		if (0x20 < d.r) return false;
+		if (0x25 < d.r) return false;
 		if (d.g < 0xf0) return false;
-		if (d.b < 0xe0 || 0xf5 < d.b) return false;
+		if (d.b < 0xd8 || 0xf8 < d.b) return false;
 		return true;
 	}
 
@@ -73,8 +73,8 @@ namespace {
 		rgba_t d = { .c = _c };
 		// r:05-05 g:78-78 b:8b-8b
 		if (0x10 < d.r) return false;
-		if (d.g < 0x70 || 0x7f < d.g) return false;
-		if (d.b < 0x80 || 0x8f < d.b) return false;
+		if (d.g < 0x70 || 0x8f < d.g) return false;
+		if (d.b < 0x80 || 0x9f < d.b) return false;
 		return true;
 	}
 }
@@ -188,7 +188,22 @@ namespace app {
 		uint64_t frame_captured_prev = 0;
 		uint64_t frame_skipped = 0;
 		uint64_t frame_exited = 0;
-		bool teambanner_show_prev = false;
+		struct {
+			bool teambanner_show;
+			bool playerframe;
+			bool healitemframe;
+			bool craftpoint;
+			bool menu;
+			bool team1frame;
+		} screen_state_prev = {
+				false,
+				false,
+				false,
+				false,
+				false,
+				false
+		};
+
 		std::vector<uint32_t> buffer;
 
 
@@ -244,13 +259,26 @@ namespace app {
 						bool craftpoint = is_shown_craftpoint(buffer);
 						bool menu = is_shown_menu(buffer);
 						bool team1frame = is_shown_team1frame(buffer);
-						bool teambanner_show = teambanner_show_prev;
+						bool teambanner_show = screen_state_prev.teambanner_show;
+
+						// 差分表示
+						if (playerframe != screen_state_prev.playerframe) log(LOG_DUPLICATION, L"Info: playerframe=%s.", playerframe ? L"true" : L"false");
+						if (healitemframe != screen_state_prev.healitemframe) log(LOG_DUPLICATION, L"Info: healitemframe=%s.", healitemframe ? L"true" : L"false");
+						if (craftpoint != screen_state_prev.craftpoint) log(LOG_DUPLICATION, L"Info: craftpoint=%s.", craftpoint ? L"true" : L"false");
+						if (menu != screen_state_prev.menu) log(LOG_DUPLICATION, L"Info: menu=%s.", menu ? L"true" : L"false");
+						if (team1frame != screen_state_prev.team1frame) log(LOG_DUPLICATION, L"Info: team1frame=%s.", team1frame ? L"true" : L"false");
+						screen_state_prev.playerframe = playerframe;
+						screen_state_prev.healitemframe = healitemframe;
+						screen_state_prev.craftpoint = craftpoint;
+						screen_state_prev.menu = menu;
+						screen_state_prev.team1frame = team1frame;
+
 						if ((playerframe || healitemframe) && craftpoint && menu) teambanner_show = true;
 						else if (craftpoint && menu) teambanner_show = false;
 						else if (menu) teambanner_show = false;
 						else if (team1frame) teambanner_show = false;
 
-						if (teambanner_show != teambanner_show_prev)
+						if (teambanner_show != screen_state_prev.teambanner_show)
 						{
 							log(LOG_DUPLICATION, L"Info: teambanner_show=%s.", teambanner_show ? L"true" : L"false");
 							if (teambanner_show)
@@ -261,7 +289,7 @@ namespace app {
 							{
 								::PostMessageW(window_, CWM_MENUBANNER_STATE, 0, 0);
 							}
-							teambanner_show_prev = teambanner_show;
+							screen_state_prev.teambanner_show = teambanner_show;
 						}
 
 						// main_window用バッファへコピー
