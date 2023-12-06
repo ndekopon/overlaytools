@@ -236,6 +236,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_LOCALDATA_GET_LIVEAPI_CONFIG = 0x82;
 
   static WEBAPI_EVENT_TEAMBANNER_STATE = 0xc0;
+  static WEBAPI_EVENT_MAP_STATE = 0xc1;
 
   static WEBAPI_EVENT_LIVEAPI_SOCKET_STATS = 0xd0;
 
@@ -855,6 +856,10 @@ export class ApexWebAPI extends EventTarget {
       case ApexWebAPI.WEBAPI_EVENT_TEAMBANNER_STATE:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('teambannerstate', {detail: {state: data_array[0]}}));
+        break;
+      case ApexWebAPI.WEBAPI_EVENT_MAP_STATE:
+        if (count != 1) return false;
+        this.dispatchEvent(new CustomEvent('mapstate', {detail: {state: data_array[0]}}));
         break;
       case ApexWebAPI.WEBAPI_EVENT_LIVEAPI_SOCKET_STATS:
         if (count != 3) return false;

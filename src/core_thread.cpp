@@ -1773,6 +1773,14 @@ namespace app {
 			log(LOG_CORE, L"Info: CORE_MESSAGE_TEAMBANNER_STATE_HIDE received.");
 			send_webapi_teambanner_state(0);
 			break;
+		case CORE_MESSAGE_MAP_STATE_SHOW:
+			log(LOG_CORE, L"Info: CORE_MESSAGE_MAP_STATE_SHOW received.");
+			send_webapi_map_state(1);
+			break;
+		case CORE_MESSAGE_MAP_STATE_HIDE:
+			log(LOG_CORE, L"Info: CORE_MESSAGE_MAP_STATE_HIDE received.");
+			send_webapi_map_state(0);
+			break;
 		case CORE_MESSAGE_GET_STATS:
 			liveapi_.get_stats();
 			webapi_.get_stats();
@@ -2038,6 +2046,15 @@ namespace app {
 	void core_thread::send_webapi_teambanner_state(uint8_t _state)
 	{
 		send_webapi_data sdata(WEBAPI_EVENT_TEAMBANNER_STATE);
+		if (sdata.append(_state))
+		{
+			sendto_webapi(std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::send_webapi_map_state(uint8_t _state)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_MAP_STATE);
 		if (sdata.append(_state))
 		{
 			sendto_webapi(std::move(sdata.buffer_));

@@ -16,6 +16,8 @@ namespace app {
 	enum : UINT {
 		CORE_MESSAGE_TEAMBANNER_STATE_SHOW,
 		CORE_MESSAGE_TEAMBANNER_STATE_HIDE,
+		CORE_MESSAGE_MAP_STATE_SHOW,
+		CORE_MESSAGE_MAP_STATE_HIDE,
 		CORE_MESSAGE_GET_STATS
 	};
 
@@ -113,6 +115,7 @@ namespace app {
 		void send_webapi_save_result(const std::string &_tournament_id, uint8_t _gameid, std::unique_ptr<std::string> &&_json);
 
 		void send_webapi_teambanner_state(uint8_t _state);
+		void send_webapi_map_state(uint8_t _state);
 
 		void send_webapi_liveapi_socket_stats(uint64_t _conn_count, uint64_t _recv_count, uint64_t _send_count);
 

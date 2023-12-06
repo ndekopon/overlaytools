@@ -145,6 +145,16 @@ namespace app {
 		return true;
 	}
 
+	inline bool is_shown_map(const std::vector<uint32_t>& _buffer)
+	{
+		// (160,0) (160, 15) (160, 30) (191, 16)
+		if (!is_craftpoint_green(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 160))) return false;
+		else if (!is_craftpoint_green(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 160))) return false;
+		else if (!is_craftpoint_green(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 30 - 1) + 160))) return false;
+		else if (!is_craftpoint_green(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 16 - 1) + 191))) return false;
+		return true;
+	}
+
 	duplication_thread::duplication_thread()
 		: window_(nullptr)
 		, thread_(NULL)
@@ -195,7 +205,9 @@ namespace app {
 			bool craftpoint;
 			bool menu;
 			bool team1frame;
+			bool map;
 		} screen_state_prev = {
+				false,
 				false,
 				false,
 				false,
@@ -259,6 +271,7 @@ namespace app {
 						bool craftpoint = is_shown_craftpoint(buffer);
 						bool menu = is_shown_menu(buffer);
 						bool team1frame = is_shown_team1frame(buffer);
+						bool map = is_shown_map(buffer);
 						bool teambanner_show = screen_state_prev.teambanner_show;
 
 						// 差分表示
@@ -267,11 +280,24 @@ namespace app {
 						if (craftpoint != screen_state_prev.craftpoint) log(LOG_DUPLICATION, L"Info: craftpoint=%s.", craftpoint ? L"true" : L"false");
 						if (menu != screen_state_prev.menu) log(LOG_DUPLICATION, L"Info: menu=%s.", menu ? L"true" : L"false");
 						if (team1frame != screen_state_prev.team1frame) log(LOG_DUPLICATION, L"Info: team1frame=%s.", team1frame ? L"true" : L"false");
+						if (map != screen_state_prev.map)
+						{
+							log(LOG_DUPLICATION, L"Info: map=%s.", map ? L"true" : L"false");
+							if (map)
+							{
+								::PostMessageW(window_, CWM_MONITOR_MAP_STATE, 1, 0);
+							}
+							else
+							{
+								::PostMessageW(window_, CWM_MONITOR_MAP_STATE, 0, 0);
+							}
+						}
 						screen_state_prev.playerframe = playerframe;
 						screen_state_prev.healitemframe = healitemframe;
 						screen_state_prev.craftpoint = craftpoint;
 						screen_state_prev.menu = menu;
 						screen_state_prev.team1frame = team1frame;
+						screen_state_prev.map = map;
 
 						if ((playerframe || healitemframe) && craftpoint && menu) teambanner_show = true;
 						else if (craftpoint && menu) teambanner_show = false;
@@ -283,11 +309,11 @@ namespace app {
 							log(LOG_DUPLICATION, L"Info: teambanner_show=%s.", teambanner_show ? L"true" : L"false");
 							if (teambanner_show)
 							{
-								::PostMessageW(window_, CWM_MENUBANNER_STATE, 1, 0);
+								::PostMessageW(window_, CWM_MONITOR_BANNER_STATE, 1, 0);
 							}
 							else
 							{
-								::PostMessageW(window_, CWM_MENUBANNER_STATE, 0, 0);
+								::PostMessageW(window_, CWM_MONITOR_BANNER_STATE, 0, 0);
 							}
 							screen_state_prev.teambanner_show = teambanner_show;
 						}

@@ -573,7 +573,7 @@ namespace app
 			break;
 		}
 
-		case CWM_MENUBANNER_STATE:
+		case CWM_MONITOR_BANNER_STATE:
 		{
 			UINT state = _wparam;
 			if (state > 0)
@@ -583,6 +583,20 @@ namespace app
 			else
 			{
 				core_thread_.push_message(CORE_MESSAGE_TEAMBANNER_STATE_HIDE);
+			}
+			break;
+		}
+
+		case CWM_MONITOR_MAP_STATE:
+		{
+			UINT state = _wparam;
+			if (state > 0)
+			{
+				core_thread_.push_message(CORE_MESSAGE_MAP_STATE_SHOW);
+			}
+			else
+			{
+				core_thread_.push_message(CORE_MESSAGE_MAP_STATE_HIDE);
 			}
 			break;
 		}

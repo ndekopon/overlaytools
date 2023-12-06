@@ -113,6 +113,7 @@ namespace app {
 
 		// 画面状態
 		WEBAPI_EVENT_TEAMBANNER_STATE = 0xc0,
+		WEBAPI_EVENT_MAP_STATE,
 
 		// その他
 		WEBAPI_EVENT_LIVEAPI_SOCKET_STATS = 0xd0,
