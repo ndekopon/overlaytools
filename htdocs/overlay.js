@@ -481,6 +481,146 @@ class LeaderBoard extends OverlayBase {
     }
 }
 
+class MapLeaderBoardTeamNode extends OverlayBase {
+    static #CHANGED_CLASS = "mlb_changed";
+    static #ELIMINATED_CLASS = "mlb_eliminated";
+    static #EXISTS_CLASS = "mlb_exists";
+    static #CHANGED_ANIMATION_NAME ="mlb_changed_animation";
+    static #ELIMINATED_ANIMATION_NAME ="mlb_eliminated_animation";
+
+    constructor(id, prefix, root) {
+        super(id, prefix, root);
+        super.addNode("rank");
+        super.addNode("alives", "canvas");
+        super.addNode("name");
+        super.addNode("points");
+
+        // append
+        this.nodes.base.appendChild(this.nodes.rank);
+        this.nodes.base.appendChild(this.nodes.alives);
+        this.nodes.base.appendChild(this.nodes.name);
+        this.nodes.base.appendChild(this.nodes.points);
+
+        // CANVASサイズ設定
+        this.nodes.alives.width = 35;
+        this.nodes.alives.height = 37;
+
+        // 順位表示設定
+        this.setRank(20);
+
+        // アニメーション後の動作
+        this.nodes.base.addEventListener('animationend', (ev) => {
+            if (ev.animationName == MapLeaderBoardTeamNode.#CHANGED_ANIMATION_NAME) {
+                this.nodes.base.classList.remove(MapLeaderBoardTeamNode.#CHANGED_CLASS);
+            }
+            if (ev.animationName == MapLeaderBoardTeamNode.#ELIMINATED_ANIMATION_NAME) {
+                // 何もしない
+            }
+        });
+    }
+
+    /**
+     * 現在の順位をテキストに設定する
+     * @param {number|string} rank 現在の順位(1～)
+     */
+    setRank(rank) {
+        this.nodes.rank.innerText = '#' + rank;
+    }
+
+    /**
+     * 排除済みクラスを設定・削除する
+     * @param {boolean} eliminated 排除されたかどうか
+     */
+    setEliminated(eliminated) {
+        if (eliminated) {
+            this.nodes.base.classList.add(MapLeaderBoardTeamNode.#ELIMINATED_CLASS);
+        } else {
+            this.nodes.base.classList.remove(MapLeaderBoardTeamNode.#ELIMINATED_CLASS);
+        }
+    }
+
+    /**
+     * 存在するチームを設定する
+     */
+    setExists() {
+        this.nodes.base.classList.add(MapLeaderBoardTeamNode.#EXISTS_CLASS);
+    }
+
+    /**
+     * チーム名を設定する
+     * @param {string} name チーム名
+     */
+    setTeamName(name) {
+        this.nodes.name.innerText = name;
+    }
+
+    /**
+     * 合計ポイントを設定する
+     * @param {number} points 合計ポイント
+     */
+    setPoints(points) {
+        this.nodes.points.innerText = points;
+    }
+
+    /**
+     * 排除済みのクラスが設定済みか確認する
+     * @returns {boolean} true=排除済,false=未排除
+     */
+    isEliminated() {
+        return this.nodes.base.classList.contains(MapLeaderBoardTeamNode.#ELIMINATED_CLASS);
+    }
+
+    /**
+     * プレーヤーの生存状況をcanvasに反映する
+     * @param {number} index squadindex(0～)
+     * @param {number} state プレーヤーの状態(生存/ダウン/死亡など)
+     */
+    setPlayerState(index, state) {
+        if (index >= 3) return;
+        this.setExists();
+
+        const canvas = this.nodes.alives;
+        const ctx = canvas.getContext('2d');
+
+        if (this.isEliminated()) {
+            // 敗退済みの場合は削除
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            return;
+        }
+
+        // 色設定
+        switch (state) {
+            case ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE: ctx.fillStyle = "#FFFFFF"; break;
+            case ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_DOWN: ctx.fillStyle = "rgb(213, 25, 26)"; break;
+            case ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_COLLECTED: ctx.fillStyle = "rgb(109, 198, 24)"; break;
+        }
+
+        // 描画
+        // width: 35px 37px;
+        const rect = [7 + index * 8, 8, 5, 23]; // SIZING
+        if (state == ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_KILLED) {
+            ctx.clearRect(rect[0], rect[1], rect[2], rect[3]);
+        } else {
+            ctx.fillRect(rect[0], rect[1], rect[2], rect[3]);
+        }
+    }
+
+    /**
+     * 変更アニメーション設定
+     */
+    setChanged() {
+        this.nodes.base.classList.add(MapLeaderBoardTeamNode.#CHANGED_CLASS);
+    }
+
+    /**
+     * 変更アニメーションの削除
+     */
+    stopChangedAnimation() {
+        this.nodes.base.classList.remove(MapLeaderBoardTeamNode.#CHANGED_CLASS);
+    }
+}
+
+
 class TeamBanner extends OverlayBase {
 
     /**

@@ -570,6 +570,24 @@ body {
     }
 }
 
+/* MapLeaderBoard */
+#mapleaderboard {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 1080px;
+    background-image: url(map-leaderboard.png);
+    -webkit-mask-image: url(map-leaderboard-mask.png);
+    mask-image: url(map-leaderboard-mask.png);
+    color: var(--overlay-matchresult-color);
+    filter: grayscale(100%);
+    box-sizing: border-box;
+    padding: 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
 /* MatchResult */
 #matchresult {
     position: fixed;
