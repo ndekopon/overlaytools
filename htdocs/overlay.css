@@ -578,15 +578,252 @@ body {
     width: 100%;
     height: 1080px;
     background-image: url(map-leaderboard.png);
+    background-color: rgba(0, 0, 0, 0.99);
     -webkit-mask-image: url(map-leaderboard-mask.png);
     mask-image: url(map-leaderboard-mask.png);
     color: var(--overlay-matchresult-color);
-    filter: grayscale(100%);
     box-sizing: border-box;
-    padding: 60px;
+    padding: 120px 30px 60px 30px; /* 上 | 右 | 下 | 左 */
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: column;
+    grid-template-columns: calc(452px - 30px * 2) calc(452px - 30px * 2);
+    justify-content: space-between;
+    grid-template-rows: repeat(10, auto);
 }
+
+#matchresult.hide {
+    display: none;
+}
+
+#matchresult.forcehide {
+    display: none;
+}
+
+#mapleaderboard.mlb_over_20 {
+    grid-template-rows: repeat(15, auto);
+}
+
+#mapleaderboard > div {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 43px 35px 7fr 1fr;
+    height: 41px;
+    line-height: 39px;
+    font-size: 120%;
+    font-weight: 500;
+}
+
+.mlb_eliminated .mlb_rank {
+    color: #666666;
+    background-color: transparent;
+}
+
+.mlb_eliminated {
+    color: #666666;
+    border-bottom: none;
+}
+
+.mlb_rank, .mlb_points {
+    text-align: center;
+}
+
+.mlb_changed {
+    animation: 0.3s mlb_changed_animation forwards;
+}
+
+@keyframes mlb_changed_animation {
+    from {
+        background-color: rgb(255, 255, 255);
+        border-bottom: 3px solid rgb(255, 255, 255);
+    }
+    to {
+
+    }
+}
+
+/* team color */
+:where(#mapleaderboardteam0) .mlb_rank {
+    background-color: #05788b;
+}
+:where(#mapleaderboardteam0) {
+    border-bottom: 3px solid #05788b;
+}
+:where(#mapleaderboardteam1) .mlb_rank {
+    background-color: #163d5e;
+}
+:where(#mapleaderboardteam1) {
+    border-bottom: 3px solid #163d5e;
+}
+:where(#mapleaderboardteam2) .mlb_rank {
+    background-color: #194ac7;
+}
+:where(#mapleaderboardteam2) {
+    border-bottom: 3px solid #194ac7;
+}
+:where(#mapleaderboardteam3) .mlb_rank {
+    background-color: #3a2355;
+}
+:where(#mapleaderboardteam3) {
+    border-bottom: 3px solid #3a2355;
+}
+:where(#mapleaderboardteam4) .mlb_rank {
+    background-color: #642564;
+}
+:where(#mapleaderboardteam4) {
+    border-bottom: 3px solid #632464;
+}
+:where(#mapleaderboardteam5) .mlb_rank {
+    background-color: #a5256c;
+}
+:where(#mapleaderboardteam5) {
+    border-bottom: 3px solid #a5256c;
+}
+:where(#mapleaderboardteam6) .mlb_rank {
+    background-color: #a81647;
+}
+:where(#mapleaderboardteam6) {
+    border-bottom: 3px solid #a81647;
+}
+:where(#mapleaderboardteam7) .mlb_rank {
+    background-color: #bd0008;
+}
+:where(#mapleaderboardteam7) {
+    border-bottom: 3px solid #bd0008;
+}
+:where(#mapleaderboardteam8) .mlb_rank {
+    background-color: #bf391a;
+}
+:where(#mapleaderboardteam8) {
+    border-bottom: 3px solid #bf391a;
+}
+:where(#mapleaderboardteam9) .mlb_rank {
+    background-color: #6d180f;
+}
+:where(#mapleaderboardteam9) {
+    border-bottom: 3px solid #6d180f;
+}
+:where(#mapleaderboardteam10) .mlb_rank {
+    background-color: #96320a;
+}
+:where(#mapleaderboardteam10) {
+    border-bottom: 3px solid #96320a;
+}
+:where(#mapleaderboardteam11) .mlb_rank {
+    background-color: #6c4100;
+}
+:where(#mapleaderboardteam11) {
+    border-bottom: 3px solid #6c4100;
+}
+:where(#mapleaderboardteam12) .mlb_rank {
+    background-color: #c66e0f;
+}
+:where(#mapleaderboardteam12) {
+    border-bottom: 3px solid #c66e0f;
+}
+:where(#mapleaderboardteam13) .mlb_rank {
+    background-color: #8c7200;
+}
+:where(#mapleaderboardteam13) {
+    border-bottom: 3px solid #8c7200;
+}
+:where(#mapleaderboardteam14) .mlb_rank {
+    background-color: #7b8908;
+}
+:where(#mapleaderboardteam14) {
+    border-bottom: 3px solid #7b8908;
+}
+:where(#mapleaderboardteam15) .mlb_rank {
+    background-color: #3f4d02;
+}
+:where(#mapleaderboardteam15) {
+    border-bottom: 3px solid #3f4d02;
+}
+:where(#mapleaderboardteam16) .mlb_rank {
+    background-color: #658d39;
+}
+:where(#mapleaderboardteam16) {
+    border-bottom: 3px solid #658d39;
+}
+:where(#mapleaderboardteam17) .mlb_rank {
+    background-color: #307f2c;
+}
+:where(#mapleaderboardteam17) {
+    border-bottom: 3px solid #307f2c;
+}
+:where(#mapleaderboardteam18) .mlb_rank {
+    background-color: #274f15;
+}
+:where(#mapleaderboardteam18) {
+    border-bottom: 3px solid #274f15;
+}
+:where(#mapleaderboardteam19) .mlb_rank {
+    background-color: #00694d;
+}
+:where(#mapleaderboardteam19) {
+    border-bottom: 3px solid #00694d;
+}
+:where(#mapleaderboardteam20) .mlb_rank {
+    background-color: #632901;
+}
+:where(#mapleaderboardteam20) {
+    border-bottom: 3px solid #632901;
+}
+:where(#mapleaderboardteam21) .mlb_rank {
+    background-color: #084d5f;
+}
+:where(#mapleaderboardteam21) {
+    border-bottom: 3px solid #084d5f;
+}
+:where(#mapleaderboardteam22) .mlb_rank {
+    background-color: #05788b;
+}
+:where(#mapleaderboardteam22) {
+    border-bottom: 3px solid #05788b;
+}
+:where(#mapleaderboardteam23) .mlb_rank {
+    background-color: #163d5e;
+}
+:where(#mapleaderboardteam23) {
+    border-bottom: 3px solid #163d5e;
+}
+:where(#mapleaderboardteam24) .mlb_rank {
+    background-color: #194ac7;
+}
+:where(#mapleaderboardteam24) {
+    border-bottom: 3px solid #194ac7;
+}
+:where(#mapleaderboardteam25) .mlb_rank {
+    background-color: #3a2355;
+}
+:where(#mapleaderboardteam25) {
+    border-bottom: 3px solid #3a2355;
+}
+:where(#mapleaderboardteam26) .mlb_rank {
+    background-color: #632464;
+}
+:where(#mapleaderboardteam26) {
+    border-bottom: 3px solid #632464;
+}
+:where(#mapleaderboardteam27) .mlb_rank {
+    background-color: #a5256c;
+}
+:where(#mapleaderboardteam27) {
+    border-bottom: 3px solid #a5256c;
+}
+:where(#mapleaderboardteam28) .mlb_rank {
+    background-color: #a81647;
+}
+:where(#mapleaderboardteam28) {
+    border-bottom: 3px solid #a81647;
+}
+:where(#mapleaderboardteam29) .mlb_rank {
+    background-color: #bd0008;
+}
+:where(#mapleaderboardteam29) {
+    border-bottom: 3px solid #bd0008;
+}
+
+
 
 /* MatchResult */
 #matchresult {

@@ -621,6 +621,162 @@ class MapLeaderBoardTeamNode extends OverlayBase {
 }
 
 
+class MapLeaderBoard extends OverlayBase {
+    /** @type {Object.<number, MapLeaderBoardTeamNode>} チーム用のノード保存用 */
+    #teamnodes;
+
+    /**
+     * コンストラクタ
+     */
+    constructor() {
+        super("mapleaderboard", "mlb_");
+        this.#teamnodes = {};
+    }
+
+    /**
+     * Objectが存在していない場合に新規作成する
+     * @param {number} teamid チームID(0～)
+     */
+    #preprocessTeam(teamid) {
+        if (this.hasTeam(teamid)) return; // 既に存在
+        this.#teamnodes[teamid] = new MapLeaderBoardTeamNode("mapleaderboardteam" + teamid, "mlb_", this.nodes.base);
+        if (Object.keys(this.#teamnodes).length > 20) this.addClass("over_20");
+    }
+
+    /**
+     * 既にチームが作成済みか確認する
+     * @param {number|string} teamid チームID(0～)
+     * @returns {boolean} true=作成済,false=未作成
+     */
+    hasTeam(teamid) {
+        if (teamid in this.#teamnodes) return true;
+        else false;
+    }
+
+    /**
+     * チーム名を設定する
+     * @param {number|string} teamid チームID(0～)
+     * @param {string} name チーム名
+     */
+    setTeamName(teamid, name) {
+        this.#preprocessTeam(teamid);
+        this.#teamnodes[teamid].setTeamName(name);
+    }
+
+    /**
+     * チームポイントを設定する
+     * @param {number|string} teamid チームID(0～)
+     * @param {number} points ポイント数
+     */
+    setTeamPoints(teamid, points) {
+        this.#preprocessTeam(teamid);
+        this.#teamnodes[teamid].setPoints(points);
+    }
+
+    /**
+     * チームの排除状態を設定する
+     * @param {number|string} teamid チームID(0～)
+     * @param {boolean} eliminated true=排除済,false=未排除
+     */
+    setTeamEliminated(teamid, eliminated) {
+        this.#preprocessTeam(teamid);
+        this.#teamnodes[teamid].setEliminated(eliminated);
+    }
+
+    /**
+     * プレーヤーの状態を設定する
+     * @param {number|string} teamid チームID(0～)
+     * @param {number} playerid プレーヤーID(=squadindex)
+     * @param {number} state プレーヤーの状態(生存・ダウン・死亡など)
+     */
+    setPlayerState(teamid, playerid, state) {
+        this.#preprocessTeam(teamid);
+        this.#teamnodes[teamid].setPlayerState(playerid, state);
+    }
+
+    /**
+     * @typedef {object} changedrank チームの順位表示用のオブジェクト
+     * @prop {string} id チームID(0～)
+     * @prop {boolean} changed 順位変動があったかどうか
+     */
+    /**
+     * リーダーボードに順位表示反映・順番入替を実施
+     * @param {changedrank} teamids チームIDと順位変動を含むデータ
+     */
+    setTeamRank(teamids) {
+        for (let i = 0; i < teamids.length; ++i) {
+            const teamid = teamids[i].id;
+            const changed = teamids[i].changed;
+            this.#preprocessTeam(teamid);
+
+            // 入れ替え
+            const node = this.#teamnodes[teamid];
+            if (this.nodes.base.children[i] != node.nodes.base) {
+                const ref = i < this.nodes.base.children.length ? this.nodes.base.children[i] : null;
+                this.nodes.base.insertBefore(node.nodes.base, ref);
+            }
+            node.setRank(i + 1);
+            if (!changed) continue;
+
+            // 変更アニメーション
+            node.setChanged();
+        }
+    }
+
+    /**
+     * HTMLノードを所有しているLeaderBoardTeamNodeを返す
+     * @param {HTMLElement} basenode 検索対象のbaseノード
+     * @returns {LeaderBoardTeamNode} 
+     */
+    #getTeamNode(basenode) {
+        for (const teamnode of Object.values(this.#teamnodes)) {
+            if (teamnode.nodes.base == basenode) {
+                return teamnode;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * アニメーションを停止する
+     */
+    #stopAnimation() {
+        for (const teamnode of Object.values(this.#teamnodes)) {
+            teamnode.stopChangedAnimation();
+        }
+    }
+
+    /**
+     * 全てのノードをクリアする
+     */
+    clear() {
+        this.#stopAnimation();
+        while (this.nodes.base.lastChild != null) {
+            this.nodes.base.removeChild(this.nodes.base.lastChild);
+        }
+        for (const key of Object.keys(this.#teamnodes)) {
+            delete this.#teamnodes[key];
+        }
+        this.removeClass("over_20");
+    }
+
+    /**
+     * LeaderBoardを表示する
+     */
+    show() {
+        this.#stopAnimation();
+        super.show();
+    }
+
+    /**
+     * LeaderBoardを非表示にする
+     */
+    hide() {
+        this.#stopAnimation();
+        super.hide();
+    }
+}
+
 class TeamBanner extends OverlayBase {
 
     /**
@@ -1532,6 +1688,7 @@ export class Overlay {
     /** @type {boolean} 現在の試合のデータを順位・ポイント計算に含めるかどうか */
     #calcresultsonly;
     #leaderboard;
+    #mapleaderboard;
     #teambanner;
     #playerbanner;
     #teamkills;
@@ -1573,9 +1730,10 @@ export class Overlay {
         this.#gameinfo = new GameInfo();
         this.#championbanner = new ChampionBanner();
         this.#squadeliminated = new SquadEliminated();
+        this.#mapleaderboard = new MapLeaderBoard();
+        this.#errorstatus = new ErrorStatus();
         this.#matchresult = new MatchResult();
         this.#playerleaderboard = new PlayerLeaderBoard();
-        this.#errorstatus = new ErrorStatus();
         this.#getallprocessing = false;
         this.#retry = 0;
         this.#reconnecting = false;
@@ -1656,6 +1814,7 @@ export class Overlay {
             this.#teams = {};
             this.#calcresultsonly = false;
             this.#leaderboard.clear();
+            this.#mapleaderboard.clear();
             this.#squadeliminated.clear();
             this.#calcAndDisplay();
         });
@@ -1733,6 +1892,7 @@ export class Overlay {
             const teamid = ev.detail.team.id;
             const name = ev.detail.team.name;
             this.#leaderboard.setTeamName(teamid, name);
+            this.#mapleaderboard.setTeamName(teamid, name);
             if (teamid.toString() == this.#camera.teamid) {
                 this.#teambanner.setTeamName(name);
             }
@@ -1781,6 +1941,7 @@ export class Overlay {
             if (this.#_game == null) return;
             const teamid = ev.detail.team.id;
             this.#leaderboard.setTeamEliminated(teamid, true);
+            this.#mapleaderboard.setTeamEliminated(teamid, true);
             this.#calcAndDisplay();
         });
 
@@ -1803,6 +1964,7 @@ export class Overlay {
             const teamid = ev.detail.team.id;
             const playerid = ev.detail.player.id;
             this.#leaderboard.setPlayerState(teamid, playerid, ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE);
+            this.#mapleaderboard.setPlayerState(teamid, playerid, ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE);
         });
 
         this.#webapi.addEventListener("statealive", (ev) => {
@@ -1810,6 +1972,7 @@ export class Overlay {
             const playerid = ev.detail.player.id;
             const state = ev.detail.player.state;
             this.#leaderboard.setPlayerState(teamid, playerid, state);
+            this.#mapleaderboard.setPlayerState(teamid, playerid, state);
         });
 
         this.#webapi.addEventListener("statedown", (ev) => {
@@ -1817,6 +1980,7 @@ export class Overlay {
             const playerid = ev.detail.player.id;
             const state = ev.detail.player.state;
             this.#leaderboard.setPlayerState(teamid, playerid, state);
+            this.#mapleaderboard.setPlayerState(teamid, playerid, state);
         });
 
         this.#webapi.addEventListener("statekilled", (ev) => {
@@ -1824,6 +1988,7 @@ export class Overlay {
             const playerid = ev.detail.player.id;
             const state = ev.detail.player.state;
             this.#leaderboard.setPlayerState(teamid, playerid, state);
+            this.#mapleaderboard.setPlayerState(teamid, playerid, state);
         });
 
         this.#webapi.addEventListener("statecollected", (ev) => {
@@ -1831,6 +1996,7 @@ export class Overlay {
             const playerid = ev.detail.player.id;
             const state = ev.detail.player.state;
             this.#leaderboard.setPlayerState(teamid, playerid, state);
+            this.#mapleaderboard.setPlayerState(teamid, playerid, state);
         });
 
         this.#webapi.addEventListener("observerswitch", (ev) => {
@@ -1926,6 +2092,10 @@ export class Overlay {
                             break;
                         case "testleaderboard": {
                             this.#leaderboard.show();
+                            break;
+                        }
+                        case "testmapleaderboard": {
+                            this.#mapleaderboard.show();
                             break;
                         }
                         case "testteambanner": {
@@ -2087,6 +2257,9 @@ export class Overlay {
         if (this.#leaderboard.hasTeam(teamid)) {
             this.#leaderboard.setTeamName(teamid, params.name);
         }
+        if (this.#mapleaderboard.hasTeam(teamid)) {
+            this.#mapleaderboard.setTeamName(teamid, params.name);
+        }
         if (teamid.toString() == this.#camera.teamid) {
             this.#teambanner.setTeamName(params.name);
         }
@@ -2210,6 +2383,7 @@ export class Overlay {
 
         // 順位計算結果をリーダーボードに反映
         this.#leaderboard.setTeamRank(rank);
+        this.#mapleaderboard.setTeamRank(rank);
 
         // ポイント変動確認
         for (const teamid of Object.keys(curr_points)) {
@@ -2318,6 +2492,11 @@ export class Overlay {
                     else this.#squadeliminated.removeForceHide();
                     break;
                 }
+                case 'mapleaderboard': {
+                    if (value) this.#mapleaderboard.addForceHide();
+                    else this.#mapleaderboard.removeForceHide();
+                    break;
+                }
             }
         }
     }
@@ -2352,6 +2531,9 @@ export class Overlay {
     }
     #setSquadEliminated(placement, teamid, teamname) {
         this.#squadeliminated.set(placement, teamid, teamname);
+    }
+    #showMapLeaderBoard() {
+        this.#mapleaderboard.show();
     }
 
     /**
@@ -2540,6 +2722,9 @@ export class Overlay {
     #hidePlayerLeaderBoard() {
         this.#playerleaderboard.hide();
     }
+    #hideMapLeaderBoard() {
+        this.#mapleaderboard.hide();
+    }
 
     /**
      * 常時表示系のオーバーレイを表示する
@@ -2583,6 +2768,7 @@ export class Overlay {
      */
     #onTeamPointsChanged(teamid, points) {
         this.#leaderboard.setTeamPoints(teamid, points);
+        this.#mapleaderboard.setTeamPoints(teamid, points);
         if (teamid == this.#camera.teamid) {
             this.#teambanner.setPoints(points);
         }
