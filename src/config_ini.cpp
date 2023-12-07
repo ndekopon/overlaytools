@@ -48,38 +48,92 @@ namespace app {
 		return ws_to_s(_default);
 	}
 
+	bool config_ini::set_ip_address(const std::wstring& _section, const std::wstring& _key, const std::string& _ip)
+	{
+		auto wip = s_to_ws(_ip);
+		if (!check_ip_address(wip))
+		{
+			return false;
+		}
+		return ::WritePrivateProfileStringW(_section.c_str(), _key.c_str(), wip.c_str(), path_.c_str()) == TRUE;
+	}
+
 	std::uint16_t config_ini::get_uint16(const std::wstring& _section, const std::wstring& _key, uint16_t _default)
 	{
 		auto value = ::GetPrivateProfileIntW(_section.c_str(), _key.c_str(), _default, path_.c_str());
-		if (value <= 1024) return _default;
-		if (value > UINT16_MAX) return _default;
 		return (value & 0xFFFFui16);
+	}
+
+	bool config_ini::set_uint16(const std::wstring& _section, const std::wstring& _key, uint16_t _num)
+	{
+		return ::WritePrivateProfileStringW(_section.c_str(), _key.c_str(), std::to_wstring(_num).c_str(), path_.c_str()) == TRUE;
 	}
 
 
 	std::string config_ini::get_liveapi_ipaddress()
 	{
-		return get_ip_address(liveapi_section_name, L"IP", L"127.0.0.1");
+		auto ip = get_ip_address(liveapi_section_name, L"IP", L"127.0.0.1");
+		set_liveapi_ipaddress(ip); // 取得時に書き込み実施
+		return ip;
+	}
+
+	bool config_ini::set_liveapi_ipaddress(const std::string& _ip)
+	{
+		return set_ip_address(liveapi_section_name, L"IP", _ip);
 	}
 
 	uint16_t config_ini::get_liveapi_port()
 	{
-		return get_uint16(liveapi_section_name, L"PORT", 20080);
+		uint16_t port = get_uint16(liveapi_section_name, L"PORT", 20080);
+		if (port <= 1024) port = 20080;
+		set_liveapi_port(port); // 取得時に書き込み実施
+		return port;
+	}
+
+	bool config_ini::set_liveapi_port(uint16_t _port)
+	{
+		if (_port <= 1024) return false;
+		return set_uint16(liveapi_section_name, L"PORT", _port);
 	}
 
 	std::string config_ini::get_webapi_ipaddress()
 	{
-		return get_ip_address(webapi_section_name, L"IP", L"127.0.0.1");
+		auto ip = get_ip_address(webapi_section_name, L"IP", L"127.0.0.1");
+		set_webapi_ipaddress(ip); // 取得時に書き込み実施
+		return ip;
+	}
+
+	bool config_ini::set_webapi_ipaddress(const std::string& _ip)
+	{ 
+		return set_ip_address(webapi_section_name, L"IP", _ip);
 	}
 	
 	uint16_t config_ini::get_webapi_port()
 	{
-		return get_uint16(webapi_section_name, L"PORT", 20081);
+		uint16_t port = get_uint16(webapi_section_name, L"PORT", 20081);
+		if (port <= 1024) port = 20081;
+		set_webapi_port(port); // 取得時に書き込み実施
+		return port;
+	}
+
+	bool config_ini::set_webapi_port(uint16_t _port)
+	{
+		if (_port <= 1024) return false;
+		return set_uint16(webapi_section_name, L"PORT", _port);
 	}
 
 	uint16_t config_ini::get_webapi_maxconnection()
 	{
-		return get_uint16(webapi_section_name, L"CONNECTIONS", 16);
+		uint16_t maxcon = get_uint16(webapi_section_name, L"CONNECTIONS", 16);
+		if (maxcon == 0 || 64 < maxcon) maxcon = 16;
+		set_webapi_maxconnection(maxcon); // 取得時に書き込み実施
+		return maxcon;
+	}
+
+	bool config_ini::set_webapi_maxconnection(uint16_t _maxcon)
+	{
+		if (_maxcon == 0 || 64 < _maxcon) return false; // 0～64
+		return set_uint16(webapi_section_name, L"CONNECTIONS", _maxcon);
 	}
 
 	std::wstring config_ini::get_monitor()
