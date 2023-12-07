@@ -199,6 +199,7 @@ class LeaderBoard extends OverlayBase {
     #shownum;
     #showinterval;
     #alivesonly;
+    #callback;
 
     /**
      * コンストラクタ
@@ -212,6 +213,7 @@ class LeaderBoard extends OverlayBase {
         this.#shownum = shownum;
         this.#showinterval = 5000;
         this.#alivesonly = false;
+        this.#callback = null;
     }
 
     /**
@@ -221,6 +223,9 @@ class LeaderBoard extends OverlayBase {
     #preprocessTeam(teamid) {
         if (this.hasTeam(teamid)) return; // 既に存在
         this.#teamnodes[teamid] = new LeaderBoardTeamNode("leaderboardteam" + teamid, "lb_", this.nodes.base);
+        if (this.#callback) {
+            this.#callback(teamid);
+        }
     }
 
     /**
@@ -471,6 +476,16 @@ class LeaderBoard extends OverlayBase {
         this.#stopAnimation();
         super.hide();
     }
+
+    /**
+     * チーム名を取得したい場合に呼び出される
+     * @param {function} func チーム名を設定する関数
+     */
+    setTeamNameCallback(func) {
+        if (typeof(func) == "function") {
+            this.#callback = func;
+        }
+    }
 }
 
 class MapLeaderBoardTeamNode extends OverlayBase {
@@ -616,6 +631,7 @@ class MapLeaderBoardTeamNode extends OverlayBase {
 class MapLeaderBoard extends OverlayBase {
     /** @type {Object.<number, MapLeaderBoardTeamNode>} チーム用のノード保存用 */
     #teamnodes;
+    #callback;
 
     /**
      * コンストラクタ
@@ -623,6 +639,7 @@ class MapLeaderBoard extends OverlayBase {
     constructor() {
         super("mapleaderboard", "mlb_");
         this.#teamnodes = {};
+        this.#callback = null;
     }
 
     /**
@@ -633,6 +650,9 @@ class MapLeaderBoard extends OverlayBase {
         if (this.hasTeam(teamid)) return; // 既に存在
         this.#teamnodes[teamid] = new MapLeaderBoardTeamNode("mapleaderboardteam" + teamid, "mlb_", this.nodes.base);
         if (Object.keys(this.#teamnodes).length > 20) this.addClass("over_20");
+        if (this.#callback) {
+            this.#callback(teamid);
+        }
     }
 
     /**
@@ -766,6 +786,16 @@ class MapLeaderBoard extends OverlayBase {
     hide() {
         this.#stopAnimation();
         super.hide();
+    }
+
+    /**
+     * チーム名を取得したい場合に呼び出される
+     * @param {function} func チーム名を設定する関数
+     */
+    setTeamNameCallback(func) {
+        if (typeof(func) == "function") {
+            this.#callback = func;
+        }
     }
 }
 
@@ -1753,6 +1783,15 @@ export class Overlay {
         this.#teamparams = {};
         this.#playerparams = {};
 
+        this.#leaderboard.setTeamNameCallback((teamid) => {
+            const name = this.#getTeamName(teamid);
+            this.#leaderboard.setTeamName(teamid, name);
+        });
+        this.#mapleaderboard.setTeamNameCallback((teamid) => {
+            const name = this.#getTeamName(teamid);
+            this.#mapleaderboard.setTeamName(teamid, name);
+        });
+
         this.#hideAll();
     }
 
@@ -2233,7 +2272,7 @@ export class Overlay {
                 this.#showGameInfo();
                 break;
             case "Playing":
-                if (banner > 0 && map > 0) {
+                if (banner == 0 && map > 0) {
                     // MAPと排除通知＆チャンピオンバナーのみ表示
                     this.#showMapLeaderBoard();
                     this.#hideLeaderBoard();
@@ -2242,7 +2281,7 @@ export class Overlay {
                     this.#hideTeamKills();
                     this.#hideOwnedItems();
                     this.#hideGameInfo();
-                } else if (banner > 0) {
+                } else if (banner == 0) {
                     // プレイヤーバナー類の非表示
                     this.#showLeaderBoard();
                     this.#hideMapLeaderBoard();
@@ -2442,11 +2481,14 @@ export class Overlay {
      */
     #getTeamName(teamid) {
         if (typeof teamid == "string") teamid = parseInt(teamid, 10);
+        if (teamid in this.#teamparams) {
+            const params = this.#teamparams[teamid];
+            if ('name' in params) {
+                return params.name;
+            }
+        }
         if (teamid < this.#_game.teams.length) {
             const team = this.#_game.teams[teamid];
-            if ('params' in team && 'name' in team.params) {
-                return team.params.name;
-            }
             if ('name' in team) {
                 return team.name;
             }

@@ -2625,7 +2625,7 @@ export class WebAPIConfig {
         });
 
         // checkbox
-        for (const id of ["leaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated", "tdmscoreboard"]) {
+        for (const id of ["leaderboard", "mapleaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated", "tdmscoreboard"]) {
             document.getElementById('overlay-hide-' + id).addEventListener('change', (ev) => {
                 this.#updateOverlayStatus(id);
                 this.#webapi.setTournamentParams(this.#tournament_params);
@@ -3056,7 +3056,7 @@ export class WebAPIConfig {
     #setOverlayStatusFromParams(params) {
         if (!('forcehide' in params)) params.forcehide = {};
         const forcehide = params.forcehide;
-        const ids = ["leaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated", "tdmscoreboard"];
+        const ids = ["leaderboard", "mapleaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated", "tdmscoreboard"];
         for (const id of ids) {
             if (!(id in forcehide)) forcehide[id] = false;
             document.getElementById('overlay-hide-' + id).checked = forcehide[id];
