@@ -1764,7 +1764,7 @@ export class Overlay {
         this.#showstatus = {
             game: "",
             map: 0,
-            banner: 0
+            banner: 1
         };
 
         if ('url' in params) {
