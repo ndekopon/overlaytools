@@ -108,14 +108,6 @@ class LeaderBoardTeamNode extends OverlayBase {
     }
 
     /**
-     * 非表示にされているか確認する
-     * @returns {boolean} true=非表示,false=表示
-     */
-    isHidden() {
-        return this.nodes.base.classList.contains(OverlayBase.HIDE_CLASS);
-    }
-
-    /**
      * フェードアウトアニメーション用のクラスが設定されているか確認する
      * @returns {boolean} true=設定済,false=未設定
      */
@@ -1712,6 +1704,8 @@ export class Overlay {
     #retry;
     /** @type {boolean} 再接続試行中 */
     #reconnecting;
+    /** @type {Object<string, object>} オーバーレイ表示の為の判断材料 */
+    #showstatus;
 
     /**
      * コンストラクタ
@@ -1737,6 +1731,11 @@ export class Overlay {
         this.#getallprocessing = false;
         this.#retry = 0;
         this.#reconnecting = false;
+        this.#showstatus = {
+            game: "",
+            map: 0,
+            banner: 0
+        };
 
         if ('url' in params) {
             this.#setupApexWebAPI(url);
@@ -1772,7 +1771,8 @@ export class Overlay {
             this.#retry = 0;
             this.#webapi.getAll().then(() => {
                 this.#getallprocessing = false;
-                this.#showHideFromGameState(this.#_game.state);
+                this.#showstatus.game = this.#_game.state;
+                this.#showHideFromCurrentStatus();
                 this.#getAllPlayerParams();
                 this.#webapi.getCurrentTournament();
             }, () => {
@@ -1821,7 +1821,8 @@ export class Overlay {
 
         this.#webapi.addEventListener("gamestatechange", (ev) => {
             const state = ev.detail.game.state;
-            this.#showHideFromGameState(state);
+            this.#showstatus.game = state;
+            this.#showHideFromCurrentStatus();
             switch(state) {
                 case "Resolution":
                 case "Postmatch":
@@ -2028,19 +2029,15 @@ export class Overlay {
         // チームバナーの表示状態
         this.#webapi.addEventListener("teambannerstate", (ev) => {
             const state = ev.detail.state;
-            if (this.#checkGameStatePlaying(this.#_game.state)) {
-                if (state > 0) {
-                    this.#showTeamBanner();
-                    this.#showPlayerBanner();
-                    this.#showTeamKills();
-                    this.#showOwnedItems();
-                } else {
-                    this.#hideTeamBanner();
-                    this.#hidePlayerBanner();
-                    this.#hideTeamKills();
-                    this.#hideOwnedItems();
-                }
-            }
+            this.#showstatus.banner = state;
+            this.#showHideFromCurrentStatus();
+        });
+
+        // マップの表示状態
+        this.#webapi.addEventListener("mapstate", (ev) => {
+            const state = ev.detail.state;
+            this.#showstatus.map = state;
+            this.#showHideFromCurrentStatus();
         });
 
         // LiveAPI側の接続状況
@@ -2091,11 +2088,11 @@ export class Overlay {
                             this.#hidePlayerLeaderBoard();
                             break;
                         case "testleaderboard": {
-                            this.#leaderboard.show();
+                            this.#showLeaderBoard();
                             break;
                         }
                         case "testmapleaderboard": {
-                            this.#mapleaderboard.show();
+                            this.#showMapLeaderBoard();
                             break;
                         }
                         case "testteambanner": {
@@ -2107,19 +2104,19 @@ export class Overlay {
                             }
                             this.#teambanner.setRank(1);
                             this.#teambanner.setPoints(20);
-                            this.#teambanner.show();
+                            this.#showTeamBanner();
                             break;
                         }
                         case "testplayerbanner": {
                             const name = data.name;
                             this.#playerbanner.setPlayerName(name);
-                            this.#playerbanner.show();
+                            this.#showPlayerBanner();
                             break;
                         }
                         case "testteamkills": {
                             const kills = data.kills;
                             this.#teamkills.setKills(kills);
-                            this.#teamkills.show();
+                            this.#showTeamKills();
                             break;
                         }
                         case "testowneditems": {
@@ -2129,13 +2126,13 @@ export class Overlay {
                                     this.#owneditems.procUpdateItem(item, count);
                                 }
                             }
-                            this.#owneditems.show();
+                            this.#showOwnedItems();
                             break;
                         }
                         case "testgameinfo": {
                             const gameid = data.gameid;
                             this.#gameinfo.setGameCount(gameid);
-                            this.#gameinfo.show();
+                            this.#showGameInfo();
                             break;
                         }
                         case "testsquadeliminated": {
@@ -2159,7 +2156,7 @@ export class Overlay {
                             }
                             this.#championbanner.setId(teamid);
                             this.#championbanner.setTeamName(name)
-                            this.#championbanner.show();
+                            this.#showChampionBanner();
                             break;
                         }
                         case "testhideall": {
@@ -2222,18 +2219,60 @@ export class Overlay {
 
     /**
      * ゲームの進行状況から表示/非表示を行う
-     * @param {string} state ゲームの進行状況
+     * @param {string} testshow テストで表示・非表示を実施
      */
-    #showHideFromGameState(state) {
-        if (this.#checkGameStatePlaying(state)) {
-            this.#showAll();
-        } else {
-            this.#hideAll();
-        }
-        if (this.#checkGameStateNotEnded(state)) {
-            this.#showGameInfo();
-        } else {
-            this.#hideGameInfo();
+    #showHideFromCurrentStatus(testshow = "") {
+        const game = this.#showstatus.game;
+        const map = this.#showstatus.map;
+        const banner = this.#showstatus.banner;
+        switch(this.#showstatus.game) {
+            case "WaitingForPlayers":
+            case "PickLoadout":
+            case "Prematch":
+                // prematch
+                this.#showGameInfo();
+                break;
+            case "Playing":
+                if (banner > 0 && map > 0) {
+                    // MAPと排除通知＆チャンピオンバナーのみ表示
+                    this.#showMapLeaderBoard();
+                    this.#hideLeaderBoard();
+                    this.#hideTeamBanner();
+                    this.#hidePlayerBanner();
+                    this.#hideTeamKills();
+                    this.#hideOwnedItems();
+                    this.#hideGameInfo();
+                } else if (banner > 0) {
+                    // プレイヤーバナー類の非表示
+                    this.#showLeaderBoard();
+                    this.#hideMapLeaderBoard();
+                    this.#hideTeamBanner();
+                    this.#hidePlayerBanner();
+                    this.#hideTeamKills();
+                    this.#hideOwnedItems();
+                    this.#showGameInfo();
+                } else {
+                    // 通常時
+                    this.#showLeaderBoard();
+                    this.#hideMapLeaderBoard();
+                    this.#showTeamBanner();
+                    this.#showPlayerBanner();
+                    this.#showTeamKills();
+                    this.#showOwnedItems();
+                    this.#showGameInfo();
+                }
+                break;
+            case "Resolution":
+            case "Postmatch":
+                // postmatch
+                this.#hideLeaderBoard();
+                this.#hideMapLeaderBoard();
+                this.#hideTeamBanner();
+                this.#hidePlayerBanner();
+                this.#hideTeamKills();
+                this.#hideOwnedItems();
+                this.#hideGameInfo();
+                break;
         }
     }
 
@@ -2509,31 +2548,49 @@ export class Overlay {
     }
 
     #showLeaderBoard() {
-        this.#leaderboard.show();
+        if (this.#leaderboard.isHidden()) {
+            this.#leaderboard.show();
+        }
     }
+
     #showTeamBanner() {
-        this.#teambanner.show();
+        if (this.#teambanner.isHidden()) {
+            this.#teambanner.show();
+        }
     }
+
     #showPlayerBanner() {
-        this.#playerbanner.show();
+        if (this.#playerbanner.isHidden()) {
+            this.#playerbanner.show();
+        }
     }
+
     #showTeamKills() {
-        this.#teamkills.show();
+        if (this.#teamkills.isHidden()) {
+            this.#teamkills.show();
+        }
     }
+
     #showOwnedItems() {
-        this.#owneditems.show();
+        if (this.#owneditems.isHidden()) {
+            this.#owneditems.show();
+        }
     }
+
     #showGameInfo() {
-        this.#gameinfo.show();
+        if (this.#gameinfo.isHidden()) {
+            this.#gameinfo.show();
+        }
     }
+
     #showChampionBanner() {
         this.#championbanner.show();
     }
-    #setSquadEliminated(placement, teamid, teamname) {
-        this.#squadeliminated.set(placement, teamid, teamname);
-    }
+
     #showMapLeaderBoard() {
-        this.#mapleaderboard.show();
+        if (this.#mapleaderboard.isHidden()) {
+            this.#mapleaderboard.show();
+        }
     }
 
     /**
@@ -2727,17 +2784,6 @@ export class Overlay {
     }
 
     /**
-     * 常時表示系のオーバーレイを表示する
-     */
-    #showAll() {
-        this.#showLeaderBoard();
-        this.#showTeamBanner();
-        this.#showPlayerBanner();
-        this.#showTeamKills();
-        this.#showOwnedItems();
-    }
-
-    /**
      * 全てのオーバーレイを非表示にする(MatchResult/PlayerLeaderBoardを除く)
      */
     #hideAll() {
@@ -2746,8 +2792,9 @@ export class Overlay {
         this.#hidePlayerBanner();
         this.#hideTeamKills();
         this.#hideOwnedItems();
-        this.#hideChampionBanner();
         this.#hideSquadEliminated();
+        this.#hideChampionBanner();
+        this.#hideMapLeaderBoard();
     }
 
     /**

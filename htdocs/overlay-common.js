@@ -57,6 +57,14 @@ export class OverlayBase {
     }
 
     /**
+     * baseノードにhideクラスが含まれているか確認
+     * @returns {boolean} 非表示状態=true
+     */
+    isHidden() {
+        return this.nodes.base.classList.contains(OverlayBase.HIDE_CLASS);
+    }
+
+    /**
      * baseノードにforcehideクラスを付与
      */
     addForceHide() {

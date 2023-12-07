@@ -591,11 +591,11 @@ body {
     grid-template-rows: repeat(10, auto);
 }
 
-#matchresult.hide {
+#mapleaderboard.hide {
     display: none;
 }
 
-#matchresult.forcehide {
+#mapleaderboard.forcehide {
     display: none;
 }
 
@@ -611,6 +611,16 @@ body {
     line-height: 39px;
     font-size: 120%;
     font-weight: 500;
+}
+
+:where(#leaderboard) > div:not(.lb_exists) > :where(.mlb_rank) {
+    color: #666666;
+    background-color: transparent;
+}
+
+:where(#leaderboard) > div:not(.lb_exists) {
+    color: #666666;
+    border-bottom: none;
 }
 
 .mlb_eliminated .mlb_rank {
