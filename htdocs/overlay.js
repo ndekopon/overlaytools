@@ -2795,6 +2795,7 @@ export class Overlay {
         this.#hideSquadEliminated();
         this.#hideChampionBanner();
         this.#hideMapLeaderBoard();
+        this.#hideGameInfo();
     }
 
     /**

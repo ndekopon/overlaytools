@@ -2697,7 +2697,14 @@ export class WebAPIConfig {
 
         // Test
         document.getElementById('test-show-leaderboard').addEventListener('click', (ev) => {
-
+            this.#webapi.broadcastObject({
+                type: "testleaderboard"
+            });
+        });
+        document.getElementById('test-show-mapleaderboard').addEventListener('click', (ev) => {
+            this.#webapi.broadcastObject({
+                type: "testmapleaderboard"
+            });
         });
         document.getElementById('test-show-teambanner').addEventListener('click', (ev) => {
             const teamid = parseInt(document.getElementById("test-teambanner-teamid").value, 10);
