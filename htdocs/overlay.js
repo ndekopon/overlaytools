@@ -1736,6 +1736,7 @@ export class Overlay {
     #reconnecting;
     /** @type {Object<string, object>} オーバーレイ表示の為の判断材料 */
     #showstatus;
+    #statechangecallbacks;
 
     /**
      * コンストラクタ
@@ -1766,6 +1767,7 @@ export class Overlay {
             map: 0,
             banner: 1
         };
+        this.#statechangecallbacks = [];
 
         if ('url' in params) {
             this.#setupApexWebAPI(url);
@@ -2258,13 +2260,12 @@ export class Overlay {
 
     /**
      * ゲームの進行状況から表示/非表示を行う
-     * @param {string} testshow テストで表示・非表示を実施
      */
-    #showHideFromCurrentStatus(testshow = "") {
+    #showHideFromCurrentStatus() {
         const game = this.#showstatus.game;
         const map = this.#showstatus.map;
         const banner = this.#showstatus.banner;
-        switch(this.#showstatus.game) {
+        switch(game) {
             case "WaitingForPlayers":
             case "PickLoadout":
             case "Prematch":
@@ -2312,6 +2313,11 @@ export class Overlay {
                 this.#hideOwnedItems();
                 this.#hideGameInfo();
                 break;
+        }
+        for (const callback of this.#statechangecallbacks) {
+            if (typeof(callback) == "function") {
+                callback(this.#showstatus);
+            }
         }
     }
 
@@ -2914,6 +2920,15 @@ export class Overlay {
                 // チームキルの設定
                 this.#teamkills.setKills(this.#_game.teams[teamid].kills);
             }
+        }
+    }
+    /**
+     * 画面やゲーム進行状態が変わった際に呼びされれるコールバック関数を設定する
+     * @param {function} func コールバック関数
+     */
+    addStateChangeCallback(func) {
+        if (typeof(func) == "function") {
+            this.#statechangecallbacks.push(func);
         }
     }
 }
