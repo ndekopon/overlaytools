@@ -2316,7 +2316,7 @@ export class Overlay {
         }
         for (const callback of this.#statechangecallbacks) {
             if (typeof(callback) == "function") {
-                callback(this.#showstatus);
+                callback(JSON.parse(JSON.stringify(this.#showstatus)));
             }
         }
     }
