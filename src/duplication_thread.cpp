@@ -10,13 +10,6 @@
 #pragma comment(lib, "winmm.lib")
 
 namespace {
-	/* 現在のミリ秒を取得する */
-	uint64_t get_milliseconds()
-	{
-		return std::chrono::duration_cast<std::chrono::milliseconds>(
-			std::chrono::system_clock::now().time_since_epoch())
-			.count();
-	};
 
 	union rgba_t {
 		uint32_t c;

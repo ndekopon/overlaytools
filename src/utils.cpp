@@ -1,6 +1,7 @@
 ﻿#include "utils.hpp"
 
 #include <vector>
+#include <chrono>
 
 #include <Knownfolders.h>
 #include <shlobj_core.h>
@@ -88,5 +89,10 @@ namespace app {
 		if (olen)
 			::WideCharToMultiByte(CP_UTF8, 0, _ws.c_str(), ilen, r.data(), olen, NULL, FALSE);
 		return r.data();
+	}
+
+	uint64_t get_millis()
+	{
+		return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 	}
 }

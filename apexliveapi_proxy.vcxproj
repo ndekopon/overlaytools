@@ -14,6 +14,7 @@
     <ClInclude Include="src\duplicator.hpp" />
     <ClInclude Include="src\events\events.pb.h" />
     <ClInclude Include="src\filedump.hpp" />
+    <ClInclude Include="src\http_get_thread.hpp" />
     <ClInclude Include="src\livedata.hpp" />
     <ClInclude Include="src\local_thread.hpp" />
     <ClInclude Include="src\log.hpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="src\duplicator.cpp" />
     <ClCompile Include="src\events\events.pb.cc" />
     <ClCompile Include="src\filedump.cpp" />
+    <ClCompile Include="src\http_get_thread.cpp" />
     <ClCompile Include="src\livedata.cpp" />
     <ClCompile Include="src\local_thread.cpp" />
     <ClCompile Include="src\log.cpp" />

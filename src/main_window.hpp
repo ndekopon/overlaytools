@@ -14,8 +14,8 @@ namespace app
 		const HINSTANCE instance_;
 		HWND window_;
 		HWND tab_;
-		std::array<HWND, 5> edit_log_;
-		std::array<std::vector<HWND>, 6> items_;
+		std::array<HWND, 6> edit_log_;
+		std::array<std::vector<HWND>, 7> items_;
 		HFONT font_;
 		config_ini ini_;
 		core_thread core_thread_;

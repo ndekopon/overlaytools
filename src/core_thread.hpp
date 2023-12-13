@@ -5,6 +5,7 @@
 #include "shared_context.hpp"
 #include "websocket_thread.hpp"
 #include "local_thread.hpp"
+#include "http_get_thread.hpp"
 #include "filedump.hpp"
 #include "livedata.hpp"
 #include "webapi.hpp"
@@ -31,6 +32,7 @@ namespace app {
 		websocket_thread liveapi_;
 		websocket_thread webapi_;
 		local_thread local_;
+		http_get_thread http_get_;
 		filedump filedump_;
 		livedata::game game_;
 		std::string observer_hash_;
@@ -46,6 +48,7 @@ namespace app {
 		void proc_liveapi_data(ctx_data_t&& _data);
 		void proc_webapi_data(ctx_data_t&& _data);
 		void proc_local_data(local_queue_data_t&& _data);
+		void proc_http_get_data(http_get_queue_data_t&& _data);
 		void proc_message(UINT _message);
 
 		void proc_liveapi_any(const google::protobuf::Any& _any);
@@ -149,7 +152,7 @@ namespace app {
 		void reply_webapi_get_players(SOCKET _sock, uint32_t _sequence, const std::string& _json);
 		void reply_webapi_set_liveapi_config(SOCKET _sock, uint32_t _sequence, bool _result, const std::string& _json);
 		void reply_webapi_get_liveapi_config(SOCKET _sock, uint32_t _sequence, const std::string& _json);
-
+		void reply_webapi_get_stats_from_code(SOCKET _sock, uint32_t _sequence, const std::string& _stats_code, uint32_t _status_code, const std::string& _json);
 		void broadcast_object(uint32_t _sequence, const std::string& _json);
 
 		void livedata_get_game(SOCKET _sock, uint32_t _sequence);

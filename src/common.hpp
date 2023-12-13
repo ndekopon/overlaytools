@@ -33,7 +33,7 @@ namespace app {
 		CWM_WEBSOCKET_STATS_SEND_COUNT
 	};
 
-	constexpr UINT LOGNUMS = 5;
+	constexpr UINT LOGNUMS = 6;
 
 	constexpr UINT CAPTURE_SQUARE_WIDTH = 32;
 	constexpr UINT CAPTURE_WIDTH = CAPTURE_SQUARE_WIDTH * 6;

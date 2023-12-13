@@ -38,7 +38,8 @@ namespace app
 	constexpr UINT MID_EDIT_LOG_WEBAPI = 4;
 	constexpr UINT MID_EDIT_LOG_LOCAL = 5;
 	constexpr UINT MID_EDIT_LOG_DUPLICATION = 6;
-	constexpr UINT MID_POPUP_CAPTURE_DISABLED = 7;
+	constexpr UINT MID_EDIT_LOG_HTTP_GET = 7;
+	constexpr UINT MID_POPUP_CAPTURE_DISABLED = 8;
 	constexpr UINT MID_POPUP_CAPTURE_MONITORPREFIX = 100;
 
 	constexpr UINT TIMER_ID_PING = 1;
@@ -289,6 +290,7 @@ namespace app
 			add_tab_item(3, L"WebAPI");
 			add_tab_item(4, L"Local");
 			add_tab_item(5, L"Duplication");
+			add_tab_item(6, L"HTTP Get");
 
 			{
 				// タブの中身作成
@@ -344,16 +346,19 @@ namespace app
 				edit_log_.at(2) = create_edit((HMENU)MID_EDIT_LOG_WEBAPI, 10,  tabitemrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabitemrect.bottom));
 				edit_log_.at(3) = create_edit((HMENU)MID_EDIT_LOG_LOCAL, 10, tabitemrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabitemrect.bottom));
 				edit_log_.at(4) = create_edit((HMENU)MID_EDIT_LOG_DUPLICATION, 10, tabitemrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabitemrect.bottom));
+				edit_log_.at(5) = create_edit((HMENU)MID_EDIT_LOG_HTTP_GET, 10, tabitemrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabitemrect.bottom));
 				::ShowWindow(edit_log_.at(0), SW_HIDE);
 				::ShowWindow(edit_log_.at(1), SW_HIDE);
 				::ShowWindow(edit_log_.at(2), SW_HIDE);
 				::ShowWindow(edit_log_.at(3), SW_HIDE);
 				::ShowWindow(edit_log_.at(4), SW_HIDE);
+				::ShowWindow(edit_log_.at(5), SW_HIDE);
 				items_.at(1).push_back(edit_log_.at(0));
 				items_.at(2).push_back(edit_log_.at(1));
 				items_.at(3).push_back(edit_log_.at(2));
 				items_.at(4).push_back(edit_log_.at(3));
 				items_.at(5).push_back(edit_log_.at(4));
+				items_.at(6).push_back(edit_log_.at(5));
 			}
 			current_tab_ = SendMessageW(tab_, TCM_GETCURSEL, 0, 0);
 			select_tab_item(current_tab_);

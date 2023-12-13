@@ -16,11 +16,6 @@ namespace {
 		if (_s.size() != 32) return false;
 		return std::regex_match(_s, re);
 	}
-
-	uint64_t get_millis()
-	{
-		return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-	}
 }
 
 namespace app {
@@ -140,6 +135,7 @@ namespace app {
 		, liveapi_(LOG_LIVEAPI, CTX_LIVEAPI, ctx_, _lip, _lport, 2)
 		, webapi_(LOG_WEBAPI, CTX_WEBAPI, ctx_, _wip, _wport, _wmaxconn)
 		, local_(LOG_LOCAL)
+		, http_get_(LOG_HTTP_GET)
 		, filedump_()
 		, game_()
 		, observer_hash_("")
@@ -181,7 +177,8 @@ namespace app {
 			event_message_,
 			ctx_.sevent_.at(0),
 			ctx_.sevent_.at(1),
-			event_queuecheck_
+			event_queuecheck_,
+			http_get_.get_event_wq()
 		};
 
 		// 初回のデータロード
@@ -283,6 +280,22 @@ namespace app {
 			{
 				// queue check
 				sendto_liveapi_queuecheck();
+			}
+			else if (id == WAIT_OBJECT_0 + 8)
+			{
+				// HTTP_GETの返答
+				auto q = http_get_.pull_wq();
+				while (q.size() > 0)
+				{
+					auto data = std::move(q.front());
+					q.pop();
+
+					if (data)
+					{
+						proc_http_get_data(std::move(data));
+					}
+				}
+
 			}
 		}
 		log(LOG_CORE, L"Info: thread end.");
@@ -983,6 +996,28 @@ namespace app {
 			local_.set_observer(socket, sequence, hash);
 			break;
 		}
+		case WEBAPI_HTTP_GET_STATS_FROM_CODE:
+		{
+			log(LOG_CORE, L"Info: WEBAPI_HTTP_GET_STATS_FROM_CODE received.");
+
+			if (wdata.size() != 2)
+			{
+				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+			}
+
+			std::string stats_code;
+			try
+			{
+				stats_code = wdata.get_string(1);
+			}
+			catch (...)
+			{
+				log(LOG_CORE, L"Error: data parse failed.");
+				return;
+			}
+			http_get_.get_stats_json(socket, sequence, stats_code);
+			break;
+		}
 		case WEBAPI_BROADCAST_OBJECT:
 		{
 			log(LOG_CORE, L"Info: WEBAPI_BROADCAST_OBJECT received.");
@@ -1121,6 +1156,14 @@ namespace app {
 				reply_webapi_get_liveapi_config(_data->sock, _data->sequence, *_data->json);
 			}
 			break;
+		}
+	}
+
+	void core_thread::proc_http_get_data(http_get_queue_data_t&& _data)
+	{
+		if (_data->json)
+		{
+			reply_webapi_get_stats_from_code(_data->sock, _data->sequence, _data->code, _data->status_code, *_data->json);
 		}
 	}
 
@@ -1784,6 +1827,7 @@ namespace app {
 		case CORE_MESSAGE_GET_STATS:
 			liveapi_.get_stats();
 			webapi_.get_stats();
+			http_get_.ping();
 			break;
 		default:
 			log(LOG_CORE, L"Info: receive unknown message(=%lu) from main_window", _message);
@@ -2341,6 +2385,15 @@ namespace app {
 	{
 		send_webapi_data sdata(WEBAPI_SEND_PAUSETOGGLE);
 		if (sdata.append(_sequence))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::reply_webapi_get_stats_from_code(SOCKET _sock, uint32_t _sequence, const std::string& _stats_code, uint32_t _status_code, const std::string& _json)
+	{
+		send_webapi_data sdata(WEBAPI_HTTP_GET_STATS_FROM_CODE);
+		if (sdata.append(_sequence) && sdata.append(_stats_code) && sdata.append(_status_code) && sdata.append_json(_json))
 		{
 			sendto_webapi(_sock, std::move(sdata.buffer_));
 		}
@@ -3091,6 +3144,12 @@ namespace app {
 			return false;
 		}
 
+		if (!http_get_.run())
+		{
+			log(LOG_CORE, L"Error: Failed to run http_get thread.");
+			return false;
+		}
+
 		// イベント作成
 		event_close_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
 		if (event_close_ == NULL)
@@ -3122,6 +3181,7 @@ namespace app {
 		webapi_.stop();
 		local_.stop();
 		filedump_.stop();
+		http_get_.stop();
 
 		// スレッドの停止
 		if (thread_ != NULL)
