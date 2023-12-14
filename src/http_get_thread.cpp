@@ -4,6 +4,8 @@
 
 #include "utils.hpp"
 
+#include <nlohmann/json.hpp>
+
 #pragma comment (lib, "winhttp.lib")
 
 namespace {
@@ -298,6 +300,30 @@ namespace app {
 				{
 					if (reply_data && reply_data->json)
 					{
+						if (reply_data->status_code != 200)
+						{
+							*reply_data->json = "{}";
+						}
+						else
+						{
+							bool is_object = false;
+							try
+							{
+								auto j = nlohmann::json::parse(*reply_data->json);
+								if (j.type() == nlohmann::json::value_t::object)
+								{
+									is_object = true;
+								}
+							}
+							catch (...)
+							{
+							}
+							if (!is_object)
+							{
+								log(logid_, L"Error: received data is not parsable json object.");
+								*reply_data->json = "{}";
+							}
+						}
 						log(logid_, L"Info: data send to core_thread.");
 						push_wq(std::move(reply_data));
 					}
