@@ -41,7 +41,6 @@ namespace app
 
 		// winhttp callbackとのやり取り用
 		HANDLE event_winhttp_;
-		std::mutex available_mtx_;
 		DWORD available_;
 		std::mutex event_mtx_;
 		std::queue<uint32_t> event_queue_;

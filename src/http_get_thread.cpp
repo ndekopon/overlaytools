@@ -74,7 +74,6 @@ namespace app {
 		, event_close_(NULL)
 		, event_ping_(NULL)
 		, event_winhttp_(NULL)
-		, available_mtx_()
 		, available_(0)
 		, event_mtx_()
 		, event_queue_()
@@ -135,6 +134,8 @@ namespace app {
 		}
 
 		// 返送用データ
+		std::vector<char> buf;
+		buf.resize(64 * 1024);
 		uint64_t timestamp = 0;
 		http_get_queue_data_t reply_data = nullptr;
 
@@ -186,6 +187,7 @@ namespace app {
 						// 要求がない場合はスキップ
 						continue;
 					}
+					reply_data->json->reserve(64000);
 				}
 
 				if (reply_data->code != "" && check_stats_code(reply_data->code))
@@ -230,10 +232,12 @@ namespace app {
 						close_connection = true;
 						break;
 					case WINHTTP_GET_EVENT_REQUEST_COMPLETE:
+						log(logid_, L"Info: WINHTTP_GET_EVENT_REQUEST_COMPLETE.");
 						::WinHttpReceiveResponse(request_, NULL);
 						break;
 					case WINHTTP_GET_EVENT_HEADER_AVAILABLE:
 					{
+						log(logid_, L"Info: WINHTTP_GET_EVENT_HEADER_AVAILABLE.");
 						auto hdr = proc_get_header();
 						if (reply_data)
 						{
@@ -242,34 +246,38 @@ namespace app {
 						break;
 					}
 					case WINHTTP_GET_EVENT_RESPONSE_RECEIVED:
+					{
+						log(logid_, L"Info: WINHTTP_GET_EVENT_RESPONSE_RECEIVED.");
+						available_ = 0;
+						if (request_)
+						{
+							::WinHttpQueryDataAvailable(request_, &available_);
+						}
+						break;
+					}
 					case WINHTTP_GET_EVENT_READ_COMPLETE:
 					{
-						DWORD size = 0;
-						::WinHttpQueryDataAvailable(request_, &size);
+						log(logid_, L"Info: WINHTTP_GET_EVENT_READ_COMPLETE.");
+						available_ = 0;
+						if (request_)
+						{
+							::WinHttpQueryDataAvailable(request_, &available_);
+						}
 						break;
 					}
 					case WINHTTP_GET_EVENT_BODY_READABLE:
 					{
-						// データ取得可能
-						DWORD available = 0;
+						log(logid_, L"Info: WINHTTP_GET_EVENT_BODY_READABLE. available=%d", available_);
+						if (buf.size() < available_ + 1)
 						{
-							std::lock_guard<std::mutex> lock(available_mtx_);
-							available = available_;
+							buf.resize(available_ + 1);
 						}
-						if (available > 0)
+						if (::WinHttpReadData(request_, buf.data(), available_, NULL))
 						{
-							BYTE* buf = (LPBYTE)::HeapAlloc(::GetProcessHeap(), 0, (available + 1) * sizeof(BYTE));
-							if (buf)
+							buf.at(available_) = '\0';
+							if (reply_data && reply_data->json)
 							{
-								if (::WinHttpReadData(request_, buf, available, NULL))
-								{
-									buf[available] = '\0';
-									if (reply_data && reply_data->json)
-									{
-										*reply_data->json += reinterpret_cast<char*>(buf);
-									}
-								}
-								::HeapFree(GetProcessHeap(), 0, buf);
+								*reply_data->json += reinterpret_cast<char*>(buf.data());
 							}
 						}
 						break;
@@ -324,7 +332,7 @@ namespace app {
 								*reply_data->json = "{}";
 							}
 						}
-						log(logid_, L"Info: data send to core_thread.");
+						log(logid_, L"Info: data send to core_thread. size=%lu", reply_data->json->length());
 						push_wq(std::move(reply_data));
 					}
 
@@ -515,67 +523,61 @@ namespace app {
 			break;
 		case WINHTTP_CALLBACK_STATUS_CONNECTION_CLOSED:
 			// connection closed -> close request and connect
-		{
-			std::lock_guard<std::mutex> lock(event_mtx_);
-			event_queue_.push(WINHTTP_GET_EVENT_CLOSED);
-		}
-		::SetEvent(event_winhttp_);
-		break;
-		case WINHTTP_CALLBACK_STATUS_SENDREQUEST_COMPLETE:
-		{
-			std::lock_guard<std::mutex> lock(event_mtx_);
-			event_queue_.push(WINHTTP_GET_EVENT_REQUEST_COMPLETE);
-		}
-		::SetEvent(event_winhttp_);
-		break;
-		case WINHTTP_CALLBACK_STATUS_HEADERS_AVAILABLE:
-		{
-			std::lock_guard<std::mutex> lock(event_mtx_);
-			event_queue_.push(WINHTTP_GET_EVENT_HEADER_AVAILABLE);
-		}
-		::SetEvent(event_winhttp_);
-		break;
-		case WINHTTP_CALLBACK_STATUS_RESPONSE_RECEIVED:
-		{
-			std::lock_guard<std::mutex> lock(event_mtx_);
-			event_queue_.push(WINHTTP_GET_EVENT_RESPONSE_RECEIVED);
-		}
-		::SetEvent(event_winhttp_);
-		break;
-		case WINHTTP_CALLBACK_STATUS_READ_COMPLETE:
-		{
-			std::lock_guard<std::mutex> lock(event_mtx_);
-			event_queue_.push(WINHTTP_GET_EVENT_READ_COMPLETE);
-		}
-		::SetEvent(event_winhttp_);
-		break;
-		case WINHTTP_CALLBACK_STATUS_DATA_AVAILABLE:
-		{
 			{
-				std::lock_guard<std::mutex> lock(available_mtx_);
-				available_ = (DWORD)_status_info;
+				std::lock_guard<std::mutex> lock(event_mtx_);
+				event_queue_.push(WINHTTP_GET_EVENT_CLOSED);
 			}
+			::SetEvent(event_winhttp_);
+			break;
+		case WINHTTP_CALLBACK_STATUS_SENDREQUEST_COMPLETE:
+			{
+				std::lock_guard<std::mutex> lock(event_mtx_);
+				event_queue_.push(WINHTTP_GET_EVENT_REQUEST_COMPLETE);
+			}
+			::SetEvent(event_winhttp_);
+			break;
+		case WINHTTP_CALLBACK_STATUS_HEADERS_AVAILABLE:
+			{
+				std::lock_guard<std::mutex> lock(event_mtx_);
+				event_queue_.push(WINHTTP_GET_EVENT_HEADER_AVAILABLE);
+			}
+			::SetEvent(event_winhttp_);
+			break;
+		case WINHTTP_CALLBACK_STATUS_RESPONSE_RECEIVED:
+			{
+				std::lock_guard<std::mutex> lock(event_mtx_);
+				event_queue_.push(WINHTTP_GET_EVENT_RESPONSE_RECEIVED);
+			}
+			::SetEvent(event_winhttp_);
+			break;
+		case WINHTTP_CALLBACK_STATUS_READ_COMPLETE:
+			{
+				std::lock_guard<std::mutex> lock(event_mtx_);
+				event_queue_.push(WINHTTP_GET_EVENT_READ_COMPLETE);
+			}
+			::SetEvent(event_winhttp_);
+			break;
+		case WINHTTP_CALLBACK_STATUS_DATA_AVAILABLE:
 			{
 				std::lock_guard<std::mutex> lock(event_mtx_);
 				event_queue_.push(WINHTTP_GET_EVENT_BODY_READABLE);
 			}
-		}
-		::SetEvent(event_winhttp_);
-		break;
+			::SetEvent(event_winhttp_);
+			break;
 		case WINHTTP_CALLBACK_STATUS_REQUEST_ERROR:
-		{
-			std::lock_guard<std::mutex> lock(event_mtx_);
-			event_queue_.push(WINHTTP_GET_EVENT_ERROR);
-		}
-		::SetEvent(event_winhttp_);
-		break;
+			{
+				std::lock_guard<std::mutex> lock(event_mtx_);
+				event_queue_.push(WINHTTP_GET_EVENT_ERROR);
+			}
+			::SetEvent(event_winhttp_);
+			break;
 		case WINHTTP_CALLBACK_STATUS_SECURE_FAILURE:
-		{
-			std::lock_guard<std::mutex> lock(event_mtx_);
-			event_queue_.push(WINHTTP_GET_EVENT_TLS_ERROR);
-		}
-		::SetEvent(event_winhttp_);
-		break;
+			{
+				std::lock_guard<std::mutex> lock(event_mtx_);
+				event_queue_.push(WINHTTP_GET_EVENT_TLS_ERROR);
+			}
+			::SetEvent(event_winhttp_);
+			break;
 		}
 	}
 
