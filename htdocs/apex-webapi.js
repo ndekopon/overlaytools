@@ -239,6 +239,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_EVENT_MAP_STATE = 0xc1;
 
   static WEBAPI_EVENT_LIVEAPI_SOCKET_STATS = 0xd0;
+  static WEBAPI_HTTP_GET_STATS_FROM_CODE = 0xd1;
 
   static WEBAPI_BROADCAST_OBJECT = 0xf0;
 
@@ -992,6 +993,10 @@ export class ApexWebAPI extends EventTarget {
         if (count != 2) return false;
         this.dispatchEvent(new CustomEvent('broadcastobject', {detail: {sequence: data_array[0], data: data_array[1]}}));
         break;
+      case ApexWebAPI.WEBAPI_HTTP_GET_STATS_FROM_CODE:
+        if (count != 4) return false;
+        this.dispatchEvent(new CustomEvent('getstatsfromcode', {detail: {sequence: data_array[0], statscode: data_array[1], statuscode: data_array[2], stats: data_array[3]}}));
+        break;
     }
     return true;
   }
@@ -1448,6 +1453,13 @@ export class ApexWebAPI extends EventTarget {
     const buffer = new SendBuffer(ApexWebAPI.WEBAPI_BROADCAST_OBJECT);
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_JSON, data, this.#encoder)) precheck = false;
     return this.#sendAndReceiveReply(buffer, "broadcastobject");
+  }
+
+  getStatsFromCode(code) {
+    let precheck = true;
+    const buffer = new SendBuffer(ApexWebAPI.WEBAPI_HTTP_GET_STATS_FROM_CODE);
+    if (!buffer.append(ApexWebAPI.WEBAPI_DATA_STRING, code, this.#encoder)) precheck = false;
+    return this.#sendAndReceiveReply(buffer, "getstatsfromcode", precheck);
   }
 
 }
