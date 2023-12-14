@@ -190,7 +190,7 @@ namespace app {
 
 				if (reply_data->code != "" && check_stats_code(reply_data->code))
 				{
-					log(logid_, L"Info: stats_code requested [%s].", s_to_ws(reply_data->code));
+					log(logid_, L"Info: stats_code requested [%s].", s_to_ws(reply_data->code).c_str());
 					timestamp = get_millis();
 					if (!proc_connect_and_request(reply_data->code))
 					{
