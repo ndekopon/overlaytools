@@ -427,6 +427,23 @@ body {
     margin: 0;
 }
 
+#result-fix-from-stats-code {
+    padding-top: 1em;
+    font-size: 80%;
+}
+
+#result-fix-from-stats-code-lists {
+    margin-top: 0.5em;
+}
+
+#result-fix-from-stats-code.hide {
+    display: none;
+}
+
+#result-fix-from-stats-code-input {
+    width: 18em;
+}
+
 #result-all-base {
     margin-top: 1em;
     display: grid;

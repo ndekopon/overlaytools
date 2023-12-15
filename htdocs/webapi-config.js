@@ -1876,6 +1876,7 @@ class ResultFixView extends WebAPIConfigBase {
     #result;
     #dragging_teamid;
     #callback;
+    #statscodes;
     constructor() {
         super("result-fix-");
         this.getNode("buttons");
@@ -1885,8 +1886,11 @@ class ResultFixView extends WebAPIConfigBase {
         this.getNode("placementnodes");
         this.getNode("kills");
         this.getNode("killsnodes");
+        this.getNode("from-stats-code");
+        this.getNode("from-stats-code-lists");
         this.#dragging_teamid = 0;
         this.#callback = null;
+        this.#statscodes = {};
 
         this.nodes["placement-update-button"].addEventListener("click", (ev) => {
             this.#updatePlacement();
@@ -1909,6 +1913,143 @@ class ResultFixView extends WebAPIConfigBase {
     setResult(gameid, result) {
         this.#gameid = gameid;
         this.#result = JSON.parse(JSON.stringify(result));
+
+        this.checkResultFromStats();
+    }
+    /**
+     * リザルトのコピーを保持する
+     * @param {string} statscode statsコード
+     * @param {object} json 取得したjson
+     */
+    setStatsJson(statscode, json) {
+        /* TODO: matchesの中身から使えるもののみ整形する */
+        const matches = [];
+        if ('matches' in json) {
+            for (const m of json.matches) {
+                let uncomplete = false;
+                const result = {teams:{}};
+                const ts = result.teams;
+                if ('aim_assist_allowed' in m) {
+                    result.aimassiston = m.aim_assist_allowed;
+                }
+                if ('map_name' in m) {
+                    result.map = m.map_name;
+                }
+                if ('match_start' in m) {
+                    result.start = m.match_start * 100;
+                    result.end = m.match_start * 100;
+                }
+                if ('mid' in m) {
+                    result.matchid = m.mid;
+                }
+                for (const p of m.player_results) {
+                    if ('survivalTime' in p) {
+                        const survival_time = p.survivalTime * 1000;
+                        const temp_end = result.start + survival_time;
+                        if (result.end < temp_end) result.end = temp_end;
+                    }
+    
+                    if ('teamNum' in p) {
+                        // チームのパラメータ設定
+                        const teamid = p.teamNum - 2;
+                        if (!(teamid in ts)) ts[teamid] = {id: teamid, players:[]};
+                        const team = ts[teamid];
+                        if ('teamPlacement' in p) {
+                            team.placement = p.teamPlacement;
+                            if (p.teamPlacement <= 0) {
+                                uncomplete = true;
+                                break;
+                            }
+                        }
+                        if ('teamName' in p) {
+                            team.name = p.teamName;
+                        }
+                        if ('kills' in p) {
+                            if (!('kills' in team)) team.kills = 0;
+                            team.kills += p.kills;
+                        }
+    
+                        // 個人のパラメータ設定
+                        const player = {};
+                        team.players.push(player);
+                        if ('nidHash' in p) {
+                            player.id = p.nidHash.substring(0, 32);
+                        }
+                        if ('kills' in p) {
+                            player.kills = p.kills;
+                        }
+                        if ('assists' in p) {
+                            player.assists = p.assists;
+                        }
+                        if ('knockdowns' in p) {
+                            player.knockdowns = p.knockdowns;
+                        }
+                        if ('respawnsGiven' in p) {
+                            player.respawns_given = p.respawnsGiven;
+                        }
+                        if ('revivesGiven' in p) {
+                            player.revives_given = p.revivesGiven;
+                        }
+                        if ('damageDealt' in p) {
+                            player.damage_dealt = p.damageDealt;
+                        }
+                        if ('playerName' in p) {
+                            player.name = p.playerName;
+                        }
+                        if ('characterName' in p) {
+                            player.character = p.characterName;
+                        }
+                        if ('shots' in p) {
+                            player.shots = p.shots;
+                        }
+                        if ('hits' in p) {
+                            player.hits = p.hits;
+                        }
+                        if ('headshots' in p) {
+                            player.headshots = p.headshots;
+                        }
+                        if ('survivalTime' in p) {
+                            player.survival_time = p.survivalTime;
+                        }
+                        if ('hardware' in p) {
+                            player.hardware = p.hardware;
+                        }
+                    }
+                }
+                if (!uncomplete) {
+                    // 1位のチームがいるか確認する
+                    let has_1st = false;
+                    for (const [key, team] of Object.entries(result.teams)) {
+                        if (team.placement == 1) {
+                            has_1st = true;
+                            break;
+                        }
+                    }
+                    if (has_1st) {
+                        matches.push(result);
+                    }
+                }
+            }
+        }
+        this.#statscodes[statscode] = { update: Date.now(), matches: matches };
+        this.checkResultFromStats();
+    }
+
+    /**
+     * 現在保存されているstatsから、リザルト修正の必要性を確認する
+     */
+    checkResultFromStats() {
+        console.log(this.#statscodes);
+
+        // 保持しているstats概要を表示
+        this.nodes["from-stats-code-lists"].innerText = "";
+        for (const key of Object.keys(this.#statscodes)) {
+            const data = this.#statscodes[key];
+            const date = (new Date(data.update)).toLocaleString();
+            const div = document.createElement('div');
+            div.innerText = `${key}[${date}](${data.matches.length}matches)`;
+            this.nodes["from-stats-code-lists"].appendChild(div);
+        }
     }
 
     /**
@@ -2226,6 +2367,13 @@ class ResultFixView extends WebAPIConfigBase {
         this.nodes.kills.classList.add("hide");
     }
 
+    showFixFromStatsCodeView() {
+        this.nodes["from-stats-code"].classList.remove("hide");
+    }
+    hideFixFromStatsCodeView() {
+        this.nodes["from-stats-code"].classList.add("hide");
+    }
+
     /**
      * リザルトが修正が要求された際に呼び出されるコールバック関数を設定する
      * @param {function} func コールバック関数
@@ -2529,13 +2677,19 @@ export class WebAPIConfig {
 
         /** LiveAPIの設定関係 */
         this.#webapi.addEventListener('getliveapiconfig', (ev) => {
-            console.log(ev);
             this.#liveapiconfig.setConfig(ev.detail.config);
         });
 
         this.#webapi.addEventListener('setliveapiconfig', (ev) => {
             if (ev.detail.result) {
                 this.#liveapiconfig.setConfig(ev.detail.config);
+            }
+        });
+
+        /* Post-APIからの取得結果 */
+        this.#webapi.addEventListener('getstatsfromcode', (ev) => {
+            if (ev.detail.statuscode == 200) {
+                this.#resultfixview.setStatsJson(ev.detail.statscode, ev.detail.stats);
             }
         });
     }
@@ -2608,6 +2762,7 @@ export class WebAPIConfig {
         document.getElementById('result-view-button').addEventListener('click', (ev) => {
             this.#resultview.showBothResultView();
             this.#resultfixview.hideAll();
+            this.#resultfixview.showFixFromStatsCodeView();
         });
 
         document.getElementById('result-fix-placement-button').addEventListener('click', (ev) => {
@@ -2615,6 +2770,7 @@ export class WebAPIConfig {
             this.#resultfixview.drawPlacement();
             this.#resultfixview.hideFixKillsView();
             this.#resultfixview.showFixPlacementView();
+            this.#resultfixview.hideFixFromStatsCodeView();
         });
 
         document.getElementById('result-fix-kills-button').addEventListener('click', (ev) => {
@@ -2622,6 +2778,7 @@ export class WebAPIConfig {
             this.#resultfixview.drawKills();
             this.#resultfixview.hideFixPlacementView();
             this.#resultfixview.showFixKillsView();
+            this.#resultfixview.hideFixFromStatsCodeView();
         });
 
         // checkbox
@@ -2797,6 +2954,13 @@ export class WebAPIConfig {
             const pretimer = parseFloat(document.getElementById("test-pausetoggle-pretimer").value);
             if (0.0 < pretimer && pretimer < 10.0) {
                 this.#webapi.pauseToggle(pretimer);
+            }
+        });
+
+        document.getElementById('result-fix-from-stats-code-button').addEventListener('click', (ev) => {
+            const code = document.getElementById("result-fix-from-stats-code-input").value;
+            if (code.length == 31 && code.match(/^[0-9a-f]{8}-[0-9a-f]{22}$/)) {
+                this.#webapi.getStatsFromCode(code);
             }
         });
     }
@@ -3147,6 +3311,7 @@ export class WebAPIConfig {
                 this.#resultfixview.showSwitchViewButton();
                 this.#resultfixview.setResult(gameid, this.#_results[gameid]);
                 this.#resultfixview.hideAll();
+                this.#resultfixview.showFixFromStatsCodeView();
             }
         }
     }
