@@ -70,6 +70,24 @@ namespace {
 		if (d.b < 0x80 || 0x9f < d.b) return false;
 		return true;
 	}
+
+	inline bool is_mapborder_gray(uint32_t _c)
+	{
+		rgba_t d = { .c = _c };
+		// r:88-8f g:88-8f b:88-8f
+		if (d.r < 0x60 || 0x90 < d.r) return false;
+		if (d.g < 0x60 || 0x90 < d.g) return false;
+		if (d.b < 0x60 || 0x90 < d.b) return false;
+		return true;
+	}
+	inline bool is_mapborder_black(uint32_t _c)
+	{
+		rgba_t d = { .c = _c };
+		if (0x00 < d.r) return false;
+		if (0x00 < d.g) return false;
+		if (0x00 < d.b) return false;
+		return true;
+	}
 }
 
 namespace app {
@@ -140,11 +158,31 @@ namespace app {
 
 	inline bool is_shown_map(const std::vector<uint32_t>& _buffer)
 	{
-		// (160,0) (160, 15) (160, 30) (191, 16)
-		if (!is_craftpoint_green(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 160))) return false;
-		else if (!is_craftpoint_green(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 160))) return false;
-		else if (!is_craftpoint_green(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 30 - 1) + 160))) return false;
-		else if (!is_craftpoint_green(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 16 - 1) + 191))) return false;
+		if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 2 - 1) + 160))) return false;
+		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 6 - 1) + 160))) return false;
+		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 10 - 1) + 160))) return false;
+		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 14 - 1) + 160))) return false;
+		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 18 - 1) + 160))) return false;
+		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 22 - 1) + 160))) return false;
+		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 26 - 1) + 160))) return false;
+		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 30 - 1) + 160))) return false;
+		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 163))) return false;
+		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 167))) return false;
+		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 171))) return false;
+		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 175))) return false;
+		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 179))) return false;
+		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 183))) return false;
+		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 187))) return false;
+		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 191))) return false;
+		return true;
+	}
+
+	inline bool is_shown_map_bottom_border(const std::vector<uint32_t>& _buffer)
+	{
+		if (!is_mapborder_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 192))) return false;
+		else if (!is_mapborder_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 192))) return false;
+		else if (!is_mapborder_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 223))) return false;
+		else if (!is_mapborder_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 223))) return false;
 		return true;
 	}
 
@@ -264,7 +302,7 @@ namespace app {
 						bool craftpoint = is_shown_craftpoint(buffer);
 						bool menu = is_shown_menu(buffer);
 						bool team1frame = is_shown_team1frame(buffer);
-						bool map = is_shown_map(buffer);
+						bool map = is_shown_map_bottom_border(buffer) && is_shown_map(buffer);
 						bool teambanner_show = screen_state_prev.teambanner_show;
 
 						// 差分表示
