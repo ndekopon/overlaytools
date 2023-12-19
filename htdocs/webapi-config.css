@@ -443,6 +443,12 @@ body {
 #result-fix-from-stats-code-input {
     width: 18em;
 }
+#result-fix-from-stats-submit-area.hide {
+    display: none;
+}
+.rffs-messages.hide {
+    display: none;
+}
 
 #result-all-base {
     margin-top: 1em;

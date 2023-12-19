@@ -1874,6 +1874,7 @@ class ResultView {
 class ResultFixView extends WebAPIConfigBase {
     #gameid;
     #result;
+    #fixedresult;
     #dragging_teamid;
     #callback;
     #statscodes;
@@ -1882,21 +1883,30 @@ class ResultFixView extends WebAPIConfigBase {
         this.getNode("buttons");
         this.getNode("placement-update-button");
         this.getNode("kills-update-button");
+        this.getNode("from-stats-submit-button");
         this.getNode("placement");
         this.getNode("placementnodes");
         this.getNode("kills");
         this.getNode("killsnodes");
         this.getNode("from-stats-code");
         this.getNode("from-stats-code-lists");
+        this.getNode("from-stats-code-diff-lists");
         this.#dragging_teamid = 0;
         this.#callback = null;
         this.#statscodes = {};
+        this.#fixedresult = null;
 
         this.nodes["placement-update-button"].addEventListener("click", (ev) => {
             this.#updatePlacement();
         });
         this.nodes["kills-update-button"].addEventListener("click", (ev) => {
             this.#updateKills();
+        });
+        this.nodes["from-stats-submit-button"].addEventListener("click", (ev) => {
+            // 修正送信
+            if (this.#fixedresult != null && typeof(this.#callback) == 'function') {
+                this.#callback(this.#gameid, this.#fixedresult);
+            }
         });
     }
 
@@ -1936,8 +1946,8 @@ class ResultFixView extends WebAPIConfigBase {
                     result.map = m.map_name;
                 }
                 if ('match_start' in m) {
-                    result.start = m.match_start * 100;
-                    result.end = m.match_start * 100;
+                    result.start = m.match_start * 1000;
+                    result.end = m.match_start * 1000;
                 }
                 if ('mid' in m) {
                     result.matchid = m.mid;
@@ -2039,8 +2049,6 @@ class ResultFixView extends WebAPIConfigBase {
      * 現在保存されているstatsから、リザルト修正の必要性を確認する
      */
     checkResultFromStats() {
-        console.log(this.#statscodes);
-
         // 保持しているstats概要を表示
         this.nodes["from-stats-code-lists"].innerText = "";
         for (const key of Object.keys(this.#statscodes)) {
@@ -2050,6 +2058,130 @@ class ResultFixView extends WebAPIConfigBase {
             div.innerText = `${key}[${date}](${data.matches.length}matches)`;
             this.nodes["from-stats-code-lists"].appendChild(div);
         }
+
+        // 既に適用済みか確認する
+        let fixed = false;
+        if (typeof(this.#gameid) == "number" && typeof(this.#result) == "object") {
+            if ('matchid' in this.#result) {
+                // 適用済み
+                fixed = true;
+            } else {
+                // 未適用
+                fixed = false;
+            }
+        }
+
+        // 適用可能なデータがあるか確認
+        const diff = [];
+        this.#fixedresult = null;
+        for (const key of Object.keys(this.#statscodes)) {
+            for (const m of this.#statscodes[key].matches) {
+                const s = this.#result;
+                if (s.start <= m.end && m.start <= s.end && m.map == s.map) {
+                    if (this.#comparePlayers(s, m)) {
+                        this.#fixedresult = JSON.parse(JSON.stringify(s));
+                        this.#fixedresult.matchid = m.matchid;
+                        this.#fixedresult.statscode = key;
+                        for(const [k, t] of Object.entries(m.teams)) {
+                            const st = this.#fixedresult.teams[k];
+                            if (st.kills != t.kills) {
+                                diff.push(`team${k} kills not match ${st.kills}=>${t.kills}`);
+                                st.kills = t.kills;
+                            }
+                            if (st.placement != t.placement) {
+                                diff.push(`team${k} placement not match ${st.placement}=>${t.placement}`);
+                                st.placement = t.placement;
+                            }
+                            for (const p of t.players) {
+                                const sp = st.players.find((t) => p.id == t.id);
+                                if (sp) {
+                                    if (sp.assists != p.assists) {
+                                        diff.push(`player [${p.name}] assists not match ${sp.assists}=>${p.assists}`);
+                                        sp.assists = p.assists;
+                                    }
+                                    sp.assists = p.assists;
+                                    sp.character = p.character;
+                                    if (sp.damage_dealt != p.damage_dealt) {
+                                        diff.push(`player [${p.name}] damage_dealt not match ${sp.damage_dealt}=>${p.damage_dealt}`);
+                                        sp.damage_dealt = p.damage_dealt;
+                                    }
+                                    sp.hardware = p.hardware;
+                                    sp.headshots = p.headshots;
+                                    sp.hits = p.hits;
+                                    if (sp.kills != p.kills) {
+                                        diff.push(`player [${p.name}] kills not match ${sp.kills}=>${p.kills}`);
+                                        sp.kills = p.kills;
+                                    }
+                                    sp.knockdowns = p.knockdowns;
+                                    sp.respawns_given = p.respawns_given;
+                                    sp.revives_given = p.revives_given;
+                                    sp.shots = p.shots;
+                                    sp.survival_time = p.survival_time;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 適用済みメッセージの表示
+        if (fixed) {
+            document.getElementById('rffs-already-fixed').classList.remove('hide');
+        } else {
+            document.getElementById('rffs-already-fixed').classList.add('hide');
+        }
+
+        // 適用可能データなしメッセージの表示
+        if (this.#fixedresult == null) {
+            document.getElementById('rffs-data-not-found').classList.remove('hide');
+        } else {
+            document.getElementById('rffs-data-not-found').classList.add('hide');
+        }
+
+        // 差分を表示する
+        this.nodes["from-stats-code-diff-lists"].innerHTML = "";
+        if (this.#fixedresult) {
+            for (const txt of diff) {
+                const div = document.createElement('div');
+                div.innerText = txt;
+                this.nodes["from-stats-code-diff-lists"].appendChild(div);
+            }
+            if (diff.length == 0) {
+                this.nodes["from-stats-code-diff-lists"].innerText = "data is correct.";
+            }
+        }
+
+        // 存在する場合は修正される差異を表示(修正ボタン表示)
+        if (this.#fixedresult && (!fixed || diff.length > 0)) {
+            document.getElementById('result-fix-from-stats-submit-area').classList.remove('hide');
+        } else {
+            document.getElementById('result-fix-from-stats-submit-area').classList.add('hide');
+        }
+    }
+
+    /**
+     * 2つのリザルトのプレイヤーに差異がないか確認する(IDのみ確認)
+     * @param {object} a 比較対象のresult
+     * @param {object} b 比較対象のresult
+     * @returns {boolean} 差異がない場合はtrue
+     */
+    #comparePlayers(a, b) {
+        for (const [a_k, a_t] of Object.entries(a.teams)) {
+            if (!(a_k in b.teams)) return false;
+            const b_t = b.teams[a_k];
+            for (const a_p of a_t.players) {
+                if (!b_t.players.find((t) => a_p.id == t.id)) return false;
+            }
+        }
+        for (const [b_k, b_t] of Object.entries(b.teams)) {
+            if (!(b_k in a.teams)) return false;
+            const a_t = a.teams[b_k];
+            for (const b_p of b_t.players) {
+                if (!a_t.players.find((t) => b_p.id == t.id)) return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -3039,7 +3171,6 @@ export class WebAPIConfig {
         const fragment = this.#getFragment(hash);
         const mainmenu = this.#getMainMenu(fragment);
         const submenu = this.#getSubMenu(fragment);
-        console.log(fragment);
         if (this.#tournament_id == '' && ["realtime", "tournament-rename", "tournament-params", "tournament-calc", "team-name", "team-params", "overlay"].indexOf(fragment) >= 0) {
             window.location.assign("#tournament-set");
             return;
