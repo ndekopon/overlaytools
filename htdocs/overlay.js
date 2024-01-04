@@ -2197,7 +2197,7 @@ export class Overlay {
                             break;
                         }
                         case "testowneditems": {
-                            const items = ["backpack", "knockdownshield", "syringe", "medkit", "shieldcell", "shieldbattery", "phoenixkit", "ultimateaccelerant", "thermitgrenade", "thermitgrenade", "arcstar"];
+                            const items = ["backpack", "knockdownshield", "syringe", "medkit", "shieldcell", "shieldbattery", "phoenixkit", "ultimateaccelerant", "fraggrenade", "thermitgrenade", "arcstar"];
                             for (const [item, count] of Object.entries(data)) {
                                 if (items.indexOf(item) >= 0) {
                                     this.#owneditems.procUpdateItem(item, count);
