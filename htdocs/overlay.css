@@ -81,10 +81,10 @@ body {
 
 /* LeaderBoard */
 #leaderboard {
-    position: fixed;
+    position: absolute;
     left: 0;
     top: 0;
-    width: 100%;
+    width: 1920px;
     height: var(--overlay-leaderboard-height);
     box-sizing: border-box;
     background-color: var(--overlay-leaderboard-bgcolor);
@@ -95,11 +95,13 @@ body {
 }
 
 #leaderboard.hide {
-    display: none;
+    left: -1920px;
+    top: -1080px;
 }
 
 #leaderboard.forcehide {
-    display: none;
+    left: -1920px;
+    top: -1080px;
 }
 
 #leaderboard > div {
@@ -113,7 +115,9 @@ body {
 }
 
 #leaderboard > div.hide {
-    display: none;
+    position: absolute;
+    left: -1920px;
+    top: -1080px;
 }
 
 #leaderboard > div:not(.lb_exists) {

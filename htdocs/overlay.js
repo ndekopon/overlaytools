@@ -108,6 +108,16 @@ class LeaderBoardTeamNode extends OverlayBase {
     }
 
     /**
+     * 生存状態か確認する
+     * @returns {boolean} true=生存,false=排除
+     */
+    isAlive() {
+        // 存在＆未排除
+        if (!this.nodes.base.classList.contains(LeaderBoardTeamNode.#EXISTS_CLASS)) return false;
+        return !this.nodes.base.classList.contains(LeaderBoardTeamNode.#ELIMINATED_CLASS);
+    }
+
+    /**
      * フェードアウトアニメーション用のクラスが設定されているか確認する
      * @returns {boolean} true=設定済,false=未設定
      */
@@ -235,7 +245,7 @@ class LeaderBoard extends OverlayBase {
     #countAlives() {
         let alives = 0;
         for (const team of Object.values(this.#teamnodes)) {
-            if (!team.isEliminated()) alives++;
+            if (team.isAlive()) alives++;
         }
         return alives;
     }
@@ -278,18 +288,17 @@ class LeaderBoard extends OverlayBase {
     setTeamEliminated(teamid, eliminated) {
         this.#preprocessTeam(teamid);
         this.#teamnodes[teamid].setEliminated(eliminated);
-        if (eliminated) {
-            if (this.#countAlives() <= this.#shownum) {
-                if (this.#alivesonly == false) {
-                    this.#alivesonly = true;
-                    this.#switchToAlivesOnly();
-                } else {
-                    this.#teamnodes[teamid].hide();
-                }
+        if (this.#countAlives() <= this.#shownum) {
+            if (this.#alivesonly == false) {
+                this.#alivesonly = true;
+                this.#onLEShowNumber();
             } else {
-                if (this.#alivesonly) {
-                    this.#alivesonly = false;
-                }
+                this.#teamnodes[teamid].hide();
+            }
+        } else {
+            if (this.#alivesonly) {
+                this.#alivesonly = false;
+                this.#onGTShowNumber();
             }
         }
     }
@@ -303,12 +312,23 @@ class LeaderBoard extends OverlayBase {
     setPlayerState(teamid, playerid, state) {
         this.#preprocessTeam(teamid);
         this.#teamnodes[teamid].setPlayerState(playerid, state);
+        if (this.#countAlives() <= this.#shownum) {
+            if (this.#alivesonly == false) {
+                this.#alivesonly = true;
+                this.#onLEShowNumber();
+            }
+        } else {
+            if (this.#alivesonly) {
+                this.#alivesonly = false;
+                this.#onGTShowNumber();
+            }
+        }
     }
 
     /**
      * 生存しているチームのみ表示に切り替え
      */
-    #switchToAlivesOnly() {
+    #onLEShowNumber() {
         this.#stopAnimation();
         for (const [_, node] of Object.entries(this.#teamnodes)) {
             if (node.isEliminated()) {
@@ -317,6 +337,17 @@ class LeaderBoard extends OverlayBase {
                 node.show();
             }
         }
+    }
+
+    /**
+     * 全部隊表示に切り替え
+     */
+    #onGTShowNumber() {
+        this.#stopAnimation();
+        for (const [_, node] of Object.entries(this.#teamnodes)) {
+            node.show();
+        }
+        this.#startAnimation();
     }
 
     /**
@@ -390,13 +421,9 @@ class LeaderBoard extends OverlayBase {
         if (this.#nextshowindex >= length) this.#nextshowindex = 0;
 
         // fadeoutを予約
-        if (length > this.#shownum) {
-            this.#timerid = setTimeout(() => {
-                this.#startFadeOut();
-            }, this.#showinterval);
-        } else {
-            this.#timerid = -1;
-        }
+        this.#timerid = setTimeout(() => {
+            this.#startFadeOut();
+        }, this.#showinterval);
     }
 
     /**
@@ -412,18 +439,23 @@ class LeaderBoard extends OverlayBase {
                 teamnode.fadeOut();
             }
         }
-        this.#timerid = setTimeout(() => { this.#startFadeIn(); }, 500); // 次のfadeinを予約
+        // fadeinを予約
+        this.#timerid = setTimeout(() => {
+            this.#startFadeIn();
+        }, 500);
     }
 
     /**
      * アニメーションを開始する
      */
     #startAnimation() {
-        if (this.#timerid > 0) return;
+        // 既にアニメーション実施中
+        if (this.#timerid >= 0) return;
         for (const teamnode of Object.values(this.#teamnodes)) {
             if (teamnode.hasFadeOut()) return;
         }
-        // 全て隠す
+
+        // 一旦全て隠す
         for (const teamnode of Object.values(this.#teamnodes)) {
             teamnode.hide();
         }
@@ -466,7 +498,11 @@ class LeaderBoard extends OverlayBase {
      */
     show() {
         super.show();
-        this.#startAnimation();
+        if (this.#alivesonly) {
+            this.#onLEShowNumber();
+        } else {
+            this.#onGTShowNumber();
+        }
     }
 
     /**
