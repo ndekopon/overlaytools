@@ -3023,7 +3023,7 @@ export class WebAPIConfig {
             }
         });
         document.getElementById('test-show-owneditems').addEventListener('click', (ev) => {
-            const items = ["backpack", "knockdownshield", "syringe", "medkit", "shieldcell", "shieldbattery", "phoenixkit", "ultimateaccelerant", "thermitgrenade", "thermitgrenade", "arcstar"];
+            const items = ["backpack", "knockdownshield", "syringe", "medkit", "shieldcell", "shieldbattery", "phoenixkit", "ultimateaccelerant", "fraggrenade", "thermitgrenade", "arcstar"];
             const data = {type: "testowneditems"};
             for (const item of items) {
                 const v = parseInt(document.getElementById("test-owneditems-" + item).value, 10);
