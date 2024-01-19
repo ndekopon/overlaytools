@@ -80,7 +80,7 @@ namespace {
 		if (d.b < 0x60 || 0x90 < d.b) return false;
 		return true;
 	}
-	inline bool is_mapborder_black(uint32_t _c)
+	inline bool is_black(uint32_t _c)
 	{
 		rgba_t d = { .c = _c };
 		if (0x00 < d.r) return false;
@@ -121,12 +121,12 @@ namespace app {
 
 	inline bool is_shown_healitemframe(const std::vector<uint32_t>& _buffer)
 	{
-		if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 6))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 31))) return false;
+		if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT      - 0 - 1) + 128 + 6))) return false;
 		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 12))) return false;
 		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 18))) return false;
 		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 23))) return false;
 		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 28))) return false;
+		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 31))) return false;
 		return true;
 	}
 
@@ -141,8 +141,27 @@ namespace app {
 	inline bool is_shown_menu(const std::vector<uint32_t>& _buffer)
 	{
 		// (72,9) (79,15) (87,21)
-		if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 72))) return false;
+		if      (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 72))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 74))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 76))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 78))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 80))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 82))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 84))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 86))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 75))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 77))) return false;
 		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 79))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 81))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 83))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 85))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 87))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 75))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 77))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 79))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 81))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 83))) return false;
+		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 85))) return false;
 		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 87))) return false;
 		return true;
 	}
@@ -156,33 +175,35 @@ namespace app {
 		return true;
 	}
 
-	inline bool is_shown_map(const std::vector<uint32_t>& _buffer)
+	inline bool is_shown_alivesicon(const std::vector<uint32_t>& _buffer)
 	{
-		if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 2 - 1) + 160))) return false;
-		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 6 - 1) + 160))) return false;
-		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 10 - 1) + 160))) return false;
-		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 14 - 1) + 160))) return false;
-		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 18 - 1) + 160))) return false;
-		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 22 - 1) + 160))) return false;
-		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 26 - 1) + 160))) return false;
-		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 30 - 1) + 160))) return false;
-		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 163))) return false;
-		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 167))) return false;
-		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 171))) return false;
-		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 175))) return false;
-		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 179))) return false;
-		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 183))) return false;
-		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 187))) return false;
-		else if (!is_mapborder_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 191))) return false;
+		// LEFT=32*5=160
+		if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 160 + 8))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 160 + 10))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 160 + 12))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 160 + 14))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 160 + 16))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 160 + 18))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 160 + 20))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 160 + 22))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 10 - 1) + 160 + 13))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 10 - 1) + 160 + 15))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 10 - 1) + 160 + 17))) return false;
 		return true;
 	}
 
 	inline bool is_shown_map_bottom_border(const std::vector<uint32_t>& _buffer)
 	{
-		if (!is_mapborder_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 192))) return false;
-		else if (!is_mapborder_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 192))) return false;
-		else if (!is_mapborder_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 223))) return false;
-		else if (!is_mapborder_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 223))) return false;
+		if      (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 192))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 200))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 210))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 220))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 223))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 192))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 200))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 210))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 220))) return false;
+		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 223))) return false;
 		return true;
 	}
 
@@ -237,7 +258,9 @@ namespace app {
 			bool menu;
 			bool team1frame;
 			bool map;
+			bool alivesicon;
 		} screen_state_prev = {
+				false,
 				false,
 				false,
 				false,
@@ -302,7 +325,8 @@ namespace app {
 						bool craftpoint = is_shown_craftpoint(buffer);
 						bool menu = is_shown_menu(buffer);
 						bool team1frame = is_shown_team1frame(buffer);
-						bool map = is_shown_map_bottom_border(buffer) && is_shown_map(buffer);
+						bool map = is_shown_map_bottom_border(buffer);
+						bool alivesicon = is_shown_alivesicon(buffer);
 						bool teambanner_show = screen_state_prev.teambanner_show;
 
 						// 差分表示
@@ -311,6 +335,7 @@ namespace app {
 						if (craftpoint != screen_state_prev.craftpoint) log(LOG_DUPLICATION, L"Info: craftpoint=%s.", craftpoint ? L"true" : L"false");
 						if (menu != screen_state_prev.menu) log(LOG_DUPLICATION, L"Info: menu=%s.", menu ? L"true" : L"false");
 						if (team1frame != screen_state_prev.team1frame) log(LOG_DUPLICATION, L"Info: team1frame=%s.", team1frame ? L"true" : L"false");
+						if (alivesicon != screen_state_prev.alivesicon) log(LOG_DUPLICATION, L"Info: alivesicon=%s.", alivesicon ? L"true" : L"false");
 						if (map != screen_state_prev.map)
 						{
 							log(LOG_DUPLICATION, L"Info: map=%s.", map ? L"true" : L"false");
@@ -329,10 +354,11 @@ namespace app {
 						screen_state_prev.menu = menu;
 						screen_state_prev.team1frame = team1frame;
 						screen_state_prev.map = map;
+						screen_state_prev.alivesicon = alivesicon;
 
-						if ((playerframe || healitemframe) && craftpoint && menu) teambanner_show = true;
-						else if (craftpoint && menu) teambanner_show = false;
-						else if (menu) teambanner_show = false;
+						if ((playerframe || healitemframe) && (craftpoint || alivesicon) && menu) teambanner_show = true;
+						else if (alivesicon && menu) teambanner_show = false;
+						else if (map && menu) teambanner_show = false;
 						else if (team1frame) teambanner_show = false;
 
 						if (teambanner_show != screen_state_prev.teambanner_show)
