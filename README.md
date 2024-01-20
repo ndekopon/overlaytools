@@ -30,6 +30,7 @@ WebView2(基本的にインストール済)
 ## 使い方
 
 以下のページに利用手順を記載。
+- [利用手順(YouTube)](https://www.youtube.com/watch?v=AlDueDQj9Ro)
 - [利用手順(Wiki)](https://github.com/ndekopon/overlaytools/wiki)
 
 ## 特徴
