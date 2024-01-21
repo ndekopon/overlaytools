@@ -1379,31 +1379,7 @@ namespace app {
 			log(LOG_CORE, L"Info: PlayerConnected received.");
 			if (p.has_player())
 			{
-				if (game_.start == 0)
-				{
-					// クリア
-					clear_livedata();
-
-					// ダンプファイルリセット
-					filedump_.reset();
-
-					game_.start = get_millis();
-					send_webapi_clear_livedata(); // 試合開始
-				}
-				else
-				{
-					if (game_.end > 0)
-					{
-						// クリア
-						clear_livedata();
-
-						// ダンプファイルリセット
-						filedump_.reset();
-
-						game_.start = get_millis();
-						send_webapi_clear_livedata(); // 試合開始
-					}
-				}
+				check_game_start();
 
 				proc_player(p.player());
 				uint8_t teamid = p.player().teamid();
@@ -2999,6 +2975,33 @@ namespace app {
 		reply_livedata_get_team_players(_sock, _sequence, _teamid);
 	}
 
+	void core_thread::check_game_start()
+	{
+		if (game_.start == 0)
+		{
+			// クリア
+			clear_livedata();
+
+			// ダンプファイルリセット
+			filedump_.reset();
+
+			send_webapi_clear_livedata(); // 試合開始
+		}
+		else
+		{
+			if (game_.end > 0)
+			{
+				// クリア
+				clear_livedata();
+
+				// ダンプファイルリセット
+				filedump_.reset();
+
+				send_webapi_clear_livedata(); // 試合開始
+			}
+		}
+	}
+
 	//---------------------------------------------------------------------------------
 	// CLEAR
 	//---------------------------------------------------------------------------------
@@ -3014,7 +3017,7 @@ namespace app {
 		game_.aimassiston = false;
 		game_.anonymousmode = false;
 		game_.serverid = "";
-		game_.start = 0;
+		game_.start = get_millis();
 		game_.end = 0;
 	}
 

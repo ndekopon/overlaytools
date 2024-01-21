@@ -159,6 +159,8 @@ namespace app {
 		void livedata_get_teams(SOCKET _sock, uint32_t _sequence);
 		void livedata_get_team_players(SOCKET _sock, uint32_t _sequence, uint8_t _teamid);
 
+		void check_game_start();
+
 		// save/clear
 		void clear_livedata();
 		void save_result();
