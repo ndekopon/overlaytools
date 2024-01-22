@@ -86,8 +86,6 @@ namespace livedata {
 		std::string serverid = "";
 		uint64_t start = 0;
 		uint64_t end = 0;
-		uint8_t camera_teamid = 2;
-		uint8_t camera_squadindex = 0;
 		std::vector<ringinfo> rings{};
 	};
 

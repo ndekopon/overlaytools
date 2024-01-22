@@ -138,6 +138,7 @@ namespace app {
 		, http_get_(LOG_HTTP_GET)
 		, filedump_()
 		, game_()
+		, camera_()
 		, observer_hash_("")
 		, mtx_()
 		, messages_()
@@ -446,6 +447,10 @@ namespace app {
 			{
 				log(LOG_CORE, L"Error: data parse failed.");
 			}
+			break;
+		case WEBAPI_LIVEDATA_GET_OBSERVERS_CAMERA:
+			log(LOG_CORE, L"Info: WEBAPI_LIVEDATA_GET_OBSERVERS_CAMERA received.");
+			livedata_get_observers_camera(socket, sequence);
 			break;
 		case WEBAPI_LOCALDATA_GET_OBSERVER:
 		{
@@ -1238,12 +1243,7 @@ namespace app {
 				uint8_t tteamid = p.target().teamid();
 				uint8_t tsquadindex = get_squadindex(p.target());
 
-				// 自分のカメライベントだった場合は保存しておく
-				if (observer.nucleushash() == observer_hash_)
-				{
-					game_.camera_teamid = tteamid;
-					game_.camera_squadindex = tsquadindex;
-				}
+				camera_[observer.nucleushash()] = { tteamid, tsquadindex };
 
 				send_webapi_observerswitched(INVALID_SOCKET, oteamid, osquadindex, tteamid, tsquadindex, observer.nucleushash() == observer_hash_);
 			}
@@ -1254,6 +1254,9 @@ namespace app {
 			if (!_any.UnpackTo(&p)) return;
 			
 			log(LOG_CORE, L"Info: MatchSetup received.");
+
+			check_game_start();
+
 			std::string datacenter = "";
 			if (p.has_datacenter())
 			{
@@ -2168,6 +2171,15 @@ namespace app {
 		}
 	}
 
+	void core_thread::reply_livedata_get_observers_camera(SOCKET _sock, uint32_t _sequence)
+	{
+		send_webapi_data sdata(WEBAPI_LIVEDATA_GET_OBSERVERS_CAMERA);
+		if (sdata.append(_sequence))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
 	void core_thread::reply_webapi_get_tournament_ids(SOCKET _sock, uint32_t _sequence, const std::string& _json)
 	{
 		send_webapi_data sdata(WEBAPI_LOCALDATA_GET_TOURNAMENT_IDS);
@@ -2468,6 +2480,15 @@ namespace app {
 					// 空だった場合
 					player.id = _player.nucleushash();
 					send_webapi_player_id(INVALID_SOCKET, teamid, squadindex, player.id);
+
+					// オブザーバーだった場合
+					if (teamid == 1)
+					{
+						if (!camera_.contains(player.id))
+						{
+							camera_[player.id] = {2, 0}; // チーム1の1人目を初期値として指定
+						}
+					}
 				}
 			}
 
@@ -2907,7 +2928,6 @@ namespace app {
 		send_webapi_matchsetup_aimassiston(_sock, game_.aimassiston);
 		send_webapi_matchsetup_anonymousmode(_sock, game_.anonymousmode);
 		send_webapi_matchsetup_serverid(_sock, game_.serverid);
-		send_webapi_init_camera(_sock, game_.camera_teamid, game_.camera_squadindex);
 
 		reply_livedata_get_game(_sock, _sequence);
 	}
@@ -2973,6 +2993,31 @@ namespace app {
 		}
 
 		reply_livedata_get_team_players(_sock, _sequence, _teamid);
+	}
+
+	void core_thread::livedata_get_observers_camera(SOCKET _sock, uint32_t _sequence)
+	{
+		if (game_.teams.size() >= 2)
+		{
+			for (size_t i = 0; i < game_.teams[1].players.size(); ++i)
+			{
+				const auto& observer = game_.teams[1].players[i];
+				const auto& hash = observer.id;
+				if (camera_.contains(hash))
+				{
+					const auto tteamid = camera_.at(hash).first;
+					const auto tsquadindex = camera_.at(hash).second;
+					send_webapi_observerswitched(_sock, 1, i, tteamid, tsquadindex, observer_hash_ == hash);
+
+					if (observer_hash_ == hash)
+					{
+						send_webapi_init_camera(_sock, tteamid, tsquadindex);
+					}
+				}
+			}
+		}
+
+		reply_livedata_get_observers_camera(_sock, _sequence);
 	}
 
 	void core_thread::check_game_start()

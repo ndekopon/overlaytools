@@ -214,6 +214,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_LIVEDATA_GET_GAME = 0x60;
   static WEBAPI_LIVEDATA_GET_TEAMS = 0x61;
   static WEBAPI_LIVEDATA_GET_TEAM_PLAYERS = 0x62;
+  static WEBAPI_LIVEDATA_GET_OBSERVERS_CAMERA = 0x63;
 
   static WEBAPI_LOCALDATA_SET_OBSERVER = 0x70;
   static WEBAPI_LOCALDATA_GET_OBSERVER = 0x71;
@@ -902,6 +903,10 @@ export class ApexWebAPI extends EventTarget {
         if (count != 2) return false;
         this.dispatchEvent(new CustomEvent('getteamplayers', {detail: {sequence: data_array[0], team: this.#game.teams[data_array[1]]}}));
         break;
+      case ApexWebAPI.WEBAPI_LIVEDATA_GET_OBSERVERS_CAMERA:
+        if (count != 1) return false;
+        this.dispatchEvent(new CustomEvent('getobserverscamera', {detail: {sequence: data_array[0], observers: this.#game.observers}}));
+        break;
       case ApexWebAPI.WEBAPI_LOCALDATA_SET_OBSERVER:
         if (count != 2) return false;
         this.dispatchEvent(new CustomEvent('setobserver', {detail: {sequence: data_array[0], hash: data_array[1]}}));
@@ -1247,6 +1252,11 @@ export class ApexWebAPI extends EventTarget {
     return this.#sendAndReceiveReply(buffer, "getteamplayers", precheck);
   }
 
+  getObserversCamera() {
+    const buffer = new SendBuffer(ApexWebAPI.WEBAPI_LIVEDATA_GET_OBSERVERS_CAMERA);
+    return this.#sendAndReceiveReply(buffer, "getobserverscamera");
+  }
+
   getAll() {
     return new Promise((resolve, reject) => {
       this.getGame().then(() => {
@@ -1258,7 +1268,9 @@ export class ApexWebAPI extends EventTarget {
             jobs.push(this.getTeamPlayers(i));
           }
           Promise.all(jobs).then(() => {
-            resolve(this.#game);
+            this.getObserversCamera().then(() => {
+              resolve(this.#game);
+            }, reject);
           }, reject);
         }, reject);
       }, reject)
@@ -1461,5 +1473,4 @@ export class ApexWebAPI extends EventTarget {
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_STRING, code, this.#encoder)) precheck = false;
     return this.#sendAndReceiveReply(buffer, "getstatsfromcode", precheck);
   }
-
 }

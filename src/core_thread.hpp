@@ -12,6 +12,9 @@
 
 #include "events/events.pb.h"
 
+#include <utility>
+#include <unordered_map>
+
 namespace app {
 
 	enum : UINT {
@@ -35,6 +38,7 @@ namespace app {
 		http_get_thread http_get_;
 		filedump filedump_;
 		livedata::game game_;
+		std::unordered_map<std::string, std::pair<uint8_t, uint8_t>> camera_;
 		std::string observer_hash_;
 		std::mutex mtx_;
 		std::queue<UINT> messages_;
@@ -133,6 +137,7 @@ namespace app {
 		void reply_livedata_get_game(SOCKET _sock, uint32_t _sequence);
 		void reply_livedata_get_teams(SOCKET _sock, uint32_t _sequence);
 		void reply_livedata_get_team_players(SOCKET _sock, uint32_t _sequence, uint8_t _teamid);
+		void reply_livedata_get_observers_camera(SOCKET _sock, uint32_t _sequence);
 		void reply_webapi_set_observer(SOCKET _sock, uint32_t _sequence, const std::string& _hash);
 		void reply_webapi_get_observer(SOCKET _sock, uint32_t _sequence, const std::string& _hash);
 		void reply_webapi_get_observers(SOCKET _sock, uint32_t _sequence, const std::string& _hash);
@@ -158,6 +163,7 @@ namespace app {
 		void livedata_get_game(SOCKET _sock, uint32_t _sequence);
 		void livedata_get_teams(SOCKET _sock, uint32_t _sequence);
 		void livedata_get_team_players(SOCKET _sock, uint32_t _sequence, uint8_t _teamid);
+		void livedata_get_observers_camera(SOCKET _sock, uint32_t _sequence);
 
 		void check_game_start();
 
