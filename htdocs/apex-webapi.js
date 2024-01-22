@@ -1473,4 +1473,9 @@ export class ApexWebAPI extends EventTarget {
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_STRING, code, this.#encoder)) precheck = false;
     return this.#sendAndReceiveReply(buffer, "getstatsfromcode", precheck);
   }
+
+  isConnected() {
+    return this.#socket.readyState == 1;
+  }
+
 }
