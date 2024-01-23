@@ -1434,7 +1434,14 @@ namespace app {
 				uint8_t squadindex = get_squadindex(p.attacker());
 				if (teamid >= 2)
 				{
-					proc_damage_dealt(teamid, squadindex, p.damageinflicted());
+					if (p.has_victim())
+					{
+						if (teamid != p.victim().teamid() || squadindex != get_squadindex(p.victim()))
+						{
+							// 自分自身からのダメージを除外
+							proc_damage_dealt(teamid, squadindex, p.damageinflicted());
+						}
+					}
 				}
 			}
 			if (p.has_victim())
