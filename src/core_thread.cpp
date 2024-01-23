@@ -3071,6 +3071,7 @@ namespace app {
 		game_.serverid = "";
 		game_.start = get_millis();
 		game_.end = 0;
+		game_.rings.clear();
 	}
 
 
