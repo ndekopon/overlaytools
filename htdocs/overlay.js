@@ -1878,7 +1878,6 @@ export class Overlay {
         });
 
         this.#webapi.addEventListener('renametournamentname', (ev) => {
-            console.log(ev);
             if (ev.detail.result) {
                 // トーナメント設定
                 this.#tournamentname = ev.detail.name;
