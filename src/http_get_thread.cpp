@@ -16,39 +16,30 @@ namespace app {
 
 	bool check_stats_code(const std::string& _stats_code)
 	{
-		// 01234567-89abcdef0123456789abcd
-		if (_stats_code.length() != 31) return false;
-
 		for (size_t i = 0; i < _stats_code.length(); ++i)
 		{
-			if (i == 8)
+			switch (_stats_code.at(i))
 			{
-				if (_stats_code.at(i) != '-') return false;
-			}
-			else
-			{
-				switch (_stats_code.at(i))
-				{
-				case '0':
-				case '1':
-				case '2':
-				case '3':
-				case '4':
-				case '5':
-				case '6':
-				case '7':
-				case '8':
-				case '9':
-				case 'a':
-				case 'b':
-				case 'c':
-				case 'd':
-				case 'e':
-				case 'f':
-					break;
-				default:
-					return false;
-				}
+			case '-':
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+				break;
+			default:
+				return false;
 			}
 		}
 		return true;

@@ -3091,7 +3091,7 @@ export class WebAPIConfig {
 
         document.getElementById('result-fix-from-stats-code-button').addEventListener('click', (ev) => {
             const code = document.getElementById("result-fix-from-stats-code-input").value;
-            if (code.length == 31 && code.match(/^[0-9a-f]{8}-[0-9a-f]{22}$/)) {
+            if (code.match(/^[0-9a-f]+-[0-9a-f]+$/)) {
                 this.#webapi.getStatsFromCode(code);
             }
         });
