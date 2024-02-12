@@ -1,0 +1,23 @@
+.camera-team {
+    position: absolute;
+    right: 324px;
+    top: 92px;
+    height: 32px;
+    width: 96px;
+    box-sizing: border-box;
+    color: white;
+    background-image: url('icon/teamkills.png');
+    padding-left: 10px;
+    padding-right: 10px;
+    display: grid;
+    grid-template-columns: 35px 35px;
+    overflow: hidden;
+    line-height: 34px;
+    text-align: center;
+}
+
+.camera-team > div {
+    line-height: 32px;
+    font-weight: bold;
+    font-size: 18px;
+}

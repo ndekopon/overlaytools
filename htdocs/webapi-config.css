@@ -573,13 +573,13 @@ body {
 }
 
 /* Test */
-#test {
+#test > div {
     line-height: 1.5em;
     display: grid;
     gap: 10px;
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
-#test > div {
+#test > div > div {
     padding: 10px;
     border: 1px solid #000;
 }

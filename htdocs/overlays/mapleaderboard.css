@@ -1,0 +1,178 @@
+
+/* MapLeaderBoard */
+.teams {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    -webkit-mask-image: url(img/map-leaderboard-mask.png);
+    mask-image: url(img/map-leaderboard-mask.png);
+    color: #FFF;
+    box-sizing: border-box;
+    padding: 120px 30px 60px 30px; /* 上 | 右 | 下 | 左 */
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: calc(452px - 30px * 2) calc(452px - 30px * 2);
+    justify-content: space-between;
+    grid-template-rows: repeat(10, auto); /* 30チームの場合は15 */
+}
+
+.teams > div {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 43px 35px 7fr 1fr;
+    height: 41px;
+    line-height: 39px;
+    font-size: 120%;
+    font-weight: 500;
+}
+
+/* 未参加チーム */
+:where(.teams) > div:not(.team-exists) > .team-total-rank {
+    color: #666666;
+    background-color: transparent;
+}
+
+:where(.teams) > div:not(.team-exists) {
+    color: #666666;
+    border-bottom: none;
+}
+
+/* 排除済みチーム */
+.team-squad-eliminate .team-total-rank {
+    color: #666666;
+    background-color: transparent;
+}
+
+.team-squad-eliminate {
+    color: #666666;
+    border-bottom: none;
+}
+
+.team-total-rank, .team-total-points {
+    text-align: center;
+}
+
+.changed {
+    animation: 0.3s changed-animation forwards;
+}
+
+@keyframes changed-animation {
+    from {
+        background-color: rgb(255, 255, 255);
+        border-bottom: 3px solid rgb(255, 255, 255);
+    }
+}
+
+/* team color */
+:where([data-team-id="1"]) .team-rank { background-color: #05788b; }
+:where([data-team-id="1"]) { border-bottom: 3px solid #05788b; }
+:where([data-team-id="2"]) .team-rank { background-color: #163d5e; }
+:where([data-team-id="2"]) { border-bottom: 3px solid #163d5e; }
+:where([data-team-id="3"]) .team-rank { background-color: #194ac7; }
+:where([data-team-id="3"]) { border-bottom: 3px solid #194ac7; }
+:where([data-team-id="4"]) .team-rank { background-color: #3a2355; }
+:where([data-team-id="4"]) { border-bottom: 3px solid #3a2355; }
+:where([data-team-id="5"]) .team-rank { background-color: #642564; }
+:where([data-team-id="5"]) { border-bottom: 3px solid #632464; }
+:where([data-team-id="6"]) .team-rank { background-color: #a5256c; }
+:where([data-team-id="6"]) { border-bottom: 3px solid #a5256c; }
+:where([data-team-id="7"]) .team-rank { background-color: #a81647; }
+:where([data-team-id="7"]) { border-bottom: 3px solid #a81647; }
+:where([data-team-id="8"]) .team-rank { background-color: #bd0008; }
+:where([data-team-id="8"]) { border-bottom: 3px solid #bd0008; }
+:where([data-team-id="9"]) .team-rank { background-color: #bf391a; }
+:where([data-team-id="9"]) { border-bottom: 3px solid #bf391a; }
+:where([data-team-id="10"]) .team-rank { background-color: #6d180f; }
+:where([data-team-id="10"]) { border-bottom: 3px solid #6d180f; }
+:where([data-team-id="11"]) .team-rank { background-color: #96320a; }
+:where([data-team-id="11"]) { border-bottom: 3px solid #96320a; }
+:where([data-team-id="12"]) .team-rank { background-color: #6c4100; }
+:where([data-team-id="12"]) { border-bottom: 3px solid #6c4100; }
+:where([data-team-id="13"]) .team-rank { background-color: #c66e0f; }
+:where([data-team-id="13"]) { border-bottom: 3px solid #c66e0f; }
+:where([data-team-id="14"]) .team-rank { background-color: #8c7200; }
+:where([data-team-id="14"]) { border-bottom: 3px solid #8c7200; }
+:where([data-team-id="15"]) .team-rank { background-color: #7b8908; }
+:where([data-team-id="15"]) { border-bottom: 3px solid #7b8908; }
+:where([data-team-id="16"]) .team-rank { background-color: #3f4d02; }
+:where([data-team-id="16"]) { border-bottom: 3px solid #3f4d02; }
+:where([data-team-id="17"]) .team-rank { background-color: #658d39; }
+:where([data-team-id="17"]) { border-bottom: 3px solid #658d39; }
+:where([data-team-id="18"]) .team-rank { background-color: #307f2c; }
+:where([data-team-id="18"]) { border-bottom: 3px solid #307f2c; }
+:where([data-team-id="19"]) .team-rank { background-color: #274f15; }
+:where([data-team-id="19"]) { border-bottom: 3px solid #274f15; }
+:where([data-team-id="20"]) .team-rank { background-color: #00694d; }
+:where([data-team-id="20"]) { border-bottom: 3px solid #00694d; }
+:where([data-team-id="21"]) .team-rank { background-color: #632901; }
+:where([data-team-id="21"]) { border-bottom: 3px solid #632901; }
+:where([data-team-id="22"]) .team-rank { background-color: #084d5f; }
+:where([data-team-id="22"]) { border-bottom: 3px solid #084d5f; }
+:where([data-team-id="23"]) .team-rank { background-color: #05788b; }
+:where([data-team-id="23"]) { border-bottom: 3px solid #05788b; }
+:where([data-team-id="24"]) .team-rank { background-color: #163d5e; }
+:where([data-team-id="24"]) { border-bottom: 3px solid #163d5e; }
+:where([data-team-id="25"]) .team-rank { background-color: #194ac7; }
+:where([data-team-id="25"]) { border-bottom: 3px solid #194ac7; }
+:where([data-team-id="26"]) .team-rank { background-color: #3a2355; }
+:where([data-team-id="26"]) { border-bottom: 3px solid #3a2355; }
+:where([data-team-id="27"]) .team-rank { background-color: #632464; }
+:where([data-team-id="27"]) { border-bottom: 3px solid #632464; }
+:where([data-team-id="28"]) .team-rank { background-color: #a5256c; }
+:where([data-team-id="28"]) { border-bottom: 3px solid #a5256c; }
+:where([data-team-id="29"]) .team-rank { background-color: #a81647; }
+:where([data-team-id="29"]) { border-bottom: 3px solid #a81647; }
+:where([data-team-id="30"]) .team-rank { background-color: #bd0008; }
+:where([data-team-id="30"]) { border-bottom: 3px solid #bd0008; }
+
+.team-alives {
+    width: 100%;
+    height: 100%;
+}
+
+.team-name {
+    box-sizing: border-box;
+    overflow: clip;
+}
+.team-total-points {
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.team-squad-eliminate {
+    opacity: 0.3;
+}
+.teamplayers {
+    box-sizing: border-box;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.teamplayer-state {
+    width: 100%;
+    height: 100%;
+}
+.team-squad-eliminate .teamplayer-state[data-teamplayer-state] {
+    background-color: transparent;
+}
+
+.teamplayer-state[data-teamplayer-state="0"] {
+    background-color: #FFF;
+}
+
+.teamplayer-state[data-teamplayer-state="1"] {
+    background-color: rgb(213, 25, 26);
+}
+
+.teamplayer-state[data-teamplayer-state="3"] {
+    background-color: rgb(109, 198, 24);
+}

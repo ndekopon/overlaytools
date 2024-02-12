@@ -1,0 +1,32 @@
+:host > div {
+    --errorstatus-width: 500px;
+    --errorstatus-height: 200px;
+    position: fixed;
+    top: calc(50% - var(--errorstatus-height) / 2);
+    left: calc(50% - var(--errorstatus-width) / 2);
+    width: var(--errorstatus-width);
+    height: var(--errorstatus-height);
+}
+
+:host > div > div {
+    border: 3px solid #F00;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    background-color: #FFF;
+    display: none;
+}
+
+:host > div > div[data-liveapi-connection-count="0"] {
+    display: block;
+}
+
+:host > div > div[data-webapi-connection-status="close"] {
+    display: block;
+}
+
+:host > div > div[data-webapi-connection-status="error"] {
+    display: block;
+}

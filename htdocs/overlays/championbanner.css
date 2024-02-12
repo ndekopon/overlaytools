@@ -1,0 +1,45 @@
+.fadeinout {
+    --championbanner-top: 352px;
+    --championbanner-width: 600px;
+    --championbanner-height: 56px;
+    --championbanner-color: rgb(255, 255, 255);
+    --championbanner-bgcolor: rgba(0, 0, 0, 0.90);
+    position: absolute;
+    top: var(--championbanner-top);
+    left: calc(50% - var(--championbanner-width) / 2 - 40px);
+    width: var(--championbanner-width);
+    height: var(--championbanner-height);
+    color: var(--championbanner-color);
+    background-color: var(--championbanner-bgcolor);
+}
+
+.winner-team-name {
+    line-height: var(--championbanner-height);
+    font-size: 200%;
+    font-weight: bold;
+    text-align: center;
+}
+.fadeinout-target:not(.fadeinout) {
+    position: absolute;
+    top: -1080px;
+    left: -1920px;
+}
+
+.fadeinout {
+    animation: 8s fadeinout-animation forwards;
+}
+
+@keyframes fadeinout-animation {
+    from {
+        opacity: 0.0;
+    }
+    3.75% {
+        opacity: 1.0;
+    }
+    98.25% {
+        opacity: 1.0;
+    }
+    to {
+        opacity: 0.0;
+    }
+}

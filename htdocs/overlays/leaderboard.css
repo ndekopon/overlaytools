@@ -1,0 +1,134 @@
+:host {
+    --main-theme-border-color: #B03039;
+    --leaderboard-left: 500px;
+    --leaderboard-height: 37px;
+    --leaderboard-color: rgb(255, 255, 255);
+    --leaderboard-bgcolor: rgb(20, 20, 20);
+}
+
+/* LeaderBoard */
+.teams {
+    position: absolute;
+    left: var(--leaderboard-left);
+    top: 0;
+    width: calc(1920px - var(--leaderboard-left));
+    height: var(--leaderboard-height);
+    box-sizing: border-box;
+    background-color: var(--leaderboard-bgcolor);
+    color: var(--leaderboard-color);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    overflow: clip;
+}
+
+.teams > div {
+    box-sizing: border-box;
+    display: grid;
+    width: 100%;
+    height: var(--leaderboard-height);
+    border-left: 2px solid var(--main-theme-border-color);
+    grid-template-columns: 40px 35px 1fr 40px;
+    padding-right: 20px;
+}
+
+.teams > div.hide {
+    position: absolute;
+    left: -1920px;
+    top: -1080px;
+}
+
+.teams > div:not(.team-exists) {
+    opacity: 0.3;
+}
+
+.teams > div > div {
+    font-size: 120%;
+    font-weight: 500;
+    height: var(--leaderboard-height);
+    line-height: var(--leaderboard-height);
+}
+
+.team-total-rank-frame {
+    text-align: center;
+}
+
+.team-alives {
+    width: 100%;
+    height: 100%;
+}
+
+.team-name {
+    box-sizing: border-box;
+    overflow: clip;
+}
+.team-total-points {
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.team-squad-eliminate {
+    opacity: 0.3;
+}
+.teamplayers {
+    box-sizing: border-box;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.teamplayer-state {
+    width: 100%;
+    height: 100%;
+}
+.team-squad-eliminate .teamplayer-state[data-teamplayer-state] {
+    background-color: transparent;
+}
+
+.teamplayer-state[data-teamplayer-state="0"] {
+    background-color: #FFF;
+}
+
+.teamplayer-state[data-teamplayer-state="1"] {
+    background-color: rgb(213, 25, 26);
+}
+
+.teamplayer-state[data-teamplayer-state="3"] {
+    background-color: rgb(109, 198, 24);
+}
+
+.fadein {
+    animation: 0.3s fadein-animation forwards;
+}
+
+.fadeout {
+    animation: 0.3s fadeout-animation forwards;
+}
+
+.changed {
+    animation: 0.3s changed-animation forwards;
+}
+
+@keyframes fadein-animation {
+    from {
+        opacity: 0.0;
+        transform: translateY(50%);
+    }
+}
+
+@keyframes fadeout-animation {
+    to {
+        opacity: 0.0;
+        transform: translateY(-50%);
+    }
+}
+
+@keyframes changed-animation {
+    from {
+        background-color: rgb(255, 255, 255);
+    }
+}

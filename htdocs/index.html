@@ -561,58 +561,6 @@
             <span class="ja">チーム・プレイヤー関連情報強制非表示</span>
         </label>
     </p>
-    <h4>
-        <span class="en">match result</span>
-        <span class="ja">マッチリザルト</span>
-    </h4>
-    <p>
-        <label>
-            <input type="radio" id="overlay-show-all-results" name="overlay-result-radio" value="all" checked />
-            <span class="en">ALL</span>
-            <span class="ja">総合</span>
-        </label>
-        <br />
-        <label>
-            <input type="radio" id="overlay-show-one-result" name="overlay-result-radio" value="one" />
-            <span class="en">GAMEID:</span>
-            <span class="ja">マッチID:</span>
-            <input type="number" id="overlay-show-one-result-number" min="0" value="0" />
-            <span class="en">(Game1 → 0)</span>
-            <span class="ja">(マッチ1 → 0)</span>
-        </label>
-        <br />
-        <span class="en">Sort By:</span>
-        <span class="ja">並び替え:</span>
-        <select id="overlay-show-sortkey" value="kills">
-            <option>
-                kills
-            </option>
-            <option>
-                assists
-            </option>
-            <option>
-                damage
-            </option>
-        </select>
-    </p>
-    <p>
-        <button id="overlay-show-matchresult">
-            <span class="en">show match result</span>
-            <span class="ja">マッチリザルト表示</span>
-        </button>
-    </p>
-    <p>
-        <button id="overlay-show-playerleaderboard">
-            <span class="en">show player leaderboard</span>
-            <span class="ja">プレイヤー戦績表示</span>
-        </button>
-    </p>
-    <p>
-        <button id="overlay-hide-matchresult">
-            <span class="en">hide match result / player leaderboard</span>
-            <span class="ja">マッチリザルト＆プレイヤー戦績非表示</span>
-        </button>
-    </p>
 </div>
 
 <div id="announce" class="hide">
@@ -710,255 +658,277 @@
 </div>
 
 <div id="test" class="hide">
+    <h3>
+        <span class="en">Overlay Test</span>
+        <span class="ja">オーバーレイテスト</span>
+    </h3>
     <div>
-        <h3>
-            <span class="en">Leaderboard</span>
-            <span class="ja">リーダーボード</span>
-        </h3>
-        <button id="test-show-leaderboard">
-            <span class="en">Show</span>
-            <span class="ja">表示</span>
-        </button>
-    </div>
-    <div>
-        <h3>
-            <span class="en">MapLeaderboard</span>
-            <span class="ja">マップリーダーボード</span>
-        </h3>
-        <button id="test-show-mapleaderboard">
-            <span class="en">Show</span>
-            <span class="ja">表示</span>
-        </button>
-    </div>
-    <div>
-        <h3>
-            <span class="en">TeamBanner</span>
-            <span class="ja">チームバナー</span>
-        </h3>
         <div>
-            <span class="en">TeamID:</span>
-            <span class="ja">チームID:</span>
-            <input type="number" min="0" max="29" id="test-teambanner-teamid" placeholder="0-29" value="0" /><br />
+            <h3>
+                <span class="en">GameState</span>
+                <span class="ja">ゲーム状態</span>
+            </h3>
+            <button id="test-change-gamestate">
+                <span class="en">next state</span>
+                <span class="ja">次の状態へ遷移</span>
+            </button>
+            <div>
+                <span class="en">state: </span>
+                <span class="ja">状態: </span>
+                <span id="test-gamestate-current"></span></div>
+        </div>
+        <div>
+            <h3>
+                <span class="en">TeamBanner</span>
+                <span class="ja">チームバナー</span>
+            </h3>
             <button id="test-show-teambanner">
-                <span class="en">Show</span>
-                <span class="ja">表示</span>
+                <span class="en">Show/Hide</span>
+                <span class="ja">表示/非表示</span>
             </button>
         </div>
-    </div>
-    <div>
-        <h3>
-            <span class="en">PlayerBanner</span>
-            <span class="ja">プレーヤーバナー</span>
-        </h3>
         <div>
-            <span class="en">Player Name:</span>
-            <span class="ja">プレイヤー名:</span>
-            <input type="text" id="test-playerbanner-name" value="" /><br />
-            <button id="test-show-playerbanner">
-                <span class="en">Show</span>
-                <span class="ja">表示</span>
+            <h3>
+                <span class="en">MapLeaderboard</span>
+                <span class="ja">マップリーダーボード</span>
+            </h3>
+            <button id="test-show-mapleaderboard">
+                <span class="en">Show/Hide</span>
+                <span class="ja">表示/非表示</span>
             </button>
         </div>
-    </div>
-    <div>
-        <h3>
-            <span class="en">TeamKills</span>
-            <span class="ja">チームキル数</span>
-        </h3>
         <div>
-            <span class="en">Kills:</span>
-            <span class="ja">キル数:</span>
-            <input type="number" min="0" id="test-teamkills-kills" placeholder="0-" value="0" /><br />
-            <button id="test-show-teamkills">
-                <span class="en">Show</span>
-                <span class="ja">表示</span>
-            </button>
+            <h3>
+                <span class="en">Camera</span>
+                <span class="ja">カメラ</span>
+            </h3>
+            <div>
+                <span class="en">TeamID:</span>
+                <span class="ja">チームID:</span>
+                <input type="number" min="1" max="30" id="test-teambanner-teamid" placeholder="1-30" value="1" disabled /><br />
+                <button id="test-show-camera-down">◀</button>
+                <button id="test-show-camera-up">▶</button>
+            </div>
         </div>
-    </div>
-    <div>
-        <h3>
-            <span class="en">OwnedItems</span>
-            <span class="ja">所持アイテム</span>
-        </h3>
         <div>
-            <span class="en">BackPack:</span>
-            <span class="ja">バックパック</span>
-            
-            <select id="test-owneditems-backpack">
-                <option value="0">
-                    none
-                </option>
-                <option value="1">
-                    White (level 1)
-                </option>
-                <option value="2">
-                    Blue (level 2)
-                </option>
-                <option value="3">
-                    Purple (level 3)
-                </option>
-                <option value="4">
-                    Gold (level 4)
-                </option>
-            </select>
-            <br />
-            <span class="en">KnockdownShield:</span>
-            <span class="ja">ノックダウンシールド:</span>
-            
-            <select id="test-owneditems-knockdownshield">
-                <option value="0">
-                    none
-                </option>
-                <option value="1">
-                    White (level 1)
-                </option>
-                <option value="2">
-                    Blue (level 2)
-                </option>
-                <option value="3">
-                    Purple (level 3)
-                </option>
-                <option value="4">
-                    Gold (level 4)
-                </option>
-            </select>
-            <br />
-            <span class="en">Syringe:</span>
-            <span class="ja">注射器:</span>
-            <input type="number" min="0" max=30 id="test-owneditems-syringe" placeholder="0-30" value="0" />
-            <br />
-            <span class="en">MedKit:</span>
-            <span class="ja">医療キット:</span>
-            <input type="number" min="0" max=30 id="test-owneditems-medkit" placeholder="0-30" value="0" />
-            <br />
-            <span class="en">ShieldCell:</span>
-            <span class="ja">シールドセル:</span>
-            <input type="number" min="0" max=30 id="test-owneditems-shieldcell" placeholder="0-30" value="0" />
-            <br />
-            <span class="en">ShieldBattery:</span>
-            <span class="ja">シールドバッテリー:</span>
-            <input type="number" min="0" max=30 id="test-owneditems-shieldbattery" placeholder="0-30" value="0" />
-            <br />
-            <span class="en">PhoenixKit:</span>
-            <span class="ja">フェニックスキット:</span>
-            <input type="number" min="0" max=30 id="test-owneditems-phoenixkit" placeholder="0-30" value="0" />
-            <br />
-            <span class="en">UltimateAccelerant:</span>
-            <span class="ja">アルティメット促進剤</span>
-            <input type="number" min="0" max=30 id="test-owneditems-ultimateaccelerant" placeholder="0-30" value="0" />
-            <br />
-            <span class="en">ThermitGrenade:</span>
-            <span class="ja">テルミットグレネード:</span>
-            <input type="number" min="0" max=30 id="test-owneditems-thermitgrenade" placeholder="0-30" value="0" />
-            <br />
-            <span class="en">FragGrenade:</span>
-            <span class="ja">フラググレネード:</span>
-            <input type="number" min="0" max=30 id="test-owneditems-fraggrenade" placeholder="0-30" value="0" />
-            <br />
-            <span class="en">ArcStar:</span>
-            <span class="ja">アークスター:</span>
-            <input type="number" min="0" max=30 id="test-owneditems-arcstar" placeholder="0-30" value="0" />
-            <br />
-            <button id="test-show-owneditems">
-                <span class="en">Show</span>
-                <span class="ja">表示</span>
-            </button>
+            <h3>
+                <span class="en">PlayerBanner</span>
+                <span class="ja">プレーヤーバナー</span>
+            </h3>
+            <div>
+                <span class="en">Player Name:</span>
+                <span class="ja">プレイヤー名:</span>
+                <input type="text" id="test-playerbanner-name" value="" /><br />
+                <button id="test-show-playerbanner">
+                    <span class="en">Show</span>
+                    <span class="ja">表示</span>
+                </button>
+            </div>
         </div>
-    </div>
-    <div>
-        <h3>
-            <span class="en">GameInfo</span>
-            <span class="ja">ゲーム情報</span>
-        </h3>
         <div>
-            <span class="en">GameID:</span>
-            <span class="ja">マッチID:</span>
-            <input type="number" min="0" id="test-gameinfo-gameid" placeholder="0-" value="0" />
-            <br />
-            <button id="test-show-gameinfo">
-                <span class="en">Show</span>
-                <span class="ja">表示</span>
-            </button>
+            <h3>
+                <span class="en">TeamKills</span>
+                <span class="ja">チームキル数</span>
+            </h3>
+            <div>
+                <span class="en">Kills:</span>
+                <span class="ja">キル数:</span>
+                <input type="number" min="0" id="test-teamkills-kills" placeholder="0-" value="0" disabled /><br />
+                <button id="test-show-teamkills-down">◀</button>
+                <button id="test-show-teamkills-up">▶</button>
+            </div>
         </div>
-    </div>
-    <div>
-        <h3>
-            <span class="en">SquadEliminated</span>
-            <span class="ja">チーム排除情報</span>
-        </h3>
         <div>
-            <span class="en">TeamID:</span>
-            <span class="ja">チームID:</span>
-            <input type="number" min="0" max="29" id="test-squadeliminated-teamid" placeholder="0-29" value="0" />
-            <br />
-            <button id="test-show-squadeliminated">
-                <span class="en">Show</span>
-                <span class="ja">表示</span>
-            </button>
-        </div>
-    </div>
-    <div>
-        <h3>
-            <span class="en">ChampionBanner</span>
-            <span class="ja">チャンピオンバナー</span>
-        </h3>
-        <div>
-            <span class="en">TeamID:</span>
-            <span class="ja">チームID:</span>
-            <input type="number" min="0" max="29" id="test-championbanner-teamid" placeholder="0-29" value="0" />
-            <br />
-            <button id="test-show-championbanner">
-                <span class="en">Show</span>
-                <span class="ja">表示</span>
-            </button>
-        </div>
-    </div>
-    <div>
-        <h3>
-            <span class="en">Hide</span>
-            <span class="ja">非表示</span>
-            
-        </h3>
-        <button id="test-hideall">
-            <span class="en">Hide All</span>
-            <span class="ja">全て非表示にする</span>
-        </button>
-    </div>
-    <div>
-        <h3>
-            <span class="en">Set In-Game TeamName</span>
-            <span class="ja">ゲーム内チーム名</span>
-        </h3>
-        <div>
-            <span class="en">TeamID:</span>
-            <span class="ja">チームID:</span>
-            <input type="number" min="0" max="29" id="test-setteamname-teamid" placeholder="0-29" value="0" />
-            <br />
-            <span class="en">TeamName:</span>
-            <span class="ja">チーム名:</span>
-            <input type="text" id="test-setteamname-teamname" value="" />
-            <br />
-            <button id="test-setteamname">
-                <span class="en">Set</span>
-                <span class="ja">設定</span>
-            </button>
-        </div>
-    </div>
-    <div>
-        <h3>
-            <span class="en">Game Pause Toggle</span>
-            <span class="ja">ゲーム進行・停止切替</span>
-        </h3>
-        <div>
-            <span class="en">PreTimer:</span>
-            <span class="ja">切替までの時間(秒):</span>
-            <input type="number" min="0.1" max="9.9" id="test-pausetoggle-pretimer" placeholder="0.1-9.9" value="0.1" step="0.1" />
-            <br />
-            <button id="test-pausetoggle">
-                <span class="en">Set</span>
-                <span class="ja">設定</span>
+            <h3>
+                <span class="en">OwnedItems</span>
+                <span class="ja">所持アイテム</span>
+            </h3>
+            <div>
+                <span class="en">BackPack:</span>
+                <span class="ja">バックパック</span>
                 
+                <select id="test-owneditems-backpack">
+                    <option value="0">
+                        none
+                    </option>
+                    <option value="1">
+                        White (level 1)
+                    </option>
+                    <option value="2">
+                        Blue (level 2)
+                    </option>
+                    <option value="3">
+                        Purple (level 3)
+                    </option>
+                    <option value="4">
+                        Gold (level 4)
+                    </option>
+                </select>
+                <br />
+                <span class="en">KnockdownShield:</span>
+                <span class="ja">ノックダウンシールド:</span>
+                
+                <select id="test-owneditems-knockdownshield">
+                    <option value="0">
+                        none
+                    </option>
+                    <option value="1">
+                        White (level 1)
+                    </option>
+                    <option value="2">
+                        Blue (level 2)
+                    </option>
+                    <option value="3">
+                        Purple (level 3)
+                    </option>
+                    <option value="4">
+                        Gold (level 4)
+                    </option>
+                </select>
+                <br />
+                <span class="en">Syringe:</span>
+                <span class="ja">注射器:</span>
+                <input type="number" min="0" max=30 id="test-owneditems-syringe" placeholder="0-30" value="0" />
+                <br />
+                <span class="en">MedKit:</span>
+                <span class="ja">医療キット:</span>
+                <input type="number" min="0" max=30 id="test-owneditems-medkit" placeholder="0-30" value="0" />
+                <br />
+                <span class="en">ShieldCell:</span>
+                <span class="ja">シールドセル:</span>
+                <input type="number" min="0" max=30 id="test-owneditems-shieldcell" placeholder="0-30" value="0" />
+                <br />
+                <span class="en">ShieldBattery:</span>
+                <span class="ja">シールドバッテリー:</span>
+                <input type="number" min="0" max=30 id="test-owneditems-shieldbattery" placeholder="0-30" value="0" />
+                <br />
+                <span class="en">PhoenixKit:</span>
+                <span class="ja">フェニックスキット:</span>
+                <input type="number" min="0" max=30 id="test-owneditems-phoenixkit" placeholder="0-30" value="0" />
+                <br />
+                <span class="en">UltimateAccelerant:</span>
+                <span class="ja">アルティメット促進剤</span>
+                <input type="number" min="0" max=30 id="test-owneditems-ultimateaccelerant" placeholder="0-30" value="0" />
+                <br />
+                <span class="en">ThermitGrenade:</span>
+                <span class="ja">テルミットグレネード:</span>
+                <input type="number" min="0" max=30 id="test-owneditems-thermitgrenade" placeholder="0-30" value="0" />
+                <br />
+                <span class="en">FragGrenade:</span>
+                <span class="ja">フラググレネード:</span>
+                <input type="number" min="0" max=30 id="test-owneditems-fraggrenade" placeholder="0-30" value="0" />
+                <br />
+                <span class="en">ArcStar:</span>
+                <span class="ja">アークスター:</span>
+                <input type="number" min="0" max=30 id="test-owneditems-arcstar" placeholder="0-30" value="0" />
+                <br />
+                <button id="test-show-owneditems">
+                    <span class="en">Show</span>
+                    <span class="ja">表示</span>
+                </button>
+            </div>
+        </div>
+        <div>
+            <h3>
+                <span class="en">GameCount</span>
+                <span class="ja">ゲーム数</span>
+            </h3>
+            <div>
+                <span class="en">Count:</span>
+                <span class="ja">カウント:</span>
+                <input type="number" min="1" id="test-gamecount" placeholder="1-" value="1" disabled />
+                <br />
+                <button id="test-show-gamecount-down">◀</button>
+                <button id="test-show-gamecount-up">▶</button>
+            </div>
+        </div>
+        <div>
+            <h3>
+                <span class="en">SquadEliminated</span>
+                <span class="ja">チーム排除情報</span>
+            </h3>
+            <div>
+                <span class="en">TeamID:</span>
+                <span class="ja">チームID:</span>
+                <input type="number" min="1" max="30" id="test-squadeliminated-teamid" placeholder="1-30" value="1" />
+                <br />
+                <button id="test-show-squadeliminated">
+                    <span class="en">Show</span>
+                    <span class="ja">表示</span>
+                </button>
+            </div>
+        </div>
+        <div>
+            <h3>
+                <span class="en">WinnerDetermine</span>
+                <span class="ja">勝者確定</span>
+            </h3>
+            <div>
+                <span class="en">TeamID:</span>
+                <span class="ja">チームID:</span>
+                <input type="number" min="1" max="30" id="test-winnerdetermine-teamid" placeholder="1-30" value="1" />
+                <br />
+                <button id="test-show-winnerdetermine">
+                    <span class="en">Show</span>
+                    <span class="ja">表示</span>
+                </button>
+                <button id="test-show-winnerdetermine-reset">
+                    <span class="en">Reset</span>
+                    <span class="ja">リセット</span>
+                </button>
+            </div>
+        </div>
+        <div>
+            <h3>
+                <span class="en">Overlay Reload</span>
+                <span class="ja">オーバーレイ 再読み込み</span>
+            </h3>
+            <button id="test-reload">
+                <span class="en">Reload</span>
+                <span class="ja">再読み込み</span>
             </button>
+        </div>
+    </div>
+    <h3>
+        <span class="en">In-Game Function Test</span>
+        <span class="ja">ゲーム内機能テスト</span>
+    </h3>
+    <div>
+        <div>
+            <h3>
+                <span class="en">Set In-Game TeamName</span>
+                <span class="ja">ゲーム内チーム名</span>
+            </h3>
+            <div>
+                <span class="en">TeamID:</span>
+                <span class="ja">チームID:</span>
+                <input type="number" min="0" max="29" id="test-setteamname-teamid" placeholder="0-29" value="0" />
+                <br />
+                <span class="en">TeamName:</span>
+                <span class="ja">チーム名:</span>
+                <input type="text" id="test-setteamname-teamname" value="" />
+                <br />
+                <button id="test-setteamname">
+                    <span class="en">Set</span>
+                    <span class="ja">設定</span>
+                </button>
+            </div>
+        </div>
+        <div>
+            <h3>
+                <span class="en">Game Pause Toggle</span>
+                <span class="ja">ゲーム進行・停止切替</span>
+            </h3>
+            <div>
+                <span class="en">PreTimer:</span>
+                <span class="ja">切替までの時間(秒):</span>
+                <input type="number" min="0.1" max="9.9" id="test-pausetoggle-pretimer" placeholder="0.1-9.9" value="0.1" step="0.1" />
+                <br />
+                <button id="test-pausetoggle">
+                    <span class="en">Set</span>
+                    <span class="ja">設定</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>

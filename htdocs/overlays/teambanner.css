@@ -1,0 +1,42 @@
+:host {
+    --teambanner-height: 48px;
+}
+
+.camera-team {
+    position: absolute;
+    left: 34px;
+    /* top: 715px; */
+    width: 350px;
+    bottom: calc(1080px - 769px);
+    height: var(--teambanner-height);
+    box-sizing: border-box;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+canvas.camera-team-name {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.camera-team > div {
+    line-height: var(--teambanner-height);
+}
+
+.camera-team-rank-frame {
+    padding-left: 30px;
+    height: 100%;
+    text-align: left;
+}
+
+.camera-team-total-points {
+    height: 100%;
+    text-align: right;
+    margin-right: 35px;
+}

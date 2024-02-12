@@ -1,0 +1,161 @@
+:host {
+    --owneditems-icon-size: 48px;
+    --owneditems-bgcolor: rgba(0, 0, 0, 0.5);
+    --owneditems-color: rgb(255, 255, 255);
+    --owneditems-blue-bgcolor: rgba(34, 181, 230, 0.5);
+    --owneditems-purple-bgcolor: rgba(181, 34, 230, 0.5);
+    --owneditems-gold-bgcolor: rgba(230, 178, 23, 0.5);
+    --owneditems-textshadowcolor: rgb(0, 0, 0);
+}
+:host > div {
+    position: absolute;
+    top: 500px;
+    right: 20px;
+    width: calc(var(--owneditems-icon-size) * 6);
+    height: calc(var(--owneditems-icon-size) * 3);
+}
+
+:host > div > div {
+    display: flex;
+    justify-content: end;
+    height: var(--owneditems-icon-size);
+}
+
+/* item frame */
+.frame {
+    box-sizing: border-box;
+    width: var(--owneditems-icon-size);
+    height: var(--owneditems-icon-size);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url('icon/frame-white.png');
+    background-size: 100%;
+}
+
+.image {
+    box-sizing: border-box;
+    width: var(--owneditems-icon-size);
+    height: var(--owneditems-icon-size);
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+
+/* number */
+.count {
+    font-size: 80%;
+    font-weight: bold;
+    color: var(--owneditems-color);
+    text-shadow: var(--owneditems-textshadowcolor)  1px 1px 0, var(--owneditems-textshadowcolor) -1px -1px 0,
+                 var(--owneditems-textshadowcolor) -1px 1px 0, var(--owneditems-textshadowcolor)  1px -1px 0,
+                 var(--owneditems-textshadowcolor)  0px 1px 0, var(--owneditems-textshadowcolor)  0px -1px 0,
+                 var(--owneditems-textshadowcolor) -1px 0px 0, var(--owneditems-textshadowcolor)  1px  0px 0;
+    vertical-align: bottom;
+    padding-right: 3px;
+    padding-bottom: 2px;
+}
+
+
+.syringe {
+    background-image: url('icon/syringe.png');
+    background-size: 90%;
+}
+
+.medkit {
+    background-image: url('icon/medkit.png');
+    background-size: 70%;
+}
+
+.shieldcell {
+    background-image: url('icon/shieldcell.png');
+    background-size: 45%;
+}
+
+.shieldbattery {
+    background-image: url('icon/shieldbattery.png');
+    background-size: 40%;
+}
+
+.phoenixkit {
+    background-image: url('icon/phoenixkit.png');
+    background-size: 40%;
+}
+
+.ultimateaccelerant {
+    background-image: url('icon/ultimateaccelerant.png');
+    background-size: 60%;
+}
+
+.thermitgrenade {
+    background-image: url('icon/thermitgrenade.png');
+    background-size: 60%;
+}
+
+.fraggrenade {
+    background-image: url('icon/fraggrenade.png');
+    background-size: 60%;
+}
+
+.arcstar {
+    background-image: url('icon/arcstar.png');
+    background-size: 60%;
+}
+
+.backpack[data-camera-player-item-backpack="1"] {
+    background-image: url('icon/backpack1.png');
+    background-size: 45%;
+}
+.backpack[data-camera-player-item-backpack="2"] {
+    background-image: url('icon/backpack2.png');
+    background-size: 55%;
+}
+.backpack[data-camera-player-item-backpack="3"] {
+    background-image: url('icon/backpack3.png');
+    background-size: 60%;
+}
+
+.backpack[data-camera-player-item-backpack="4"] {
+    background-image: url('icon/backpack3.png');
+    background-size: 60%;
+}
+
+.knockdownshield[data-camera-player-item-knockdownshield="1"],
+.knockdownshield[data-camera-player-item-knockdownshield="2"],
+.knockdownshield[data-camera-player-item-knockdownshield="3"],
+.knockdownshield[data-camera-player-item-knockdownshield="4"] {
+    background-image: url('icon/knockdownshield.png');
+    background-size: 60%;
+}
+
+.frame[data-camera-player-item-backpack="2"],
+.frame[data-camera-player-item-knockdownshield="2"] {
+    background-image: url('icon/frame-blue.png');
+}
+
+.frame[data-camera-player-item-backpack="3"],
+.frame[data-camera-player-item-knockdownshield="3"] {
+    background-image: url('icon/frame-purple.png');
+}
+
+.frame[data-camera-player-item-backpack="4"],
+.frame[data-camera-player-item-knockdownshield="4"] {
+    background-image: url('icon/frame-gold.png');
+}
+
+
+[data-camera-player-item-syringe="0"],
+[data-camera-player-item-medkit="0"],
+[data-camera-player-item-shieldcell="0"],
+[data-camera-player-item-shieldbattery="0"],
+[data-camera-player-item-phoenixkit="0"],
+[data-camera-player-item-ultimateaccelerant="0"],
+[data-camera-player-item-thermitgrenade="0"],
+[data-camera-player-item-fraggrenade="0"],
+[data-camera-player-item-arcstar="0"],
+[data-camera-player-item-backpack="0"],
+[data-camera-player-item-knockdownshield="0"]
+{
+    opacity: 0%;
+}

@@ -1,0 +1,22 @@
+.camera-player {
+    --banner-bgcolor: rgb(0, 0, 0);
+    --banner-color: rgb(255, 255, 255);
+
+    position: absolute;
+    left: 157px;
+    top: 956px;
+    width: 170px;
+    height: 39px;
+    box-sizing: border-box;
+    color: var(--banner-color);
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow: hidden;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0), var(--banner-bgcolor) 10%, var(--banner-bgcolor) 90%, rgba(0, 0, 0, 0) 100%);
+}
+
+.camera-player-name {
+    line-height: 39px;
+    padding-left: 1em;
+    font-weight: 500;
+}

@@ -1,0 +1,45 @@
+:host > div {
+    --squadeliminated-width: 600px;
+    --squadeliminated-height: 32px;
+    position: absolute;
+    top: 60px;
+    left: calc(50% - var(--squadeliminated-width) / 2);
+    width: var(--squadeliminated-width);
+    height: 32px;
+    color: rgb(255, 255, 255);
+    background-color: rgba(176, 48, 57, 0.90);
+    box-sizing: border-box;
+}
+
+.eliminated-text {
+    line-height: var(--squadeliminated-height);
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+.fadeinout-target:not(.fadeinout) {
+    position: absolute;
+    left: -1920px;
+    top: -1080px;
+}
+.fadeinout {
+    animation: 4.6s fadeinout-animation forwards;
+}
+
+@keyframes fadeinout-animation {
+    from {
+        opacity: 0.0;
+    }
+    6.5% {
+        opacity: 1.0;
+    }
+    93.5% {
+        opacity: 1.0;
+    }
+    to {
+        opacity: 0.0;
+    }
+}
+
+@keyframes fadeout-animation {
+}

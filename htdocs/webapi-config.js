@@ -2920,6 +2920,7 @@ export class WebAPIConfig {
                 this.#webapi.setTournamentParams(this.#tournament_params);
             });
         }
+
         document.getElementById('overlay-hide-teamplayerinfo').addEventListener('change', (ev) => {
             const teamplayeroverlays = ["teambanner", "playerbanner", "teamkills", "owneditems"];
             for (const id of teamplayeroverlays) {
@@ -2929,65 +2930,22 @@ export class WebAPIConfig {
             this.#webapi.setTournamentParams(this.#tournament_params);
         });
 
-        // show/hide matchresult
-        document.getElementById('overlay-show-matchresult').addEventListener('click', (ev) => {
-            let checked = "all";
-            for (const node of document.getElementsByName("overlay-result-radio")) {
-                if (node.checked) checked = node.value;
-            }
-            if (checked == "all") {
-                this.#webapi.broadcastObject({
-                    type: "showmatchresult",
-                    gameid: 0,
-                    all: true
-                });
-            } else {
-                const gameid = document.getElementById("overlay-show-one-result-number").value;
-                this.#webapi.broadcastObject({
-                    type: "showmatchresult",
-                    gameid: parseInt(gameid, 10),
-                    all: false
-                });
-            }
-        });
-
-        document.getElementById('overlay-show-playerleaderboard').addEventListener('click', (ev) => {
-            let checked = "all";
-            for (const node of document.getElementsByName("overlay-result-radio")) {
-                if (node.checked) checked = node.value;
-            }
-            const sortkey = document.getElementById('overlay-show-sortkey').value;
-            if (checked == "all") {
-                this.#webapi.broadcastObject({
-                    type: "showplayerleaderboard",
-                    gameid: 0,
-                    all: true,
-                    key: sortkey
-                });
-            } else {
-                const gameid = document.getElementById("overlay-show-one-result-number").value;
-                this.#webapi.broadcastObject({
-                    type: "showplayerleaderboard",
-                    gameid: parseInt(gameid, 10),
-                    all: false,
-                    key: sortkey
-                });
-            }
-        });
-
-        document.getElementById('overlay-hide-matchresult').addEventListener('click', (ev) => {
-            this.#webapi.broadcastObject({
-                type: "hidematchresult"
-            });
-            this.#webapi.broadcastObject({
-                type: "hideplayerleaderboard"
-            });
-        });
-
         // Test
-        document.getElementById('test-show-leaderboard').addEventListener('click', (ev) => {
+        document.getElementById('test-change-gamestate').addEventListener('click', (ev) => {
+            const state_table = ["WaitingForPlayers", "PickLoadout", "Prematch", "Playing", "Resolution", "Postmatch"];
+            const current_state = document.getElementById('test-gamestate-current').innerText;
+            const current_index = state_table.indexOf(current_state);
+            const next_index = ((current_index + 1) % state_table.length);
+            const next_state = state_table[next_index];
+            document.getElementById('test-gamestate-current').innerText = next_state;
             this.#webapi.broadcastObject({
-                type: "testleaderboard"
+                type: "testgamestate",
+                state: next_state
+            });
+        });
+        document.getElementById('test-show-teambanner').addEventListener('click', (ev) => {
+            this.#webapi.broadcastObject({
+                type: "testteambanner"
             });
         });
         document.getElementById('test-show-mapleaderboard').addEventListener('click', (ev) => {
@@ -2995,14 +2953,21 @@ export class WebAPIConfig {
                 type: "testmapleaderboard"
             });
         });
-        document.getElementById('test-show-teambanner').addEventListener('click', (ev) => {
-            const teamid = parseInt(document.getElementById("test-teambanner-teamid").value, 10);
-            if (teamid >= 0) {
-                this.#webapi.broadcastObject({
-                    type: "testteambanner",
-                    teamid: teamid
-                });
-            }
+        document.getElementById('test-show-camera-down').addEventListener('click', (ev) => {
+            const teamid = (parseInt(document.getElementById("test-teambanner-teamid").value, 10) - 1 - 1 + 30) % 30;
+            document.getElementById("test-teambanner-teamid").value = teamid + 1;
+            this.#webapi.broadcastObject({
+                type: "testcamera",
+                teamid: teamid
+            });
+        });
+        document.getElementById('test-show-camera-up').addEventListener('click', (ev) => {
+            const teamid = (parseInt(document.getElementById("test-teambanner-teamid").value, 10) - 1 + 1) % 30;
+            document.getElementById("test-teambanner-teamid").value = teamid + 1;
+            this.#webapi.broadcastObject({
+                type: "testcamera",
+                teamid: teamid
+            });
         });
         document.getElementById('test-show-playerbanner').addEventListener('click', (ev) => {
             const name = document.getElementById("test-playerbanner-name").value;
@@ -3013,14 +2978,24 @@ export class WebAPIConfig {
                 });
             }
         });
-        document.getElementById('test-show-teamkills').addEventListener('click', (ev) => {
-            const kills = parseInt(document.getElementById("test-teamkills-kills").value, 10);
+        document.getElementById('test-show-teamkills-up').addEventListener('click', (ev) => {
+            const kills = parseInt(document.getElementById("test-teamkills-kills").value, 10) + 1;
+            document.getElementById("test-teamkills-kills").value = kills;
             if (kills >= 0) {
                 this.#webapi.broadcastObject({
                     type: "testteamkills",
                     kills: kills
                 });
             }
+        });
+        document.getElementById('test-show-teamkills-down').addEventListener('click', (ev) => {
+            const kills = parseInt(document.getElementById("test-teamkills-kills").value, 10);
+            const downed_kills = kills <= 0 ? 0 : kills - 1;
+            document.getElementById("test-teamkills-kills").value = downed_kills;
+            this.#webapi.broadcastObject({
+                type: "testteamkills",
+                kills: downed_kills
+            });
         });
         document.getElementById('test-show-owneditems').addEventListener('click', (ev) => {
             const items = ["backpack", "knockdownshield", "syringe", "medkit", "shieldcell", "shieldbattery", "phoenixkit", "ultimateaccelerant", "fraggrenade", "thermitgrenade", "arcstar"];
@@ -3041,36 +3016,50 @@ export class WebAPIConfig {
             }
             this.#webapi.broadcastObject(data);
         });
-        document.getElementById('test-show-gameinfo').addEventListener('click', (ev) => {
-            const gameid = parseInt(document.getElementById("test-gameinfo-gameid").value, 10);
-            if (gameid >= 0) {
-                this.#webapi.broadcastObject({
-                    type: "testgameinfo",
-                    gameid: gameid
-                });
-            }
+        document.getElementById('test-show-gamecount-up').addEventListener('click', (ev) => {
+            const count = parseInt(document.getElementById("test-gamecount").value, 10);
+            const nextcount = count + 1;
+            document.getElementById("test-gamecount").value = nextcount;
+            this.#webapi.broadcastObject({
+                type: "testgamecount",
+                count: nextcount
+            });
+        });
+        document.getElementById('test-show-gamecount-down').addEventListener('click', (ev) => {
+            const count = parseInt(document.getElementById("test-gamecount").value, 10);
+            const nextcount = count <= 1 ? 1 : count - 1;
+            document.getElementById("test-gamecount").value = nextcount;
+            this.#webapi.broadcastObject({
+                type: "testgamecount",
+                count: nextcount
+            });
         });
         document.getElementById('test-show-squadeliminated').addEventListener('click', (ev) => {
             const teamid = parseInt(document.getElementById("test-squadeliminated-teamid").value, 10);
-            if (teamid >= 0) {
+            if (teamid >= 1) {
                 this.#webapi.broadcastObject({
                     type: "testsquadeliminated",
-                    teamid: teamid
+                    teamid: teamid - 1
                 });
             }
         });
-        document.getElementById('test-show-championbanner').addEventListener('click', (ev) => {
-            const teamid = parseInt(document.getElementById("test-championbanner-teamid").value, 10);
-            if (teamid >= 0) {
+        document.getElementById('test-show-winnerdetermine').addEventListener('click', (ev) => {
+            const teamid = parseInt(document.getElementById("test-winnerdetermine-teamid").value, 10);
+            if (teamid >= 1) {
                 this.#webapi.broadcastObject({
-                    type: "testchampionbanner",
-                    teamid: teamid
+                    type: "testwinnerdetermine",
+                    teamid: teamid - 1
                 });
             }
         });
-        document.getElementById('test-hideall').addEventListener('click', (ev) => {
+        document.getElementById('test-show-winnerdetermine-reset').addEventListener('click', (ev) => {
             this.#webapi.broadcastObject({
-                type: "testhideall"
+                type: "testwinnerdeterminereset"
+            });
+        });
+        document.getElementById('test-reload').addEventListener('click', (ev) => {
+            this.#webapi.broadcastObject({
+                type: "testreload"
             });
         });
 

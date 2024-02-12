@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    width: 1920px;
+    height: 1080px;
+}
+
+body {
+    width: 1920px;
+    height: 1080px;
+    overflow: clip;
+    background-color: rgba(0, 0, 0, 0);
+    font-family:'Segoe UI', 'Yu Gothic UI', sans-serif;
+}
+
+div#overlays, div#overlays > * {
+    width: 1920px;
+    height: 1080px;
+    overflow: clip;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: clip;
+}
+
+div#overlays > .hide, div#overlays > .forcehide {
+    left: -3840px;
+    top: -2160px;
+}
