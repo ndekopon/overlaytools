@@ -1489,10 +1489,6 @@ namespace app {
 					send_webapi_player_killed(INVALID_SOCKET, victim_teamid, victim_squadindex, attacker_teamid, attacker_squadindex);
 				}
 			}
-			if (p.has_awardedto())
-			{
-				proc_player(p.awardedto());
-			}
 		}
 		else if (_any.Is<api::PlayerDowned>())
 		{
