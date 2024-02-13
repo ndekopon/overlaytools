@@ -354,8 +354,8 @@ namespace app {
 	bool send_webapi_data::append(int8_t _v)
 	{
 		uint8_t v;
-		std::memcpy(&v, &_v, sizeof(int8_t));
 		buffer_->at(1)++;
+		std::memcpy(&v, &_v, 1);
 		buffer_->push_back(WEBAPI_DATA_INT8);
 		buffer_->push_back(v);
 		return true;
@@ -364,8 +364,8 @@ namespace app {
 	bool send_webapi_data::append(int16_t _v)
 	{
 		uint16_t v;
-		std::memcpy(&v, &_v, sizeof(int16_t));
 		buffer_->at(1)++;
+		std::memcpy(&v, &_v, 2);
 		buffer_->push_back(WEBAPI_DATA_INT16);
 		for (auto i = 0u; i < 2; ++i)
 		{
@@ -378,8 +378,8 @@ namespace app {
 	bool send_webapi_data::append(int32_t _v)
 	{
 		uint32_t v;
-		std::memcpy(&v, &_v, sizeof(int32_t));
 		buffer_->at(1)++;
+		std::memcpy(&v, &_v, 4);
 		buffer_->push_back(WEBAPI_DATA_INT32);
 		for (auto i = 0u; i < 4; ++i)
 		{
@@ -392,8 +392,8 @@ namespace app {
 	bool send_webapi_data::append(int64_t _v)
 	{
 		uint64_t v;
-		std::memcpy(&v, &_v, sizeof(int64_t));
 		buffer_->at(1)++;
+		std::memcpy(&v, &_v, 8);
 		buffer_->push_back(WEBAPI_DATA_UINT64);
 		for (auto i = 0u; i < 8; ++i)
 		{
