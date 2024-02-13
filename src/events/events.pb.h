@@ -87,6 +87,9 @@ extern CustomMatch_CreateLobbyDefaultTypeInternal _CustomMatch_CreateLobby_defau
 class CustomMatch_GetLobbyPlayers;
 struct CustomMatch_GetLobbyPlayersDefaultTypeInternal;
 extern CustomMatch_GetLobbyPlayersDefaultTypeInternal _CustomMatch_GetLobbyPlayers_default_instance_;
+class CustomMatch_GetSettings;
+struct CustomMatch_GetSettingsDefaultTypeInternal;
+extern CustomMatch_GetSettingsDefaultTypeInternal _CustomMatch_GetSettings_default_instance_;
 class CustomMatch_JoinLobby;
 struct CustomMatch_JoinLobbyDefaultTypeInternal;
 extern CustomMatch_JoinLobbyDefaultTypeInternal _CustomMatch_JoinLobby_default_instance_;
@@ -138,15 +141,24 @@ extern InitDefaultTypeInternal _Init_default_instance_;
 class InventoryDrop;
 struct InventoryDropDefaultTypeInternal;
 extern InventoryDropDefaultTypeInternal _InventoryDrop_default_instance_;
+class InventoryItem;
+struct InventoryItemDefaultTypeInternal;
+extern InventoryItemDefaultTypeInternal _InventoryItem_default_instance_;
 class InventoryPickUp;
 struct InventoryPickUpDefaultTypeInternal;
 extern InventoryPickUpDefaultTypeInternal _InventoryPickUp_default_instance_;
 class InventoryUse;
 struct InventoryUseDefaultTypeInternal;
 extern InventoryUseDefaultTypeInternal _InventoryUse_default_instance_;
+class LegendUpgradeSelected;
+struct LegendUpgradeSelectedDefaultTypeInternal;
+extern LegendUpgradeSelectedDefaultTypeInternal _LegendUpgradeSelected_default_instance_;
 class LiveAPIEvent;
 struct LiveAPIEventDefaultTypeInternal;
 extern LiveAPIEventDefaultTypeInternal _LiveAPIEvent_default_instance_;
+class LoadoutConfiguration;
+struct LoadoutConfigurationDefaultTypeInternal;
+extern LoadoutConfigurationDefaultTypeInternal _LoadoutConfiguration_default_instance_;
 class MatchSetup;
 struct MatchSetupDefaultTypeInternal;
 extern MatchSetupDefaultTypeInternal _MatchSetup_default_instance_;
@@ -195,6 +207,9 @@ extern PlayerReviveDefaultTypeInternal _PlayerRevive_default_instance_;
 class PlayerStatChanged;
 struct PlayerStatChangedDefaultTypeInternal;
 extern PlayerStatChangedDefaultTypeInternal _PlayerStatChanged_default_instance_;
+class PlayerUpgradeTierChanged;
+struct PlayerUpgradeTierChangedDefaultTypeInternal;
+extern PlayerUpgradeTierChangedDefaultTypeInternal _PlayerUpgradeTierChanged_default_instance_;
 class Request;
 struct RequestDefaultTypeInternal;
 extern RequestDefaultTypeInternal _Request_default_instance_;
@@ -204,6 +219,9 @@ extern RequestStatusDefaultTypeInternal _RequestStatus_default_instance_;
 class Response;
 struct ResponseDefaultTypeInternal;
 extern ResponseDefaultTypeInternal _Response_default_instance_;
+class RevenantForgedShadowDamaged;
+struct RevenantForgedShadowDamagedDefaultTypeInternal;
+extern RevenantForgedShadowDamagedDefaultTypeInternal _RevenantForgedShadowDamaged_default_instance_;
 class RingFinishedClosing;
 struct RingFinishedClosingDefaultTypeInternal;
 extern RingFinishedClosingDefaultTypeInternal _RingFinishedClosing_default_instance_;
@@ -759,7 +777,7 @@ class RequestStatus final :
                &_RequestStatus_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    54;
+    60;
 
   friend void swap(RequestStatus& a, RequestStatus& b) {
     a.Swap(&b);
@@ -940,7 +958,7 @@ class PauseToggle final :
                &_PauseToggle_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    41;
+    46;
 
   friend void swap(PauseToggle& a, PauseToggle& b) {
     a.Swap(&b);
@@ -1115,7 +1133,7 @@ class ObserverAnnotation final :
                &_ObserverAnnotation_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    10;
 
   friend void swap(ObserverAnnotation& a, ObserverAnnotation& b) {
     a.Swap(&b);
@@ -1261,6 +1279,217 @@ class ObserverAnnotation final :
   friend struct ::TableStruct_events_2eproto;
 };// -------------------------------------------------------------------
 
+class InventoryItem final :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:rtech.liveapi.InventoryItem) */ {
+ public:
+  inline InventoryItem() : InventoryItem(nullptr) {}
+  ~InventoryItem() override;
+  template<typename = void>
+  explicit PROTOBUF_CONSTEXPR InventoryItem(::google::protobuf::internal::ConstantInitialized);
+
+  inline InventoryItem(const InventoryItem& from)
+      : InventoryItem(nullptr, from) {}
+  InventoryItem(InventoryItem&& from) noexcept
+    : InventoryItem() {
+    *this = ::std::move(from);
+  }
+
+  inline InventoryItem& operator=(const InventoryItem& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline InventoryItem& operator=(InventoryItem&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const InventoryItem& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const InventoryItem* internal_default_instance() {
+    return reinterpret_cast<const InventoryItem*>(
+               &_InventoryItem_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(InventoryItem& a, InventoryItem& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(InventoryItem* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr &&
+        GetArena() == other->GetArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(InventoryItem* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  InventoryItem* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<InventoryItem>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const InventoryItem& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom( const InventoryItem& from) {
+    InventoryItem::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  ::size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::google::protobuf::internal::ParseContext* ctx) final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target, ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  ::google::protobuf::internal::CachedSize* AccessCachedSize() const final;
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(InventoryItem* other);
+
+  private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() {
+    return "rtech.liveapi.InventoryItem";
+  }
+  protected:
+  explicit InventoryItem(::google::protobuf::Arena* arena);
+  InventoryItem(::google::protobuf::Arena* arena, const InventoryItem& from);
+  public:
+
+  static const ClassData _class_data_;
+  const ::google::protobuf::Message::ClassData*GetClassData() const final;
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kItemFieldNumber = 2,
+    kExtraDataFieldNumber = 3,
+    kQuantityFieldNumber = 1,
+  };
+  // string item = 2;
+  void clear_item() ;
+  const std::string& item() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_item(Arg_&& arg, Args_... args);
+  std::string* mutable_item();
+  PROTOBUF_NODISCARD std::string* release_item();
+  void set_allocated_item(std::string* value);
+
+  private:
+  const std::string& _internal_item() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_item(
+      const std::string& value);
+  std::string* _internal_mutable_item();
+
+  public:
+  // string extraData = 3;
+  void clear_extradata() ;
+  const std::string& extradata() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_extradata(Arg_&& arg, Args_... args);
+  std::string* mutable_extradata();
+  PROTOBUF_NODISCARD std::string* release_extradata();
+  void set_allocated_extradata(std::string* value);
+
+  private:
+  const std::string& _internal_extradata() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_extradata(
+      const std::string& value);
+  std::string* _internal_mutable_extradata();
+
+  public:
+  // int32 quantity = 1;
+  void clear_quantity() ;
+  ::int32_t quantity() const;
+  void set_quantity(::int32_t value);
+
+  private:
+  ::int32_t _internal_quantity() const;
+  void _internal_set_quantity(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.InventoryItem)
+ private:
+  class _Internal;
+
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 3, 0,
+      49, 2>
+      _table_;
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+
+        inline explicit constexpr Impl_(
+            ::google::protobuf::internal::ConstantInitialized) noexcept;
+        inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                              ::google::protobuf::Arena* arena);
+        inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                              ::google::protobuf::Arena* arena, const Impl_& from);
+    ::google::protobuf::internal::ArenaStringPtr item_;
+    ::google::protobuf::internal::ArenaStringPtr extradata_;
+    ::int32_t quantity_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_events_2eproto;
+};// -------------------------------------------------------------------
+
 class GameStateChanged final :
     public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:rtech.liveapi.GameStateChanged) */ {
  public:
@@ -1320,7 +1549,7 @@ class GameStateChanged final :
                &_GameStateChanged_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    12;
 
   friend void swap(GameStateChanged& a, GameStateChanged& b) {
     a.Swap(&b);
@@ -1742,7 +1971,7 @@ class CustomMatch_SetTeamName final :
                &_CustomMatch_SetTeamName_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    51;
+    57;
 
   friend void swap(CustomMatch_SetTeamName& a, CustomMatch_SetTeamName& b) {
     a.Swap(&b);
@@ -1935,7 +2164,7 @@ class CustomMatch_SetTeam final :
                &_CustomMatch_SetTeam_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    48;
+    53;
 
   friend void swap(CustomMatch_SetTeam& a, CustomMatch_SetTeam& b) {
     a.Swap(&b);
@@ -2146,7 +2375,7 @@ class CustomMatch_SetSettings final :
                &_CustomMatch_SetSettings_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    50;
+    55;
 
   friend void swap(CustomMatch_SetSettings& a, CustomMatch_SetSettings& b) {
     a.Swap(&b);
@@ -2387,7 +2616,7 @@ class CustomMatch_SetReady final :
                &_CustomMatch_SetReady_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    45;
+    50;
 
   friend void swap(CustomMatch_SetReady& a, CustomMatch_SetReady& b) {
     a.Swap(&b);
@@ -2562,7 +2791,7 @@ class CustomMatch_SetMatchmaking final :
                &_CustomMatch_SetMatchmaking_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    47;
+    52;
 
   friend void swap(CustomMatch_SetMatchmaking& a, CustomMatch_SetMatchmaking& b) {
     a.Swap(&b);
@@ -2737,7 +2966,7 @@ class CustomMatch_SendChat final :
                &_CustomMatch_SendChat_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    52;
+    58;
 
   friend void swap(CustomMatch_SendChat& a, CustomMatch_SendChat& b) {
     a.Swap(&b);
@@ -3146,7 +3375,7 @@ class CustomMatch_LeaveLobby final :
                &_CustomMatch_LeaveLobby_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    44;
+    49;
 
   friend void swap(CustomMatch_LeaveLobby& a, CustomMatch_LeaveLobby& b) {
     a.Swap(&b);
@@ -3283,7 +3512,7 @@ class CustomMatch_KickPlayer final :
                &_CustomMatch_KickPlayer_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    49;
+    54;
 
   friend void swap(CustomMatch_KickPlayer& a, CustomMatch_KickPlayer& b) {
     a.Swap(&b);
@@ -3482,7 +3711,7 @@ class CustomMatch_JoinLobby final :
                &_CustomMatch_JoinLobby_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    43;
+    48;
 
   friend void swap(CustomMatch_JoinLobby& a, CustomMatch_JoinLobby& b) {
     a.Swap(&b);
@@ -3604,6 +3833,142 @@ class CustomMatch_JoinLobby final :
   friend struct ::TableStruct_events_2eproto;
 };// -------------------------------------------------------------------
 
+class CustomMatch_GetSettings final :
+    public ::google::protobuf::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:rtech.liveapi.CustomMatch_GetSettings) */ {
+ public:
+  inline CustomMatch_GetSettings() : CustomMatch_GetSettings(nullptr) {}
+  template<typename = void>
+  explicit PROTOBUF_CONSTEXPR CustomMatch_GetSettings(::google::protobuf::internal::ConstantInitialized);
+
+  inline CustomMatch_GetSettings(const CustomMatch_GetSettings& from)
+      : CustomMatch_GetSettings(nullptr, from) {}
+  CustomMatch_GetSettings(CustomMatch_GetSettings&& from) noexcept
+    : CustomMatch_GetSettings() {
+    *this = ::std::move(from);
+  }
+
+  inline CustomMatch_GetSettings& operator=(const CustomMatch_GetSettings& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CustomMatch_GetSettings& operator=(CustomMatch_GetSettings&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CustomMatch_GetSettings& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CustomMatch_GetSettings* internal_default_instance() {
+    return reinterpret_cast<const CustomMatch_GetSettings*>(
+               &_CustomMatch_GetSettings_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    56;
+
+  friend void swap(CustomMatch_GetSettings& a, CustomMatch_GetSettings& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CustomMatch_GetSettings* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr &&
+        GetArena() == other->GetArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CustomMatch_GetSettings* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CustomMatch_GetSettings* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<CustomMatch_GetSettings>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const CustomMatch_GetSettings& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const CustomMatch_GetSettings& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+  public:
+
+  private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() {
+    return "rtech.liveapi.CustomMatch_GetSettings";
+  }
+  protected:
+  explicit CustomMatch_GetSettings(::google::protobuf::Arena* arena);
+  CustomMatch_GetSettings(::google::protobuf::Arena* arena, const CustomMatch_GetSettings& from);
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.CustomMatch_GetSettings)
+ private:
+  class _Internal;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+
+        inline explicit constexpr Impl_(
+            ::google::protobuf::internal::ConstantInitialized) noexcept;
+        inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                              ::google::protobuf::Arena* arena);
+        inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                              ::google::protobuf::Arena* arena, const Impl_& from);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_events_2eproto;
+};// -------------------------------------------------------------------
+
 class CustomMatch_GetLobbyPlayers final :
     public ::google::protobuf::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:rtech.liveapi.CustomMatch_GetLobbyPlayers) */ {
  public:
@@ -3662,7 +4027,7 @@ class CustomMatch_GetLobbyPlayers final :
                &_CustomMatch_GetLobbyPlayers_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    46;
+    51;
 
   friend void swap(CustomMatch_GetLobbyPlayers& a, CustomMatch_GetLobbyPlayers& b) {
     a.Swap(&b);
@@ -3798,7 +4163,7 @@ class CustomMatch_CreateLobby final :
                &_CustomMatch_CreateLobby_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    42;
+    47;
 
   friend void swap(CustomMatch_CreateLobby& a, CustomMatch_CreateLobby& b) {
     a.Swap(&b);
@@ -3941,7 +4306,7 @@ class ChangeCamera final :
                &_ChangeCamera_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    40;
+    45;
 
   friend void swap(ChangeCamera& a, ChangeCamera& b) {
     a.Swap(&b);
@@ -4149,7 +4514,7 @@ class RingStartClosing final :
                &_RingStartClosing_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    15;
 
   friend void swap(RingStartClosing& a, RingStartClosing& b) {
     a.Swap(&b);
@@ -4408,7 +4773,7 @@ class RingFinishedClosing final :
                &_RingFinishedClosing_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    16;
 
   friend void swap(RingFinishedClosing& a, RingFinishedClosing& b) {
     a.Swap(&b);
@@ -4655,7 +5020,7 @@ class Response final :
                &_Response_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    55;
+    61;
 
   friend void swap(Response& a, Response& b) {
     a.Swap(&b);
@@ -4857,6 +5222,7 @@ class Request final :
     kCustomMatchSendChat = 18,
     kCustomMatchGetLobbyPlayers = 19,
     kCustomMatchSetTeamName = 20,
+    kCustomMatchGetSettings = 21,
     ACTIONS_NOT_SET = 0,
   };
 
@@ -4865,7 +5231,7 @@ class Request final :
                &_Request_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    53;
+    59;
 
   friend void swap(Request& a, Request& b) {
     a.Swap(&b);
@@ -4953,6 +5319,7 @@ class Request final :
     kCustomMatchSendChatFieldNumber = 18,
     kCustomMatchGetLobbyPlayersFieldNumber = 19,
     kCustomMatchSetTeamNameFieldNumber = 20,
+    kCustomMatchGetSettingsFieldNumber = 21,
   };
   // string preSharedKey = 2;
   void clear_presharedkey() ;
@@ -5227,6 +5594,25 @@ class Request final :
   ::rtech::liveapi::CustomMatch_SetTeamName* _internal_mutable_custommatch_setteamname();
 
   public:
+  // .rtech.liveapi.CustomMatch_GetSettings customMatch_GetSettings = 21;
+  bool has_custommatch_getsettings() const;
+  private:
+  bool _internal_has_custommatch_getsettings() const;
+
+  public:
+  void clear_custommatch_getsettings() ;
+  const ::rtech::liveapi::CustomMatch_GetSettings& custommatch_getsettings() const;
+  PROTOBUF_NODISCARD ::rtech::liveapi::CustomMatch_GetSettings* release_custommatch_getsettings();
+  ::rtech::liveapi::CustomMatch_GetSettings* mutable_custommatch_getsettings();
+  void set_allocated_custommatch_getsettings(::rtech::liveapi::CustomMatch_GetSettings* value);
+  void unsafe_arena_set_allocated_custommatch_getsettings(::rtech::liveapi::CustomMatch_GetSettings* value);
+  ::rtech::liveapi::CustomMatch_GetSettings* unsafe_arena_release_custommatch_getsettings();
+
+  private:
+  const ::rtech::liveapi::CustomMatch_GetSettings& _internal_custommatch_getsettings() const;
+  ::rtech::liveapi::CustomMatch_GetSettings* _internal_mutable_custommatch_getsettings();
+
+  public:
   void clear_actions();
   ActionsCase actions_case() const;
   // @@protoc_insertion_point(class_scope:rtech.liveapi.Request)
@@ -5245,14 +5631,15 @@ class Request final :
   void set_has_custommatch_sendchat();
   void set_has_custommatch_getlobbyplayers();
   void set_has_custommatch_setteamname();
+  void set_has_custommatch_getsettings();
 
   inline bool has_actions() const;
   inline void clear_has_actions();
 
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      1, 15, 13,
-      50, 2>
+      1, 16, 14,
+      58, 2>
       _table_;
   friend class ::google::protobuf::MessageLite;
   friend class ::google::protobuf::Arena;
@@ -5286,6 +5673,7 @@ class Request final :
       ::rtech::liveapi::CustomMatch_SendChat* custommatch_sendchat_;
       ::rtech::liveapi::CustomMatch_GetLobbyPlayers* custommatch_getlobbyplayers_;
       ::rtech::liveapi::CustomMatch_SetTeamName* custommatch_setteamname_;
+      ::rtech::liveapi::CustomMatch_GetSettings* custommatch_getsettings_;
     } actions_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -5674,26 +6062,26 @@ class Player final :
   friend struct ::TableStruct_events_2eproto;
 };// -------------------------------------------------------------------
 
-class MatchSetup final :
-    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:rtech.liveapi.MatchSetup) */ {
+class LoadoutConfiguration final :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:rtech.liveapi.LoadoutConfiguration) */ {
  public:
-  inline MatchSetup() : MatchSetup(nullptr) {}
-  ~MatchSetup() override;
+  inline LoadoutConfiguration() : LoadoutConfiguration(nullptr) {}
+  ~LoadoutConfiguration() override;
   template<typename = void>
-  explicit PROTOBUF_CONSTEXPR MatchSetup(::google::protobuf::internal::ConstantInitialized);
+  explicit PROTOBUF_CONSTEXPR LoadoutConfiguration(::google::protobuf::internal::ConstantInitialized);
 
-  inline MatchSetup(const MatchSetup& from)
-      : MatchSetup(nullptr, from) {}
-  MatchSetup(MatchSetup&& from) noexcept
-    : MatchSetup() {
+  inline LoadoutConfiguration(const LoadoutConfiguration& from)
+      : LoadoutConfiguration(nullptr, from) {}
+  LoadoutConfiguration(LoadoutConfiguration&& from) noexcept
+    : LoadoutConfiguration() {
     *this = ::std::move(from);
   }
 
-  inline MatchSetup& operator=(const MatchSetup& from) {
+  inline LoadoutConfiguration& operator=(const LoadoutConfiguration& from) {
     CopyFrom(from);
     return *this;
   }
-  inline MatchSetup& operator=(MatchSetup&& from) noexcept {
+  inline LoadoutConfiguration& operator=(LoadoutConfiguration&& from) noexcept {
     if (this == &from) return *this;
     if (GetArena() == from.GetArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -5725,20 +6113,20 @@ class MatchSetup final :
   static const ::google::protobuf::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const MatchSetup& default_instance() {
+  static const LoadoutConfiguration& default_instance() {
     return *internal_default_instance();
   }
-  static inline const MatchSetup* internal_default_instance() {
-    return reinterpret_cast<const MatchSetup*>(
-               &_MatchSetup_default_instance_);
+  static inline const LoadoutConfiguration* internal_default_instance() {
+    return reinterpret_cast<const LoadoutConfiguration*>(
+               &_LoadoutConfiguration_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    6;
 
-  friend void swap(MatchSetup& a, MatchSetup& b) {
+  friend void swap(LoadoutConfiguration& a, LoadoutConfiguration& b) {
     a.Swap(&b);
   }
-  inline void Swap(MatchSetup* other) {
+  inline void Swap(LoadoutConfiguration* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetArena() != nullptr &&
@@ -5751,7 +6139,7 @@ class MatchSetup final :
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(MatchSetup* other) {
+  void UnsafeArenaSwap(LoadoutConfiguration* other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -5759,14 +6147,14 @@ class MatchSetup final :
 
   // implements Message ----------------------------------------------
 
-  MatchSetup* New(::google::protobuf::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<MatchSetup>(arena);
+  LoadoutConfiguration* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<LoadoutConfiguration>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const MatchSetup& from);
+  void CopyFrom(const LoadoutConfiguration& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom( const MatchSetup& from) {
-    MatchSetup::MergeImpl(*this, from);
+  void MergeFrom( const LoadoutConfiguration& from) {
+    LoadoutConfiguration::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg);
@@ -5784,16 +6172,16 @@ class MatchSetup final :
   ::google::protobuf::internal::CachedSize* AccessCachedSize() const final;
   void SharedCtor(::google::protobuf::Arena* arena);
   void SharedDtor();
-  void InternalSwap(MatchSetup* other);
+  void InternalSwap(LoadoutConfiguration* other);
 
   private:
   friend class ::google::protobuf::internal::AnyMetadata;
   static ::absl::string_view FullMessageName() {
-    return "rtech.liveapi.MatchSetup";
+    return "rtech.liveapi.LoadoutConfiguration";
   }
   protected:
-  explicit MatchSetup(::google::protobuf::Arena* arena);
-  MatchSetup(::google::protobuf::Arena* arena, const MatchSetup& from);
+  explicit LoadoutConfiguration(::google::protobuf::Arena* arena);
+  LoadoutConfiguration(::google::protobuf::Arena* arena, const LoadoutConfiguration& from);
   public:
 
   static const ClassData _class_data_;
@@ -5806,149 +6194,53 @@ class MatchSetup final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kCategoryFieldNumber = 2,
-    kMapFieldNumber = 3,
-    kPlaylistNameFieldNumber = 4,
-    kPlaylistDescFieldNumber = 5,
-    kServerIdFieldNumber = 9,
-    kDatacenterFieldNumber = 6,
-    kTimestampFieldNumber = 1,
-    kAimAssistOnFieldNumber = 7,
-    kAnonymousModeFieldNumber = 8,
+    kWeaponsFieldNumber = 1,
+    kEquipmentFieldNumber = 2,
   };
-  // string category = 2;
-  void clear_category() ;
-  const std::string& category() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_category(Arg_&& arg, Args_... args);
-  std::string* mutable_category();
-  PROTOBUF_NODISCARD std::string* release_category();
-  void set_allocated_category(std::string* value);
-
+  // repeated .rtech.liveapi.InventoryItem weapons = 1;
+  int weapons_size() const;
   private:
-  const std::string& _internal_category() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_category(
-      const std::string& value);
-  std::string* _internal_mutable_category();
+  int _internal_weapons_size() const;
 
   public:
-  // string map = 3;
-  void clear_map() ;
-  const std::string& map() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_map(Arg_&& arg, Args_... args);
-  std::string* mutable_map();
-  PROTOBUF_NODISCARD std::string* release_map();
-  void set_allocated_map(std::string* value);
-
+  void clear_weapons() ;
+  ::rtech::liveapi::InventoryItem* mutable_weapons(int index);
+  ::google::protobuf::RepeatedPtrField< ::rtech::liveapi::InventoryItem >*
+      mutable_weapons();
   private:
-  const std::string& _internal_map() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_map(
-      const std::string& value);
-  std::string* _internal_mutable_map();
+  const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>& _internal_weapons() const;
+  ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>* _internal_mutable_weapons();
+  public:
+  const ::rtech::liveapi::InventoryItem& weapons(int index) const;
+  ::rtech::liveapi::InventoryItem* add_weapons();
+  const ::google::protobuf::RepeatedPtrField< ::rtech::liveapi::InventoryItem >&
+      weapons() const;
+  // repeated .rtech.liveapi.InventoryItem equipment = 2;
+  int equipment_size() const;
+  private:
+  int _internal_equipment_size() const;
 
   public:
-  // string playlistName = 4;
-  void clear_playlistname() ;
-  const std::string& playlistname() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_playlistname(Arg_&& arg, Args_... args);
-  std::string* mutable_playlistname();
-  PROTOBUF_NODISCARD std::string* release_playlistname();
-  void set_allocated_playlistname(std::string* value);
-
+  void clear_equipment() ;
+  ::rtech::liveapi::InventoryItem* mutable_equipment(int index);
+  ::google::protobuf::RepeatedPtrField< ::rtech::liveapi::InventoryItem >*
+      mutable_equipment();
   private:
-  const std::string& _internal_playlistname() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_playlistname(
-      const std::string& value);
-  std::string* _internal_mutable_playlistname();
-
+  const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>& _internal_equipment() const;
+  ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>* _internal_mutable_equipment();
   public:
-  // string playlistDesc = 5;
-  void clear_playlistdesc() ;
-  const std::string& playlistdesc() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_playlistdesc(Arg_&& arg, Args_... args);
-  std::string* mutable_playlistdesc();
-  PROTOBUF_NODISCARD std::string* release_playlistdesc();
-  void set_allocated_playlistdesc(std::string* value);
-
-  private:
-  const std::string& _internal_playlistdesc() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_playlistdesc(
-      const std::string& value);
-  std::string* _internal_mutable_playlistdesc();
-
-  public:
-  // string serverId = 9;
-  void clear_serverid() ;
-  const std::string& serverid() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_serverid(Arg_&& arg, Args_... args);
-  std::string* mutable_serverid();
-  PROTOBUF_NODISCARD std::string* release_serverid();
-  void set_allocated_serverid(std::string* value);
-
-  private:
-  const std::string& _internal_serverid() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_serverid(
-      const std::string& value);
-  std::string* _internal_mutable_serverid();
-
-  public:
-  // .rtech.liveapi.Datacenter datacenter = 6;
-  bool has_datacenter() const;
-  void clear_datacenter() ;
-  const ::rtech::liveapi::Datacenter& datacenter() const;
-  PROTOBUF_NODISCARD ::rtech::liveapi::Datacenter* release_datacenter();
-  ::rtech::liveapi::Datacenter* mutable_datacenter();
-  void set_allocated_datacenter(::rtech::liveapi::Datacenter* value);
-  void unsafe_arena_set_allocated_datacenter(::rtech::liveapi::Datacenter* value);
-  ::rtech::liveapi::Datacenter* unsafe_arena_release_datacenter();
-
-  private:
-  const ::rtech::liveapi::Datacenter& _internal_datacenter() const;
-  ::rtech::liveapi::Datacenter* _internal_mutable_datacenter();
-
-  public:
-  // uint64 timestamp = 1;
-  void clear_timestamp() ;
-  ::uint64_t timestamp() const;
-  void set_timestamp(::uint64_t value);
-
-  private:
-  ::uint64_t _internal_timestamp() const;
-  void _internal_set_timestamp(::uint64_t value);
-
-  public:
-  // bool aimAssistOn = 7;
-  void clear_aimassiston() ;
-  bool aimassiston() const;
-  void set_aimassiston(bool value);
-
-  private:
-  bool _internal_aimassiston() const;
-  void _internal_set_aimassiston(bool value);
-
-  public:
-  // bool anonymousMode = 8;
-  void clear_anonymousmode() ;
-  bool anonymousmode() const;
-  void set_anonymousmode(bool value);
-
-  private:
-  bool _internal_anonymousmode() const;
-  void _internal_set_anonymousmode(bool value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:rtech.liveapi.MatchSetup)
+  const ::rtech::liveapi::InventoryItem& equipment(int index) const;
+  ::rtech::liveapi::InventoryItem* add_equipment();
+  const ::google::protobuf::RepeatedPtrField< ::rtech::liveapi::InventoryItem >&
+      equipment() const;
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.LoadoutConfiguration)
  private:
   class _Internal;
 
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      4, 9, 1,
-      84, 2>
+      1, 2, 2,
+      0, 2>
       _table_;
   friend class ::google::protobuf::MessageLite;
   friend class ::google::protobuf::Arena;
@@ -5964,17 +6256,9 @@ class MatchSetup final :
                               ::google::protobuf::Arena* arena);
         inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                               ::google::protobuf::Arena* arena, const Impl_& from);
-    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::RepeatedPtrField< ::rtech::liveapi::InventoryItem > weapons_;
+    ::google::protobuf::RepeatedPtrField< ::rtech::liveapi::InventoryItem > equipment_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::internal::ArenaStringPtr category_;
-    ::google::protobuf::internal::ArenaStringPtr map_;
-    ::google::protobuf::internal::ArenaStringPtr playlistname_;
-    ::google::protobuf::internal::ArenaStringPtr playlistdesc_;
-    ::google::protobuf::internal::ArenaStringPtr serverid_;
-    ::rtech::liveapi::Datacenter* datacenter_;
-    ::uint64_t timestamp_;
-    bool aimassiston_;
-    bool anonymousmode_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -6040,7 +6324,7 @@ class LiveAPIEvent final :
                &_LiveAPIEvent_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    56;
+    62;
 
   friend void swap(LiveAPIEvent& a, LiveAPIEvent& b) {
     a.Swap(&b);
@@ -6233,7 +6517,7 @@ class Init final :
                &_Init_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    7;
 
   friend void swap(Init& a, Init& b) {
     a.Swap(&b);
@@ -6498,7 +6782,7 @@ class CustomMatch_LobbyPlayers final :
                &_CustomMatch_LobbyPlayers_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    8;
 
   friend void swap(CustomMatch_LobbyPlayers& a, CustomMatch_LobbyPlayers& b) {
     a.Swap(&b);
@@ -6699,7 +6983,7 @@ class ZiplineUsed final :
                &_ZiplineUsed_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    38;
 
   friend void swap(ZiplineUsed& a, ZiplineUsed& b) {
     a.Swap(&b);
@@ -6928,7 +7212,7 @@ class WraithPortal final :
                &_WraithPortal_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    36;
+    41;
 
   friend void swap(WraithPortal& a, WraithPortal& b) {
     a.Swap(&b);
@@ -7139,7 +7423,7 @@ class WeaponSwitched final :
                &_WeaponSwitched_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    39;
+    44;
 
   friend void swap(WeaponSwitched& a, WeaponSwitched& b) {
     a.Swap(&b);
@@ -7386,7 +7670,7 @@ class WarpGateUsed final :
                &_WarpGateUsed_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    37;
+    42;
 
   friend void swap(WarpGateUsed& a, WarpGateUsed& b) {
     a.Swap(&b);
@@ -7597,7 +7881,7 @@ class SquadEliminated final :
                &_SquadEliminated_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    25;
 
   friend void swap(SquadEliminated& a, SquadEliminated& b) {
     a.Swap(&b);
@@ -7751,6 +8035,469 @@ class SquadEliminated final :
   friend struct ::TableStruct_events_2eproto;
 };// -------------------------------------------------------------------
 
+class RevenantForgedShadowDamaged final :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:rtech.liveapi.RevenantForgedShadowDamaged) */ {
+ public:
+  inline RevenantForgedShadowDamaged() : RevenantForgedShadowDamaged(nullptr) {}
+  ~RevenantForgedShadowDamaged() override;
+  template<typename = void>
+  explicit PROTOBUF_CONSTEXPR RevenantForgedShadowDamaged(::google::protobuf::internal::ConstantInitialized);
+
+  inline RevenantForgedShadowDamaged(const RevenantForgedShadowDamaged& from)
+      : RevenantForgedShadowDamaged(nullptr, from) {}
+  RevenantForgedShadowDamaged(RevenantForgedShadowDamaged&& from) noexcept
+    : RevenantForgedShadowDamaged() {
+    *this = ::std::move(from);
+  }
+
+  inline RevenantForgedShadowDamaged& operator=(const RevenantForgedShadowDamaged& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline RevenantForgedShadowDamaged& operator=(RevenantForgedShadowDamaged&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const RevenantForgedShadowDamaged& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const RevenantForgedShadowDamaged* internal_default_instance() {
+    return reinterpret_cast<const RevenantForgedShadowDamaged*>(
+               &_RevenantForgedShadowDamaged_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    27;
+
+  friend void swap(RevenantForgedShadowDamaged& a, RevenantForgedShadowDamaged& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(RevenantForgedShadowDamaged* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr &&
+        GetArena() == other->GetArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(RevenantForgedShadowDamaged* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  RevenantForgedShadowDamaged* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<RevenantForgedShadowDamaged>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const RevenantForgedShadowDamaged& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom( const RevenantForgedShadowDamaged& from) {
+    RevenantForgedShadowDamaged::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  ::size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::google::protobuf::internal::ParseContext* ctx) final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target, ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  ::google::protobuf::internal::CachedSize* AccessCachedSize() const final;
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(RevenantForgedShadowDamaged* other);
+
+  private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() {
+    return "rtech.liveapi.RevenantForgedShadowDamaged";
+  }
+  protected:
+  explicit RevenantForgedShadowDamaged(::google::protobuf::Arena* arena);
+  RevenantForgedShadowDamaged(::google::protobuf::Arena* arena, const RevenantForgedShadowDamaged& from);
+  public:
+
+  static const ClassData _class_data_;
+  const ::google::protobuf::Message::ClassData*GetClassData() const final;
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kCategoryFieldNumber = 2,
+    kAttackerFieldNumber = 3,
+    kVictimFieldNumber = 4,
+    kTimestampFieldNumber = 1,
+    kDamageInflictedFieldNumber = 6,
+  };
+  // string category = 2;
+  void clear_category() ;
+  const std::string& category() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_category(Arg_&& arg, Args_... args);
+  std::string* mutable_category();
+  PROTOBUF_NODISCARD std::string* release_category();
+  void set_allocated_category(std::string* value);
+
+  private:
+  const std::string& _internal_category() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_category(
+      const std::string& value);
+  std::string* _internal_mutable_category();
+
+  public:
+  // .rtech.liveapi.Player attacker = 3;
+  bool has_attacker() const;
+  void clear_attacker() ;
+  const ::rtech::liveapi::Player& attacker() const;
+  PROTOBUF_NODISCARD ::rtech::liveapi::Player* release_attacker();
+  ::rtech::liveapi::Player* mutable_attacker();
+  void set_allocated_attacker(::rtech::liveapi::Player* value);
+  void unsafe_arena_set_allocated_attacker(::rtech::liveapi::Player* value);
+  ::rtech::liveapi::Player* unsafe_arena_release_attacker();
+
+  private:
+  const ::rtech::liveapi::Player& _internal_attacker() const;
+  ::rtech::liveapi::Player* _internal_mutable_attacker();
+
+  public:
+  // .rtech.liveapi.Player victim = 4;
+  bool has_victim() const;
+  void clear_victim() ;
+  const ::rtech::liveapi::Player& victim() const;
+  PROTOBUF_NODISCARD ::rtech::liveapi::Player* release_victim();
+  ::rtech::liveapi::Player* mutable_victim();
+  void set_allocated_victim(::rtech::liveapi::Player* value);
+  void unsafe_arena_set_allocated_victim(::rtech::liveapi::Player* value);
+  ::rtech::liveapi::Player* unsafe_arena_release_victim();
+
+  private:
+  const ::rtech::liveapi::Player& _internal_victim() const;
+  ::rtech::liveapi::Player* _internal_mutable_victim();
+
+  public:
+  // uint64 timestamp = 1;
+  void clear_timestamp() ;
+  ::uint64_t timestamp() const;
+  void set_timestamp(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_timestamp() const;
+  void _internal_set_timestamp(::uint64_t value);
+
+  public:
+  // uint32 damageInflicted = 6;
+  void clear_damageinflicted() ;
+  ::uint32_t damageinflicted() const;
+  void set_damageinflicted(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_damageinflicted() const;
+  void _internal_set_damageinflicted(::uint32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.RevenantForgedShadowDamaged)
+ private:
+  class _Internal;
+
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      3, 5, 2,
+      58, 2>
+      _table_;
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+
+        inline explicit constexpr Impl_(
+            ::google::protobuf::internal::ConstantInitialized) noexcept;
+        inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                              ::google::protobuf::Arena* arena);
+        inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                              ::google::protobuf::Arena* arena, const Impl_& from);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr category_;
+    ::rtech::liveapi::Player* attacker_;
+    ::rtech::liveapi::Player* victim_;
+    ::uint64_t timestamp_;
+    ::uint32_t damageinflicted_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_events_2eproto;
+};// -------------------------------------------------------------------
+
+class PlayerUpgradeTierChanged final :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:rtech.liveapi.PlayerUpgradeTierChanged) */ {
+ public:
+  inline PlayerUpgradeTierChanged() : PlayerUpgradeTierChanged(nullptr) {}
+  ~PlayerUpgradeTierChanged() override;
+  template<typename = void>
+  explicit PROTOBUF_CONSTEXPR PlayerUpgradeTierChanged(::google::protobuf::internal::ConstantInitialized);
+
+  inline PlayerUpgradeTierChanged(const PlayerUpgradeTierChanged& from)
+      : PlayerUpgradeTierChanged(nullptr, from) {}
+  PlayerUpgradeTierChanged(PlayerUpgradeTierChanged&& from) noexcept
+    : PlayerUpgradeTierChanged() {
+    *this = ::std::move(from);
+  }
+
+  inline PlayerUpgradeTierChanged& operator=(const PlayerUpgradeTierChanged& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PlayerUpgradeTierChanged& operator=(PlayerUpgradeTierChanged&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const PlayerUpgradeTierChanged& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const PlayerUpgradeTierChanged* internal_default_instance() {
+    return reinterpret_cast<const PlayerUpgradeTierChanged*>(
+               &_PlayerUpgradeTierChanged_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    20;
+
+  friend void swap(PlayerUpgradeTierChanged& a, PlayerUpgradeTierChanged& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(PlayerUpgradeTierChanged* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr &&
+        GetArena() == other->GetArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PlayerUpgradeTierChanged* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  PlayerUpgradeTierChanged* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<PlayerUpgradeTierChanged>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const PlayerUpgradeTierChanged& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom( const PlayerUpgradeTierChanged& from) {
+    PlayerUpgradeTierChanged::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  ::size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::google::protobuf::internal::ParseContext* ctx) final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target, ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  ::google::protobuf::internal::CachedSize* AccessCachedSize() const final;
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(PlayerUpgradeTierChanged* other);
+
+  private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() {
+    return "rtech.liveapi.PlayerUpgradeTierChanged";
+  }
+  protected:
+  explicit PlayerUpgradeTierChanged(::google::protobuf::Arena* arena);
+  PlayerUpgradeTierChanged(::google::protobuf::Arena* arena, const PlayerUpgradeTierChanged& from);
+  public:
+
+  static const ClassData _class_data_;
+  const ::google::protobuf::Message::ClassData*GetClassData() const final;
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kCategoryFieldNumber = 2,
+    kPlayerFieldNumber = 3,
+    kTimestampFieldNumber = 1,
+    kLevelFieldNumber = 4,
+  };
+  // string category = 2;
+  void clear_category() ;
+  const std::string& category() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_category(Arg_&& arg, Args_... args);
+  std::string* mutable_category();
+  PROTOBUF_NODISCARD std::string* release_category();
+  void set_allocated_category(std::string* value);
+
+  private:
+  const std::string& _internal_category() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_category(
+      const std::string& value);
+  std::string* _internal_mutable_category();
+
+  public:
+  // .rtech.liveapi.Player player = 3;
+  bool has_player() const;
+  void clear_player() ;
+  const ::rtech::liveapi::Player& player() const;
+  PROTOBUF_NODISCARD ::rtech::liveapi::Player* release_player();
+  ::rtech::liveapi::Player* mutable_player();
+  void set_allocated_player(::rtech::liveapi::Player* value);
+  void unsafe_arena_set_allocated_player(::rtech::liveapi::Player* value);
+  ::rtech::liveapi::Player* unsafe_arena_release_player();
+
+  private:
+  const ::rtech::liveapi::Player& _internal_player() const;
+  ::rtech::liveapi::Player* _internal_mutable_player();
+
+  public:
+  // uint64 timestamp = 1;
+  void clear_timestamp() ;
+  ::uint64_t timestamp() const;
+  void set_timestamp(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_timestamp() const;
+  void _internal_set_timestamp(::uint64_t value);
+
+  public:
+  // int32 level = 4;
+  void clear_level() ;
+  ::int32_t level() const;
+  void set_level(::int32_t value);
+
+  private:
+  ::int32_t _internal_level() const;
+  void _internal_set_level(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.PlayerUpgradeTierChanged)
+ private:
+  class _Internal;
+
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 4, 1,
+      55, 2>
+      _table_;
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+
+        inline explicit constexpr Impl_(
+            ::google::protobuf::internal::ConstantInitialized) noexcept;
+        inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                              ::google::protobuf::Arena* arena);
+        inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                              ::google::protobuf::Arena* arena, const Impl_& from);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr category_;
+    ::rtech::liveapi::Player* player_;
+    ::uint64_t timestamp_;
+    ::int32_t level_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_events_2eproto;
+};// -------------------------------------------------------------------
+
 class PlayerStatChanged final :
     public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:rtech.liveapi.PlayerStatChanged) */ {
  public:
@@ -7810,7 +8557,7 @@ class PlayerStatChanged final :
                &_PlayerStatChanged_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    19;
 
   friend void swap(PlayerStatChanged& a, PlayerStatChanged& b) {
     a.Swap(&b);
@@ -8051,7 +8798,7 @@ class PlayerRevive final :
                &_PlayerRevive_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    29;
 
   friend void swap(PlayerRevive& a, PlayerRevive& b) {
     a.Swap(&b);
@@ -8279,7 +9026,7 @@ class PlayerRespawnTeam final :
                &_PlayerRespawnTeam_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    28;
 
   friend void swap(PlayerRespawnTeam& a, PlayerRespawnTeam& b) {
     a.Swap(&b);
@@ -8508,7 +9255,7 @@ class PlayerKilled final :
                &_PlayerKilled_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    19;
+    22;
 
   friend void swap(PlayerKilled& a, PlayerKilled& b) {
     a.Swap(&b);
@@ -8585,7 +9332,6 @@ class PlayerKilled final :
     kWeaponFieldNumber = 6,
     kAttackerFieldNumber = 3,
     kVictimFieldNumber = 4,
-    kAwardedToFieldNumber = 5,
     kTimestampFieldNumber = 1,
   };
   // string category = 2;
@@ -8650,21 +9396,6 @@ class PlayerKilled final :
   ::rtech::liveapi::Player* _internal_mutable_victim();
 
   public:
-  // .rtech.liveapi.Player awardedTo = 5;
-  bool has_awardedto() const;
-  void clear_awardedto() ;
-  const ::rtech::liveapi::Player& awardedto() const;
-  PROTOBUF_NODISCARD ::rtech::liveapi::Player* release_awardedto();
-  ::rtech::liveapi::Player* mutable_awardedto();
-  void set_allocated_awardedto(::rtech::liveapi::Player* value);
-  void unsafe_arena_set_allocated_awardedto(::rtech::liveapi::Player* value);
-  ::rtech::liveapi::Player* unsafe_arena_release_awardedto();
-
-  private:
-  const ::rtech::liveapi::Player& _internal_awardedto() const;
-  ::rtech::liveapi::Player* _internal_mutable_awardedto();
-
-  public:
   // uint64 timestamp = 1;
   void clear_timestamp() ;
   ::uint64_t timestamp() const;
@@ -8681,7 +9412,7 @@ class PlayerKilled final :
 
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 6, 3,
+      3, 5, 2,
       49, 2>
       _table_;
   friend class ::google::protobuf::MessageLite;
@@ -8704,7 +9435,6 @@ class PlayerKilled final :
     ::google::protobuf::internal::ArenaStringPtr weapon_;
     ::rtech::liveapi::Player* attacker_;
     ::rtech::liveapi::Player* victim_;
-    ::rtech::liveapi::Player* awardedto_;
     ::uint64_t timestamp_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -8771,7 +9501,7 @@ class PlayerDowned final :
                &_PlayerDowned_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    23;
 
   friend void swap(PlayerDowned& a, PlayerDowned& b) {
     a.Swap(&b);
@@ -9017,7 +9747,7 @@ class PlayerDisconnected final :
                &_PlayerDisconnected_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    18;
 
   friend void swap(PlayerDisconnected& a, PlayerDisconnected& b) {
     a.Swap(&b);
@@ -9252,7 +9982,7 @@ class PlayerDamaged final :
                &_PlayerDamaged_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    21;
 
   friend void swap(PlayerDamaged& a, PlayerDamaged& b) {
     a.Swap(&b);
@@ -9510,7 +10240,7 @@ class PlayerConnected final :
                &_PlayerConnected_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    17;
 
   friend void swap(PlayerConnected& a, PlayerConnected& b) {
     a.Swap(&b);
@@ -9721,7 +10451,7 @@ class PlayerAssist final :
                &_PlayerAssist_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    24;
 
   friend void swap(PlayerAssist& a, PlayerAssist& b) {
     a.Swap(&b);
@@ -9967,7 +10697,7 @@ class PlayerAbilityUsed final :
                &_PlayerAbilityUsed_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    36;
 
   friend void swap(PlayerAbilityUsed& a, PlayerAbilityUsed& b) {
     a.Swap(&b);
@@ -10196,7 +10926,7 @@ class ObserverSwitched final :
                &_ObserverSwitched_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    9;
 
   friend void swap(ObserverSwitched& a, ObserverSwitched& b) {
     a.Swap(&b);
@@ -10444,7 +11174,7 @@ class MatchStateEnd final :
                &_MatchStateEnd_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    14;
 
   friend void swap(MatchStateEnd& a, MatchStateEnd& b) {
     a.Swap(&b);
@@ -10616,6 +11346,589 @@ class MatchStateEnd final :
   friend struct ::TableStruct_events_2eproto;
 };// -------------------------------------------------------------------
 
+class MatchSetup final :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:rtech.liveapi.MatchSetup) */ {
+ public:
+  inline MatchSetup() : MatchSetup(nullptr) {}
+  ~MatchSetup() override;
+  template<typename = void>
+  explicit PROTOBUF_CONSTEXPR MatchSetup(::google::protobuf::internal::ConstantInitialized);
+
+  inline MatchSetup(const MatchSetup& from)
+      : MatchSetup(nullptr, from) {}
+  MatchSetup(MatchSetup&& from) noexcept
+    : MatchSetup() {
+    *this = ::std::move(from);
+  }
+
+  inline MatchSetup& operator=(const MatchSetup& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline MatchSetup& operator=(MatchSetup&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const MatchSetup& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const MatchSetup* internal_default_instance() {
+    return reinterpret_cast<const MatchSetup*>(
+               &_MatchSetup_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    11;
+
+  friend void swap(MatchSetup& a, MatchSetup& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(MatchSetup* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr &&
+        GetArena() == other->GetArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(MatchSetup* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  MatchSetup* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<MatchSetup>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const MatchSetup& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom( const MatchSetup& from) {
+    MatchSetup::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  ::size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::google::protobuf::internal::ParseContext* ctx) final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target, ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  ::google::protobuf::internal::CachedSize* AccessCachedSize() const final;
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(MatchSetup* other);
+
+  private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() {
+    return "rtech.liveapi.MatchSetup";
+  }
+  protected:
+  explicit MatchSetup(::google::protobuf::Arena* arena);
+  MatchSetup(::google::protobuf::Arena* arena, const MatchSetup& from);
+  public:
+
+  static const ClassData _class_data_;
+  const ::google::protobuf::Message::ClassData*GetClassData() const final;
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kCategoryFieldNumber = 2,
+    kMapFieldNumber = 3,
+    kPlaylistNameFieldNumber = 4,
+    kPlaylistDescFieldNumber = 5,
+    kServerIdFieldNumber = 9,
+    kDatacenterFieldNumber = 6,
+    kStartingLoadoutFieldNumber = 10,
+    kTimestampFieldNumber = 1,
+    kAimAssistOnFieldNumber = 7,
+    kAnonymousModeFieldNumber = 8,
+  };
+  // string category = 2;
+  void clear_category() ;
+  const std::string& category() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_category(Arg_&& arg, Args_... args);
+  std::string* mutable_category();
+  PROTOBUF_NODISCARD std::string* release_category();
+  void set_allocated_category(std::string* value);
+
+  private:
+  const std::string& _internal_category() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_category(
+      const std::string& value);
+  std::string* _internal_mutable_category();
+
+  public:
+  // string map = 3;
+  void clear_map() ;
+  const std::string& map() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_map(Arg_&& arg, Args_... args);
+  std::string* mutable_map();
+  PROTOBUF_NODISCARD std::string* release_map();
+  void set_allocated_map(std::string* value);
+
+  private:
+  const std::string& _internal_map() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_map(
+      const std::string& value);
+  std::string* _internal_mutable_map();
+
+  public:
+  // string playlistName = 4;
+  void clear_playlistname() ;
+  const std::string& playlistname() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_playlistname(Arg_&& arg, Args_... args);
+  std::string* mutable_playlistname();
+  PROTOBUF_NODISCARD std::string* release_playlistname();
+  void set_allocated_playlistname(std::string* value);
+
+  private:
+  const std::string& _internal_playlistname() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_playlistname(
+      const std::string& value);
+  std::string* _internal_mutable_playlistname();
+
+  public:
+  // string playlistDesc = 5;
+  void clear_playlistdesc() ;
+  const std::string& playlistdesc() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_playlistdesc(Arg_&& arg, Args_... args);
+  std::string* mutable_playlistdesc();
+  PROTOBUF_NODISCARD std::string* release_playlistdesc();
+  void set_allocated_playlistdesc(std::string* value);
+
+  private:
+  const std::string& _internal_playlistdesc() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_playlistdesc(
+      const std::string& value);
+  std::string* _internal_mutable_playlistdesc();
+
+  public:
+  // string serverId = 9;
+  void clear_serverid() ;
+  const std::string& serverid() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_serverid(Arg_&& arg, Args_... args);
+  std::string* mutable_serverid();
+  PROTOBUF_NODISCARD std::string* release_serverid();
+  void set_allocated_serverid(std::string* value);
+
+  private:
+  const std::string& _internal_serverid() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_serverid(
+      const std::string& value);
+  std::string* _internal_mutable_serverid();
+
+  public:
+  // .rtech.liveapi.Datacenter datacenter = 6;
+  bool has_datacenter() const;
+  void clear_datacenter() ;
+  const ::rtech::liveapi::Datacenter& datacenter() const;
+  PROTOBUF_NODISCARD ::rtech::liveapi::Datacenter* release_datacenter();
+  ::rtech::liveapi::Datacenter* mutable_datacenter();
+  void set_allocated_datacenter(::rtech::liveapi::Datacenter* value);
+  void unsafe_arena_set_allocated_datacenter(::rtech::liveapi::Datacenter* value);
+  ::rtech::liveapi::Datacenter* unsafe_arena_release_datacenter();
+
+  private:
+  const ::rtech::liveapi::Datacenter& _internal_datacenter() const;
+  ::rtech::liveapi::Datacenter* _internal_mutable_datacenter();
+
+  public:
+  // .rtech.liveapi.LoadoutConfiguration startingLoadout = 10;
+  bool has_startingloadout() const;
+  void clear_startingloadout() ;
+  const ::rtech::liveapi::LoadoutConfiguration& startingloadout() const;
+  PROTOBUF_NODISCARD ::rtech::liveapi::LoadoutConfiguration* release_startingloadout();
+  ::rtech::liveapi::LoadoutConfiguration* mutable_startingloadout();
+  void set_allocated_startingloadout(::rtech::liveapi::LoadoutConfiguration* value);
+  void unsafe_arena_set_allocated_startingloadout(::rtech::liveapi::LoadoutConfiguration* value);
+  ::rtech::liveapi::LoadoutConfiguration* unsafe_arena_release_startingloadout();
+
+  private:
+  const ::rtech::liveapi::LoadoutConfiguration& _internal_startingloadout() const;
+  ::rtech::liveapi::LoadoutConfiguration* _internal_mutable_startingloadout();
+
+  public:
+  // uint64 timestamp = 1;
+  void clear_timestamp() ;
+  ::uint64_t timestamp() const;
+  void set_timestamp(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_timestamp() const;
+  void _internal_set_timestamp(::uint64_t value);
+
+  public:
+  // bool aimAssistOn = 7;
+  void clear_aimassiston() ;
+  bool aimassiston() const;
+  void set_aimassiston(bool value);
+
+  private:
+  bool _internal_aimassiston() const;
+  void _internal_set_aimassiston(bool value);
+
+  public:
+  // bool anonymousMode = 8;
+  void clear_anonymousmode() ;
+  bool anonymousmode() const;
+  void set_anonymousmode(bool value);
+
+  private:
+  bool _internal_anonymousmode() const;
+  void _internal_set_anonymousmode(bool value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.MatchSetup)
+ private:
+  class _Internal;
+
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      4, 10, 2,
+      84, 2>
+      _table_;
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+
+        inline explicit constexpr Impl_(
+            ::google::protobuf::internal::ConstantInitialized) noexcept;
+        inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                              ::google::protobuf::Arena* arena);
+        inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                              ::google::protobuf::Arena* arena, const Impl_& from);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr category_;
+    ::google::protobuf::internal::ArenaStringPtr map_;
+    ::google::protobuf::internal::ArenaStringPtr playlistname_;
+    ::google::protobuf::internal::ArenaStringPtr playlistdesc_;
+    ::google::protobuf::internal::ArenaStringPtr serverid_;
+    ::rtech::liveapi::Datacenter* datacenter_;
+    ::rtech::liveapi::LoadoutConfiguration* startingloadout_;
+    ::uint64_t timestamp_;
+    bool aimassiston_;
+    bool anonymousmode_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_events_2eproto;
+};// -------------------------------------------------------------------
+
+class LegendUpgradeSelected final :
+    public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:rtech.liveapi.LegendUpgradeSelected) */ {
+ public:
+  inline LegendUpgradeSelected() : LegendUpgradeSelected(nullptr) {}
+  ~LegendUpgradeSelected() override;
+  template<typename = void>
+  explicit PROTOBUF_CONSTEXPR LegendUpgradeSelected(::google::protobuf::internal::ConstantInitialized);
+
+  inline LegendUpgradeSelected(const LegendUpgradeSelected& from)
+      : LegendUpgradeSelected(nullptr, from) {}
+  LegendUpgradeSelected(LegendUpgradeSelected&& from) noexcept
+    : LegendUpgradeSelected() {
+    *this = ::std::move(from);
+  }
+
+  inline LegendUpgradeSelected& operator=(const LegendUpgradeSelected& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline LegendUpgradeSelected& operator=(LegendUpgradeSelected&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const LegendUpgradeSelected& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const LegendUpgradeSelected* internal_default_instance() {
+    return reinterpret_cast<const LegendUpgradeSelected*>(
+               &_LegendUpgradeSelected_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    37;
+
+  friend void swap(LegendUpgradeSelected& a, LegendUpgradeSelected& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(LegendUpgradeSelected* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr &&
+        GetArena() == other->GetArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(LegendUpgradeSelected* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  LegendUpgradeSelected* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<LegendUpgradeSelected>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const LegendUpgradeSelected& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom( const LegendUpgradeSelected& from) {
+    LegendUpgradeSelected::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  ::size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::google::protobuf::internal::ParseContext* ctx) final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target, ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  ::google::protobuf::internal::CachedSize* AccessCachedSize() const final;
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(LegendUpgradeSelected* other);
+
+  private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() {
+    return "rtech.liveapi.LegendUpgradeSelected";
+  }
+  protected:
+  explicit LegendUpgradeSelected(::google::protobuf::Arena* arena);
+  LegendUpgradeSelected(::google::protobuf::Arena* arena, const LegendUpgradeSelected& from);
+  public:
+
+  static const ClassData _class_data_;
+  const ::google::protobuf::Message::ClassData*GetClassData() const final;
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kCategoryFieldNumber = 2,
+    kUpgradeNameFieldNumber = 4,
+    kUpgradeDescFieldNumber = 5,
+    kPlayerFieldNumber = 3,
+    kTimestampFieldNumber = 1,
+    kLevelFieldNumber = 6,
+  };
+  // string category = 2;
+  void clear_category() ;
+  const std::string& category() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_category(Arg_&& arg, Args_... args);
+  std::string* mutable_category();
+  PROTOBUF_NODISCARD std::string* release_category();
+  void set_allocated_category(std::string* value);
+
+  private:
+  const std::string& _internal_category() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_category(
+      const std::string& value);
+  std::string* _internal_mutable_category();
+
+  public:
+  // string upgradeName = 4;
+  void clear_upgradename() ;
+  const std::string& upgradename() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_upgradename(Arg_&& arg, Args_... args);
+  std::string* mutable_upgradename();
+  PROTOBUF_NODISCARD std::string* release_upgradename();
+  void set_allocated_upgradename(std::string* value);
+
+  private:
+  const std::string& _internal_upgradename() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_upgradename(
+      const std::string& value);
+  std::string* _internal_mutable_upgradename();
+
+  public:
+  // string upgradeDesc = 5;
+  void clear_upgradedesc() ;
+  const std::string& upgradedesc() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_upgradedesc(Arg_&& arg, Args_... args);
+  std::string* mutable_upgradedesc();
+  PROTOBUF_NODISCARD std::string* release_upgradedesc();
+  void set_allocated_upgradedesc(std::string* value);
+
+  private:
+  const std::string& _internal_upgradedesc() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_upgradedesc(
+      const std::string& value);
+  std::string* _internal_mutable_upgradedesc();
+
+  public:
+  // .rtech.liveapi.Player player = 3;
+  bool has_player() const;
+  void clear_player() ;
+  const ::rtech::liveapi::Player& player() const;
+  PROTOBUF_NODISCARD ::rtech::liveapi::Player* release_player();
+  ::rtech::liveapi::Player* mutable_player();
+  void set_allocated_player(::rtech::liveapi::Player* value);
+  void unsafe_arena_set_allocated_player(::rtech::liveapi::Player* value);
+  ::rtech::liveapi::Player* unsafe_arena_release_player();
+
+  private:
+  const ::rtech::liveapi::Player& _internal_player() const;
+  ::rtech::liveapi::Player* _internal_mutable_player();
+
+  public:
+  // uint64 timestamp = 1;
+  void clear_timestamp() ;
+  ::uint64_t timestamp() const;
+  void set_timestamp(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_timestamp() const;
+  void _internal_set_timestamp(::uint64_t value);
+
+  public:
+  // int32 level = 6;
+  void clear_level() ;
+  ::int32_t level() const;
+  void set_level(::int32_t value);
+
+  private:
+  ::int32_t _internal_level() const;
+  void _internal_set_level(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.LegendUpgradeSelected)
+ private:
+  class _Internal;
+
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      3, 6, 1,
+      74, 2>
+      _table_;
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+
+        inline explicit constexpr Impl_(
+            ::google::protobuf::internal::ConstantInitialized) noexcept;
+        inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                              ::google::protobuf::Arena* arena);
+        inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                              ::google::protobuf::Arena* arena, const Impl_& from);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr category_;
+    ::google::protobuf::internal::ArenaStringPtr upgradename_;
+    ::google::protobuf::internal::ArenaStringPtr upgradedesc_;
+    ::rtech::liveapi::Player* player_;
+    ::uint64_t timestamp_;
+    ::int32_t level_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_events_2eproto;
+};// -------------------------------------------------------------------
+
 class InventoryUse final :
     public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:rtech.liveapi.InventoryUse) */ {
  public:
@@ -10675,7 +11988,7 @@ class InventoryUse final :
                &_InventoryUse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    34;
 
   friend void swap(InventoryUse& a, InventoryUse& b) {
     a.Swap(&b);
@@ -10916,7 +12229,7 @@ class InventoryPickUp final :
                &_InventoryPickUp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    32;
 
   friend void swap(InventoryPickUp& a, InventoryPickUp& b) {
     a.Swap(&b);
@@ -11157,7 +12470,7 @@ class InventoryDrop final :
                &_InventoryDrop_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    33;
 
   friend void swap(InventoryDrop& a, InventoryDrop& b) {
     a.Swap(&b);
@@ -11428,7 +12741,7 @@ class GrenadeThrown final :
                &_GrenadeThrown_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    34;
+    39;
 
   friend void swap(GrenadeThrown& a, GrenadeThrown& b) {
     a.Swap(&b);
@@ -11657,7 +12970,7 @@ class GibraltarShieldAbsorbed final :
                &_GibraltarShieldAbsorbed_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    26;
 
   friend void swap(GibraltarShieldAbsorbed& a, GibraltarShieldAbsorbed& b) {
     a.Swap(&b);
@@ -11897,7 +13210,7 @@ class CharacterSelected final :
                &_CharacterSelected_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    13;
 
   friend void swap(CharacterSelected& a, CharacterSelected& b) {
     a.Swap(&b);
@@ -12108,7 +13421,7 @@ class BlackMarketAction final :
                &_BlackMarketAction_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    35;
+    40;
 
   friend void swap(BlackMarketAction& a, BlackMarketAction& b) {
     a.Swap(&b);
@@ -12337,7 +13650,7 @@ class BannerCollected final :
                &_BannerCollected_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    35;
 
   friend void swap(BannerCollected& a, BannerCollected& b) {
     a.Swap(&b);
@@ -12565,7 +13878,7 @@ class ArenasItemSelected final :
                &_ArenasItemSelected_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    30;
 
   friend void swap(ArenasItemSelected& a, ArenasItemSelected& b) {
     a.Swap(&b);
@@ -12806,7 +14119,7 @@ class ArenasItemDeselected final :
                &_ArenasItemDeselected_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    31;
 
   friend void swap(ArenasItemDeselected& a, ArenasItemDeselected& b) {
     a.Swap(&b);
@@ -13047,7 +14360,7 @@ class AmmoUsed final :
                &_AmmoUsed_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    38;
+    43;
 
   friend void swap(AmmoUsed& a, AmmoUsed& b) {
     a.Swap(&b);
@@ -14437,6 +15750,241 @@ inline void Version::set_allocated_revision(std::string* value) {
 
 // -------------------------------------------------------------------
 
+// InventoryItem
+
+// int32 quantity = 1;
+inline void InventoryItem::clear_quantity() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.quantity_ = 0;
+}
+inline ::int32_t InventoryItem::quantity() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.InventoryItem.quantity)
+  return _internal_quantity();
+}
+inline void InventoryItem::set_quantity(::int32_t value) {
+  _internal_set_quantity(value);
+  // @@protoc_insertion_point(field_set:rtech.liveapi.InventoryItem.quantity)
+}
+inline ::int32_t InventoryItem::_internal_quantity() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.quantity_;
+}
+inline void InventoryItem::_internal_set_quantity(::int32_t value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.quantity_ = value;
+}
+
+// string item = 2;
+inline void InventoryItem::clear_item() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.item_.ClearToEmpty();
+}
+inline const std::string& InventoryItem::item() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.InventoryItem.item)
+  return _internal_item();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void InventoryItem::set_item(Arg_&& arg,
+                                                     Args_... args) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.item_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:rtech.liveapi.InventoryItem.item)
+}
+inline std::string* InventoryItem::mutable_item() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_item();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.InventoryItem.item)
+  return _s;
+}
+inline const std::string& InventoryItem::_internal_item() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.item_.Get();
+}
+inline void InventoryItem::_internal_set_item(const std::string& value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.item_.Set(value, GetArena());
+}
+inline std::string* InventoryItem::_internal_mutable_item() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  return _impl_.item_.Mutable( GetArena());
+}
+inline std::string* InventoryItem::release_item() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.InventoryItem.item)
+  return _impl_.item_.Release();
+}
+inline void InventoryItem::set_allocated_item(std::string* value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.item_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.item_.IsDefault()) {
+          _impl_.item_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.InventoryItem.item)
+}
+
+// string extraData = 3;
+inline void InventoryItem::clear_extradata() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.extradata_.ClearToEmpty();
+}
+inline const std::string& InventoryItem::extradata() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.InventoryItem.extraData)
+  return _internal_extradata();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void InventoryItem::set_extradata(Arg_&& arg,
+                                                     Args_... args) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.extradata_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:rtech.liveapi.InventoryItem.extraData)
+}
+inline std::string* InventoryItem::mutable_extradata() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_extradata();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.InventoryItem.extraData)
+  return _s;
+}
+inline const std::string& InventoryItem::_internal_extradata() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.extradata_.Get();
+}
+inline void InventoryItem::_internal_set_extradata(const std::string& value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.extradata_.Set(value, GetArena());
+}
+inline std::string* InventoryItem::_internal_mutable_extradata() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  return _impl_.extradata_.Mutable( GetArena());
+}
+inline std::string* InventoryItem::release_extradata() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.InventoryItem.extraData)
+  return _impl_.extradata_.Release();
+}
+inline void InventoryItem::set_allocated_extradata(std::string* value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.extradata_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.extradata_.IsDefault()) {
+          _impl_.extradata_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.InventoryItem.extraData)
+}
+
+// -------------------------------------------------------------------
+
+// LoadoutConfiguration
+
+// repeated .rtech.liveapi.InventoryItem weapons = 1;
+inline int LoadoutConfiguration::_internal_weapons_size() const {
+  return _internal_weapons().size();
+}
+inline int LoadoutConfiguration::weapons_size() const {
+  return _internal_weapons_size();
+}
+inline void LoadoutConfiguration::clear_weapons() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.weapons_.Clear();
+}
+inline ::rtech::liveapi::InventoryItem* LoadoutConfiguration::mutable_weapons(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.LoadoutConfiguration.weapons)
+  return _internal_mutable_weapons()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>* LoadoutConfiguration::mutable_weapons()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:rtech.liveapi.LoadoutConfiguration.weapons)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  return _internal_mutable_weapons();
+}
+inline const ::rtech::liveapi::InventoryItem& LoadoutConfiguration::weapons(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.LoadoutConfiguration.weapons)
+  return _internal_weapons().Get(index);
+}
+inline ::rtech::liveapi::InventoryItem* LoadoutConfiguration::add_weapons() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ::rtech::liveapi::InventoryItem* _add = _internal_mutable_weapons()->Add();
+  // @@protoc_insertion_point(field_add:rtech.liveapi.LoadoutConfiguration.weapons)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>& LoadoutConfiguration::weapons() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:rtech.liveapi.LoadoutConfiguration.weapons)
+  return _internal_weapons();
+}
+inline const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>&
+LoadoutConfiguration::_internal_weapons() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.weapons_;
+}
+inline ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>*
+LoadoutConfiguration::_internal_mutable_weapons() {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return &_impl_.weapons_;
+}
+
+// repeated .rtech.liveapi.InventoryItem equipment = 2;
+inline int LoadoutConfiguration::_internal_equipment_size() const {
+  return _internal_equipment().size();
+}
+inline int LoadoutConfiguration::equipment_size() const {
+  return _internal_equipment_size();
+}
+inline void LoadoutConfiguration::clear_equipment() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.equipment_.Clear();
+}
+inline ::rtech::liveapi::InventoryItem* LoadoutConfiguration::mutable_equipment(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.LoadoutConfiguration.equipment)
+  return _internal_mutable_equipment()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>* LoadoutConfiguration::mutable_equipment()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:rtech.liveapi.LoadoutConfiguration.equipment)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  return _internal_mutable_equipment();
+}
+inline const ::rtech::liveapi::InventoryItem& LoadoutConfiguration::equipment(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.LoadoutConfiguration.equipment)
+  return _internal_equipment().Get(index);
+}
+inline ::rtech::liveapi::InventoryItem* LoadoutConfiguration::add_equipment() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ::rtech::liveapi::InventoryItem* _add = _internal_mutable_equipment()->Add();
+  // @@protoc_insertion_point(field_add:rtech.liveapi.LoadoutConfiguration.equipment)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>& LoadoutConfiguration::equipment() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:rtech.liveapi.LoadoutConfiguration.equipment)
+  return _internal_equipment();
+}
+inline const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>&
+LoadoutConfiguration::_internal_equipment() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.equipment_;
+}
+inline ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>*
+LoadoutConfiguration::_internal_mutable_equipment() {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return &_impl_.equipment_;
+}
+
+// -------------------------------------------------------------------
+
 // Init
 
 // uint64 timestamp = 1;
@@ -15732,6 +17280,102 @@ inline void MatchSetup::set_allocated_serverid(std::string* value) {
         }
   #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.MatchSetup.serverId)
+}
+
+// .rtech.liveapi.LoadoutConfiguration startingLoadout = 10;
+inline bool MatchSetup::has_startingloadout() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.startingloadout_ != nullptr);
+  return value;
+}
+inline void MatchSetup::clear_startingloadout() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  if (_impl_.startingloadout_ != nullptr) _impl_.startingloadout_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const ::rtech::liveapi::LoadoutConfiguration& MatchSetup::_internal_startingloadout() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  const ::rtech::liveapi::LoadoutConfiguration* p = _impl_.startingloadout_;
+  return p != nullptr ? *p : reinterpret_cast<const ::rtech::liveapi::LoadoutConfiguration&>(::rtech::liveapi::_LoadoutConfiguration_default_instance_);
+}
+inline const ::rtech::liveapi::LoadoutConfiguration& MatchSetup::startingloadout() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.MatchSetup.startingLoadout)
+  return _internal_startingloadout();
+}
+inline void MatchSetup::unsafe_arena_set_allocated_startingloadout(::rtech::liveapi::LoadoutConfiguration* value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.startingloadout_);
+  }
+  _impl_.startingloadout_ = reinterpret_cast<::rtech::liveapi::LoadoutConfiguration*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:rtech.liveapi.MatchSetup.startingLoadout)
+}
+inline ::rtech::liveapi::LoadoutConfiguration* MatchSetup::release_startingloadout() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::rtech::liveapi::LoadoutConfiguration* released = _impl_.startingloadout_;
+  _impl_.startingloadout_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+  released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+  if (GetArena() == nullptr) {
+    delete old;
+  }
+#else   // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArena() != nullptr) {
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return released;
+}
+inline ::rtech::liveapi::LoadoutConfiguration* MatchSetup::unsafe_arena_release_startingloadout() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.MatchSetup.startingLoadout)
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::rtech::liveapi::LoadoutConfiguration* temp = _impl_.startingloadout_;
+  _impl_.startingloadout_ = nullptr;
+  return temp;
+}
+inline ::rtech::liveapi::LoadoutConfiguration* MatchSetup::_internal_mutable_startingloadout() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  if (_impl_.startingloadout_ == nullptr) {
+    auto* p = CreateMaybeMessage<::rtech::liveapi::LoadoutConfiguration>(GetArena());
+    _impl_.startingloadout_ = reinterpret_cast<::rtech::liveapi::LoadoutConfiguration*>(p);
+  }
+  return _impl_.startingloadout_;
+}
+inline ::rtech::liveapi::LoadoutConfiguration* MatchSetup::mutable_startingloadout() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::rtech::liveapi::LoadoutConfiguration* _msg = _internal_mutable_startingloadout();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.MatchSetup.startingLoadout)
+  return _msg;
+}
+inline void MatchSetup::set_allocated_startingloadout(::rtech::liveapi::LoadoutConfiguration* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::rtech::liveapi::LoadoutConfiguration*>(_impl_.startingloadout_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::rtech::liveapi::LoadoutConfiguration*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+
+  _impl_.startingloadout_ = reinterpret_cast<::rtech::liveapi::LoadoutConfiguration*>(value);
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.MatchSetup.startingLoadout)
 }
 
 // -------------------------------------------------------------------
@@ -17390,6 +19034,205 @@ inline void PlayerStatChanged::_internal_set_newvalue(::uint32_t value) {
 
 // -------------------------------------------------------------------
 
+// PlayerUpgradeTierChanged
+
+// uint64 timestamp = 1;
+inline void PlayerUpgradeTierChanged::clear_timestamp() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.timestamp_ = ::uint64_t{0u};
+}
+inline ::uint64_t PlayerUpgradeTierChanged::timestamp() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.PlayerUpgradeTierChanged.timestamp)
+  return _internal_timestamp();
+}
+inline void PlayerUpgradeTierChanged::set_timestamp(::uint64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:rtech.liveapi.PlayerUpgradeTierChanged.timestamp)
+}
+inline ::uint64_t PlayerUpgradeTierChanged::_internal_timestamp() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.timestamp_;
+}
+inline void PlayerUpgradeTierChanged::_internal_set_timestamp(::uint64_t value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.timestamp_ = value;
+}
+
+// string category = 2;
+inline void PlayerUpgradeTierChanged::clear_category() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.category_.ClearToEmpty();
+}
+inline const std::string& PlayerUpgradeTierChanged::category() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.PlayerUpgradeTierChanged.category)
+  return _internal_category();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void PlayerUpgradeTierChanged::set_category(Arg_&& arg,
+                                                     Args_... args) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.category_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:rtech.liveapi.PlayerUpgradeTierChanged.category)
+}
+inline std::string* PlayerUpgradeTierChanged::mutable_category() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_category();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.PlayerUpgradeTierChanged.category)
+  return _s;
+}
+inline const std::string& PlayerUpgradeTierChanged::_internal_category() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.category_.Get();
+}
+inline void PlayerUpgradeTierChanged::_internal_set_category(const std::string& value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.category_.Set(value, GetArena());
+}
+inline std::string* PlayerUpgradeTierChanged::_internal_mutable_category() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  return _impl_.category_.Mutable( GetArena());
+}
+inline std::string* PlayerUpgradeTierChanged::release_category() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.PlayerUpgradeTierChanged.category)
+  return _impl_.category_.Release();
+}
+inline void PlayerUpgradeTierChanged::set_allocated_category(std::string* value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.category_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.category_.IsDefault()) {
+          _impl_.category_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.PlayerUpgradeTierChanged.category)
+}
+
+// .rtech.liveapi.Player player = 3;
+inline bool PlayerUpgradeTierChanged::has_player() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.player_ != nullptr);
+  return value;
+}
+inline void PlayerUpgradeTierChanged::clear_player() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  if (_impl_.player_ != nullptr) _impl_.player_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::rtech::liveapi::Player& PlayerUpgradeTierChanged::_internal_player() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  const ::rtech::liveapi::Player* p = _impl_.player_;
+  return p != nullptr ? *p : reinterpret_cast<const ::rtech::liveapi::Player&>(::rtech::liveapi::_Player_default_instance_);
+}
+inline const ::rtech::liveapi::Player& PlayerUpgradeTierChanged::player() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.PlayerUpgradeTierChanged.player)
+  return _internal_player();
+}
+inline void PlayerUpgradeTierChanged::unsafe_arena_set_allocated_player(::rtech::liveapi::Player* value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.player_);
+  }
+  _impl_.player_ = reinterpret_cast<::rtech::liveapi::Player*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:rtech.liveapi.PlayerUpgradeTierChanged.player)
+}
+inline ::rtech::liveapi::Player* PlayerUpgradeTierChanged::release_player() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::rtech::liveapi::Player* released = _impl_.player_;
+  _impl_.player_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+  released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+  if (GetArena() == nullptr) {
+    delete old;
+  }
+#else   // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArena() != nullptr) {
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return released;
+}
+inline ::rtech::liveapi::Player* PlayerUpgradeTierChanged::unsafe_arena_release_player() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.PlayerUpgradeTierChanged.player)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::rtech::liveapi::Player* temp = _impl_.player_;
+  _impl_.player_ = nullptr;
+  return temp;
+}
+inline ::rtech::liveapi::Player* PlayerUpgradeTierChanged::_internal_mutable_player() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  if (_impl_.player_ == nullptr) {
+    auto* p = CreateMaybeMessage<::rtech::liveapi::Player>(GetArena());
+    _impl_.player_ = reinterpret_cast<::rtech::liveapi::Player*>(p);
+  }
+  return _impl_.player_;
+}
+inline ::rtech::liveapi::Player* PlayerUpgradeTierChanged::mutable_player() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::rtech::liveapi::Player* _msg = _internal_mutable_player();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.PlayerUpgradeTierChanged.player)
+  return _msg;
+}
+inline void PlayerUpgradeTierChanged::set_allocated_player(::rtech::liveapi::Player* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::rtech::liveapi::Player*>(_impl_.player_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::rtech::liveapi::Player*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.player_ = reinterpret_cast<::rtech::liveapi::Player*>(value);
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.PlayerUpgradeTierChanged.player)
+}
+
+// int32 level = 4;
+inline void PlayerUpgradeTierChanged::clear_level() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.level_ = 0;
+}
+inline ::int32_t PlayerUpgradeTierChanged::level() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.PlayerUpgradeTierChanged.level)
+  return _internal_level();
+}
+inline void PlayerUpgradeTierChanged::set_level(::int32_t value) {
+  _internal_set_level(value);
+  // @@protoc_insertion_point(field_set:rtech.liveapi.PlayerUpgradeTierChanged.level)
+}
+inline ::int32_t PlayerUpgradeTierChanged::_internal_level() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.level_;
+}
+inline void PlayerUpgradeTierChanged::_internal_set_level(::int32_t value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.level_ = value;
+}
+
+// -------------------------------------------------------------------
+
 // PlayerDamaged
 
 // uint64 timestamp = 1;
@@ -18006,102 +19849,6 @@ inline void PlayerKilled::set_allocated_victim(::rtech::liveapi::Player* value) 
 
   _impl_.victim_ = reinterpret_cast<::rtech::liveapi::Player*>(value);
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.PlayerKilled.victim)
-}
-
-// .rtech.liveapi.Player awardedTo = 5;
-inline bool PlayerKilled::has_awardedto() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.awardedto_ != nullptr);
-  return value;
-}
-inline void PlayerKilled::clear_awardedto() {
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  if (_impl_.awardedto_ != nullptr) _impl_.awardedto_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000004u;
-}
-inline const ::rtech::liveapi::Player& PlayerKilled::_internal_awardedto() const {
-  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
-  const ::rtech::liveapi::Player* p = _impl_.awardedto_;
-  return p != nullptr ? *p : reinterpret_cast<const ::rtech::liveapi::Player&>(::rtech::liveapi::_Player_default_instance_);
-}
-inline const ::rtech::liveapi::Player& PlayerKilled::awardedto() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:rtech.liveapi.PlayerKilled.awardedTo)
-  return _internal_awardedto();
-}
-inline void PlayerKilled::unsafe_arena_set_allocated_awardedto(::rtech::liveapi::Player* value) {
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.awardedto_);
-  }
-  _impl_.awardedto_ = reinterpret_cast<::rtech::liveapi::Player*>(value);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000004u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000004u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:rtech.liveapi.PlayerKilled.awardedTo)
-}
-inline ::rtech::liveapi::Player* PlayerKilled::release_awardedto() {
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-
-  _impl_._has_bits_[0] &= ~0x00000004u;
-  ::rtech::liveapi::Player* released = _impl_.awardedto_;
-  _impl_.awardedto_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
-  released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-  if (GetArena() == nullptr) {
-    delete old;
-  }
-#else   // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArena() != nullptr) {
-    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return released;
-}
-inline ::rtech::liveapi::Player* PlayerKilled::unsafe_arena_release_awardedto() {
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  // @@protoc_insertion_point(field_release:rtech.liveapi.PlayerKilled.awardedTo)
-
-  _impl_._has_bits_[0] &= ~0x00000004u;
-  ::rtech::liveapi::Player* temp = _impl_.awardedto_;
-  _impl_.awardedto_ = nullptr;
-  return temp;
-}
-inline ::rtech::liveapi::Player* PlayerKilled::_internal_mutable_awardedto() {
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_._has_bits_[0] |= 0x00000004u;
-  if (_impl_.awardedto_ == nullptr) {
-    auto* p = CreateMaybeMessage<::rtech::liveapi::Player>(GetArena());
-    _impl_.awardedto_ = reinterpret_cast<::rtech::liveapi::Player*>(p);
-  }
-  return _impl_.awardedto_;
-}
-inline ::rtech::liveapi::Player* PlayerKilled::mutable_awardedto() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  ::rtech::liveapi::Player* _msg = _internal_mutable_awardedto();
-  // @@protoc_insertion_point(field_mutable:rtech.liveapi.PlayerKilled.awardedTo)
-  return _msg;
-}
-inline void PlayerKilled::set_allocated_awardedto(::rtech::liveapi::Player* value) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  if (message_arena == nullptr) {
-    delete reinterpret_cast<::rtech::liveapi::Player*>(_impl_.awardedto_);
-  }
-
-  if (value != nullptr) {
-    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::rtech::liveapi::Player*>(value)->GetArena();
-    if (message_arena != submessage_arena) {
-      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
-    }
-    _impl_._has_bits_[0] |= 0x00000004u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000004u;
-  }
-
-  _impl_.awardedto_ = reinterpret_cast<::rtech::liveapi::Player*>(value);
-  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.PlayerKilled.awardedTo)
 }
 
 // string weapon = 6;
@@ -19226,6 +20973,301 @@ inline ::uint32_t GibraltarShieldAbsorbed::_internal_damageinflicted() const {
   return _impl_.damageinflicted_;
 }
 inline void GibraltarShieldAbsorbed::_internal_set_damageinflicted(::uint32_t value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.damageinflicted_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// RevenantForgedShadowDamaged
+
+// uint64 timestamp = 1;
+inline void RevenantForgedShadowDamaged::clear_timestamp() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.timestamp_ = ::uint64_t{0u};
+}
+inline ::uint64_t RevenantForgedShadowDamaged::timestamp() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.RevenantForgedShadowDamaged.timestamp)
+  return _internal_timestamp();
+}
+inline void RevenantForgedShadowDamaged::set_timestamp(::uint64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:rtech.liveapi.RevenantForgedShadowDamaged.timestamp)
+}
+inline ::uint64_t RevenantForgedShadowDamaged::_internal_timestamp() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.timestamp_;
+}
+inline void RevenantForgedShadowDamaged::_internal_set_timestamp(::uint64_t value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.timestamp_ = value;
+}
+
+// string category = 2;
+inline void RevenantForgedShadowDamaged::clear_category() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.category_.ClearToEmpty();
+}
+inline const std::string& RevenantForgedShadowDamaged::category() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.RevenantForgedShadowDamaged.category)
+  return _internal_category();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void RevenantForgedShadowDamaged::set_category(Arg_&& arg,
+                                                     Args_... args) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.category_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:rtech.liveapi.RevenantForgedShadowDamaged.category)
+}
+inline std::string* RevenantForgedShadowDamaged::mutable_category() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_category();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.RevenantForgedShadowDamaged.category)
+  return _s;
+}
+inline const std::string& RevenantForgedShadowDamaged::_internal_category() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.category_.Get();
+}
+inline void RevenantForgedShadowDamaged::_internal_set_category(const std::string& value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.category_.Set(value, GetArena());
+}
+inline std::string* RevenantForgedShadowDamaged::_internal_mutable_category() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  return _impl_.category_.Mutable( GetArena());
+}
+inline std::string* RevenantForgedShadowDamaged::release_category() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.RevenantForgedShadowDamaged.category)
+  return _impl_.category_.Release();
+}
+inline void RevenantForgedShadowDamaged::set_allocated_category(std::string* value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.category_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.category_.IsDefault()) {
+          _impl_.category_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.RevenantForgedShadowDamaged.category)
+}
+
+// .rtech.liveapi.Player attacker = 3;
+inline bool RevenantForgedShadowDamaged::has_attacker() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.attacker_ != nullptr);
+  return value;
+}
+inline void RevenantForgedShadowDamaged::clear_attacker() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  if (_impl_.attacker_ != nullptr) _impl_.attacker_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::rtech::liveapi::Player& RevenantForgedShadowDamaged::_internal_attacker() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  const ::rtech::liveapi::Player* p = _impl_.attacker_;
+  return p != nullptr ? *p : reinterpret_cast<const ::rtech::liveapi::Player&>(::rtech::liveapi::_Player_default_instance_);
+}
+inline const ::rtech::liveapi::Player& RevenantForgedShadowDamaged::attacker() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.RevenantForgedShadowDamaged.attacker)
+  return _internal_attacker();
+}
+inline void RevenantForgedShadowDamaged::unsafe_arena_set_allocated_attacker(::rtech::liveapi::Player* value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.attacker_);
+  }
+  _impl_.attacker_ = reinterpret_cast<::rtech::liveapi::Player*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:rtech.liveapi.RevenantForgedShadowDamaged.attacker)
+}
+inline ::rtech::liveapi::Player* RevenantForgedShadowDamaged::release_attacker() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::rtech::liveapi::Player* released = _impl_.attacker_;
+  _impl_.attacker_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+  released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+  if (GetArena() == nullptr) {
+    delete old;
+  }
+#else   // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArena() != nullptr) {
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return released;
+}
+inline ::rtech::liveapi::Player* RevenantForgedShadowDamaged::unsafe_arena_release_attacker() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.RevenantForgedShadowDamaged.attacker)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::rtech::liveapi::Player* temp = _impl_.attacker_;
+  _impl_.attacker_ = nullptr;
+  return temp;
+}
+inline ::rtech::liveapi::Player* RevenantForgedShadowDamaged::_internal_mutable_attacker() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  if (_impl_.attacker_ == nullptr) {
+    auto* p = CreateMaybeMessage<::rtech::liveapi::Player>(GetArena());
+    _impl_.attacker_ = reinterpret_cast<::rtech::liveapi::Player*>(p);
+  }
+  return _impl_.attacker_;
+}
+inline ::rtech::liveapi::Player* RevenantForgedShadowDamaged::mutable_attacker() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::rtech::liveapi::Player* _msg = _internal_mutable_attacker();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.RevenantForgedShadowDamaged.attacker)
+  return _msg;
+}
+inline void RevenantForgedShadowDamaged::set_allocated_attacker(::rtech::liveapi::Player* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::rtech::liveapi::Player*>(_impl_.attacker_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::rtech::liveapi::Player*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.attacker_ = reinterpret_cast<::rtech::liveapi::Player*>(value);
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.RevenantForgedShadowDamaged.attacker)
+}
+
+// .rtech.liveapi.Player victim = 4;
+inline bool RevenantForgedShadowDamaged::has_victim() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.victim_ != nullptr);
+  return value;
+}
+inline void RevenantForgedShadowDamaged::clear_victim() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  if (_impl_.victim_ != nullptr) _impl_.victim_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const ::rtech::liveapi::Player& RevenantForgedShadowDamaged::_internal_victim() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  const ::rtech::liveapi::Player* p = _impl_.victim_;
+  return p != nullptr ? *p : reinterpret_cast<const ::rtech::liveapi::Player&>(::rtech::liveapi::_Player_default_instance_);
+}
+inline const ::rtech::liveapi::Player& RevenantForgedShadowDamaged::victim() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.RevenantForgedShadowDamaged.victim)
+  return _internal_victim();
+}
+inline void RevenantForgedShadowDamaged::unsafe_arena_set_allocated_victim(::rtech::liveapi::Player* value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.victim_);
+  }
+  _impl_.victim_ = reinterpret_cast<::rtech::liveapi::Player*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:rtech.liveapi.RevenantForgedShadowDamaged.victim)
+}
+inline ::rtech::liveapi::Player* RevenantForgedShadowDamaged::release_victim() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::rtech::liveapi::Player* released = _impl_.victim_;
+  _impl_.victim_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+  released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+  if (GetArena() == nullptr) {
+    delete old;
+  }
+#else   // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArena() != nullptr) {
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return released;
+}
+inline ::rtech::liveapi::Player* RevenantForgedShadowDamaged::unsafe_arena_release_victim() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.RevenantForgedShadowDamaged.victim)
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::rtech::liveapi::Player* temp = _impl_.victim_;
+  _impl_.victim_ = nullptr;
+  return temp;
+}
+inline ::rtech::liveapi::Player* RevenantForgedShadowDamaged::_internal_mutable_victim() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  if (_impl_.victim_ == nullptr) {
+    auto* p = CreateMaybeMessage<::rtech::liveapi::Player>(GetArena());
+    _impl_.victim_ = reinterpret_cast<::rtech::liveapi::Player*>(p);
+  }
+  return _impl_.victim_;
+}
+inline ::rtech::liveapi::Player* RevenantForgedShadowDamaged::mutable_victim() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::rtech::liveapi::Player* _msg = _internal_mutable_victim();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.RevenantForgedShadowDamaged.victim)
+  return _msg;
+}
+inline void RevenantForgedShadowDamaged::set_allocated_victim(::rtech::liveapi::Player* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::rtech::liveapi::Player*>(_impl_.victim_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::rtech::liveapi::Player*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+
+  _impl_.victim_ = reinterpret_cast<::rtech::liveapi::Player*>(value);
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.RevenantForgedShadowDamaged.victim)
+}
+
+// uint32 damageInflicted = 6;
+inline void RevenantForgedShadowDamaged::clear_damageinflicted() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.damageinflicted_ = 0u;
+}
+inline ::uint32_t RevenantForgedShadowDamaged::damageinflicted() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.RevenantForgedShadowDamaged.damageInflicted)
+  return _internal_damageinflicted();
+}
+inline void RevenantForgedShadowDamaged::set_damageinflicted(::uint32_t value) {
+  _internal_set_damageinflicted(value);
+  // @@protoc_insertion_point(field_set:rtech.liveapi.RevenantForgedShadowDamaged.damageInflicted)
+}
+inline ::uint32_t RevenantForgedShadowDamaged::_internal_damageinflicted() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.damageinflicted_;
+}
+inline void RevenantForgedShadowDamaged::_internal_set_damageinflicted(::uint32_t value) {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ;
   _impl_.damageinflicted_ = value;
@@ -21596,6 +23638,311 @@ inline void PlayerAbilityUsed::set_allocated_linkedentity(std::string* value) {
 
 // -------------------------------------------------------------------
 
+// LegendUpgradeSelected
+
+// uint64 timestamp = 1;
+inline void LegendUpgradeSelected::clear_timestamp() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.timestamp_ = ::uint64_t{0u};
+}
+inline ::uint64_t LegendUpgradeSelected::timestamp() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.LegendUpgradeSelected.timestamp)
+  return _internal_timestamp();
+}
+inline void LegendUpgradeSelected::set_timestamp(::uint64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:rtech.liveapi.LegendUpgradeSelected.timestamp)
+}
+inline ::uint64_t LegendUpgradeSelected::_internal_timestamp() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.timestamp_;
+}
+inline void LegendUpgradeSelected::_internal_set_timestamp(::uint64_t value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.timestamp_ = value;
+}
+
+// string category = 2;
+inline void LegendUpgradeSelected::clear_category() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.category_.ClearToEmpty();
+}
+inline const std::string& LegendUpgradeSelected::category() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.LegendUpgradeSelected.category)
+  return _internal_category();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void LegendUpgradeSelected::set_category(Arg_&& arg,
+                                                     Args_... args) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.category_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:rtech.liveapi.LegendUpgradeSelected.category)
+}
+inline std::string* LegendUpgradeSelected::mutable_category() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_category();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.LegendUpgradeSelected.category)
+  return _s;
+}
+inline const std::string& LegendUpgradeSelected::_internal_category() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.category_.Get();
+}
+inline void LegendUpgradeSelected::_internal_set_category(const std::string& value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.category_.Set(value, GetArena());
+}
+inline std::string* LegendUpgradeSelected::_internal_mutable_category() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  return _impl_.category_.Mutable( GetArena());
+}
+inline std::string* LegendUpgradeSelected::release_category() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.LegendUpgradeSelected.category)
+  return _impl_.category_.Release();
+}
+inline void LegendUpgradeSelected::set_allocated_category(std::string* value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.category_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.category_.IsDefault()) {
+          _impl_.category_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.LegendUpgradeSelected.category)
+}
+
+// .rtech.liveapi.Player player = 3;
+inline bool LegendUpgradeSelected::has_player() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.player_ != nullptr);
+  return value;
+}
+inline void LegendUpgradeSelected::clear_player() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  if (_impl_.player_ != nullptr) _impl_.player_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::rtech::liveapi::Player& LegendUpgradeSelected::_internal_player() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  const ::rtech::liveapi::Player* p = _impl_.player_;
+  return p != nullptr ? *p : reinterpret_cast<const ::rtech::liveapi::Player&>(::rtech::liveapi::_Player_default_instance_);
+}
+inline const ::rtech::liveapi::Player& LegendUpgradeSelected::player() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.LegendUpgradeSelected.player)
+  return _internal_player();
+}
+inline void LegendUpgradeSelected::unsafe_arena_set_allocated_player(::rtech::liveapi::Player* value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.player_);
+  }
+  _impl_.player_ = reinterpret_cast<::rtech::liveapi::Player*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:rtech.liveapi.LegendUpgradeSelected.player)
+}
+inline ::rtech::liveapi::Player* LegendUpgradeSelected::release_player() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::rtech::liveapi::Player* released = _impl_.player_;
+  _impl_.player_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+  released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+  if (GetArena() == nullptr) {
+    delete old;
+  }
+#else   // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArena() != nullptr) {
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return released;
+}
+inline ::rtech::liveapi::Player* LegendUpgradeSelected::unsafe_arena_release_player() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.LegendUpgradeSelected.player)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::rtech::liveapi::Player* temp = _impl_.player_;
+  _impl_.player_ = nullptr;
+  return temp;
+}
+inline ::rtech::liveapi::Player* LegendUpgradeSelected::_internal_mutable_player() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  if (_impl_.player_ == nullptr) {
+    auto* p = CreateMaybeMessage<::rtech::liveapi::Player>(GetArena());
+    _impl_.player_ = reinterpret_cast<::rtech::liveapi::Player*>(p);
+  }
+  return _impl_.player_;
+}
+inline ::rtech::liveapi::Player* LegendUpgradeSelected::mutable_player() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::rtech::liveapi::Player* _msg = _internal_mutable_player();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.LegendUpgradeSelected.player)
+  return _msg;
+}
+inline void LegendUpgradeSelected::set_allocated_player(::rtech::liveapi::Player* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::rtech::liveapi::Player*>(_impl_.player_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = reinterpret_cast<::rtech::liveapi::Player*>(value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.player_ = reinterpret_cast<::rtech::liveapi::Player*>(value);
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.LegendUpgradeSelected.player)
+}
+
+// string upgradeName = 4;
+inline void LegendUpgradeSelected::clear_upgradename() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.upgradename_.ClearToEmpty();
+}
+inline const std::string& LegendUpgradeSelected::upgradename() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.LegendUpgradeSelected.upgradeName)
+  return _internal_upgradename();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void LegendUpgradeSelected::set_upgradename(Arg_&& arg,
+                                                     Args_... args) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.upgradename_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:rtech.liveapi.LegendUpgradeSelected.upgradeName)
+}
+inline std::string* LegendUpgradeSelected::mutable_upgradename() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_upgradename();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.LegendUpgradeSelected.upgradeName)
+  return _s;
+}
+inline const std::string& LegendUpgradeSelected::_internal_upgradename() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.upgradename_.Get();
+}
+inline void LegendUpgradeSelected::_internal_set_upgradename(const std::string& value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.upgradename_.Set(value, GetArena());
+}
+inline std::string* LegendUpgradeSelected::_internal_mutable_upgradename() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  return _impl_.upgradename_.Mutable( GetArena());
+}
+inline std::string* LegendUpgradeSelected::release_upgradename() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.LegendUpgradeSelected.upgradeName)
+  return _impl_.upgradename_.Release();
+}
+inline void LegendUpgradeSelected::set_allocated_upgradename(std::string* value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.upgradename_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.upgradename_.IsDefault()) {
+          _impl_.upgradename_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.LegendUpgradeSelected.upgradeName)
+}
+
+// string upgradeDesc = 5;
+inline void LegendUpgradeSelected::clear_upgradedesc() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.upgradedesc_.ClearToEmpty();
+}
+inline const std::string& LegendUpgradeSelected::upgradedesc() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.LegendUpgradeSelected.upgradeDesc)
+  return _internal_upgradedesc();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void LegendUpgradeSelected::set_upgradedesc(Arg_&& arg,
+                                                     Args_... args) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.upgradedesc_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:rtech.liveapi.LegendUpgradeSelected.upgradeDesc)
+}
+inline std::string* LegendUpgradeSelected::mutable_upgradedesc() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_upgradedesc();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.LegendUpgradeSelected.upgradeDesc)
+  return _s;
+}
+inline const std::string& LegendUpgradeSelected::_internal_upgradedesc() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.upgradedesc_.Get();
+}
+inline void LegendUpgradeSelected::_internal_set_upgradedesc(const std::string& value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.upgradedesc_.Set(value, GetArena());
+}
+inline std::string* LegendUpgradeSelected::_internal_mutable_upgradedesc() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  return _impl_.upgradedesc_.Mutable( GetArena());
+}
+inline std::string* LegendUpgradeSelected::release_upgradedesc() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.LegendUpgradeSelected.upgradeDesc)
+  return _impl_.upgradedesc_.Release();
+}
+inline void LegendUpgradeSelected::set_allocated_upgradedesc(std::string* value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.upgradedesc_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.upgradedesc_.IsDefault()) {
+          _impl_.upgradedesc_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.LegendUpgradeSelected.upgradeDesc)
+}
+
+// int32 level = 6;
+inline void LegendUpgradeSelected::clear_level() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.level_ = 0;
+}
+inline ::int32_t LegendUpgradeSelected::level() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.LegendUpgradeSelected.level)
+  return _internal_level();
+}
+inline void LegendUpgradeSelected::set_level(::int32_t value) {
+  _internal_set_level(value);
+  // @@protoc_insertion_point(field_set:rtech.liveapi.LegendUpgradeSelected.level)
+}
+inline ::int32_t LegendUpgradeSelected::_internal_level() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.level_;
+}
+inline void LegendUpgradeSelected::_internal_set_level(::int32_t value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ;
+  _impl_.level_ = value;
+}
+
+// -------------------------------------------------------------------
+
 // ZiplineUsed
 
 // uint64 timestamp = 1;
@@ -23914,6 +26261,10 @@ inline void CustomMatch_SetSettings::_internal_set_anonmode(bool value) {
 
 // -------------------------------------------------------------------
 
+// CustomMatch_GetSettings
+
+// -------------------------------------------------------------------
+
 // CustomMatch_SetTeamName
 
 // int32 teamId = 1;
@@ -25114,6 +27465,82 @@ inline ::rtech::liveapi::CustomMatch_SetTeamName* Request::_internal_mutable_cus
 inline ::rtech::liveapi::CustomMatch_SetTeamName* Request::mutable_custommatch_setteamname() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::rtech::liveapi::CustomMatch_SetTeamName* _msg = _internal_mutable_custommatch_setteamname();
   // @@protoc_insertion_point(field_mutable:rtech.liveapi.Request.customMatch_SetTeamName)
+  return _msg;
+}
+
+// .rtech.liveapi.CustomMatch_GetSettings customMatch_GetSettings = 21;
+inline bool Request::has_custommatch_getsettings() const {
+  return actions_case() == kCustomMatchGetSettings;
+}
+inline bool Request::_internal_has_custommatch_getsettings() const {
+  return actions_case() == kCustomMatchGetSettings;
+}
+inline void Request::set_has_custommatch_getsettings() {
+  _impl_._oneof_case_[0] = kCustomMatchGetSettings;
+}
+inline void Request::clear_custommatch_getsettings() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  if (actions_case() == kCustomMatchGetSettings) {
+    if (GetArena() == nullptr) {
+      delete _impl_.actions_.custommatch_getsettings_;
+    }
+    clear_has_actions();
+  }
+}
+inline ::rtech::liveapi::CustomMatch_GetSettings* Request::release_custommatch_getsettings() {
+  // @@protoc_insertion_point(field_release:rtech.liveapi.Request.customMatch_GetSettings)
+  if (actions_case() == kCustomMatchGetSettings) {
+    clear_has_actions();
+    auto* temp = _impl_.actions_.custommatch_getsettings_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.actions_.custommatch_getsettings_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::rtech::liveapi::CustomMatch_GetSettings& Request::_internal_custommatch_getsettings() const {
+  return actions_case() == kCustomMatchGetSettings ? *_impl_.actions_.custommatch_getsettings_ : reinterpret_cast<::rtech::liveapi::CustomMatch_GetSettings&>(::rtech::liveapi::_CustomMatch_GetSettings_default_instance_);
+}
+inline const ::rtech::liveapi::CustomMatch_GetSettings& Request::custommatch_getsettings() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.Request.customMatch_GetSettings)
+  return _internal_custommatch_getsettings();
+}
+inline ::rtech::liveapi::CustomMatch_GetSettings* Request::unsafe_arena_release_custommatch_getsettings() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:rtech.liveapi.Request.customMatch_GetSettings)
+  if (actions_case() == kCustomMatchGetSettings) {
+    clear_has_actions();
+    auto* temp = _impl_.actions_.custommatch_getsettings_;
+    _impl_.actions_.custommatch_getsettings_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Request::unsafe_arena_set_allocated_custommatch_getsettings(::rtech::liveapi::CustomMatch_GetSettings* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_actions();
+  if (value) {
+    set_has_custommatch_getsettings();
+    _impl_.actions_.custommatch_getsettings_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:rtech.liveapi.Request.customMatch_GetSettings)
+}
+inline ::rtech::liveapi::CustomMatch_GetSettings* Request::_internal_mutable_custommatch_getsettings() {
+  if (actions_case() != kCustomMatchGetSettings) {
+    clear_actions();
+    set_has_custommatch_getsettings();
+    _impl_.actions_.custommatch_getsettings_ = CreateMaybeMessage<::rtech::liveapi::CustomMatch_GetSettings>(GetArena());
+  }
+  return _impl_.actions_.custommatch_getsettings_;
+}
+inline ::rtech::liveapi::CustomMatch_GetSettings* Request::mutable_custommatch_getsettings() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::rtech::liveapi::CustomMatch_GetSettings* _msg = _internal_mutable_custommatch_getsettings();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.Request.customMatch_GetSettings)
   return _msg;
 }
 

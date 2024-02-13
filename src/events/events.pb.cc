@@ -131,6 +131,31 @@ struct ObserverAnnotationDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ObserverAnnotationDefaultTypeInternal _ObserverAnnotation_default_instance_;
 
+inline constexpr InventoryItem::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : item_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        extradata_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        quantity_{0},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR InventoryItem::InventoryItem(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct InventoryItemDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR InventoryItemDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~InventoryItemDefaultTypeInternal() {}
+  union {
+    InventoryItem _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InventoryItemDefaultTypeInternal _InventoryItem_default_instance_;
+
 inline constexpr GameStateChanged::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : category_(
@@ -398,6 +423,18 @@ struct CustomMatch_JoinLobbyDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_JoinLobbyDefaultTypeInternal _CustomMatch_JoinLobby_default_instance_;
       template <typename>
+PROTOBUF_CONSTEXPR CustomMatch_GetSettings::CustomMatch_GetSettings(::_pbi::ConstantInitialized) {}
+struct CustomMatch_GetSettingsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CustomMatch_GetSettingsDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CustomMatch_GetSettingsDefaultTypeInternal() {}
+  union {
+    CustomMatch_GetSettings _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_GetSettingsDefaultTypeInternal _CustomMatch_GetSettings_default_instance_;
+      template <typename>
 PROTOBUF_CONSTEXPR CustomMatch_GetLobbyPlayers::CustomMatch_GetLobbyPlayers(::_pbi::ConstantInitialized) {}
 struct CustomMatch_GetLobbyPlayersDefaultTypeInternal {
   PROTOBUF_CONSTEXPR CustomMatch_GetLobbyPlayersDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
@@ -583,42 +620,25 @@ struct PlayerDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerDefaultTypeInternal _Player_default_instance_;
 
-inline constexpr MatchSetup::Impl_::Impl_(
+inline constexpr LoadoutConfiguration::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : _cached_size_{0},
-        category_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        map_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        playlistname_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        playlistdesc_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        serverid_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        datacenter_{nullptr},
-        timestamp_{::uint64_t{0u}},
-        aimassiston_{false},
-        anonymousmode_{false} {}
+      : weapons_{},
+        equipment_{},
+        _cached_size_{0} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR MatchSetup::MatchSetup(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR LoadoutConfiguration::LoadoutConfiguration(::_pbi::ConstantInitialized)
     : _impl_(::_pbi::ConstantInitialized()) {}
-struct MatchSetupDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR MatchSetupDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~MatchSetupDefaultTypeInternal() {}
+struct LoadoutConfigurationDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR LoadoutConfigurationDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~LoadoutConfigurationDefaultTypeInternal() {}
   union {
-    MatchSetup _instance;
+    LoadoutConfiguration _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MatchSetupDefaultTypeInternal _MatchSetup_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LoadoutConfigurationDefaultTypeInternal _LoadoutConfiguration_default_instance_;
 
 inline constexpr LiveAPIEvent::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -818,6 +838,55 @@ struct SquadEliminatedDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SquadEliminatedDefaultTypeInternal _SquadEliminated_default_instance_;
 
+inline constexpr RevenantForgedShadowDamaged::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        attacker_{nullptr},
+        victim_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        damageinflicted_{0u} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR RevenantForgedShadowDamaged::RevenantForgedShadowDamaged(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct RevenantForgedShadowDamagedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RevenantForgedShadowDamagedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RevenantForgedShadowDamagedDefaultTypeInternal() {}
+  union {
+    RevenantForgedShadowDamaged _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RevenantForgedShadowDamagedDefaultTypeInternal _RevenantForgedShadowDamaged_default_instance_;
+
+inline constexpr PlayerUpgradeTierChanged::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        level_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR PlayerUpgradeTierChanged::PlayerUpgradeTierChanged(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct PlayerUpgradeTierChangedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PlayerUpgradeTierChangedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PlayerUpgradeTierChangedDefaultTypeInternal() {}
+  union {
+    PlayerUpgradeTierChanged _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerUpgradeTierChangedDefaultTypeInternal _PlayerUpgradeTierChanged_default_instance_;
+
 inline constexpr PlayerStatChanged::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
@@ -906,7 +975,6 @@ inline constexpr PlayerKilled::Impl_::Impl_(
             ::_pbi::ConstantInitialized()),
         attacker_{nullptr},
         victim_{nullptr},
-        awardedto_{nullptr},
         timestamp_{::uint64_t{0u}} {}
 
 template <typename>
@@ -1129,6 +1197,74 @@ struct MatchStateEndDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MatchStateEndDefaultTypeInternal _MatchStateEnd_default_instance_;
+
+inline constexpr MatchSetup::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        map_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        playlistname_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        playlistdesc_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        serverid_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        datacenter_{nullptr},
+        startingloadout_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        aimassiston_{false},
+        anonymousmode_{false} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR MatchSetup::MatchSetup(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct MatchSetupDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR MatchSetupDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~MatchSetupDefaultTypeInternal() {}
+  union {
+    MatchSetup _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MatchSetupDefaultTypeInternal _MatchSetup_default_instance_;
+
+inline constexpr LegendUpgradeSelected::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        upgradename_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        upgradedesc_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        level_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR LegendUpgradeSelected::LegendUpgradeSelected(::_pbi::ConstantInitialized)
+    : _impl_(::_pbi::ConstantInitialized()) {}
+struct LegendUpgradeSelectedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR LegendUpgradeSelectedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~LegendUpgradeSelectedDefaultTypeInternal() {}
+  union {
+    LegendUpgradeSelected _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LegendUpgradeSelectedDefaultTypeInternal _LegendUpgradeSelected_default_instance_;
 
 inline constexpr InventoryUse::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -1420,7 +1556,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AmmoUsedDefaultTypeInternal _AmmoUsed_default_instance_;
 }  // namespace liveapi
 }  // namespace rtech
-static ::_pb::Metadata file_level_metadata_events_2eproto[57];
+static ::_pb::Metadata file_level_metadata_events_2eproto[63];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_events_2eproto[1];
 static constexpr const ::_pb::ServiceDescriptor**
     file_level_service_descriptors_events_2eproto = nullptr;
@@ -1508,6 +1644,27 @@ const ::uint32_t TableStruct_events_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Version, _impl_.minor_num_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Version, _impl_.build_stamp_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Version, _impl_.revision_),
+    ~0u,  // no _has_bits_
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::InventoryItem, _internal_metadata_),
+    ~0u,  // no _extensions_
+    ~0u,  // no _oneof_case_
+    ~0u,  // no _weak_field_map_
+    ~0u,  // no _inlined_string_donated_
+    ~0u,  // no _split_
+    ~0u,  // no sizeof(Split)
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::InventoryItem, _impl_.quantity_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::InventoryItem, _impl_.item_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::InventoryItem, _impl_.extradata_),
+    ~0u,  // no _has_bits_
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LoadoutConfiguration, _internal_metadata_),
+    ~0u,  // no _extensions_
+    ~0u,  // no _oneof_case_
+    ~0u,  // no _weak_field_map_
+    ~0u,  // no _inlined_string_donated_
+    ~0u,  // no _split_
+    ~0u,  // no sizeof(Split)
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LoadoutConfiguration, _impl_.weapons_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LoadoutConfiguration, _impl_.equipment_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Init, _impl_._has_bits_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Init, _internal_metadata_),
     ~0u,  // no _extensions_
@@ -1584,6 +1741,7 @@ const ::uint32_t TableStruct_events_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::MatchSetup, _impl_.aimassiston_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::MatchSetup, _impl_.anonymousmode_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::MatchSetup, _impl_.serverid_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::MatchSetup, _impl_.startingloadout_),
     ~0u,
     ~0u,
     ~0u,
@@ -1593,6 +1751,7 @@ const ::uint32_t TableStruct_events_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
     ~0u,
     ~0u,
     ~0u,
+    1,
     ~0u,  // no _has_bits_
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::GameStateChanged, _internal_metadata_),
     ~0u,  // no _extensions_
@@ -1722,6 +1881,22 @@ const ::uint32_t TableStruct_events_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
     0,
     ~0u,
     ~0u,
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerUpgradeTierChanged, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerUpgradeTierChanged, _internal_metadata_),
+    ~0u,  // no _extensions_
+    ~0u,  // no _oneof_case_
+    ~0u,  // no _weak_field_map_
+    ~0u,  // no _inlined_string_donated_
+    ~0u,  // no _split_
+    ~0u,  // no sizeof(Split)
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerUpgradeTierChanged, _impl_.timestamp_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerUpgradeTierChanged, _impl_.category_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerUpgradeTierChanged, _impl_.player_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerUpgradeTierChanged, _impl_.level_),
+    ~0u,
+    ~0u,
+    0,
+    ~0u,
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerDamaged, _impl_._has_bits_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerDamaged, _internal_metadata_),
     ~0u,  // no _extensions_
@@ -1754,13 +1929,11 @@ const ::uint32_t TableStruct_events_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerKilled, _impl_.category_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerKilled, _impl_.attacker_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerKilled, _impl_.victim_),
-    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerKilled, _impl_.awardedto_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerKilled, _impl_.weapon_),
     ~0u,
     ~0u,
     0,
     1,
-    2,
     ~0u,
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerDowned, _impl_._has_bits_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PlayerDowned, _internal_metadata_),
@@ -1822,6 +1995,24 @@ const ::uint32_t TableStruct_events_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::GibraltarShieldAbsorbed, _impl_.attacker_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::GibraltarShieldAbsorbed, _impl_.victim_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::GibraltarShieldAbsorbed, _impl_.damageinflicted_),
+    ~0u,
+    ~0u,
+    0,
+    1,
+    ~0u,
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RevenantForgedShadowDamaged, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RevenantForgedShadowDamaged, _internal_metadata_),
+    ~0u,  // no _extensions_
+    ~0u,  // no _oneof_case_
+    ~0u,  // no _weak_field_map_
+    ~0u,  // no _inlined_string_donated_
+    ~0u,  // no _split_
+    ~0u,  // no sizeof(Split)
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RevenantForgedShadowDamaged, _impl_.timestamp_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RevenantForgedShadowDamaged, _impl_.category_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RevenantForgedShadowDamaged, _impl_.attacker_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RevenantForgedShadowDamaged, _impl_.victim_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RevenantForgedShadowDamaged, _impl_.damageinflicted_),
     ~0u,
     ~0u,
     0,
@@ -1982,6 +2173,26 @@ const ::uint32_t TableStruct_events_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
     ~0u,
     ~0u,
     0,
+    ~0u,
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LegendUpgradeSelected, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LegendUpgradeSelected, _internal_metadata_),
+    ~0u,  // no _extensions_
+    ~0u,  // no _oneof_case_
+    ~0u,  // no _weak_field_map_
+    ~0u,  // no _inlined_string_donated_
+    ~0u,  // no _split_
+    ~0u,  // no sizeof(Split)
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LegendUpgradeSelected, _impl_.timestamp_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LegendUpgradeSelected, _impl_.category_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LegendUpgradeSelected, _impl_.player_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LegendUpgradeSelected, _impl_.upgradename_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LegendUpgradeSelected, _impl_.upgradedesc_),
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LegendUpgradeSelected, _impl_.level_),
+    ~0u,
+    ~0u,
+    0,
+    ~0u,
+    ~0u,
     ~0u,
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::ZiplineUsed, _impl_._has_bits_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::ZiplineUsed, _internal_metadata_),
@@ -2206,6 +2417,14 @@ const ::uint32_t TableStruct_events_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_SetSettings, _impl_.aimassist_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_SetSettings, _impl_.anonmode_),
     ~0u,  // no _has_bits_
+    PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_GetSettings, _internal_metadata_),
+    ~0u,  // no _extensions_
+    ~0u,  // no _oneof_case_
+    ~0u,  // no _weak_field_map_
+    ~0u,  // no _inlined_string_donated_
+    ~0u,  // no _split_
+    ~0u,  // no sizeof(Split)
+    ~0u,  // no _has_bits_
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_SetTeamName, _internal_metadata_),
     ~0u,  // no _extensions_
     ~0u,  // no _oneof_case_
@@ -2234,6 +2453,7 @@ const ::uint32_t TableStruct_events_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
     ~0u,  // no sizeof(Split)
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Request, _impl_.withack_),
     PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Request, _impl_.presharedkey_),
+    ::_pbi::kInvalidFieldOffsetTag,
     ::_pbi::kInvalidFieldOffsetTag,
     ::_pbi::kInvalidFieldOffsetTag,
     ::_pbi::kInvalidFieldOffsetTag,
@@ -2290,58 +2510,64 @@ static const ::_pbi::MigrationSchema
         {47, -1, -1, sizeof(::rtech::liveapi::CustomMatch_LobbyPlayer)},
         {59, -1, -1, sizeof(::rtech::liveapi::Datacenter)},
         {70, -1, -1, sizeof(::rtech::liveapi::Version)},
-        {82, 96, -1, sizeof(::rtech::liveapi::Init)},
-        {102, -1, -1, sizeof(::rtech::liveapi::CustomMatch_LobbyPlayers)},
-        {112, 125, -1, sizeof(::rtech::liveapi::ObserverSwitched)},
-        {130, -1, -1, sizeof(::rtech::liveapi::ObserverAnnotation)},
-        {141, 158, -1, sizeof(::rtech::liveapi::MatchSetup)},
-        {167, -1, -1, sizeof(::rtech::liveapi::GameStateChanged)},
-        {178, 189, -1, sizeof(::rtech::liveapi::CharacterSelected)},
-        {192, -1, -1, sizeof(::rtech::liveapi::MatchStateEnd)},
-        {204, 219, -1, sizeof(::rtech::liveapi::RingStartClosing)},
-        {226, 240, -1, sizeof(::rtech::liveapi::RingFinishedClosing)},
-        {246, 257, -1, sizeof(::rtech::liveapi::PlayerConnected)},
-        {260, 273, -1, sizeof(::rtech::liveapi::PlayerDisconnected)},
-        {278, 291, -1, sizeof(::rtech::liveapi::PlayerStatChanged)},
-        {296, 310, -1, sizeof(::rtech::liveapi::PlayerDamaged)},
-        {316, 330, -1, sizeof(::rtech::liveapi::PlayerKilled)},
-        {336, 349, -1, sizeof(::rtech::liveapi::PlayerDowned)},
-        {354, 367, -1, sizeof(::rtech::liveapi::PlayerAssist)},
-        {372, -1, -1, sizeof(::rtech::liveapi::SquadEliminated)},
-        {383, 396, -1, sizeof(::rtech::liveapi::GibraltarShieldAbsorbed)},
-        {401, 413, -1, sizeof(::rtech::liveapi::PlayerRespawnTeam)},
-        {417, 429, -1, sizeof(::rtech::liveapi::PlayerRevive)},
-        {433, 446, -1, sizeof(::rtech::liveapi::ArenasItemSelected)},
-        {451, 464, -1, sizeof(::rtech::liveapi::ArenasItemDeselected)},
-        {469, 482, -1, sizeof(::rtech::liveapi::InventoryPickUp)},
-        {487, 501, -1, sizeof(::rtech::liveapi::InventoryDrop)},
-        {507, 520, -1, sizeof(::rtech::liveapi::InventoryUse)},
-        {525, 537, -1, sizeof(::rtech::liveapi::BannerCollected)},
-        {541, 553, -1, sizeof(::rtech::liveapi::PlayerAbilityUsed)},
-        {557, 569, -1, sizeof(::rtech::liveapi::ZiplineUsed)},
-        {573, 585, -1, sizeof(::rtech::liveapi::GrenadeThrown)},
-        {589, 601, -1, sizeof(::rtech::liveapi::BlackMarketAction)},
-        {605, 616, -1, sizeof(::rtech::liveapi::WraithPortal)},
-        {619, 630, -1, sizeof(::rtech::liveapi::WarpGateUsed)},
-        {633, 648, -1, sizeof(::rtech::liveapi::AmmoUsed)},
-        {655, 668, -1, sizeof(::rtech::liveapi::WeaponSwitched)},
-        {673, -1, -1, sizeof(::rtech::liveapi::ChangeCamera)},
-        {684, -1, -1, sizeof(::rtech::liveapi::PauseToggle)},
-        {693, -1, -1, sizeof(::rtech::liveapi::CustomMatch_CreateLobby)},
-        {701, -1, -1, sizeof(::rtech::liveapi::CustomMatch_JoinLobby)},
-        {710, -1, -1, sizeof(::rtech::liveapi::CustomMatch_LeaveLobby)},
-        {718, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetReady)},
-        {727, -1, -1, sizeof(::rtech::liveapi::CustomMatch_GetLobbyPlayers)},
-        {735, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetMatchmaking)},
-        {744, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetTeam)},
-        {755, -1, -1, sizeof(::rtech::liveapi::CustomMatch_KickPlayer)},
-        {765, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetSettings)},
-        {779, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetTeamName)},
-        {789, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SendChat)},
-        {798, -1, -1, sizeof(::rtech::liveapi::Request)},
-        {822, -1, -1, sizeof(::rtech::liveapi::RequestStatus)},
-        {831, 841, -1, sizeof(::rtech::liveapi::Response)},
-        {843, 853, -1, sizeof(::rtech::liveapi::LiveAPIEvent)},
+        {82, -1, -1, sizeof(::rtech::liveapi::InventoryItem)},
+        {93, -1, -1, sizeof(::rtech::liveapi::LoadoutConfiguration)},
+        {103, 117, -1, sizeof(::rtech::liveapi::Init)},
+        {123, -1, -1, sizeof(::rtech::liveapi::CustomMatch_LobbyPlayers)},
+        {133, 146, -1, sizeof(::rtech::liveapi::ObserverSwitched)},
+        {151, -1, -1, sizeof(::rtech::liveapi::ObserverAnnotation)},
+        {162, 180, -1, sizeof(::rtech::liveapi::MatchSetup)},
+        {190, -1, -1, sizeof(::rtech::liveapi::GameStateChanged)},
+        {201, 212, -1, sizeof(::rtech::liveapi::CharacterSelected)},
+        {215, -1, -1, sizeof(::rtech::liveapi::MatchStateEnd)},
+        {227, 242, -1, sizeof(::rtech::liveapi::RingStartClosing)},
+        {249, 263, -1, sizeof(::rtech::liveapi::RingFinishedClosing)},
+        {269, 280, -1, sizeof(::rtech::liveapi::PlayerConnected)},
+        {283, 296, -1, sizeof(::rtech::liveapi::PlayerDisconnected)},
+        {301, 314, -1, sizeof(::rtech::liveapi::PlayerStatChanged)},
+        {319, 331, -1, sizeof(::rtech::liveapi::PlayerUpgradeTierChanged)},
+        {335, 349, -1, sizeof(::rtech::liveapi::PlayerDamaged)},
+        {355, 368, -1, sizeof(::rtech::liveapi::PlayerKilled)},
+        {373, 386, -1, sizeof(::rtech::liveapi::PlayerDowned)},
+        {391, 404, -1, sizeof(::rtech::liveapi::PlayerAssist)},
+        {409, -1, -1, sizeof(::rtech::liveapi::SquadEliminated)},
+        {420, 433, -1, sizeof(::rtech::liveapi::GibraltarShieldAbsorbed)},
+        {438, 451, -1, sizeof(::rtech::liveapi::RevenantForgedShadowDamaged)},
+        {456, 468, -1, sizeof(::rtech::liveapi::PlayerRespawnTeam)},
+        {472, 484, -1, sizeof(::rtech::liveapi::PlayerRevive)},
+        {488, 501, -1, sizeof(::rtech::liveapi::ArenasItemSelected)},
+        {506, 519, -1, sizeof(::rtech::liveapi::ArenasItemDeselected)},
+        {524, 537, -1, sizeof(::rtech::liveapi::InventoryPickUp)},
+        {542, 556, -1, sizeof(::rtech::liveapi::InventoryDrop)},
+        {562, 575, -1, sizeof(::rtech::liveapi::InventoryUse)},
+        {580, 592, -1, sizeof(::rtech::liveapi::BannerCollected)},
+        {596, 608, -1, sizeof(::rtech::liveapi::PlayerAbilityUsed)},
+        {612, 626, -1, sizeof(::rtech::liveapi::LegendUpgradeSelected)},
+        {632, 644, -1, sizeof(::rtech::liveapi::ZiplineUsed)},
+        {648, 660, -1, sizeof(::rtech::liveapi::GrenadeThrown)},
+        {664, 676, -1, sizeof(::rtech::liveapi::BlackMarketAction)},
+        {680, 691, -1, sizeof(::rtech::liveapi::WraithPortal)},
+        {694, 705, -1, sizeof(::rtech::liveapi::WarpGateUsed)},
+        {708, 723, -1, sizeof(::rtech::liveapi::AmmoUsed)},
+        {730, 743, -1, sizeof(::rtech::liveapi::WeaponSwitched)},
+        {748, -1, -1, sizeof(::rtech::liveapi::ChangeCamera)},
+        {759, -1, -1, sizeof(::rtech::liveapi::PauseToggle)},
+        {768, -1, -1, sizeof(::rtech::liveapi::CustomMatch_CreateLobby)},
+        {776, -1, -1, sizeof(::rtech::liveapi::CustomMatch_JoinLobby)},
+        {785, -1, -1, sizeof(::rtech::liveapi::CustomMatch_LeaveLobby)},
+        {793, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetReady)},
+        {802, -1, -1, sizeof(::rtech::liveapi::CustomMatch_GetLobbyPlayers)},
+        {810, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetMatchmaking)},
+        {819, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetTeam)},
+        {830, -1, -1, sizeof(::rtech::liveapi::CustomMatch_KickPlayer)},
+        {840, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetSettings)},
+        {854, -1, -1, sizeof(::rtech::liveapi::CustomMatch_GetSettings)},
+        {862, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetTeamName)},
+        {872, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SendChat)},
+        {881, -1, -1, sizeof(::rtech::liveapi::Request)},
+        {906, -1, -1, sizeof(::rtech::liveapi::RequestStatus)},
+        {915, 925, -1, sizeof(::rtech::liveapi::Response)},
+        {927, 937, -1, sizeof(::rtech::liveapi::LiveAPIEvent)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -2350,6 +2576,8 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::rtech::liveapi::_CustomMatch_LobbyPlayer_default_instance_._instance,
     &::rtech::liveapi::_Datacenter_default_instance_._instance,
     &::rtech::liveapi::_Version_default_instance_._instance,
+    &::rtech::liveapi::_InventoryItem_default_instance_._instance,
+    &::rtech::liveapi::_LoadoutConfiguration_default_instance_._instance,
     &::rtech::liveapi::_Init_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_LobbyPlayers_default_instance_._instance,
     &::rtech::liveapi::_ObserverSwitched_default_instance_._instance,
@@ -2363,12 +2591,14 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::rtech::liveapi::_PlayerConnected_default_instance_._instance,
     &::rtech::liveapi::_PlayerDisconnected_default_instance_._instance,
     &::rtech::liveapi::_PlayerStatChanged_default_instance_._instance,
+    &::rtech::liveapi::_PlayerUpgradeTierChanged_default_instance_._instance,
     &::rtech::liveapi::_PlayerDamaged_default_instance_._instance,
     &::rtech::liveapi::_PlayerKilled_default_instance_._instance,
     &::rtech::liveapi::_PlayerDowned_default_instance_._instance,
     &::rtech::liveapi::_PlayerAssist_default_instance_._instance,
     &::rtech::liveapi::_SquadEliminated_default_instance_._instance,
     &::rtech::liveapi::_GibraltarShieldAbsorbed_default_instance_._instance,
+    &::rtech::liveapi::_RevenantForgedShadowDamaged_default_instance_._instance,
     &::rtech::liveapi::_PlayerRespawnTeam_default_instance_._instance,
     &::rtech::liveapi::_PlayerRevive_default_instance_._instance,
     &::rtech::liveapi::_ArenasItemSelected_default_instance_._instance,
@@ -2378,6 +2608,7 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::rtech::liveapi::_InventoryUse_default_instance_._instance,
     &::rtech::liveapi::_BannerCollected_default_instance_._instance,
     &::rtech::liveapi::_PlayerAbilityUsed_default_instance_._instance,
+    &::rtech::liveapi::_LegendUpgradeSelected_default_instance_._instance,
     &::rtech::liveapi::_ZiplineUsed_default_instance_._instance,
     &::rtech::liveapi::_GrenadeThrown_default_instance_._instance,
     &::rtech::liveapi::_BlackMarketAction_default_instance_._instance,
@@ -2396,6 +2627,7 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::rtech::liveapi::_CustomMatch_SetTeam_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_KickPlayer_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_SetSettings_default_instance_._instance,
+    &::rtech::liveapi::_CustomMatch_GetSettings_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_SetTeamName_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_SendChat_default_instance_._instance,
     &::rtech::liveapi::_Request_default_instance_._instance,
@@ -2420,175 +2652,194 @@ const char descriptor_table_protodef_events_2eproto[] PROTOBUF_SECTION_VARIABLE(
     "\t\"\?\n\nDatacenter\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010ca"
     "tegory\030\002 \001(\t\022\014\n\004name\030\003 \001(\t\"V\n\007Version\022\021\n"
     "\tmajor_num\030\001 \001(\r\022\021\n\tminor_num\030\002 \001(\r\022\023\n\013b"
-    "uild_stamp\030\003 \001(\r\022\020\n\010revision\030\004 \001(\t\"\214\001\n\004I"
-    "nit\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t"
-    "\022\023\n\013gameVersion\030\003 \001(\t\022*\n\napiVersion\030\004 \001("
-    "\0132\026.rtech.liveapi.Version\022\020\n\010platform\030\005 "
-    "\001(\t\022\014\n\004name\030\006 \001(\t\"h\n\030CustomMatch_LobbyPl"
-    "ayers\022\023\n\013playerToken\030\001 \001(\t\0227\n\007players\030\002 "
-    "\003(\0132&.rtech.liveapi.CustomMatch_LobbyPla"
-    "yer\"\262\001\n\020ObserverSwitched\022\021\n\ttimestamp\030\001 "
-    "\001(\004\022\020\n\010category\030\002 \001(\t\022\'\n\010observer\030\003 \001(\0132"
-    "\025.rtech.liveapi.Player\022%\n\006target\030\004 \001(\0132\025"
-    ".rtech.liveapi.Player\022)\n\ntargetTeam\030\005 \003("
-    "\0132\025.rtech.liveapi.Player\"S\n\022ObserverAnno"
-    "tation\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 "
-    "\001(\t\022\030\n\020annotationSerial\030\003 \001(\005\"\327\001\n\nMatchS"
-    "etup\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001("
-    "\t\022\013\n\003map\030\003 \001(\t\022\024\n\014playlistName\030\004 \001(\t\022\024\n\014"
-    "playlistDesc\030\005 \001(\t\022-\n\ndatacenter\030\006 \001(\0132\031"
-    ".rtech.liveapi.Datacenter\022\023\n\013aimAssistOn"
-    "\030\007 \001(\010\022\025\n\ranonymousMode\030\010 \001(\010\022\020\n\010serverI"
-    "d\030\t \001(\t\"F\n\020GameStateChanged\022\021\n\ttimestamp"
-    "\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\r\n\005state\030\003 \001(\t\""
-    "_\n\021CharacterSelected\022\021\n\ttimestamp\030\001 \001(\004\022"
-    "\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtec"
-    "h.liveapi.Player\"k\n\rMatchStateEnd\022\021\n\ttim"
-    "estamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\r\n\005state\030"
-    "\003 \001(\t\022&\n\007winners\030\004 \003(\0132\025.rtech.liveapi.P"
-    "layer\"\260\001\n\020RingStartClosing\022\021\n\ttimestamp\030"
-    "\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\r\n\005stage\030\003 \001(\r\022&"
-    "\n\006center\030\004 \001(\0132\026.rtech.liveapi.Vector3\022\025"
-    "\n\rcurrentRadius\030\005 \001(\002\022\021\n\tendRadius\030\006 \001(\002"
-    "\022\026\n\016shrinkDuration\030\007 \001(\002\"\240\001\n\023RingFinishe"
-    "dClosing\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030"
-    "\002 \001(\t\022\r\n\005stage\030\003 \001(\r\022&\n\006center\030\004 \001(\0132\026.r"
-    "tech.liveapi.Vector3\022\025\n\rcurrentRadius\030\005 "
-    "\001(\002\022\026\n\016shrinkDuration\030\007 \001(\002\"]\n\017PlayerCon"
-    "nected\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 "
-    "\001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Play"
-    "er\"\207\001\n\022PlayerDisconnected\022\021\n\ttimestamp\030\001"
-    " \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025"
-    ".rtech.liveapi.Player\022\024\n\014canReconnect\030\004 "
-    "\001(\010\022\017\n\007isAlive\030\005 \001(\010\"\203\001\n\021PlayerStatChang"
-    "ed\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022"
-    "%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Player\022\020"
-    "\n\010statName\030\004 \001(\t\022\020\n\010newValue\030\005 \001(\r\"\255\001\n\rP"
-    "layerDamaged\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010categ"
-    "ory\030\002 \001(\t\022\'\n\010attacker\030\003 \001(\0132\025.rtech.live"
-    "api.Player\022%\n\006victim\030\004 \001(\0132\025.rtech.livea"
-    "pi.Player\022\016\n\006weapon\030\005 \001(\t\022\027\n\017damageInfli"
-    "cted\030\006 \001(\r\"\275\001\n\014PlayerKilled\022\021\n\ttimestamp"
-    "\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\'\n\010attacker\030\003 \001"
-    "(\0132\025.rtech.liveapi.Player\022%\n\006victim\030\004 \001("
-    "\0132\025.rtech.liveapi.Player\022(\n\tawardedTo\030\005 "
-    "\001(\0132\025.rtech.liveapi.Player\022\016\n\006weapon\030\006 \001"
-    "(\t\"\223\001\n\014PlayerDowned\022\021\n\ttimestamp\030\001 \001(\004\022\020"
-    "\n\010category\030\002 \001(\t\022\'\n\010attacker\030\003 \001(\0132\025.rte"
-    "ch.liveapi.Player\022%\n\006victim\030\004 \001(\0132\025.rtec"
-    "h.liveapi.Player\022\016\n\006weapon\030\005 \001(\t\"\224\001\n\014Pla"
-    "yerAssist\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category"
-    "\030\002 \001(\t\022(\n\tassistant\030\003 \001(\0132\025.rtech.liveap"
-    "i.Player\022%\n\006victim\030\004 \001(\0132\025.rtech.liveapi"
-    ".Player\022\016\n\006weapon\030\005 \001(\t\"^\n\017SquadEliminat"
-    "ed\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022"
-    "&\n\007players\030\003 \003(\0132\025.rtech.liveapi.Player\""
-    "\247\001\n\027GibraltarShieldAbsorbed\022\021\n\ttimestamp"
-    "\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\'\n\010attacker\030\003 \001"
-    "(\0132\025.rtech.liveapi.Player\022%\n\006victim\030\004 \001("
-    "\0132\025.rtech.liveapi.Player\022\027\n\017damageInflic"
-    "ted\030\006 \001(\r\"r\n\021PlayerRespawnTeam\022\021\n\ttimest"
+    "uild_stamp\030\003 \001(\r\022\020\n\010revision\030\004 \001(\t\"B\n\rIn"
+    "ventoryItem\022\020\n\010quantity\030\001 \001(\005\022\014\n\004item\030\002 "
+    "\001(\t\022\021\n\textraData\030\003 \001(\t\"v\n\024LoadoutConfigu"
+    "ration\022-\n\007weapons\030\001 \003(\0132\034.rtech.liveapi."
+    "InventoryItem\022/\n\tequipment\030\002 \003(\0132\034.rtech"
+    ".liveapi.InventoryItem\"\214\001\n\004Init\022\021\n\ttimes"
+    "tamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\023\n\013gameVers"
+    "ion\030\003 \001(\t\022*\n\napiVersion\030\004 \001(\0132\026.rtech.li"
+    "veapi.Version\022\020\n\010platform\030\005 \001(\t\022\014\n\004name\030"
+    "\006 \001(\t\"h\n\030CustomMatch_LobbyPlayers\022\023\n\013pla"
+    "yerToken\030\001 \001(\t\0227\n\007players\030\002 \003(\0132&.rtech."
+    "liveapi.CustomMatch_LobbyPlayer\"\262\001\n\020Obse"
+    "rverSwitched\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010categ"
+    "ory\030\002 \001(\t\022\'\n\010observer\030\003 \001(\0132\025.rtech.live"
+    "api.Player\022%\n\006target\030\004 \001(\0132\025.rtech.livea"
+    "pi.Player\022)\n\ntargetTeam\030\005 \003(\0132\025.rtech.li"
+    "veapi.Player\"S\n\022ObserverAnnotation\022\021\n\tti"
+    "mestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\030\n\020annot"
+    "ationSerial\030\003 \001(\005\"\225\002\n\nMatchSetup\022\021\n\ttime"
+    "stamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\013\n\003map\030\003 \001"
+    "(\t\022\024\n\014playlistName\030\004 \001(\t\022\024\n\014playlistDesc"
+    "\030\005 \001(\t\022-\n\ndatacenter\030\006 \001(\0132\031.rtech.livea"
+    "pi.Datacenter\022\023\n\013aimAssistOn\030\007 \001(\010\022\025\n\ran"
+    "onymousMode\030\010 \001(\010\022\020\n\010serverId\030\t \001(\t\022<\n\017s"
+    "tartingLoadout\030\n \001(\0132#.rtech.liveapi.Loa"
+    "doutConfiguration\"F\n\020GameStateChanged\022\021\n"
+    "\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\r\n\005st"
+    "ate\030\003 \001(\t\"_\n\021CharacterSelected\022\021\n\ttimest"
     "amp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 "
-    "\001(\0132\025.rtech.liveapi.Player\022\021\n\trespawned\030"
-    "\004 \001(\t\"\202\001\n\014PlayerRevive\022\021\n\ttimestamp\030\001 \001("
-    "\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rt"
-    "ech.liveapi.Player\022&\n\007revived\030\004 \001(\0132\025.rt"
-    "ech.liveapi.Player\"\200\001\n\022ArenasItemSelecte"
+    "\001(\0132\025.rtech.liveapi.Player\"k\n\rMatchState"
+    "End\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t"
+    "\022\r\n\005state\030\003 \001(\t\022&\n\007winners\030\004 \003(\0132\025.rtech"
+    ".liveapi.Player\"\260\001\n\020RingStartClosing\022\021\n\t"
+    "timestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\r\n\005sta"
+    "ge\030\003 \001(\r\022&\n\006center\030\004 \001(\0132\026.rtech.liveapi"
+    ".Vector3\022\025\n\rcurrentRadius\030\005 \001(\002\022\021\n\tendRa"
+    "dius\030\006 \001(\002\022\026\n\016shrinkDuration\030\007 \001(\002\"\240\001\n\023R"
+    "ingFinishedClosing\022\021\n\ttimestamp\030\001 \001(\004\022\020\n"
+    "\010category\030\002 \001(\t\022\r\n\005stage\030\003 \001(\r\022&\n\006center"
+    "\030\004 \001(\0132\026.rtech.liveapi.Vector3\022\025\n\rcurren"
+    "tRadius\030\005 \001(\002\022\026\n\016shrinkDuration\030\007 \001(\002\"]\n"
+    "\017PlayerConnected\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010c"
+    "ategory\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.li"
+    "veapi.Player\"\207\001\n\022PlayerDisconnected\022\021\n\tt"
+    "imestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006play"
+    "er\030\003 \001(\0132\025.rtech.liveapi.Player\022\024\n\014canRe"
+    "connect\030\004 \001(\010\022\017\n\007isAlive\030\005 \001(\010\"\203\001\n\021Playe"
+    "rStatChanged\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010categ"
+    "ory\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveap"
+    "i.Player\022\020\n\010statName\030\004 \001(\t\022\020\n\010newValue\030\005"
+    " \001(\r\"u\n\030PlayerUpgradeTierChanged\022\021\n\ttime"
+    "stamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030"
+    "\003 \001(\0132\025.rtech.liveapi.Player\022\r\n\005level\030\004 "
+    "\001(\005\"\255\001\n\rPlayerDamaged\022\021\n\ttimestamp\030\001 \001(\004"
+    "\022\020\n\010category\030\002 \001(\t\022\'\n\010attacker\030\003 \001(\0132\025.r"
+    "tech.liveapi.Player\022%\n\006victim\030\004 \001(\0132\025.rt"
+    "ech.liveapi.Player\022\016\n\006weapon\030\005 \001(\t\022\027\n\017da"
+    "mageInflicted\030\006 \001(\r\"\231\001\n\014PlayerKilled\022\021\n\t"
+    "timestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\'\n\010att"
+    "acker\030\003 \001(\0132\025.rtech.liveapi.Player\022%\n\006vi"
+    "ctim\030\004 \001(\0132\025.rtech.liveapi.Player\022\016\n\006wea"
+    "pon\030\006 \001(\tJ\004\010\005\020\006\"\223\001\n\014PlayerDowned\022\021\n\ttime"
+    "stamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\'\n\010attacke"
+    "r\030\003 \001(\0132\025.rtech.liveapi.Player\022%\n\006victim"
+    "\030\004 \001(\0132\025.rtech.liveapi.Player\022\016\n\006weapon\030"
+    "\005 \001(\t\"\224\001\n\014PlayerAssist\022\021\n\ttimestamp\030\001 \001("
+    "\004\022\020\n\010category\030\002 \001(\t\022(\n\tassistant\030\003 \001(\0132\025"
+    ".rtech.liveapi.Player\022%\n\006victim\030\004 \001(\0132\025."
+    "rtech.liveapi.Player\022\016\n\006weapon\030\005 \001(\t\"^\n\017"
+    "SquadEliminated\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010ca"
+    "tegory\030\002 \001(\t\022&\n\007players\030\003 \003(\0132\025.rtech.li"
+    "veapi.Player\"\247\001\n\027GibraltarShieldAbsorbed"
+    "\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\'\n"
+    "\010attacker\030\003 \001(\0132\025.rtech.liveapi.Player\022%"
+    "\n\006victim\030\004 \001(\0132\025.rtech.liveapi.Player\022\027\n"
+    "\017damageInflicted\030\006 \001(\r\"\253\001\n\033RevenantForge"
+    "dShadowDamaged\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010cat"
+    "egory\030\002 \001(\t\022\'\n\010attacker\030\003 \001(\0132\025.rtech.li"
+    "veapi.Player\022%\n\006victim\030\004 \001(\0132\025.rtech.liv"
+    "eapi.Player\022\027\n\017damageInflicted\030\006 \001(\r\"r\n\021"
+    "PlayerRespawnTeam\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010"
+    "category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.l"
+    "iveapi.Player\022\021\n\trespawned\030\004 \001(\t\"\202\001\n\014Pla"
+    "yerRevive\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category"
+    "\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.P"
+    "layer\022&\n\007revived\030\004 \001(\0132\025.rtech.liveapi.P"
+    "layer\"\200\001\n\022ArenasItemSelected\022\021\n\ttimestam"
+    "p\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001("
+    "\0132\025.rtech.liveapi.Player\022\014\n\004item\030\004 \001(\t\022\020"
+    "\n\010quantity\030\005 \001(\005\"\202\001\n\024ArenasItemDeselecte"
     "d\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%"
     "\n\006player\030\003 \001(\0132\025.rtech.liveapi.Player\022\014\n"
-    "\004item\030\004 \001(\t\022\020\n\010quantity\030\005 \001(\005\"\202\001\n\024Arenas"
-    "ItemDeselected\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010cat"
+    "\004item\030\004 \001(\t\022\020\n\010quantity\030\005 \001(\005\"}\n\017Invento"
+    "ryPickUp\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030"
+    "\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Pl"
+    "ayer\022\014\n\004item\030\004 \001(\t\022\020\n\010quantity\030\005 \001(\005\"\216\001\n"
+    "\rInventoryDrop\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010cat"
     "egory\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.live"
     "api.Player\022\014\n\004item\030\004 \001(\t\022\020\n\010quantity\030\005 \001"
-    "(\005\"}\n\017InventoryPickUp\022\021\n\ttimestamp\030\001 \001(\004"
-    "\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rte"
-    "ch.liveapi.Player\022\014\n\004item\030\004 \001(\t\022\020\n\010quant"
-    "ity\030\005 \001(\005\"\216\001\n\rInventoryDrop\022\021\n\ttimestamp"
-    "\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\013"
-    "2\025.rtech.liveapi.Player\022\014\n\004item\030\004 \001(\t\022\020\n"
-    "\010quantity\030\005 \001(\005\022\021\n\textraData\030\006 \003(\t\"z\n\014In"
-    "ventoryUse\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010categor"
-    "y\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi."
-    "Player\022\014\n\004item\030\004 \001(\t\022\020\n\010quantity\030\005 \001(\005\"\207"
-    "\001\n\017BannerCollected\022\021\n\ttimestamp\030\001 \001(\004\022\020\n"
-    "\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech."
-    "liveapi.Player\022(\n\tcollected\030\004 \001(\0132\025.rtec"
-    "h.liveapi.Player\"u\n\021PlayerAbilityUsed\022\021\n"
+    "(\005\022\021\n\textraData\030\006 \003(\t\"z\n\014InventoryUse\022\021\n"
     "\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006pl"
-    "ayer\030\003 \001(\0132\025.rtech.liveapi.Player\022\024\n\014lin"
-    "kedEntity\030\004 \001(\t\"o\n\013ZiplineUsed\022\021\n\ttimest"
-    "amp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 "
-    "\001(\0132\025.rtech.liveapi.Player\022\024\n\014linkedEnti"
-    "ty\030\004 \001(\t\"q\n\rGrenadeThrown\022\021\n\ttimestamp\030\001"
-    " \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025"
-    ".rtech.liveapi.Player\022\024\n\014linkedEntity\030\004 "
-    "\001(\t\"m\n\021BlackMarketAction\022\021\n\ttimestamp\030\001 "
+    "ayer\030\003 \001(\0132\025.rtech.liveapi.Player\022\014\n\004ite"
+    "m\030\004 \001(\t\022\020\n\010quantity\030\005 \001(\005\"\207\001\n\017BannerColl"
+    "ected\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001"
+    "(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Playe"
+    "r\022(\n\tcollected\030\004 \001(\0132\025.rtech.liveapi.Pla"
+    "yer\"u\n\021PlayerAbilityUsed\022\021\n\ttimestamp\030\001 "
     "\001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025."
-    "rtech.liveapi.Player\022\014\n\004item\030\004 \001(\t\"Z\n\014Wr"
-    "aithPortal\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010categor"
+    "rtech.liveapi.Player\022\024\n\014linkedEntity\030\004 \001"
+    "(\t\"\234\001\n\025LegendUpgradeSelected\022\021\n\ttimestam"
+    "p\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001("
+    "\0132\025.rtech.liveapi.Player\022\023\n\013upgradeName\030"
+    "\004 \001(\t\022\023\n\013upgradeDesc\030\005 \001(\t\022\r\n\005level\030\006 \001("
+    "\005\"o\n\013ZiplineUsed\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010c"
+    "ategory\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.li"
+    "veapi.Player\022\024\n\014linkedEntity\030\004 \001(\t\"q\n\rGr"
+    "enadeThrown\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010catego"
+    "ry\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi"
+    ".Player\022\024\n\014linkedEntity\030\004 \001(\t\"m\n\021BlackMa"
+    "rketAction\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010categor"
     "y\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi."
-    "Player\"Z\n\014WarpGateUsed\022\021\n\ttimestamp\030\001 \001("
-    "\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rt"
-    "ech.liveapi.Player\"\250\001\n\010AmmoUsed\022\021\n\ttimes"
-    "tamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003"
-    " \001(\0132\025.rtech.liveapi.Player\022\020\n\010ammoType\030"
-    "\004 \001(\t\022\022\n\namountUsed\030\005 \001(\r\022\024\n\014oldAmmoCoun"
-    "t\030\006 \001(\r\022\024\n\014newAmmoCount\030\007 \001(\r\"\202\001\n\016Weapon"
-    "Switched\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030"
+    "Player\022\014\n\004item\030\004 \001(\t\"Z\n\014WraithPortal\022\021\n\t"
+    "timestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006pla"
+    "yer\030\003 \001(\0132\025.rtech.liveapi.Player\"Z\n\014Warp"
+    "GateUsed\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030"
     "\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Pl"
-    "ayer\022\021\n\toldWeapon\030\004 \001(\t\022\021\n\tnewWeapon\030\005 \001"
-    "(\t\"X\n\014ChangeCamera\022.\n\003poi\030\001 \001(\0162\037.rtech."
-    "liveapi.PlayerOfInterestH\000\022\016\n\004name\030\002 \001(\t"
-    "H\000B\010\n\006target\"\037\n\013PauseToggle\022\020\n\010preTimer\030"
-    "\001 \001(\002\"\031\n\027CustomMatch_CreateLobby\"*\n\025Cust"
-    "omMatch_JoinLobby\022\021\n\troleToken\030\001 \001(\t\"\030\n\026"
-    "CustomMatch_LeaveLobby\"\'\n\024CustomMatch_Se"
-    "tReady\022\017\n\007isReady\030\001 \001(\010\"\035\n\033CustomMatch_G"
-    "etLobbyPlayers\"-\n\032CustomMatch_SetMatchma"
-    "king\022\017\n\007enabled\030\001 \001(\010\"\\\n\023CustomMatch_Set"
-    "Team\022\016\n\006teamId\030\001 \001(\005\022\032\n\022targetHardwareNa"
-    "me\030\002 \001(\t\022\031\n\021targetNucleusHash\030\003 \001(\t\"O\n\026C"
-    "ustomMatch_KickPlayer\022\032\n\022targetHardwareN"
-    "ame\030\001 \001(\t\022\031\n\021targetNucleusHash\030\002 \001(\t\"\217\001\n"
-    "\027CustomMatch_SetSettings\022\024\n\014playlistName"
-    "\030\001 \001(\t\022\021\n\tadminChat\030\002 \001(\010\022\022\n\nteamRename\030"
-    "\003 \001(\010\022\022\n\nselfAssign\030\004 \001(\010\022\021\n\taimAssist\030\005"
-    " \001(\010\022\020\n\010anonMode\030\006 \001(\010\";\n\027CustomMatch_Se"
-    "tTeamName\022\016\n\006teamId\030\001 \001(\005\022\020\n\010teamName\030\002 "
-    "\001(\t\"$\n\024CustomMatch_SendChat\022\014\n\004text\030\001 \001("
-    "\t\"\313\007\n\007Request\022\017\n\007withAck\030\001 \001(\010\022\024\n\014preSha"
-    "redKey\030\002 \001(\t\0220\n\tchangeCam\030\004 \001(\0132\033.rtech."
-    "liveapi.ChangeCameraH\000\0221\n\013pauseToggle\030\005 "
-    "\001(\0132\032.rtech.liveapi.PauseToggleH\000\022I\n\027cus"
-    "tomMatch_CreateLobby\030\n \001(\0132&.rtech.livea"
-    "pi.CustomMatch_CreateLobbyH\000\022E\n\025customMa"
-    "tch_JoinLobby\030\013 \001(\0132$.rtech.liveapi.Cust"
-    "omMatch_JoinLobbyH\000\022G\n\026customMatch_Leave"
-    "Lobby\030\014 \001(\0132%.rtech.liveapi.CustomMatch_"
-    "LeaveLobbyH\000\022C\n\024customMatch_SetReady\030\r \001"
-    "(\0132#.rtech.liveapi.CustomMatch_SetReadyH"
-    "\000\022O\n\032customMatch_SetMatchmaking\030\016 \001(\0132)."
-    "rtech.liveapi.CustomMatch_SetMatchmaking"
-    "H\000\022A\n\023customMatch_SetTeam\030\017 \001(\0132\".rtech."
-    "liveapi.CustomMatch_SetTeamH\000\022G\n\026customM"
-    "atch_KickPlayer\030\020 \001(\0132%.rtech.liveapi.Cu"
-    "stomMatch_KickPlayerH\000\022I\n\027customMatch_Se"
-    "tSettings\030\021 \001(\0132&.rtech.liveapi.CustomMa"
-    "tch_SetSettingsH\000\022C\n\024customMatch_SendCha"
-    "t\030\022 \001(\0132#.rtech.liveapi.CustomMatch_Send"
-    "ChatH\000\022Q\n\033customMatch_GetLobbyPlayers\030\023 "
-    "\001(\0132*.rtech.liveapi.CustomMatch_GetLobby"
-    "PlayersH\000\022I\n\027customMatch_SetTeamName\030\024 \001"
-    "(\0132&.rtech.liveapi.CustomMatch_SetTeamNa"
-    "meH\000B\t\n\007actions\"\037\n\rRequestStatus\022\016\n\006stat"
-    "us\030\001 \001(\t\"A\n\010Response\022\017\n\007success\030\001 \001(\010\022$\n"
-    "\006result\030\002 \001(\0132\024.google.protobuf.Any\"M\n\014L"
-    "iveAPIEvent\022\022\n\nevent_size\030\001 \001(\007\022)\n\013gameM"
-    "essage\030\003 \001(\0132\024.google.protobuf.Any*\210\001\n\020P"
-    "layerOfInterest\022\017\n\013UNSPECIFIED\020\000\022\010\n\004NEXT"
-    "\020\001\022\014\n\010PREVIOUS\020\002\022\017\n\013KILL_LEADER\020\003\022\021\n\rCLO"
-    "SEST_ENEMY\020\004\022\022\n\016CLOSEST_PLAYER\020\005\022\023\n\017LATE"
-    "ST_ATTACKER\020\006b\006proto3"
+    "ayer\"\250\001\n\010AmmoUsed\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010"
+    "category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.l"
+    "iveapi.Player\022\020\n\010ammoType\030\004 \001(\t\022\022\n\namoun"
+    "tUsed\030\005 \001(\r\022\024\n\014oldAmmoCount\030\006 \001(\r\022\024\n\014new"
+    "AmmoCount\030\007 \001(\r\"\202\001\n\016WeaponSwitched\022\021\n\tti"
+    "mestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006playe"
+    "r\030\003 \001(\0132\025.rtech.liveapi.Player\022\021\n\toldWea"
+    "pon\030\004 \001(\t\022\021\n\tnewWeapon\030\005 \001(\t\"X\n\014ChangeCa"
+    "mera\022.\n\003poi\030\001 \001(\0162\037.rtech.liveapi.Player"
+    "OfInterestH\000\022\016\n\004name\030\002 \001(\tH\000B\010\n\006target\"\037"
+    "\n\013PauseToggle\022\020\n\010preTimer\030\001 \001(\002\"\031\n\027Custo"
+    "mMatch_CreateLobby\"*\n\025CustomMatch_JoinLo"
+    "bby\022\021\n\troleToken\030\001 \001(\t\"\030\n\026CustomMatch_Le"
+    "aveLobby\"\'\n\024CustomMatch_SetReady\022\017\n\007isRe"
+    "ady\030\001 \001(\010\"\035\n\033CustomMatch_GetLobbyPlayers"
+    "\"-\n\032CustomMatch_SetMatchmaking\022\017\n\007enable"
+    "d\030\001 \001(\010\"\\\n\023CustomMatch_SetTeam\022\016\n\006teamId"
+    "\030\001 \001(\005\022\032\n\022targetHardwareName\030\002 \001(\t\022\031\n\021ta"
+    "rgetNucleusHash\030\003 \001(\t\"O\n\026CustomMatch_Kic"
+    "kPlayer\022\032\n\022targetHardwareName\030\001 \001(\t\022\031\n\021t"
+    "argetNucleusHash\030\002 \001(\t\"\217\001\n\027CustomMatch_S"
+    "etSettings\022\024\n\014playlistName\030\001 \001(\t\022\021\n\tadmi"
+    "nChat\030\002 \001(\010\022\022\n\nteamRename\030\003 \001(\010\022\022\n\nselfA"
+    "ssign\030\004 \001(\010\022\021\n\taimAssist\030\005 \001(\010\022\020\n\010anonMo"
+    "de\030\006 \001(\010\"\031\n\027CustomMatch_GetSettings\";\n\027C"
+    "ustomMatch_SetTeamName\022\016\n\006teamId\030\001 \001(\005\022\020"
+    "\n\010teamName\030\002 \001(\t\"$\n\024CustomMatch_SendChat"
+    "\022\014\n\004text\030\001 \001(\t\"\226\010\n\007Request\022\017\n\007withAck\030\001 "
+    "\001(\010\022\024\n\014preSharedKey\030\002 \001(\t\0220\n\tchangeCam\030\004"
+    " \001(\0132\033.rtech.liveapi.ChangeCameraH\000\0221\n\013p"
+    "auseToggle\030\005 \001(\0132\032.rtech.liveapi.PauseTo"
+    "ggleH\000\022I\n\027customMatch_CreateLobby\030\n \001(\0132"
+    "&.rtech.liveapi.CustomMatch_CreateLobbyH"
+    "\000\022E\n\025customMatch_JoinLobby\030\013 \001(\0132$.rtech"
+    ".liveapi.CustomMatch_JoinLobbyH\000\022G\n\026cust"
+    "omMatch_LeaveLobby\030\014 \001(\0132%.rtech.liveapi"
+    ".CustomMatch_LeaveLobbyH\000\022C\n\024customMatch"
+    "_SetReady\030\r \001(\0132#.rtech.liveapi.CustomMa"
+    "tch_SetReadyH\000\022O\n\032customMatch_SetMatchma"
+    "king\030\016 \001(\0132).rtech.liveapi.CustomMatch_S"
+    "etMatchmakingH\000\022A\n\023customMatch_SetTeam\030\017"
+    " \001(\0132\".rtech.liveapi.CustomMatch_SetTeam"
+    "H\000\022G\n\026customMatch_KickPlayer\030\020 \001(\0132%.rte"
+    "ch.liveapi.CustomMatch_KickPlayerH\000\022I\n\027c"
+    "ustomMatch_SetSettings\030\021 \001(\0132&.rtech.liv"
+    "eapi.CustomMatch_SetSettingsH\000\022C\n\024custom"
+    "Match_SendChat\030\022 \001(\0132#.rtech.liveapi.Cus"
+    "tomMatch_SendChatH\000\022Q\n\033customMatch_GetLo"
+    "bbyPlayers\030\023 \001(\0132*.rtech.liveapi.CustomM"
+    "atch_GetLobbyPlayersH\000\022I\n\027customMatch_Se"
+    "tTeamName\030\024 \001(\0132&.rtech.liveapi.CustomMa"
+    "tch_SetTeamNameH\000\022I\n\027customMatch_GetSett"
+    "ings\030\025 \001(\0132&.rtech.liveapi.CustomMatch_G"
+    "etSettingsH\000B\t\n\007actions\"\037\n\rRequestStatus"
+    "\022\016\n\006status\030\001 \001(\t\"A\n\010Response\022\017\n\007success\030"
+    "\001 \001(\010\022$\n\006result\030\002 \001(\0132\024.google.protobuf."
+    "Any\"M\n\014LiveAPIEvent\022\022\n\nevent_size\030\001 \001(\007\022"
+    ")\n\013gameMessage\030\003 \001(\0132\024.google.protobuf.A"
+    "ny*\210\001\n\020PlayerOfInterest\022\017\n\013UNSPECIFIED\020\000"
+    "\022\010\n\004NEXT\020\001\022\014\n\010PREVIOUS\020\002\022\017\n\013KILL_LEADER\020"
+    "\003\022\021\n\rCLOSEST_ENEMY\020\004\022\022\n\016CLOSEST_PLAYER\020\005"
+    "\022\023\n\017LATEST_ATTACKER\020\006b\006proto3"
 };
 static const ::_pbi::DescriptorTable* const descriptor_table_events_2eproto_deps[1] =
     {
@@ -2598,13 +2849,13 @@ static ::absl::once_flag descriptor_table_events_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_events_2eproto = {
     false,
     false,
-    7381,
+    8149,
     descriptor_table_protodef_events_2eproto,
     "events.proto",
     &descriptor_table_events_2eproto_once,
     descriptor_table_events_2eproto_deps,
     1,
-    57,
+    63,
     schemas,
     file_default_instances,
     TableStruct_events_2eproto::offsets,
@@ -4295,6 +4546,462 @@ void Version::InternalSwap(Version* PROTOBUF_RESTRICT other) {
 }
 // ===================================================================
 
+class InventoryItem::_Internal {
+ public:
+};
+
+InventoryItem::InventoryItem(::google::protobuf::Arena* arena)
+    : ::google::protobuf::Message(arena) {
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.InventoryItem)
+}
+inline PROTOBUF_NDEBUG_INLINE InventoryItem::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : item_(arena, from.item_),
+        extradata_(arena, from.extradata_),
+        _cached_size_{0} {}
+
+InventoryItem::InventoryItem(
+    ::google::protobuf::Arena* arena,
+    const InventoryItem& from)
+    : ::google::protobuf::Message(arena) {
+  InventoryItem* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  _impl_.quantity_ = from._impl_.quantity_;
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.InventoryItem)
+}
+inline PROTOBUF_NDEBUG_INLINE InventoryItem::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : item_(arena),
+        extradata_(arena),
+        _cached_size_{0} {}
+
+inline void InventoryItem::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.quantity_ = {};
+}
+InventoryItem::~InventoryItem() {
+  // @@protoc_insertion_point(destructor:rtech.liveapi.InventoryItem)
+  _internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  SharedDtor();
+}
+inline void InventoryItem::SharedDtor() {
+  ABSL_DCHECK(GetArena() == nullptr);
+  _impl_.item_.Destroy();
+  _impl_.extradata_.Destroy();
+  _impl_.~Impl_();
+}
+
+PROTOBUF_NOINLINE void InventoryItem::Clear() {
+// @@protoc_insertion_point(message_clear_start:rtech.liveapi.InventoryItem)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.item_.ClearToEmpty();
+  _impl_.extradata_.ClearToEmpty();
+  _impl_.quantity_ = 0;
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+const char* InventoryItem::_InternalParse(
+    const char* ptr, ::_pbi::ParseContext* ctx) {
+  ptr = ::_pbi::TcParser::ParseLoop(this, ptr, ctx, &_table_.header);
+  return ptr;
+}
+
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<2, 3, 0, 49, 2> InventoryItem::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    3, 24,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967288,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    3,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    &_InventoryItem_default_instance_._instance,
+    ::_pbi::TcParser::GenericFallback,  // fallback
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // int32 quantity = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(InventoryItem, _impl_.quantity_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(InventoryItem, _impl_.quantity_)}},
+    // string item = 2;
+    {::_pbi::TcParser::FastUS1,
+     {18, 63, 0, PROTOBUF_FIELD_OFFSET(InventoryItem, _impl_.item_)}},
+    // string extraData = 3;
+    {::_pbi::TcParser::FastUS1,
+     {26, 63, 0, PROTOBUF_FIELD_OFFSET(InventoryItem, _impl_.extradata_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // int32 quantity = 1;
+    {PROTOBUF_FIELD_OFFSET(InventoryItem, _impl_.quantity_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+    // string item = 2;
+    {PROTOBUF_FIELD_OFFSET(InventoryItem, _impl_.item_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // string extraData = 3;
+    {PROTOBUF_FIELD_OFFSET(InventoryItem, _impl_.extradata_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+  }},
+  // no aux_entries
+  {{
+    "\33\0\4\11\0\0\0\0"
+    "rtech.liveapi.InventoryItem"
+    "item"
+    "extraData"
+  }},
+};
+
+::uint8_t* InventoryItem::_InternalSerialize(
+    ::uint8_t* target,
+    ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:rtech.liveapi.InventoryItem)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  // int32 quantity = 1;
+  if (this->_internal_quantity() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::
+        WriteInt32ToArrayWithField<1>(
+            stream, this->_internal_quantity(), target);
+  }
+
+  // string item = 2;
+  if (!this->_internal_item().empty()) {
+    const std::string& _s = this->_internal_item();
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.InventoryItem.item");
+    target = stream->WriteStringMaybeAliased(2, _s, target);
+  }
+
+  // string extraData = 3;
+  if (!this->_internal_extradata().empty()) {
+    const std::string& _s = this->_internal_extradata();
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.InventoryItem.extraData");
+    target = stream->WriteStringMaybeAliased(3, _s, target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rtech.liveapi.InventoryItem)
+  return target;
+}
+
+::size_t InventoryItem::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:rtech.liveapi.InventoryItem)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string item = 2;
+  if (!this->_internal_item().empty()) {
+    total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                    this->_internal_item());
+  }
+
+  // string extraData = 3;
+  if (!this->_internal_extradata().empty()) {
+    total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                    this->_internal_extradata());
+  }
+
+  // int32 quantity = 1;
+  if (this->_internal_quantity() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+        this->_internal_quantity());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::google::protobuf::Message::ClassData InventoryItem::_class_data_ = {
+    InventoryItem::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
+};
+const ::google::protobuf::Message::ClassData* InventoryItem::GetClassData() const {
+  return &_class_data_;
+}
+
+void InventoryItem::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
+  auto* const _this = static_cast<InventoryItem*>(&to_msg);
+  auto& from = static_cast<const InventoryItem&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:rtech.liveapi.InventoryItem)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_item().empty()) {
+    _this->_internal_set_item(from._internal_item());
+  }
+  if (!from._internal_extradata().empty()) {
+    _this->_internal_set_extradata(from._internal_extradata());
+  }
+  if (from._internal_quantity() != 0) {
+    _this->_internal_set_quantity(from._internal_quantity());
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void InventoryItem::CopyFrom(const InventoryItem& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:rtech.liveapi.InventoryItem)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+PROTOBUF_NOINLINE bool InventoryItem::IsInitialized() const {
+  return true;
+}
+
+::_pbi::CachedSize* InventoryItem::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void InventoryItem::InternalSwap(InventoryItem* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.item_, &other->_impl_.item_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.extradata_, &other->_impl_.extradata_, arena);
+        swap(_impl_.quantity_, other->_impl_.quantity_);
+}
+
+::google::protobuf::Metadata InventoryItem::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
+      file_level_metadata_events_2eproto[5]);
+}
+// ===================================================================
+
+class LoadoutConfiguration::_Internal {
+ public:
+};
+
+LoadoutConfiguration::LoadoutConfiguration(::google::protobuf::Arena* arena)
+    : ::google::protobuf::Message(arena) {
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.LoadoutConfiguration)
+}
+inline PROTOBUF_NDEBUG_INLINE LoadoutConfiguration::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : weapons_{visibility, arena, from.weapons_},
+        equipment_{visibility, arena, from.equipment_},
+        _cached_size_{0} {}
+
+LoadoutConfiguration::LoadoutConfiguration(
+    ::google::protobuf::Arena* arena,
+    const LoadoutConfiguration& from)
+    : ::google::protobuf::Message(arena) {
+  LoadoutConfiguration* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.LoadoutConfiguration)
+}
+inline PROTOBUF_NDEBUG_INLINE LoadoutConfiguration::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : weapons_{visibility, arena},
+        equipment_{visibility, arena},
+        _cached_size_{0} {}
+
+inline void LoadoutConfiguration::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+}
+LoadoutConfiguration::~LoadoutConfiguration() {
+  // @@protoc_insertion_point(destructor:rtech.liveapi.LoadoutConfiguration)
+  _internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  SharedDtor();
+}
+inline void LoadoutConfiguration::SharedDtor() {
+  ABSL_DCHECK(GetArena() == nullptr);
+  _impl_.~Impl_();
+}
+
+PROTOBUF_NOINLINE void LoadoutConfiguration::Clear() {
+// @@protoc_insertion_point(message_clear_start:rtech.liveapi.LoadoutConfiguration)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.weapons_.Clear();
+  _impl_.equipment_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+const char* LoadoutConfiguration::_InternalParse(
+    const char* ptr, ::_pbi::ParseContext* ctx) {
+  ptr = ::_pbi::TcParser::ParseLoop(this, ptr, ctx, &_table_.header);
+  return ptr;
+}
+
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<1, 2, 2, 0, 2> LoadoutConfiguration::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    2, 8,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967292,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    2,  // num_field_entries
+    2,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    &_LoadoutConfiguration_default_instance_._instance,
+    ::_pbi::TcParser::GenericFallback,  // fallback
+  }, {{
+    // repeated .rtech.liveapi.InventoryItem equipment = 2;
+    {::_pbi::TcParser::FastMtR1,
+     {18, 63, 1, PROTOBUF_FIELD_OFFSET(LoadoutConfiguration, _impl_.equipment_)}},
+    // repeated .rtech.liveapi.InventoryItem weapons = 1;
+    {::_pbi::TcParser::FastMtR1,
+     {10, 63, 0, PROTOBUF_FIELD_OFFSET(LoadoutConfiguration, _impl_.weapons_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // repeated .rtech.liveapi.InventoryItem weapons = 1;
+    {PROTOBUF_FIELD_OFFSET(LoadoutConfiguration, _impl_.weapons_), 0, 0,
+    (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+    // repeated .rtech.liveapi.InventoryItem equipment = 2;
+    {PROTOBUF_FIELD_OFFSET(LoadoutConfiguration, _impl_.equipment_), 0, 1,
+    (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::rtech::liveapi::InventoryItem>()},
+    {::_pbi::TcParser::GetTable<::rtech::liveapi::InventoryItem>()},
+  }}, {{
+  }},
+};
+
+::uint8_t* LoadoutConfiguration::_InternalSerialize(
+    ::uint8_t* target,
+    ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:rtech.liveapi.LoadoutConfiguration)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  // repeated .rtech.liveapi.InventoryItem weapons = 1;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_weapons_size()); i < n; i++) {
+    const auto& repfield = this->_internal_weapons().Get(i);
+    target = ::google::protobuf::internal::WireFormatLite::
+        InternalWriteMessage(1, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // repeated .rtech.liveapi.InventoryItem equipment = 2;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_equipment_size()); i < n; i++) {
+    const auto& repfield = this->_internal_equipment().Get(i);
+    target = ::google::protobuf::internal::WireFormatLite::
+        InternalWriteMessage(2, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rtech.liveapi.LoadoutConfiguration)
+  return target;
+}
+
+::size_t LoadoutConfiguration::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:rtech.liveapi.LoadoutConfiguration)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .rtech.liveapi.InventoryItem weapons = 1;
+  total_size += 1UL * this->_internal_weapons_size();
+  for (const auto& msg : this->_internal_weapons()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+  }
+  // repeated .rtech.liveapi.InventoryItem equipment = 2;
+  total_size += 1UL * this->_internal_equipment_size();
+  for (const auto& msg : this->_internal_equipment()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+  }
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::google::protobuf::Message::ClassData LoadoutConfiguration::_class_data_ = {
+    LoadoutConfiguration::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
+};
+const ::google::protobuf::Message::ClassData* LoadoutConfiguration::GetClassData() const {
+  return &_class_data_;
+}
+
+void LoadoutConfiguration::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
+  auto* const _this = static_cast<LoadoutConfiguration*>(&to_msg);
+  auto& from = static_cast<const LoadoutConfiguration&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:rtech.liveapi.LoadoutConfiguration)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_internal_mutable_weapons()->MergeFrom(
+      from._internal_weapons());
+  _this->_internal_mutable_equipment()->MergeFrom(
+      from._internal_equipment());
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void LoadoutConfiguration::CopyFrom(const LoadoutConfiguration& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:rtech.liveapi.LoadoutConfiguration)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+PROTOBUF_NOINLINE bool LoadoutConfiguration::IsInitialized() const {
+  return true;
+}
+
+::_pbi::CachedSize* LoadoutConfiguration::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void LoadoutConfiguration::InternalSwap(LoadoutConfiguration* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.weapons_.InternalSwap(&other->_impl_.weapons_);
+  _impl_.equipment_.InternalSwap(&other->_impl_.equipment_);
+}
+
+::google::protobuf::Metadata LoadoutConfiguration::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
+      file_level_metadata_events_2eproto[6]);
+}
+// ===================================================================
+
 class Init::_Internal {
  public:
   using HasBits = decltype(std::declval<Init>()._impl_._has_bits_);
@@ -4654,7 +5361,7 @@ void Init::InternalSwap(Init* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata Init::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[5]);
+      file_level_metadata_events_2eproto[7]);
 }
 // ===================================================================
 
@@ -4870,7 +5577,7 @@ void CustomMatch_LobbyPlayers::InternalSwap(CustomMatch_LobbyPlayers* PROTOBUF_R
 ::google::protobuf::Metadata CustomMatch_LobbyPlayers::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[6]);
+      file_level_metadata_events_2eproto[8]);
 }
 // ===================================================================
 
@@ -5220,7 +5927,7 @@ void ObserverSwitched::InternalSwap(ObserverSwitched* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata ObserverSwitched::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[7]);
+      file_level_metadata_events_2eproto[9]);
 }
 // ===================================================================
 
@@ -5477,7 +6184,7 @@ void ObserverAnnotation::InternalSwap(ObserverAnnotation* PROTOBUF_RESTRICT othe
 ::google::protobuf::Metadata ObserverAnnotation::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[8]);
+      file_level_metadata_events_2eproto[10]);
 }
 // ===================================================================
 
@@ -5490,10 +6197,17 @@ class MatchSetup::_Internal {
   static void set_has_datacenter(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
+  static const ::rtech::liveapi::LoadoutConfiguration& startingloadout(const MatchSetup* msg);
+  static void set_has_startingloadout(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
 };
 
 const ::rtech::liveapi::Datacenter& MatchSetup::_Internal::datacenter(const MatchSetup* msg) {
   return *msg->_impl_.datacenter_;
+}
+const ::rtech::liveapi::LoadoutConfiguration& MatchSetup::_Internal::startingloadout(const MatchSetup* msg) {
+  return *msg->_impl_.startingloadout_;
 }
 MatchSetup::MatchSetup(::google::protobuf::Arena* arena)
     : ::google::protobuf::Message(arena) {
@@ -5523,6 +6237,9 @@ MatchSetup::MatchSetup(
   ::uint32_t cached_has_bits = _impl_._has_bits_[0];
   _impl_.datacenter_ = (cached_has_bits & 0x00000001u)
                 ? CreateMaybeMessage<::rtech::liveapi::Datacenter>(arena, *from._impl_.datacenter_)
+                : nullptr;
+  _impl_.startingloadout_ = (cached_has_bits & 0x00000002u)
+                ? CreateMaybeMessage<::rtech::liveapi::LoadoutConfiguration>(arena, *from._impl_.startingloadout_)
                 : nullptr;
   ::memcpy(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, timestamp_),
@@ -5566,6 +6283,7 @@ inline void MatchSetup::SharedDtor() {
   _impl_.playlistdesc_.Destroy();
   _impl_.serverid_.Destroy();
   delete _impl_.datacenter_;
+  delete _impl_.startingloadout_;
   _impl_.~Impl_();
 }
 
@@ -5582,9 +6300,15 @@ PROTOBUF_NOINLINE void MatchSetup::Clear() {
   _impl_.playlistdesc_.ClearToEmpty();
   _impl_.serverid_.ClearToEmpty();
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    ABSL_DCHECK(_impl_.datacenter_ != nullptr);
-    _impl_.datacenter_->Clear();
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(_impl_.datacenter_ != nullptr);
+      _impl_.datacenter_->Clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(_impl_.startingloadout_ != nullptr);
+      _impl_.startingloadout_->Clear();
+    }
   }
   ::memset(&_impl_.timestamp_, 0, static_cast<::size_t>(
       reinterpret_cast<char*>(&_impl_.anonymousmode_) -
@@ -5601,16 +6325,16 @@ const char* MatchSetup::_InternalParse(
 
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<4, 9, 1, 84, 2> MatchSetup::_table_ = {
+const ::_pbi::TcParseTable<4, 10, 2, 84, 2> MatchSetup::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(MatchSetup, _impl_._has_bits_),
     0, // no _extensions_
-    9, 120,  // max_field_number, fast_idx_mask
+    10, 120,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294966784,  // skipmap
+    4294966272,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    9,  // num_field_entries
-    1,  // num_aux_entries
+    10,  // num_field_entries
+    2,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     &_MatchSetup_default_instance_._instance,
     ::_pbi::TcParser::GenericFallback,  // fallback
@@ -5643,7 +6367,9 @@ const ::_pbi::TcParseTable<4, 9, 1, 84, 2> MatchSetup::_table_ = {
     // string serverId = 9;
     {::_pbi::TcParser::FastUS1,
      {74, 63, 0, PROTOBUF_FIELD_OFFSET(MatchSetup, _impl_.serverid_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+    // .rtech.liveapi.LoadoutConfiguration startingLoadout = 10;
+    {::_pbi::TcParser::FastMtS1,
+     {82, 1, 1, PROTOBUF_FIELD_OFFSET(MatchSetup, _impl_.startingloadout_)}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
     {::_pbi::TcParser::MiniParse, {}},
@@ -5679,8 +6405,12 @@ const ::_pbi::TcParseTable<4, 9, 1, 84, 2> MatchSetup::_table_ = {
     // string serverId = 9;
     {PROTOBUF_FIELD_OFFSET(MatchSetup, _impl_.serverid_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // .rtech.liveapi.LoadoutConfiguration startingLoadout = 10;
+    {PROTOBUF_FIELD_OFFSET(MatchSetup, _impl_.startingloadout_), _Internal::kHasBitsOffset + 1, 1,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::rtech::liveapi::Datacenter>()},
+    {::_pbi::TcParser::GetTable<::rtech::liveapi::LoadoutConfiguration>()},
   }}, {{
     "\30\0\10\3\14\14\0\0\0\10\0\0\0\0\0\0"
     "rtech.liveapi.MatchSetup"
@@ -5768,6 +6498,13 @@ const ::_pbi::TcParseTable<4, 9, 1, 84, 2> MatchSetup::_table_ = {
     target = stream->WriteStringMaybeAliased(9, _s, target);
   }
 
+  // .rtech.liveapi.LoadoutConfiguration startingLoadout = 10;
+  if (cached_has_bits & 0x00000002u) {
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        10, _Internal::startingloadout(this),
+        _Internal::startingloadout(this).GetCachedSize(), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target =
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -5815,13 +6552,21 @@ const ::_pbi::TcParseTable<4, 9, 1, 84, 2> MatchSetup::_table_ = {
                                     this->_internal_serverid());
   }
 
-  // .rtech.liveapi.Datacenter datacenter = 6;
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    total_size +=
-        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.datacenter_);
-  }
+  if (cached_has_bits & 0x00000003u) {
+    // .rtech.liveapi.Datacenter datacenter = 6;
+    if (cached_has_bits & 0x00000001u) {
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.datacenter_);
+    }
 
+    // .rtech.liveapi.LoadoutConfiguration startingLoadout = 10;
+    if (cached_has_bits & 0x00000002u) {
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.startingloadout_);
+    }
+
+  }
   // uint64 timestamp = 1;
   if (this->_internal_timestamp() != 0) {
     total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
@@ -5872,9 +6617,16 @@ void MatchSetup::MergeImpl(::google::protobuf::Message& to_msg, const ::google::
   if (!from._internal_serverid().empty()) {
     _this->_internal_set_serverid(from._internal_serverid());
   }
-  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
-    _this->_internal_mutable_datacenter()->::rtech::liveapi::Datacenter::MergeFrom(
-        from._internal_datacenter());
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_internal_mutable_datacenter()->::rtech::liveapi::Datacenter::MergeFrom(
+          from._internal_datacenter());
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_internal_mutable_startingloadout()->::rtech::liveapi::LoadoutConfiguration::MergeFrom(
+          from._internal_startingloadout());
+    }
   }
   if (from._internal_timestamp() != 0) {
     _this->_internal_set_timestamp(from._internal_timestamp());
@@ -5924,7 +6676,7 @@ void MatchSetup::InternalSwap(MatchSetup* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata MatchSetup::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[9]);
+      file_level_metadata_events_2eproto[11]);
 }
 // ===================================================================
 
@@ -6170,7 +6922,7 @@ void GameStateChanged::InternalSwap(GameStateChanged* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata GameStateChanged::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[10]);
+      file_level_metadata_events_2eproto[12]);
 }
 // ===================================================================
 
@@ -6445,7 +7197,7 @@ void CharacterSelected::InternalSwap(CharacterSelected* PROTOBUF_RESTRICT other)
 ::google::protobuf::Metadata CharacterSelected::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[11]);
+      file_level_metadata_events_2eproto[13]);
 }
 // ===================================================================
 
@@ -6716,7 +7468,7 @@ void MatchStateEnd::InternalSwap(MatchStateEnd* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata MatchStateEnd::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[12]);
+      file_level_metadata_events_2eproto[14]);
 }
 // ===================================================================
 
@@ -7129,7 +7881,7 @@ void RingStartClosing::InternalSwap(RingStartClosing* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata RingStartClosing::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[13]);
+      file_level_metadata_events_2eproto[15]);
 }
 // ===================================================================
 
@@ -7507,7 +8259,7 @@ void RingFinishedClosing::InternalSwap(RingFinishedClosing* PROTOBUF_RESTRICT ot
 ::google::protobuf::Metadata RingFinishedClosing::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[14]);
+      file_level_metadata_events_2eproto[16]);
 }
 // ===================================================================
 
@@ -7782,7 +8534,7 @@ void PlayerConnected::InternalSwap(PlayerConnected* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata PlayerConnected::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[15]);
+      file_level_metadata_events_2eproto[17]);
 }
 // ===================================================================
 
@@ -8109,7 +8861,7 @@ void PlayerDisconnected::InternalSwap(PlayerDisconnected* PROTOBUF_RESTRICT othe
 ::google::protobuf::Metadata PlayerDisconnected::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[16]);
+      file_level_metadata_events_2eproto[18]);
 }
 // ===================================================================
 
@@ -8445,7 +9197,311 @@ void PlayerStatChanged::InternalSwap(PlayerStatChanged* PROTOBUF_RESTRICT other)
 ::google::protobuf::Metadata PlayerStatChanged::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[17]);
+      file_level_metadata_events_2eproto[19]);
+}
+// ===================================================================
+
+class PlayerUpgradeTierChanged::_Internal {
+ public:
+  using HasBits = decltype(std::declval<PlayerUpgradeTierChanged>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+    8 * PROTOBUF_FIELD_OFFSET(PlayerUpgradeTierChanged, _impl_._has_bits_);
+  static const ::rtech::liveapi::Player& player(const PlayerUpgradeTierChanged* msg);
+  static void set_has_player(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+};
+
+const ::rtech::liveapi::Player& PlayerUpgradeTierChanged::_Internal::player(const PlayerUpgradeTierChanged* msg) {
+  return *msg->_impl_.player_;
+}
+PlayerUpgradeTierChanged::PlayerUpgradeTierChanged(::google::protobuf::Arena* arena)
+    : ::google::protobuf::Message(arena) {
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.PlayerUpgradeTierChanged)
+}
+inline PROTOBUF_NDEBUG_INLINE PlayerUpgradeTierChanged::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_) {}
+
+PlayerUpgradeTierChanged::PlayerUpgradeTierChanged(
+    ::google::protobuf::Arena* arena,
+    const PlayerUpgradeTierChanged& from)
+    : ::google::protobuf::Message(arena) {
+  PlayerUpgradeTierChanged* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, level_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::level_));
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.PlayerUpgradeTierChanged)
+}
+inline PROTOBUF_NDEBUG_INLINE PlayerUpgradeTierChanged::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena) {}
+
+inline void PlayerUpgradeTierChanged::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, level_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::level_));
+}
+PlayerUpgradeTierChanged::~PlayerUpgradeTierChanged() {
+  // @@protoc_insertion_point(destructor:rtech.liveapi.PlayerUpgradeTierChanged)
+  _internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  SharedDtor();
+}
+inline void PlayerUpgradeTierChanged::SharedDtor() {
+  ABSL_DCHECK(GetArena() == nullptr);
+  _impl_.category_.Destroy();
+  delete _impl_.player_;
+  _impl_.~Impl_();
+}
+
+PROTOBUF_NOINLINE void PlayerUpgradeTierChanged::Clear() {
+// @@protoc_insertion_point(message_clear_start:rtech.liveapi.PlayerUpgradeTierChanged)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.category_.ClearToEmpty();
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    ABSL_DCHECK(_impl_.player_ != nullptr);
+    _impl_.player_->Clear();
+  }
+  ::memset(&_impl_.timestamp_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.level_) -
+      reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.level_));
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+const char* PlayerUpgradeTierChanged::_InternalParse(
+    const char* ptr, ::_pbi::ParseContext* ctx) {
+  ptr = ::_pbi::TcParser::ParseLoop(this, ptr, ctx, &_table_.header);
+  return ptr;
+}
+
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<2, 4, 1, 55, 2> PlayerUpgradeTierChanged::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(PlayerUpgradeTierChanged, _impl_._has_bits_),
+    0, // no _extensions_
+    4, 24,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967280,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    4,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    &_PlayerUpgradeTierChanged_default_instance_._instance,
+    ::_pbi::TcParser::GenericFallback,  // fallback
+  }, {{
+    // int32 level = 4;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(PlayerUpgradeTierChanged, _impl_.level_), 63>(),
+     {32, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerUpgradeTierChanged, _impl_.level_)}},
+    // uint64 timestamp = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(PlayerUpgradeTierChanged, _impl_.timestamp_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerUpgradeTierChanged, _impl_.timestamp_)}},
+    // string category = 2;
+    {::_pbi::TcParser::FastUS1,
+     {18, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerUpgradeTierChanged, _impl_.category_)}},
+    // .rtech.liveapi.Player player = 3;
+    {::_pbi::TcParser::FastMtS1,
+     {26, 0, 0, PROTOBUF_FIELD_OFFSET(PlayerUpgradeTierChanged, _impl_.player_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // uint64 timestamp = 1;
+    {PROTOBUF_FIELD_OFFSET(PlayerUpgradeTierChanged, _impl_.timestamp_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // string category = 2;
+    {PROTOBUF_FIELD_OFFSET(PlayerUpgradeTierChanged, _impl_.category_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // .rtech.liveapi.Player player = 3;
+    {PROTOBUF_FIELD_OFFSET(PlayerUpgradeTierChanged, _impl_.player_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // int32 level = 4;
+    {PROTOBUF_FIELD_OFFSET(PlayerUpgradeTierChanged, _impl_.level_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::rtech::liveapi::Player>()},
+  }}, {{
+    "\46\0\10\0\0\0\0\0"
+    "rtech.liveapi.PlayerUpgradeTierChanged"
+    "category"
+  }},
+};
+
+::uint8_t* PlayerUpgradeTierChanged::_InternalSerialize(
+    ::uint8_t* target,
+    ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:rtech.liveapi.PlayerUpgradeTierChanged)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  // uint64 timestamp = 1;
+  if (this->_internal_timestamp() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+        1, this->_internal_timestamp(), target);
+  }
+
+  // string category = 2;
+  if (!this->_internal_category().empty()) {
+    const std::string& _s = this->_internal_category();
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.PlayerUpgradeTierChanged.category");
+    target = stream->WriteStringMaybeAliased(2, _s, target);
+  }
+
+  cached_has_bits = _impl_._has_bits_[0];
+  // .rtech.liveapi.Player player = 3;
+  if (cached_has_bits & 0x00000001u) {
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
+        _Internal::player(this).GetCachedSize(), target, stream);
+  }
+
+  // int32 level = 4;
+  if (this->_internal_level() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::
+        WriteInt32ToArrayWithField<4>(
+            stream, this->_internal_level(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rtech.liveapi.PlayerUpgradeTierChanged)
+  return target;
+}
+
+::size_t PlayerUpgradeTierChanged::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:rtech.liveapi.PlayerUpgradeTierChanged)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string category = 2;
+  if (!this->_internal_category().empty()) {
+    total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                    this->_internal_category());
+  }
+
+  // .rtech.liveapi.Player player = 3;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
+  }
+
+  // uint64 timestamp = 1;
+  if (this->_internal_timestamp() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+        this->_internal_timestamp());
+  }
+
+  // int32 level = 4;
+  if (this->_internal_level() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+        this->_internal_level());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::google::protobuf::Message::ClassData PlayerUpgradeTierChanged::_class_data_ = {
+    PlayerUpgradeTierChanged::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
+};
+const ::google::protobuf::Message::ClassData* PlayerUpgradeTierChanged::GetClassData() const {
+  return &_class_data_;
+}
+
+void PlayerUpgradeTierChanged::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
+  auto* const _this = static_cast<PlayerUpgradeTierChanged*>(&to_msg);
+  auto& from = static_cast<const PlayerUpgradeTierChanged&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:rtech.liveapi.PlayerUpgradeTierChanged)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_category().empty()) {
+    _this->_internal_set_category(from._internal_category());
+  }
+  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
+    _this->_internal_mutable_player()->::rtech::liveapi::Player::MergeFrom(
+        from._internal_player());
+  }
+  if (from._internal_timestamp() != 0) {
+    _this->_internal_set_timestamp(from._internal_timestamp());
+  }
+  if (from._internal_level() != 0) {
+    _this->_internal_set_level(from._internal_level());
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void PlayerUpgradeTierChanged::CopyFrom(const PlayerUpgradeTierChanged& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:rtech.liveapi.PlayerUpgradeTierChanged)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+PROTOBUF_NOINLINE bool PlayerUpgradeTierChanged::IsInitialized() const {
+  return true;
+}
+
+::_pbi::CachedSize* PlayerUpgradeTierChanged::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void PlayerUpgradeTierChanged::InternalSwap(PlayerUpgradeTierChanged* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(PlayerUpgradeTierChanged, _impl_.level_)
+      + sizeof(PlayerUpgradeTierChanged::_impl_.level_)
+      - PROTOBUF_FIELD_OFFSET(PlayerUpgradeTierChanged, _impl_.player_)>(
+          reinterpret_cast<char*>(&_impl_.player_),
+          reinterpret_cast<char*>(&other->_impl_.player_));
+}
+
+::google::protobuf::Metadata PlayerUpgradeTierChanged::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
+      file_level_metadata_events_2eproto[20]);
 }
 // ===================================================================
 
@@ -8826,7 +9882,7 @@ void PlayerDamaged::InternalSwap(PlayerDamaged* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata PlayerDamaged::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[18]);
+      file_level_metadata_events_2eproto[21]);
 }
 // ===================================================================
 
@@ -8843,10 +9899,6 @@ class PlayerKilled::_Internal {
   static void set_has_victim(HasBits* has_bits) {
     (*has_bits)[0] |= 2u;
   }
-  static const ::rtech::liveapi::Player& awardedto(const PlayerKilled* msg);
-  static void set_has_awardedto(HasBits* has_bits) {
-    (*has_bits)[0] |= 4u;
-  }
 };
 
 const ::rtech::liveapi::Player& PlayerKilled::_Internal::attacker(const PlayerKilled* msg) {
@@ -8854,9 +9906,6 @@ const ::rtech::liveapi::Player& PlayerKilled::_Internal::attacker(const PlayerKi
 }
 const ::rtech::liveapi::Player& PlayerKilled::_Internal::victim(const PlayerKilled* msg) {
   return *msg->_impl_.victim_;
-}
-const ::rtech::liveapi::Player& PlayerKilled::_Internal::awardedto(const PlayerKilled* msg) {
-  return *msg->_impl_.awardedto_;
 }
 PlayerKilled::PlayerKilled(::google::protobuf::Arena* arena)
     : ::google::protobuf::Message(arena) {
@@ -8886,9 +9935,6 @@ PlayerKilled::PlayerKilled(
                 : nullptr;
   _impl_.victim_ = (cached_has_bits & 0x00000002u)
                 ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.victim_)
-                : nullptr;
-  _impl_.awardedto_ = (cached_has_bits & 0x00000004u)
-                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.awardedto_)
                 : nullptr;
   _impl_.timestamp_ = from._impl_.timestamp_;
 
@@ -8921,7 +9967,6 @@ inline void PlayerKilled::SharedDtor() {
   _impl_.weapon_.Destroy();
   delete _impl_.attacker_;
   delete _impl_.victim_;
-  delete _impl_.awardedto_;
   _impl_.~Impl_();
 }
 
@@ -8935,7 +9980,7 @@ PROTOBUF_NOINLINE void PlayerKilled::Clear() {
   _impl_.category_.ClearToEmpty();
   _impl_.weapon_.ClearToEmpty();
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x00000003u) {
     if (cached_has_bits & 0x00000001u) {
       ABSL_DCHECK(_impl_.attacker_ != nullptr);
       _impl_.attacker_->Clear();
@@ -8943,10 +9988,6 @@ PROTOBUF_NOINLINE void PlayerKilled::Clear() {
     if (cached_has_bits & 0x00000002u) {
       ABSL_DCHECK(_impl_.victim_ != nullptr);
       _impl_.victim_->Clear();
-    }
-    if (cached_has_bits & 0x00000004u) {
-      ABSL_DCHECK(_impl_.awardedto_ != nullptr);
-      _impl_.awardedto_->Clear();
     }
   }
   _impl_.timestamp_ = ::uint64_t{0u};
@@ -8962,16 +10003,16 @@ const char* PlayerKilled::_InternalParse(
 
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 6, 3, 49, 2> PlayerKilled::_table_ = {
+const ::_pbi::TcParseTable<3, 5, 2, 49, 2> PlayerKilled::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(PlayerKilled, _impl_._has_bits_),
     0, // no _extensions_
     6, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967232,  // skipmap
+    4294967248,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    6,  // num_field_entries
-    3,  // num_aux_entries
+    5,  // num_field_entries
+    2,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     &_PlayerKilled_default_instance_._instance,
     ::_pbi::TcParser::GenericFallback,  // fallback
@@ -8989,9 +10030,7 @@ const ::_pbi::TcParseTable<3, 6, 3, 49, 2> PlayerKilled::_table_ = {
     // .rtech.liveapi.Player victim = 4;
     {::_pbi::TcParser::FastMtS1,
      {34, 1, 1, PROTOBUF_FIELD_OFFSET(PlayerKilled, _impl_.victim_)}},
-    // .rtech.liveapi.Player awardedTo = 5;
-    {::_pbi::TcParser::FastMtS1,
-     {42, 2, 2, PROTOBUF_FIELD_OFFSET(PlayerKilled, _impl_.awardedto_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // string weapon = 6;
     {::_pbi::TcParser::FastUS1,
      {50, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerKilled, _impl_.weapon_)}},
@@ -9011,18 +10050,14 @@ const ::_pbi::TcParseTable<3, 6, 3, 49, 2> PlayerKilled::_table_ = {
     // .rtech.liveapi.Player victim = 4;
     {PROTOBUF_FIELD_OFFSET(PlayerKilled, _impl_.victim_), _Internal::kHasBitsOffset + 1, 1,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
-    // .rtech.liveapi.Player awardedTo = 5;
-    {PROTOBUF_FIELD_OFFSET(PlayerKilled, _impl_.awardedto_), _Internal::kHasBitsOffset + 2, 2,
-    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // string weapon = 6;
     {PROTOBUF_FIELD_OFFSET(PlayerKilled, _impl_.weapon_), -1, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }}, {{
     {::_pbi::TcParser::GetTable<::rtech::liveapi::Player>()},
     {::_pbi::TcParser::GetTable<::rtech::liveapi::Player>()},
-    {::_pbi::TcParser::GetTable<::rtech::liveapi::Player>()},
   }}, {{
-    "\32\0\10\0\0\0\6\0"
+    "\32\0\10\0\0\6\0\0"
     "rtech.liveapi.PlayerKilled"
     "category"
     "weapon"
@@ -9066,13 +10101,6 @@ const ::_pbi::TcParseTable<3, 6, 3, 49, 2> PlayerKilled::_table_ = {
         _Internal::victim(this).GetCachedSize(), target, stream);
   }
 
-  // .rtech.liveapi.Player awardedTo = 5;
-  if (cached_has_bits & 0x00000004u) {
-    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-        5, _Internal::awardedto(this),
-        _Internal::awardedto(this).GetCachedSize(), target, stream);
-  }
-
   // string weapon = 6;
   if (!this->_internal_weapon().empty()) {
     const std::string& _s = this->_internal_weapon();
@@ -9111,7 +10139,7 @@ const ::_pbi::TcParseTable<3, 6, 3, 49, 2> PlayerKilled::_table_ = {
   }
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x00000003u) {
     // .rtech.liveapi.Player attacker = 3;
     if (cached_has_bits & 0x00000001u) {
       total_size +=
@@ -9122,12 +10150,6 @@ const ::_pbi::TcParseTable<3, 6, 3, 49, 2> PlayerKilled::_table_ = {
     if (cached_has_bits & 0x00000002u) {
       total_size +=
           1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.victim_);
-    }
-
-    // .rtech.liveapi.Player awardedTo = 5;
-    if (cached_has_bits & 0x00000004u) {
-      total_size +=
-          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.awardedto_);
     }
 
   }
@@ -9163,7 +10185,7 @@ void PlayerKilled::MergeImpl(::google::protobuf::Message& to_msg, const ::google
     _this->_internal_set_weapon(from._internal_weapon());
   }
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x00000003u) {
     if (cached_has_bits & 0x00000001u) {
       _this->_internal_mutable_attacker()->::rtech::liveapi::Player::MergeFrom(
           from._internal_attacker());
@@ -9171,10 +10193,6 @@ void PlayerKilled::MergeImpl(::google::protobuf::Message& to_msg, const ::google
     if (cached_has_bits & 0x00000002u) {
       _this->_internal_mutable_victim()->::rtech::liveapi::Player::MergeFrom(
           from._internal_victim());
-    }
-    if (cached_has_bits & 0x00000004u) {
-      _this->_internal_mutable_awardedto()->::rtech::liveapi::Player::MergeFrom(
-          from._internal_awardedto());
     }
   }
   if (from._internal_timestamp() != 0) {
@@ -9216,7 +10234,7 @@ void PlayerKilled::InternalSwap(PlayerKilled* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata PlayerKilled::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[19]);
+      file_level_metadata_events_2eproto[22]);
 }
 // ===================================================================
 
@@ -9568,7 +10586,7 @@ void PlayerDowned::InternalSwap(PlayerDowned* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata PlayerDowned::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[20]);
+      file_level_metadata_events_2eproto[23]);
 }
 // ===================================================================
 
@@ -9920,7 +10938,7 @@ void PlayerAssist::InternalSwap(PlayerAssist* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata PlayerAssist::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[21]);
+      file_level_metadata_events_2eproto[24]);
 }
 // ===================================================================
 
@@ -10163,7 +11181,7 @@ void SquadEliminated::InternalSwap(SquadEliminated* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata SquadEliminated::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[22]);
+      file_level_metadata_events_2eproto[25]);
 }
 // ===================================================================
 
@@ -10516,7 +11534,360 @@ void GibraltarShieldAbsorbed::InternalSwap(GibraltarShieldAbsorbed* PROTOBUF_RES
 ::google::protobuf::Metadata GibraltarShieldAbsorbed::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[23]);
+      file_level_metadata_events_2eproto[26]);
+}
+// ===================================================================
+
+class RevenantForgedShadowDamaged::_Internal {
+ public:
+  using HasBits = decltype(std::declval<RevenantForgedShadowDamaged>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+    8 * PROTOBUF_FIELD_OFFSET(RevenantForgedShadowDamaged, _impl_._has_bits_);
+  static const ::rtech::liveapi::Player& attacker(const RevenantForgedShadowDamaged* msg);
+  static void set_has_attacker(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static const ::rtech::liveapi::Player& victim(const RevenantForgedShadowDamaged* msg);
+  static void set_has_victim(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+};
+
+const ::rtech::liveapi::Player& RevenantForgedShadowDamaged::_Internal::attacker(const RevenantForgedShadowDamaged* msg) {
+  return *msg->_impl_.attacker_;
+}
+const ::rtech::liveapi::Player& RevenantForgedShadowDamaged::_Internal::victim(const RevenantForgedShadowDamaged* msg) {
+  return *msg->_impl_.victim_;
+}
+RevenantForgedShadowDamaged::RevenantForgedShadowDamaged(::google::protobuf::Arena* arena)
+    : ::google::protobuf::Message(arena) {
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.RevenantForgedShadowDamaged)
+}
+inline PROTOBUF_NDEBUG_INLINE RevenantForgedShadowDamaged::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_) {}
+
+RevenantForgedShadowDamaged::RevenantForgedShadowDamaged(
+    ::google::protobuf::Arena* arena,
+    const RevenantForgedShadowDamaged& from)
+    : ::google::protobuf::Message(arena) {
+  RevenantForgedShadowDamaged* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.attacker_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.attacker_)
+                : nullptr;
+  _impl_.victim_ = (cached_has_bits & 0x00000002u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.victim_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, damageinflicted_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::damageinflicted_));
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.RevenantForgedShadowDamaged)
+}
+inline PROTOBUF_NDEBUG_INLINE RevenantForgedShadowDamaged::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena) {}
+
+inline void RevenantForgedShadowDamaged::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, attacker_),
+           0,
+           offsetof(Impl_, damageinflicted_) -
+               offsetof(Impl_, attacker_) +
+               sizeof(Impl_::damageinflicted_));
+}
+RevenantForgedShadowDamaged::~RevenantForgedShadowDamaged() {
+  // @@protoc_insertion_point(destructor:rtech.liveapi.RevenantForgedShadowDamaged)
+  _internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  SharedDtor();
+}
+inline void RevenantForgedShadowDamaged::SharedDtor() {
+  ABSL_DCHECK(GetArena() == nullptr);
+  _impl_.category_.Destroy();
+  delete _impl_.attacker_;
+  delete _impl_.victim_;
+  _impl_.~Impl_();
+}
+
+PROTOBUF_NOINLINE void RevenantForgedShadowDamaged::Clear() {
+// @@protoc_insertion_point(message_clear_start:rtech.liveapi.RevenantForgedShadowDamaged)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.category_.ClearToEmpty();
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      ABSL_DCHECK(_impl_.attacker_ != nullptr);
+      _impl_.attacker_->Clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(_impl_.victim_ != nullptr);
+      _impl_.victim_->Clear();
+    }
+  }
+  ::memset(&_impl_.timestamp_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.damageinflicted_) -
+      reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.damageinflicted_));
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+const char* RevenantForgedShadowDamaged::_InternalParse(
+    const char* ptr, ::_pbi::ParseContext* ctx) {
+  ptr = ::_pbi::TcParser::ParseLoop(this, ptr, ctx, &_table_.header);
+  return ptr;
+}
+
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<3, 5, 2, 58, 2> RevenantForgedShadowDamaged::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(RevenantForgedShadowDamaged, _impl_._has_bits_),
+    0, // no _extensions_
+    6, 56,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967248,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    5,  // num_field_entries
+    2,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    &_RevenantForgedShadowDamaged_default_instance_._instance,
+    ::_pbi::TcParser::GenericFallback,  // fallback
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // uint64 timestamp = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(RevenantForgedShadowDamaged, _impl_.timestamp_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(RevenantForgedShadowDamaged, _impl_.timestamp_)}},
+    // string category = 2;
+    {::_pbi::TcParser::FastUS1,
+     {18, 63, 0, PROTOBUF_FIELD_OFFSET(RevenantForgedShadowDamaged, _impl_.category_)}},
+    // .rtech.liveapi.Player attacker = 3;
+    {::_pbi::TcParser::FastMtS1,
+     {26, 0, 0, PROTOBUF_FIELD_OFFSET(RevenantForgedShadowDamaged, _impl_.attacker_)}},
+    // .rtech.liveapi.Player victim = 4;
+    {::_pbi::TcParser::FastMtS1,
+     {34, 1, 1, PROTOBUF_FIELD_OFFSET(RevenantForgedShadowDamaged, _impl_.victim_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    // uint32 damageInflicted = 6;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(RevenantForgedShadowDamaged, _impl_.damageinflicted_), 63>(),
+     {48, 63, 0, PROTOBUF_FIELD_OFFSET(RevenantForgedShadowDamaged, _impl_.damageinflicted_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // uint64 timestamp = 1;
+    {PROTOBUF_FIELD_OFFSET(RevenantForgedShadowDamaged, _impl_.timestamp_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // string category = 2;
+    {PROTOBUF_FIELD_OFFSET(RevenantForgedShadowDamaged, _impl_.category_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // .rtech.liveapi.Player attacker = 3;
+    {PROTOBUF_FIELD_OFFSET(RevenantForgedShadowDamaged, _impl_.attacker_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .rtech.liveapi.Player victim = 4;
+    {PROTOBUF_FIELD_OFFSET(RevenantForgedShadowDamaged, _impl_.victim_), _Internal::kHasBitsOffset + 1, 1,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // uint32 damageInflicted = 6;
+    {PROTOBUF_FIELD_OFFSET(RevenantForgedShadowDamaged, _impl_.damageinflicted_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::rtech::liveapi::Player>()},
+    {::_pbi::TcParser::GetTable<::rtech::liveapi::Player>()},
+  }}, {{
+    "\51\0\10\0\0\0\0\0"
+    "rtech.liveapi.RevenantForgedShadowDamaged"
+    "category"
+  }},
+};
+
+::uint8_t* RevenantForgedShadowDamaged::_InternalSerialize(
+    ::uint8_t* target,
+    ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:rtech.liveapi.RevenantForgedShadowDamaged)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  // uint64 timestamp = 1;
+  if (this->_internal_timestamp() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+        1, this->_internal_timestamp(), target);
+  }
+
+  // string category = 2;
+  if (!this->_internal_category().empty()) {
+    const std::string& _s = this->_internal_category();
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.RevenantForgedShadowDamaged.category");
+    target = stream->WriteStringMaybeAliased(2, _s, target);
+  }
+
+  cached_has_bits = _impl_._has_bits_[0];
+  // .rtech.liveapi.Player attacker = 3;
+  if (cached_has_bits & 0x00000001u) {
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::attacker(this),
+        _Internal::attacker(this).GetCachedSize(), target, stream);
+  }
+
+  // .rtech.liveapi.Player victim = 4;
+  if (cached_has_bits & 0x00000002u) {
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        4, _Internal::victim(this),
+        _Internal::victim(this).GetCachedSize(), target, stream);
+  }
+
+  // uint32 damageInflicted = 6;
+  if (this->_internal_damageinflicted() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+        6, this->_internal_damageinflicted(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rtech.liveapi.RevenantForgedShadowDamaged)
+  return target;
+}
+
+::size_t RevenantForgedShadowDamaged::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:rtech.liveapi.RevenantForgedShadowDamaged)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string category = 2;
+  if (!this->_internal_category().empty()) {
+    total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                    this->_internal_category());
+  }
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    // .rtech.liveapi.Player attacker = 3;
+    if (cached_has_bits & 0x00000001u) {
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.attacker_);
+    }
+
+    // .rtech.liveapi.Player victim = 4;
+    if (cached_has_bits & 0x00000002u) {
+      total_size +=
+          1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.victim_);
+    }
+
+  }
+  // uint64 timestamp = 1;
+  if (this->_internal_timestamp() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+        this->_internal_timestamp());
+  }
+
+  // uint32 damageInflicted = 6;
+  if (this->_internal_damageinflicted() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+        this->_internal_damageinflicted());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::google::protobuf::Message::ClassData RevenantForgedShadowDamaged::_class_data_ = {
+    RevenantForgedShadowDamaged::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
+};
+const ::google::protobuf::Message::ClassData* RevenantForgedShadowDamaged::GetClassData() const {
+  return &_class_data_;
+}
+
+void RevenantForgedShadowDamaged::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
+  auto* const _this = static_cast<RevenantForgedShadowDamaged*>(&to_msg);
+  auto& from = static_cast<const RevenantForgedShadowDamaged&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:rtech.liveapi.RevenantForgedShadowDamaged)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_category().empty()) {
+    _this->_internal_set_category(from._internal_category());
+  }
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_internal_mutable_attacker()->::rtech::liveapi::Player::MergeFrom(
+          from._internal_attacker());
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_internal_mutable_victim()->::rtech::liveapi::Player::MergeFrom(
+          from._internal_victim());
+    }
+  }
+  if (from._internal_timestamp() != 0) {
+    _this->_internal_set_timestamp(from._internal_timestamp());
+  }
+  if (from._internal_damageinflicted() != 0) {
+    _this->_internal_set_damageinflicted(from._internal_damageinflicted());
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void RevenantForgedShadowDamaged::CopyFrom(const RevenantForgedShadowDamaged& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:rtech.liveapi.RevenantForgedShadowDamaged)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+PROTOBUF_NOINLINE bool RevenantForgedShadowDamaged::IsInitialized() const {
+  return true;
+}
+
+::_pbi::CachedSize* RevenantForgedShadowDamaged::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void RevenantForgedShadowDamaged::InternalSwap(RevenantForgedShadowDamaged* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(RevenantForgedShadowDamaged, _impl_.damageinflicted_)
+      + sizeof(RevenantForgedShadowDamaged::_impl_.damageinflicted_)
+      - PROTOBUF_FIELD_OFFSET(RevenantForgedShadowDamaged, _impl_.attacker_)>(
+          reinterpret_cast<char*>(&_impl_.attacker_),
+          reinterpret_cast<char*>(&other->_impl_.attacker_));
+}
+
+::google::protobuf::Metadata RevenantForgedShadowDamaged::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
+      file_level_metadata_events_2eproto[27]);
 }
 // ===================================================================
 
@@ -10819,7 +12190,7 @@ void PlayerRespawnTeam::InternalSwap(PlayerRespawnTeam* PROTOBUF_RESTRICT other)
 ::google::protobuf::Metadata PlayerRespawnTeam::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[24]);
+      file_level_metadata_events_2eproto[28]);
 }
 // ===================================================================
 
@@ -11139,7 +12510,7 @@ void PlayerRevive::InternalSwap(PlayerRevive* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata PlayerRevive::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[25]);
+      file_level_metadata_events_2eproto[29]);
 }
 // ===================================================================
 
@@ -11475,7 +12846,7 @@ void ArenasItemSelected::InternalSwap(ArenasItemSelected* PROTOBUF_RESTRICT othe
 ::google::protobuf::Metadata ArenasItemSelected::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[26]);
+      file_level_metadata_events_2eproto[30]);
 }
 // ===================================================================
 
@@ -11811,7 +13182,7 @@ void ArenasItemDeselected::InternalSwap(ArenasItemDeselected* PROTOBUF_RESTRICT 
 ::google::protobuf::Metadata ArenasItemDeselected::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[27]);
+      file_level_metadata_events_2eproto[31]);
 }
 // ===================================================================
 
@@ -12147,7 +13518,7 @@ void InventoryPickUp::InternalSwap(InventoryPickUp* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata InventoryPickUp::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[28]);
+      file_level_metadata_events_2eproto[32]);
 }
 // ===================================================================
 
@@ -12508,7 +13879,7 @@ void InventoryDrop::InternalSwap(InventoryDrop* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata InventoryDrop::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[29]);
+      file_level_metadata_events_2eproto[33]);
 }
 // ===================================================================
 
@@ -12844,7 +14215,7 @@ void InventoryUse::InternalSwap(InventoryUse* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata InventoryUse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[30]);
+      file_level_metadata_events_2eproto[34]);
 }
 // ===================================================================
 
@@ -13164,7 +14535,7 @@ void BannerCollected::InternalSwap(BannerCollected* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata BannerCollected::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[31]);
+      file_level_metadata_events_2eproto[35]);
 }
 // ===================================================================
 
@@ -13467,7 +14838,371 @@ void PlayerAbilityUsed::InternalSwap(PlayerAbilityUsed* PROTOBUF_RESTRICT other)
 ::google::protobuf::Metadata PlayerAbilityUsed::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[32]);
+      file_level_metadata_events_2eproto[36]);
+}
+// ===================================================================
+
+class LegendUpgradeSelected::_Internal {
+ public:
+  using HasBits = decltype(std::declval<LegendUpgradeSelected>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+    8 * PROTOBUF_FIELD_OFFSET(LegendUpgradeSelected, _impl_._has_bits_);
+  static const ::rtech::liveapi::Player& player(const LegendUpgradeSelected* msg);
+  static void set_has_player(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+};
+
+const ::rtech::liveapi::Player& LegendUpgradeSelected::_Internal::player(const LegendUpgradeSelected* msg) {
+  return *msg->_impl_.player_;
+}
+LegendUpgradeSelected::LegendUpgradeSelected(::google::protobuf::Arena* arena)
+    : ::google::protobuf::Message(arena) {
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.LegendUpgradeSelected)
+}
+inline PROTOBUF_NDEBUG_INLINE LegendUpgradeSelected::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_),
+        upgradename_(arena, from.upgradename_),
+        upgradedesc_(arena, from.upgradedesc_) {}
+
+LegendUpgradeSelected::LegendUpgradeSelected(
+    ::google::protobuf::Arena* arena,
+    const LegendUpgradeSelected& from)
+    : ::google::protobuf::Message(arena) {
+  LegendUpgradeSelected* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (cached_has_bits & 0x00000001u)
+                ? CreateMaybeMessage<::rtech::liveapi::Player>(arena, *from._impl_.player_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, level_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::level_));
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.LegendUpgradeSelected)
+}
+inline PROTOBUF_NDEBUG_INLINE LegendUpgradeSelected::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        category_(arena),
+        upgradename_(arena),
+        upgradedesc_(arena) {}
+
+inline void LegendUpgradeSelected::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, level_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::level_));
+}
+LegendUpgradeSelected::~LegendUpgradeSelected() {
+  // @@protoc_insertion_point(destructor:rtech.liveapi.LegendUpgradeSelected)
+  _internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  SharedDtor();
+}
+inline void LegendUpgradeSelected::SharedDtor() {
+  ABSL_DCHECK(GetArena() == nullptr);
+  _impl_.category_.Destroy();
+  _impl_.upgradename_.Destroy();
+  _impl_.upgradedesc_.Destroy();
+  delete _impl_.player_;
+  _impl_.~Impl_();
+}
+
+PROTOBUF_NOINLINE void LegendUpgradeSelected::Clear() {
+// @@protoc_insertion_point(message_clear_start:rtech.liveapi.LegendUpgradeSelected)
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.category_.ClearToEmpty();
+  _impl_.upgradename_.ClearToEmpty();
+  _impl_.upgradedesc_.ClearToEmpty();
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    ABSL_DCHECK(_impl_.player_ != nullptr);
+    _impl_.player_->Clear();
+  }
+  ::memset(&_impl_.timestamp_, 0, static_cast<::size_t>(
+      reinterpret_cast<char*>(&_impl_.level_) -
+      reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.level_));
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+const char* LegendUpgradeSelected::_InternalParse(
+    const char* ptr, ::_pbi::ParseContext* ctx) {
+  ptr = ::_pbi::TcParser::ParseLoop(this, ptr, ctx, &_table_.header);
+  return ptr;
+}
+
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<3, 6, 1, 74, 2> LegendUpgradeSelected::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(LegendUpgradeSelected, _impl_._has_bits_),
+    0, // no _extensions_
+    6, 56,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967232,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    6,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    &_LegendUpgradeSelected_default_instance_._instance,
+    ::_pbi::TcParser::GenericFallback,  // fallback
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // uint64 timestamp = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(LegendUpgradeSelected, _impl_.timestamp_), 63>(),
+     {8, 63, 0, PROTOBUF_FIELD_OFFSET(LegendUpgradeSelected, _impl_.timestamp_)}},
+    // string category = 2;
+    {::_pbi::TcParser::FastUS1,
+     {18, 63, 0, PROTOBUF_FIELD_OFFSET(LegendUpgradeSelected, _impl_.category_)}},
+    // .rtech.liveapi.Player player = 3;
+    {::_pbi::TcParser::FastMtS1,
+     {26, 0, 0, PROTOBUF_FIELD_OFFSET(LegendUpgradeSelected, _impl_.player_)}},
+    // string upgradeName = 4;
+    {::_pbi::TcParser::FastUS1,
+     {34, 63, 0, PROTOBUF_FIELD_OFFSET(LegendUpgradeSelected, _impl_.upgradename_)}},
+    // string upgradeDesc = 5;
+    {::_pbi::TcParser::FastUS1,
+     {42, 63, 0, PROTOBUF_FIELD_OFFSET(LegendUpgradeSelected, _impl_.upgradedesc_)}},
+    // int32 level = 6;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(LegendUpgradeSelected, _impl_.level_), 63>(),
+     {48, 63, 0, PROTOBUF_FIELD_OFFSET(LegendUpgradeSelected, _impl_.level_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // uint64 timestamp = 1;
+    {PROTOBUF_FIELD_OFFSET(LegendUpgradeSelected, _impl_.timestamp_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt64)},
+    // string category = 2;
+    {PROTOBUF_FIELD_OFFSET(LegendUpgradeSelected, _impl_.category_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // .rtech.liveapi.Player player = 3;
+    {PROTOBUF_FIELD_OFFSET(LegendUpgradeSelected, _impl_.player_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // string upgradeName = 4;
+    {PROTOBUF_FIELD_OFFSET(LegendUpgradeSelected, _impl_.upgradename_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // string upgradeDesc = 5;
+    {PROTOBUF_FIELD_OFFSET(LegendUpgradeSelected, _impl_.upgradedesc_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // int32 level = 6;
+    {PROTOBUF_FIELD_OFFSET(LegendUpgradeSelected, _impl_.level_), -1, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::rtech::liveapi::Player>()},
+  }}, {{
+    "\43\0\10\0\13\13\0\0"
+    "rtech.liveapi.LegendUpgradeSelected"
+    "category"
+    "upgradeName"
+    "upgradeDesc"
+  }},
+};
+
+::uint8_t* LegendUpgradeSelected::_InternalSerialize(
+    ::uint8_t* target,
+    ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:rtech.liveapi.LegendUpgradeSelected)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  // uint64 timestamp = 1;
+  if (this->_internal_timestamp() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+        1, this->_internal_timestamp(), target);
+  }
+
+  // string category = 2;
+  if (!this->_internal_category().empty()) {
+    const std::string& _s = this->_internal_category();
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.LegendUpgradeSelected.category");
+    target = stream->WriteStringMaybeAliased(2, _s, target);
+  }
+
+  cached_has_bits = _impl_._has_bits_[0];
+  // .rtech.liveapi.Player player = 3;
+  if (cached_has_bits & 0x00000001u) {
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, _Internal::player(this),
+        _Internal::player(this).GetCachedSize(), target, stream);
+  }
+
+  // string upgradeName = 4;
+  if (!this->_internal_upgradename().empty()) {
+    const std::string& _s = this->_internal_upgradename();
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.LegendUpgradeSelected.upgradeName");
+    target = stream->WriteStringMaybeAliased(4, _s, target);
+  }
+
+  // string upgradeDesc = 5;
+  if (!this->_internal_upgradedesc().empty()) {
+    const std::string& _s = this->_internal_upgradedesc();
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.LegendUpgradeSelected.upgradeDesc");
+    target = stream->WriteStringMaybeAliased(5, _s, target);
+  }
+
+  // int32 level = 6;
+  if (this->_internal_level() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::
+        WriteInt32ToArrayWithField<6>(
+            stream, this->_internal_level(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rtech.liveapi.LegendUpgradeSelected)
+  return target;
+}
+
+::size_t LegendUpgradeSelected::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:rtech.liveapi.LegendUpgradeSelected)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string category = 2;
+  if (!this->_internal_category().empty()) {
+    total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                    this->_internal_category());
+  }
+
+  // string upgradeName = 4;
+  if (!this->_internal_upgradename().empty()) {
+    total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                    this->_internal_upgradename());
+  }
+
+  // string upgradeDesc = 5;
+  if (!this->_internal_upgradedesc().empty()) {
+    total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                    this->_internal_upgradedesc());
+  }
+
+  // .rtech.liveapi.Player player = 3;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size +=
+        1 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.player_);
+  }
+
+  // uint64 timestamp = 1;
+  if (this->_internal_timestamp() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+        this->_internal_timestamp());
+  }
+
+  // int32 level = 6;
+  if (this->_internal_level() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+        this->_internal_level());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::google::protobuf::Message::ClassData LegendUpgradeSelected::_class_data_ = {
+    LegendUpgradeSelected::MergeImpl,
+    nullptr,  // OnDemandRegisterArenaDtor
+};
+const ::google::protobuf::Message::ClassData* LegendUpgradeSelected::GetClassData() const {
+  return &_class_data_;
+}
+
+void LegendUpgradeSelected::MergeImpl(::google::protobuf::Message& to_msg, const ::google::protobuf::Message& from_msg) {
+  auto* const _this = static_cast<LegendUpgradeSelected*>(&to_msg);
+  auto& from = static_cast<const LegendUpgradeSelected&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:rtech.liveapi.LegendUpgradeSelected)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_category().empty()) {
+    _this->_internal_set_category(from._internal_category());
+  }
+  if (!from._internal_upgradename().empty()) {
+    _this->_internal_set_upgradename(from._internal_upgradename());
+  }
+  if (!from._internal_upgradedesc().empty()) {
+    _this->_internal_set_upgradedesc(from._internal_upgradedesc());
+  }
+  if ((from._impl_._has_bits_[0] & 0x00000001u) != 0) {
+    _this->_internal_mutable_player()->::rtech::liveapi::Player::MergeFrom(
+        from._internal_player());
+  }
+  if (from._internal_timestamp() != 0) {
+    _this->_internal_set_timestamp(from._internal_timestamp());
+  }
+  if (from._internal_level() != 0) {
+    _this->_internal_set_level(from._internal_level());
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void LegendUpgradeSelected::CopyFrom(const LegendUpgradeSelected& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:rtech.liveapi.LegendUpgradeSelected)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+PROTOBUF_NOINLINE bool LegendUpgradeSelected::IsInitialized() const {
+  return true;
+}
+
+::_pbi::CachedSize* LegendUpgradeSelected::AccessCachedSize() const {
+  return &_impl_._cached_size_;
+}
+void LegendUpgradeSelected::InternalSwap(LegendUpgradeSelected* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.upgradename_, &other->_impl_.upgradename_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.upgradedesc_, &other->_impl_.upgradedesc_, arena);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(LegendUpgradeSelected, _impl_.level_)
+      + sizeof(LegendUpgradeSelected::_impl_.level_)
+      - PROTOBUF_FIELD_OFFSET(LegendUpgradeSelected, _impl_.player_)>(
+          reinterpret_cast<char*>(&_impl_.player_),
+          reinterpret_cast<char*>(&other->_impl_.player_));
+}
+
+::google::protobuf::Metadata LegendUpgradeSelected::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
+      file_level_metadata_events_2eproto[37]);
 }
 // ===================================================================
 
@@ -13770,7 +15505,7 @@ void ZiplineUsed::InternalSwap(ZiplineUsed* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata ZiplineUsed::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[33]);
+      file_level_metadata_events_2eproto[38]);
 }
 // ===================================================================
 
@@ -14073,7 +15808,7 @@ void GrenadeThrown::InternalSwap(GrenadeThrown* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata GrenadeThrown::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[34]);
+      file_level_metadata_events_2eproto[39]);
 }
 // ===================================================================
 
@@ -14376,7 +16111,7 @@ void BlackMarketAction::InternalSwap(BlackMarketAction* PROTOBUF_RESTRICT other)
 ::google::protobuf::Metadata BlackMarketAction::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[35]);
+      file_level_metadata_events_2eproto[40]);
 }
 // ===================================================================
 
@@ -14651,7 +16386,7 @@ void WraithPortal::InternalSwap(WraithPortal* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata WraithPortal::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[36]);
+      file_level_metadata_events_2eproto[41]);
 }
 // ===================================================================
 
@@ -14926,7 +16661,7 @@ void WarpGateUsed::InternalSwap(WarpGateUsed* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata WarpGateUsed::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[37]);
+      file_level_metadata_events_2eproto[42]);
 }
 // ===================================================================
 
@@ -15304,7 +17039,7 @@ void AmmoUsed::InternalSwap(AmmoUsed* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata AmmoUsed::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[38]);
+      file_level_metadata_events_2eproto[43]);
 }
 // ===================================================================
 
@@ -15639,7 +17374,7 @@ void WeaponSwitched::InternalSwap(WeaponSwitched* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata WeaponSwitched::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[39]);
+      file_level_metadata_events_2eproto[44]);
 }
 // ===================================================================
 
@@ -15895,7 +17630,7 @@ void ChangeCamera::InternalSwap(ChangeCamera* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata ChangeCamera::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[40]);
+      file_level_metadata_events_2eproto[45]);
 }
 // ===================================================================
 
@@ -16079,7 +17814,7 @@ void PauseToggle::InternalSwap(PauseToggle* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata PauseToggle::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[41]);
+      file_level_metadata_events_2eproto[46]);
 }
 // ===================================================================
 
@@ -16114,7 +17849,7 @@ CustomMatch_CreateLobby::CustomMatch_CreateLobby(
 ::google::protobuf::Metadata CustomMatch_CreateLobby::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[42]);
+      file_level_metadata_events_2eproto[47]);
 }
 // ===================================================================
 
@@ -16304,7 +18039,7 @@ void CustomMatch_JoinLobby::InternalSwap(CustomMatch_JoinLobby* PROTOBUF_RESTRIC
 ::google::protobuf::Metadata CustomMatch_JoinLobby::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[43]);
+      file_level_metadata_events_2eproto[48]);
 }
 // ===================================================================
 
@@ -16339,7 +18074,7 @@ CustomMatch_LeaveLobby::CustomMatch_LeaveLobby(
 ::google::protobuf::Metadata CustomMatch_LeaveLobby::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[44]);
+      file_level_metadata_events_2eproto[49]);
 }
 // ===================================================================
 
@@ -16508,7 +18243,7 @@ void CustomMatch_SetReady::InternalSwap(CustomMatch_SetReady* PROTOBUF_RESTRICT 
 ::google::protobuf::Metadata CustomMatch_SetReady::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[45]);
+      file_level_metadata_events_2eproto[50]);
 }
 // ===================================================================
 
@@ -16543,7 +18278,7 @@ CustomMatch_GetLobbyPlayers::CustomMatch_GetLobbyPlayers(
 ::google::protobuf::Metadata CustomMatch_GetLobbyPlayers::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[46]);
+      file_level_metadata_events_2eproto[51]);
 }
 // ===================================================================
 
@@ -16712,7 +18447,7 @@ void CustomMatch_SetMatchmaking::InternalSwap(CustomMatch_SetMatchmaking* PROTOB
 ::google::protobuf::Metadata CustomMatch_SetMatchmaking::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[47]);
+      file_level_metadata_events_2eproto[52]);
 }
 // ===================================================================
 
@@ -16958,7 +18693,7 @@ void CustomMatch_SetTeam::InternalSwap(CustomMatch_SetTeam* PROTOBUF_RESTRICT ot
 ::google::protobuf::Metadata CustomMatch_SetTeam::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[48]);
+      file_level_metadata_events_2eproto[53]);
 }
 // ===================================================================
 
@@ -17177,7 +18912,7 @@ void CustomMatch_KickPlayer::InternalSwap(CustomMatch_KickPlayer* PROTOBUF_RESTR
 ::google::protobuf::Metadata CustomMatch_KickPlayer::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[49]);
+      file_level_metadata_events_2eproto[54]);
 }
 // ===================================================================
 
@@ -17496,7 +19231,42 @@ void CustomMatch_SetSettings::InternalSwap(CustomMatch_SetSettings* PROTOBUF_RES
 ::google::protobuf::Metadata CustomMatch_SetSettings::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[50]);
+      file_level_metadata_events_2eproto[55]);
+}
+// ===================================================================
+
+class CustomMatch_GetSettings::_Internal {
+ public:
+};
+
+CustomMatch_GetSettings::CustomMatch_GetSettings(::google::protobuf::Arena* arena)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_GetSettings)
+}
+CustomMatch_GetSettings::CustomMatch_GetSettings(
+    ::google::protobuf::Arena* arena,
+    const CustomMatch_GetSettings& from)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+  CustomMatch_GetSettings* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CustomMatch_GetSettings)
+}
+
+
+
+
+
+
+
+
+
+::google::protobuf::Metadata CustomMatch_GetSettings::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
+      file_level_metadata_events_2eproto[56]);
 }
 // ===================================================================
 
@@ -17712,7 +19482,7 @@ void CustomMatch_SetTeamName::InternalSwap(CustomMatch_SetTeamName* PROTOBUF_RES
 ::google::protobuf::Metadata CustomMatch_SetTeamName::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[51]);
+      file_level_metadata_events_2eproto[57]);
 }
 // ===================================================================
 
@@ -17902,7 +19672,7 @@ void CustomMatch_SendChat::InternalSwap(CustomMatch_SendChat* PROTOBUF_RESTRICT 
 ::google::protobuf::Metadata CustomMatch_SendChat::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[52]);
+      file_level_metadata_events_2eproto[58]);
 }
 // ===================================================================
 
@@ -17923,6 +19693,7 @@ class Request::_Internal {
   static const ::rtech::liveapi::CustomMatch_SendChat& custommatch_sendchat(const Request* msg);
   static const ::rtech::liveapi::CustomMatch_GetLobbyPlayers& custommatch_getlobbyplayers(const Request* msg);
   static const ::rtech::liveapi::CustomMatch_SetTeamName& custommatch_setteamname(const Request* msg);
+  static const ::rtech::liveapi::CustomMatch_GetSettings& custommatch_getsettings(const Request* msg);
 };
 
 const ::rtech::liveapi::ChangeCamera& Request::_Internal::changecam(const Request* msg) {
@@ -17963,6 +19734,9 @@ const ::rtech::liveapi::CustomMatch_GetLobbyPlayers& Request::_Internal::customm
 }
 const ::rtech::liveapi::CustomMatch_SetTeamName& Request::_Internal::custommatch_setteamname(const Request* msg) {
   return *msg->_impl_.actions_.custommatch_setteamname_;
+}
+const ::rtech::liveapi::CustomMatch_GetSettings& Request::_Internal::custommatch_getsettings(const Request* msg) {
+  return *msg->_impl_.actions_.custommatch_getsettings_;
 }
 void Request::set_allocated_changecam(::rtech::liveapi::ChangeCamera* changecam) {
   ::google::protobuf::Arena* message_arena = GetArena();
@@ -18133,6 +19907,19 @@ void Request::set_allocated_custommatch_setteamname(::rtech::liveapi::CustomMatc
   }
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_SetTeamName)
 }
+void Request::set_allocated_custommatch_getsettings(::rtech::liveapi::CustomMatch_GetSettings* custommatch_getsettings) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_actions();
+  if (custommatch_getsettings) {
+    ::google::protobuf::Arena* submessage_arena = custommatch_getsettings->GetArena();
+    if (message_arena != submessage_arena) {
+      custommatch_getsettings = ::google::protobuf::internal::GetOwnedMessage(message_arena, custommatch_getsettings, submessage_arena);
+    }
+    set_has_custommatch_getsettings();
+    _impl_.actions_.custommatch_getsettings_ = custommatch_getsettings;
+  }
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_GetSettings)
+}
 Request::Request(::google::protobuf::Arena* arena)
     : ::google::protobuf::Message(arena) {
   SharedCtor(arena);
@@ -18197,6 +19984,9 @@ Request::Request(
         break;
       case kCustomMatchSetTeamName:
         _impl_.actions_.custommatch_setteamname_ = CreateMaybeMessage<::rtech::liveapi::CustomMatch_SetTeamName>(arena, *from._impl_.actions_.custommatch_setteamname_);
+        break;
+      case kCustomMatchGetSettings:
+        _impl_.actions_.custommatch_getsettings_ = CreateMaybeMessage<::rtech::liveapi::CustomMatch_GetSettings>(arena, *from._impl_.actions_.custommatch_getsettings_);
         break;
   }
 
@@ -18310,6 +20100,12 @@ void Request::clear_actions() {
       }
       break;
     }
+    case kCustomMatchGetSettings: {
+      if (GetArena() == nullptr) {
+        delete _impl_.actions_.custommatch_getsettings_;
+      }
+      break;
+    }
     case ACTIONS_NOT_SET: {
       break;
     }
@@ -18339,16 +20135,16 @@ const char* Request::_InternalParse(
 
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 15, 13, 50, 2> Request::_table_ = {
+const ::_pbi::TcParseTable<1, 16, 14, 58, 2> Request::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    20, 8,  // max_field_number, fast_idx_mask
+    21, 8,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4293919204,  // skipmap
+    4292870628,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    15,  // num_field_entries
-    13,  // num_aux_entries
+    16,  // num_field_entries
+    14,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     &_Request_default_instance_._instance,
     ::_pbi::TcParser::GenericFallback,  // fallback
@@ -18407,6 +20203,9 @@ const ::_pbi::TcParseTable<1, 15, 13, 50, 2> Request::_table_ = {
     // .rtech.liveapi.CustomMatch_SetTeamName customMatch_SetTeamName = 20;
     {PROTOBUF_FIELD_OFFSET(Request, _impl_.actions_.custommatch_setteamname_), _Internal::kOneofCaseOffset + 0, 12,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .rtech.liveapi.CustomMatch_GetSettings customMatch_GetSettings = 21;
+    {PROTOBUF_FIELD_OFFSET(Request, _impl_.actions_.custommatch_getsettings_), _Internal::kOneofCaseOffset + 0, 13,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvDefault)},
   }}, {{
     {::_pbi::TcParser::GetTable<::rtech::liveapi::ChangeCamera>()},
     {::_pbi::TcParser::GetTable<::rtech::liveapi::PauseToggle>()},
@@ -18421,8 +20220,9 @@ const ::_pbi::TcParseTable<1, 15, 13, 50, 2> Request::_table_ = {
     {::_pbi::TcParser::GetTable<::rtech::liveapi::CustomMatch_SendChat>()},
     {::_pbi::FieldAuxDefaultMessage{}, &::rtech::liveapi::_CustomMatch_GetLobbyPlayers_default_instance_},
     {::_pbi::TcParser::GetTable<::rtech::liveapi::CustomMatch_SetTeamName>()},
+    {::_pbi::FieldAuxDefaultMessage{}, &::rtech::liveapi::_CustomMatch_GetSettings_default_instance_},
   }}, {{
-    "\25\0\14\0\0\0\0\0\0\0\0\0\0\0\0\0"
+    "\25\0\14\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
     "rtech.liveapi.Request"
     "preSharedKey"
   }},
@@ -18527,6 +20327,12 @@ const ::_pbi::TcParseTable<1, 15, 13, 50, 2> Request::_table_ = {
       target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
           20, _Internal::custommatch_setteamname(this),
           _Internal::custommatch_setteamname(this).GetCachedSize(), target, stream);
+      break;
+    }
+    case kCustomMatchGetSettings: {
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          21, _Internal::custommatch_getsettings(this),
+          _Internal::custommatch_getsettings(this).GetCachedSize(), target, stream);
       break;
     }
     default:
@@ -18639,6 +20445,12 @@ const ::_pbi::TcParseTable<1, 15, 13, 50, 2> Request::_table_ = {
           2 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.actions_.custommatch_setteamname_);
       break;
     }
+    // .rtech.liveapi.CustomMatch_GetSettings customMatch_GetSettings = 21;
+    case kCustomMatchGetSettings: {
+      total_size +=
+          2 + ::google::protobuf::internal::WireFormatLite::MessageSize(*_impl_.actions_.custommatch_getsettings_);
+      break;
+    }
     case ACTIONS_NOT_SET: {
       break;
     }
@@ -18734,6 +20546,11 @@ void Request::MergeImpl(::google::protobuf::Message& to_msg, const ::google::pro
           from._internal_custommatch_setteamname());
       break;
     }
+    case kCustomMatchGetSettings: {
+      _this->_internal_mutable_custommatch_getsettings()->::rtech::liveapi::CustomMatch_GetSettings::MergeFrom(
+          from._internal_custommatch_getsettings());
+      break;
+    }
     case ACTIONS_NOT_SET: {
       break;
     }
@@ -18769,7 +20586,7 @@ void Request::InternalSwap(Request* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata Request::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[53]);
+      file_level_metadata_events_2eproto[59]);
 }
 // ===================================================================
 
@@ -18959,7 +20776,7 @@ void RequestStatus::InternalSwap(RequestStatus* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata RequestStatus::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[54]);
+      file_level_metadata_events_2eproto[60]);
 }
 // ===================================================================
 
@@ -19204,7 +21021,7 @@ void Response::InternalSwap(Response* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata Response::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[55]);
+      file_level_metadata_events_2eproto[61]);
 }
 // ===================================================================
 
@@ -19451,7 +21268,7 @@ void LiveAPIEvent::InternalSwap(LiveAPIEvent* PROTOBUF_RESTRICT other) {
 ::google::protobuf::Metadata LiveAPIEvent::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_events_2eproto_getter, &descriptor_table_events_2eproto_once,
-      file_level_metadata_events_2eproto[56]);
+      file_level_metadata_events_2eproto[62]);
 }
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace liveapi
