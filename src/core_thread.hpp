@@ -64,6 +64,7 @@ namespace app {
 		void proc_player(const rtech::liveapi::Player& _player);
 		void proc_connected(uint8_t _teamid, uint8_t _squadindex);
 		void proc_disconnected(uint8_t _teamid, uint8_t _squadindex, bool _canreconnect, bool _alive);
+		void proc_upgradetierchanged(uint8_t _teamid, uint8_t _squadindex, int32_t _level);
 		void proc_player_stats(uint8_t _teamid, uint8_t _squadindex, const std::string& _stat, uint32_t _v);
 		void proc_item(uint8_t _teamid, uint8_t _squadindex, uint8_t _item, int _quantity);
 		void proc_respawn(uint8_t _teamid, uint8_t _squadindex);
@@ -103,6 +104,7 @@ namespace app {
 		void send_webapi_player_name(SOCKET _sock, uint8_t, uint8_t, const std::string &_name);
 		void send_webapi_player_character(SOCKET _sock, uint8_t, uint8_t, const std::string &_character);
 		void send_webapi_player_items(SOCKET _sock, uint8_t, uint8_t, uint8_t _itemid, uint32_t _quantity);
+		void send_webapi_player_level(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex, int32_t _level);
 
 		void send_webapi_player_u32u32(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex, uint8_t _type, uint32_t _v1, uint32_t _v2);
 		void send_webapi_player_hp(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex, uint32_t _current, uint32_t _max);

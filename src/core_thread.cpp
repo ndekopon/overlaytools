@@ -1406,6 +1406,21 @@ namespace app {
 				proc_disconnected(teamid, squadindex, p.canreconnect(), p.isalive());
 			}
 		}
+		else if (_any.Is<api::PlayerUpgradeTierChanged>())
+		{
+			api::PlayerUpgradeTierChanged p;
+			if (!_any.UnpackTo(&p)) return;
+
+			log(LOG_CORE, L"Info: PlayerUpgradeTierChanged received.");
+			if (p.has_player())
+			{
+				proc_player(p.player());
+				uint8_t teamid = p.player().teamid();
+				uint8_t squadindex = get_squadindex(p.player());
+
+				proc_upgradetierchanged(teamid, squadindex, p.level());
+			}
+			}
 		else if (_any.Is<api::PlayerStatChanged>())
 		{
 			api::PlayerStatChanged p;
@@ -2054,6 +2069,15 @@ namespace app {
 		}
 	}
 
+	void core_thread::send_webapi_player_level(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex, int32_t _level)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_PLAYER_LEVEL);
+		if (sdata.append(_teamid) && sdata.append(_squadindex) && sdata.append(_level))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
 	void core_thread::send_webapi_squad_eliminated(SOCKET _sock, uint8_t _teamid, uint32_t _placement)
 	{
 		send_webapi_data sdata(WEBAPI_EVENT_SQUADELIMINATED);
@@ -2681,6 +2705,12 @@ namespace app {
 		}
 	}
 
+	void core_thread::proc_upgradetierchanged(uint8_t _teamid, uint8_t _squadindex, int32_t _level)
+	{
+		auto& player = game_.teams.at(_teamid).players.at(_squadindex);
+		player.level = _level;
+		send_webapi_player_level(INVALID_SOCKET, _teamid, _squadindex, _level);
+	}
 
 	void core_thread::proc_damage_dealt(uint8_t _teamid, uint8_t _squadindex, uint32_t _damage)
 	{
@@ -3005,6 +3035,7 @@ namespace app {
 			if (p.disconnected) send_webapi_player_disconnected(_sock, _teamid, i, p.canreconnect);
 			send_webapi_player_name(_sock, _teamid, i, p.name);
 			send_webapi_player_character(_sock, _teamid, i, p.character);
+			send_webapi_player_level(_sock, _teamid, i, p.level);
 			send_webapi_player_hp(_sock, _teamid, i, p.hp, p.hp_max);
 			send_webapi_player_shield(_sock, _teamid, i, p.shield, p.shield_max);
 			send_webapi_player_damage(_sock, _teamid, i, p.damage_dealt, p.damage_taken);
