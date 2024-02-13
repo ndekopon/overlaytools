@@ -16,6 +16,10 @@ namespace app {
 		WEBAPI_DATA_UINT16,
 		WEBAPI_DATA_UINT32,
 		WEBAPI_DATA_UINT64,
+		WEBAPI_DATA_INT8,
+		WEBAPI_DATA_INT16,
+		WEBAPI_DATA_INT32,
+		WEBAPI_DATA_INT64,
 
 		WEBAPI_DATA_FLOAT32 = 0x10,
 		WEBAPI_DATA_FLOAT64,
@@ -186,6 +190,10 @@ namespace app {
 		uint16_t get_uint16(uint8_t _index);
 		uint32_t get_uint32(uint8_t _index);
 		uint64_t get_uint64(uint8_t _index);
+		int8_t get_int8(uint8_t _index);
+		int16_t get_int16(uint8_t _index);
+		int32_t get_int32(uint8_t _index);
+		int64_t get_int64(uint8_t _index);
 		float get_float32(uint8_t _index);
 		double get_float64(uint8_t _index);
 		std::string get_string(uint8_t _index);
@@ -204,6 +212,10 @@ namespace app {
 		bool append(uint16_t _v);
 		bool append(uint32_t _v);
 		bool append(uint64_t _v);
+		bool append(int8_t _v);
+		bool append(int16_t _v);
+		bool append(int32_t _v);
+		bool append(int64_t _v);
 		bool append(float _v);
 		bool append(double _v);
 		bool append(const std::string& _v);

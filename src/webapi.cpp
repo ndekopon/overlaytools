@@ -50,15 +50,19 @@ namespace app {
 			case WEBAPI_DATA_BOOL:
 				offset += 1;
 				break;
+			case WEBAPI_DATA_INT8:
 			case WEBAPI_DATA_UINT8:
 				offset += 1;
 				break;
+			case WEBAPI_DATA_INT16:
 			case WEBAPI_DATA_UINT16:
 				offset += 2;
 				break;
+			case WEBAPI_DATA_INT32:
 			case WEBAPI_DATA_UINT32:
 				offset += 4;
 				break;
+			case WEBAPI_DATA_INT64:
 			case WEBAPI_DATA_UINT64:
 				offset += 8;
 				break;
@@ -148,6 +152,58 @@ namespace app {
 		offset++;
 		uint64_t r = 0;
 		std::memcpy(&r, &buffer_->at(offset), sizeof(uint64_t));
+		return r;
+	}
+
+	int8_t received_webapi_data::get_int8(uint8_t _index)
+	{
+		if (_index >= size()) throw std::out_of_range("defined size");
+		if (_index >= offsets_.size()) throw std::out_of_range("offsets size");
+		auto offset = offsets_.at(_index);
+		auto data_type = buffer_->at(offset);
+		if (data_type != WEBAPI_DATA_INT8) throw std::runtime_error("data type is not match");
+		offset++;
+		int8_t r = 0;
+		std::memcpy(&r, &buffer_->at(offset), sizeof(int8_t));
+		return r;
+	}
+
+	int16_t received_webapi_data::get_int16(uint8_t _index)
+	{
+		if (_index >= size()) throw std::out_of_range("defined size");
+		if (_index >= offsets_.size()) throw std::out_of_range("offsets size");
+		auto offset = offsets_.at(_index);
+		auto data_type = buffer_->at(offset);
+		if (data_type != WEBAPI_DATA_INT16) throw std::runtime_error("data type is not match");
+		offset++;
+		int16_t r = 0;
+		std::memcpy(&r, &buffer_->at(offset), sizeof(int16_t));
+		return r;
+	}
+
+	int32_t received_webapi_data::get_int32(uint8_t _index)
+	{
+		if (_index >= size()) throw std::out_of_range("defined size");
+		if (_index >= offsets_.size()) throw std::out_of_range("offsets size");
+		auto offset = offsets_.at(_index);
+		auto data_type = buffer_->at(offset);
+		if (data_type != WEBAPI_DATA_INT32) throw std::runtime_error("data type is not match");
+		offset++;
+		int32_t r = 0;
+		std::memcpy(&r, &buffer_->at(offset), sizeof(int32_t));
+		return r;
+	}
+
+	int64_t received_webapi_data::get_int64(uint8_t _index)
+	{
+		if (_index >= size()) throw std::out_of_range("defined size");
+		if (_index >= offsets_.size()) throw std::out_of_range("offsets size");
+		auto offset = offsets_.at(_index);
+		auto data_type = buffer_->at(offset);
+		if (data_type != WEBAPI_DATA_INT64) throw std::runtime_error("data type is not match");
+		offset++;
+		int64_t r = 0;
+		std::memcpy(&r, &buffer_->at(offset), sizeof(int64_t));
 		return r;
 	}
 
@@ -291,6 +347,58 @@ namespace app {
 		{
 			buffer_->push_back(_v & 0xff);
 			_v >>= 8;
+		}
+		return true;
+	}
+
+	bool send_webapi_data::append(int8_t _v)
+	{
+		uint8_t v;
+		std::memcpy(&v, &_v, sizeof(int8_t));
+		buffer_->at(1)++;
+		buffer_->push_back(WEBAPI_DATA_INT8);
+		buffer_->push_back(v);
+		return true;
+	}
+
+	bool send_webapi_data::append(int16_t _v)
+	{
+		uint16_t v;
+		std::memcpy(&v, &_v, sizeof(int16_t));
+		buffer_->at(1)++;
+		buffer_->push_back(WEBAPI_DATA_INT16);
+		for (auto i = 0u; i < 2; ++i)
+		{
+			buffer_->push_back(v & 0xff);
+			v >>= 8;
+		}
+		return true;
+	}
+
+	bool send_webapi_data::append(int32_t _v)
+	{
+		uint32_t v;
+		std::memcpy(&v, &_v, sizeof(int32_t));
+		buffer_->at(1)++;
+		buffer_->push_back(WEBAPI_DATA_INT32);
+		for (auto i = 0u; i < 4; ++i)
+		{
+			buffer_->push_back(v & 0xff);
+			v >>= 8;
+		}
+		return true;
+	}
+
+	bool send_webapi_data::append(int64_t _v)
+	{
+		uint64_t v;
+		std::memcpy(&v, &_v, sizeof(int64_t));
+		buffer_->at(1)++;
+		buffer_->push_back(WEBAPI_DATA_UINT64);
+		for (auto i = 0u; i < 8; ++i)
+		{
+			buffer_->push_back(v & 0xff);
+			v >>= 8;
 		}
 		return true;
 	}
