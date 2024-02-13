@@ -81,6 +81,47 @@ class SendBuffer {
         view.setBigUint64(len + 1, data & 0xffffffffffffffffn, true);
         break;
       }
+      case ApexWebAPI.WEBAPI_DATA_INT8: {
+        if (typeof(data) !== "number") return false;
+        const newlen = len + 1 + 1;
+        this.#resize(newlen);
+        this.#countup();
+        this.#settype(len, ApexWebAPI.WEBAPI_DATA_INT8);
+        const view = new DataView(this.#buffer);
+        view.setInt8(len + 1, data);
+        break;
+      }
+      case ApexWebAPI.WEBAPI_DATA_INT16: {
+        if (typeof(data) !== "number") return false;
+        const newlen = len + 1 + 2;
+        this.#resize(newlen);
+        this.#countup();
+        this.#settype(len, ApexWebAPI.WEBAPI_DATA_INT16);
+        const view = new DataView(this.#buffer);
+        view.setInt16(len + 1, data, true);
+        break;
+      }
+      case ApexWebAPI.WEBAPI_DATA_INT32: {
+        if (typeof(data) !== "number") return false;
+        const newlen = len + 1 + 4;
+        this.#resize(newlen);
+        this.#countup();
+        this.#settype(len, ApexWebAPI.WEBAPI_DATA_INT32);
+        const view = new DataView(this.#buffer);
+        view.setInt32(len + 1, data, true);
+        break;
+      }
+      case ApexWebAPI.WEBAPI_DATA_INT64: {
+        if (typeof(data) === "number") data = BigInt(data);
+        if (typeof(data) !== "bigint") return false;
+        const newlen = len + 1 + 8;
+        this.#resize(newlen);
+        this.#countup();
+        this.#settype(len, ApexWebAPI.WEBAPI_DATA_INT64);
+        const view = new DataView(this.#buffer);
+        view.setBigInt64(len + 1, data, true);
+        break;
+      }
       case ApexWebAPI.WEBAPI_DATA_FLOAT32: {
         if (typeof(data) !== "number") return false;
         const newlen = len + 1 + 4;
@@ -249,6 +290,10 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_DATA_UINT16 = 0x02;
   static WEBAPI_DATA_UINT32 = 0x03;
   static WEBAPI_DATA_UINT64 = 0x04;
+  static WEBAPI_DATA_INT8 = 0x05;
+  static WEBAPI_DATA_INT16 = 0x06;
+  static WEBAPI_DATA_INT32 = 0x07;
+  static WEBAPI_DATA_INT64 = 0x08;
   static WEBAPI_DATA_FLOAT32 = 0x10;
   static WEBAPI_DATA_FLOAT64 = 0x11;
   static WEBAPI_DATA_STRING = 0x20;
@@ -376,7 +421,7 @@ export class ApexWebAPI extends EventTarget {
           data_array.push(view.getUint32(offset, true));
           offset += 4;
           break;
-        case ApexWebAPI.WEBAPI_DATA_UINT64:
+        case ApexWebAPI.WEBAPI_DATA_UINT64: {
           const b = view.getBigUint64(offset, true);
           if (b <= Number.MAX_SAFE_INTEGER) {
             data_array.push(Number(b));
@@ -385,6 +430,29 @@ export class ApexWebAPI extends EventTarget {
           }
           offset += 8;
           break;
+        }
+        case ApexWebAPI.WEBAPI_DATA_INT8:
+          data_array.push(view.getInt8(offset));
+          offset += 1;
+          break;
+        case ApexWebAPI.WEBAPI_DATA_INT16:
+          data_array.push(view.getInt16(offset, true));
+          offset += 2;
+          break;
+        case ApexWebAPI.WEBAPI_DATA_INT32:
+          data_array.push(view.getInt32(offset, true));
+          offset += 4;
+          break;
+        case ApexWebAPI.WEBAPI_DATA_INT64: {
+          const b = view.getBigInt64(offset, true);
+          if (MIN_SAFE_INTEGER <= b && b <= Number.MAX_SAFE_INTEGER) {
+            data_array.push(Number(b));
+          } else {
+            data_array.push(b);
+          }
+          offset += 8;
+          break;
+        }
         case ApexWebAPI.WEBAPI_DATA_FLOAT32:
           data_array.push(view.getFloat32(offset, true));
           offset += 4;
