@@ -109,16 +109,16 @@ namespace livedata {
 
 	struct team_result {
 		std::vector<player_result> players{};
-		uint32_t kills;
-		uint32_t placement;
+		uint32_t kills = 0;
+		uint32_t placement = 0;
 		uint16_t id = 0;
 		std::string name = "";
 	};
 
 	struct result {
 		std::map<uint8_t, team_result> teams{};
-		std::uint64_t start;
-		std::uint64_t end;
+		std::uint64_t start = 0;
+		std::uint64_t end = 0;
 		std::string serverid = "";
 		std::string map = "";
 		std::string playlistname = "";
