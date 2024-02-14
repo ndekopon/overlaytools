@@ -41,7 +41,7 @@ namespace livedata {
 		std::string name = "";
 		std::string character = "";
 		uint8_t state = 0;
-		int32_t level = 1; // level 1～
+		int32_t level = 0; // level 0～
 		uint32_t kills = 0;
 		uint32_t assists = 0;
 		uint32_t knockdowns = 0;
