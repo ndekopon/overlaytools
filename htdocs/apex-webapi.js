@@ -358,7 +358,7 @@ export class ApexWebAPI extends EventTarget {
         const data_count = view.getUint8(1);
         const data_array = event.data.slice(2);
         if (!this.#procData(data_type, data_count, data_array)) {
-          console.log('proc_data failed. data_type=' + data_type);
+          console.log('proc_data failed. data_type=0x' + data_type.toString(16));
           console.log('data_count=' + data_count);
           console.log(event.data);
         }

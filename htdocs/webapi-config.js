@@ -2824,6 +2824,14 @@ export class WebAPIConfig {
                 this.#resultfixview.setStatsJson(ev.detail.statscode, ev.detail.stats);
             }
         });
+
+        /* マッチ設定の取得 */
+        this.#webapi.addEventListener('custommatchsettings', (ev) => {
+            document.getElementById('test-getsettings-playlist').innerText = ev.detail.playlistname;
+            document.getElementById('test-getsettings-aimassist').innerText = ev.detail.aimassist;
+            document.getElementById('test-getsettings-anonmode').innerText = ev.detail.anonmode;
+            console.log(ev.detail);
+        });
     }
 
     #tryReconnect() {
@@ -3076,6 +3084,30 @@ export class WebAPIConfig {
             if (0.0 < pretimer && pretimer < 10.0) {
                 this.#webapi.pauseToggle(pretimer);
             }
+        });
+
+        document.getElementById('test-setsettings-we').addEventListener('click', (ev) => {
+            this.#webapi.addEventListener('custommatchsettings', (ev) => {
+                const d = ev.detail;
+                this.#webapi.sendSetSettings('des_hu_pm', d.adminchat, d.teamrename, d.selfassign, true, true).then(() => {
+                    this.#webapi.sendGetSettings();
+                })
+            }, { once: true });
+            this.#webapi.sendGetSettings();
+        });
+
+        document.getElementById('test-setsettings-sp').addEventListener('click', (ev) => {
+            this.#webapi.addEventListener('custommatchsettings', (ev) => {
+                const d = ev.detail;
+                this.#webapi.sendSetSettings('tropic_mu2_pm', d.adminchat, d.teamrename, d.selfassign, true, true).then(() => {
+                    this.#webapi.sendGetSettings();
+                });
+            }, { once: true });
+            this.#webapi.sendGetSettings();
+        });
+
+        document.getElementById('test-getsettings').addEventListener('click', (ev) => {
+            this.#webapi.sendGetSettings();
         });
 
         document.getElementById('result-fix-from-stats-code-button').addEventListener('click', (ev) => {
