@@ -121,6 +121,7 @@ namespace app {
 		void send_webapi_team_placement(SOCKET _sock, uint8_t _teamid, uint32_t _placement);
 
 		void send_webapi_lobbyplayer(uint8_t _teamid, const std::string& _hash, const std::string& _name, const std::string& _hardware);
+		void send_webapi_custommatch_settings(const std::string& _playlistname, bool _adminchat, bool _teamrename, bool _selfassign, bool _aimassist, bool _anonmode);
 
 		void send_webapi_clear_livedata();
 		void send_webapi_save_result(const std::string &_tournament_id, uint8_t _gameid, std::unique_ptr<std::string> &&_json);
@@ -134,6 +135,7 @@ namespace app {
 		void reply_webapi_send_custommatch_createlobby(SOCKET _sock, uint32_t _sequence);
 		void reply_webapi_send_custommatch_sendchat(SOCKET _sock, uint32_t _sequence);
 		void reply_webapi_send_custommatch_setsettings(SOCKET _sock, uint32_t _sequence);
+		void reply_webapi_send_custommatch_getsettings(SOCKET _sock, uint32_t _sequence);
 		void reply_webapi_send_custommatch_getlobbyplayers(SOCKET _sock, uint32_t _sequence);
 		void reply_webapi_send_changecamera(SOCKET _sock, uint32_t _sequence);
 		void reply_webapi_send_custommatch_setteamname(SOCKET _sock, uint32_t _sequence);

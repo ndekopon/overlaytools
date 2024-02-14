@@ -813,6 +813,27 @@ namespace app {
 			}
 			break;
 		}
+		case WEBAPI_SEND_CUSTOMMATCH_GETSETTINGS:
+		{
+			log(LOG_CORE, L"Info: WEBAPI_SEND_CUSTOMMATCH_GETSETTINGS received.");
+			// CustomMatch_GetSettings
+			rtech::liveapi::Request req;
+			auto act = new rtech::liveapi::CustomMatch_GetSettings();
+
+			req.set_withack(true);
+			req.set_allocated_custommatch_getsettings(act);
+
+			// 送信
+			auto buf = std::make_unique<std::vector<uint8_t>>();
+			buf->resize(req.ByteSizeLong());
+			if (buf->size() > 0)
+			{
+				req.SerializeToArray(buf->data(), buf->size());
+				sendto_liveapi(std::move(buf));
+				reply_webapi_send_custommatch_getsettings(socket, sequence);
+			}
+			break;
+		}
 		case WEBAPI_SEND_CUSTOMMATCH_SETTEAMNAME:
 		{
 			log(LOG_CORE, L"Info: WEBAPI_SEND_CUSTOMMATCH_SETTEAMNAME received.");
@@ -1218,6 +1239,21 @@ namespace app {
 				auto hardware = p.players(i).hardwarename();
 				send_webapi_lobbyplayer(teamid, hash, name, hardware);
 			}
+		}
+		else if (_any.Is<api::CustomMatch_SetSettings>())
+		{
+			api::CustomMatch_SetSettings p;
+			if (!_any.UnpackTo(&p)) return;
+
+			log(LOG_CORE, L"Info: CustomMatch_SetSettings received.");
+
+			auto playlistname = p.playlistname();
+			auto adminchat = p.adminchat();
+			auto teamrename = p.teamrename();
+			auto selfassign = p.selfassign();
+			auto aimassist = p.aimassist();
+			auto anonmode = p.anonmode();
+			send_webapi_custommatch_settings(playlistname, adminchat, teamrename, selfassign, aimassist, anonmode);
 		}
 		else if (_any.Is<api::ObserverSwitched>())
 		{
@@ -2138,6 +2174,15 @@ namespace app {
 		}
 	}
 
+	void core_thread::send_webapi_custommatch_settings(const std::string& _playlistname, bool _adminchat, bool _teamrename, bool _selfassign, bool _aimassist, bool _anonmode)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_CUSTOMMATCH_SETTINGS);
+		if (sdata.append(_playlistname) && sdata.append(_adminchat) && sdata.append(_teamrename) && sdata.append(_selfassign) && sdata.append(_aimassist) && sdata.append(_anonmode))
+		{
+			sendto_webapi(std::move(sdata.buffer_));
+		}
+	}
+
 	void core_thread::send_webapi_clear_livedata()
 	{
 		send_webapi_data sdata(WEBAPI_EVENT_CLEAR_LIVEDATA);
@@ -2423,6 +2468,15 @@ namespace app {
 	void core_thread::reply_webapi_send_custommatch_setsettings(SOCKET _sock, uint32_t _sequence)
 	{
 		send_webapi_data sdata(WEBAPI_SEND_CUSTOMMATCH_SETSETTINGS);
+		if (sdata.append(_sequence))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::reply_webapi_send_custommatch_getsettings(SOCKET _sock, uint32_t _sequence)
+	{
+		send_webapi_data sdata(WEBAPI_SEND_CUSTOMMATCH_GETSETTINGS);
 		if (sdata.append(_sequence))
 		{
 			sendto_webapi(_sock, std::move(sdata.buffer_));
