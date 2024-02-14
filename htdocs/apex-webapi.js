@@ -240,9 +240,11 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_EVENT_PLAYER_ITEMS = 0x39;
   static WEBAPI_EVENT_PLAYER_KILLED = 0x3a;
   static WEBAPI_EVENT_PLAYER_KILLED_COUNT = 0x3b;
+  static WEBAPI_EVENT_PLAYER_LEVEL = 0x3c;
+  static WEBAPI_EVENT_PLAYER_PERK = 0x3d;
 
   static WEBAPI_EVENT_LOBBYPLAYER = 0x40;
-
+  static WEBAPI_EVENT_CUSTOMMATCH_SETTINGS = 0x41;
 
   static WEBAPI_SEND_CUSTOMMATCH_SENDCHAT = 0x50;
   static WEBAPI_SEND_CUSTOMMATCH_CREATELOBBY = 0x51;
@@ -251,6 +253,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_SEND_CHANGECAMERA = 0x54;
   static WEBAPI_SEND_CUSTOMMATCH_SETTEAMNAME = 0x55;
   static WEBAPI_SEND_PAUSETOGGLE = 0x56;
+  static WEBAPI_SEND_CUSTOMMATCH_GETSETTINGS = 0x57;
 
   static WEBAPI_LIVEDATA_GET_GAME = 0x60;
   static WEBAPI_LIVEDATA_GET_TEAMS = 0x61;
@@ -527,6 +530,20 @@ export class ApexWebAPI extends EventTarget {
     return true;
   }
 
+  #procEventCustomMatchSettings(arr) {
+    this.dispatchEvent(new CustomEvent('custommatchsettings', {
+      detail: {
+        playlistname: arr[0],
+        adminchat: arr[1],
+        teamrename: arr[2],
+        selfassign: arr[3],
+        aimassist: arr[4],
+        anonmode: arr[5]
+      }
+    }));
+    return true;
+  }
+
   #procEventObserverSwitched(arr) {
     const oteamid = arr[0];
     const osquadindex = arr[1];
@@ -735,6 +752,34 @@ export class ApexWebAPI extends EventTarget {
     return true;
   }
 
+  #procEventPlayerLevel(arr) {
+    this.#procPlayer(arr[0], arr[1], { level: arr[2] });
+    if (arr[0] >= 2) {
+      this.dispatchEvent(new CustomEvent('playerlevel', {
+        detail: {
+          player: this.#game.teams[arr[0] - 2].players[arr[1]],
+          team: this.#game.teams[arr[0] - 2]
+        }
+      }));
+    }
+    return true;
+  }
+
+  #procEventPlayerPerk(arr) {
+    if (arr[0] >= 2) {
+      const teamid = arr[0] - 2;
+      this.#procPlayerPerk(teamid, arr[1], arr[2], arr[3]);
+      this.dispatchEvent(new CustomEvent('playerperk', {
+        detail: {
+          level: arr[2],
+          player: this.#game.teams[teamid].players[arr[1]],
+          team: this.#game.teams[teamid]
+        }
+      }));
+    }
+    return true;
+  }
+
   #procEventPlayerDamage(arr) {
     this.#procPlayer(arr[0], arr[1], { damage_dealt: arr[2], damage_taken: arr[3] });
     if (arr[0] >= 2) {
@@ -823,6 +868,9 @@ export class ApexWebAPI extends EventTarget {
       case ApexWebAPI.WEBAPI_EVENT_LOBBYPLAYER:
         if (count != 4) return false;
         return this.#procEventLobbyPlayer(data_array);
+      case ApexWebAPI.WEBAPI_EVENT_CUSTOMMATCH_SETTINGS:
+        if (count != 6) return false;
+        return this.#procEventCustomMatchSettings(data_array);
       case ApexWebAPI.WEBAPI_EVENT_OBSERVERSWITCHED:
         if (count != 5) return false;
         return this.#procEventObserverSwitched(data_array);
@@ -905,6 +953,12 @@ export class ApexWebAPI extends EventTarget {
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_STATS:
         if (count != 7) return false;
         return this.#procEventPlayerStats(data_array);
+      case ApexWebAPI.WEBAPI_EVENT_PLAYER_LEVEL:
+        if (count != 3) return false;
+        return this.#procEventPlayerLevel(data_array);
+      case ApexWebAPI.WEBAPI_EVENT_PLAYER_PERK:
+        if (count != 4) return false;
+        return this.#procEventPlayerPerk(data_array);
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_DAMAGE:
         if (count != 4) return false;
         return this.#procEventPlayerDamage(data_array);
@@ -942,6 +996,10 @@ export class ApexWebAPI extends EventTarget {
       case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETSETTINGS:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('setsettings', {detail: {sequence: data_array[0]}}));
+        break;
+      case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_GETSETTINGS:
+        if (count != 1) return false;
+        this.dispatchEvent(new CustomEvent('getsettings', {detail: {sequence: data_array[0]}}));
         break;
       case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_GETLOBBYPLAYERS:
         if (count != 1) return false;
@@ -1106,6 +1164,7 @@ export class ApexWebAPI extends EventTarget {
         "heatshield": 0,
         "evactower": 0
       },
+      perks: {},
       kills: 0,
       killed: 0,
       assists: 0,
@@ -1211,7 +1270,14 @@ export class ApexWebAPI extends EventTarget {
     }
     return "";
   }
-  
+
+  #procPlayerPerk(teamid, squadindex, level, perk) {
+    if (teamid >= this.#game.teams.length) return;
+    if (squadindex >= this.#game.teams[teamid].players.length) return;
+    const player = this.#game.teams[teamid].players[squadindex];
+    player.perks[level] = perk;
+  }
+
   #procPlayerItem(teamid, squadindex, itemid, quantity) {
     if (teamid >= this.#game.teams.length) return;
     if (squadindex >= this.#game.teams[teamid].players.length) return;
@@ -1354,7 +1420,12 @@ export class ApexWebAPI extends EventTarget {
     const buffer = new SendBuffer(ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_GETLOBBYPLAYERS);
     return this.#sendAndReceiveReply(buffer, "getlobbyplayers");
   }
-  
+
+  sendGetSettings() {
+    const buffer = new SendBuffer(ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_GETSETTINGS);
+    return this.#sendAndReceiveReply(buffer, "getsettings");
+  }
+
   sendSetSettings(playlistname, adminchat, teamrename, selfassign, aimassist, anonmode) {
     let precheck = true;
     const buffer = new SendBuffer(ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETSETTINGS);
