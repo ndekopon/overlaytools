@@ -31,6 +31,11 @@ namespace livedata {
 		uint32_t evactower = 0;
 	};
 
+	struct perkinfo {
+		std::string name = "";
+		std::string desc = "";
+	};
+
 	struct player {
 		std::string id = "";
 		std::string name = "";
@@ -55,7 +60,7 @@ namespace livedata {
 		bool disconnected = false;
 		bool canreconnect = false;
 		items items;
-		std::map<int32_t, std::string> perks;
+		std::map<int32_t, perkinfo> perks{};
 	};
 
 	struct team {

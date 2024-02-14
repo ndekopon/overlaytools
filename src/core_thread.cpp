@@ -1420,7 +1420,22 @@ namespace app {
 
 				proc_upgradetierchanged(teamid, squadindex, p.level());
 			}
+		}
+		else if (_any.Is<api::LegendUpgradeSelected>())
+		{
+			api::LegendUpgradeSelected p;
+			if (!_any.UnpackTo(&p)) return;
+
+			log(LOG_CORE, L"Info: LegendUpgradeSelected received.");
+			if (p.has_player())
+			{
+				proc_player(p.player());
+				uint8_t teamid = p.player().teamid();
+				uint8_t squadindex = get_squadindex(p.player());
+
+				proc_upgradeselected(teamid, squadindex, p.level(), p.upgradename(), p.upgradedesc());
 			}
+		}
 		else if (_any.Is<api::PlayerStatChanged>())
 		{
 			api::PlayerStatChanged p;
@@ -2078,6 +2093,15 @@ namespace app {
 		}
 	}
 
+	void core_thread::send_webapi_player_perk(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex, int32_t _level, const std::string& _name)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_PLAYER_PERK);
+		if (sdata.append(_teamid) && sdata.append(_squadindex) && sdata.append(_level) && sdata.append(_name))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
 	void core_thread::send_webapi_squad_eliminated(SOCKET _sock, uint8_t _teamid, uint32_t _placement)
 	{
 		send_webapi_data sdata(WEBAPI_EVENT_SQUADELIMINATED);
@@ -2712,6 +2736,13 @@ namespace app {
 		send_webapi_player_level(INVALID_SOCKET, _teamid, _squadindex, _level);
 	}
 
+	void core_thread::proc_upgradeselected(uint8_t _teamid, uint8_t _squadindex, int32_t _level, const std::string& _name, const std::string& _desc)
+	{
+		auto& player = game_.teams.at(_teamid).players.at(_squadindex);
+		player.perks[_level] = { _name, _desc };
+		send_webapi_player_perk(INVALID_SOCKET, _teamid, _squadindex, _level, _name);
+	}
+
 	void core_thread::proc_damage_dealt(uint8_t _teamid, uint8_t _squadindex, uint32_t _damage)
 	{
 		auto& player = game_.teams.at(_teamid).players.at(_squadindex);
@@ -3043,6 +3074,12 @@ namespace app {
 			send_webapi_player_state(_sock, _teamid, i, p.state);
 			send_webapi_player_stats(_sock, _teamid, i, p.kills, p.assists, p.knockdowns, p.revives, p.respawns);
 			send_webapi_player_killed_count(_sock, _teamid, i, p.killed);
+
+			// パーク情報
+			for (const auto& [level, perk] : p.perks)
+			{
+				send_webapi_player_perk(_sock, _teamid, i, level, perk.name);
+			}
 
 			// アイテム
 			send_webapi_player_items(_sock, _teamid, i, WEBAPI_ITEM_SYRINGE, p.items.syringe);
