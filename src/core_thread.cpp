@@ -1331,6 +1331,9 @@ namespace app {
 				{
 					// リザルトを保存する
 					save_result();
+
+					// dumpファイルを一旦リセット
+					filedump_.reset();
 				}
 			}
 		}
