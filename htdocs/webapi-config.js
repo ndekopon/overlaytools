@@ -3087,23 +3087,29 @@ export class WebAPIConfig {
         });
 
         document.getElementById('test-setsettings-we').addEventListener('click', (ev) => {
-            this.#webapi.addEventListener('custommatchsettings', (ev) => {
+            const set_settings = (ev) => {
                 const d = ev.detail;
                 this.#webapi.sendSetSettings('des_hu_pm', d.adminchat, d.teamrename, d.selfassign, true, true).then(() => {
                     this.#webapi.sendGetSettings();
-                })
-            }, { once: true });
-            this.#webapi.sendGetSettings();
+                });
+            };
+            this.#webapi.addEventListener('custommatchsettings', set_settings, { once: true });
+            this.#webapi.sendGetSettings().catch(() => {
+                this.#webapi.removeEventListener('custommatchsettings', set_settings, { once: true });
+            });
         });
 
         document.getElementById('test-setsettings-sp').addEventListener('click', (ev) => {
-            this.#webapi.addEventListener('custommatchsettings', (ev) => {
+            const set_settings = (ev) => {
                 const d = ev.detail;
                 this.#webapi.sendSetSettings('tropic_mu2_pm', d.adminchat, d.teamrename, d.selfassign, true, true).then(() => {
                     this.#webapi.sendGetSettings();
                 });
-            }, { once: true });
-            this.#webapi.sendGetSettings();
+            };
+            this.#webapi.addEventListener('custommatchsettings', set_settings, { once: true });
+            this.#webapi.sendGetSettings().catch(() => {
+                this.#webapi.removeEventListener('custommatchsettings', set_settings, { once: true });
+            });
         });
 
         document.getElementById('test-getsettings').addEventListener('click', (ev) => {
