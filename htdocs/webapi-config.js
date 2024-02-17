@@ -3268,6 +3268,18 @@ export class WebAPIConfig {
                 }
             }
         }
+
+        // 名前でソートする
+        const children = [...tbody.children].sort((a, b) => {
+            const a_name = a.children[0].innerText;
+            const b_name = b.children[0].innerText;
+            if (a_name < b_name) return -1;
+            if (a_name > b_name) return 1;
+            return 0;
+        });
+        for (const node of children) {
+            tbody.appendChild(node);
+        }
     }
 
     /**
