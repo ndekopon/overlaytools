@@ -322,6 +322,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_ITEM_MOBILERESPAWNBEACON = 0x60;
   static WEBAPI_ITEM_HEATSHIELD = 0x61;
   static WEBAPI_ITEM_EVACTOWER = 0x62;
+  static WEBAPI_ITEM_SHIELDCCORE = 0x70;
 
   #uri;
   #socket;
@@ -1162,7 +1163,8 @@ export class ApexWebAPI extends EventTarget {
         "knockdownshield": 1,
         "mobilerespawnbeacon": 0,
         "heatshield": 0,
-        "evactower": 0
+        "evactower": 0,
+        "shieldcore": 1,
       },
       perks: {},
       kills: 0,
@@ -1267,6 +1269,8 @@ export class ApexWebAPI extends EventTarget {
       return "heatshield";
     case ApexWebAPI.WEBAPI_ITEM_EVACTOWER:
       return "evactower";
+    case ApexWebAPI.WEBAPI_ITEM_SHIELDCCORE:
+      return "shieldcore";
     }
     return "";
   }
