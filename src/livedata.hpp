@@ -29,6 +29,7 @@ namespace livedata {
 		uint32_t mobilerespawnbeacon = 0;
 		uint32_t heatshield = 0;
 		uint32_t evactower = 0;
+		uint32_t shieldcore = 0;
 	};
 
 	struct perkinfo {

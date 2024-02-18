@@ -51,6 +51,7 @@ namespace app {
 		{"Body Shield (Level 2)", WEBAPI_ITEM_BODYSHIELD_LV2},
 		{"Body Shield (Level 3)", WEBAPI_ITEM_BODYSHIELD_LV3},
 		{"Body Shield (Level 4)", WEBAPI_ITEM_BODYSHIELD_LV4},
+		{"Shield Core", WEBAPI_ITEM_SHIELDCORE},
 
 		/* 日本語 */
 		{(const char*)u8"注射器", WEBAPI_ITEM_SYRINGE},
@@ -81,6 +82,7 @@ namespace app {
 		{(const char*)u8"ボディーシールド (Level 2)", WEBAPI_ITEM_BODYSHIELD_LV2},
 		{(const char*)u8"ボディーシールド (Level 3)", WEBAPI_ITEM_BODYSHIELD_LV3},
 		{(const char*)u8"ボディーシールド (Level 4)", WEBAPI_ITEM_BODYSHIELD_LV4},
+		{(const char*)u8"シールドコア", WEBAPI_ITEM_SHIELDCORE},
 	};
 
 	uint8_t string_to_itemid(const std::string& _str)
@@ -2725,6 +2727,7 @@ namespace app {
 				send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_MOBILERESPAWNBEACON, player.items.mobilerespawnbeacon);
 				send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_HEATSHIELD, player.items.heatshield);
 				send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_EVACTOWER, player.items.evactower);
+				send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_SHIELDCORE, player.items.shieldcore);
 			}
 
 			// チーム名
@@ -2944,6 +2947,19 @@ namespace app {
 			}
 			break;
 
+		case WEBAPI_ITEM_SHIELDCORE:
+			if (_quantity < 0)
+			{
+				player.items.shieldcore = 0;
+				send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDCORE, player.items.shieldcore);
+			}
+			else if (_quantity > 0)
+			{
+				player.items.shieldcore = 1;
+				send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDCORE, player.items.shieldcore);
+			}
+			break;
+
 		default:
 		{
 			uint32_t q = 0;
@@ -2993,6 +3009,7 @@ namespace app {
 			if (player.items.mobilerespawnbeacon != items.mobilerespawnbeacon) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_MOBILERESPAWNBEACON, items.mobilerespawnbeacon);
 			if (player.items.heatshield != items.heatshield) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_HEATSHIELD, items.heatshield);
 			if (player.items.evactower != items.evactower) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_EVACTOWER, items.evactower);
+			if (player.items.shieldcore != items.shieldcore) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDCORE, items.shieldcore);
 
 			player.items = items;
 		}
@@ -3154,6 +3171,7 @@ namespace app {
 			send_webapi_player_items(_sock, _teamid, i, WEBAPI_ITEM_MOBILERESPAWNBEACON, p.items.mobilerespawnbeacon);
 			send_webapi_player_items(_sock, _teamid, i, WEBAPI_ITEM_HEATSHIELD, p.items.heatshield);
 			send_webapi_player_items(_sock, _teamid, i, WEBAPI_ITEM_EVACTOWER, p.items.evactower);
+			send_webapi_player_items(_sock, _teamid, i, WEBAPI_ITEM_SHIELDCORE, p.items.shieldcore);
 		}
 
 		reply_livedata_get_team_players(_sock, _sequence, _teamid);

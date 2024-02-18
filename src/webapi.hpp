@@ -177,6 +177,8 @@ namespace app {
 		WEBAPI_ITEM_MOBILERESPAWNBEACON = 0x60,
 		WEBAPI_ITEM_HEATSHIELD,
 		WEBAPI_ITEM_EVACTOWER,
+
+		WEBAPI_ITEM_SHIELDCORE = 0x70,
 	};
 
 	class received_webapi_data {
