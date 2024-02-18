@@ -1447,6 +1447,16 @@ namespace app {
 					filedump_.reset();
 				}
 			}
+			else if (p.state() == "Postmatch")
+			{
+				if (game_.end == 0)
+				{
+					game_.end = get_millis();
+
+					// dumpファイルを一旦リセット
+					filedump_.reset();
+				}
+			}
 		}
 		else if (_any.Is<api::CharacterSelected>())
 		{
