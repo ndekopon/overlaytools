@@ -81,6 +81,10 @@ namespace livedata {
 		float shrinkduration = 0.0f;
 	};
 
+	struct loadout_info {
+		items items;
+	};
+
 	struct game {
 		std::vector<team> teams{};
 		std::string matchendreason = "";
@@ -95,6 +99,7 @@ namespace livedata {
 		uint64_t start = 0;
 		uint64_t end = 0;
 		std::vector<ringinfo> rings{};
+		loadout_info loadout;
 	};
 
 	/* 保存するリザルト */

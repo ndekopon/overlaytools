@@ -93,6 +93,26 @@ namespace app {
 		return 0;
 	}
 
+	inline uint32_t update_quantity(uint32_t& _store, int _quantity)
+	{
+		if (_quantity > 0)
+		{
+			_store = _store + _quantity;
+		}
+		else if (_quantity < 0)
+		{
+			if (std::abs(_quantity) >= _store)
+			{
+				_store = 0;
+			}
+			else
+			{
+				_store = _store - std::abs(_quantity);
+			}
+		}
+		return _store;
+	}
+
 	void core_thread::sendto_liveapi(ctx_buffer_t&& _data)
 	{
 		liveapi_queue_.push(std::move(_data));
@@ -1308,6 +1328,95 @@ namespace app {
 			game_.aimassiston = p.aimassiston();
 			game_.anonymousmode = p.anonymousmode();
 			game_.serverid = p.serverid();
+
+			if (p.has_startingloadout())
+			{
+				const auto& loadout = p.startingloadout();
+
+				std::memset(&game_.loadout.items, 0, sizeof(game_.loadout.items));
+				for (int i = 0; i < loadout.equipment_size(); ++i)
+				{
+					const auto& equipment = loadout.equipment(i);
+					const auto itemid = string_to_itemid(equipment.item());
+					const auto quantity = equipment.quantity();
+					auto& items = game_.loadout.items;
+					if (itemid == 0) continue;
+
+					switch (itemid)
+					{
+					case WEBAPI_ITEM_BODYSHIELD_LV1:
+					case WEBAPI_ITEM_BODYSHIELD_LV2:
+					case WEBAPI_ITEM_BODYSHIELD_LV3:
+					case WEBAPI_ITEM_BODYSHIELD_LV4:
+					case WEBAPI_ITEM_BODYSHIELD_LV5:
+						if (quantity > 0) items.bodyshield = itemid - WEBAPI_ITEM_BODYSHIELD;
+						break;
+
+					case WEBAPI_ITEM_BACKPACK_LV1:
+					case WEBAPI_ITEM_BACKPACK_LV2:
+					case WEBAPI_ITEM_BACKPACK_LV3:
+					case WEBAPI_ITEM_BACKPACK_LV4:
+						if (quantity > 0) items.backpack = itemid - WEBAPI_ITEM_BACKPACK;
+						break;
+
+					case WEBAPI_ITEM_KNOCKDOWNSHIELD_LV1:
+					case WEBAPI_ITEM_KNOCKDOWNSHIELD_LV2:
+					case WEBAPI_ITEM_KNOCKDOWNSHIELD_LV3:
+					case WEBAPI_ITEM_KNOCKDOWNSHIELD_LV4:
+						if (quantity > 0) items.knockdownshield = itemid - WEBAPI_ITEM_KNOCKDOWNSHIELD;
+						break;
+
+					case WEBAPI_ITEM_SHIELDCORE:
+						if (quantity > 0) items.shieldcore = 1;
+						break;
+
+					default:
+					{
+						if (itemid == WEBAPI_ITEM_SYRINGE) update_quantity(items.syringe, quantity);
+						else if (itemid == WEBAPI_ITEM_MEDKIT) update_quantity(items.medkit, quantity);
+						else if (itemid == WEBAPI_ITEM_SHIELDCELL) update_quantity(items.shield_cell, quantity);
+						else if (itemid == WEBAPI_ITEM_SHIELDBATTERY) update_quantity(items.shield_battery, quantity);
+						else if (itemid == WEBAPI_ITEM_PHOENIXKIT) update_quantity(items.phoenixkit, quantity);
+						else if (itemid == WEBAPI_ITEM_ULTIMATEACCELERANT) update_quantity(items.ultimateaccelerant, quantity);
+						else if (itemid == WEBAPI_ITEM_THERMITEGRENADE) update_quantity(items.thermitegrenade, quantity);
+						else if (itemid == WEBAPI_ITEM_FRAGGRENADE) update_quantity(items.fraggrenade, quantity);
+						else if (itemid == WEBAPI_ITEM_ARCSTAR) update_quantity(items.arcstar, quantity);
+						else if (itemid == WEBAPI_ITEM_MOBILERESPAWNBEACON) update_quantity(items.mobilerespawnbeacon, quantity);
+						else if (itemid == WEBAPI_ITEM_HEATSHIELD) update_quantity(items.heatshield, quantity);
+						else if (itemid == WEBAPI_ITEM_EVACTOWER) update_quantity(items.evactower, quantity);
+					}
+					break;
+					}
+				}
+
+				// 既に送信しているユーザー分のアイテムを更新
+				for (size_t teamid = 0; teamid < game_.teams.size(); ++teamid)
+				{
+					for (size_t squadindex = 0; squadindex < game_.teams.at(teamid).players.size(); ++squadindex)
+					{
+						auto& player = game_.teams.at(teamid).players.at(squadindex);
+						const auto& items = game_.loadout.items;
+						if (player.items.syringe != items.syringe) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_SYRINGE, items.syringe);
+						if (player.items.medkit != items.medkit) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_MEDKIT, items.medkit);
+						if (player.items.shield_cell != items.shield_cell) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_SHIELDCELL, items.shield_cell);
+						if (player.items.shield_battery != items.shield_battery) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_SHIELDBATTERY, items.shield_battery);
+						if (player.items.phoenixkit != items.phoenixkit) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_PHOENIXKIT, items.phoenixkit);
+						if (player.items.ultimateaccelerant != items.ultimateaccelerant) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_ULTIMATEACCELERANT, items.ultimateaccelerant);
+						if (player.items.thermitegrenade != items.thermitegrenade) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_THERMITEGRENADE, items.thermitegrenade);
+						if (player.items.fraggrenade != items.fraggrenade) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_FRAGGRENADE, items.fraggrenade);
+						if (player.items.arcstar != items.arcstar) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_ARCSTAR, items.arcstar);
+						if (player.items.bodyshield != items.bodyshield) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_BODYSHIELD, items.bodyshield);
+						if (player.items.backpack != items.backpack) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_BACKPACK, items.backpack);
+						if (player.items.knockdownshield != items.knockdownshield) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_KNOCKDOWNSHIELD, items.knockdownshield);
+						if (player.items.mobilerespawnbeacon != items.mobilerespawnbeacon) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_MOBILERESPAWNBEACON, items.mobilerespawnbeacon);
+						if (player.items.heatshield != items.heatshield) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_HEATSHIELD, items.heatshield);
+						if (player.items.evactower != items.evactower) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_EVACTOWER, items.evactower);
+						if (player.items.shieldcore != items.shieldcore) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_SHIELDCORE, items.shieldcore);
+
+						player.items = items;
+					}
+				}
+			}
 
 			send_webapi_matchsetup_map(INVALID_SOCKET, game_.map);
 			send_webapi_matchsetup_playlist(INVALID_SOCKET, game_.playlistname, game_.playlistdesc);
@@ -2712,6 +2821,7 @@ namespace app {
 			// 初回は現在のitem数を全部送る
 			if (first)
 			{
+				player.items = game_.loadout.items;
 				send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_SYRINGE, player.items.syringe);
 				send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_MEDKIT, player.items.medkit);
 				send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_SHIELDCELL, player.items.shield_cell);
@@ -2873,26 +2983,6 @@ namespace app {
 		}
 	}
 
-	inline uint32_t update_quantity(uint32_t& _store, int _quantity)
-	{
-		if (_quantity > 0)
-		{
-			_store = _store + _quantity;
-		}
-		else if (_quantity < 0)
-		{
-			if (std::abs(_quantity) >= _store)
-			{
-				_store = 0;
-			}
-			else
-			{
-				_store = _store - std::abs(_quantity);
-			}
-		}
-		return _store;
-	}
-
 	void core_thread::proc_item(uint8_t _teamid, uint8_t _squadindex, uint8_t _item, int _quantity)
 	{
 		auto& player = game_.teams.at(_teamid).players.at(_squadindex);
@@ -2992,7 +3082,7 @@ namespace app {
 
 		// アイテムの初期化
 		{
-			livedata::items items;
+			const auto& items = game_.loadout.items;
 
 			if (player.items.syringe != items.syringe) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SYRINGE, items.syringe);
 			if (player.items.medkit != items.medkit) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_MEDKIT, items.medkit);
