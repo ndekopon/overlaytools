@@ -159,7 +159,7 @@ class SendBuffer {
         if (typeof(data) != 'object') return false;
         if (Object.prototype.toString.call(data) != '[object Object]') return false;
         const s = encoder.encode(JSON.stringify(data));
-        if (s.byteLength > 0x000fffff) return false;
+        if (s.byteLength > 0x00ffffff) return false;
         const newlen = len + 1 + 4 + s.byteLength;
         this.#resize(newlen);
         this.#countup();
@@ -479,7 +479,7 @@ export class ApexWebAPI extends EventTarget {
           {
             const len = view.getUint32(offset, true);
             offset += 4;
-            const capedlen = (len & 0xfffff); // 1048576(1MB)
+            const capedlen = (len & 0xffffff); // 16777216(16MB)
             if (len == capedlen) {
               const strbin = data.slice(offset, offset + len);
               const str = this.#decoder.decode(strbin);

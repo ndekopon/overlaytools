@@ -257,7 +257,7 @@ namespace app {
 		uint32_t len = 0;
 		std::memcpy(&len, &buffer_->at(offset), 4);
 		offset += 4;
-		uint32_t capped_len = (len & 0x000fffffu);
+		uint32_t capped_len = (len & 0x00ffffffu);
 		if (len != capped_len) throw std::out_of_range("over size");
 		return std::string(buffer_->begin() + offset, buffer_->begin() + offset + len);
 	}
@@ -285,7 +285,7 @@ namespace app {
 
 	bool send_webapi_data::append_json(const std::string& _v)
 	{
-		if (_v.size() > 0x000fffffu) return false; // 2^20 = 1048576(1MB)
+		if (_v.size() > 0x00ffffffu) return false; // 2^24 = 16777216(16MB)
 		buffer_->at(1)++;
 		buffer_->push_back(WEBAPI_DATA_JSON);
 		uint32_t u = _v.size() & 0xffffffffu;
