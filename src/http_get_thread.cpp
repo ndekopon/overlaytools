@@ -153,7 +153,7 @@ namespace app {
 			else if (id == WAIT_OBJECT_0 + 1)
 			{
 				// ping(タイムアウトを確認する)
-				if (timestamp > 0 && get_millis() - timestamp > 5000)
+				if (timestamp > 0 && get_millis() - timestamp > 10000)
 				{
 					log(logid_, L"Info: connection timeout.");
 					close_connection = true;
