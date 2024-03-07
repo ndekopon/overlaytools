@@ -1341,7 +1341,7 @@ export class ApexWebAPI extends EventTarget {
     return null;
   }
 
-  #sendAndReceiveReply(buffer, eventname, precheck = true) {
+  #sendAndReceiveReply(buffer, eventname, precheck = true, timeout = 1000) {
     return new Promise((resolve, reject) => {
       if (precheck == false) return reject('precheck failed');
       if (this.#socket.readyState != 1) return reject('socket.readyState is not 1');
@@ -1353,7 +1353,7 @@ export class ApexWebAPI extends EventTarget {
       const timerid = setTimeout(() => {
         this.removeEventListener(eventname, handler);
         reject('request timeout');
-      }, 1000);
+      }, timeout);
 
       // 結果の受信
       const handler = (event) => {
@@ -1614,7 +1614,7 @@ export class ApexWebAPI extends EventTarget {
     let precheck = true;
     const buffer = new SendBuffer(ApexWebAPI.WEBAPI_HTTP_GET_STATS_FROM_CODE);
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_STRING, code, this.#encoder)) precheck = false;
-    return this.#sendAndReceiveReply(buffer, "getstatsfromcode", precheck);
+    return this.#sendAndReceiveReply(buffer, "getstatsfromcode", precheck, 10000); // timeout = 10s
   }
 
   isConnected() {
