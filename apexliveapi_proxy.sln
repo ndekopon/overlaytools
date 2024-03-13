@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "apexliveapi_proxy", "apexliveapi_proxy.vcxproj", "{5FAB938B-1439-4BD3-9917-91DDF4F5D353}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dump2json", "dump2json.vcxproj", "{A96EFAEE-2F1C-40D9-BDB2-53C4288CEE4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|x64 = Release|x64
@@ -12,6 +14,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5FAB938B-1439-4BD3-9917-91DDF4F5D353}.Release|x64.ActiveCfg = Release|x64
 		{5FAB938B-1439-4BD3-9917-91DDF4F5D353}.Release|x64.Build.0 = Release|x64
+		{A96EFAEE-2F1C-40D9-BDB2-53C4288CEE4A}.Release|x64.ActiveCfg = Release|x64
+		{A96EFAEE-2F1C-40D9-BDB2-53C4288CEE4A}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
