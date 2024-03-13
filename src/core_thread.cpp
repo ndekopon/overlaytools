@@ -1777,6 +1777,7 @@ namespace app {
 		}
 		else if (_any.Is<api::GibraltarShieldAbsorbed>())
 		{
+			// 通常のダメージと同様に扱う
 			api::GibraltarShieldAbsorbed p;
 			if (!_any.UnpackTo(&p)) return;
 
@@ -1784,11 +1785,30 @@ namespace app {
 			if (p.has_attacker())
 			{
 				proc_player(p.attacker());
+				uint8_t teamid = p.attacker().teamid();
+				uint8_t squadindex = get_squadindex(p.attacker());
+				if (teamid >= 2)
+				{
+					if (p.has_victim())
+					{
+						if (teamid != p.victim().teamid() || squadindex != get_squadindex(p.victim()))
+						{
+							// 自分自身からのダメージを除外
+							proc_damage_dealt(teamid, squadindex, p.damageinflicted());
+						}
+					}
+				}
 			}
 
 			if (p.has_victim())
 			{
 				proc_player(p.victim());
+				uint8_t teamid = p.victim().teamid();
+				uint8_t squadindex = get_squadindex(p.victim());
+				if (teamid >= 2)
+				{
+					proc_damage_taken(teamid, squadindex, p.damageinflicted());
+				}
 			}
 		}
 		else if (_any.Is<api::PlayerRespawnTeam>())
