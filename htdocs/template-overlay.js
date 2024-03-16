@@ -896,14 +896,14 @@ export class TemplateOverlayHandler {
                     break;
                 case "Playing":
                     // マップ表示時
-                    if (map > 0) {
-                        if (view_map && !winner_determine) flag = true;
-                    }
-                    else if (banner > 0) {
+                    if (banner > 0) {
                         if (view_camera && !winner_determine) flag = true;
                         if (view_live) flag = true;
                     } else {
                         if (view_live) flag = true;
+                        if (map > 0) {
+                            if (view_map && !winner_determine) flag = true;
+                        }
                     }
                     break;
                 case "Resolution":
