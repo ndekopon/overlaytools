@@ -92,6 +92,10 @@
     background-color: #333;
 }
 
+.team:not([data-team-single-last-placement]) {
+    opacity: 0.0;
+}
+
 .team-single-last-placement-frame {
     background-color: var(--red-color);
     text-align: center;

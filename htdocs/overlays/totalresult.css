@@ -88,6 +88,10 @@
     background-color: #333;
 }
 
+.team:not([data-team-total-rank]) {
+    opacity: 0.0;
+}
+
 .team-total-rank-frame {
     background-color: var(--red-color);
 }
