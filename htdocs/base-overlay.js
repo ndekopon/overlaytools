@@ -385,7 +385,7 @@ class SquadEliminated extends TemplateOverlay {
      * コンストラクタ
      */
     constructor() {
-        super();
+        super({types: ["view-live"]});
         this.#queue = [];
         this.#target = null;
     }
