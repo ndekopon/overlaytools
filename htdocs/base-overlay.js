@@ -419,6 +419,7 @@ class SquadEliminated extends TemplateOverlay {
      */
     setSquadEliminate(placement, teamid, teamname, init) {
         if (init) return;
+        if (placement <= 2) return;
         this.#queue.push({
             placement: placement,
             teamid: teamid,

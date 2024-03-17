@@ -828,8 +828,9 @@ export class TemplateOverlayHandler {
                             break;
                         }
                         case "testsquadeliminated": {
+                            const placement = data.placement;
                             const teamid = data.teamid;
-                            this.#updatedSquadEliminate(10, teamid, false);
+                            this.#updatedSquadEliminate(placement, teamid, false);
                             break;
                         }
                         case "testwinnerdetermine": {

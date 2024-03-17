@@ -3044,9 +3044,11 @@ export class WebAPIConfig {
         });
         document.getElementById('test-show-squadeliminated').addEventListener('click', (ev) => {
             const teamid = parseInt(document.getElementById("test-squadeliminated-teamid").value, 10);
+            const placement = parseInt(document.getElementById("test-squadeliminated-placement").value, 10);
             if (teamid >= 1) {
                 this.#webapi.broadcastObject({
                     type: "testsquadeliminated",
+                    placement: placement,
                     teamid: teamid - 1
                 });
             }
