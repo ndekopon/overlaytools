@@ -756,6 +756,11 @@ export class TemplateOverlayHandler {
             this.#showHideFromCurrentStatus();
         });
 
+        // マッチ情報
+        this.#webapi.addEventListener("matchsetup", (ev) => {
+            this.#updatedMapName('map' in ev.detail.game ? ev.detail.game.map : '');
+        });
+
         // LiveAPI側の接続状況
         this.#webapi.addEventListener("liveapisocketstats", (ev) => {
             if (this.#liveapi_connection_count != ev.detail.conn) {
@@ -778,7 +783,6 @@ export class TemplateOverlayHandler {
         this.#webapi.addEventListener("broadcastobject", (ev) => {
             if (ev.detail.data) {
                 const data = ev.detail.data;
-                console.log(data);
                 if ("type" in data) {
                     switch (data.type) {
                         case "testgamestate": {
@@ -987,6 +991,12 @@ export class TemplateOverlayHandler {
         }
     }
 
+    #updatedMapName(map) {
+        for (const overlay of Object.values(this.#overlays)) {
+            overlay.setParam('map-name', map);
+        }
+    }
+
     #updatedLiveAPIConnectionCount(conn) {
         this.#liveapi_connection_count = conn;
         for (const overlay of Object.values(this.#overlays)) {
@@ -1032,6 +1042,12 @@ export class TemplateOverlayHandler {
         }
         if (this.#camera_teamid == teamid) {
             this.#updatedCameraTeamTotalPoints(points);
+        }
+    }
+
+    #updatedSingleLastMapName(map) {
+        for (const overlay of Object.values(this.#overlays)) {
+            overlay.setParam('single-last-map-name', map);
         }
     }
 
@@ -1409,12 +1425,6 @@ export class TemplateOverlayHandler {
      * 最新のリザルトを処理する
      */
     #updatedSingleLastResult() {
-        // <span class="team-single-last-rank"></span></div>
-        // <div class="team-single-last-placement"></div>
-        // <div class="team-single-last-placement-points"></div>
-        // <div class="team-single-last-kill-points"></div>
-        // <div class="team-single-last-points"></div>
-
         // 特定のメソッドを持っている場合はteams要素をクリアする
         for (const overlay of Object.values(this.#overlays)) {
             if ('sortTeamSingleLastPlacement' in overlay && typeof(overlay.sortTeamSingleLastPlacement) == 'function') {
@@ -1424,7 +1434,7 @@ export class TemplateOverlayHandler {
         if (this.#results.length == 0) return;
         const gameid = this.#results.length - 1;
         const result = this.#results[gameid];
-        console.log(result);
+        this.#updatedSingleLastMapName('map' in result ? result.map : '');
         if ('teams' in result) {
             for (const [teamidstr, team] of Object.entries(result.teams)) {
                 const teamid = parseInt(teamidstr, 10);
