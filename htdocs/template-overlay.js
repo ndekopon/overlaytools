@@ -1229,6 +1229,10 @@ export class TemplateOverlayHandler {
         this.#game_state = state;
         this.#showHideFromCurrentStatus();
 
+        for (const overlay of Object.values(this.#overlays)) {
+            overlay.setParam('game-state', state);
+        }
+
         // 計算方法の変更確認
         let calc_resultsonly = this.#calc_resultsonly;
         switch(state) {
