@@ -698,6 +698,11 @@ export class TemplateOverlayHandler {
             this.#updatedPlayerState(playerhash, ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE);
         });
 
+        this.#webapi.addEventListener("playercharacter", (ev) => {
+            this.#updatedPlayerLegend(ev.detail.player.hash, ev.detail.player.character);
+
+        });
+
         this.#webapi.addEventListener("statealive", (ev) => {
             this.#updatedPlayerState(ev.detail.player.hash, ev.detail.player.state);
         });
@@ -1194,6 +1199,15 @@ export class TemplateOverlayHandler {
                 const teamname = this.#getTeamName(teamid);
                 overlay.setSquadEliminate(placement, teamid, teamname, init);
             }
+        }
+    }
+
+    #updatedPlayerLegend(hash, legend) {
+        if (!(hash in this.#player_index)) return;
+        const player = this.#player_index[hash];
+        for (const overlay of Object.values(this.#overlays)) {
+            overlay.setPlayerParam(hash, 'player-legend', legend);
+            overlay.setTeamPlayerParam(player.teamid, hash, 'teamplayer-legend', legend);
         }
     }
 
