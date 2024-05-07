@@ -1,0 +1,143 @@
+:host {
+    --red-color: #B03039;
+    background-color: #000;
+    color: white;
+    --width: 1600px;
+    --title-height: 200px;
+    --header-height: 20px;
+    --points-width: 60px;
+    font-weight: bold;
+}
+
+.title {
+    position: absolute;
+    left: calc(50% - var(--width) / 2);
+    width: var(--width);
+    height: var(--title-height);
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.single-last-map-name[data-single-last-map-name^="mp_rr_canyonlands"]:after   { content: "Kings Canyon"; }
+.single-last-map-name[data-single-last-map-name^="mp_rr_desertlands"]:after   { content: "World's Edge"; }
+.single-last-map-name[data-single-last-map-name^="mp_rr_olympus"]:after       { content: "Olympus"; }
+.single-last-map-name[data-single-last-map-name^="mp_rr_tropic_island"]:after { content: "Storm Point"; }
+.single-last-map-name[data-single-last-map-name^="mp_rr_divided_moon"]:after  { content: "Broken Moon"; }
+
+.gamenumber, .mapname {
+    padding-left: 60px;
+}
+
+div {
+    box-sizing: border-box;
+}
+
+.teams {
+    --teams-width: 1800px;
+    --teams-top: 300px;
+
+    position: absolute;
+    left: calc(50% - var(--teams-width) / 2);
+    top: var(--teams-top);
+    width: var(--teams-width);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    row-gap: 20px;
+    column-gap: 10px;
+    overflow: clip;
+}
+
+.team:not([data-team-single-last-placement]) {
+    opacity: 0.0;
+}
+
+.header, .teamdata, .teamplayer {
+    display: grid;
+    grid-template-columns: 40px 1fr 40px 70px;
+    column-gap: 2px;
+}
+
+.header {
+    font-size: 10px;
+    line-height: 10px;
+    text-align: center;
+}
+
+.teamdata {
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+}
+
+.teamdata > div {
+    background-color: white;
+    color: black;
+}
+
+.team-single-last-placement:not(.dataset) {
+    background-color: var(--red-color);
+    color: white;
+    text-align: center;
+}
+
+.team-name {
+    padding-left: 10px;
+    overflow: clip;
+}
+
+.team-single-last-kill-points, .team-single-last-damagedealt {
+    text-align: center;
+}
+
+.teamplayer {
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    margin-top: 2px;
+    background-color: #333;
+}
+
+.teamplayer-name {
+    padding-left: 10px;
+    overflow: clip;
+}
+
+.teamplayer-kills, .teamplayer-damagedealt {
+    text-align: center;
+}
+
+/* 画像 */
+.teamplayer-legend[data-teamplayer-legend] {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+[data-teamplayer-legend="Ash"]        ,[data-teamplayer-legend="アッシュ"]         { background-image: url('legends/ash.png'); }
+[data-teamplayer-legend="Ballistic"]  ,[data-teamplayer-legend="バリスティック"]   { background-image: url('legends/ballistic.png'); }
+[data-teamplayer-legend="Bangalore"]  ,[data-teamplayer-legend="バンガロール"]     { background-image: url('legends/bangalore.png'); }
+[data-teamplayer-legend="Bloodhound"] ,[data-teamplayer-legend="ブラッドハウンド"] { background-image: url('legends/bloodhound.png'); }
+[data-teamplayer-legend="Catalyst"]   ,[data-teamplayer-legend="カタリスト"]       { background-image: url('legends/catalyst.png'); }
+[data-teamplayer-legend="Caustic"]    ,[data-teamplayer-legend="コースティック"]   { background-image: url('legends/caustic.png'); }
+[data-teamplayer-legend="Conduit"]    ,[data-teamplayer-legend="コンジット"]       { background-image: url('legends/conduit.png'); }
+[data-teamplayer-legend="Crypto"]     ,[data-teamplayer-legend="クリプト"]         { background-image: url('legends/crypto.png'); }
+[data-teamplayer-legend="Fuse"]       ,[data-teamplayer-legend="ヒューズ"]         { background-image: url('legends/fuse.png'); }
+[data-teamplayer-legend="Gibraltar"]  ,[data-teamplayer-legend="ジブラルタル"]     { background-image: url('legends/gibraltar.png'); }
+[data-teamplayer-legend="Horizon"]    ,[data-teamplayer-legend="ホライゾン"]       { background-image: url('legends/horizon.png'); }
+[data-teamplayer-legend="Lifeline"]   ,[data-teamplayer-legend="ライフライン"]     { background-image: url('legends/lifeline.png'); }
+[data-teamplayer-legend="Loba"]       ,[data-teamplayer-legend="ローバ"]           { background-image: url('legends/loba.png'); }
+[data-teamplayer-legend="Mad Maggie"] ,[data-teamplayer-legend="マッドマギー"]     { background-image: url('legends/madmaggie.png'); }
+[data-teamplayer-legend="Mirage"]     ,[data-teamplayer-legend="ミラージュ"]       { background-image: url('legends/mirage.png'); }
+[data-teamplayer-legend="Newcastle"]  ,[data-teamplayer-legend="ニューキャッスル"] { background-image: url('legends/newcastle.png'); }
+[data-teamplayer-legend="Octane"]     ,[data-teamplayer-legend="オクタン"]         { background-image: url('legends/octane.png'); }
+[data-teamplayer-legend="Pathfinder"] ,[data-teamplayer-legend="パスファインダー"] { background-image: url('legends/pathfinder.png'); }
+[data-teamplayer-legend="Rampart"]    ,[data-teamplayer-legend="ランパート"]       { background-image: url('legends/rampart.png'); }
+[data-teamplayer-legend="Revenant"]   ,[data-teamplayer-legend="レヴナント"]       { background-image: url('legends/revenant.png'); }
+[data-teamplayer-legend="Seer"]       ,[data-teamplayer-legend="シア"]             { background-image: url('legends/seer.png'); }
+[data-teamplayer-legend="Valkyrie"]   ,[data-teamplayer-legend="ヴァルキリー"]     { background-image: url('legends/valkyrie.png'); }
+[data-teamplayer-legend="Vantage"]    ,[data-teamplayer-legend="バンテージ"]       { background-image: url('legends/vantage.png'); }
+[data-teamplayer-legend="Wattson"]    ,[data-teamplayer-legend="ワットソン"]       { background-image: url('legends/wattson.png'); }
+[data-teamplayer-legend="Wraith"]     ,[data-teamplayer-legend="レイス"]           { background-image: url('legends/wraith.png'); }

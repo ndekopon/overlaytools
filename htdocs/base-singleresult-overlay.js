@@ -1,7 +1,11 @@
 import { TemplateOverlay, TemplateOverlayHandler } from "./template-overlay.js";
 
 class SingleResult extends TemplateOverlay {
-    sortTeamSingleLastPlacement() {
+    constructor() {
+        super({types: ["players-singleresult"]});
+    }
+
+    sortTeamSingleResultPlacement() {
         const teams = Object.values(this.teams);
         teams.sort((a, b) => {
             const a_node = a.querySelector('.team-single-last-placement');

@@ -428,6 +428,7 @@ export class TemplateOverlayHandler {
     #team_params;
     #player_params;
     #player_index;
+    #player_index_singleresult;
     /* カメラ情報 */
     #camera_teamid;
     #camera_playerhash;
@@ -456,6 +457,7 @@ export class TemplateOverlayHandler {
         this.#team_params = {};
         this.#player_params = {};
         this.#player_index = {};
+        this.#player_index_singleresult = {};
         this.#camera_teamid = -1;
         this.#camera_playerhash = '';
         this.#game = null;
@@ -561,7 +563,7 @@ export class TemplateOverlayHandler {
             }
             this.#updatedGame(ev.detail.game);
             if (!this.#getallprocessing) this.#reCalc();
-            this.#updatedSingleLastResult();
+            this.#updatedSingleResult();
             this.#updatedParticipatedTeamsInformation();
             this.#winner_determine = false;
         });
@@ -582,7 +584,7 @@ export class TemplateOverlayHandler {
                 // 既存のリザルトに追加
                 this.#results.push(ev.detail.result);
                 if (!this.#getallprocessing) this.#reCalc();
-                this.#updatedSingleLastResult();
+                this.#updatedSingleResult();
                 this.#updatedParticipatedTeamsInformation();
             } else {
                 // 足りていない場合は再取得
@@ -597,7 +599,7 @@ export class TemplateOverlayHandler {
         this.#webapi.addEventListener("gettournamentresults", (ev) => {
             this.#results = ev.detail.results;
             if (!this.#getallprocessing) this.#reCalc();
-            this.#updatedSingleLastResult();
+            this.#updatedSingleResult();
             this.#updatedParticipatedTeamsInformation();
             if (this.#results_count != this.#results.length) {
                 this.#updatedResultsCount(this.#results.length);
@@ -642,6 +644,7 @@ export class TemplateOverlayHandler {
         // プレイヤー名系
         this.#webapi.addEventListener("playername", (ev) => {
             this.#updatedPlayerName(ev.detail.player.hash, ev.detail.player.name);
+            this.#updatedPlayerSingleResultName(ev.detail.player.hash, ev.detail.player.name);
         });
 
         this.#webapi.addEventListener("getplayerparams", (ev) => {
@@ -693,7 +696,6 @@ export class TemplateOverlayHandler {
             const playerhash = ev.detail.player.hash;
             this.#player_index[playerhash] = ev.detail.player;
             this.#updatedPlayerId(playerhash);
-            this.#updatedTeamPlayerId(teamid, playerhash);
             this.#updatedTeamExists(teamid);
             this.#updatedPlayerState(playerhash, ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE);
         });
@@ -730,7 +732,6 @@ export class TemplateOverlayHandler {
         });
 
         this.#webapi.addEventListener("playeritem", (ev) => {
-            const teamid = ev.detail.team.id;
             const playerhash = ev.detail.player.hash;
             const itemid = ev.detail.item;
             const count = this.#player_index[playerhash].items[itemid];
@@ -1050,33 +1051,40 @@ export class TemplateOverlayHandler {
         }
     }
 
-    #updatedSingleLastMapName(map) {
+    #updatedSingleResultMapName(map) {
         for (const overlay of Object.values(this.#overlays)) {
             overlay.setParam('single-last-map-name', map);
         }
     }
 
-    #updatedTeamSingleLastPlacement(teamid, placement) {
+    #updatedTeamSingleResultPlacement(teamid, placement) {
         for (const overlay of Object.values(this.#overlays)) {
             overlay.setTeamParam(teamid, 'team-single-last-placement', placement);
         }
     }
 
-    #updatedTeamSingleLastKillPoints(teamid, points) {
+    #updatedTeamSingleResultKillPoints(teamid, points) {
         for (const overlay of Object.values(this.#overlays)) {
             overlay.setTeamParam(teamid, 'team-single-last-kill-points', points);
         }
     }
 
-    #updatedTeamSingleLastPlacementPoints(teamid, points) {
+    #updatedTeamSingleResultPlacementPoints(teamid, points) {
         for (const overlay of Object.values(this.#overlays)) {
             overlay.setTeamParam(teamid, 'team-single-last-placement-points', points);
         }
     }
 
-    #updatedTeamSingleLastPoints(teamid, points) {
+    #updatedTeamSingleResultPoints(teamid, points) {
         for (const overlay of Object.values(this.#overlays)) {
             overlay.setTeamParam(teamid, 'team-single-last-points', points);
+        }
+    }
+    
+    #updatedTeamSingleResultDamage(teamid, dealt, taken) {
+        for (const overlay of Object.values(this.#overlays)) {
+            overlay.setTeamParam(teamid, 'team-single-last-damagedealt', dealt);
+            overlay.setTeamParam(teamid, 'team-single-last-damagetaken', taken);
         }
     }
 
@@ -1090,6 +1098,7 @@ export class TemplateOverlayHandler {
         this.#player_params[hash] = params;
         if (!('name' in params)) return;
         this.#updatedPlayerName(hash, ev.detail.params.name);
+        this.#updatedPlayerSingleResultName(hash, ev.detail.params.name);
     }
 
     #updatedTournamentParams(params) {
@@ -1125,53 +1134,76 @@ export class TemplateOverlayHandler {
         }
     }
 
-    #updatedPlayerId(playerid) {
-        for (const overlay of Object.values(this.#overlays)) {
-            overlay.setPlayerParam(playerid, 'player-id', playerid);
+    #updatedPlayerParam(hash, param, value) {
+        if (hash in this.#player_index) {
+            // 現ゲームに存在するプレイヤー処理
+            const player = this.#player_index[hash];
+            for (const overlay of Object.values(this.#overlays)) {
+                overlay.setPlayerParam(hash, `player-${param}`, value);
+                if (!overlay.hasType("players-singleresult")) {
+                    overlay.setTeamPlayerParam(player.teamid, hash, `teamplayer-${param}`, value);
+                }
+            }
+            if (this.#camera_teamid == player.teamid && this.#camera_playerhash == hash) {
+                this.#updatedCameraPlayerParam(param, value);
+            }
         }
+    }
+
+    #updatedCameraPlayerParam(param, value) {
+        for (const overlay of Object.values(this.#overlays)) {
+            overlay.setParam(`camera-player-${param}`, value);
+        }
+    }
+
+    #updatedPlayerId(hash) {
+        this.#updatedPlayerParam(hash, 'id', hash);
     }
 
     #updatedPlayerName(hash, name) {
-        if (!(hash in this.#player_index)) return; // 現ゲームに存在しないプレイヤーは処理しない
-        const player = this.#player_index[hash];
         name = this.#getPlayerName(hash);
-        for (const overlay of Object.values(this.#overlays)) {
-            overlay.setPlayerParam(hash, 'player-name', name);
-            overlay.setTeamPlayerParam(player.teamid, hash, 'teamplayer-name', name);
-        }
-        if (this.#camera_teamid == player.teamid && this.#camera_playerhash == hash) {
-            this.#updatedCameraPlayerName(name);
-        }
+        this.#updatedPlayerParam(hash, 'name', name);
     }
 
     #updatedPlayerKills(hash, kills) {
-        if (!(hash in this.#player_index)) return; // 現ゲームに存在しないプレイヤーは処理しない
-        const player = this.#player_index[hash];
-        for (const overlay of Object.values(this.#overlays)) {
-            overlay.setPlayerParam(hash, 'player-kills', kills);
-            overlay.setTeamPlayerParam(player.teamid, hash, 'teamplayer-kills', kills);
-        }
-        if (this.#camera_teamid == player.teamid && this.#camera_playerhash == hash) {
-            this.#updatedCameraPlayerKills(kills);
-        }
+        this.#updatedPlayerParam(hash, 'kills', kills);
     }
 
     #updatedPlayerItem(hash, itemid, count) {
-        if (!(hash in this.#player_index)) return; // 現ゲームに存在しないプレイヤーは処理しない
-        const player = this.#player_index[hash];
-        for (const overlay of Object.values(this.#overlays)) {
-            overlay.setPlayerParam(hash, `player-item-${itemid}`, count);
-            overlay.setTeamPlayerParam(player.teamid, hash, `teamplayer-item-${itemid}`, count);
-        }
-        if (this.#camera_teamid == player.teamid && this.#camera_playerhash == hash) {
-            this.#updatedCameraPlayerItem(itemid, count);
+        this.#updatedPlayerParam(hash, `item-${itemid}`, count);
+    }
+
+    #updatedPlayerSingleResultParam(playerid, param, value) {
+        if (playerid in this.#player_index_singleresult) {
+            const teamid = this.#player_index_singleresult[playerid].teamid;
+            for (const overlay of Object.values(this.#overlays)) {
+                if (overlay.hasType("players-singleresult")) {
+                    overlay.setPlayerParam(playerid, `player-${param}`, value);
+                    overlay.setTeamPlayerParam(teamid, playerid, `teamplayer-${param}`, value);
+                }
+            }
         }
     }
 
-    #updatedTeamPlayerId(teamid, playerid) {
-        for (const overlay of Object.values(this.#overlays)) {
-            overlay.setTeamPlayerParam(teamid, playerid, 'teamplayer-id', playerid);
-        }
+    #updatedPlayerSingleResultId(playerid) {
+        this.#updatedPlayerSingleResultParam(playerid, 'id', playerid);
+    }
+
+    #updatedPlayerSingleResultName(playerid, name) {
+        this.#updatedPlayerSingleResultParam(playerid, 'name', name);
+    }
+
+    #updatedPlayerSingleResultLegend(playerid, legend) {
+        this.#updatedPlayerSingleResultParam(playerid, 'legend', legend);
+    }
+
+    #updatedPlayerSingleResultKills(playerid, kills) {
+        this.#updatedPlayerSingleResultParam(playerid, 'kills', kills);
+    }
+
+    #updatedPlayerSingleResultDamage(playerid, dealt, taken) {
+        this.#updatedPlayerSingleResultParam(playerid, 'damagedealt', dealt);
+        this.#updatedPlayerSingleResultParam(playerid, 'damagetaken', taken);
     }
 
     #updatedWinnerDetermine(teamid) {
@@ -1203,24 +1235,21 @@ export class TemplateOverlayHandler {
     }
 
     #updatedPlayerLegend(hash, legend) {
-        if (!(hash in this.#player_index)) return;
-        const player = this.#player_index[hash];
-        for (const overlay of Object.values(this.#overlays)) {
-            overlay.setPlayerParam(hash, 'player-legend', legend);
-            overlay.setTeamPlayerParam(player.teamid, hash, 'teamplayer-legend', legend);
-        }
+        this.#updatedPlayerParam(hash, 'legend', legend);
     }
 
     #updatedPlayerState(hash, state) {
-        if (!(hash in this.#player_index)) return;
-        const player = this.#player_index[hash];
-        for (const overlay of Object.values(this.#overlays)) {
-            overlay.setPlayerParam(hash, 'player-state', state);
-            if ('setTeamPlayerState' in overlay && typeof(overlay.setTeamPlayerState) == 'function') {
-                overlay.setTeamPlayerState(player.teamid, hash, state);
-            }
-            overlay.setTeamPlayerParam(player.teamid, hash, 'teamplayer-state', state);
+        // 特定のメソッドを呼び出す
+        if (hash in this.#player_index) {
+            const player = this.#player_index[hash];
+            for (const overlay of Object.values(this.#overlays)) {
+                if ('setTeamPlayerState' in overlay && typeof(overlay.setTeamPlayerState) == 'function') {
+                    overlay.setTeamPlayerState(player.teamid, hash, state);
+                }
+            }    
         }
+
+        this.#updatedPlayerParam(hash, 'state', state);
     }
 
     #updatedTournamentName(name) {
@@ -1280,11 +1309,34 @@ export class TemplateOverlayHandler {
         }
         if (this.#camera_playerhash != playerhash) {
             this.#camera_playerhash = playerhash;
-            this.#updatedCameraPlayerHash(playerhash);
+            this.#updatedCameraPlayerId(playerhash);
         }
 
         this.#updatedCameraTeamName(this.#getTeamName(teamid));
         this.#updatedCameraPlayerName(this.#getPlayerName(playerhash));
+
+        // チームデータが存在する場合
+        if (this.#game && 'teams' in this.#game) {
+            if (0 <= teamid && teamid < this.#game.teams.length) {
+                const team = this.#game.teams[teamid];
+                if ('kills' in team) {
+                    this.#updatedCameraTeamKills(team.kills);
+                }
+            }
+        }
+
+        // プレイヤーデータが存在する場合
+        if (playerhash in this.#player_index) {
+            const player = this.#player_index[playerhash];
+            if ('kills' in player) {
+                this.#updatedCameraPlayerKills(player.kills);
+            }
+            if (('items' in player)) {
+                for (const [itemid, count] of Object.entries(player.items)) {
+                    this.#updatedCameraPlayerItem(itemid, count);
+                }
+            }
+        }
 
         // ポイントデータが存在する場合
         if (this.#camera_teamid in this.#saved_teamresults) {
@@ -1294,18 +1346,6 @@ export class TemplateOverlayHandler {
             }
             if ('points' in team) {
                 this.#updatedCameraTeamTotalPoints(team.points.reduce((a, c) => a + c, 0));
-            }
-        }
-
-        // 全アイテムを更新
-        this.#updateCameraPlayerItems(playerhash);
-
-        if (this.#game && 'teams' in this.#game) {
-            if (0 <= teamid && teamid < this.#game.teams.length) {
-                const team = this.#game.teams[teamid];
-
-                // チームキルの設定
-                this.#updatedCameraTeamKills(team.kills);
             }
         }
     }
@@ -1341,28 +1381,20 @@ export class TemplateOverlayHandler {
         }
     }
 
-    #updatedCameraPlayerHash(hash) {
-        for (const overlay of Object.values(this.#overlays)) {
-            overlay.setParam('camera-player-hash', hash);
-        }
+    #updatedCameraPlayerId(hash) {
+        this.#updatedCameraPlayerParam('id', hash);
     }
 
     #updatedCameraPlayerName(name) {
-        for (const overlay of Object.values(this.#overlays)) {
-            overlay.setParam('camera-player-name', name);
-        }
+        this.#updatedCameraPlayerParam('name', name);
     }
 
     #updatedCameraPlayerKills(kills) {
-        for (const overlay of Object.values(this.#overlays)) {
-            overlay.setParam('camera-player-kills', kills);
-        }
+        this.#updatedCameraPlayerParam('kills', kills);
     }
 
     #updatedCameraPlayerItem(itemid, count) {
-        for (const overlay of Object.values(this.#overlays)) {
-            overlay.setParam(`camera-player-item-${itemid}`, count);
-        }
+        this.#updatedCameraPlayerParam(`item-${itemid}`, count);
     }
 
     /**
@@ -1442,30 +1474,48 @@ export class TemplateOverlayHandler {
     /**
      * 最新のリザルトを処理する
      */
-    #updatedSingleLastResult() {
+    #updatedSingleResult() {
+        // プレイヤーの索引を削除
+        this.#player_index_singleresult = {};
+
         // 特定のメソッドを持っている場合はteams要素をクリアする
         for (const overlay of Object.values(this.#overlays)) {
-            if ('sortTeamSingleLastPlacement' in overlay && typeof(overlay.sortTeamSingleLastPlacement) == 'function') {
+            if ('sortTeamSingleResultPlacement' in overlay && typeof(overlay.sortTeamSingleResultPlacement) == 'function') {
                 overlay.clear();
             }
         }
         if (this.#results.length == 0) return;
         const gameid = this.#results.length - 1;
         const result = this.#results[gameid];
-        this.#updatedSingleLastMapName('map' in result ? result.map : '');
+        this.#updatedSingleResultMapName('map' in result ? result.map : '');
         if ('teams' in result) {
             for (const [teamidstr, team] of Object.entries(result.teams)) {
                 const teamid = parseInt(teamidstr, 10);
                 const points = calcPoints(gameid, team.placement, team.kills, this.#tournament_params);
-                this.#updatedTeamSingleLastPlacement(teamid, team.placement);
-                this.#updatedTeamSingleLastKillPoints(teamid, points.kills);
-                this.#updatedTeamSingleLastPlacementPoints(teamid, points.placement);
-                this.#updatedTeamSingleLastPoints(teamid, points.total);
+                this.#updatedTeamSingleResultPlacement(teamid, team.placement);
+                this.#updatedTeamSingleResultKillPoints(teamid, points.kills);
+                this.#updatedTeamSingleResultPlacementPoints(teamid, points.placement);
+                this.#updatedTeamSingleResultPoints(teamid, points.total);
+                let damage_dealt = 0;
+                let damage_taken = 0;
+                for (const player of team.players) {
+                    const hash = player.id;
+                    player.teamid = teamid;
+                    this.#player_index_singleresult[hash] = player;
+                    this.#updatedPlayerSingleResultId(hash);
+                    this.#updatedPlayerSingleResultName(hash, player.name);
+                    this.#updatedPlayerSingleResultLegend(hash, player.character);
+                    this.#updatedPlayerSingleResultKills(hash, player.kills);
+                    this.#updatedPlayerSingleResultDamage(hash, player.damage_dealt, player.damage_taken);
+                    damage_dealt += player.damage_dealt;
+                    damage_taken += player.damage_taken;
+                }
+                this.#updatedTeamSingleResultDamage(teamid, damage_dealt, damage_taken);
             }
         }
         for (const overlay of Object.values(this.#overlays)) {
-            if ('sortTeamSingleLastPlacement' in overlay && typeof(overlay.sortTeamSingleLastPlacement) == 'function') {
-                overlay.sortTeamSingleLastPlacement();
+            if ('sortTeamSingleResultPlacement' in overlay && typeof(overlay.sortTeamSingleResultPlacement) == 'function') {
+                overlay.sortTeamSingleResultPlacement();
             }
         }
     }
@@ -1542,20 +1592,6 @@ export class TemplateOverlayHandler {
                 if (value) this.#overlays[key].addForceHide();
                 else this.#overlays[key].removeForceHide();
             }
-        }
-    }
-
-    /**
-     * 表示中のアイテム全てを更新する
-     * @param {string} hash プレイヤーID(ハッシュ)
-     */
-    #updateCameraPlayerItems(hash) {
-        if (!(hash in this.#player_index)) return;
-        const player = this.#player_index[hash];
-        if (!('items' in player)) return;
-
-        for (const [itemid, count] of Object.entries(player.items)) {
-            this.#updatedCameraPlayerItem(itemid, count);
         }
     }
 }
