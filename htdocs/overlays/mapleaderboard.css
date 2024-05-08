@@ -196,6 +196,7 @@
     background-repeat: no-repeat;
 }
 
+[data-teamplayer-legend="Alter"]      ,[data-teamplayer-legend="オルター"]         { background-image: url('legends/alter.png'); }
 [data-teamplayer-legend="Ash"]        ,[data-teamplayer-legend="アッシュ"]         { background-image: url('legends/ash.png'); }
 [data-teamplayer-legend="Ballistic"]  ,[data-teamplayer-legend="バリスティック"]   { background-image: url('legends/ballistic.png'); }
 [data-teamplayer-legend="Bangalore"]  ,[data-teamplayer-legend="バンガロール"]     { background-image: url('legends/bangalore.png'); }
