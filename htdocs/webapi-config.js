@@ -769,6 +769,150 @@ class TeamName extends WebAPIConfigBase {
     }
 }
 
+class TeamInGameSettings extends WebAPIConfigBase {
+    /**
+     * コンストラクタ
+     */
+    constructor() {
+        super('team-ingamesettings-');
+        this.getNode('map');
+        this.getNode('num');
+        this.getNode('teamnames');
+        this.getNode('spawnpoints');
+        this.getNode('output');
+
+        // テキスト設定
+        this.#setLineNumber();
+
+        this.nodes.map.addEventListener('change', (ev) => {
+            this.#updateOutput();
+        });
+
+        this.nodes.teamnames.addEventListener('change', (ev) => {
+            this.#updateOutput();
+        });
+
+        this.nodes.spawnpoints.addEventListener('change', (ev) => {
+            this.#updateOutput();
+        });
+    }
+
+    /**
+     * 行番号を設定する
+     */
+    #setLineNumber() {
+        let dst = '';
+        for(let i = 0; i < 30; ++i) {
+            if (dst != '') dst += '\r\n';
+            dst += (i + 1);
+        }
+        this.nodes.num.innerText = dst;
+    }
+
+    /**
+     * テキストエリアからチーム名の配列を作る
+     * @returns {string[]} チーム名の入った配列
+     */
+    getTeamNames() {
+        const text = this.nodes.teamnames.value;
+        return text.split(/\r\n|\n/).map((line) => line.trim()).slice(0, 30);
+    }
+
+    /**
+     * テキストエリアからスポーン地点の配列を作る
+     * @returns {number[]} スポーン地点の入った配列
+     */
+    getSpawnPoints() {
+        const text = this.nodes.spawnpoints.value;
+        return text.split(/\r\n|\n/).map((line) => line.trim()).slice(0, 30).map(x => {
+            let n = parseInt(x, 10);
+            if (Number.isNaN(n)) n = 0;
+            if (n < 0) n = 0;
+            if (30 < n) n = 0;
+            return n;
+        });
+    }
+
+    /**
+     * 1行毎に「TeamXX: 」をつけてoutput側のTextAreaに設定
+     * @param {string} text 元のテキスト
+     */
+    #updateOutput(src) {
+        const map = this.nodes.map.value;
+        const teamnames = this.getTeamNames();
+        const spawnpoints = this.getSpawnPoints();
+        const splabels = {
+            'WE': [
+                '',
+                'SKYHOOK EAST',
+                'SKYHOOK WEST',
+                'COUNTDOWN',
+                'LAVA FISSURE',
+                'LANDSLIDE',
+                'MIRAGE A TROIS',
+                'STAGING',
+                'THERMAL STATION',
+                'HAVESTER',
+                'THE TREE',
+                'SIPHON WEST',
+                'SIPHON EAST',
+                'LAUNCH SITE',
+                'THE DOME',
+                'STACKS',
+                'BIGMAUDE',
+                'THE GEYSER',
+                'FRAGMENT',
+                'MONUMENT',
+                'SERVEY CAMP',
+                'THE EPICENTER',
+                'CLIMATIZER WEST',
+                'CLIMATIZER EAST',
+                'OVERLOOK',
+            ],
+            'SP': [
+                '',
+                'CHECKPOINT NORTH',
+                'CHECKPOINT SOUTH',
+                'TRIDENT',
+                'NORTH PAD',
+                'DOWNED BEAST',
+                'THE MILL',
+                'CENOTE CAVE',
+                'BAROMETER SOUTH',
+                'BAROMETER NORTH',
+                'CETO STATION',
+                'CASCADE FALLS',
+                'COMMAND CENTER',
+                'THE WALL',
+                'ZEUS STATION',
+                'LIGHTNING ROD',
+                'CLIFF SIDE',
+                'STORM CACHER',
+                'PROWLER NEST',
+                'LAUNCH PAD',
+                'DEVASTATED COAST',
+                'ECHO HQ',
+                'COASTAL CAMP',
+                'THE PYLON',
+                'JURASSIC',
+                'LIFT',
+            ],
+        }
+        let dst = '';
+        for (let i = 0; i < 30; ++i) {
+            const teamname = i < teamnames.length ? teamnames[i].trim() : '';
+            const spawnpoint = i < spawnpoints.length ? spawnpoints[i] : 0;
+            const splabel = spawnpoint < splabels[map].length ? splabels[map][spawnpoint] : '';
+            if (dst != '') dst += '\r\n';
+            let tmp = '';
+            tmp += teamname;
+            tmp += splabel != '' ? `[${splabel}]` : '';
+            dst += (tmp == '' ? '' : 'Team' + (i + 1) + ': ' + tmp);
+        }
+        this.nodes.output.innerText = dst;
+    }
+}
+
 class RealtimeView {
     #_game;
     #basenode;
@@ -2538,6 +2682,7 @@ export class WebAPIConfig {
     #observerconfig;
     #playername;
     #teamname;
+    #teamingamesettings;
     #resultview;
     #resultfixview;
     #tryconnecting;
@@ -2561,6 +2706,7 @@ export class WebAPIConfig {
         this.#languageselect = new LanguageSelect();
         this.#playername = new PlayerName();
         this.#teamname = new TeamName();
+        this.#teamingamesettings = new TeamInGameSettings();
         this.#tryconnecting = false;
 
         this.#setupWebAPI(url);
@@ -2899,6 +3045,16 @@ export class WebAPIConfig {
             }
         });
 
+        document.getElementById('team-ingamesettings-teamnames-button').addEventListener('click', (ev) => {
+            this.#setInGameTeamNames(true).then((arr) => {
+            });
+        });
+
+        document.getElementById('team-ingamesettings-spawnpoints-button').addEventListener('click', (ev) => {
+            this.#setInGameSpawnPoints().then((arr) => {
+            });
+        });
+
         document.getElementById('result-view-button').addEventListener('click', (ev) => {
             this.#resultview.showBothResultView();
             this.#resultfixview.hideAll();
@@ -3079,6 +3235,12 @@ export class WebAPIConfig {
             if (teamname && teamname != "") {
                 this.#webapi.sendSetTeamName(teamid, teamname);
             }
+        });
+
+        document.getElementById('test-setspawnpoint').addEventListener('click', (ev) => {
+            const teamid = parseInt(document.getElementById("test-setspawnpoint-teamid").value, 10);
+            const spawnpoint = parseInt(document.getElementById("test-setspawnpoint-spawnpoint").value, 10);
+            this.#webapi.sendSetSpawnPoint(teamid, spawnpoint);
         });
 
         document.getElementById('test-pausetoggle').addEventListener('click', (ev) => {
@@ -3288,8 +3450,8 @@ export class WebAPIConfig {
      * テキストエリアの内容からゲーム内のチーム名を設定する
      * @returns {Promise} 設定を行った結果を返す
      */
-    #setInGameTeamNames() {
-        const lines = this.#teamname.getLines();
+    #setInGameTeamNames(ingamesettings = false) {
+        const lines = ingamesettings ? this.#teamingamesettings.getTeamNames() : this.#teamname.getLines();
         const jobs = [];
         for (let i = 0; i < 30; ++i) {
             if (i < lines.length) {
@@ -3297,6 +3459,26 @@ export class WebAPIConfig {
                 jobs.push(this.#webapi.sendSetTeamName(i, line));
             } else {
                 jobs.push(this.#webapi.sendSetTeamName(i, ''));
+            }
+        }
+        return new Promise((resolve, reject) => {
+            Promise.all(jobs).then(resolve, reject);
+        });
+    }
+
+    /**
+     * テキストエリアの内容からゲーム内のチーム名を設定する()
+     * @returns {Promise} 設定を行った結果を返す
+     */
+    #setInGameSpawnPoints() {
+        const spawnpoints = this.#teamingamesettings.getSpawnPoints();
+        const jobs = [];
+        for (let i = 0; i < 30; ++i) {
+            if (i < spawnpoints.length) {
+                const spawnpoint = spawnpoints[i];
+                jobs.push(this.#webapi.sendSetSpawnPoint(i, spawnpoint));
+            } else {
+                jobs.push(this.#webapi.sendSetSpawnPoint(i, 0));
             }
         }
         return new Promise((resolve, reject) => {

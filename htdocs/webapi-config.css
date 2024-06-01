@@ -219,7 +219,31 @@ body {
     overflow: clip;
     padding-left: 0.1em;
 }
-#team-name #team-name-output {
+#team-name pre {
+    line-height: 1.2em;
+    font-size: 100%;
+    background-color: #CCC;
+}
+
+/* team-ingamesettings */
+#team-ingamesettings #team-ingamesettings-container {
+    display: grid;
+    grid-template-columns: 2em 3fr 1fr 4fr;
+}
+#team-ingamesettings #team-ingamesettings-num {
+    text-align: right;
+    line-height: 1.2em;
+    font-size: 100%;
+    background-color: #CCC;
+}
+#team-ingamesettings textarea {
+    font-size: 100%;
+    height: 36em;
+    line-height: 1.2em;
+    overflow: clip;
+    padding-left: 0.1em;
+}
+#team-ingamesettings pre {
     line-height: 1.2em;
     font-size: 100%;
     background-color: #CCC;

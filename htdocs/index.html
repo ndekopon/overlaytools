@@ -86,6 +86,12 @@
                             <span class="ja">名前設定</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="#team-ingamesettings">
+                            <span class="en">set in-game settings</span>
+                            <span class="ja">インゲーム設定</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li>
@@ -459,6 +465,45 @@
     <button id="team-ingamename-button">
         <span class="en">set in-game name</span>
         <span class="ja">ゲーム内チーム名設定</span>
+    </button>
+</div>
+
+
+<div id="team-ingamesettings" class="hide">
+    <h3>
+        <span class="en">Team: set in-game settings</span>
+        <span class="ja">チーム: ゲーム内設定</span>
+    </h3>
+    <div id="team-ingamesettings-container">
+        <div></div>
+        <div>
+            <span class="en">team name</span>
+            <span class="ja">チーム名</span>
+        </div>
+        <div>
+            <span class="en">spawn point</span>
+            <span class="ja">スポーン地点</span>
+        </div>
+        <div>
+            <span class="en">settings overview</span>
+            <span class="ja">設定反映概要</span>
+        </div>
+        <pre id="team-ingamesettings-num"></pre>
+        <textarea id="team-ingamesettings-teamnames"></textarea>
+        <textarea id="team-ingamesettings-spawnpoints"></textarea>
+        <pre id="team-ingamesettings-output"></pre>
+    </div>
+    <select id="team-ingamesettings-map">
+        <option value="WE" selected>World's Edge</option>
+        <option value="SP">Storm Point</option>
+    </select>
+    <button id="team-ingamesettings-teamnames-button">
+        <span class="en">set name</span>
+        <span class="ja">チーム名設定</span>
+    </button>
+    <button id="team-ingamesettings-spawnpoints-button">
+        <span class="en">set spawn points</span>
+        <span class="ja">スポーン地点設定</span>
     </button>
 </div>
 
@@ -913,6 +958,26 @@
                 <input type="text" id="test-setteamname-teamname" value="" />
                 <br />
                 <button id="test-setteamname">
+                    <span class="en">Set</span>
+                    <span class="ja">設定</span>
+                </button>
+            </div>
+        </div>
+        <div>
+            <h3>
+                <span class="en">Set In-Game SpawnPoint</span>
+                <span class="ja">ゲーム内スポーン地点</span>
+            </h3>
+            <div>
+                <span class="en">TeamID:</span>
+                <span class="ja">チームID:</span>
+                <input type="number" min="0" max="29" id="test-setspawnpoint-teamid" placeholder="0-29" value="0" />
+                <br />
+                <span class="en">SpawnPoint(WE 1-24, SP 1-25, 0->clear):</span>
+                <span class="ja">スポーン地点(WE 1-24, SP 1-25, 0->clear):</span>
+                <input type="number" min="0" max="29" id="test-setspawnpoint-spawnpoint" placeholder="0-29" value="0" />
+                <br />
+                <button id="test-setspawnpoint">
                     <span class="en">Set</span>
                     <span class="ja">設定</span>
                 </button>
