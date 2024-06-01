@@ -254,6 +254,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_SEND_CUSTOMMATCH_SETTEAMNAME = 0x55;
   static WEBAPI_SEND_PAUSETOGGLE = 0x56;
   static WEBAPI_SEND_CUSTOMMATCH_GETSETTINGS = 0x57;
+  static WEBAPI_SEND_CUSTOMMATCH_SETSPAWNPOINT = 0x58;
 
   static WEBAPI_LIVEDATA_GET_GAME = 0x60;
   static WEBAPI_LIVEDATA_GET_TEAMS = 0x61;
@@ -1018,6 +1019,10 @@ export class ApexWebAPI extends EventTarget {
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('setteamname', {detail: {sequence: data_array[0]}}));
         break;
+      case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETSPAWNPOINT:
+        if (count != 1) return false;
+        this.dispatchEvent(new CustomEvent('setspawnpoint', {detail: {sequence: data_array[0]}}));
+        break;
       case ApexWebAPI.WEBAPI_LIVEDATA_GET_GAME:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('getgame', {detail: {sequence: data_array[0], game: this.#game}}));
@@ -1454,6 +1459,20 @@ export class ApexWebAPI extends EventTarget {
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_UINT8, teamid + 2)) precheck = false;
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_STRING, teamname, this.#encoder)) precheck = false;
     return this.#sendAndReceiveReply(buffer, "setteamname", precheck);
+  }
+
+  /**
+   * ゲーム内のチームのスポーンポイントを設定する
+   * @param {number} teamid チームID(0～)
+   * @param {number} spawnpoint チーム名
+   * @returns {Promise<CustomEvent>}
+   */
+  sendSetSpawnPoint(teamid, spawnpoint) {
+    let precheck = true;
+    const buffer = new SendBuffer(ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETSPAWNPOINT);
+    if (!buffer.append(ApexWebAPI.WEBAPI_DATA_UINT8, teamid + 2)) precheck = false;
+    if (!buffer.append(ApexWebAPI.WEBAPI_DATA_UINT8, spawnpoint)) precheck = false;
+    return this.#sendAndReceiveReply(buffer, "setspawnpoint", precheck);
   }
 
   sendChat(str) {
