@@ -948,8 +948,10 @@ namespace app {
 
 			try
 			{
+				auto spawnpoint = (((int32_t)wdata.get_uint8(2)) - 1);
+
 				act->set_teamid((int32_t)wdata.get_uint8(1));
-				act->set_spawnpoint((int32_t)wdata.get_uint8(2));
+				act->set_spawnpoint(spawnpoint);
 			}
 			catch (...)
 			{
