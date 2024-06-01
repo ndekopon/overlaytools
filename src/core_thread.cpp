@@ -124,7 +124,7 @@ namespace app {
 		uint64_t current = get_millis();
 		if ((!liveapi_available_) && current < liveapi_lastsend_ + 2000) return; // timeout
 		liveapi_available_ = true;
-		if (current < liveapi_lastresponse_ + 300) return; // 少なくとも300ms待つ
+		if (current < liveapi_lastresponse_ + 500) return; // 少なくとも500ms待つ
 		if (liveapi_queue_.empty()) return;
 		ctx_buffer_t data = std::move(liveapi_queue_.front());
 		liveapi_queue_.pop();
