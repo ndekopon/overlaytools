@@ -9,37 +9,46 @@
 }
 :host > div {
     position: absolute;
-    top: 500px;
     right: 20px;
-    width: calc(var(--owneditems-icon-size) * 6);
-    height: calc(var(--owneditems-icon-size) * 3);
+    bottom: 190px;
+    width: 390px;
+    height: 180px;
+    overflow: hidden;
 }
-
 :host > div > div {
-    display: flex;
-    justify-content: end;
-    height: var(--owneditems-icon-size);
+    position: relative;
+    width: 390px;
+    height: 58px;
+}
+div.top {
+    left: 40px;
+    margin-bottom: 2px;
+}
+div.middle {
+    left: 20px;
+    margin-bottom: 2px;
 }
 
 /* item frame */
 .frame {
+    position: absolute;
     box-sizing: border-box;
-    width: var(--owneditems-icon-size);
-    height: var(--owneditems-icon-size);
+    width: 84px;
+    height: 58px;
     background-repeat: no-repeat;
     background-position: center center;
     background-image: url('icon/frame-white.png');
-    background-size: 100%;
+    background-size: 100% 100%;
 }
 
 .image {
     box-sizing: border-box;
-    width: var(--owneditems-icon-size);
-    height: var(--owneditems-icon-size);
+    width: 84px;
+    height: 58px;
     background-repeat: no-repeat;
     background-position: center center;
     display: flex;
-    justify-content: end;
+    justify-content: start;
     align-items: end;
 }
 
@@ -53,72 +62,98 @@
                  var(--owneditems-textshadowcolor)  0px 1px 0, var(--owneditems-textshadowcolor)  0px -1px 0,
                  var(--owneditems-textshadowcolor) -1px 0px 0, var(--owneditems-textshadowcolor)  1px  0px 0;
     vertical-align: bottom;
-    padding-right: 3px;
+    padding-left: 6px;
     padding-bottom: 2px;
 }
 
+/* position */
+.camera-player-item-phoenixkit {
+    left: calc(90px + 66px * 0);
+}
+.camera-player-item-ultimateaccelerant {
+    left: calc(90px + 66px * 1);
+}
+.camera-player-item-backpack {
+    left: 0px;
+}
+.camera-player-item-thermitgrenade {
+    left: 90px;
+}
+.camera-player-item-fraggrenade {
+    left: calc(90px + 66px * 1);
+}
+.camera-player-item-arcstar {
+    left: calc(90px + 66px * 2);
+}
+.camera-player-item-syringe {
+    left: 90px;
+}
+.camera-player-item-medkit {
+    left: calc(90px + 66px * 1);
+}
+.camera-player-item-shieldcell {
+    left: calc(90px + 66px * 2);
+}
+.camera-player-item-shieldbattery {
+    left: calc(90px + 66px * 3);
+}
 
 .syringe {
     background-image: url('icon/syringe.png');
-    background-size: 90%;
+    background-size: 68%;
 }
 
 .medkit {
     background-image: url('icon/medkit.png');
-    background-size: 70%;
+    background-size: 55%;
 }
 
 .shieldcell {
     background-image: url('icon/shieldcell.png');
-    background-size: 45%;
+    background-size: 33%;
 }
 
 .shieldbattery {
     background-image: url('icon/shieldbattery.png');
-    background-size: 40%;
+    background-size: 30%;
 }
 
 .phoenixkit {
     background-image: url('icon/phoenixkit.png');
-    background-size: 40%;
+    background-size: 30%;
 }
 
 .ultimateaccelerant {
     background-image: url('icon/ultimateaccelerant.png');
-    background-size: 60%;
+    background-size: 50%;
 }
 
 .thermitgrenade {
     background-image: url('icon/thermitgrenade.png');
-    background-size: 60%;
+    background-size: 58%;
 }
 
 .fraggrenade {
     background-image: url('icon/fraggrenade.png');
-    background-size: 60%;
+    background-size: 48%;
 }
 
 .arcstar {
     background-image: url('icon/arcstar.png');
-    background-size: 60%;
+    background-size: 55%;
 }
 
 .backpack[data-camera-player-item-backpack="1"] {
     background-image: url('icon/backpack1.png');
-    background-size: 45%;
+    background-size: 35%;
 }
 .backpack[data-camera-player-item-backpack="2"] {
     background-image: url('icon/backpack2.png');
-    background-size: 55%;
+    background-size: 45%;
 }
-.backpack[data-camera-player-item-backpack="3"] {
+.backpack[data-camera-player-item-backpack="3"], .backpack[data-camera-player-item-backpack="4"] {
     background-image: url('icon/backpack3.png');
-    background-size: 60%;
-}
-
-.backpack[data-camera-player-item-backpack="4"] {
-    background-image: url('icon/backpack3.png');
-    background-size: 60%;
+    background-size: 45%;
 }
 
 .knockdownshield[data-camera-player-item-knockdownshield="1"],
@@ -126,7 +161,7 @@
 .knockdownshield[data-camera-player-item-knockdownshield="3"],
 .knockdownshield[data-camera-player-item-knockdownshield="4"] {
     background-image: url('icon/knockdownshield.png');
-    background-size: 60%;
+    background-size: 50%;
 }
 
 .frame[data-camera-player-item-backpack="2"],
