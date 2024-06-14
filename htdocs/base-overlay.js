@@ -310,7 +310,7 @@ class TeamBanner extends TemplateOverlay {
 
 class PlayerBanner extends TemplateOverlay {
     constructor() {
-        super({types: ["view-camera", "show-camera-teamplayer"]});
+        super({types: ["view-camera", "show-camera-teamplayer", "defaulthide"]});
     }
 }
 

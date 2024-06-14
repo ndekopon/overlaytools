@@ -1586,12 +1586,15 @@ export class TemplateOverlayHandler {
     }
 
     #setForceHideFromParams(params) {
-        if (!('forcehide' in params)) return;
-        for (const [key, value] of Object.entries(params.forcehide)) {
-            if (key in this.#overlays) {
-                if (value) this.#overlays[key].addForceHide();
-                else this.#overlays[key].removeForceHide();
+        const forcehide = 'forcehide' in params ? params.forcehide : {};
+        for (const [key, overlay] of Object.entries(this.#overlays)) {
+            const defaulthide = overlay.hasType("defaulthide");
+            let hide = defaulthide;
+            if (key in forcehide) {
+                hide = forcehide[key];
             }
+            if (hide) overlay.addForceHide();
+            else overlay.removeForceHide();
         }
     }
 }
