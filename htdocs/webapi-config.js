@@ -3575,8 +3575,12 @@ export class WebAPIConfig {
         if (!('forcehide' in params)) params.forcehide = {};
         const forcehide = params.forcehide;
         const ids = ["leaderboard", "mapleaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated", "tdmscoreboard"];
+        const default_hide_ids = ["playerbanner"];
+        console.log(forcehide);
         for (const id of ids) {
-            if (!(id in forcehide)) forcehide[id] = false;
+            if (!(id in forcehide)) {
+                forcehide[id] = default_hide_ids.indexOf(id) >= 0 ? true : false;
+            }
             document.getElementById('overlay-hide-' + id).checked = forcehide[id];
         }
 
