@@ -2976,7 +2976,6 @@ export class WebAPIConfig {
             document.getElementById('test-getsettings-playlist').innerText = ev.detail.playlistname;
             document.getElementById('test-getsettings-aimassist').innerText = ev.detail.aimassist;
             document.getElementById('test-getsettings-anonmode').innerText = ev.detail.anonmode;
-            console.log(ev.detail);
         });
     }
 
@@ -3576,7 +3575,6 @@ export class WebAPIConfig {
         const forcehide = params.forcehide;
         const ids = ["leaderboard", "mapleaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated", "tdmscoreboard"];
         const default_hide_ids = ["playerbanner"];
-        console.log(forcehide);
         for (const id of ids) {
             if (!(id in forcehide)) {
                 forcehide[id] = default_hide_ids.indexOf(id) >= 0 ? true : false;
