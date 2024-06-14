@@ -1,31 +1,38 @@
 :host {
-    --owneditems-icon-size: 48px;
-    --owneditems-bgcolor: rgba(0, 0, 0, 0.5);
-    --owneditems-color: rgb(255, 255, 255);
-    --owneditems-blue-bgcolor: rgba(34, 181, 230, 0.5);
-    --owneditems-purple-bgcolor: rgba(181, 34, 230, 0.5);
-    --owneditems-gold-bgcolor: rgba(230, 178, 23, 0.5);
-    --owneditems-textshadowcolor: rgb(0, 0, 0);
+    --total-width: 410px;
+    --total-bottom: 190px;
+    --frame-width: 84px;
+    --frame-height: 58px;
+    --shift-width: 20px;
+    --second-item-left: 90px;
+    --width-increment: 66px;
+    --font-color: white;
+    --shadow-color: black;
 }
+
 :host > div {
     position: absolute;
-    right: 20px;
-    bottom: 190px;
-    width: 390px;
-    height: 180px;
+    right: 0px;
+    bottom: var(--total-bottom);
+    width: var(--total-width);
+    height: calc((var(--frame-height) + 2) * 3);
     overflow: hidden;
 }
+
+/* top/middle/bottom */
 :host > div > div {
     position: relative;
-    width: 390px;
-    height: 58px;
+    width: var(--total-width);
+    height: var(--frame-height);
 }
+
 div.top {
-    left: 40px;
+    left: calc(var(--shift-width) * 2);
     margin-bottom: 2px;
 }
+
 div.middle {
-    left: 20px;
+    left: calc(var(--shift-width) * 1);
     margin-bottom: 2px;
 }
 
@@ -33,8 +40,8 @@ div.middle {
 .frame {
     position: absolute;
     box-sizing: border-box;
-    width: 84px;
-    height: 58px;
+    width: var(--frame-width);
+    height: var(--frame-height);
     background-repeat: no-repeat;
     background-position: center center;
     background-image: url('icon/frame-white.png');
@@ -43,8 +50,8 @@ div.middle {
 
 .image {
     box-sizing: border-box;
-    width: 84px;
-    height: 58px;
+    width: var(--frame-width);
+    height: var(--frame-height);
     background-repeat: no-repeat;
     background-position: center center;
     display: flex;
@@ -56,11 +63,11 @@ div.middle {
 .count {
     font-size: 80%;
     font-weight: bold;
-    color: var(--owneditems-color);
-    text-shadow: var(--owneditems-textshadowcolor)  1px 1px 0, var(--owneditems-textshadowcolor) -1px -1px 0,
-                 var(--owneditems-textshadowcolor) -1px 1px 0, var(--owneditems-textshadowcolor)  1px -1px 0,
-                 var(--owneditems-textshadowcolor)  0px 1px 0, var(--owneditems-textshadowcolor)  0px -1px 0,
-                 var(--owneditems-textshadowcolor) -1px 0px 0, var(--owneditems-textshadowcolor)  1px  0px 0;
+    color: var(--font-color);
+    text-shadow: var(--shadow-color)  1px 1px 0, var(--shadow-color) -1px -1px 0,
+                 var(--shadow-color) -1px 1px 0, var(--shadow-color)  1px -1px 0,
+                 var(--shadow-color)  0px 1px 0, var(--shadow-color)  0px -1px 0,
+                 var(--shadow-color) -1px 0px 0, var(--shadow-color)  1px  0px 0;
     vertical-align: bottom;
     padding-left: 6px;
     padding-bottom: 2px;
@@ -68,36 +75,42 @@ div.middle {
 
 /* position */
 .camera-player-item-phoenixkit {
-    left: calc(90px + 66px * 0);
-}
-.camera-player-item-ultimateaccelerant {
-    left: calc(90px + 66px * 1);
-}
-.camera-player-item-backpack {
-    left: 0px;
-}
-.camera-player-item-thermitgrenade {
-    left: 90px;
-}
-.camera-player-item-fraggrenade {
-    left: calc(90px + 66px * 1);
-}
-.camera-player-item-arcstar {
-    left: calc(90px + 66px * 2);
-}
-.camera-player-item-syringe {
-    left: 90px;
-}
-.camera-player-item-medkit {
-    left: calc(90px + 66px * 1);
-}
-.camera-player-item-shieldcell {
-    left: calc(90px + 66px * 2);
-}
-.camera-player-item-shieldbattery {
-    left: calc(90px + 66px * 3);
+    left: calc(var(--second-item-left) + var(--width-increment) * 0);
 }
 
+.camera-player-item-ultimateaccelerant {
+    left: calc(var(--second-item-left) + var(--width-increment) * 1);
+}
+
+.camera-player-item-thermitgrenade {
+    left: calc(var(--second-item-left) + var(--width-increment) * 0);
+}
+
+.camera-player-item-fraggrenade {
+    left: calc(var(--second-item-left) + var(--width-increment) * 1);
+}
+
+.camera-player-item-arcstar {
+    left: calc(var(--second-item-left) + var(--width-increment) * 2);
+}
+
+.camera-player-item-syringe {
+    left: calc(var(--second-item-left) + var(--width-increment) * 0);
+}
+
+.camera-player-item-medkit {
+    left: calc(var(--second-item-left) + var(--width-increment) * 1);
+}
+
+.camera-player-item-shieldcell {
+    left: calc(var(--second-item-left) + var(--width-increment) * 2);
+}
+
+.camera-player-item-shieldbattery {
+    left: calc(var(--second-item-left) + var(--width-increment) * 3);
+}
+
+/* item image */
 .syringe {
     background-image: url('icon/syringe.png');
     background-size: 68%;
@@ -179,7 +192,7 @@ div.middle {
     background-image: url('icon/frame-gold.png');
 }
 
-
+/* hide when the number of items is 0 */
 [data-camera-player-item-syringe="0"],
 [data-camera-player-item-medkit="0"],
 [data-camera-player-item-shieldcell="0"],
