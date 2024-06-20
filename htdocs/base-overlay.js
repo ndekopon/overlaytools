@@ -303,7 +303,7 @@ class TeamBanner extends TemplateOverlay {
         ctx.textBaseline = 'middle';
         ctx.textAlign = "left";
         const left = 80;
-        const right = 70;
+        const right = 80;
         ctx.fillText(name, left, canvas.height / 2 + 3, canvas.width - left - right);
     }
 }
