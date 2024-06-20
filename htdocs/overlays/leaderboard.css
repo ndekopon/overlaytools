@@ -4,14 +4,33 @@
     --leaderboard-height: 37px;
     --leaderboard-color: rgb(255, 255, 255);
     --leaderboard-bgcolor: rgb(20, 20, 20);
+    display: grid;
+    height: var(--leaderboard-height);
+    grid-template-columns: auto 1fr;
+}
+
+/* GameInfo */
+.gameinfo {
+    width: auto;
+    height: var(--leaderboard-height);
+    border-right: 3px solid var(--main-theme-border-color);
+    overflow: clip;
+    box-sizing: border-box;
+    color: var(--leaderboard-color);
+    background-color: var(--leaderboard-bgcolor);
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: var(--leaderboard-height);
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 /* LeaderBoard */
 .teams {
-    position: absolute;
-    left: var(--leaderboard-left);
-    top: 0;
-    width: calc(1920px - var(--leaderboard-left));
+    width: 100%;
     height: var(--leaderboard-height);
     box-sizing: border-box;
     background-color: var(--leaderboard-bgcolor);
@@ -19,6 +38,11 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     overflow: clip;
+    opacity: 0;
+}
+
+.teams[data-game-state="Playing"] {
+    opacity: 1;
 }
 
 .teams > div {
@@ -26,9 +50,10 @@
     display: grid;
     width: 100%;
     height: var(--leaderboard-height);
-    border-left: 2px solid var(--main-theme-border-color);
     grid-template-columns: 40px 35px 1fr 40px;
-    padding-right: 20px;
+    border-right: 2px solid var(--main-theme-border-color);
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .teams > div.hide {
