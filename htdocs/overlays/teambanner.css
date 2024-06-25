@@ -1,13 +1,13 @@
 :host {
-    --teambanner-height: 48px;
+    --teambanner-height: 38px;
 }
 
 .camera-team {
     position: absolute;
     left: 34px;
     /* top: 715px; */
-    width: 350px;
     bottom: calc(1080px - 769px);
+    width: 350px;
     height: var(--teambanner-height);
     box-sizing: border-box;
     color: white;

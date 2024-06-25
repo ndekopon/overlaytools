@@ -274,7 +274,7 @@ class TeamBanner extends TemplateOverlay {
         ctx.clip();
 
         // 画像の描画
-        ctx.fillStyle = 'rgb(0, 0, 0)';
+        ctx.fillStyle = '#141414';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         // ctx.drawImage(this.image, 0, 800, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
 
@@ -288,13 +288,6 @@ class TeamBanner extends TemplateOverlay {
         ctx.lineTo(- xborder + 34 * rate, canvas.height);
         ctx.lineTo(- xborder            , 16 * rate);
         ctx.lineTo(- xborder + 10 * rate, 0);
-        ctx.fill();
-        const yborder = 1;
-        ctx.beginPath();
-        ctx.moveTo(0, canvas.height - yborder);
-        ctx.lineTo(0, canvas.height + yborder);
-        ctx.lineTo(canvas.width, canvas.height + yborder);
-        ctx.lineTo(canvas.width, canvas.height - yborder);
         ctx.fill();
 
         // テキストの描画
