@@ -90,7 +90,7 @@ export class TemplateOverlay {
         if (!appendcss) return [basesheet, sheet];
 
         const appendsheet = new CSSStyleSheet();
-        appendsheet.replaceSync(css);
+        appendsheet.replaceSync(appendcss);
 
         return [basesheet, sheet, appendsheet];
     }
