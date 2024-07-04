@@ -1544,7 +1544,8 @@ export class TemplateOverlayHandler {
         if (teamid < this.#game.teams.length) {
             const team = this.#game.teams[teamid];
             if ('name' in team) {
-                return team.name;
+                // remove @number
+                return team.name.replace(/@[0-9]+$/, '');
             }
         }
         // リザルトからチーム名取得
