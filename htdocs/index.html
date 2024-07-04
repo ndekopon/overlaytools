@@ -114,6 +114,12 @@
                 </a>
             </li>
             <li>
+                <a href="#manualpostmatch">
+                    <span class="en">Force PostMatch</span>
+                    <span class="ja">強制試合終了</span>
+                </a>
+            </li>
+            <li>
                 <span class="en">Result</span>
                 <span class="ja">リザルト</span>
                 <ul id="ulresult">
@@ -622,6 +628,29 @@
         <button id="announce-button">
             <span class="en">send</span>
             <span class="ja">送信</span>
+        </button>
+    </p>
+</div>
+
+<div id="manualpostmatch" class="hide">
+    <h3>
+        <span class="en">Force PostMatch</span>
+        <span class="ja">強制試合終了</span>
+    </h3>
+    <p>
+        <span class="en">
+            Execute it when you could not reach the champion award scene or when the match itself was forced to end due to an error failure.<br>
+            *If you run it while the match is still in progress, the status will be incorrect.
+        </span>
+        <span class="ja">
+            チャンピオン表彰シーンにたどり着けなかった場合や、マッチ自体がエラー落ちで強制終了した場合に実行して下さい。<br>
+            ※試合継続中に実行するとステータスがおかしくなります。
+        </span>
+    </p>
+    <p>
+        <button id="manualpostmatch-send">
+            <span class="en">postmatch</span>
+            <span class="ja">試合終了</span>
         </button>
     </p>
 </div>

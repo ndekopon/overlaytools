@@ -3044,6 +3044,10 @@ export class WebAPIConfig {
             }
         });
 
+        document.getElementById('manualpostmatch-send').addEventListener('click', (ev) => {
+            this.#webapi.manualPostMatch();
+        });
+
         document.getElementById('team-ingamesettings-teamnames-button').addEventListener('click', (ev) => {
             this.#setInGameTeamNames(true).then((arr) => {
             });
