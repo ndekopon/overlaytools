@@ -286,6 +286,7 @@ export class ApexWebAPI extends EventTarget {
 
   static WEBAPI_EVENT_LIVEAPI_SOCKET_STATS = 0xd0;
   static WEBAPI_HTTP_GET_STATS_FROM_CODE = 0xd1;
+  static WEBAPI_MANUAL_POSTMATCH = 0xd2;
 
   static WEBAPI_BROADCAST_OBJECT = 0xf0;
 
@@ -1134,6 +1135,10 @@ export class ApexWebAPI extends EventTarget {
         if (count != 4) return false;
         this.dispatchEvent(new CustomEvent('getstatsfromcode', {detail: {sequence: data_array[0], statscode: data_array[1], statuscode: data_array[2], stats: data_array[3]}}));
         break;
+      case ApexWebAPI.WEBAPI_MANUAL_POSTMATCH:
+        if (count != 1) return false;
+        this.dispatchEvent(new CustomEvent('manualpostmatch', {detail: {sequence: data_array[0]}}));
+        break;
     }
     return true;
   }
@@ -1634,6 +1639,11 @@ export class ApexWebAPI extends EventTarget {
     const buffer = new SendBuffer(ApexWebAPI.WEBAPI_HTTP_GET_STATS_FROM_CODE);
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_STRING, code, this.#encoder)) precheck = false;
     return this.#sendAndReceiveReply(buffer, "getstatsfromcode", precheck, 10000); // timeout = 10s
+  }
+
+  manualPostMatch() {
+    const buffer = new SendBuffer(ApexWebAPI.WEBAPI_MANUAL_POSTMATCH);
+    return this.#sendAndReceiveReply(buffer, "manualpostmatch");
   }
 
   isConnected() {
