@@ -10,6 +10,8 @@ function convertToCamelCase(s) {
     return s.replace(/-([a-z])/g, x => x[1].toUpperCase());
 }
 
+const defined_item_ids = ["backpack", "knockdownshield", "syringe", "medkit", "shieldcell", "shieldbattery", "phoenixkit", "ultimateaccelerant", "fraggrenade", "thermitgrenade", "arcstar"];
+
 export class TemplateOverlay {
     /** @type {string} hide()/show()で付与・削除されるクラス名 */
     static HIDE_CLASS = "hide";
@@ -483,6 +485,8 @@ export class TemplateOverlayHandler {
                 this.#setupApexWebAPI("ws://127.0.0.1:20081/");
             }
         });
+
+        this.#setDefaultValue();
     }
 
     #buildOverlays() {
@@ -493,6 +497,12 @@ export class TemplateOverlayHandler {
             }
             Promise.all(jobs).then(resolve, reject);
         });
+    }
+
+    #setDefaultValue() {
+        for (const item of defined_item_ids) {
+            this.#updatedCameraPlayerItem(item, 0);
+        }
     }
 
     /**
@@ -822,9 +832,8 @@ export class TemplateOverlayHandler {
                             break;
                         }
                         case "testowneditems": {
-                            const items = ["backpack", "knockdownshield", "syringe", "medkit", "shieldcell", "shieldbattery", "phoenixkit", "ultimateaccelerant", "fraggrenade", "thermitgrenade", "arcstar"];
                             for (const [item, count] of Object.entries(data)) {
-                                if (items.indexOf(item) >= 0) {
+                                if (defined_item_ids.indexOf(item) >= 0) {
                                     this.#updatedCameraPlayerItem(item, count);
                                 }
                             }
@@ -1097,8 +1106,8 @@ export class TemplateOverlayHandler {
         if (hash == '') return;
         this.#player_params[hash] = params;
         if (!('name' in params)) return;
-        this.#updatedPlayerName(hash, ev.detail.params.name);
-        this.#updatedPlayerSingleResultName(hash, ev.detail.params.name);
+        this.#updatedPlayerName(hash, params.name);
+        this.#updatedPlayerSingleResultName(hash, params.name);
     }
 
     #updatedTournamentParams(params) {
