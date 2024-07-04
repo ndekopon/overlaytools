@@ -165,6 +165,7 @@ namespace app {
 		void reply_webapi_set_liveapi_config(SOCKET _sock, uint32_t _sequence, bool _result, const std::string& _json);
 		void reply_webapi_get_liveapi_config(SOCKET _sock, uint32_t _sequence, const std::string& _json);
 		void reply_webapi_get_stats_from_code(SOCKET _sock, uint32_t _sequence, const std::string& _stats_code, uint32_t _status_code, const std::string& _json);
+		void reply_webapi_manual_postmatch(SOCKET _sock, uint32_t _sequence);
 		void broadcast_object(uint32_t _sequence, const std::string& _json);
 
 		void livedata_get_game(SOCKET _sock, uint32_t _sequence);

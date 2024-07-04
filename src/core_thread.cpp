@@ -1105,6 +1105,32 @@ namespace app {
 			http_get_.get_stats_json(socket, sequence, stats_code);
 			break;
 		}
+		case WEBAPI_MANUAL_POSTMATCH:
+		{
+			log(LOG_CORE, L"Info: WEBAPI_MANUAL_POSTMATCH received.");
+
+			if (wdata.size() != 1)
+			{
+				log(LOG_CORE, L"Error: sended data size is not 1. (size=%d)", wdata.size());
+			}
+
+			// 未終了
+			if (game_.end == 0)
+			{
+				game_.end = get_millis();
+
+				if (game_.matchendreason == "WinnerDetermined")
+				{
+					// リザルトを保存する
+					save_result();
+
+					// dumpファイルを一旦リセット
+					filedump_.reset();
+				}
+			}
+			reply_webapi_manual_postmatch(socket, sequence);
+			break;
+		}
 		case WEBAPI_BROADCAST_OBJECT:
 		{
 			log(LOG_CORE, L"Info: WEBAPI_BROADCAST_OBJECT received.");
@@ -2715,6 +2741,15 @@ namespace app {
 	{
 		send_webapi_data sdata(WEBAPI_HTTP_GET_STATS_FROM_CODE);
 		if (sdata.append(_sequence) && sdata.append(_stats_code) && sdata.append(_status_code) && sdata.append_json(_json))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::reply_webapi_manual_postmatch(SOCKET _sock, uint32_t _sequence)
+	{
+		send_webapi_data sdata(WEBAPI_MANUAL_POSTMATCH);
+		if (sdata.append(_sequence))
 		{
 			sendto_webapi(_sock, std::move(sdata.buffer_));
 		}
