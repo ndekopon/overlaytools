@@ -52,6 +52,7 @@ namespace app
 	const wchar_t* main_window::window_mutex_ = L"apexliveapi_proxy_mutex";
 	const LONG main_window::window_width_ = 640;
 	const LONG main_window::window_height_ = 480;
+	const size_t MAX_LOGLINE = 1024;
 
 
 	main_window::main_window(HINSTANCE _instance)
@@ -515,9 +516,24 @@ namespace app
 			if (text)
 			{
 				HWND edit = edit_log_.at(id);
-				auto len = ::SendMessageW(edit, WM_GETTEXTLENGTH, 0, 0);
-				::SendMessageW(edit, EM_SETSEL, (WPARAM)len, (LPARAM)len);
-				::SendMessageW(edit, EM_REPLACESEL, FALSE, (LPARAM)text->c_str());
+				while (true)
+				{
+					auto linecount = ::SendMessageW(edit, EM_GETLINECOUNT, 0, 0);
+					if (linecount >= MAX_LOGLINE)
+					{
+						auto len = ::SendMessageW(edit, WM_GETTEXTLENGTH, 0, 0);
+						::SendMessageW(edit, EM_SETSEL, (WPARAM)0, (LPARAM)len);
+						WCHAR tmp[] = L"";
+						::SendMessageW(edit, EM_REPLACESEL, FALSE, (LPARAM)tmp);
+					}
+					else
+					{
+						auto len = ::SendMessageW(edit, WM_GETTEXTLENGTH, 0, 0);
+						::SendMessageW(edit, EM_SETSEL, (WPARAM)len, (LPARAM)len);
+						::SendMessageW(edit, EM_REPLACESEL, FALSE, (LPARAM)text->c_str());
+						break;
+					}
+				}
 			}
 		}
 			break;
