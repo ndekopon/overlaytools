@@ -248,11 +248,12 @@ class TeamBanner extends TemplateOverlay {
     setParam(paramname, paramvalue, dataset = false) {
         super.setParam(paramname, paramvalue, dataset);
         if (paramname == "camera-team-name") {
-            this.drawCanvas(paramvalue);
+            this.drawCanvas();
+            this.drawNameCanvas(paramvalue);
         }
     }
 
-    drawCanvas(name) {
+    drawCanvas() {
         const canvas = this.root.shadowRoot.querySelector('canvas.apexrect');
         if (!canvas) return;
 
@@ -276,7 +277,6 @@ class TeamBanner extends TemplateOverlay {
         // 画像の描画
         ctx.fillStyle = '#141414';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        // ctx.drawImage(this.image, 0, 800, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
 
         // 赤枠(X方向)
         const xborder = 5;
@@ -289,15 +289,24 @@ class TeamBanner extends TemplateOverlay {
         ctx.lineTo(- xborder            , 16 * rate);
         ctx.lineTo(- xborder + 10 * rate, 0);
         ctx.fill();
+    }
+
+    drawNameCanvas(name) {
+        const canvas = this.root.shadowRoot.querySelector('canvas.camera-team-name');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // テキストの描画
+        const margin = 10;
         ctx.fillStyle = window.getComputedStyle(canvas).color;
         ctx.font = window.getComputedStyle(canvas).font;
         ctx.textBaseline = 'middle';
         ctx.textAlign = "left";
-        const left = 80;
-        const right = 80;
-        ctx.fillText(name, left, canvas.height / 2 + 3, canvas.width - left - right);
+        ctx.fillText(name, margin, canvas.height / 2 + 3, canvas.width - margin * 2);
     }
 }
 
