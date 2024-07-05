@@ -20,6 +20,11 @@
     font-weight: 500;
 }
 
+.camera-team-id:not([data-camera-team-id]) {
+    left: -1920px;
+    top: -1080px;
+}
+
 canvas.apexrect {
     position: absolute;
     width: 100%;

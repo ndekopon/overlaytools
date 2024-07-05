@@ -19,6 +19,11 @@
     overflow: hidden;
 }
 
+.camera-team-id:not([data-camera-team-id]) {
+    left: -1920px;
+    top: -1080px;
+}
+
 /* top/middle/bottom */
 :host > div > div {
     position: relative;

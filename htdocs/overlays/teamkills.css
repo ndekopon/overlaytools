@@ -16,6 +16,11 @@
     text-align: center;
 }
 
+.camera-team-id:not([data-camera-team-id]) {
+    left: -1920px;
+    top: -1080px;
+}
+
 .camera-team > div {
     line-height: 32px;
     font-weight: bold;
