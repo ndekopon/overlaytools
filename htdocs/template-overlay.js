@@ -1501,6 +1501,7 @@ export class TemplateOverlayHandler {
             for (const [teamidstr, team] of Object.entries(result.teams)) {
                 const teamid = parseInt(teamidstr, 10);
                 const points = calcPoints(gameid, team.placement, team.kills, this.#tournament_params);
+                this.#updatedTeamName(teamid, this.#getTeamName(teamid));
                 this.#updatedTeamSingleResultPlacement(teamid, team.placement);
                 this.#updatedTeamSingleResultKillPoints(teamid, points.kills);
                 this.#updatedTeamSingleResultPlacementPoints(teamid, points.placement);
