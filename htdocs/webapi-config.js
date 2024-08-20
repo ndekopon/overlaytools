@@ -1058,6 +1058,7 @@ class RealtimeView {
         playernode.right = document.createElement('div');
         playernode.name = document.createElement('div');
         playernode.character = document.createElement('div');
+        playernode.weapon = document.createElement('div');
         playernode.hpshield = document.createElement('div');
         playernode.hp = document.createElement('div');
         playernode.hpbar = document.createElement('canvas');
@@ -1074,6 +1075,7 @@ class RealtimeView {
         playernode.left.appendChild(playernode.name);
         playernode.left.appendChild(playernode.hpshield);
         playernode.left.appendChild(playernode.character);
+        playernode.left.appendChild(playernode.weapon);
         playernode.hpshield.appendChild(playernode.hp);
         playernode.hpshield.appendChild(playernode.hpbar);
         playernode.hpshield.appendChild(playernode.shield);
@@ -1090,6 +1092,7 @@ class RealtimeView {
         playernode.right.classList.add('realtime-player-right');
         playernode.name.classList.add('realtime-player-name');
         playernode.character.classList.add('realtime-player-character');
+        playernode.weapon.classList.add('realtime-player-weapon');
         playernode.hpshield.classList.add('realtime-player-hpshield');
         playernode.hp.classList.add('realtime-player-hp');
         playernode.hpbar.classList.add('realtime-player-hpbar');
@@ -1104,6 +1107,7 @@ class RealtimeView {
         playernode.hp.innerText = 'HP:';
         playernode.shield.innerText = '🛡:';
         playernode.character.innerText = '';
+        playernode.weapon.innerText = '';
         playernode.kills.innerText = 'kills:0';
         playernode.assists.innerText = 'assists:0';
         playernode.damage_dealt.innerText = 'dealt:0';
@@ -1242,6 +1246,7 @@ class RealtimeView {
     static PLAYERNODE_DAMAGE_TAKEN = 0x07;
     static PLAYERNODE_STATE = 0x08;
     static PLAYERNODE_SELECTED = 0x09;
+    static PLAYERNODE_WEAPON = 0x0a;
 
     drawPlayerNode(teamid, playerid, nodetype = RealtimeView.PLAYERNODE_NAME) {
         this.#precheckTeamID(teamid);
@@ -1361,6 +1366,14 @@ class RealtimeView {
                     t.classList.remove('realtime-player-selected');
                 }
                 node.classList.add('realtime-player-selected');
+                break;
+            }
+            case RealtimeView.PLAYERNODE_WEAPON: {
+                const node = this.#nodes[teamid].players[playerid].weapon;
+                if ('weapon' in player) {
+                    node.innerText = player.weapon;
+                    return true;
+                }
                 break;
             }
         }
@@ -2873,6 +2886,9 @@ export class WebAPIConfig {
         this.#webapi.addEventListener('playerdamage', (ev) => {
             this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_DAMAGE_DEALT);
             this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_DAMAGE_TAKEN);
+        });
+        this.#webapi.addEventListener('playerweapon', (ev) => {
+            this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_WEAPON);
         });
         this.#webapi.addEventListener('statealive', (ev) => {
             this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_STATE);

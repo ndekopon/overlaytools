@@ -298,7 +298,7 @@ body {
 }
 .realtime-player-base {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
     box-sizing: border-box;
     border-top: 1px solid black;
     padding: 0 2px;
@@ -324,9 +324,11 @@ body {
 .realtime-player-hpbar, .realtime-player-shieldbar {
     margin-top: 3px;
 }
-.realtime-player-right, .realtime-player-character,.realtime-player-hp, .realtime-player-shield {
-    font-size: 30%;
+.realtime-player-left, .realtime-player-right {
     overflow: clip;
+}
+.realtime-player-right, .realtime-player-character,.realtime-player-hp, .realtime-player-shield, .realtime-player-weapon {
+    font-size: 30%;
 }
 .realtime-player-base.realtime-player-selected {
     background-color: #FFCCCC;

@@ -242,6 +242,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_EVENT_PLAYER_KILLED_COUNT = 0x3b;
   static WEBAPI_EVENT_PLAYER_LEVEL = 0x3c;
   static WEBAPI_EVENT_PLAYER_PERK = 0x3d;
+  static WEBAPI_EVENT_PLAYER_WEAPON = 0x3e;
 
   static WEBAPI_EVENT_LOBBYPLAYER = 0x40;
   static WEBAPI_EVENT_CUSTOMMATCH_SETTINGS = 0x41;
@@ -783,6 +784,20 @@ export class ApexWebAPI extends EventTarget {
     return true;
   }
 
+  #procEventPlayerWeapon(arr) {
+    if (arr[0] >= 2) {
+      const teamid = arr[0] - 2;
+      this.#procPlayerWeapon(teamid, arr[1], arr[2]);
+      this.dispatchEvent(new CustomEvent('playerweapon', {
+        detail: {
+          player: this.#game.teams[teamid].players[arr[1]],
+          team: this.#game.teams[teamid]
+        }
+      }));
+    }
+    return true;
+  }
+
   #procEventPlayerDamage(arr) {
     this.#procPlayer(arr[0], arr[1], { damage_dealt: arr[2], damage_taken: arr[3] });
     if (arr[0] >= 2) {
@@ -962,6 +977,9 @@ export class ApexWebAPI extends EventTarget {
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_PERK:
         if (count != 4) return false;
         return this.#procEventPlayerPerk(data_array);
+      case ApexWebAPI.WEBAPI_EVENT_PLAYER_WEAPON:
+        if (count != 3) return false;
+        return this.#procEventPlayerWeapon(data_array);
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_DAMAGE:
         if (count != 4) return false;
         return this.#procEventPlayerDamage(data_array);
@@ -1193,7 +1211,8 @@ export class ApexWebAPI extends EventTarget {
       x: 0,
       y: 0,
       angle: 0,
-      state: ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE
+      state: ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE,
+      weapon: ""
     };
   }
 
@@ -1290,6 +1309,13 @@ export class ApexWebAPI extends EventTarget {
     if (squadindex >= this.#game.teams[teamid].players.length) return;
     const player = this.#game.teams[teamid].players[squadindex];
     player.perks[level] = perk;
+  }
+
+  #procPlayerWeapon(teamid, squadindex, weapon) {
+    if (teamid >= this.#game.teams.length) return;
+    if (squadindex >= this.#game.teams[teamid].players.length) return;
+    const player = this.#game.teams[teamid].players[squadindex];
+    player.weapon = weapon;
   }
 
   #procPlayerItem(teamid, squadindex, itemid, quantity) {
