@@ -62,6 +62,7 @@ namespace livedata {
 		bool canreconnect = false;
 		items items;
 		std::map<int32_t, perkinfo> perks{};
+		std::string weapon;
 	};
 
 	struct team {

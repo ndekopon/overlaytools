@@ -2077,14 +2077,21 @@ namespace app {
 			if (!p.has_player()) return;
 			proc_player(p.player());
 
-			// TDM/CTL/GG用処理
 			{
 				uint8_t teamid = p.player().teamid();
 				uint8_t squadindex = get_squadindex(p.player());
 				auto& player = game_.teams.at(teamid).players.at(squadindex);
+
+				// TDM/CTL/GG用処理
 				if (player.state == WEBAPI_PLAYER_STATE_KILLED && player.shield > 0 && player.shield_max > 0)
 				{
 					proc_respawn(teamid, squadindex);
+				}
+
+				if (player.weapon != p.newweapon())
+				{
+					player.weapon = p.newweapon();
+					send_webapi_player_weapon(INVALID_SOCKET, teamid, squadindex, player.weapon);
 				}
 			}
 		}
@@ -2342,6 +2349,15 @@ namespace app {
 	{
 		send_webapi_data sdata(WEBAPI_EVENT_PLAYER_PERK);
 		if (sdata.append(_teamid) && sdata.append(_squadindex) && sdata.append(_level) && sdata.append(_name))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::send_webapi_player_weapon(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex, const std::string& _weapon)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_PLAYER_WEAPON);
+		if (sdata.append(_teamid) && sdata.append(_squadindex) && sdata.append(_weapon))
 		{
 			sendto_webapi(_sock, std::move(sdata.buffer_));
 		}
@@ -3351,6 +3367,7 @@ namespace app {
 			send_webapi_player_state(_sock, _teamid, i, p.state);
 			send_webapi_player_stats(_sock, _teamid, i, p.kills, p.assists, p.knockdowns, p.revives, p.respawns);
 			send_webapi_player_killed_count(_sock, _teamid, i, p.killed);
+			send_webapi_player_weapon(_sock, _teamid, i, p.weapon);
 
 			// パーク情報
 			for (const auto& [level, perk] : p.perks)

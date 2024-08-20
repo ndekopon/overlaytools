@@ -107,6 +107,7 @@ namespace app {
 		void send_webapi_player_items(SOCKET _sock, uint8_t, uint8_t, uint8_t _itemid, uint32_t _quantity);
 		void send_webapi_player_level(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex, int32_t _level);
 		void send_webapi_player_perk(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex, int32_t _level, const std::string& _name);
+		void send_webapi_player_weapon(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex, const std::string& _weapon);
 
 		void send_webapi_player_u32u32(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex, uint8_t _type, uint32_t _v1, uint32_t _v2);
 		void send_webapi_player_hp(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex, uint32_t _current, uint32_t _max);
