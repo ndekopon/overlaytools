@@ -111,6 +111,7 @@ namespace livedata {
 		std::string id = "";
 		std::string name = "";
 		std::string character = "";
+		std::map<std::string, uint32_t> items;
 	};
 
 	struct team_result {

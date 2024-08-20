@@ -3482,6 +3482,10 @@ namespace app {
 			uint32_t kills = 0;
 			for (const auto& player : team.players)
 			{
+				// save current items
+				std::map<std::string, uint32_t> items;
+
+				items.emplace("syringe", player.items.syringe);
 				team_result.players.push_back({
 					.kills = player.kills,
 					.damage_dealt = player.damage_dealt,
@@ -3489,7 +3493,25 @@ namespace app {
 					.assists = player.assists,
 					.id = player.id,
 					.name = player.name,
-					.character = player.character
+					.character = player.character,
+					.items = {
+						{"syringe", player.items.syringe},
+						{"medkit", player.items.medkit},
+						{"shield_cell", player.items.shield_cell},
+						{"shield_battery", player.items.shield_battery},
+						{"phoenixkit", player.items.phoenixkit},
+						{"ultimateaccelerant", player.items.ultimateaccelerant},
+						{"thermitegrenade", player.items.thermitegrenade},
+						{"fraggrenade", player.items.fraggrenade},
+						{"arcstar", player.items.arcstar},
+						{"bodyshield", player.items.bodyshield},
+						{"backpack", player.items.backpack},
+						{"knockdownshield", player.items.knockdownshield},
+						{"mobilerespawnbeacon", player.items.mobilerespawnbeacon},
+						{"heatshield", player.items.heatshield},
+						{"evactower", player.items.evactower},
+						{"shieldcore", player.items.shieldcore},
+					}
 				});
 				kills += player.kills;
 			}

@@ -737,7 +737,8 @@ namespace app {
 							{"assists", player.assists},
 							{"id", player.id},
 							{"name", player.name},
-							{"character", player.character}
+							{"character", player.character},
+							{"items", player.items}
 						};
 						team_result_json["players"].push_back(player_result_json);
 					}
