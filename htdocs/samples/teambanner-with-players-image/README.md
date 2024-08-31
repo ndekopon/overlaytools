@@ -3,6 +3,8 @@
 プレイヤーのイメージを定義して、カメラ切替に連動して表示するサンプル。
 チームバナーとして表示する。
 
+![image](https://github.com/user-attachments/assets/35f41e13-da66-4a0d-964e-c2eb9538712d)
+
 ## 使い方
 
 1. `custom-overlays`内のファイルを`htdocs/custom-overlays`フォルダにコピーする。
