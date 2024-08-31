@@ -25,10 +25,12 @@ export class TemplateOverlay {
     /** @type {Array} カスタムタグ一覧 */
     tags;
     params;
+
     /** 検索用インデックス */
     teams;
     teamplayers;
     players;
+    cameraplayers;
 
     /**
      * コンストラクタ
@@ -42,18 +44,37 @@ export class TemplateOverlay {
         this.teams = {};
         this.teamplayers = {};
         this.players = {};
+        this.cameraplayers = {};
     }
 
     clear() {
         // HTMLノードの削除
-        for (const nodes of [this.root.shadowRoot.querySelectorAll('.teams'), this.root.shadowRoot.querySelectorAll('.players')]) {
+        for (const nodes of [this.root.shadowRoot.querySelectorAll('.teams'), this.root.shadowRoot.querySelectorAll('.players'), this.root.shadowRoot.querySelectorAll('.cameraplayers')]) {
             for (const node of nodes) {
                 while (node.firstChild) { node.firstChild.remove(); }
             }
         }
 
         // 索引のクリア
-        for (const target of [this.teams, this.teamplayers, this.players]) {
+        for (const target of [this.teams, this.teamplayers, this.players, this.cameraplayers]) {
+            for (var key in target) {
+                if (target.hasOwnProperty(key)) {
+                    delete target[key];
+                }
+            }
+        }
+    }
+
+    clearCameraPlayers() {
+        // HTMLノードの削除
+        for (const nodes of [this.root.shadowRoot.querySelectorAll('.cameraplayers')]) {
+            for (const node of nodes) {
+                while (node.firstChild) { node.firstChild.remove(); }
+            }
+        }
+
+        // 索引のクリア
+        for (const target of [this.cameraplayers]) {
             for (var key in target) {
                 if (target.hasOwnProperty(key)) {
                     delete target[key];
@@ -208,8 +229,15 @@ export class TemplateOverlay {
         if (base && base.content.querySelector('.players')) {
             await this.buildParts('players', this.getChildClass(base.content.querySelector('.players')));
         }
+
+        // カメラプレイヤー一覧が必要な場合
+        if (base && base.content.querySelector('.cameraplayers')) {
+            await this.buildParts('cameraplayers', this.getChildClass(base.content.querySelector('.cameraplayers')));
+        }
+
         // パラメータ一覧作成
         this.buildParams();
+
         return true;
     }
 
@@ -239,7 +267,7 @@ export class TemplateOverlay {
     }
 
     addPlayer(playerid, players) {
-        if (teamid in this.teams) return [this.teams[teamid], false]; // 既に存在する
+        if (playerid in this.players) return [this.players[playerid], false]; // 既に存在する
         const div = document.getElementById(`overlay-parts`).content.querySelector(`.${this.id}-players`);
         if (!div) return [null, false];
         const clone = document.importNode(div, true);
@@ -247,6 +275,18 @@ export class TemplateOverlay {
         clone.classList.add('player');
         players.appendChild(clone);
         this.players[playerid] = clone;
+        return [clone, true];
+    }
+
+    addCameraPlayer(playerid, cameraplayers) {
+        if (playerid in this.cameraplayers) return [this.cameraplayers[playerid], false]; // 既に存在する
+        const div = document.getElementById(`overlay-parts`).content.querySelector(`.${this.id}-cameraplayers`);
+        if (!div) return [null, false];
+        const clone = document.importNode(div, true);
+        clone.classList.remove(`${this.id}-cameraplayers`);
+        clone.classList.add('cameraplayer');
+        cameraplayers.appendChild(clone);
+        this.cameraplayers[playerid] = clone;
         return [clone, true];
     }
 
@@ -351,6 +391,31 @@ export class TemplateOverlay {
         }
 
         for (const target of player.querySelectorAll(`.${paramname}`)) {
+            this.setDatasetAndInnerText(target, paramname, paramvalue, dataset);
+        }
+    }
+
+    setCameraPlayerParam(playerid, paramname, paramvalue, dataset = false) {
+        console.log(paramname);
+        const tag_cameraplayers = `${this.id}-cameraplayers`;
+        if (this.tags.indexOf(tag_cameraplayers) < 0) return; // 未サポート
+        if (this.params[tag_cameraplayers].indexOf(paramname) < 0) return; // 入力先なし
+
+        const cameraplayers = this.root.shadowRoot.querySelector(`.cameraplayers`);
+        if (!cameraplayers) return;
+
+        const [cameraplayer, first] = this.addCameraPlayer(playerid, cameraplayers);
+        if (!cameraplayer) return;
+
+        if (first && paramname != 'cameraplayer-id') {
+            this.setCameraPlayerParam(playerid, 'cameraplayer-id', playerid);
+        }
+
+        if (cameraplayer.classList.contains(paramname)) {
+            this.setDatasetAndInnerText(cameraplayer, paramname, paramvalue, dataset);
+        }
+
+        for (const target of cameraplayer.querySelectorAll(`.${paramname}`)) {
             this.setDatasetAndInnerText(target, paramname, paramvalue, dataset);
         }
     }
@@ -1153,6 +1218,9 @@ export class TemplateOverlayHandler {
                     overlay.setTeamPlayerParam(player.teamid, hash, `teamplayer-${param}`, value);
                 }
             }
+            if (this.#camera_teamid == player.teamid) {
+                this.#updatedCameraPlayersParam(hash, param, value);
+            }
             if (this.#camera_teamid == player.teamid && this.#camera_playerhash == hash) {
                 this.#updatedCameraPlayerParam(param, value);
             }
@@ -1162,6 +1230,12 @@ export class TemplateOverlayHandler {
     #updatedCameraPlayerParam(param, value) {
         for (const overlay of Object.values(this.#overlays)) {
             overlay.setParam(`camera-player-${param}`, value);
+        }
+    }
+
+    #updatedCameraPlayersParam(playerhash, param, value) {
+        for (const overlay of Object.values(this.#overlays)) {
+            overlay.setCameraPlayerParam(playerhash, `cameraplayer-${param}`, value);
         }
     }
 
@@ -1315,7 +1389,9 @@ export class TemplateOverlayHandler {
         if (this.#camera_teamid != teamid) {
             this.#camera_teamid = teamid;
             this.#updatedCameraTeamId(teamid);
+            this.#clearCameraPlayers();
         }
+
         if (this.#camera_playerhash != playerhash) {
             this.#camera_playerhash = playerhash;
             this.#updatedCameraPlayerId(playerhash);
@@ -1328,21 +1404,31 @@ export class TemplateOverlayHandler {
         if (this.#game && 'teams' in this.#game) {
             if (0 <= teamid && teamid < this.#game.teams.length) {
                 const team = this.#game.teams[teamid];
+                // チームキル更新
                 if ('kills' in team) {
                     this.#updatedCameraTeamKills(team.kills);
                 }
-            }
-        }
-
-        // プレイヤーデータが存在する場合
-        if (playerhash in this.#player_index) {
-            const player = this.#player_index[playerhash];
-            if ('kills' in player) {
-                this.#updatedCameraPlayerKills(player.kills);
-            }
-            if (('items' in player)) {
-                for (const [itemid, count] of Object.entries(player.items)) {
-                    this.#updatedCameraPlayerItem(itemid, count);
+                // プレイヤーデータ処理
+                if ('players' in team) {
+                    for (const player of team.players) {
+                        this.#updatedCameraPlayersId(player.hash);
+                        this.#updatedCameraPlayersActive(player.hash, player.hash == playerhash ? 1 : 0);
+                        this.#updatedCameraPlayersName(player.hash, this.#getPlayerName(player.hash));
+                        if ('kills' in player) {
+                            this.#updatedCameraPlayersKills(player.hash, player.kills);
+                            if (player.hash == playerhash) {
+                                this.#updatedCameraPlayerKills(player.kills);
+                            }
+                        }
+                        if (('items' in player)) {
+                            for (const [itemid, count] of Object.entries(player.items)) {
+                                this.#updatedCameraPlayersItem(player.hash, itemid, count);
+                                if (player.hash == playerhash) {
+                                    this.#updatedCameraPlayerItem(itemid, count);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -1404,6 +1490,33 @@ export class TemplateOverlayHandler {
 
     #updatedCameraPlayerItem(itemid, count) {
         this.#updatedCameraPlayerParam(`item-${itemid}`, count);
+    }
+
+    /* cameraplayers系 */
+    #clearCameraPlayers() {
+        for (const overlay of Object.values(this.#overlays)) {
+            overlay.clearCameraPlayers();
+        }
+    }
+
+    #updatedCameraPlayersId(hash) {
+        this.#updatedCameraPlayersParam(hash, 'id', hash);
+    }
+
+    #updatedCameraPlayersActive(hash, active) {
+        this.#updatedCameraPlayersParam(hash, 'active', active);
+    }
+
+    #updatedCameraPlayersName(hash, name) {
+        this.#updatedCameraPlayersParam(hash, 'name', name);
+    }
+
+    #updatedCameraPlayersKills(hash, kills) {
+        this.#updatedCameraPlayersParam(hash, 'kills', kills);
+    }
+
+    #updatedCameraPlayersItem(hash, itemid, count) {
+        this.#updatedCameraPlayersParam(hash, `item-${itemid}`, count);
     }
 
     /**
