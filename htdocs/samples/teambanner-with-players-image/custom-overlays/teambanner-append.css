@@ -1,0 +1,48 @@
+.cameraplayers {
+    position: absolute;
+    left: 42px;
+    width: auto;
+    bottom: calc(1080px - 719px);
+    box-sizing: border-box;
+    color: white;
+    display: flex;
+    overflow: clip;
+}
+
+.cameraplayer {
+    background-color: #141414;
+    width: auto;
+    padding: 2px;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+.cameraplayer[data-cameraplayer-active="1"] {
+    background-color: #b03039;
+}
+
+.playerimage {
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url('player-images/player-default.png');
+    overflow: clip;
+}
+
+.playername {
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.playerimage[data-cameraplayer-name="testplayer01"] {
+    background-image: url('player-images/player-01.png');
+}
+.playerimage[data-cameraplayer-name="testplayer02"] {
+    background-image: url('player-images/player-02.png');
+}
+.playerimage[data-cameraplayer-name="testplayer03"] {
+    background-image: url('player-images/player-03.png');
+}
