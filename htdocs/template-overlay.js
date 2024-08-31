@@ -830,6 +830,11 @@ export class TemplateOverlayHandler {
             }, this.#teambanner_recognition_delay);
         });
 
+        // リスポーンイベント
+        this.#webapi.addEventListener("teamrespawn", (ev) => {
+            console.log(ev);
+        });
+
         // マップの表示状態
         this.#webapi.addEventListener("mapstate", (ev) => {
             const state = ev.detail.state;

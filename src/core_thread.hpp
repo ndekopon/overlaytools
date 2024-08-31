@@ -120,6 +120,7 @@ namespace app {
 		void send_webapi_squad_eliminated(SOCKET _sock, uint8_t _teamid, uint32_t _placement);
 		void send_webapi_team_name(SOCKET _sock, uint8_t _teamid, const std::string &_teamname);
 		void send_webapi_team_placement(SOCKET _sock, uint8_t _teamid, uint32_t _placement);
+		void send_webapi_team_respawn(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex, const std::vector<uint8_t>& _targets);
 
 		void send_webapi_lobbyplayer(uint8_t _teamid, const std::string& _hash, const std::string& _name, const std::string& _hardware);
 		void send_webapi_custommatch_settings(const std::string& _playlistname, bool _adminchat, bool _teamrename, bool _selfassign, bool _aimassist, bool _anonmode);

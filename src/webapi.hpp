@@ -57,6 +57,7 @@ namespace app {
 		// team関連
 		WEBAPI_EVENT_TEAM_NAME = 0x20u,
 		WEBAPI_EVENT_TEAM_PLACEMENT,
+		WEBAPI_EVENT_TEAM_RESPAWN,
 
 		// player関連
 		WEBAPI_EVENT_PLAYER_ID = 0x30u,

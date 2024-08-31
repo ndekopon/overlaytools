@@ -1885,14 +1885,20 @@ namespace app {
 			if (!p.has_player()) return;
 			proc_player(p.player());
 
+			std::vector<uint8_t> targets;
 			uint8_t teamid = p.player().teamid();
 			for (uint8_t squadindex = 0; squadindex < game_.teams.at(teamid).players.size(); ++squadindex)
 			{
 				auto& target = game_.teams.at(teamid).players.at(squadindex);
 				if (target.state == WEBAPI_PLAYER_STATE_COLLECTED)
 				{
+					targets.push_back(squadindex);
 					proc_respawn(teamid, squadindex);
 				}
+			}
+			if (targets.size() > 0)
+			{
+				send_webapi_team_respawn(INVALID_SOCKET, teamid, get_squadindex(p.player()), targets);
 			}
 		}
 		else if (_any.Is<api::PlayerRevive>())
@@ -2387,6 +2393,28 @@ namespace app {
 		if (sdata.append(_teamid) && sdata.append(_placement))
 		{
 			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::send_webapi_team_respawn(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex, const std::vector<uint8_t>& _targets)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_TEAM_RESPAWN);
+		uint8_t size = _targets.size();
+		if (sdata.append(_teamid) && sdata.append(_squadindex) && sdata.append(size))
+		{
+			bool append = true;
+			for (const auto& index : _targets)
+			{
+				if (!sdata.append(index))
+				{
+					append = false;
+					break;
+				}
+			}
+			if (append)
+			{
+				sendto_webapi(_sock, std::move(sdata.buffer_));
+			}
 		}
 	}
 

@@ -354,7 +354,6 @@ class ChampionBanner extends TemplateOverlay {
         if (this.#target) {
             this.#target.classList.remove(ChampionBanner.FADEINOUT_CLASS);
             setTimeout(() => {
-                console.log("test");
                 this.#target.classList.add(ChampionBanner.FADEINOUT_CLASS);
             }, 30);
         }

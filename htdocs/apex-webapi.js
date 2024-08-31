@@ -227,6 +227,7 @@ export class ApexWebAPI extends EventTarget {
 
   static WEBAPI_EVENT_TEAM_NAME = 0x20;
   static WEBAPI_EVENT_TEAM_PLACEMENT = 0x21;
+  static WEBAPI_EVENT_TEAM_RESPAWN = 0x22;
 
   static WEBAPI_EVENT_PLAYER_ID = 0x30;
   static WEBAPI_EVENT_PLAYER_NAME = 0x31;
@@ -867,6 +868,26 @@ export class ApexWebAPI extends EventTarget {
     return true;
   }
 
+  #procEventTeamRespawn(arr) {
+    if (arr[0] >= 2) {
+      const teamid = arr[0] - 2;
+      const targets = [];
+      const targetsize = arr[2];
+      for (let i = 0; i < targetsize && (i + 3) < arr.length; ++i) {
+        const squadindex = arr[3 + i];
+        targets.push(this.#game.teams[teamid].players[squadindex]);
+      }
+      this.dispatchEvent(new CustomEvent('teamrespawn', {
+        detail: {
+          player: this.#game.teams[teamid].players[arr[1]],
+          team: this.#game.teams[teamid],
+          targets: targets
+        }
+      }));
+    }
+    return true;
+  }
+
   #procLocalDataGetObservers(count, arr) {
     if ((count % 3) != 1) return false;
     const observers = [];
@@ -998,6 +1019,9 @@ export class ApexWebAPI extends EventTarget {
       case ApexWebAPI.WEBAPI_EVENT_TEAM_PLACEMENT:
         if (count != 2) return false;
         return this.#procEventTeamPlacement(data_array);
+      case ApexWebAPI.WEBAPI_EVENT_TEAM_RESPAWN:
+        if (count < 3) return false;
+        return this.#procEventTeamRespawn(data_array);
       case ApexWebAPI.WEBAPI_EVENT_TEAMBANNER_STATE:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('teambannerstate', {detail: {state: data_array[0]}}));
