@@ -459,6 +459,101 @@ class SquadEliminated extends TemplateOverlay {
     }
 }
 
+
+class TeamRespawned extends TemplateOverlay {
+    static FADEINOUTTARGET_CLASS = "fadeinout-target";
+    static FADEINOUT_CLASS = "fadeinout";
+    static FADEINOUT_ANIMATION_NAME = "fadeinout-animation";
+
+    /**
+     * @typedef {object} queuedata
+     * @prop {number|string} teamid チームID(0～)
+     * @prop {string} teamname チーム名
+     * @prop {string} respawn_playername 蘇生したプレイヤー名
+     * @prop {string[]} respawned_playernames 蘇生されたプレイヤー名
+     */
+
+    /** @type {queuedata[]} */
+    #queue;
+    #target;
+
+    /**
+     * コンストラクタ
+     */
+    constructor() {
+        super({types: ["view-live"]});
+        this.#queue = [];
+        this.#target = null;
+    }
+
+    async build() {
+        await super.build();
+        this.#target = this.root.shadowRoot.querySelector(`.${TeamRespawned.FADEINOUTTARGET_CLASS}`);
+        if (this.#target) {
+            // アニメーション後、クラスを削除
+            this.#target.addEventListener('animationend', (ev) => {
+                if (ev.animationName == TeamRespawned.FADEINOUT_ANIMATION_NAME) {
+                    this.#target.classList.remove(TeamRespawned.FADEINOUT_CLASS);
+                    window.requestAnimationFrame((_) => {
+                        window.requestAnimationFrame((_) => {
+                            this.#checkNext();
+                        });
+                    });
+                }
+            });
+        }
+        return true;
+    }
+
+    /**
+     * チーム排除情報を設定する
+     * @param {number|string} teamid チームID(0～)
+     * @param {string} teamname チーム名
+     * @param {string} respawn_playername 蘇生したプレイヤー名
+     * @param {string[]} respawned_playernames 蘇生されたプレイヤー名
+     * @returns 
+     */
+    setTeamRespawn(teamid, teamname, respawn_playername, respawned_playernames) {
+        this.#queue.push({
+            teamid: teamid,
+            teamname: teamname,
+            respawn_playername: respawn_playername,
+            respawned_playernames: respawned_playernames
+        });
+        this.#checkNext();
+    }
+
+    /**
+     * フェードインを開始する
+     */
+    #startFadeIn() {
+        if (this.#target) {
+            this.#target.classList.add(TeamRespawned.FADEINOUT_CLASS);
+        }
+    }
+
+    /**
+     * 次のデータがあるかどうか確認して次の動作を行う
+     */
+    #checkNext() {
+        if (this.#queue.length == 0) {
+            return;
+        }
+
+        if (this.#target && this.#target.classList.contains(TeamRespawned.FADEINOUT_CLASS)) return; // フェードアウト待ち
+
+        // 次のデータを表示
+        const data = this.#queue.shift();
+        if (data) {
+            this.setParam('teamrespawned-team-id', data.teamid, true);
+            this.setParam('teamrespawned-team-name', data.teamname);
+            this.setParam('teamrespawned-respawn-player', data.respawn_playername);
+            this.setParam('teamrespawned-respawned-players', data.respawned_playernames.join(' / '));
+            this.#startFadeIn();
+        }
+    }
+}
+
 class ErrorStatus extends TemplateOverlay {
 }
 
@@ -474,6 +569,7 @@ export function initOverlay(params = {}) {
         "squadeliminated": new SquadEliminated(),
         "errorstatus": new ErrorStatus(),
         "championbanner": new ChampionBanner(),
+        "teamrespawned": new TeamRespawned(),
     }
     const overlay = new TemplateOverlayHandler(params);
     console.log(overlay);

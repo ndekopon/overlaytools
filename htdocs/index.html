@@ -596,6 +596,13 @@
     </p>
     <p>
         <label>
+            <input type="checkbox" id="overlay-hide-teamrespawned" />
+            <span class="en">Force hide TeamRespawned</span>
+            <span class="ja">チーム蘇生情報強制非表示</span>
+        </label>
+    </p>
+    <p>
+        <label>
             <input type="checkbox" id="overlay-hide-tdmscoreboard" />
             <span class="en">Force hide TDMScoreBoard</span>
             <span class="ja">チームデスマッチスコアボード強制非表示</span>
@@ -931,6 +938,30 @@
                 <input type="number" min="1" max="30" id="test-squadeliminated-teamid" placeholder="1-30" value="1" />
                 <br />
                 <button id="test-show-squadeliminated">
+                    <span class="en">Show</span>
+                    <span class="ja">表示</span>
+                </button>
+            </div>
+        </div>
+        <div>
+            <h3>
+                <span class="en">TeamRespawned</span>
+                <span class="ja">チーム蘇生情報</span>
+            </h3>
+            <div>
+                <span class="en">TeamID:</span>
+                <span class="ja">チームID:</span>
+                <input type="number" min="1" max="30" id="test-teamrespawned-teamid" placeholder="1-30" value="1" />
+                <br />
+                <span class="en">RespawnPlayerName:</span>
+                <span class="ja">蘇生したプレイヤー名:</span>
+                <input type="text" min="1" max="30" id="test-teamrespawned-respawn-player" value="" />
+                <br />
+                <span class="en">RespawnedPlayersName:</span>
+                <span class="ja">蘇生されたプレイヤー名:</span>
+                <input type="text" min="1" max="30" id="test-teamrespawned-respawned-players" value="" />
+                <br />
+                <button id="test-show-teamrespawned">
                     <span class="en">Show</span>
                     <span class="ja">表示</span>
                 </button>

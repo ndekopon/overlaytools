@@ -3097,7 +3097,7 @@ export class WebAPIConfig {
         });
 
         // checkbox
-        for (const id of ["leaderboard", "mapleaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated", "tdmscoreboard"]) {
+        for (const id of ["leaderboard", "mapleaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated", "teamrespawned", "tdmscoreboard"]) {
             document.getElementById('overlay-hide-' + id).addEventListener('change', (ev) => {
                 this.#updateOverlayStatus(id);
                 this.#webapi.setTournamentParams(this.#tournament_params);
@@ -3225,6 +3225,19 @@ export class WebAPIConfig {
                     type: "testsquadeliminated",
                     placement: placement,
                     teamid: teamid - 1
+                });
+            }
+        });
+        document.getElementById('test-show-teamrespawned').addEventListener('click', (ev) => {
+            const teamid = parseInt(document.getElementById("test-teamrespawned-teamid").value, 10);
+            const respawn_player = document.getElementById("test-teamrespawned-respawn-player").value;
+            const respawned_players = document.getElementById("test-teamrespawned-respawned-players").value.split(',').map(x => x.trim());
+            if (teamid >= 1) {
+                this.#webapi.broadcastObject({
+                    type: "testteamrespawned",
+                    teamid: teamid - 1,
+                    respawn_player: respawn_player,
+                    respawned_players: respawned_players
                 });
             }
         });
@@ -3593,7 +3606,7 @@ export class WebAPIConfig {
     #setOverlayStatusFromParams(params) {
         if (!('forcehide' in params)) params.forcehide = {};
         const forcehide = params.forcehide;
-        const ids = ["leaderboard", "mapleaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated", "tdmscoreboard"];
+        const ids = ["leaderboard", "mapleaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated", "teamrespawned", "tdmscoreboard"];
         const default_hide_ids = ["playerbanner"];
         for (const id of ids) {
             if (!(id in forcehide)) {

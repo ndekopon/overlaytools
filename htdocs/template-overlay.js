@@ -743,6 +743,10 @@ export class TemplateOverlayHandler {
             if (!this.#getallprocessing) this.#reCalc();
         });
 
+        this.#webapi.addEventListener("teamrespawn", (ev) => {
+            this.#updatedTeamRespawn(ev.detail.team.id, ev.detail.player, ev.detail.targets);
+        });
+
         this.#webapi.addEventListener("squadeliminate", (ev) => {
             if (this.#game == null) return;
             if (!this.#getallprocessing) this.#reCalc();
@@ -920,6 +924,16 @@ export class TemplateOverlayHandler {
                             const placement = data.placement;
                             const teamid = data.teamid;
                             this.#updatedSquadEliminate(placement, teamid, false);
+                            break;
+                        }
+                        case "testteamrespawned": {
+                            for (const overlay of Object.values(this.#overlays)) {
+                                if ('setTeamRespawn' in overlay && typeof (overlay.setTeamRespawn) == 'function') {
+                                    const teamid = data.teamid;
+                                    const teamname = this.#getTeamName(teamid);
+                                    overlay.setTeamRespawn(teamid, teamname, data.respawn_player, data.respawned_players);
+                                }
+                            }
                             break;
                         }
                         case "testwinnerdetermine": {
@@ -1322,6 +1336,17 @@ export class TemplateOverlayHandler {
         }
     }
 
+    #updatedTeamRespawn(teamid, player, targets) {
+        for (const overlay of Object.values(this.#overlays)) {
+            if ('setTeamRespawn' in overlay && typeof (overlay.setTeamRespawn) == 'function') {
+                const teamname = this.#getTeamName(teamid);
+                const respawn_playername = this.#getPlayerName(player.hash);
+                const respawned_playernames = targets.map(x => this.#getPlayerName(x.hash));
+                overlay.setTeamRespawn(teamid, teamname, respawn_playername, respawned_playernames);
+            }
+        }
+    }
+
     #updatedPlayerLegend(hash, legend) {
         this.#updatedPlayerParam(hash, 'legend', legend);
     }
@@ -1334,7 +1359,7 @@ export class TemplateOverlayHandler {
                 if ('setTeamPlayerState' in overlay && typeof(overlay.setTeamPlayerState) == 'function') {
                     overlay.setTeamPlayerState(player.teamid, hash, state);
                 }
-            }    
+            }
         }
 
         this.#updatedPlayerParam(hash, 'state', state);

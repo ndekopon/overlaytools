@@ -1,0 +1,51 @@
+:host > div {
+    --teamrespawned-width: 600px;
+    --teamrespawned-height: 32px;
+    position: absolute;
+    top: 94px;
+    left: calc(50% - var(--teamrespawned-width) / 2);
+    width: var(--teamrespawned-width);
+    height: 32px;
+    color: rgb(255, 255, 255);
+    background-color: rgba(52, 176, 48, 0.9);
+    box-sizing: border-box;
+}
+
+.teamrespawned-text {
+    line-height: var(--teamrespawned-height);
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.teamrespawned-respawned-players {
+    text-decoration: underline;
+}
+
+.fadeinout-target:not(.fadeinout) {
+    position: absolute;
+    left: -1920px;
+    top: -1080px;
+}
+
+.fadeinout {
+    animation: 4.6s fadeinout-animation forwards;
+}
+
+@keyframes fadeinout-animation {
+    from {
+        opacity: 0.0;
+    }
+    6.5% {
+        opacity: 1.0;
+    }
+    93.5% {
+        opacity: 1.0;
+    }
+    to {
+        opacity: 0.0;
+    }
+}
+
+@keyframes fadeout-animation {
+}
