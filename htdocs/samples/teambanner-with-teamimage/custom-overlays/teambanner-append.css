@@ -1,0 +1,17 @@
+.teamimage {
+    position: absolute;
+    left: 37px;
+    width: 500px;
+    height: 500px;
+    bottom: calc(1080px - 719px);
+    box-sizing: border-box;
+    overflow: clip;
+    background-size: auto auto;
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    background-image: url('team-images/team-default.png');
+}
+
+.teamimage[data-camera-team-name="カスタムチーム１"] {
+    background-image: url('team-images/team-01.png');
+}

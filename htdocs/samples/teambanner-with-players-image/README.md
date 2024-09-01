@@ -9,7 +9,8 @@
 
 1. `custom-overlays`内のファイルを`htdocs/custom-overlays`フォルダにコピーする。
 2. `player-images`フォルダを`htdocs`フォルダにコピーする。
-3. `htdocs/custom-overlays/teambanner-append.css`にカスタムマッチ参加者分の名前・画像の紐づけを行う。(画像が定義されていない場合、`player-images/player-default.png`が表示される
+3. `htdocs/player-images`フォルダにプレイヤー用の画像を配置する。
+4. `htdocs/custom-overlays/teambanner-append.css`にカスタムマッチ参加者分の名前・画像の紐づけを行う。(画像が定義されていない場合、`player-images/player-default.png`が表示される)
 
 ### 名前と画像の定義(teambanner-append.css)
 
