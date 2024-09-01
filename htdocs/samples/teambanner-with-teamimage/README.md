@@ -3,6 +3,8 @@
 チーム用のイメージを定義して、カメラ切替に連動して表示するサンプル。
 チームバナーとして表示する。
 
+![image](https://github.com/user-attachments/assets/1692d86a-05fc-4cf8-95b1-2b949782ee4d)
+
 
 ## 使い方
 
