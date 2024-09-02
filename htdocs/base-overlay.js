@@ -275,12 +275,14 @@ class TeamBanner extends TemplateOverlay {
         ctx.clip();
 
         // 画像の描画
-        ctx.fillStyle = '#141414';
+        const bgcolor = window.getComputedStyle(canvas).getPropertyValue('--apexrect-background-color');
+        ctx.fillStyle = bgcolor != "" ? bgcolor : '#141414';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // 赤枠(X方向)
+        const bordercolor = window.getComputedStyle(canvas).getPropertyValue('--apexrect-border-color');
+        ctx.fillStyle = bordercolor != "" ? bordercolor : '#B03039';
         const xborder = 5;
-        ctx.fillStyle = "#B03039";
         ctx.beginPath();
         ctx.moveTo(  xborder + 10 * rate, 0);
         ctx.lineTo(  xborder            , 16 * rate);
