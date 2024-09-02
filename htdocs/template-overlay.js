@@ -396,7 +396,6 @@ export class TemplateOverlay {
     }
 
     setCameraPlayerParam(playerid, paramname, paramvalue, dataset = false) {
-        console.log(paramname);
         const tag_cameraplayers = `${this.id}-cameraplayers`;
         if (this.tags.indexOf(tag_cameraplayers) < 0) return; // 未サポート
         if (this.params[tag_cameraplayers].indexOf(paramname) < 0) return; // 入力先なし
@@ -832,11 +831,6 @@ export class TemplateOverlayHandler {
                     }
                 }
             }, this.#teambanner_recognition_delay);
-        });
-
-        // リスポーンイベント
-        this.#webapi.addEventListener("teamrespawn", (ev) => {
-            console.log(ev);
         });
 
         // マップの表示状態
