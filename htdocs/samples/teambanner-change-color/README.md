@@ -2,6 +2,7 @@
 
 チームバナーの色を変更するサンプル。
 
+![image](https://github.com/user-attachments/assets/87547fcd-650c-4991-b3b7-8b9f5f24f38b)
 
 ## 使い方
 
