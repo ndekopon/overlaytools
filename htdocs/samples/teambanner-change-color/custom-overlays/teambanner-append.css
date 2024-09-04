@@ -1,0 +1,9 @@
+
+.camera-team {
+	color: #000000;
+}
+
+canvas.apexrect {
+	--apexrect-background-color: #FFFFFF;
+	--apexrect-border-color: #FFE300;
+}
