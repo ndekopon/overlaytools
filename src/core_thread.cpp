@@ -1889,13 +1889,26 @@ namespace app {
 
 			std::vector<uint8_t> targets;
 			uint8_t teamid = p.player().teamid();
-			for (uint8_t squadindex = 0; squadindex < game_.teams.at(teamid).players.size(); ++squadindex)
+			if (p.respawnedteammates_size() > 0)
 			{
-				auto& target = game_.teams.at(teamid).players.at(squadindex);
-				if (target.state == WEBAPI_PLAYER_STATE_COLLECTED)
+				for (int i = 0; i < p.respawnedteammates_size(); ++i)
 				{
+					const auto& teammate = p.respawnedteammates().at(i);
+					uint8_t squadindex = get_squadindex(teammate);
 					targets.push_back(squadindex);
 					proc_respawn(teamid, squadindex);
+				}
+			}
+			else
+			{
+				for (uint8_t squadindex = 0; squadindex < game_.teams.at(teamid).players.size(); ++squadindex)
+				{
+					auto& target = game_.teams.at(teamid).players.at(squadindex);
+					if (target.state == WEBAPI_PLAYER_STATE_COLLECTED)
+					{
+						targets.push_back(squadindex);
+						proc_respawn(teamid, squadindex);
+					}
 				}
 			}
 			if (targets.size() > 0)

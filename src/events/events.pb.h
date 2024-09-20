@@ -9814,11 +9814,29 @@ class PlayerRespawnTeam final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
+    kRespawnedTeammatesFieldNumber = 5,
     kCategoryFieldNumber = 2,
     kRespawnedFieldNumber = 4,
     kPlayerFieldNumber = 3,
     kTimestampFieldNumber = 1,
   };
+  // repeated .rtech.liveapi.Player respawnedTeammates = 5;
+  int respawnedteammates_size() const;
+  private:
+  int _internal_respawnedteammates_size() const;
+
+  public:
+  void clear_respawnedteammates() ;
+  ::rtech::liveapi::Player* mutable_respawnedteammates(int index);
+  ::google::protobuf::RepeatedPtrField<::rtech::liveapi::Player>* mutable_respawnedteammates();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::Player>& _internal_respawnedteammates() const;
+  ::google::protobuf::RepeatedPtrField<::rtech::liveapi::Player>* _internal_mutable_respawnedteammates();
+  public:
+  const ::rtech::liveapi::Player& respawnedteammates(int index) const;
+  ::rtech::liveapi::Player* add_respawnedteammates();
+  const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::Player>& respawnedteammates() const;
   // string category = 2;
   void clear_category() ;
   const std::string& category() const;
@@ -9835,14 +9853,14 @@ class PlayerRespawnTeam final : public ::google::protobuf::Message
   std::string* _internal_mutable_category();
 
   public:
-  // string respawned = 4;
-  void clear_respawned() ;
-  const std::string& respawned() const;
+  // string respawned = 4 [deprecated = true];
+  [[deprecated]]  void clear_respawned() ;
+  [[deprecated]] const std::string& respawned() const;
   template <typename Arg_ = const std::string&, typename... Args_>
-  void set_respawned(Arg_&& arg, Args_... args);
-  std::string* mutable_respawned();
-  PROTOBUF_NODISCARD std::string* release_respawned();
-  void set_allocated_respawned(std::string* value);
+  [[deprecated]] void set_respawned(Arg_&& arg, Args_... args);
+  [[deprecated]] std::string* mutable_respawned();
+  [[deprecated]] PROTOBUF_NODISCARD std::string* release_respawned();
+  [[deprecated]] void set_allocated_respawned(std::string* value);
 
   private:
   const std::string& _internal_respawned() const;
@@ -9881,7 +9899,7 @@ class PlayerRespawnTeam final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 4, 1,
+      3, 5, 2,
       57, 2>
       _table_;
 
@@ -9904,6 +9922,7 @@ class PlayerRespawnTeam final : public ::google::protobuf::Message
                           const PlayerRespawnTeam& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::RepeatedPtrField< ::rtech::liveapi::Player > respawnedteammates_;
     ::google::protobuf::internal::ArenaStringPtr category_;
     ::google::protobuf::internal::ArenaStringPtr respawned_;
     ::rtech::liveapi::Player* player_;
@@ -22355,7 +22374,7 @@ inline void PlayerRespawnTeam::set_allocated_player(::rtech::liveapi::Player* va
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.PlayerRespawnTeam.player)
 }
 
-// string respawned = 4;
+// string respawned = 4 [deprecated = true];
 inline void PlayerRespawnTeam::clear_respawned() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.respawned_.ClearToEmpty();
@@ -22403,6 +22422,55 @@ inline void PlayerRespawnTeam::set_allocated_respawned(std::string* value) {
         }
   #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.PlayerRespawnTeam.respawned)
+}
+
+// repeated .rtech.liveapi.Player respawnedTeammates = 5;
+inline int PlayerRespawnTeam::_internal_respawnedteammates_size() const {
+  return _internal_respawnedteammates().size();
+}
+inline int PlayerRespawnTeam::respawnedteammates_size() const {
+  return _internal_respawnedteammates_size();
+}
+inline void PlayerRespawnTeam::clear_respawnedteammates() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.respawnedteammates_.Clear();
+}
+inline ::rtech::liveapi::Player* PlayerRespawnTeam::mutable_respawnedteammates(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.PlayerRespawnTeam.respawnedTeammates)
+  return _internal_mutable_respawnedteammates()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::rtech::liveapi::Player>* PlayerRespawnTeam::mutable_respawnedteammates()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:rtech.liveapi.PlayerRespawnTeam.respawnedTeammates)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_respawnedteammates();
+}
+inline const ::rtech::liveapi::Player& PlayerRespawnTeam::respawnedteammates(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.PlayerRespawnTeam.respawnedTeammates)
+  return _internal_respawnedteammates().Get(index);
+}
+inline ::rtech::liveapi::Player* PlayerRespawnTeam::add_respawnedteammates() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::rtech::liveapi::Player* _add = _internal_mutable_respawnedteammates()->Add();
+  // @@protoc_insertion_point(field_add:rtech.liveapi.PlayerRespawnTeam.respawnedTeammates)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::Player>& PlayerRespawnTeam::respawnedteammates() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:rtech.liveapi.PlayerRespawnTeam.respawnedTeammates)
+  return _internal_respawnedteammates();
+}
+inline const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::Player>&
+PlayerRespawnTeam::_internal_respawnedteammates() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.respawnedteammates_;
+}
+inline ::google::protobuf::RepeatedPtrField<::rtech::liveapi::Player>*
+PlayerRespawnTeam::_internal_mutable_respawnedteammates() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.respawnedteammates_;
 }
 
 // -------------------------------------------------------------------
