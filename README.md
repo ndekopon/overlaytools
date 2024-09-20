@@ -5,7 +5,7 @@ ApexLegends のカスタムマッチ向けオーバーレイツール。
 
 
 ![リーダーボード](https://github.com/ndekopon/overlaytools/assets/92087784/ad3d606b-e488-4755-9ada-aebd3a677d40)
-![アイテム数](https://github.com/ndekopon/overlaytools/assets/92087784/3665c1e7-6546-44b0-ad5d-bfe5eb51983a)
+![アイテム数](https://github.com/user-attachments/assets/34e46c97-3906-434b-9018-4f4b7792dfd5)
 ![リザルト](https://github.com/ndekopon/overlaytools/assets/92087784/b06ccc4e-476b-452e-98ab-3260bd5aa429)
 
 ## 概要
