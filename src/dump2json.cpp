@@ -2,6 +2,8 @@
 
 #include <google/protobuf/util/json_util.h>
 
+#include <nlohmann/json.hpp>
+
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -25,9 +27,11 @@ void convert(const std::wstring& _filepath)
 	for (size_t i = sizeof(uint64_t) + sizeof(uint64_t); i < buf.size(); )
 	{
 		uint32_t size = 0;
+		uint64_t timestamp = 0;
 		std::memcpy(&size, buf.data() + i, sizeof(size));
 		i += sizeof(size);
-		i += sizeof(uint64_t); // タイムスタンプは無視
+		std::memcpy(&timestamp, buf.data() + i, sizeof(timestamp));
+		i += sizeof(timestamp);
 
 		rtech::liveapi::LiveAPIEvent ev;
 		if (ev.ParseFromArray(buf.data() + i, size))
@@ -37,8 +41,30 @@ void convert(const std::wstring& _filepath)
 				outstream << "," << std::endl;
 			}
 			std::string out;
-			google::protobuf::util::MessageToJsonString(ev, &out);
-			outstream << out;
+			auto status = google::protobuf::util::MessageToJsonString(ev, &out);
+			if (status.ok())
+			{
+				try
+				{
+					auto j = nlohmann::json::parse(out);
+					if (j.contains("gameMessage"))
+					{
+						if (j["gameMessage"].contains("receivedTimestamp"))
+						{
+							j["gameMessage"].at("receivedTimestamp") = timestamp;
+						}
+						else
+						{
+							j["gameMessage"].emplace("receivedTimestamp", timestamp);
+						}
+					}
+					outstream << j.dump();
+				}
+				catch (...)
+				{
+
+				}
+			}
 			++count;
 		}
 		i += size;
