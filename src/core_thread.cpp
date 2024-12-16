@@ -1693,10 +1693,13 @@ namespace app {
 				{
 					if (p.has_victim())
 					{
-						if (teamid != p.victim().teamid() || squadindex != get_squadindex(p.victim()))
+						const uint8_t victim_teamid = p.victim().teamid();
+						const uint8_t victim_squadindex = get_squadindex(p.victim());
+						if (teamid != victim_teamid || squadindex != victim_squadindex)
 						{
 							// 自分自身からのダメージを除外
 							proc_damage_dealt(teamid, squadindex, p.damageinflicted());
+							send_webapi_extended_damage(teamid, squadindex, victim_teamid, victim_squadindex, p.weapon(), p.damageinflicted());
 						}
 					}
 				}
@@ -1744,6 +1747,7 @@ namespace app {
 				if (victim_teamid >= 2)
 				{
 					send_webapi_player_killed(INVALID_SOCKET, victim_teamid, victim_squadindex, attacker_teamid, attacker_squadindex);
+					send_webapi_extended_kill(attacker_teamid, attacker_squadindex, victim_teamid, victim_squadindex, p.weapon());
 				}
 			}
 		}
@@ -1753,7 +1757,8 @@ namespace app {
 			if (!_any.UnpackTo(&p)) return;
 			
 			log(LOG_CORE, L"Info: PlayerDowned received.");
-			if (p.has_attacker())
+
+			if (!p.has_attacker())
 			{
 				proc_player(p.attacker());
 			}
@@ -1767,6 +1772,18 @@ namespace app {
 				if (teamid >= 2)
 				{
 					proc_down(teamid, squadindex);
+				}
+			}
+
+			if (p.has_attacker() && p.has_victim())
+			{
+				uint8_t victim_teamid = p.victim().teamid();
+				uint8_t victim_squadindex = get_squadindex(p.victim());
+				uint8_t attacker_teamid = p.attacker().teamid();
+				uint8_t attacker_squadindex = get_squadindex(p.attacker());
+				if (victim_teamid >= 2)
+				{
+					send_webapi_extended_knockdown(attacker_teamid, attacker_squadindex, victim_teamid, victim_squadindex, p.weapon());
 				}
 			}
 		}
@@ -1822,10 +1839,13 @@ namespace app {
 				{
 					if (p.has_victim())
 					{
-						if (teamid != p.victim().teamid() || squadindex != get_squadindex(p.victim()))
+						const uint8_t victim_teamid = p.victim().teamid();
+						const uint8_t victim_squadindex = get_squadindex(p.victim());
+						if (teamid != victim_teamid || squadindex != victim_squadindex)
 						{
 							// 自分自身からのダメージを除外
 							proc_damage_dealt(teamid, squadindex, p.damageinflicted());
+							send_webapi_extended_damage(teamid, squadindex, victim_teamid, victim_squadindex, "", p.damageinflicted());
 						}
 					}
 				}
@@ -1858,10 +1878,13 @@ namespace app {
 				{
 					if (p.has_victim())
 					{
-						if (teamid != p.victim().teamid() || squadindex != get_squadindex(p.victim()))
+						const uint8_t victim_teamid = p.victim().teamid();
+						const uint8_t victim_squadindex = get_squadindex(p.victim());
+						if (teamid != victim_teamid || squadindex != victim_squadindex)
 						{
 							// 自分自身からのダメージを除外
 							proc_damage_dealt(teamid, squadindex, p.damageinflicted());
+							send_webapi_extended_damage(teamid, squadindex, victim_teamid, victim_squadindex, "", p.damageinflicted());
 						}
 					}
 				}
@@ -1886,6 +1909,7 @@ namespace app {
 			log(LOG_CORE, L"Info: PlayerRespawnTeam received.");
 			if (!p.has_player()) return;
 			proc_player(p.player());
+			uint8_t player_squadindex = get_squadindex(p.player());
 
 			std::vector<uint8_t> targets;
 			uint8_t teamid = p.player().teamid();
@@ -1911,9 +1935,15 @@ namespace app {
 					}
 				}
 			}
+
 			if (targets.size() > 0)
 			{
 				send_webapi_team_respawn(INVALID_SOCKET, teamid, get_squadindex(p.player()), targets);
+			}
+
+			for (const uint8_t respawned_squadindex : targets)
+			{
+				send_webapi_extended_respawn(teamid, player_squadindex, respawned_squadindex);
 			}
 		}
 		else if (_any.Is<api::PlayerRevive>())
@@ -1922,19 +1952,19 @@ namespace app {
 			if (!_any.UnpackTo(&p)) return;
 			
 			log(LOG_CORE, L"Info: PlayerRevive received.");
-			if (p.has_player())
-			{
-				proc_player(p.player());
-			}
 
-			if (p.has_revived())
-			{
-				proc_player(p.revived());
+			if (!p.has_player()) return;
+			proc_player(p.player());
+			uint8_t teamid = p.player().teamid();
+			uint8_t player_squadindex = get_squadindex(p.player());
 
-				uint8_t teamid = p.revived().teamid();
-				uint8_t squadindex = get_squadindex(p.revived());
-				proc_revive(teamid, squadindex);
-			}
+
+			if (!p.has_revived()) return;
+			proc_player(p.revived());
+
+			uint8_t revived_squadindex = get_squadindex(p.revived());
+			proc_revive(teamid, revived_squadindex);
+			send_webapi_extended_revive(teamid, player_squadindex, revived_squadindex);
 		}
 		else if (_any.Is<api::ArenasItemSelected>())
 		{
@@ -2001,13 +2031,16 @@ namespace app {
 			if (!p.has_player()) return;
 			proc_player(p.player());
 
+			uint8_t teamid = p.player().teamid();
+			uint8_t player_squadindex = get_squadindex(p.player());
+
 			if (!p.has_collected()) return;
 			proc_player(p.collected());
 
-			uint8_t teamid = p.collected().teamid();
-			uint8_t squadindex = get_squadindex(p.collected());
+			uint8_t collected_squadindex = get_squadindex(p.collected());
 
-			proc_banner_collected(teamid, squadindex);
+			proc_banner_collected(teamid, collected_squadindex);
+			send_webapi_extended_collected(teamid, player_squadindex, collected_squadindex);
 		}
 		else if (_any.Is<api::PlayerAbilityUsed>())
 		{
@@ -2430,6 +2463,60 @@ namespace app {
 			{
 				sendto_webapi(_sock, std::move(sdata.buffer_));
 			}
+		}
+	}
+
+	void core_thread::send_webapi_extended_kill(uint8_t _pteamid, uint8_t _psquadindex, uint8_t _vteamid, uint8_t _vsquadindex, const std::string& _weapon)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_EXTENDED);
+		if (sdata.append(WEBAPI_EXTENDED_KILL) && sdata.append(_pteamid) && sdata.append(_psquadindex) && sdata.append(_vteamid) && sdata.append(_vsquadindex) && sdata.append(_weapon))
+		{
+			sendto_webapi(std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::send_webapi_extended_knockdown(uint8_t _pteamid, uint8_t _psquadindex, uint8_t _vteamid, uint8_t _vsquadindex, const std::string& _weapon)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_EXTENDED);
+		if (sdata.append(WEBAPI_EXTENDED_KNOCKDOWN) && sdata.append(_pteamid) && sdata.append(_psquadindex) && sdata.append(_vteamid) && sdata.append(_vsquadindex) && sdata.append(_weapon))
+		{
+			sendto_webapi(std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::send_webapi_extended_damage(uint8_t _pteamid, uint8_t _psquadindex, uint8_t _vteamid, uint8_t _vsquadindex, const std::string& _weapon, uint32_t _damage)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_EXTENDED);
+		if (sdata.append(WEBAPI_EXTENDED_DAMAGE) && sdata.append(_pteamid) && sdata.append(_psquadindex) && sdata.append(_vteamid) && sdata.append(_vsquadindex) && sdata.append(_weapon) && sdata.append(_damage))
+		{
+			sendto_webapi(std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::send_webapi_extended_revive(uint8_t _teamid, uint8_t _psquadindex, uint8_t _rsquadindex)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_EXTENDED);
+		if (sdata.append(WEBAPI_EXTENDED_REVIVE) && sdata.append(_teamid) && sdata.append(_psquadindex) && sdata.append(_rsquadindex))
+		{
+			sendto_webapi(std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::send_webapi_extended_collected(uint8_t _teamid, uint8_t _psquadindex, uint8_t _rsquadindex)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_EXTENDED);
+		if (sdata.append(WEBAPI_EXTENDED_COLLECTED) && sdata.append(_teamid) && sdata.append(_psquadindex) && sdata.append(_rsquadindex))
+		{
+			sendto_webapi(std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::send_webapi_extended_respawn(uint8_t _teamid, uint8_t _psquadindex, uint8_t _rsquadindex)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_EXTENDED);
+		if (sdata.append(WEBAPI_EXTENDED_RESPAWN) && sdata.append(_teamid) && sdata.append(_psquadindex) && sdata.append(_rsquadindex))
+		{
+			sendto_webapi(std::move(sdata.buffer_));
 		}
 	}
 

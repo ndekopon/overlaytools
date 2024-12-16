@@ -122,6 +122,14 @@ namespace app {
 		void send_webapi_team_placement(SOCKET _sock, uint8_t _teamid, uint32_t _placement);
 		void send_webapi_team_respawn(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex, const std::vector<uint8_t>& _targets);
 
+
+		void send_webapi_extended_kill(uint8_t _pteamid, uint8_t _psquadindex, uint8_t _vteamid, uint8_t _vsquadindex, const std::string& _weapon);
+		void send_webapi_extended_knockdown(uint8_t _pteamid, uint8_t _psquadindex, uint8_t _vteamid, uint8_t _rsquadindex, const std::string& _weapon);
+		void send_webapi_extended_damage(uint8_t _pteamid, uint8_t _psquadindex, uint8_t _vteamid, uint8_t _vsquadindex, const std::string& _weapon, uint32_t _damage);
+		void send_webapi_extended_revive(uint8_t _teamid, uint8_t _psquadindex, uint8_t _rsquadindex);
+		void send_webapi_extended_collected(uint8_t _teamid, uint8_t _psquadindex, uint8_t _csquadindex);
+		void send_webapi_extended_respawn(uint8_t _teamid, uint8_t _psquadindex, uint8_t _rsquadindex);
+
 		void send_webapi_lobbyplayer(uint8_t _teamid, const std::string& _hash, const std::string& _name, const std::string& _hardware);
 		void send_webapi_custommatch_settings(const std::string& _playlistname, bool _adminchat, bool _teamrename, bool _selfassign, bool _aimassist, bool _anonmode);
 
