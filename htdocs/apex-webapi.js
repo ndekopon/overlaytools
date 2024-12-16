@@ -244,6 +244,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_EVENT_PLAYER_LEVEL = 0x3c;
   static WEBAPI_EVENT_PLAYER_PERK = 0x3d;
   static WEBAPI_EVENT_PLAYER_WEAPON = 0x3e;
+  static WEBAPI_EVENT_EXTENDED = 0x3f;
 
   static WEBAPI_EVENT_LOBBYPLAYER = 0x40;
   static WEBAPI_EVENT_CUSTOMMATCH_SETTINGS = 0x41;
@@ -327,6 +328,13 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_ITEM_HEATSHIELD = 0x61;
   static WEBAPI_ITEM_EVACTOWER = 0x62;
   static WEBAPI_ITEM_SHIELDCCORE = 0x70;
+
+  static WEBAPI_EXTENDED_KILL = 0x00;
+  static WEBAPI_EXTENDED_KNOCKDOWN = 0x01;
+  static WEBAPI_EXTENDED_DAMAGE = 0x02;
+  static WEBAPI_EXTENDED_REVIVE = 0x03;
+  static WEBAPI_EXTENDED_COLLECTED = 0x04;
+  static WEBAPI_EXTENDED_RESPAWN = 0x05;
 
   #uri;
   #socket;
@@ -898,6 +906,78 @@ export class ApexWebAPI extends EventTarget {
     return true;
   }
 
+  #procEventExtended(arr) {
+    const len = arr.length;
+    switch (arr[0]) {
+      case ApexWebAPI.WEBAPI_EXTENDED_KILL:
+        if (len == 6) {
+          if (arr[1] < 2) break;
+          if (arr[3] < 2) break;
+          const player_teamid = arr[1] - 2;
+          const victim_teamid = arr[3] - 2;
+          const player = this.#game.teams[player_teamid].players[arr[2]];
+          const victim = this.#game.teams[victim_teamid].players[arr[4]];
+          const weapon = arr[5];
+          this.dispatchEvent(new CustomEvent('infokill', { detail: { player: player, victim: victim, weapon: weapon } }));
+        }
+        break;
+      case ApexWebAPI.WEBAPI_EXTENDED_KNOCKDOWN:
+        if (len == 6) {
+          if (arr[1] < 2) break;
+          if (arr[3] < 2) break;
+          const player_teamid = arr[1] - 2;
+          const victim_teamid = arr[3] - 2;
+          const player = this.#game.teams[player_teamid].players[arr[2]];
+          const victim = this.#game.teams[victim_teamid].players[arr[4]];
+          const weapon = arr[5];
+          this.dispatchEvent(new CustomEvent('infoknockdown', { detail: { player: player, victim: victim, weapon: weapon } }));
+        }
+        break;
+      case ApexWebAPI.WEBAPI_EXTENDED_DAMAGE:
+        if (len == 7) {
+          if (arr[1] < 2) break;
+          if (arr[3] < 2) break;
+          const player_teamid = arr[1] - 2;
+          const victim_teamid = arr[3] - 2;
+          const player = this.#game.teams[player_teamid].players[arr[2]];
+          const victim = this.#game.teams[victim_teamid].players[arr[4]];
+          const weapon = arr[5];
+          const damage = arr[6];
+          this.dispatchEvent(new CustomEvent('infodamage', { detail: { player: player, victim: victim, weapon: weapon, damage: damage } }));
+        }
+        break;
+      case ApexWebAPI.WEBAPI_EXTENDED_REVIVE:
+        if (len == 4) {
+          if (arr[1] < 2) break;
+          const teamid = arr[1] - 2;
+          const team = this.#game.teams[teamid];
+          const player = team.players[arr[2]];
+          const revived = team.players[arr[3]];
+          this.dispatchEvent(new CustomEvent('inforevive', { detail: { team: team, player: player, revived: revived } }));
+        }
+        break;
+      case ApexWebAPI.WEBAPI_EXTENDED_COLLECTED:
+        if (len == 4) {
+          if (arr[1] < 2) break;
+          const teamid = arr[1] - 2;
+          const team = this.#game.teams[teamid];
+          const player = team.players[arr[2]];
+          const collected = team.players[arr[3]];
+          this.dispatchEvent(new CustomEvent('infocollected', { detail: { team: team, player: player, collected: collected } }));
+        }
+        break;
+      case ApexWebAPI.WEBAPI_EXTENDED_RESPAWN:
+        if (len == 4) {
+          if (arr[1] < 2) break;
+          const teamid = arr[1] - 2;
+          const team = this.#game.teams[teamid];
+          const player = team.players[arr[2]];
+          const respawned = team.players[arr[3]];
+          this.dispatchEvent(new CustomEvent('inforespawn', { detail: { team: team, player: player, respawned: respawned } }));
+        }
+        break;
+    }
+  }
 
   #procData(type, count, data) {
     const data_array = this.#parseData(count, data);
@@ -1026,6 +1106,9 @@ export class ApexWebAPI extends EventTarget {
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('teambannerstate', {detail: {state: data_array[0]}}));
         break;
+      case ApexWebAPI.WEBAPI_EVENT_EXTENDED:
+        if (count < 1) return false;
+        return this.#procEventExtended(data_array);
       case ApexWebAPI.WEBAPI_EVENT_MAP_STATE:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('mapstate', {detail: {state: data_array[0]}}));
