@@ -1758,7 +1758,7 @@ namespace app {
 			
 			log(LOG_CORE, L"Info: PlayerDowned received.");
 
-			if (!p.has_attacker())
+			if (p.has_attacker())
 			{
 				proc_player(p.attacker());
 			}
