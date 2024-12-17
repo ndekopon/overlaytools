@@ -977,6 +977,7 @@ export class ApexWebAPI extends EventTarget {
         }
         break;
     }
+    return true;
   }
 
   #procData(type, count, data) {
