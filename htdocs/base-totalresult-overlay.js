@@ -1,6 +1,10 @@
 import { TemplateOverlay, TemplateOverlayHandler } from "./template-overlay.js";
 
 class TotalResult extends TemplateOverlay {
+    constructor() {
+        super({types: ["players-totalresult"]});
+    }
+
     sortTeamTotalRank(changeinfo = []) {
         const teams = Object.values(this.teams);
         teams.sort((a, b) => {

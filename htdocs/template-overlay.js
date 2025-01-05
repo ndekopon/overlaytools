@@ -65,6 +65,24 @@ export class TemplateOverlay {
         }
     }
 
+    clearTeamPlayers() {
+        // HTMLノードの削除
+        for (const nodes of [this.root.shadowRoot.querySelectorAll('.teamplayers')]) {
+            for (const node of nodes) {
+                while (node.firstChild) { node.firstChild.remove(); }
+            }
+        }
+
+        // 索引のクリア
+        for (const target of [this.teamplayers]) {
+            for (var key in target) {
+                if (target.hasOwnProperty(key)) {
+                    delete target[key];
+                }
+            }
+        }
+    }
+
     clearCameraPlayers() {
         // HTMLノードの削除
         for (const nodes of [this.root.shadowRoot.querySelectorAll('.cameraplayers')]) {
@@ -495,6 +513,7 @@ export class TemplateOverlayHandler {
     #player_params;
     #player_index;
     #player_index_singleresult;
+    #player_index_totalresult;
     /* カメラ情報 */
     #camera_teamid;
     #camera_playerhash;
@@ -524,6 +543,7 @@ export class TemplateOverlayHandler {
         this.#player_params = {};
         this.#player_index = {};
         this.#player_index_singleresult = {};
+        this.#player_index_totalresult = {};
         this.#camera_teamid = -1;
         this.#camera_playerhash = '';
         this.#game = null;
@@ -638,6 +658,7 @@ export class TemplateOverlayHandler {
             this.#updatedGame(ev.detail.game);
             if (!this.#getallprocessing) this.#reCalc();
             this.#updatedSingleResult();
+            this.#updatedTotalResultPlayers();
             this.#updatedParticipatedTeamsInformation();
             this.#winner_determine = false;
         });
@@ -659,6 +680,7 @@ export class TemplateOverlayHandler {
                 this.#results.push(ev.detail.result);
                 if (!this.#getallprocessing) this.#reCalc();
                 this.#updatedSingleResult();
+                this.#updatedTotalResultPlayers();
                 this.#updatedParticipatedTeamsInformation();
             } else {
                 // 足りていない場合は再取得
@@ -674,6 +696,7 @@ export class TemplateOverlayHandler {
             this.#results = ev.detail.results;
             if (!this.#getallprocessing) this.#reCalc();
             this.#updatedSingleResult();
+            this.#updatedTotalResultPlayers();
             this.#updatedParticipatedTeamsInformation();
             if (this.#results_count != this.#results.length) {
                 this.#updatedResultsCount(this.#results.length);
@@ -719,6 +742,7 @@ export class TemplateOverlayHandler {
         this.#webapi.addEventListener("playername", (ev) => {
             this.#updatedPlayerName(ev.detail.player.hash, ev.detail.player.name);
             this.#updatedPlayerSingleResultName(ev.detail.player.hash, ev.detail.player.name);
+            this.#updatedPlayerTotalResultName(ev.detail.player.hash, ev.detail.player.name);
         });
 
         this.#webapi.addEventListener("getplayerparams", (ev) => {
@@ -1186,6 +1210,7 @@ export class TemplateOverlayHandler {
         if (!('name' in params)) return;
         this.#updatedPlayerName(hash, params.name);
         this.#updatedPlayerSingleResultName(hash, params.name);
+        this.#updatedPlayerTotalResultName(hash, params.name);
     }
 
     #updatedTournamentParams(params) {
@@ -1227,7 +1252,7 @@ export class TemplateOverlayHandler {
             const player = this.#player_index[hash];
             for (const overlay of Object.values(this.#overlays)) {
                 overlay.setPlayerParam(hash, `player-${param}`, value);
-                if (!overlay.hasType("players-singleresult")) {
+                if (!overlay.hasType("players-singleresult") && !overlay.hasType("players-totalresult")) {
                     overlay.setTeamPlayerParam(player.teamid, hash, `teamplayer-${param}`, value);
                 }
             }
@@ -1281,6 +1306,18 @@ export class TemplateOverlayHandler {
         }
     }
 
+    #updatedPlayerTotalResultParam(playerid, param, value) {
+        if (playerid in this.#player_index_totalresult) {
+            const teamid = this.#player_index_totalresult[playerid].teamid;
+            for (const overlay of Object.values(this.#overlays)) {
+                if (overlay.hasType("players-totalresult")) {
+                    overlay.setPlayerParam(playerid, `player-${param}`, value);
+                    overlay.setTeamPlayerParam(teamid, playerid, `teamplayer-${param}`, value);
+                }
+            }
+        }
+    }
+
     #updatedPlayerSingleResultId(playerid) {
         this.#updatedPlayerSingleResultParam(playerid, 'id', playerid);
     }
@@ -1300,6 +1337,27 @@ export class TemplateOverlayHandler {
     #updatedPlayerSingleResultDamage(playerid, dealt, taken) {
         this.#updatedPlayerSingleResultParam(playerid, 'damagedealt', dealt);
         this.#updatedPlayerSingleResultParam(playerid, 'damagetaken', taken);
+    }
+
+    #updatedPlayerTotalResultId(playerid) {
+        this.#updatedPlayerTotalResultParam(playerid, 'id', playerid);
+    }
+
+    #updatedPlayerTotalResultName(playerid, name) {
+        this.#updatedPlayerTotalResultParam(playerid, 'name', name);
+    }
+
+    #updatedPlayerTotalResultLegend(playerid, legend) {
+        this.#updatedPlayerTotalResultParam(playerid, 'legend', legend);
+    }
+
+    #updatedPlayerTotalResultKills(playerid, kills) {
+        this.#updatedPlayerTotalResultParam(playerid, 'kills', kills);
+    }
+
+    #updatedPlayerTotalResultDamage(playerid, dealt, taken) {
+        this.#updatedPlayerTotalResultParam(playerid, 'damagedealt', dealt);
+        this.#updatedPlayerTotalResultParam(playerid, 'damagetaken', taken);
     }
 
     #updatedWinnerDetermine(teamid) {
@@ -1630,6 +1688,13 @@ export class TemplateOverlayHandler {
                 overlay.clear();
             }
         }
+
+        for (const overlay of Object.values(this.#overlays)) {
+            if (overlay.hasType("players-singleresult")) {
+                overlay.clearTeamPlayers();
+            }
+        }
+
         if (this.#results.length == 0) return;
         const gameid = this.#results.length - 1;
         const result = this.#results[gameid];
@@ -1663,6 +1728,92 @@ export class TemplateOverlayHandler {
         for (const overlay of Object.values(this.#overlays)) {
             if ('sortTeamSingleResultPlacement' in overlay && typeof(overlay.sortTeamSingleResultPlacement) == 'function') {
                 overlay.sortTeamSingleResultPlacement();
+            }
+        }
+    }
+
+    /**
+     * 合算リザルトのプレイヤーパラメータを処理する
+     */
+    #updatedTotalResultPlayers() {
+        // プレイヤーの索引を削除
+        this.#player_index_totalresult = {};
+
+        // 特定のメソッドを持っている場合はteams要素をクリアする
+        for (const overlay of Object.values(this.#overlays)) {
+            if ('sortTeamTotalResultPlacement' in overlay && typeof(overlay.sortTeamTotalResultPlacement) == 'function') {
+                overlay.clear();
+            }
+        }
+
+        for (const overlay of Object.values(this.#overlays)) {
+            if (overlay.hasType("players-totalresult")) {
+                overlay.clearTeamPlayers();
+            }
+        }
+
+        if (this.#results.length == 0) return;
+        const gameid = this.#results.length - 1;
+        const result = this.#results[gameid];
+
+        const mode = (a) => {
+            const i = new Map();
+            let cm = 0;
+            let o;
+            a.forEach(v => {
+                let c = -~i.get(v);
+                c ? c++ : c = 1;
+                i.set(v, c);
+                c >= cm && (o = v, cm = c);
+            });
+            return o;
+        };
+
+        for (const [gameidstr, result] of Object.entries(this.#results)) {
+            if ('teams' in result) {
+                for (const [teamidstr, team] of Object.entries(result.teams)) {
+                    const gameid = parseInt(gameidstr, 10);
+                    const teamid = parseInt(teamidstr, 10);
+                    for (const player of team.players) {
+                        const hash = player.id;
+                        player.teamid = teamid;
+                        if (!(hash in this.#player_index_totalresult)) {
+                            // 初期化
+                            this.#player_index_totalresult[hash] = {
+                                id: hash,
+                                name: [],
+                                teamid: teamid,
+                                teamids: [],
+                                character: [],
+                                kills: [],
+                                damage_dealt: [],
+                                damage_taken: [],
+                            };
+                        }
+                        const totalplayer = this.#player_index_totalresult[hash];
+                        totalplayer.name.push(player.name);
+                        totalplayer.teamids.push(teamid);
+                        totalplayer.teamid = mode(totalplayer.teamids);
+                        totalplayer.character.push(player.character);
+                        totalplayer.kills.push(player.kills);
+                        totalplayer.damage_dealt.push(player.damage_dealt);
+                        totalplayer.damage_taken.push(player.damage_taken);
+                    }
+                }
+            }
+        }
+
+        for (const [hash, player] of Object.entries(this.#player_index_totalresult)) {
+            this.#updatedPlayerTotalResultId(hash);
+            this.#updatedPlayerTotalResultName(hash, mode(player.name));
+            this.#updatedPlayerTotalResultLegend(hash, mode(player.character));
+            this.#updatedPlayerTotalResultKills(hash, player.kills.reduce((a, c) => a + c, 0));
+            this.#updatedPlayerTotalResultDamage(hash, player.damage_dealt.reduce((a, c) => a + c, 0), player.damage_taken.reduce((a, c) => a + c, 0));
+        }
+
+        for (const overlay of Object.values(this.#overlays)) {
+            if ('sortTeamTotalResultPlacement' in overlay && typeof(overlay.sortTeamTotalResultPlacement) == 'function') {
+                overlay.sortTeamTotalResultPlacement();
             }
         }
     }
