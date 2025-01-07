@@ -104,6 +104,9 @@ extern CustomMatch_LobbyPlayersDefaultTypeInternal _CustomMatch_LobbyPlayers_def
 class CustomMatch_SendChat;
 struct CustomMatch_SendChatDefaultTypeInternal;
 extern CustomMatch_SendChatDefaultTypeInternal _CustomMatch_SendChat_default_instance_;
+class CustomMatch_SetEndRingExclusion;
+struct CustomMatch_SetEndRingExclusionDefaultTypeInternal;
+extern CustomMatch_SetEndRingExclusionDefaultTypeInternal _CustomMatch_SetEndRingExclusion_default_instance_;
 class CustomMatch_SetMatchmaking;
 struct CustomMatch_SetMatchmakingDefaultTypeInternal;
 extern CustomMatch_SetMatchmakingDefaultTypeInternal _CustomMatch_SetMatchmaking_default_instance_;
@@ -122,6 +125,9 @@ extern CustomMatch_SetTeamDefaultTypeInternal _CustomMatch_SetTeam_default_insta
 class CustomMatch_SetTeamName;
 struct CustomMatch_SetTeamNameDefaultTypeInternal;
 extern CustomMatch_SetTeamNameDefaultTypeInternal _CustomMatch_SetTeamName_default_instance_;
+class CustomMatch_Team;
+struct CustomMatch_TeamDefaultTypeInternal;
+extern CustomMatch_TeamDefaultTypeInternal _CustomMatch_Team_default_instance_;
 class Datacenter;
 struct DatacenterDefaultTypeInternal;
 extern DatacenterDefaultTypeInternal _Datacenter_default_instance_;
@@ -206,6 +212,9 @@ extern PlayerReviveDefaultTypeInternal _PlayerRevive_default_instance_;
 class PlayerStatChanged;
 struct PlayerStatChangedDefaultTypeInternal;
 extern PlayerStatChangedDefaultTypeInternal _PlayerStatChanged_default_instance_;
+class PlayerUltimateCharged;
+struct PlayerUltimateChargedDefaultTypeInternal;
+extern PlayerUltimateChargedDefaultTypeInternal _PlayerUltimateCharged_default_instance_;
 class PlayerUpgradeTierChanged;
 struct PlayerUpgradeTierChangedDefaultTypeInternal;
 extern PlayerUpgradeTierChangedDefaultTypeInternal _PlayerUpgradeTierChanged_default_instance_;
@@ -295,6 +304,43 @@ inline bool PlayerOfInterest_Parse(absl::string_view name, PlayerOfInterest* val
   return ::google::protobuf::internal::ParseNamedEnum<PlayerOfInterest>(
       PlayerOfInterest_descriptor(), name, value);
 }
+enum MapRegion : int {
+  TOP_LEFT = 0,
+  TOP_RIGHT = 1,
+  BOTTOM_LEFT = 2,
+  BOTTOM_RIGHT = 3,
+  CENTER = 4,
+  REGIONS_COUNT = 5,
+  MapRegion_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  MapRegion_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool MapRegion_IsValid(int value);
+extern const uint32_t MapRegion_internal_data_[];
+constexpr MapRegion MapRegion_MIN = static_cast<MapRegion>(0);
+constexpr MapRegion MapRegion_MAX = static_cast<MapRegion>(5);
+constexpr int MapRegion_ARRAYSIZE = 5 + 1;
+const ::google::protobuf::EnumDescriptor*
+MapRegion_descriptor();
+template <typename T>
+const std::string& MapRegion_Name(T value) {
+  static_assert(std::is_same<T, MapRegion>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to MapRegion_Name().");
+  return MapRegion_Name(static_cast<MapRegion>(value));
+}
+template <>
+inline const std::string& MapRegion_Name(MapRegion value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<MapRegion_descriptor,
+                                                 0, 5>(
+      static_cast<int>(value));
+}
+inline bool MapRegion_Parse(absl::string_view name, MapRegion* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<MapRegion>(
+      MapRegion_descriptor(), name, value);
+}
 
 // ===================================================================
 
@@ -360,7 +406,7 @@ class Version final : public ::google::protobuf::Message
     return reinterpret_cast<const Version*>(
         &_Version_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 4;
+  static constexpr int kIndexInFileMessages = 5;
   friend void swap(Version& a, Version& b) { a.Swap(&b); }
   inline void Swap(Version* other) {
     if (other == this) return;
@@ -806,7 +852,7 @@ class RequestStatus final : public ::google::protobuf::Message
     return reinterpret_cast<const RequestStatus*>(
         &_RequestStatus_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 61;
+  static constexpr int kIndexInFileMessages = 64;
   friend void swap(RequestStatus& a, RequestStatus& b) { a.Swap(&b); }
   inline void Swap(RequestStatus* other) {
     if (other == this) return;
@@ -1002,7 +1048,7 @@ class PauseToggle final : public ::google::protobuf::Message
     return reinterpret_cast<const PauseToggle*>(
         &_PauseToggle_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 46;
+  static constexpr int kIndexInFileMessages = 48;
   friend void swap(PauseToggle& a, PauseToggle& b) { a.Swap(&b); }
   inline void Swap(PauseToggle* other) {
     if (other == this) return;
@@ -1192,7 +1238,7 @@ class ObserverAnnotation final : public ::google::protobuf::Message
     return reinterpret_cast<const ObserverAnnotation*>(
         &_ObserverAnnotation_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 10;
+  static constexpr int kIndexInFileMessages = 11;
   friend void swap(ObserverAnnotation& a, ObserverAnnotation& b) { a.Swap(&b); }
   inline void Swap(ObserverAnnotation* other) {
     if (other == this) return;
@@ -1412,7 +1458,7 @@ class InventoryItem final : public ::google::protobuf::Message
     return reinterpret_cast<const InventoryItem*>(
         &_InventoryItem_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 5;
+  static constexpr int kIndexInFileMessages = 6;
   friend void swap(InventoryItem& a, InventoryItem& b) { a.Swap(&b); }
   inline void Swap(InventoryItem* other) {
     if (other == this) return;
@@ -1638,7 +1684,7 @@ class GameStateChanged final : public ::google::protobuf::Message
     return reinterpret_cast<const GameStateChanged*>(
         &_GameStateChanged_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 12;
+  static constexpr int kIndexInFileMessages = 13;
   friend void swap(GameStateChanged& a, GameStateChanged& b) { a.Swap(&b); }
   inline void Swap(GameStateChanged* other) {
     if (other == this) return;
@@ -1864,7 +1910,7 @@ class Datacenter final : public ::google::protobuf::Message
     return reinterpret_cast<const Datacenter*>(
         &_Datacenter_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 3;
+  static constexpr int kIndexInFileMessages = 4;
   friend void swap(Datacenter& a, Datacenter& b) { a.Swap(&b); }
   inline void Swap(Datacenter* other) {
     if (other == this) return;
@@ -2031,6 +2077,226 @@ class Datacenter final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class CustomMatch_Team final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:rtech.liveapi.CustomMatch_Team) */ {
+ public:
+  inline CustomMatch_Team() : CustomMatch_Team(nullptr) {}
+  ~CustomMatch_Team() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(CustomMatch_Team* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(CustomMatch_Team));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR CustomMatch_Team(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline CustomMatch_Team(const CustomMatch_Team& from) : CustomMatch_Team(nullptr, from) {}
+  inline CustomMatch_Team(CustomMatch_Team&& from) noexcept
+      : CustomMatch_Team(nullptr, std::move(from)) {}
+  inline CustomMatch_Team& operator=(const CustomMatch_Team& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CustomMatch_Team& operator=(CustomMatch_Team&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CustomMatch_Team& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CustomMatch_Team* internal_default_instance() {
+    return reinterpret_cast<const CustomMatch_Team*>(
+        &_CustomMatch_Team_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 3;
+  friend void swap(CustomMatch_Team& a, CustomMatch_Team& b) { a.Swap(&b); }
+  inline void Swap(CustomMatch_Team* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CustomMatch_Team* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CustomMatch_Team* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<CustomMatch_Team>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const CustomMatch_Team& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const CustomMatch_Team& from) { CustomMatch_Team::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(CustomMatch_Team* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "rtech.liveapi.CustomMatch_Team"; }
+
+ protected:
+  explicit CustomMatch_Team(::google::protobuf::Arena* arena);
+  CustomMatch_Team(::google::protobuf::Arena* arena, const CustomMatch_Team& from);
+  CustomMatch_Team(::google::protobuf::Arena* arena, CustomMatch_Team&& from) noexcept
+      : CustomMatch_Team(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kNameFieldNumber = 2,
+    kIdFieldNumber = 1,
+    kSpawnPointFieldNumber = 3,
+  };
+  // string name = 2;
+  void clear_name() ;
+  const std::string& name() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_name(Arg_&& arg, Args_... args);
+  std::string* mutable_name();
+  PROTOBUF_NODISCARD std::string* release_name();
+  void set_allocated_name(std::string* value);
+
+  private:
+  const std::string& _internal_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(
+      const std::string& value);
+  std::string* _internal_mutable_name();
+
+  public:
+  // uint32 id = 1;
+  void clear_id() ;
+  ::uint32_t id() const;
+  void set_id(::uint32_t value);
+
+  private:
+  ::uint32_t _internal_id() const;
+  void _internal_set_id(::uint32_t value);
+
+  public:
+  // int32 spawnPoint = 3;
+  void clear_spawnpoint() ;
+  ::int32_t spawnpoint() const;
+  void set_spawnpoint(::int32_t value);
+
+  private:
+  ::int32_t _internal_spawnpoint() const;
+  void _internal_set_spawnpoint(::int32_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.CustomMatch_Team)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 3, 0,
+      43, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const CustomMatch_Team& from_msg);
+    ::google::protobuf::internal::ArenaStringPtr name_;
+    ::uint32_t id_;
+    ::int32_t spawnpoint_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_events_2eproto;
+};
+// -------------------------------------------------------------------
+
 class CustomMatch_SetTeamName final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:rtech.liveapi.CustomMatch_SetTeamName) */ {
  public:
@@ -2090,7 +2356,7 @@ class CustomMatch_SetTeamName final : public ::google::protobuf::Message
     return reinterpret_cast<const CustomMatch_SetTeamName*>(
         &_CustomMatch_SetTeamName_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 57;
+  static constexpr int kIndexInFileMessages = 59;
   friend void swap(CustomMatch_SetTeamName& a, CustomMatch_SetTeamName& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetTeamName* other) {
     if (other == this) return;
@@ -2298,7 +2564,7 @@ class CustomMatch_SetTeam final : public ::google::protobuf::Message
     return reinterpret_cast<const CustomMatch_SetTeam*>(
         &_CustomMatch_SetTeam_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 53;
+  static constexpr int kIndexInFileMessages = 55;
   friend void swap(CustomMatch_SetTeam& a, CustomMatch_SetTeam& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetTeam* other) {
     if (other == this) return;
@@ -2524,7 +2790,7 @@ class CustomMatch_SetSpawnPoint final : public ::google::protobuf::Message
     return reinterpret_cast<const CustomMatch_SetSpawnPoint*>(
         &_CustomMatch_SetSpawnPoint_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 58;
+  static constexpr int kIndexInFileMessages = 60;
   friend void swap(CustomMatch_SetSpawnPoint& a, CustomMatch_SetSpawnPoint& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetSpawnPoint* other) {
     if (other == this) return;
@@ -2726,7 +2992,7 @@ class CustomMatch_SetSettings final : public ::google::protobuf::Message
     return reinterpret_cast<const CustomMatch_SetSettings*>(
         &_CustomMatch_SetSettings_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 55;
+  static constexpr int kIndexInFileMessages = 57;
   friend void swap(CustomMatch_SetSettings& a, CustomMatch_SetSettings& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetSettings* other) {
     if (other == this) return;
@@ -2982,7 +3248,7 @@ class CustomMatch_SetReady final : public ::google::protobuf::Message
     return reinterpret_cast<const CustomMatch_SetReady*>(
         &_CustomMatch_SetReady_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 50;
+  static constexpr int kIndexInFileMessages = 52;
   friend void swap(CustomMatch_SetReady& a, CustomMatch_SetReady& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetReady* other) {
     if (other == this) return;
@@ -3172,7 +3438,7 @@ class CustomMatch_SetMatchmaking final : public ::google::protobuf::Message
     return reinterpret_cast<const CustomMatch_SetMatchmaking*>(
         &_CustomMatch_SetMatchmaking_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 52;
+  static constexpr int kIndexInFileMessages = 54;
   friend void swap(CustomMatch_SetMatchmaking& a, CustomMatch_SetMatchmaking& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetMatchmaking* other) {
     if (other == this) return;
@@ -3303,6 +3569,196 @@ class CustomMatch_SetMatchmaking final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class CustomMatch_SetEndRingExclusion final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:rtech.liveapi.CustomMatch_SetEndRingExclusion) */ {
+ public:
+  inline CustomMatch_SetEndRingExclusion() : CustomMatch_SetEndRingExclusion(nullptr) {}
+  ~CustomMatch_SetEndRingExclusion() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(CustomMatch_SetEndRingExclusion* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(CustomMatch_SetEndRingExclusion));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR CustomMatch_SetEndRingExclusion(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline CustomMatch_SetEndRingExclusion(const CustomMatch_SetEndRingExclusion& from) : CustomMatch_SetEndRingExclusion(nullptr, from) {}
+  inline CustomMatch_SetEndRingExclusion(CustomMatch_SetEndRingExclusion&& from) noexcept
+      : CustomMatch_SetEndRingExclusion(nullptr, std::move(from)) {}
+  inline CustomMatch_SetEndRingExclusion& operator=(const CustomMatch_SetEndRingExclusion& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CustomMatch_SetEndRingExclusion& operator=(CustomMatch_SetEndRingExclusion&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CustomMatch_SetEndRingExclusion& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CustomMatch_SetEndRingExclusion* internal_default_instance() {
+    return reinterpret_cast<const CustomMatch_SetEndRingExclusion*>(
+        &_CustomMatch_SetEndRingExclusion_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 61;
+  friend void swap(CustomMatch_SetEndRingExclusion& a, CustomMatch_SetEndRingExclusion& b) { a.Swap(&b); }
+  inline void Swap(CustomMatch_SetEndRingExclusion* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CustomMatch_SetEndRingExclusion* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CustomMatch_SetEndRingExclusion* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<CustomMatch_SetEndRingExclusion>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const CustomMatch_SetEndRingExclusion& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const CustomMatch_SetEndRingExclusion& from) { CustomMatch_SetEndRingExclusion::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(CustomMatch_SetEndRingExclusion* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "rtech.liveapi.CustomMatch_SetEndRingExclusion"; }
+
+ protected:
+  explicit CustomMatch_SetEndRingExclusion(::google::protobuf::Arena* arena);
+  CustomMatch_SetEndRingExclusion(::google::protobuf::Arena* arena, const CustomMatch_SetEndRingExclusion& from);
+  CustomMatch_SetEndRingExclusion(::google::protobuf::Arena* arena, CustomMatch_SetEndRingExclusion&& from) noexcept
+      : CustomMatch_SetEndRingExclusion(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kSectionToExcludeFieldNumber = 1,
+  };
+  // .rtech.liveapi.MapRegion sectionToExclude = 1;
+  void clear_sectiontoexclude() ;
+  ::rtech::liveapi::MapRegion sectiontoexclude() const;
+  void set_sectiontoexclude(::rtech::liveapi::MapRegion value);
+
+  private:
+  ::rtech::liveapi::MapRegion _internal_sectiontoexclude() const;
+  void _internal_set_sectiontoexclude(::rtech::liveapi::MapRegion value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.CustomMatch_SetEndRingExclusion)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 1, 0,
+      0, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const CustomMatch_SetEndRingExclusion& from_msg);
+    int sectiontoexclude_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_events_2eproto;
+};
+// -------------------------------------------------------------------
+
 class CustomMatch_SendChat final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:rtech.liveapi.CustomMatch_SendChat) */ {
  public:
@@ -3362,7 +3818,7 @@ class CustomMatch_SendChat final : public ::google::protobuf::Message
     return reinterpret_cast<const CustomMatch_SendChat*>(
         &_CustomMatch_SendChat_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 59;
+  static constexpr int kIndexInFileMessages = 62;
   friend void swap(CustomMatch_SendChat& a, CustomMatch_SendChat& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SendChat* other) {
     if (other == this) return;
@@ -3801,7 +4257,7 @@ class CustomMatch_LeaveLobby final : public ::google::protobuf::internal::ZeroFi
     return reinterpret_cast<const CustomMatch_LeaveLobby*>(
         &_CustomMatch_LeaveLobby_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 49;
+  static constexpr int kIndexInFileMessages = 51;
   friend void swap(CustomMatch_LeaveLobby& a, CustomMatch_LeaveLobby& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_LeaveLobby* other) {
     if (other == this) return;
@@ -3947,7 +4403,7 @@ class CustomMatch_KickPlayer final : public ::google::protobuf::Message
     return reinterpret_cast<const CustomMatch_KickPlayer*>(
         &_CustomMatch_KickPlayer_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 54;
+  static constexpr int kIndexInFileMessages = 56;
   friend void swap(CustomMatch_KickPlayer& a, CustomMatch_KickPlayer& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_KickPlayer* other) {
     if (other == this) return;
@@ -4161,7 +4617,7 @@ class CustomMatch_JoinLobby final : public ::google::protobuf::Message
     return reinterpret_cast<const CustomMatch_JoinLobby*>(
         &_CustomMatch_JoinLobby_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 48;
+  static constexpr int kIndexInFileMessages = 50;
   friend void swap(CustomMatch_JoinLobby& a, CustomMatch_JoinLobby& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_JoinLobby* other) {
     if (other == this) return;
@@ -4356,7 +4812,7 @@ class CustomMatch_GetSettings final : public ::google::protobuf::internal::ZeroF
     return reinterpret_cast<const CustomMatch_GetSettings*>(
         &_CustomMatch_GetSettings_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 56;
+  static constexpr int kIndexInFileMessages = 58;
   friend void swap(CustomMatch_GetSettings& a, CustomMatch_GetSettings& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_GetSettings* other) {
     if (other == this) return;
@@ -4501,7 +4957,7 @@ class CustomMatch_GetLobbyPlayers final : public ::google::protobuf::internal::Z
     return reinterpret_cast<const CustomMatch_GetLobbyPlayers*>(
         &_CustomMatch_GetLobbyPlayers_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 51;
+  static constexpr int kIndexInFileMessages = 53;
   friend void swap(CustomMatch_GetLobbyPlayers& a, CustomMatch_GetLobbyPlayers& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_GetLobbyPlayers* other) {
     if (other == this) return;
@@ -4646,7 +5102,7 @@ class CustomMatch_CreateLobby final : public ::google::protobuf::internal::ZeroF
     return reinterpret_cast<const CustomMatch_CreateLobby*>(
         &_CustomMatch_CreateLobby_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 47;
+  static constexpr int kIndexInFileMessages = 49;
   friend void swap(CustomMatch_CreateLobby& a, CustomMatch_CreateLobby& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_CreateLobby* other) {
     if (other == this) return;
@@ -4797,7 +5253,7 @@ class ChangeCamera final : public ::google::protobuf::Message
     return reinterpret_cast<const ChangeCamera*>(
         &_ChangeCamera_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 45;
+  static constexpr int kIndexInFileMessages = 47;
   friend void swap(ChangeCamera& a, ChangeCamera& b) { a.Swap(&b); }
   inline void Swap(ChangeCamera* other) {
     if (other == this) return;
@@ -5018,7 +5474,7 @@ class RingStartClosing final : public ::google::protobuf::Message
     return reinterpret_cast<const RingStartClosing*>(
         &_RingStartClosing_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 15;
+  static constexpr int kIndexInFileMessages = 16;
   friend void swap(RingStartClosing& a, RingStartClosing& b) { a.Swap(&b); }
   inline void Swap(RingStartClosing* other) {
     if (other == this) return;
@@ -5292,7 +5748,7 @@ class RingFinishedClosing final : public ::google::protobuf::Message
     return reinterpret_cast<const RingFinishedClosing*>(
         &_RingFinishedClosing_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 16;
+  static constexpr int kIndexInFileMessages = 17;
   friend void swap(RingFinishedClosing& a, RingFinishedClosing& b) { a.Swap(&b); }
   inline void Swap(RingFinishedClosing* other) {
     if (other == this) return;
@@ -5554,7 +6010,7 @@ class Response final : public ::google::protobuf::Message
     return reinterpret_cast<const Response*>(
         &_Response_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 62;
+  static constexpr int kIndexInFileMessages = 65;
   friend void swap(Response& a, Response& b) { a.Swap(&b); }
   inline void Swap(Response* other) {
     if (other == this) return;
@@ -5774,13 +6230,14 @@ class Request final : public ::google::protobuf::Message
     kCustomMatchSetTeamName = 20,
     kCustomMatchGetSettings = 21,
     kCustomMatchSetSpawnPoint = 22,
+    kCustomMatchSetEndRingExclusion = 23,
     ACTIONS_NOT_SET = 0,
   };
   static inline const Request* internal_default_instance() {
     return reinterpret_cast<const Request*>(
         &_Request_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 60;
+  static constexpr int kIndexInFileMessages = 63;
   friend void swap(Request& a, Request& b) { a.Swap(&b); }
   inline void Swap(Request* other) {
     if (other == this) return;
@@ -5884,6 +6341,7 @@ class Request final : public ::google::protobuf::Message
     kCustomMatchSetTeamNameFieldNumber = 20,
     kCustomMatchGetSettingsFieldNumber = 21,
     kCustomMatchSetSpawnPointFieldNumber = 22,
+    kCustomMatchSetEndRingExclusionFieldNumber = 23,
   };
   // string preSharedKey = 2;
   void clear_presharedkey() ;
@@ -6196,6 +6654,25 @@ class Request final : public ::google::protobuf::Message
   ::rtech::liveapi::CustomMatch_SetSpawnPoint* _internal_mutable_custommatch_setspawnpoint();
 
   public:
+  // .rtech.liveapi.CustomMatch_SetEndRingExclusion customMatch_SetEndRingExclusion = 23;
+  bool has_custommatch_setendringexclusion() const;
+  private:
+  bool _internal_has_custommatch_setendringexclusion() const;
+
+  public:
+  void clear_custommatch_setendringexclusion() ;
+  const ::rtech::liveapi::CustomMatch_SetEndRingExclusion& custommatch_setendringexclusion() const;
+  PROTOBUF_NODISCARD ::rtech::liveapi::CustomMatch_SetEndRingExclusion* release_custommatch_setendringexclusion();
+  ::rtech::liveapi::CustomMatch_SetEndRingExclusion* mutable_custommatch_setendringexclusion();
+  void set_allocated_custommatch_setendringexclusion(::rtech::liveapi::CustomMatch_SetEndRingExclusion* value);
+  void unsafe_arena_set_allocated_custommatch_setendringexclusion(::rtech::liveapi::CustomMatch_SetEndRingExclusion* value);
+  ::rtech::liveapi::CustomMatch_SetEndRingExclusion* unsafe_arena_release_custommatch_setendringexclusion();
+
+  private:
+  const ::rtech::liveapi::CustomMatch_SetEndRingExclusion& _internal_custommatch_setendringexclusion() const;
+  ::rtech::liveapi::CustomMatch_SetEndRingExclusion* _internal_mutable_custommatch_setendringexclusion();
+
+  public:
   void clear_actions();
   ActionsCase actions_case() const;
   // @@protoc_insertion_point(class_scope:rtech.liveapi.Request)
@@ -6216,11 +6693,12 @@ class Request final : public ::google::protobuf::Message
   void set_has_custommatch_setteamname();
   void set_has_custommatch_getsettings();
   void set_has_custommatch_setspawnpoint();
+  void set_has_custommatch_setendringexclusion();
   inline bool has_actions() const;
   inline void clear_has_actions();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      1, 17, 15,
+      1, 18, 16,
       58, 2>
       _table_;
 
@@ -6258,6 +6736,7 @@ class Request final : public ::google::protobuf::Message
       ::rtech::liveapi::CustomMatch_SetTeamName* custommatch_setteamname_;
       ::rtech::liveapi::CustomMatch_GetSettings* custommatch_getsettings_;
       ::rtech::liveapi::CustomMatch_SetSpawnPoint* custommatch_setspawnpoint_;
+      ::rtech::liveapi::CustomMatch_SetEndRingExclusion* custommatch_setendringexclusion_;
     } actions_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -6720,7 +7199,7 @@ class LoadoutConfiguration final : public ::google::protobuf::Message
     return reinterpret_cast<const LoadoutConfiguration*>(
         &_LoadoutConfiguration_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 6;
+  static constexpr int kIndexInFileMessages = 7;
   friend void swap(LoadoutConfiguration& a, LoadoutConfiguration& b) { a.Swap(&b); }
   inline void Swap(LoadoutConfiguration* other) {
     if (other == this) return;
@@ -6936,7 +7415,7 @@ class LiveAPIEvent final : public ::google::protobuf::Message
     return reinterpret_cast<const LiveAPIEvent*>(
         &_LiveAPIEvent_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 63;
+  static constexpr int kIndexInFileMessages = 66;
   friend void swap(LiveAPIEvent& a, LiveAPIEvent& b) { a.Swap(&b); }
   inline void Swap(LiveAPIEvent* other) {
     if (other == this) return;
@@ -7144,7 +7623,7 @@ class Init final : public ::google::protobuf::Message
     return reinterpret_cast<const Init*>(
         &_Init_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 7;
+  static constexpr int kIndexInFileMessages = 8;
   friend void swap(Init& a, Init& b) { a.Swap(&b); }
   inline void Swap(Init* other) {
     if (other == this) return;
@@ -7424,7 +7903,7 @@ class CustomMatch_LobbyPlayers final : public ::google::protobuf::Message
     return reinterpret_cast<const CustomMatch_LobbyPlayers*>(
         &_CustomMatch_LobbyPlayers_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 8;
+  static constexpr int kIndexInFileMessages = 9;
   friend void swap(CustomMatch_LobbyPlayers& a, CustomMatch_LobbyPlayers& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_LobbyPlayers* other) {
     if (other == this) return;
@@ -7512,6 +7991,7 @@ class CustomMatch_LobbyPlayers final : public ::google::protobuf::Message
   // accessors -------------------------------------------------------
   enum : int {
     kPlayersFieldNumber = 2,
+    kTeamsFieldNumber = 3,
     kPlayerTokenFieldNumber = 1,
   };
   // repeated .rtech.liveapi.CustomMatch_LobbyPlayer players = 2;
@@ -7531,6 +8011,23 @@ class CustomMatch_LobbyPlayers final : public ::google::protobuf::Message
   const ::rtech::liveapi::CustomMatch_LobbyPlayer& players(int index) const;
   ::rtech::liveapi::CustomMatch_LobbyPlayer* add_players();
   const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::CustomMatch_LobbyPlayer>& players() const;
+  // repeated .rtech.liveapi.CustomMatch_Team teams = 3;
+  int teams_size() const;
+  private:
+  int _internal_teams_size() const;
+
+  public:
+  void clear_teams() ;
+  ::rtech::liveapi::CustomMatch_Team* mutable_teams(int index);
+  ::google::protobuf::RepeatedPtrField<::rtech::liveapi::CustomMatch_Team>* mutable_teams();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::CustomMatch_Team>& _internal_teams() const;
+  ::google::protobuf::RepeatedPtrField<::rtech::liveapi::CustomMatch_Team>* _internal_mutable_teams();
+  public:
+  const ::rtech::liveapi::CustomMatch_Team& teams(int index) const;
+  ::rtech::liveapi::CustomMatch_Team* add_teams();
+  const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::CustomMatch_Team>& teams() const;
   // string playerToken = 1;
   void clear_playertoken() ;
   const std::string& playertoken() const;
@@ -7552,7 +8049,7 @@ class CustomMatch_LobbyPlayers final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      1, 2, 1,
+      2, 3, 2,
       58, 2>
       _table_;
 
@@ -7571,6 +8068,7 @@ class CustomMatch_LobbyPlayers final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const CustomMatch_LobbyPlayers& from_msg);
     ::google::protobuf::RepeatedPtrField< ::rtech::liveapi::CustomMatch_LobbyPlayer > players_;
+    ::google::protobuf::RepeatedPtrField< ::rtech::liveapi::CustomMatch_Team > teams_;
     ::google::protobuf::internal::ArenaStringPtr playertoken_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -7639,7 +8137,7 @@ class ZiplineUsed final : public ::google::protobuf::Message
     return reinterpret_cast<const ZiplineUsed*>(
         &_ZiplineUsed_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 38;
+  static constexpr int kIndexInFileMessages = 40;
   friend void swap(ZiplineUsed& a, ZiplineUsed& b) { a.Swap(&b); }
   inline void Swap(ZiplineUsed* other) {
     if (other == this) return;
@@ -7883,7 +8381,7 @@ class WraithPortal final : public ::google::protobuf::Message
     return reinterpret_cast<const WraithPortal*>(
         &_WraithPortal_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 41;
+  static constexpr int kIndexInFileMessages = 43;
   friend void swap(WraithPortal& a, WraithPortal& b) { a.Swap(&b); }
   inline void Swap(WraithPortal* other) {
     if (other == this) return;
@@ -8109,7 +8607,7 @@ class WeaponSwitched final : public ::google::protobuf::Message
     return reinterpret_cast<const WeaponSwitched*>(
         &_WeaponSwitched_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 44;
+  static constexpr int kIndexInFileMessages = 46;
   friend void swap(WeaponSwitched& a, WeaponSwitched& b) { a.Swap(&b); }
   inline void Swap(WeaponSwitched* other) {
     if (other == this) return;
@@ -8371,7 +8869,7 @@ class WarpGateUsed final : public ::google::protobuf::Message
     return reinterpret_cast<const WarpGateUsed*>(
         &_WarpGateUsed_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 42;
+  static constexpr int kIndexInFileMessages = 44;
   friend void swap(WarpGateUsed& a, WarpGateUsed& b) { a.Swap(&b); }
   inline void Swap(WarpGateUsed* other) {
     if (other == this) return;
@@ -8597,7 +9095,7 @@ class SquadEliminated final : public ::google::protobuf::Message
     return reinterpret_cast<const SquadEliminated*>(
         &_SquadEliminated_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 25;
+  static constexpr int kIndexInFileMessages = 26;
   friend void swap(SquadEliminated& a, SquadEliminated& b) { a.Swap(&b); }
   inline void Swap(SquadEliminated* other) {
     if (other == this) return;
@@ -8824,7 +9322,7 @@ class RevenantForgedShadowDamaged final : public ::google::protobuf::Message
     return reinterpret_cast<const RevenantForgedShadowDamaged*>(
         &_RevenantForgedShadowDamaged_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 27;
+  static constexpr int kIndexInFileMessages = 29;
   friend void swap(RevenantForgedShadowDamaged& a, RevenantForgedShadowDamaged& b) { a.Swap(&b); }
   inline void Swap(RevenantForgedShadowDamaged* other) {
     if (other == this) return;
@@ -9079,7 +9577,7 @@ class PlayerUpgradeTierChanged final : public ::google::protobuf::Message
     return reinterpret_cast<const PlayerUpgradeTierChanged*>(
         &_PlayerUpgradeTierChanged_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 20;
+  static constexpr int kIndexInFileMessages = 21;
   friend void swap(PlayerUpgradeTierChanged& a, PlayerUpgradeTierChanged& b) { a.Swap(&b); }
   inline void Swap(PlayerUpgradeTierChanged* other) {
     if (other == this) return;
@@ -9258,6 +9756,250 @@ class PlayerUpgradeTierChanged final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class PlayerUltimateCharged final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:rtech.liveapi.PlayerUltimateCharged) */ {
+ public:
+  inline PlayerUltimateCharged() : PlayerUltimateCharged(nullptr) {}
+  ~PlayerUltimateCharged() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(PlayerUltimateCharged* msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(PlayerUltimateCharged));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR PlayerUltimateCharged(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline PlayerUltimateCharged(const PlayerUltimateCharged& from) : PlayerUltimateCharged(nullptr, from) {}
+  inline PlayerUltimateCharged(PlayerUltimateCharged&& from) noexcept
+      : PlayerUltimateCharged(nullptr, std::move(from)) {}
+  inline PlayerUltimateCharged& operator=(const PlayerUltimateCharged& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PlayerUltimateCharged& operator=(PlayerUltimateCharged&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const PlayerUltimateCharged& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const PlayerUltimateCharged* internal_default_instance() {
+    return reinterpret_cast<const PlayerUltimateCharged*>(
+        &_PlayerUltimateCharged_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 27;
+  friend void swap(PlayerUltimateCharged& a, PlayerUltimateCharged& b) { a.Swap(&b); }
+  inline void Swap(PlayerUltimateCharged* other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PlayerUltimateCharged* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  PlayerUltimateCharged* New(::google::protobuf::Arena* arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<PlayerUltimateCharged>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const PlayerUltimateCharged& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const PlayerUltimateCharged& from) { PlayerUltimateCharged::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(PlayerUltimateCharged* other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(
+      ::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "rtech.liveapi.PlayerUltimateCharged"; }
+
+ protected:
+  explicit PlayerUltimateCharged(::google::protobuf::Arena* arena);
+  PlayerUltimateCharged(::google::protobuf::Arena* arena, const PlayerUltimateCharged& from);
+  PlayerUltimateCharged(::google::protobuf::Arena* arena, PlayerUltimateCharged&& from) noexcept
+      : PlayerUltimateCharged(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static void* PlacementNew_(const void*, void* mem,
+                             ::google::protobuf::Arena* arena);
+  static constexpr auto InternalNewImpl_();
+  static const ::google::protobuf::internal::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kCategoryFieldNumber = 2,
+    kLinkedEntityFieldNumber = 4,
+    kPlayerFieldNumber = 3,
+    kTimestampFieldNumber = 1,
+  };
+  // string category = 2;
+  void clear_category() ;
+  const std::string& category() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_category(Arg_&& arg, Args_... args);
+  std::string* mutable_category();
+  PROTOBUF_NODISCARD std::string* release_category();
+  void set_allocated_category(std::string* value);
+
+  private:
+  const std::string& _internal_category() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_category(
+      const std::string& value);
+  std::string* _internal_mutable_category();
+
+  public:
+  // string linkedEntity = 4;
+  void clear_linkedentity() ;
+  const std::string& linkedentity() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_linkedentity(Arg_&& arg, Args_... args);
+  std::string* mutable_linkedentity();
+  PROTOBUF_NODISCARD std::string* release_linkedentity();
+  void set_allocated_linkedentity(std::string* value);
+
+  private:
+  const std::string& _internal_linkedentity() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_linkedentity(
+      const std::string& value);
+  std::string* _internal_mutable_linkedentity();
+
+  public:
+  // .rtech.liveapi.Player player = 3;
+  bool has_player() const;
+  void clear_player() ;
+  const ::rtech::liveapi::Player& player() const;
+  PROTOBUF_NODISCARD ::rtech::liveapi::Player* release_player();
+  ::rtech::liveapi::Player* mutable_player();
+  void set_allocated_player(::rtech::liveapi::Player* value);
+  void unsafe_arena_set_allocated_player(::rtech::liveapi::Player* value);
+  ::rtech::liveapi::Player* unsafe_arena_release_player();
+
+  private:
+  const ::rtech::liveapi::Player& _internal_player() const;
+  ::rtech::liveapi::Player* _internal_mutable_player();
+
+  public:
+  // uint64 timestamp = 1;
+  void clear_timestamp() ;
+  ::uint64_t timestamp() const;
+  void set_timestamp(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_timestamp() const;
+  void _internal_set_timestamp(::uint64_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.PlayerUltimateCharged)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 4, 1,
+      64, 2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const PlayerUltimateCharged& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr category_;
+    ::google::protobuf::internal::ArenaStringPtr linkedentity_;
+    ::rtech::liveapi::Player* player_;
+    ::uint64_t timestamp_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_events_2eproto;
+};
+// -------------------------------------------------------------------
+
 class PlayerStatChanged final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:rtech.liveapi.PlayerStatChanged) */ {
  public:
@@ -9317,7 +10059,7 @@ class PlayerStatChanged final : public ::google::protobuf::Message
     return reinterpret_cast<const PlayerStatChanged*>(
         &_PlayerStatChanged_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 19;
+  static constexpr int kIndexInFileMessages = 20;
   friend void swap(PlayerStatChanged& a, PlayerStatChanged& b) { a.Swap(&b); }
   inline void Swap(PlayerStatChanged* other) {
     if (other == this) return;
@@ -9573,7 +10315,7 @@ class PlayerRevive final : public ::google::protobuf::Message
     return reinterpret_cast<const PlayerRevive*>(
         &_PlayerRevive_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 29;
+  static constexpr int kIndexInFileMessages = 31;
   friend void swap(PlayerRevive& a, PlayerRevive& b) { a.Swap(&b); }
   inline void Swap(PlayerRevive* other) {
     if (other == this) return;
@@ -9816,7 +10558,7 @@ class PlayerRespawnTeam final : public ::google::protobuf::Message
     return reinterpret_cast<const PlayerRespawnTeam*>(
         &_PlayerRespawnTeam_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 28;
+  static constexpr int kIndexInFileMessages = 30;
   friend void swap(PlayerRespawnTeam& a, PlayerRespawnTeam& b) { a.Swap(&b); }
   inline void Swap(PlayerRespawnTeam* other) {
     if (other == this) return;
@@ -9942,14 +10684,14 @@ class PlayerRespawnTeam final : public ::google::protobuf::Message
   std::string* _internal_mutable_category();
 
   public:
-  // string respawned = 4 [deprecated = true];
-  [[deprecated]]  void clear_respawned() ;
-  [[deprecated]] const std::string& respawned() const;
+  // string respawned = 4;
+  void clear_respawned() ;
+  const std::string& respawned() const;
   template <typename Arg_ = const std::string&, typename... Args_>
-  [[deprecated]] void set_respawned(Arg_&& arg, Args_... args);
-  [[deprecated]] std::string* mutable_respawned();
-  [[deprecated]] PROTOBUF_NODISCARD std::string* release_respawned();
-  [[deprecated]] void set_allocated_respawned(std::string* value);
+  void set_respawned(Arg_&& arg, Args_... args);
+  std::string* mutable_respawned();
+  PROTOBUF_NODISCARD std::string* release_respawned();
+  void set_allocated_respawned(std::string* value);
 
   private:
   const std::string& _internal_respawned() const;
@@ -10079,7 +10821,7 @@ class PlayerKilled final : public ::google::protobuf::Message
     return reinterpret_cast<const PlayerKilled*>(
         &_PlayerKilled_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 22;
+  static constexpr int kIndexInFileMessages = 23;
   friend void swap(PlayerKilled& a, PlayerKilled& b) { a.Swap(&b); }
   inline void Swap(PlayerKilled* other) {
     if (other == this) return;
@@ -10357,7 +11099,7 @@ class PlayerDowned final : public ::google::protobuf::Message
     return reinterpret_cast<const PlayerDowned*>(
         &_PlayerDowned_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 23;
+  static constexpr int kIndexInFileMessages = 24;
   friend void swap(PlayerDowned& a, PlayerDowned& b) { a.Swap(&b); }
   inline void Swap(PlayerDowned* other) {
     if (other == this) return;
@@ -10618,7 +11360,7 @@ class PlayerDisconnected final : public ::google::protobuf::Message
     return reinterpret_cast<const PlayerDisconnected*>(
         &_PlayerDisconnected_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 18;
+  static constexpr int kIndexInFileMessages = 19;
   friend void swap(PlayerDisconnected& a, PlayerDisconnected& b) { a.Swap(&b); }
   inline void Swap(PlayerDisconnected* other) {
     if (other == this) return;
@@ -10868,7 +11610,7 @@ class PlayerDamaged final : public ::google::protobuf::Message
     return reinterpret_cast<const PlayerDamaged*>(
         &_PlayerDamaged_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 21;
+  static constexpr int kIndexInFileMessages = 22;
   friend void swap(PlayerDamaged& a, PlayerDamaged& b) { a.Swap(&b); }
   inline void Swap(PlayerDamaged* other) {
     if (other == this) return;
@@ -11141,7 +11883,7 @@ class PlayerConnected final : public ::google::protobuf::Message
     return reinterpret_cast<const PlayerConnected*>(
         &_PlayerConnected_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 17;
+  static constexpr int kIndexInFileMessages = 18;
   friend void swap(PlayerConnected& a, PlayerConnected& b) { a.Swap(&b); }
   inline void Swap(PlayerConnected* other) {
     if (other == this) return;
@@ -11367,7 +12109,7 @@ class PlayerAssist final : public ::google::protobuf::Message
     return reinterpret_cast<const PlayerAssist*>(
         &_PlayerAssist_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 24;
+  static constexpr int kIndexInFileMessages = 25;
   friend void swap(PlayerAssist& a, PlayerAssist& b) { a.Swap(&b); }
   inline void Swap(PlayerAssist* other) {
     if (other == this) return;
@@ -11628,7 +12370,7 @@ class PlayerAbilityUsed final : public ::google::protobuf::Message
     return reinterpret_cast<const PlayerAbilityUsed*>(
         &_PlayerAbilityUsed_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 36;
+  static constexpr int kIndexInFileMessages = 38;
   friend void swap(PlayerAbilityUsed& a, PlayerAbilityUsed& b) { a.Swap(&b); }
   inline void Swap(PlayerAbilityUsed* other) {
     if (other == this) return;
@@ -11872,7 +12614,7 @@ class ObserverSwitched final : public ::google::protobuf::Message
     return reinterpret_cast<const ObserverSwitched*>(
         &_ObserverSwitched_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 9;
+  static constexpr int kIndexInFileMessages = 10;
   friend void swap(ObserverSwitched& a, ObserverSwitched& b) { a.Swap(&b); }
   inline void Swap(ObserverSwitched* other) {
     if (other == this) return;
@@ -12134,7 +12876,7 @@ class MatchStateEnd final : public ::google::protobuf::Message
     return reinterpret_cast<const MatchStateEnd*>(
         &_MatchStateEnd_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 14;
+  static constexpr int kIndexInFileMessages = 15;
   friend void swap(MatchStateEnd& a, MatchStateEnd& b) { a.Swap(&b); }
   inline void Swap(MatchStateEnd* other) {
     if (other == this) return;
@@ -12379,7 +13121,7 @@ class MatchSetup final : public ::google::protobuf::Message
     return reinterpret_cast<const MatchSetup*>(
         &_MatchSetup_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 11;
+  static constexpr int kIndexInFileMessages = 12;
   friend void swap(MatchSetup& a, MatchSetup& b) { a.Swap(&b); }
   inline void Swap(MatchSetup* other) {
     if (other == this) return;
@@ -12718,7 +13460,7 @@ class LegendUpgradeSelected final : public ::google::protobuf::Message
     return reinterpret_cast<const LegendUpgradeSelected*>(
         &_LegendUpgradeSelected_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 37;
+  static constexpr int kIndexInFileMessages = 39;
   friend void swap(LegendUpgradeSelected& a, LegendUpgradeSelected& b) { a.Swap(&b); }
   inline void Swap(LegendUpgradeSelected* other) {
     if (other == this) return;
@@ -12992,7 +13734,7 @@ class InventoryUse final : public ::google::protobuf::Message
     return reinterpret_cast<const InventoryUse*>(
         &_InventoryUse_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 34;
+  static constexpr int kIndexInFileMessages = 36;
   friend void swap(InventoryUse& a, InventoryUse& b) { a.Swap(&b); }
   inline void Swap(InventoryUse* other) {
     if (other == this) return;
@@ -13248,7 +13990,7 @@ class InventoryPickUp final : public ::google::protobuf::Message
     return reinterpret_cast<const InventoryPickUp*>(
         &_InventoryPickUp_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 32;
+  static constexpr int kIndexInFileMessages = 34;
   friend void swap(InventoryPickUp& a, InventoryPickUp& b) { a.Swap(&b); }
   inline void Swap(InventoryPickUp* other) {
     if (other == this) return;
@@ -13504,7 +14246,7 @@ class InventoryDrop final : public ::google::protobuf::Message
     return reinterpret_cast<const InventoryDrop*>(
         &_InventoryDrop_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 33;
+  static constexpr int kIndexInFileMessages = 35;
   friend void swap(InventoryDrop& a, InventoryDrop& b) { a.Swap(&b); }
   inline void Swap(InventoryDrop* other) {
     if (other == this) return;
@@ -13784,7 +14526,7 @@ class GrenadeThrown final : public ::google::protobuf::Message
     return reinterpret_cast<const GrenadeThrown*>(
         &_GrenadeThrown_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 39;
+  static constexpr int kIndexInFileMessages = 41;
   friend void swap(GrenadeThrown& a, GrenadeThrown& b) { a.Swap(&b); }
   inline void Swap(GrenadeThrown* other) {
     if (other == this) return;
@@ -14028,7 +14770,7 @@ class GibraltarShieldAbsorbed final : public ::google::protobuf::Message
     return reinterpret_cast<const GibraltarShieldAbsorbed*>(
         &_GibraltarShieldAbsorbed_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 26;
+  static constexpr int kIndexInFileMessages = 28;
   friend void swap(GibraltarShieldAbsorbed& a, GibraltarShieldAbsorbed& b) { a.Swap(&b); }
   inline void Swap(GibraltarShieldAbsorbed* other) {
     if (other == this) return;
@@ -14283,7 +15025,7 @@ class CharacterSelected final : public ::google::protobuf::Message
     return reinterpret_cast<const CharacterSelected*>(
         &_CharacterSelected_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 13;
+  static constexpr int kIndexInFileMessages = 14;
   friend void swap(CharacterSelected& a, CharacterSelected& b) { a.Swap(&b); }
   inline void Swap(CharacterSelected* other) {
     if (other == this) return;
@@ -14509,7 +15251,7 @@ class BlackMarketAction final : public ::google::protobuf::Message
     return reinterpret_cast<const BlackMarketAction*>(
         &_BlackMarketAction_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 40;
+  static constexpr int kIndexInFileMessages = 42;
   friend void swap(BlackMarketAction& a, BlackMarketAction& b) { a.Swap(&b); }
   inline void Swap(BlackMarketAction* other) {
     if (other == this) return;
@@ -14753,7 +15495,7 @@ class BannerCollected final : public ::google::protobuf::Message
     return reinterpret_cast<const BannerCollected*>(
         &_BannerCollected_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 35;
+  static constexpr int kIndexInFileMessages = 37;
   friend void swap(BannerCollected& a, BannerCollected& b) { a.Swap(&b); }
   inline void Swap(BannerCollected* other) {
     if (other == this) return;
@@ -14996,7 +15738,7 @@ class ArenasItemSelected final : public ::google::protobuf::Message
     return reinterpret_cast<const ArenasItemSelected*>(
         &_ArenasItemSelected_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 30;
+  static constexpr int kIndexInFileMessages = 32;
   friend void swap(ArenasItemSelected& a, ArenasItemSelected& b) { a.Swap(&b); }
   inline void Swap(ArenasItemSelected* other) {
     if (other == this) return;
@@ -15252,7 +15994,7 @@ class ArenasItemDeselected final : public ::google::protobuf::Message
     return reinterpret_cast<const ArenasItemDeselected*>(
         &_ArenasItemDeselected_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 31;
+  static constexpr int kIndexInFileMessages = 33;
   friend void swap(ArenasItemDeselected& a, ArenasItemDeselected& b) { a.Swap(&b); }
   inline void Swap(ArenasItemDeselected* other) {
     if (other == this) return;
@@ -15508,7 +16250,7 @@ class AmmoUsed final : public ::google::protobuf::Message
     return reinterpret_cast<const AmmoUsed*>(
         &_AmmoUsed_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 43;
+  static constexpr int kIndexInFileMessages = 45;
   friend void swap(AmmoUsed& a, AmmoUsed& b) { a.Swap(&b); }
   inline void Swap(AmmoUsed* other) {
     if (other == this) return;
@@ -16598,6 +17340,102 @@ inline void CustomMatch_LobbyPlayer::set_allocated_hardwarename(std::string* val
 
 // -------------------------------------------------------------------
 
+// CustomMatch_Team
+
+// uint32 id = 1;
+inline void CustomMatch_Team::clear_id() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.id_ = 0u;
+}
+inline ::uint32_t CustomMatch_Team::id() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.CustomMatch_Team.id)
+  return _internal_id();
+}
+inline void CustomMatch_Team::set_id(::uint32_t value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:rtech.liveapi.CustomMatch_Team.id)
+}
+inline ::uint32_t CustomMatch_Team::_internal_id() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.id_;
+}
+inline void CustomMatch_Team::_internal_set_id(::uint32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.id_ = value;
+}
+
+// string name = 2;
+inline void CustomMatch_Team::clear_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.name_.ClearToEmpty();
+}
+inline const std::string& CustomMatch_Team::name() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.CustomMatch_Team.name)
+  return _internal_name();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void CustomMatch_Team::set_name(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.name_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:rtech.liveapi.CustomMatch_Team.name)
+}
+inline std::string* CustomMatch_Team::mutable_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_name();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.CustomMatch_Team.name)
+  return _s;
+}
+inline const std::string& CustomMatch_Team::_internal_name() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.name_.Get();
+}
+inline void CustomMatch_Team::_internal_set_name(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.name_.Set(value, GetArena());
+}
+inline std::string* CustomMatch_Team::_internal_mutable_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.name_.Mutable( GetArena());
+}
+inline std::string* CustomMatch_Team::release_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.CustomMatch_Team.name)
+  return _impl_.name_.Release();
+}
+inline void CustomMatch_Team::set_allocated_name(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.name_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.name_.IsDefault()) {
+    _impl_.name_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.CustomMatch_Team.name)
+}
+
+// int32 spawnPoint = 3;
+inline void CustomMatch_Team::clear_spawnpoint() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.spawnpoint_ = 0;
+}
+inline ::int32_t CustomMatch_Team::spawnpoint() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.CustomMatch_Team.spawnPoint)
+  return _internal_spawnpoint();
+}
+inline void CustomMatch_Team::set_spawnpoint(::int32_t value) {
+  _internal_set_spawnpoint(value);
+  // @@protoc_insertion_point(field_set:rtech.liveapi.CustomMatch_Team.spawnPoint)
+}
+inline ::int32_t CustomMatch_Team::_internal_spawnpoint() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.spawnpoint_;
+}
+inline void CustomMatch_Team::_internal_set_spawnpoint(::int32_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.spawnpoint_ = value;
+}
+
+// -------------------------------------------------------------------
+
 // Datacenter
 
 // uint64 timestamp = 1;
@@ -17473,6 +18311,55 @@ inline ::google::protobuf::RepeatedPtrField<::rtech::liveapi::CustomMatch_LobbyP
 CustomMatch_LobbyPlayers::_internal_mutable_players() {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return &_impl_.players_;
+}
+
+// repeated .rtech.liveapi.CustomMatch_Team teams = 3;
+inline int CustomMatch_LobbyPlayers::_internal_teams_size() const {
+  return _internal_teams().size();
+}
+inline int CustomMatch_LobbyPlayers::teams_size() const {
+  return _internal_teams_size();
+}
+inline void CustomMatch_LobbyPlayers::clear_teams() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.teams_.Clear();
+}
+inline ::rtech::liveapi::CustomMatch_Team* CustomMatch_LobbyPlayers::mutable_teams(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.CustomMatch_LobbyPlayers.teams)
+  return _internal_mutable_teams()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::rtech::liveapi::CustomMatch_Team>* CustomMatch_LobbyPlayers::mutable_teams()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:rtech.liveapi.CustomMatch_LobbyPlayers.teams)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_teams();
+}
+inline const ::rtech::liveapi::CustomMatch_Team& CustomMatch_LobbyPlayers::teams(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.CustomMatch_LobbyPlayers.teams)
+  return _internal_teams().Get(index);
+}
+inline ::rtech::liveapi::CustomMatch_Team* CustomMatch_LobbyPlayers::add_teams() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::rtech::liveapi::CustomMatch_Team* _add = _internal_mutable_teams()->Add();
+  // @@protoc_insertion_point(field_add:rtech.liveapi.CustomMatch_LobbyPlayers.teams)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::CustomMatch_Team>& CustomMatch_LobbyPlayers::teams() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:rtech.liveapi.CustomMatch_LobbyPlayers.teams)
+  return _internal_teams();
+}
+inline const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::CustomMatch_Team>&
+CustomMatch_LobbyPlayers::_internal_teams() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.teams_;
+}
+inline ::google::protobuf::RepeatedPtrField<::rtech::liveapi::CustomMatch_Team>*
+CustomMatch_LobbyPlayers::_internal_mutable_teams() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.teams_;
 }
 
 // -------------------------------------------------------------------
@@ -21660,6 +22547,224 @@ SquadEliminated::_internal_mutable_players() {
 
 // -------------------------------------------------------------------
 
+// PlayerUltimateCharged
+
+// uint64 timestamp = 1;
+inline void PlayerUltimateCharged::clear_timestamp() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.timestamp_ = ::uint64_t{0u};
+}
+inline ::uint64_t PlayerUltimateCharged::timestamp() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.PlayerUltimateCharged.timestamp)
+  return _internal_timestamp();
+}
+inline void PlayerUltimateCharged::set_timestamp(::uint64_t value) {
+  _internal_set_timestamp(value);
+  // @@protoc_insertion_point(field_set:rtech.liveapi.PlayerUltimateCharged.timestamp)
+}
+inline ::uint64_t PlayerUltimateCharged::_internal_timestamp() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.timestamp_;
+}
+inline void PlayerUltimateCharged::_internal_set_timestamp(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.timestamp_ = value;
+}
+
+// string category = 2;
+inline void PlayerUltimateCharged::clear_category() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.category_.ClearToEmpty();
+}
+inline const std::string& PlayerUltimateCharged::category() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.PlayerUltimateCharged.category)
+  return _internal_category();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void PlayerUltimateCharged::set_category(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.category_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:rtech.liveapi.PlayerUltimateCharged.category)
+}
+inline std::string* PlayerUltimateCharged::mutable_category() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_category();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.PlayerUltimateCharged.category)
+  return _s;
+}
+inline const std::string& PlayerUltimateCharged::_internal_category() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.category_.Get();
+}
+inline void PlayerUltimateCharged::_internal_set_category(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.category_.Set(value, GetArena());
+}
+inline std::string* PlayerUltimateCharged::_internal_mutable_category() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.category_.Mutable( GetArena());
+}
+inline std::string* PlayerUltimateCharged::release_category() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.PlayerUltimateCharged.category)
+  return _impl_.category_.Release();
+}
+inline void PlayerUltimateCharged::set_allocated_category(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.category_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.category_.IsDefault()) {
+    _impl_.category_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.PlayerUltimateCharged.category)
+}
+
+// .rtech.liveapi.Player player = 3;
+inline bool PlayerUltimateCharged::has_player() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.player_ != nullptr);
+  return value;
+}
+inline void PlayerUltimateCharged::clear_player() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.player_ != nullptr) _impl_.player_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::rtech::liveapi::Player& PlayerUltimateCharged::_internal_player() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::rtech::liveapi::Player* p = _impl_.player_;
+  return p != nullptr ? *p : reinterpret_cast<const ::rtech::liveapi::Player&>(::rtech::liveapi::_Player_default_instance_);
+}
+inline const ::rtech::liveapi::Player& PlayerUltimateCharged::player() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.PlayerUltimateCharged.player)
+  return _internal_player();
+}
+inline void PlayerUltimateCharged::unsafe_arena_set_allocated_player(::rtech::liveapi::Player* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.player_);
+  }
+  _impl_.player_ = reinterpret_cast<::rtech::liveapi::Player*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:rtech.liveapi.PlayerUltimateCharged.player)
+}
+inline ::rtech::liveapi::Player* PlayerUltimateCharged::release_player() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::rtech::liveapi::Player* released = _impl_.player_;
+  _impl_.player_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::rtech::liveapi::Player* PlayerUltimateCharged::unsafe_arena_release_player() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.PlayerUltimateCharged.player)
+
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::rtech::liveapi::Player* temp = _impl_.player_;
+  _impl_.player_ = nullptr;
+  return temp;
+}
+inline ::rtech::liveapi::Player* PlayerUltimateCharged::_internal_mutable_player() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.player_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::rtech::liveapi::Player>(GetArena());
+    _impl_.player_ = reinterpret_cast<::rtech::liveapi::Player*>(p);
+  }
+  return _impl_.player_;
+}
+inline ::rtech::liveapi::Player* PlayerUltimateCharged::mutable_player() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  ::rtech::liveapi::Player* _msg = _internal_mutable_player();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.PlayerUltimateCharged.player)
+  return _msg;
+}
+inline void PlayerUltimateCharged::set_allocated_player(::rtech::liveapi::Player* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.player_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+
+  _impl_.player_ = reinterpret_cast<::rtech::liveapi::Player*>(value);
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.PlayerUltimateCharged.player)
+}
+
+// string linkedEntity = 4;
+inline void PlayerUltimateCharged::clear_linkedentity() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.linkedentity_.ClearToEmpty();
+}
+inline const std::string& PlayerUltimateCharged::linkedentity() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.PlayerUltimateCharged.linkedEntity)
+  return _internal_linkedentity();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void PlayerUltimateCharged::set_linkedentity(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.linkedentity_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:rtech.liveapi.PlayerUltimateCharged.linkedEntity)
+}
+inline std::string* PlayerUltimateCharged::mutable_linkedentity() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_linkedentity();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.PlayerUltimateCharged.linkedEntity)
+  return _s;
+}
+inline const std::string& PlayerUltimateCharged::_internal_linkedentity() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.linkedentity_.Get();
+}
+inline void PlayerUltimateCharged::_internal_set_linkedentity(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.linkedentity_.Set(value, GetArena());
+}
+inline std::string* PlayerUltimateCharged::_internal_mutable_linkedentity() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.linkedentity_.Mutable( GetArena());
+}
+inline std::string* PlayerUltimateCharged::release_linkedentity() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.PlayerUltimateCharged.linkedEntity)
+  return _impl_.linkedentity_.Release();
+}
+inline void PlayerUltimateCharged::set_allocated_linkedentity(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.linkedentity_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.linkedentity_.IsDefault()) {
+    _impl_.linkedentity_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.PlayerUltimateCharged.linkedEntity)
+}
+
+// -------------------------------------------------------------------
+
 // GibraltarShieldAbsorbed
 
 // uint64 timestamp = 1;
@@ -22404,7 +23509,7 @@ inline void PlayerRespawnTeam::set_allocated_player(::rtech::liveapi::Player* va
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.PlayerRespawnTeam.player)
 }
 
-// string respawned = 4 [deprecated = true];
+// string respawned = 4;
 inline void PlayerRespawnTeam::clear_respawned() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.respawned_.ClearToEmpty();
@@ -27132,6 +28237,32 @@ inline void CustomMatch_SetSpawnPoint::_internal_set_spawnpoint(::int32_t value)
 
 // -------------------------------------------------------------------
 
+// CustomMatch_SetEndRingExclusion
+
+// .rtech.liveapi.MapRegion sectionToExclude = 1;
+inline void CustomMatch_SetEndRingExclusion::clear_sectiontoexclude() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.sectiontoexclude_ = 0;
+}
+inline ::rtech::liveapi::MapRegion CustomMatch_SetEndRingExclusion::sectiontoexclude() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.CustomMatch_SetEndRingExclusion.sectionToExclude)
+  return _internal_sectiontoexclude();
+}
+inline void CustomMatch_SetEndRingExclusion::set_sectiontoexclude(::rtech::liveapi::MapRegion value) {
+  _internal_set_sectiontoexclude(value);
+  // @@protoc_insertion_point(field_set:rtech.liveapi.CustomMatch_SetEndRingExclusion.sectionToExclude)
+}
+inline ::rtech::liveapi::MapRegion CustomMatch_SetEndRingExclusion::_internal_sectiontoexclude() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return static_cast<::rtech::liveapi::MapRegion>(_impl_.sectiontoexclude_);
+}
+inline void CustomMatch_SetEndRingExclusion::_internal_set_sectiontoexclude(::rtech::liveapi::MapRegion value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.sectiontoexclude_ = value;
+}
+
+// -------------------------------------------------------------------
+
 // CustomMatch_SendChat
 
 // string text = 1;
@@ -28441,6 +29572,85 @@ inline ::rtech::liveapi::CustomMatch_SetSpawnPoint* Request::mutable_custommatch
   return _msg;
 }
 
+// .rtech.liveapi.CustomMatch_SetEndRingExclusion customMatch_SetEndRingExclusion = 23;
+inline bool Request::has_custommatch_setendringexclusion() const {
+  return actions_case() == kCustomMatchSetEndRingExclusion;
+}
+inline bool Request::_internal_has_custommatch_setendringexclusion() const {
+  return actions_case() == kCustomMatchSetEndRingExclusion;
+}
+inline void Request::set_has_custommatch_setendringexclusion() {
+  _impl_._oneof_case_[0] = kCustomMatchSetEndRingExclusion;
+}
+inline void Request::clear_custommatch_setendringexclusion() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (actions_case() == kCustomMatchSetEndRingExclusion) {
+    if (GetArena() == nullptr) {
+      delete _impl_.actions_.custommatch_setendringexclusion_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.actions_.custommatch_setendringexclusion_);
+    }
+    clear_has_actions();
+  }
+}
+inline ::rtech::liveapi::CustomMatch_SetEndRingExclusion* Request::release_custommatch_setendringexclusion() {
+  // @@protoc_insertion_point(field_release:rtech.liveapi.Request.customMatch_SetEndRingExclusion)
+  if (actions_case() == kCustomMatchSetEndRingExclusion) {
+    clear_has_actions();
+    auto* temp = _impl_.actions_.custommatch_setendringexclusion_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.actions_.custommatch_setendringexclusion_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::rtech::liveapi::CustomMatch_SetEndRingExclusion& Request::_internal_custommatch_setendringexclusion() const {
+  return actions_case() == kCustomMatchSetEndRingExclusion ? *_impl_.actions_.custommatch_setendringexclusion_ : reinterpret_cast<::rtech::liveapi::CustomMatch_SetEndRingExclusion&>(::rtech::liveapi::_CustomMatch_SetEndRingExclusion_default_instance_);
+}
+inline const ::rtech::liveapi::CustomMatch_SetEndRingExclusion& Request::custommatch_setendringexclusion() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.Request.customMatch_SetEndRingExclusion)
+  return _internal_custommatch_setendringexclusion();
+}
+inline ::rtech::liveapi::CustomMatch_SetEndRingExclusion* Request::unsafe_arena_release_custommatch_setendringexclusion() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:rtech.liveapi.Request.customMatch_SetEndRingExclusion)
+  if (actions_case() == kCustomMatchSetEndRingExclusion) {
+    clear_has_actions();
+    auto* temp = _impl_.actions_.custommatch_setendringexclusion_;
+    _impl_.actions_.custommatch_setendringexclusion_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Request::unsafe_arena_set_allocated_custommatch_setendringexclusion(::rtech::liveapi::CustomMatch_SetEndRingExclusion* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_actions();
+  if (value) {
+    set_has_custommatch_setendringexclusion();
+    _impl_.actions_.custommatch_setendringexclusion_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:rtech.liveapi.Request.customMatch_SetEndRingExclusion)
+}
+inline ::rtech::liveapi::CustomMatch_SetEndRingExclusion* Request::_internal_mutable_custommatch_setendringexclusion() {
+  if (actions_case() != kCustomMatchSetEndRingExclusion) {
+    clear_actions();
+    set_has_custommatch_setendringexclusion();
+    _impl_.actions_.custommatch_setendringexclusion_ =
+        ::google::protobuf::Message::DefaultConstruct<::rtech::liveapi::CustomMatch_SetEndRingExclusion>(GetArena());
+  }
+  return _impl_.actions_.custommatch_setendringexclusion_;
+}
+inline ::rtech::liveapi::CustomMatch_SetEndRingExclusion* Request::mutable_custommatch_setendringexclusion() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::rtech::liveapi::CustomMatch_SetEndRingExclusion* _msg = _internal_mutable_custommatch_setendringexclusion();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.Request.customMatch_SetEndRingExclusion)
+  return _msg;
+}
+
 inline bool Request::has_actions() const {
   return actions_case() != ACTIONS_NOT_SET;
 }
@@ -28753,6 +29963,12 @@ struct is_proto_enum<::rtech::liveapi::PlayerOfInterest> : std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor<::rtech::liveapi::PlayerOfInterest>() {
   return ::rtech::liveapi::PlayerOfInterest_descriptor();
+}
+template <>
+struct is_proto_enum<::rtech::liveapi::MapRegion> : std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor<::rtech::liveapi::MapRegion>() {
+  return ::rtech::liveapi::MapRegion_descriptor();
 }
 
 }  // namespace protobuf
