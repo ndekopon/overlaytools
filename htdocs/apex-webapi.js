@@ -525,7 +525,7 @@ export class ApexWebAPI extends EventTarget {
 
   #procTeamID(teamid) {
     return {
-      unassined: (teamid == 0),
+      unassigned: (teamid == 0),
       observer: (teamid == 1),
       id: (teamid >= 2 ? teamid - 2: 0) 
     };
@@ -539,7 +539,7 @@ export class ApexWebAPI extends EventTarget {
     this.dispatchEvent(new CustomEvent('lobbyplayer', {
       detail: {
         teamid: teamid.id,
-        unassined: teamid.unassined,
+        unassigned: teamid.unassigned,
         observer: teamid.observer,
         hash: hash,
         name: name,
@@ -556,7 +556,7 @@ export class ApexWebAPI extends EventTarget {
     this.dispatchEvent(new CustomEvent('lobbyteam', {
       detail: {
         teamid: teamid.id,
-        unassined: teamid.unassined,
+        unassigned: teamid.unassigned,
         observer: teamid.observer,
         name: name,
         spawnpoint: spawnpoint
