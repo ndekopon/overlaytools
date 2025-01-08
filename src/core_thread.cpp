@@ -2073,6 +2073,24 @@ namespace app {
 				sendto_webapi(std::move(sdata.buffer_));
 			}
 		}
+		else if (_any.Is<api::PlayerUltimateCharged>())
+		{
+			api::PlayerUltimateCharged p;
+			if (!_any.UnpackTo(&p)) return;
+
+			log(LOG_CORE, L"Info: PlayerUltimateCharged received.");
+			if (!p.has_player()) return;
+			proc_player(p.player());
+
+			uint8_t teamid = p.player().teamid();
+			uint8_t squadindex = get_squadindex(p.player());
+
+			send_webapi_data sdata(WEBAPI_EVENT_PLAYERULTIMATECHARGED);
+			if (sdata.append(teamid) && sdata.append(squadindex) && sdata.append(p.linkedentity()))
+			{
+				sendto_webapi(std::move(sdata.buffer_));
+			}
+			}
 		else if (_any.Is<api::ZiplineUsed>())
 		{
 			api::ZiplineUsed p;
