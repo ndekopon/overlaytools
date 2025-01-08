@@ -827,6 +827,20 @@ export class ApexWebAPI extends EventTarget {
     return true;
   }
 
+  #procEventPlayerAbilityUsed(arr) {
+    if (arr[0] >= 2) {
+      const teamid = arr[0] - 2;
+      this.dispatchEvent(new CustomEvent('playerabilityused', {
+        detail: {
+          player: this.#game.teams[teamid].players[arr[1]],
+          team: this.#game.teams[teamid],
+          linkedentry: arr[2]
+        }
+      }));
+    }
+    return true;
+  }
+
   #procEventPlayerUltimateCharged(arr) {
     if (arr[0] >= 2) {
       const teamid = arr[0] - 2;
@@ -1127,6 +1141,9 @@ export class ApexWebAPI extends EventTarget {
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_WEAPON:
         if (count != 3) return false;
         return this.#procEventPlayerWeapon(data_array);
+      case ApexWebAPI.WEBAPI_EVENT_PLAYERABILITYUSED:
+        if (count != 3) return false;
+        return this.#procEventPlayerAbilityUsed(data_array);
       case ApexWebAPI.WEBAPI_EVENT_PLAYERULTIMATECHARGED:
         if (count != 3) return false;
         return this.#procEventPlayerUltimateCharged(data_array);
