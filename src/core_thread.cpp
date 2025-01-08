@@ -1378,6 +1378,8 @@ namespace app {
 
 			send_webapi_lobbyenum_start();
 
+			send_webapi_lobbytoken(p.playertoken());
+
 			for (int i = 0; i < p.players_size(); ++i)
 			{
 				auto name = p.players(i).name();
@@ -2632,6 +2634,15 @@ namespace app {
 	{
 		send_webapi_data sdata(WEBAPI_EVENT_LOBBYTEAM);
 		if (sdata.append(_teamid) && sdata.append(_name) && sdata.append(_spawnpoint))
+		{
+			sendto_webapi(std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::send_webapi_lobbytoken(const std::string& _token)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_LOBBYTOKEN);
+		if (sdata.append(_token))
 		{
 			sendto_webapi(std::move(sdata.buffer_));
 		}
