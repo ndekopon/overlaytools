@@ -262,6 +262,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_SEND_PAUSETOGGLE = 0x56;
   static WEBAPI_SEND_CUSTOMMATCH_GETSETTINGS = 0x57;
   static WEBAPI_SEND_CUSTOMMATCH_SETSPAWNPOINT = 0x58;
+  static WEBAPI_SEND_CUSTOMMATCH_SETENDRINGEXCLUSION = 0x59;
 
   static WEBAPI_LIVEDATA_GET_GAME = 0x60;
   static WEBAPI_LIVEDATA_GET_TEAMS = 0x61;
@@ -1215,6 +1216,10 @@ export class ApexWebAPI extends EventTarget {
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('setspawnpoint', {detail: {sequence: data_array[0]}}));
         break;
+      case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETENDRINGEXCLUSION:
+        if (count != 1) return false;
+        this.dispatchEvent(new CustomEvent('setendringexclusion', {detail: {sequence: data_array[0]}}));
+        break;
       case ApexWebAPI.WEBAPI_LIVEDATA_GET_GAME:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('getgame', {detail: {sequence: data_array[0], game: this.#game}}));
@@ -1677,6 +1682,18 @@ export class ApexWebAPI extends EventTarget {
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_UINT8, teamid + 2)) precheck = false;
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_UINT8, spawnpoint)) precheck = false;
     return this.#sendAndReceiveReply(buffer, "setspawnpoint", precheck);
+  }
+
+  /**
+   * カスタムマッチの最終リング除外エリアを設定する
+   * @param {number} section セクション(0:左上 1:右上 2:左下 3:右下 4:中央 5:除外なし)
+   * @returns {Promise<CustomEvent>}
+   */
+  sendSetEndRingExclusion(section) {
+    let precheck = true;
+    const buffer = new SendBuffer(ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETENDRINGEXCLUSION);
+    if (!buffer.append(ApexWebAPI.WEBAPI_DATA_UINT8, section)) precheck = false;
+    return this.#sendAndReceiveReply(buffer, "setendringexclusion", precheck);
   }
 
   sendChat(str) {
