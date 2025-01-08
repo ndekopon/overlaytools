@@ -1320,6 +1320,8 @@ namespace app {
 
 			log(LOG_CORE, L"Info: CustomMatch_LobbyPlayers received.");
 
+			send_webapi_lobbyenum_start();
+
 			for (int i = 0; i < p.players_size(); ++i)
 			{
 				auto name = p.players(i).name();
@@ -1328,6 +1330,17 @@ namespace app {
 				auto hardware = p.players(i).hardwarename();
 				send_webapi_lobbyplayer(teamid, hash, name, hardware);
 			}
+
+			for (int i = 0; i < p.teams_size(); ++i)
+			{
+				auto name = p.teams(i).name();
+				auto teamid = p.teams(i).id();
+				auto spawnpoint_i32 = p.teams(i).spawnpoint();
+				uint8_t spawnpoint = spawnpoint_i32 < 0 ? 0 : (spawnpoint_i32 + 1) & 0xff;
+				send_webapi_lobbyteam(teamid, name, spawnpoint);
+			}
+
+			send_webapi_lobbyenum_end();
 		}
 		else if (_any.Is<api::CustomMatch_SetSettings>())
 		{
@@ -2524,6 +2537,27 @@ namespace app {
 	{
 		send_webapi_data sdata(WEBAPI_EVENT_LOBBYPLAYER);
 		if (sdata.append(_teamid) && sdata.append(_hash) && sdata.append(_name) && sdata.append(_hardware))
+		{
+			sendto_webapi(std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::send_webapi_lobbyenum_start()
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_LOBBYENUM_START);
+		sendto_webapi(std::move(sdata.buffer_));
+	}
+
+	void core_thread::send_webapi_lobbyenum_end()
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_LOBBYENUM_END);
+		sendto_webapi(std::move(sdata.buffer_));
+	}
+
+	void core_thread::send_webapi_lobbyteam(uint8_t _teamid, const std::string& _name, const uint8_t _spawnpoint)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_LOBBYTEAM);
+		if (sdata.append(_teamid) && sdata.append(_name) && sdata.append(_spawnpoint))
 		{
 			sendto_webapi(std::move(sdata.buffer_));
 		}

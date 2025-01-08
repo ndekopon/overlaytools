@@ -131,6 +131,9 @@ namespace app {
 		void send_webapi_extended_respawn(uint8_t _teamid, uint8_t _psquadindex, uint8_t _rsquadindex);
 
 		void send_webapi_lobbyplayer(uint8_t _teamid, const std::string& _hash, const std::string& _name, const std::string& _hardware);
+		void send_webapi_lobbyenum_start();
+		void send_webapi_lobbyenum_end();
+		void send_webapi_lobbyteam(uint8_t _teamid, const std::string& _name, const uint8_t _spawnpoint);
 		void send_webapi_custommatch_settings(const std::string& _playlistname, bool _adminchat, bool _teamrename, bool _selfassign, bool _aimassist, bool _anonmode);
 
 		void send_webapi_clear_livedata();
