@@ -224,6 +224,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_EVENT_CLEAR_LIVEDATA = 0x14;
   static WEBAPI_EVENT_SAVE_RESULT = 0x15;
   static WEBAPI_EVENT_RINGINFO = 0x16;
+  static WEBAPI_EVENT_PLAYERULTIMATECHARGED = 0x17;
 
   static WEBAPI_EVENT_TEAM_NAME = 0x20;
   static WEBAPI_EVENT_TEAM_PLACEMENT = 0x21;
@@ -826,6 +827,20 @@ export class ApexWebAPI extends EventTarget {
     return true;
   }
 
+  #procEventPlayerUltimateCharged(arr) {
+    if (arr[0] >= 2) {
+      const teamid = arr[0] - 2;
+      this.dispatchEvent(new CustomEvent('playerultimatecharged', {
+        detail: {
+          player: this.#game.teams[teamid].players[arr[1]],
+          team: this.#game.teams[teamid],
+          linkedentry: arr[2]
+        }
+      }));
+    }
+    return true;
+  }
+
   #procEventPlayerDamage(arr) {
     this.#procPlayer(arr[0], arr[1], { damage_dealt: arr[2], damage_taken: arr[3] });
     if (arr[0] >= 2) {
@@ -1112,6 +1127,9 @@ export class ApexWebAPI extends EventTarget {
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_WEAPON:
         if (count != 3) return false;
         return this.#procEventPlayerWeapon(data_array);
+      case ApexWebAPI.WEBAPI_EVENT_PLAYERULTIMATECHARGED:
+        if (count != 3) return false;
+        return this.#procEventPlayerUltimateCharged(data_array);
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_DAMAGE:
         if (count != 4) return false;
         return this.#procEventPlayerDamage(data_array);
