@@ -3312,6 +3312,12 @@ export class WebAPIConfig {
             this.#webapi.sendGetSettings();
         });
 
+        document.getElementById('test-setendringexclusion').addEventListener('click', ev => {
+            const sectionstr = document.getElementById('test-setendringexclusion-select').value;
+            const section = parseInt(sectionstr, 10);
+            this.#webapi.sendSetEndRingExclusion(section);
+        });
+
         document.getElementById('result-fix-from-stats-code-button').addEventListener('click', (ev) => {
             const code = document.getElementById("result-fix-from-stats-code-input").value;
             if (code.match(/^[0-9a-f]+-[0-9a-f]+$/)) {
