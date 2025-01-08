@@ -153,6 +153,7 @@ namespace app {
 		void reply_webapi_send_changecamera(SOCKET _sock, uint32_t _sequence);
 		void reply_webapi_send_custommatch_setteamname(SOCKET _sock, uint32_t _sequence);
 		void reply_webapi_send_custommatch_setspawnpoint(SOCKET _sock, uint32_t _sequence);
+		void reply_webapi_send_custommatch_setendringexclusion(SOCKET _sock, uint32_t _sequence);
 		void reply_webapi_send_pausetoggle(SOCKET _sock, uint32_t _sequence);
 		void reply_livedata_get_game(SOCKET _sock, uint32_t _sequence);
 		void reply_livedata_get_teams(SOCKET _sock, uint32_t _sequence);

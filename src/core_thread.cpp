@@ -975,6 +975,62 @@ namespace app {
 			}
 			break;
 		}
+		case WEBAPI_SEND_CUSTOMMATCH_SETENDRINGEXCLUSION:
+		{
+			log(LOG_CORE, L"Info: WEBAPI_SEND_CUSTOMMATCH_SETENDRINGEXCLUSION received.");
+			if (wdata.size() != 2)
+			{
+				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				return;
+			}
+			// CustomMatch_SetEndRingExclusion
+			rtech::liveapi::Request req;
+			auto act = new rtech::liveapi::CustomMatch_SetEndRingExclusion();
+
+			try
+			{
+				switch (wdata.get_uint8(1))
+				{
+				case 0:
+					act->set_sectiontoexclude(rtech::liveapi::MapRegion::TOP_LEFT);
+					break;
+				case 1:
+					act->set_sectiontoexclude(rtech::liveapi::MapRegion::TOP_RIGHT);
+					break;
+				case 2:
+					act->set_sectiontoexclude(rtech::liveapi::MapRegion::BOTTOM_LEFT);
+					break;
+				case 3:
+					act->set_sectiontoexclude(rtech::liveapi::MapRegion::BOTTOM_RIGHT);
+					break;
+				case 4:
+					act->set_sectiontoexclude(rtech::liveapi::MapRegion::CENTER);
+					break;
+				default:
+					act->set_sectiontoexclude(rtech::liveapi::MapRegion::REGIONS_COUNT);
+					break;
+				}
+			}
+			catch (...)
+			{
+				log(LOG_CORE, L"Error: data parse failed.");
+				return;
+			}
+
+			req.set_withack(true);
+			req.set_allocated_custommatch_setendringexclusion(act);
+
+			// 送信
+			auto buf = std::make_unique<std::vector<uint8_t>>();
+			buf->resize(req.ByteSizeLong());
+			if (buf->size() > 0)
+			{
+				req.SerializeToArray(buf->data(), buf->size());
+				sendto_liveapi(std::move(buf));
+				reply_webapi_send_custommatch_setendringexclusion(socket, sequence);
+			}
+			break;
+		}
 		case WEBAPI_SEND_CHANGECAMERA:
 		{
 			log(LOG_CORE, L"Info: WEBAPI_SEND_CHANGECAMERA received.");
@@ -2920,6 +2976,15 @@ namespace app {
 	void core_thread::reply_webapi_send_custommatch_setspawnpoint(SOCKET _sock, uint32_t _sequence)
 	{
 		send_webapi_data sdata(WEBAPI_SEND_CUSTOMMATCH_SETSPAWNPOINT);
+		if (sdata.append(_sequence))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::reply_webapi_send_custommatch_setendringexclusion(SOCKET _sock, uint32_t _sequence)
+	{
+		send_webapi_data sdata(WEBAPI_SEND_CUSTOMMATCH_SETENDRINGEXCLUSION);
 		if (sdata.append(_sequence))
 		{
 			sendto_webapi(_sock, std::move(sdata.buffer_));
