@@ -248,6 +248,9 @@ export class ApexWebAPI extends EventTarget {
 
   static WEBAPI_EVENT_LOBBYPLAYER = 0x40;
   static WEBAPI_EVENT_CUSTOMMATCH_SETTINGS = 0x41;
+  static WEBAPI_EVENT_LOBBYENUM_START = 0x42;
+  static WEBAPI_EVENT_LOBBYENUM_END = 0x43;
+  static WEBAPI_EVENT_LOBBYTEAM = 0x44;
 
   static WEBAPI_SEND_CUSTOMMATCH_SENDCHAT = 0x50;
   static WEBAPI_SEND_CUSTOMMATCH_CREATELOBBY = 0x51;
@@ -538,6 +541,22 @@ export class ApexWebAPI extends EventTarget {
         hash: hash,
         name: name,
         hardware: hardware
+      }
+    }));
+    return true;
+  }
+
+  #procEventLobbyTeam(arr) {
+    const teamid = this.#procTeamID(arr[0]);
+    const name = arr[1];
+    const spawnpoint = arr[2];
+    this.dispatchEvent(new CustomEvent('lobbyteam', {
+      detail: {
+        teamid: teamid.id,
+        unassined: teamid.unassined,
+        observer: teamid.observer,
+        name: name,
+        spawnpoint: spawnpoint
       }
     }));
     return true;
@@ -988,6 +1007,17 @@ export class ApexWebAPI extends EventTarget {
       case ApexWebAPI.WEBAPI_EVENT_LOBBYPLAYER:
         if (count != 4) return false;
         return this.#procEventLobbyPlayer(data_array);
+      case ApexWebAPI.WEBAPI_EVENT_LOBBYENUM_START:
+        if (count != 0) return false;
+        this.dispatchEvent(new CustomEvent('lobbyenumstart', { detail: {} }));
+        break;
+      case ApexWebAPI.WEBAPI_EVENT_LOBBYENUM_END:
+        if (count != 0) return false;
+        this.dispatchEvent(new CustomEvent('lobbyenumend', { detail: {} }));
+        break;
+      case ApexWebAPI.WEBAPI_EVENT_LOBBYTEAM:
+        if (count != 3) return false;
+        return this.#procEventLobbyTeam(data_array);
       case ApexWebAPI.WEBAPI_EVENT_CUSTOMMATCH_SETTINGS:
         if (count != 6) return false;
         return this.#procEventCustomMatchSettings(data_array);
