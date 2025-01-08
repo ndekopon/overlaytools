@@ -1363,7 +1363,7 @@ namespace app {
 			api::RequestStatus p;
 			if (!_any.UnpackTo(&p)) return;
 			auto wstatus = s_to_ws(p.status());
-			log(LOG_CORE, L"Info: RequestStatus received. success = %s", wstatus.c_str());
+			log(LOG_CORE, L"Info: RequestStatus received. [%s]", wstatus.c_str());
 		}
 		else if (_any.Is<api::Init>())
 		{
