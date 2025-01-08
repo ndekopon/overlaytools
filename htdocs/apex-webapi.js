@@ -252,6 +252,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_EVENT_LOBBYENUM_START = 0x42;
   static WEBAPI_EVENT_LOBBYENUM_END = 0x43;
   static WEBAPI_EVENT_LOBBYTEAM = 0x44;
+  static WEBAPI_EVENT_LOBBYTOKEN = 0x45;
 
   static WEBAPI_SEND_CUSTOMMATCH_SENDCHAT = 0x50;
   static WEBAPI_SEND_CUSTOMMATCH_CREATELOBBY = 0x51;
@@ -559,6 +560,15 @@ export class ApexWebAPI extends EventTarget {
         observer: teamid.observer,
         name: name,
         spawnpoint: spawnpoint
+      }
+    }));
+    return true;
+  }
+
+  #procEventLobbyToken(arr) {
+    this.dispatchEvent(new CustomEvent('lobbytoken', {
+      detail: {
+        token: arr[0]
       }
     }));
     return true;
@@ -1048,6 +1058,9 @@ export class ApexWebAPI extends EventTarget {
       case ApexWebAPI.WEBAPI_EVENT_LOBBYTEAM:
         if (count != 3) return false;
         return this.#procEventLobbyTeam(data_array);
+      case ApexWebAPI.WEBAPI_EVENT_LOBBYTOKEN:
+        if (count != 1) return false;
+        return this.#procEventLobbyToken(data_array);
       case ApexWebAPI.WEBAPI_EVENT_CUSTOMMATCH_SETTINGS:
         if (count != 6) return false;
         return this.#procEventCustomMatchSettings(data_array);
