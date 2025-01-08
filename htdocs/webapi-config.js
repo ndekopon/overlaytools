@@ -2699,6 +2699,7 @@ export class WebAPIConfig {
     #resultview;
     #resultfixview;
     #tryconnecting;
+    #lobby;
 
     constructor(url, liveapi_url) {
         this.#tournament_id = "";
@@ -2707,6 +2708,7 @@ export class WebAPIConfig {
         this.#tournament_params = {};
         this.#playerparams = {};
         this.#teamparams = {};
+        this.#lobby = {};
         this._results = null;
         this.#realtimeview = new RealtimeView();
         this.#observerconfig = new ObserverConfig();
@@ -2805,11 +2807,39 @@ export class WebAPIConfig {
             }
         });
 
+        this.#webapi.addEventListener('lobbyenumstart', (ev) => {
+            this.#lobby = {};
+        });
+
+        this.#webapi.addEventListener('lobbytoken', (ev) => {
+            this.#lobby.token = ev.detail.token;
+        });
+
         this.#webapi.addEventListener('lobbyplayer', (ev) => {
+            // store lobby data
+            if (!('players' in this.#lobby)) this.#lobby.players = {};
+            this.#lobby.players[ev.detail.hash] = ev.detail;
+
             this.#procPlayerInGameName(ev.detail.hash, ev.detail.name);
             if (ev.detail.observer) {
                 this.#observerconfig.drawObserverName(ev.detail.hash, ev.detail.name);
             }
+        });
+
+        this.#webapi.addEventListener('lobbyteam', (ev) => {
+            // store lobby data
+            if (!('teams' in this.#lobby)) this.#lobby.teams = {};
+            if (ev.detail.unassigned) {
+                this.#lobby.teams['unassigned'] = ev.detail;
+            } else if (ev.detail.observer) {
+                this.#lobby.teams['observer'] = ev.detail;
+            } else {
+                this.#lobby.teams[ev.detail.teamid] = ev.detail;
+            }
+        });
+
+        this.#webapi.addEventListener('lobbyenumend', (ev) => {
+            console.log({ lobby: this.#lobby });
         });
 
         /* observer用 */
