@@ -1108,6 +1108,13 @@ export class TemplateOverlayHandler {
         }
     }
 
+    #updatedTeamTotalResultDamage(teamid, dealt, taken) {
+        for (const overlay of Object.values(this.#overlays)) {
+            overlay.setTeamParam(teamid, 'team-total-damagedealt', dealt);
+            overlay.setTeamParam(teamid, 'team-total-damagetaken', taken);
+        }
+    }
+
     #updatedMapName(map) {
         for (const overlay of Object.values(this.#overlays)) {
             overlay.setParam('map-name', map);
@@ -1803,13 +1810,26 @@ export class TemplateOverlayHandler {
             }
         }
 
+        const teamdamages = {};
         for (const [hash, player] of Object.entries(this.#player_index_totalresult)) {
+            const damage_dealt = player.damage_dealt.reduce((a, c) => a + c, 0);
+            const damage_taken = player.damage_taken.reduce((a, c) => a + c, 0);
             this.#updatedPlayerTotalResultId(hash);
             this.#updatedPlayerTotalResultName(hash, mode(player.name));
             this.#updatedPlayerTotalResultLegend(hash, mode(player.character));
             this.#updatedPlayerTotalResultKills(hash, player.kills.reduce((a, c) => a + c, 0));
-            this.#updatedPlayerTotalResultDamage(hash, player.damage_dealt.reduce((a, c) => a + c, 0), player.damage_taken.reduce((a, c) => a + c, 0));
+            this.#updatedPlayerTotalResultDamage(hash, damage_dealt, damage_taken);
+            if (!(player.teamid in teamdamages)) teamdamages[player.teamid] = { dealt: 0, taken: 0 };
+            const teamdamage = teamdamages[player.teamid];
+            teamdamage.dealt += damage_dealt;
+            teamdamage.taken += damage_taken;
         }
+
+        for (const [teamidstr, damage] of Object.entries(teamdamages)) {
+            const teamid = parseInt(teamidstr, 10);
+            this.#updatedTeamTotalResultDamage(teamid, damage.dealt, damage.taken);
+        }
+
 
         for (const overlay of Object.values(this.#overlays)) {
             if ('sortTeamTotalResultPlacement' in overlay && typeof(overlay.sortTeamTotalResultPlacement) == 'function') {
