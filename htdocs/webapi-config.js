@@ -770,31 +770,21 @@ class TeamName extends WebAPIConfigBase {
 }
 
 class TeamInGameSettings extends WebAPIConfigBase {
+    #lobby;
     /**
      * コンストラクタ
      */
     constructor() {
         super('team-ingamesettings-');
-        this.getNode('map');
         this.getNode('num');
         this.getNode('teamnames');
         this.getNode('spawnpoints');
         this.getNode('output');
 
+        this.#lobby = {};
+
         // テキスト設定
         this.#setLineNumber();
-
-        this.nodes.map.addEventListener('change', (ev) => {
-            this.#updateOutput();
-        });
-
-        this.nodes.teamnames.addEventListener('change', (ev) => {
-            this.#updateOutput();
-        });
-
-        this.nodes.spawnpoints.addEventListener('change', (ev) => {
-            this.#updateOutput();
-        });
     }
 
     /**
@@ -835,81 +825,27 @@ class TeamInGameSettings extends WebAPIConfigBase {
 
     /**
      * 1行毎に「TeamXX: 」をつけてoutput側のTextAreaに設定
-     * @param {string} text 元のテキスト
      */
-    #updateOutput(src) {
-        const map = this.nodes.map.value;
-        const teamnames = this.getTeamNames();
-        const spawnpoints = this.getSpawnPoints();
-        const splabels = {
-            'WE': [
-                '',
-                'SKYHOOK EAST',
-                'SKYHOOK WEST',
-                'COUNTDOWN',
-                'LAVA FISSURE',
-                'LANDSLIDE',
-                'MIRAGE A TROIS',
-                'STAGING',
-                'THERMAL STATION',
-                'HAVESTER',
-                'THE TREE',
-                'SIPHON WEST',
-                'SIPHON EAST',
-                'LAUNCH SITE',
-                'THE DOME',
-                'STACKS',
-                'BIGMAUDE',
-                'THE GEYSER',
-                'FRAGMENT',
-                'MONUMENT',
-                'SERVEY CAMP',
-                'THE EPICENTER',
-                'CLIMATIZER WEST',
-                'CLIMATIZER EAST',
-                'OVERLOOK',
-            ],
-            'SP': [
-                '',
-                'CHECKPOINT NORTH',
-                'CHECKPOINT SOUTH',
-                'TRIDENT',
-                'NORTH PAD',
-                'DOWNED BEAST',
-                'THE MILL',
-                'CENOTE CAVE',
-                'BAROMETER SOUTH',
-                'BAROMETER NORTH',
-                'CETO STATION',
-                'CASCADE FALLS',
-                'COMMAND CENTER',
-                'THE WALL',
-                'ZEUS STATION',
-                'LIGHTNING ROD',
-                'CLIFF SIDE',
-                'STORM CACHER',
-                'PROWLER NEST',
-                'LAUNCH PAD',
-                'DEVASTATED COAST',
-                'ECHO HQ',
-                'COASTAL CAMP',
-                'THE PYLON',
-                'JURASSIC',
-                'LIFT',
-            ],
-        }
+    #updateOutput() {
         let dst = '';
-        for (let i = 0; i < 30; ++i) {
-            const teamname = i < teamnames.length ? teamnames[i].trim() : '';
-            const spawnpoint = i < spawnpoints.length ? spawnpoints[i] : 0;
-            const splabel = spawnpoint < splabels[map].length ? splabels[map][spawnpoint] : '';
-            if (dst != '') dst += '\r\n';
-            let tmp = '';
-            tmp += teamname;
-            tmp += splabel != '' ? `[${splabel}]` : '';
-            dst += (tmp == '' ? '' : 'Team' + (i + 1) + ': ' + tmp);
+        if (!('token' in this.#lobby) || this.#lobby.token == '' || this.#lobby.token.indexOf('c') == 0) {
+            dst = 'need special token';
+        } else if ('teams' in this.#lobby) {
+            for (let i = 0; i < 30; ++i) {
+                if (i in this.#lobby.teams) {
+                    const t = this.#lobby.teams[i];
+                    dst += 'Team' + (i + 1) + ': ' + t.name + '@' + t.spawnpoint;
+                } else {
+                    dst += '\r\n';
+                }
+            }
         }
         this.nodes.output.innerText = dst;
+    }
+
+    setLobby(lobby) {
+        this.#lobby = lobby;
+        this.#updateOutput();
     }
 }
 
@@ -2840,6 +2776,7 @@ export class WebAPIConfig {
 
         this.#webapi.addEventListener('lobbyenumend', (ev) => {
             console.log({ lobby: this.#lobby });
+            this.#teamingamesettings.setLobby(this.#lobby);
         });
 
         /* observer用 */
@@ -3079,8 +3016,7 @@ export class WebAPIConfig {
         });
 
         document.getElementById('team-ingamename-button').addEventListener('click', (ev) => {
-            this.#setInGameTeamNames().then((arr) => {
-            });
+            this.#setInGameTeamNames();
         });
 
         document.getElementById('announce-button').addEventListener('click', (ev) => {
@@ -3095,13 +3031,11 @@ export class WebAPIConfig {
         });
 
         document.getElementById('team-ingamesettings-teamnames-button').addEventListener('click', (ev) => {
-            this.#setInGameTeamNames(true).then((arr) => {
-            });
+            this.#setInGameTeamNames(true);
         });
 
         document.getElementById('team-ingamesettings-spawnpoints-button').addEventListener('click', (ev) => {
-            this.#setInGameSpawnPoints().then((arr) => {
-            });
+            this.#setInGameSpawnPoints();
         });
 
         document.getElementById('result-view-button').addEventListener('click', (ev) => {
@@ -3520,18 +3454,39 @@ export class WebAPIConfig {
      */
     #setInGameTeamNames(ingamesettings = false) {
         const lines = ingamesettings ? this.#teamingamesettings.getTeamNames() : this.#teamname.getLines();
-        const jobs = [];
-        for (let i = 0; i < 30; ++i) {
-            if (i < lines.length) {
-                const line = lines[i];
-                jobs.push(this.#webapi.sendSetTeamName(i, line));
-            } else {
-                jobs.push(this.#webapi.sendSetTeamName(i, ''));
+        let timerid = null;
+
+        const enumend = (ev) => {
+            if (timerid != null) clearTimeout(timerid);
+
+            if (!('token' in this.#lobby) || this.#lobby.token == '' || this.#lobby.token.indexOf('c') == 0) {
+                return;
             }
-        }
-        return new Promise((resolve, reject) => {
-            Promise.all(jobs).then(resolve, reject);
-        });
+
+            if ('teams' in this.#lobby) {
+                for (let i = 0; i < 30; ++i) {
+                    if (i in this.#lobby.teams) {
+                        const team = this.#lobby.teams[i];
+                        const name = i < lines.length ? lines[i] : '';
+                        if (team.name != name) {
+                            this.#webapi.sendSetTeamName(i, name);
+                        }
+                    }
+                }
+            }
+
+            // 変更後に再度取得
+            this.#webapi.sendGetLobbyPlayers();
+        };
+
+        this.#webapi.addEventListener('lobbyenumend', enumend, { once: true });
+
+        timerid = setTimeout(() => {
+            this.#webapi.removeEventListener('lobbyenumend', enumend);
+            console.warn('setInGameTeamNames() timeout.');
+        }, 2000); // 2sでタイムアウト
+
+        this.#webapi.sendGetLobbyPlayers();
     }
 
     /**
@@ -3540,18 +3495,39 @@ export class WebAPIConfig {
      */
     #setInGameSpawnPoints() {
         const spawnpoints = this.#teamingamesettings.getSpawnPoints();
-        const jobs = [];
-        for (let i = 0; i < 30; ++i) {
-            if (i < spawnpoints.length) {
-                const spawnpoint = spawnpoints[i];
-                jobs.push(this.#webapi.sendSetSpawnPoint(i, spawnpoint));
-            } else {
-                jobs.push(this.#webapi.sendSetSpawnPoint(i, 0));
+        let timerid = null;
+
+        const enumend = (ev) => {
+            if (timerid != null) clearTimeout(timerid);
+
+            if (!('token' in this.#lobby) || this.#lobby.token == '' || this.#lobby.token.indexOf('c') == 0) {
+                return;
             }
-        }
-        return new Promise((resolve, reject) => {
-            Promise.all(jobs).then(resolve, reject);
-        });
+
+            if ('teams' in this.#lobby) {
+                for (let i = 0; i < 30; ++i) {
+                    if (i in this.#lobby.teams) {
+                        const team = this.#lobby.teams[i];
+                        const spawnpoint = i < spawnpoints.length ? spawnpoints[i] : 0;
+                        if (team.spawnpoint != spawnpoint) {
+                            this.#webapi.sendSetSpawnPoint(i, spawnpoint);
+                        }
+                    }
+                }
+            }
+
+            // 変更後に再度取得
+            this.#webapi.sendGetLobbyPlayers();
+        };
+
+        this.#webapi.addEventListener('lobbyenumend', enumend, { once: true });
+
+        timerid = setTimeout(() => {
+            this.#webapi.removeEventListener('lobbyenumend', enumend);
+            console.warn('setInGameSpawnPoints() timeout.');
+        }, 2000); // 2sでタイムアウト
+
+        this.#webapi.sendGetLobbyPlayers();
     }
 
     /**
