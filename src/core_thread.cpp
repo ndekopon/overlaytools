@@ -950,7 +950,7 @@ namespace app {
 
 			try
 			{
-				auto spawnpoint = (((int32_t)wdata.get_uint8(2)) - 1);
+				auto spawnpoint = wdata.get_uint8(2);
 
 				act->set_teamid((int32_t)wdata.get_uint8(1));
 				act->set_spawnpoint(spawnpoint);
@@ -1394,7 +1394,7 @@ namespace app {
 				auto name = p.teams(i).name();
 				auto teamid = p.teams(i).id();
 				auto spawnpoint_i32 = p.teams(i).spawnpoint();
-				uint8_t spawnpoint = spawnpoint_i32 < 0 ? 0 : (spawnpoint_i32 + 1) & 0xff;
+				uint8_t spawnpoint = spawnpoint_i32 < 0 ? 0 : spawnpoint_i32 & 0xff;
 				send_webapi_lobbyteam(teamid, name, spawnpoint);
 			}
 
