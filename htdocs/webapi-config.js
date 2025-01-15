@@ -2994,7 +2994,7 @@ export class WebAPIConfig {
         });
 
         document.getElementById('observer-set-getfromlobby').addEventListener('click', (ev) => {
-            this.#webapi.sendGetLobbyPlayers().then((ev) => {}, () => {});
+            this.#webapi.sendGetLobbyPlayers();
         });
 
         document.getElementById('player-name-getfromresults').addEventListener('click', (ev) => {
@@ -3013,6 +3013,10 @@ export class WebAPIConfig {
             this.#setTeamNames().then((arr) => {
                 this.#updateTeamNameTextArea();
             });
+        });
+
+        document.getElementById('team-ingamesettings-getfromlobby').addEventListener('click', ev => {
+            this.#webapi.sendGetLobbyPlayers();
         });
 
         document.getElementById('team-ingamename-button').addEventListener('click', (ev) => {
@@ -3474,6 +3478,7 @@ export class WebAPIConfig {
                     }
                 }
             }
+            this.#webapi.sendGetLobbyPlayers();
         };
 
         this.#webapi.addEventListener('lobbyenumend', enumend, { once: true });
@@ -3512,6 +3517,7 @@ export class WebAPIConfig {
                     }
                 }
             }
+            this.#webapi.sendGetLobbyPlayers();
         };
 
         this.#webapi.addEventListener('lobbyenumend', enumend, { once: true });
