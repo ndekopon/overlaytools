@@ -834,7 +834,7 @@ class TeamInGameSettings extends WebAPIConfigBase {
             for (let i = 0; i < 30; ++i) {
                 if (i in this.#lobby.teams) {
                     const t = this.#lobby.teams[i];
-                    dst += 'Team' + (i + 1) + ': ' + t.name + '@' + t.spawnpoint;
+                    dst += 'Team' + (i + 1) + ': ' + t.name + '@' + t.spawnpoint + '\r\n';
                 } else {
                     dst += '\r\n';
                 }
@@ -3474,9 +3474,6 @@ export class WebAPIConfig {
                     }
                 }
             }
-
-            // 変更後に再度取得
-            this.#webapi.sendGetLobbyPlayers();
         };
 
         this.#webapi.addEventListener('lobbyenumend', enumend, { once: true });
@@ -3515,9 +3512,6 @@ export class WebAPIConfig {
                     }
                 }
             }
-
-            // 変更後に再度取得
-            this.#webapi.sendGetLobbyPlayers();
         };
 
         this.#webapi.addEventListener('lobbyenumend', enumend, { once: true });
