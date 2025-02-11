@@ -406,10 +406,9 @@ namespace app {
 
 			// CustomMatch_CreateLobby
 			rtech::liveapi::Request req;
-			auto act = new rtech::liveapi::CustomMatch_CreateLobby();
+			auto act = req.mutable_custommatch_createlobby();
 
 			req.set_withack(true);
-			req.set_allocated_custommatch_createlobby(act);
 
 			// 送信
 			auto buf = std::make_unique<std::vector<uint8_t>>();
@@ -427,10 +426,9 @@ namespace app {
 			log(LOG_CORE, L"Info: WEBAPI_SEND_CUSTOMMATCH_GETLOBBYPLAYERS received.");
 			// CustomMatch_GetLobbyPlayers
 			rtech::liveapi::Request req;
-			auto act = new rtech::liveapi::CustomMatch_GetLobbyPlayers();
+			auto act = req.mutable_custommatch_getlobbyplayers();
 
 			req.set_withack(true);
-			req.set_allocated_custommatch_getlobbyplayers(act);
 
 			// 送信
 			auto buf = std::make_unique<std::vector<uint8_t>>();
@@ -806,7 +804,7 @@ namespace app {
 
 			// CustomMatch_SetSettings
 			rtech::liveapi::Request req;
-			auto act = new rtech::liveapi::CustomMatch_SetSettings();
+			auto act = req.mutable_custommatch_setsettings();
 
 			try
 			{
@@ -824,7 +822,6 @@ namespace app {
 			}
 
 			req.set_withack(true);
-			req.set_allocated_custommatch_setsettings(act);
 
 			// 送信
 			auto buf = std::make_unique<std::vector<uint8_t>>();
@@ -842,10 +839,9 @@ namespace app {
 			log(LOG_CORE, L"Info: WEBAPI_SEND_CUSTOMMATCH_GETSETTINGS received.");
 			// CustomMatch_GetSettings
 			rtech::liveapi::Request req;
-			auto act = new rtech::liveapi::CustomMatch_GetSettings();
+			auto act = req.mutable_custommatch_getsettings();
 
 			req.set_withack(true);
-			req.set_allocated_custommatch_getsettings(act);
 
 			// 送信
 			auto buf = std::make_unique<std::vector<uint8_t>>();
@@ -870,7 +866,7 @@ namespace app {
 
 			// CustomMatch_SetTeamName
 			rtech::liveapi::Request req;
-			auto act = new rtech::liveapi::CustomMatch_SetTeamName();
+			auto act = req.mutable_custommatch_setteamname();
 
 			try
 			{
@@ -884,7 +880,6 @@ namespace app {
 			}
 
 			req.set_withack(true);
-			req.set_allocated_custommatch_setteamname(act);
 
 			// 送信
 			auto buf = std::make_unique<std::vector<uint8_t>>();
@@ -909,7 +904,7 @@ namespace app {
 
 			// CustomMatch_SendChat
 			rtech::liveapi::Request req;
-			auto act = new rtech::liveapi::CustomMatch_SendChat();
+			auto act = req.mutable_custommatch_sendchat();
 
 			// 文字設定
 			try
@@ -923,7 +918,6 @@ namespace app {
 			}
 
 			req.set_withack(true);
-			req.set_allocated_custommatch_sendchat(act);
 
 			// 送信
 			auto buf = std::make_unique<std::vector<uint8_t>>();
@@ -946,7 +940,7 @@ namespace app {
 			}
 			// CustomMatch_SetSpawnPoint
 			rtech::liveapi::Request req;
-			auto act = new rtech::liveapi::CustomMatch_SetSpawnPoint();
+			auto act = req.mutable_custommatch_setspawnpoint();
 
 			try
 			{
@@ -962,7 +956,6 @@ namespace app {
 			}
 
 			req.set_withack(true);
-			req.set_allocated_custommatch_setspawnpoint(act);
 
 			// 送信
 			auto buf = std::make_unique<std::vector<uint8_t>>();
@@ -985,7 +978,7 @@ namespace app {
 			}
 			// CustomMatch_SetEndRingExclusion
 			rtech::liveapi::Request req;
-			auto act = new rtech::liveapi::CustomMatch_SetEndRingExclusion();
+			auto act = req.mutable_custommatch_setendringexclusion();
 
 			try
 			{
@@ -1018,7 +1011,6 @@ namespace app {
 			}
 
 			req.set_withack(true);
-			req.set_allocated_custommatch_setendringexclusion(act);
 
 			// 送信
 			auto buf = std::make_unique<std::vector<uint8_t>>();
@@ -1043,7 +1035,7 @@ namespace app {
 
 			// ChangeCamera
 			rtech::liveapi::Request req;
-			auto act = new rtech::liveapi::ChangeCamera();
+			auto act = req.mutable_changecam();
 
 			// カメラ設定
 			try
@@ -1057,7 +1049,6 @@ namespace app {
 			}
 
 			req.set_withack(true);
-			req.set_allocated_changecam(act);
 
 			// 送信
 			auto buf = std::make_unique<std::vector<uint8_t>>();
@@ -1082,7 +1073,7 @@ namespace app {
 
 			// PauseToggle
 			rtech::liveapi::Request req;
-			auto act = new rtech::liveapi::PauseToggle();
+			auto act = req.mutable_pausetoggle();
 
 			float pretimer = wdata.get_float32(1);
 			if (pretimer <= 0.0f) break;
@@ -1099,7 +1090,6 @@ namespace app {
 			}
 
 			req.set_withack(true);
-			req.set_allocated_pausetoggle(act);
 
 			// 送信
 			auto buf = std::make_unique<std::vector<uint8_t>>();
@@ -3734,7 +3724,7 @@ namespace app {
 	void core_thread::save_result()
 	{
 		// リザルト用構造体に入れる
-		std::unique_ptr<livedata::result> r(new livedata::result());
+		auto r = std::make_unique<livedata::result>();
 
 		r->start = game_.start;
 		r->end = game_.end;
