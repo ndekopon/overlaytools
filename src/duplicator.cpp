@@ -322,14 +322,13 @@ namespace app {
 		rsize_t copybytes = std::min<rsize_t>(CAPTURE_SQUARE_WIDTH * 4, resource.RowPitch);
 
 		// ポインタの準備(teambanner,craftpoint,menu,team1frame)
-		const auto points = std::array<std::pair<size_t, size_t>, 7>({ 
-			{ 177, 1008 },  //   0: playerframe
-			{ 1616, 50 },   //  32: craftpoint
-			{ 1872, 1030 }, //  64: menu
-			{ 86, 98 },     //  96: team1frame
-			{ 455, 972 },   // 128: healitem
-			{ 1808, 50 },   // 160: aliveplayers
-			{ 1555, 1040 }  // 192: map bottom border
+		const auto points = std::array<std::pair<size_t, size_t>, CAPTURE_COUNT>({
+			{  177, 1008 }, //   0: playerframe
+			{ 1872, 1030 }, //  32: menu
+			{   86,   98 }, //  64: team1frame
+			{  455,  972 }, //  96: healitem
+			{ 1808,   50 }, // 128: aliveicon
+			{ 1555, 1040 }  // 160: map bottom border
 		});
 		for (size_t i = 0; i < points.size(); ++i)
 		{

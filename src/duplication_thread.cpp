@@ -41,16 +41,6 @@ namespace {
 		return true;
 	}
 
-	inline bool is_craftpoint_green(uint32_t _c)
-	{
-		rgba_t d = { .c = _c };
-		// r:00-17 g:fa-fe b:ea-ed
-		if (0x25 < d.r) return false;
-		if (d.g < 0xf0) return false;
-		if (d.b < 0xd8 || 0xf8 < d.b) return false;
-		return true;
-	}
-
 	inline bool is_menu_white(uint32_t _c)
 	{
 		rgba_t d = { .c = _c };
@@ -147,36 +137,9 @@ namespace app {
 		return is_shown_playerframe_gray(_buffer) || is_shown_playerframe_red(_buffer);
 	}
 
-	inline bool is_shown_healitemframe(const std::vector<uint32_t>& _buffer)
-	{
-		const UINT base = 128;
-		if      (!is_playerframe_gray(BUFFERPOS( 6, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS( 8, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(10, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(12, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(14, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(16, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(18, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(20, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(22, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(24, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(26, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(28, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(31, 0))) return false;
-		return true;
-	}
-
-	inline bool is_shown_craftpoint(const std::vector<uint32_t>& _buffer)
-	{
-		const UINT base = 32;
-		if      (!is_craftpoint_green(BUFFERPOS(37,  0))) return false;
-		else if (!is_craftpoint_green(BUFFERPOS(37, 31))) return false;
-		return true;
-	}
-
 	inline bool is_shown_menu(const std::vector<uint32_t>& _buffer)
 	{
-		const UINT base = 64;
+		const UINT base = 32;
 		if      (!is_menu_white(BUFFERPOS( 8,  9))) return false;
 		else if (!is_menu_white(BUFFERPOS(10,  9))) return false;
 		else if (!is_menu_white(BUFFERPOS(12,  9))) return false;
@@ -204,16 +167,35 @@ namespace app {
 
 	inline bool is_shown_team1frame(const std::vector<uint32_t>& _buffer)
 	{
-		const UINT base = 96;
+		const UINT base = 64;
 		if      (!is_team1frame_color(BUFFERPOS(16, 13))) return false;
 		else if (!is_team1frame_color(BUFFERPOS(31, 14))) return false;
 		else if (!is_team1frame_color(BUFFERPOS(17, 31))) return false;
 		return true;
 	}
 
+	inline bool is_shown_healitemframe(const std::vector<uint32_t>& _buffer)
+	{
+		const UINT base = 96;
+		if (!is_playerframe_gray(BUFFERPOS(6, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(8, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(10, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(12, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(14, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(16, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(18, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(20, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(22, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(24, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(26, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(28, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(31, 0))) return false;
+		return true;
+	}
+
 	inline bool is_shown_alivesicon(const std::vector<uint32_t>& _buffer)
 	{
-		const UINT base = 160;
+		const UINT base = 128;
 		if      (!is_black(BUFFERPOS( 8, 24))) return false;
 		else if (!is_black(BUFFERPOS(10, 24))) return false;
 		else if (!is_black(BUFFERPOS(12, 24))) return false;
@@ -230,7 +212,7 @@ namespace app {
 
 	inline bool is_shown_map_bottom_border(const std::vector<uint32_t>& _buffer)
 	{
-		const UINT base = 192;
+		const UINT base = 160;
 		if      (!is_black(BUFFERPOS( 0,  0))) return false;
 		else if (!is_black(BUFFERPOS( 8,  0))) return false;
 		else if (!is_black(BUFFERPOS(18,  0))) return false;
@@ -292,13 +274,11 @@ namespace app {
 			bool teambanner_show;
 			bool playerframe;
 			bool healitemframe;
-			bool craftpoint;
 			bool menu;
 			bool team1frame;
 			bool map;
 			bool alivesicon;
 		} screen_state_prev = {
-				false,
 				false,
 				false,
 				false,
@@ -360,7 +340,6 @@ namespace app {
 
 						bool playerframe = is_shown_playerframe(buffer);
 						bool healitemframe = is_shown_healitemframe(buffer);
-						bool craftpoint = is_shown_craftpoint(buffer);
 						bool menu = is_shown_menu(buffer);
 						bool team1frame = is_shown_team1frame(buffer);
 						bool map = is_shown_map_bottom_border(buffer);
@@ -370,7 +349,6 @@ namespace app {
 						// 差分表示
 						if (playerframe != screen_state_prev.playerframe) log(LOG_DUPLICATION, L"Info: playerframe=%s.", playerframe ? L"true" : L"false");
 						if (healitemframe != screen_state_prev.healitemframe) log(LOG_DUPLICATION, L"Info: healitemframe=%s.", healitemframe ? L"true" : L"false");
-						if (craftpoint != screen_state_prev.craftpoint) log(LOG_DUPLICATION, L"Info: craftpoint=%s.", craftpoint ? L"true" : L"false");
 						if (menu != screen_state_prev.menu) log(LOG_DUPLICATION, L"Info: menu=%s.", menu ? L"true" : L"false");
 						if (team1frame != screen_state_prev.team1frame) log(LOG_DUPLICATION, L"Info: team1frame=%s.", team1frame ? L"true" : L"false");
 						if (alivesicon != screen_state_prev.alivesicon) log(LOG_DUPLICATION, L"Info: alivesicon=%s.", alivesicon ? L"true" : L"false");
@@ -388,13 +366,12 @@ namespace app {
 						}
 						screen_state_prev.playerframe = playerframe;
 						screen_state_prev.healitemframe = healitemframe;
-						screen_state_prev.craftpoint = craftpoint;
 						screen_state_prev.menu = menu;
 						screen_state_prev.team1frame = team1frame;
 						screen_state_prev.map = map;
 						screen_state_prev.alivesicon = alivesicon;
 
-						if ((playerframe || healitemframe) && (craftpoint || alivesicon) && menu) teambanner_show = true;
+						if ((playerframe || healitemframe) && alivesicon && menu) teambanner_show = true;
 						else if (alivesicon && menu) teambanner_show = false;
 						else if (map && menu) teambanner_show = false;
 						else if (team1frame) teambanner_show = false;
