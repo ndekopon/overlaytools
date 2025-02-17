@@ -323,13 +323,13 @@ namespace app {
 
 		// ポインタの準備(teambanner,craftpoint,menu,team1frame)
 		const auto points = std::array<std::pair<size_t, size_t>, 7>({ 
-			{ 177, 1008 },  //   0
-			{ 1616, 50 },   //  32
-			{ 1872, 1030 }, //  64
-			{ 86, 98 },     //  96
-			{ 455, 972 },   // 128
-			{ 1808, 50 },   // 160
-			{ 1555, 1040 }  // 192
+			{ 177, 1008 },  //   0: playerframe
+			{ 1616, 50 },   //  32: craftpoint
+			{ 1872, 1030 }, //  64: menu
+			{ 86, 98 },     //  96: team1frame
+			{ 455, 972 },   // 128: healitem
+			{ 1808, 50 },   // 160: aliveplayers
+			{ 1555, 1040 }  // 192: map bottom border
 		});
 		for (size_t i = 0; i < points.size(); ++i)
 		{

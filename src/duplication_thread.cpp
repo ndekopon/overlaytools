@@ -92,49 +92,53 @@ namespace {
 
 namespace app {
 
+#define BUFFERPOS(x, y) _buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - y - 1) + base +  x)
+
 	inline bool is_shown_playerframe_gray(const std::vector<uint32_t>& _buffer)
 	{
-		if      (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 0))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 1))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 4))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 5))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 8))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 9))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 12))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 13))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 15))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 16))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 19))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 20))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 23))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 24))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 27))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 28))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 30))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 31))) return false;
+		const UINT base = 0;
+		if      (!is_playerframe_gray(BUFFERPOS( 0, 19))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS( 1, 20))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS( 4, 19))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS( 5, 20))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS( 8, 19))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS( 9, 20))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(12, 19))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(13, 20))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(15, 19))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(16, 20))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(19, 19))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(20, 20))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(23, 19))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(24, 20))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(27, 19))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(28, 20))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(30, 19))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(31, 20))) return false;
 		return true;
 	}
 
 	inline bool is_shown_playerframe_red(const std::vector<uint32_t>& _buffer)
 	{
-		if      (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) +  0))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) +  1))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) +  4))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) +  5))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) +  8))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) +  9))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 12))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 13))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 15))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 16))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 19))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 20))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 23))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 24))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 27))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 28))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 19 - 1) + 30))) return false;
-		else if (!is_playerframe_red(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 20 - 1) + 31))) return false;
+		const UINT base = 0;
+		if      (!is_playerframe_red(BUFFERPOS( 0, 19))) return false;
+		else if (!is_playerframe_red(BUFFERPOS( 1, 20))) return false;
+		else if (!is_playerframe_red(BUFFERPOS( 4, 19))) return false;
+		else if (!is_playerframe_red(BUFFERPOS( 5, 20))) return false;
+		else if (!is_playerframe_red(BUFFERPOS( 8, 19))) return false;
+		else if (!is_playerframe_red(BUFFERPOS( 9, 20))) return false;
+		else if (!is_playerframe_red(BUFFERPOS(12, 19))) return false;
+		else if (!is_playerframe_red(BUFFERPOS(13, 20))) return false;
+		else if (!is_playerframe_red(BUFFERPOS(15, 19))) return false;
+		else if (!is_playerframe_red(BUFFERPOS(16, 20))) return false;
+		else if (!is_playerframe_red(BUFFERPOS(19, 19))) return false;
+		else if (!is_playerframe_red(BUFFERPOS(20, 20))) return false;
+		else if (!is_playerframe_red(BUFFERPOS(23, 19))) return false;
+		else if (!is_playerframe_red(BUFFERPOS(24, 20))) return false;
+		else if (!is_playerframe_red(BUFFERPOS(27, 19))) return false;
+		else if (!is_playerframe_red(BUFFERPOS(28, 20))) return false;
+		else if (!is_playerframe_red(BUFFERPOS(30, 19))) return false;
+		else if (!is_playerframe_red(BUFFERPOS(31, 20))) return false;
 		return true;
 	}
 
@@ -145,98 +149,101 @@ namespace app {
 
 	inline bool is_shown_healitemframe(const std::vector<uint32_t>& _buffer)
 	{
-		if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT      - 0 - 1) + 128 + 6))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 8))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 10))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 12))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 14))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 16))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 18))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 20))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 22))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 24))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 26))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 28))) return false;
-		else if (!is_playerframe_gray(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 128 + 31))) return false;
+		const UINT base = 128;
+		if      (!is_playerframe_gray(BUFFERPOS( 6, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS( 8, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(10, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(12, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(14, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(16, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(18, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(20, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(22, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(24, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(26, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(28, 0))) return false;
+		else if (!is_playerframe_gray(BUFFERPOS(31, 0))) return false;
 		return true;
 	}
 
 	inline bool is_shown_craftpoint(const std::vector<uint32_t>& _buffer)
 	{
-		// (37,0) (37,31)
-		if (!is_craftpoint_green(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 37))) return false;
-		else if (!is_craftpoint_green(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 37))) return false;
+		const UINT base = 32;
+		if      (!is_craftpoint_green(BUFFERPOS(37,  0))) return false;
+		else if (!is_craftpoint_green(BUFFERPOS(37, 31))) return false;
 		return true;
 	}
 
 	inline bool is_shown_menu(const std::vector<uint32_t>& _buffer)
 	{
-		// (72,9) (79,15) (87,21)
-		if      (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 72))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 74))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 76))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 78))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 80))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 82))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 84))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 9 - 1) + 86))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 75))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 77))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 79))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 81))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 83))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 85))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 15 - 1) + 87))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 75))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 77))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 79))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 81))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 83))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 85))) return false;
-		else if (!is_menu_white(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 21 - 1) + 87))) return false;
+		const UINT base = 64;
+		if      (!is_menu_white(BUFFERPOS( 8,  9))) return false;
+		else if (!is_menu_white(BUFFERPOS(10,  9))) return false;
+		else if (!is_menu_white(BUFFERPOS(12,  9))) return false;
+		else if (!is_menu_white(BUFFERPOS(14,  9))) return false;
+		else if (!is_menu_white(BUFFERPOS(16,  9))) return false;
+		else if (!is_menu_white(BUFFERPOS(18,  9))) return false;
+		else if (!is_menu_white(BUFFERPOS(20,  9))) return false;
+		else if (!is_menu_white(BUFFERPOS(22,  9))) return false;
+		else if (!is_menu_white(BUFFERPOS(11, 15))) return false;
+		else if (!is_menu_white(BUFFERPOS(13, 15))) return false;
+		else if (!is_menu_white(BUFFERPOS(15, 15))) return false;
+		else if (!is_menu_white(BUFFERPOS(17, 15))) return false;
+		else if (!is_menu_white(BUFFERPOS(19, 15))) return false;
+		else if (!is_menu_white(BUFFERPOS(21, 15))) return false;
+		else if (!is_menu_white(BUFFERPOS(23, 15))) return false;
+		else if (!is_menu_white(BUFFERPOS(11, 21))) return false;
+		else if (!is_menu_white(BUFFERPOS(13, 21))) return false;
+		else if (!is_menu_white(BUFFERPOS(15, 21))) return false;
+		else if (!is_menu_white(BUFFERPOS(17, 21))) return false;
+		else if (!is_menu_white(BUFFERPOS(19, 21))) return false;
+		else if (!is_menu_white(BUFFERPOS(21, 21))) return false;
+		else if (!is_menu_white(BUFFERPOS(23, 21))) return false;
 		return true;
 	}
 
 	inline bool is_shown_team1frame(const std::vector<uint32_t>& _buffer)
 	{
-		// (112,13) (127, 14) (113, 31)
-		if (!is_team1frame_color(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 13 - 1) + 112))) return false;
-		else if (!is_team1frame_color(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 14 - 1) + 127))) return false;
-		else if (!is_team1frame_color(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 113))) return false;
+		const UINT base = 96;
+		if      (!is_team1frame_color(BUFFERPOS(16, 13))) return false;
+		else if (!is_team1frame_color(BUFFERPOS(31, 14))) return false;
+		else if (!is_team1frame_color(BUFFERPOS(17, 31))) return false;
 		return true;
 	}
 
 	inline bool is_shown_alivesicon(const std::vector<uint32_t>& _buffer)
 	{
-		// LEFT=32*5=160
-		if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 160 + 8))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 160 + 10))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 160 + 12))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 160 + 14))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 160 + 16))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 160 + 18))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 160 + 20))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 24 - 1) + 160 + 22))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 10 - 1) + 160 + 13))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 10 - 1) + 160 + 15))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 10 - 1) + 160 + 17))) return false;
+		const UINT base = 160;
+		if      (!is_black(BUFFERPOS( 8, 24))) return false;
+		else if (!is_black(BUFFERPOS(10, 24))) return false;
+		else if (!is_black(BUFFERPOS(12, 24))) return false;
+		else if (!is_black(BUFFERPOS(14, 24))) return false;
+		else if (!is_black(BUFFERPOS(16, 24))) return false;
+		else if (!is_black(BUFFERPOS(18, 24))) return false;
+		else if (!is_black(BUFFERPOS(20, 24))) return false;
+		else if (!is_black(BUFFERPOS(22, 24))) return false;
+		else if (!is_black(BUFFERPOS(13, 10))) return false;
+		else if (!is_black(BUFFERPOS(15, 10))) return false;
+		else if (!is_black(BUFFERPOS(17, 10))) return false;
 		return true;
 	}
 
 	inline bool is_shown_map_bottom_border(const std::vector<uint32_t>& _buffer)
 	{
-		if      (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 192))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 200))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 210))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 220))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 0 - 1) + 223))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 192))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 200))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 210))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 220))) return false;
-		else if (!is_black(_buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - 31 - 1) + 223))) return false;
+		const UINT base = 192;
+		if      (!is_black(BUFFERPOS( 0,  0))) return false;
+		else if (!is_black(BUFFERPOS( 8,  0))) return false;
+		else if (!is_black(BUFFERPOS(18,  0))) return false;
+		else if (!is_black(BUFFERPOS(28,  0))) return false;
+		else if (!is_black(BUFFERPOS(31,  0))) return false;
+		else if (!is_black(BUFFERPOS( 0, 31))) return false;
+		else if (!is_black(BUFFERPOS( 8, 31))) return false;
+		else if (!is_black(BUFFERPOS(18, 31))) return false;
+		else if (!is_black(BUFFERPOS(28, 31))) return false;
+		else if (!is_black(BUFFERPOS(31, 31))) return false;
 		return true;
 	}
+#undef BUFFERPOS
 
 	duplication_thread::duplication_thread()
 		: window_(nullptr)
