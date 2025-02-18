@@ -21,33 +21,33 @@ namespace {
 		};
 	};
 
-	inline bool is_playerframe_gray(uint32_t _c)
+	inline bool is_grayframe(uint32_t _c)
 	{
 		rgba_t d = { .c = _c };
-		// r:88-8f g:88-8f b:88-8f
-		if (d.r < 0x84 || 0xa9 < d.r) return false;
-		if (d.g < 0x84 || 0xa9 < d.g) return false;
-		if (d.b < 0x84 || 0xa9 < d.b) return false;
+		// r:92-98 g:92-98 b:92-98
+		if (d.r < 0x92 || 0x98 < d.r) return false;
+		if (d.g < 0x92 || 0x98 < d.g) return false;
+		if (d.b < 0x92 || 0x98 < d.b) return false;
 		return true;
 	}
 
-	inline bool is_playerframe_red(uint32_t _c)
+	inline bool is_teamnameframe_white(uint32_t _c)
 	{
 		rgba_t d = { .c = _c };
-		// r:d8-ff g:00-26 b:00-26
-		if (d.r < 0xd8) return false;
-		if (0x30 < d.g) return false;
-		if (0x30 < d.b) return false;
+		// r:f0-ff g:f0-ff b:f0-ff
+		if (d.r < 0xef) return false;
+		if (d.g < 0xef) return false;
+		if (d.b < 0xef) return false;
 		return true;
 	}
 
-	inline bool is_menu_white(uint32_t _c)
+	inline bool is_teamnameframe_gray(uint32_t _c)
 	{
 		rgba_t d = { .c = _c };
-		// r:ff-ff g:ff-ff b:ff-ff
-		if (d.r < 0xf8) return false;
-		if (d.g < 0xf8) return false;
-		if (d.b < 0xf8) return false;
+		// r:00-7f g:00-7f b:00-7f
+		if (0x80 < d.r) return false;
+		if (0x80 < d.g) return false;
+		if (0x80 < d.b) return false;
 		return true;
 	}
 	
@@ -84,118 +84,88 @@ namespace app {
 
 #define BUFFERPOS(x, y) _buffer.at(CAPTURE_WIDTH * (CAPTURE_HEIGHT - y - 1) + base +  x)
 
-	inline bool is_shown_playerframe_gray(const std::vector<uint32_t>& _buffer)
+	inline bool is_shown_teamnameframe(const std::vector<uint32_t>& _buffer)
 	{
 		const UINT base = 0;
-		if      (!is_playerframe_gray(BUFFERPOS( 0, 19))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS( 1, 20))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS( 4, 19))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS( 5, 20))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS( 8, 19))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS( 9, 20))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(12, 19))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(13, 20))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(15, 19))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(16, 20))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(19, 19))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(20, 20))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(23, 19))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(24, 20))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(27, 19))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(28, 20))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(30, 19))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(31, 20))) return false;
-		return true;
-	}
-
-	inline bool is_shown_playerframe_red(const std::vector<uint32_t>& _buffer)
-	{
-		const UINT base = 0;
-		if      (!is_playerframe_red(BUFFERPOS( 0, 19))) return false;
-		else if (!is_playerframe_red(BUFFERPOS( 1, 20))) return false;
-		else if (!is_playerframe_red(BUFFERPOS( 4, 19))) return false;
-		else if (!is_playerframe_red(BUFFERPOS( 5, 20))) return false;
-		else if (!is_playerframe_red(BUFFERPOS( 8, 19))) return false;
-		else if (!is_playerframe_red(BUFFERPOS( 9, 20))) return false;
-		else if (!is_playerframe_red(BUFFERPOS(12, 19))) return false;
-		else if (!is_playerframe_red(BUFFERPOS(13, 20))) return false;
-		else if (!is_playerframe_red(BUFFERPOS(15, 19))) return false;
-		else if (!is_playerframe_red(BUFFERPOS(16, 20))) return false;
-		else if (!is_playerframe_red(BUFFERPOS(19, 19))) return false;
-		else if (!is_playerframe_red(BUFFERPOS(20, 20))) return false;
-		else if (!is_playerframe_red(BUFFERPOS(23, 19))) return false;
-		else if (!is_playerframe_red(BUFFERPOS(24, 20))) return false;
-		else if (!is_playerframe_red(BUFFERPOS(27, 19))) return false;
-		else if (!is_playerframe_red(BUFFERPOS(28, 20))) return false;
-		else if (!is_playerframe_red(BUFFERPOS(30, 19))) return false;
-		else if (!is_playerframe_red(BUFFERPOS(31, 20))) return false;
-		return true;
-	}
-
-	inline bool is_shown_playerframe(const std::vector<uint32_t>& _buffer)
-	{
-		return is_shown_playerframe_gray(_buffer) || is_shown_playerframe_red(_buffer);
-	}
-
-	inline bool is_shown_menu(const std::vector<uint32_t>& _buffer)
-	{
-		const UINT base = 32;
-		if      (!is_menu_white(BUFFERPOS( 8,  9))) return false;
-		else if (!is_menu_white(BUFFERPOS(10,  9))) return false;
-		else if (!is_menu_white(BUFFERPOS(12,  9))) return false;
-		else if (!is_menu_white(BUFFERPOS(14,  9))) return false;
-		else if (!is_menu_white(BUFFERPOS(16,  9))) return false;
-		else if (!is_menu_white(BUFFERPOS(18,  9))) return false;
-		else if (!is_menu_white(BUFFERPOS(20,  9))) return false;
-		else if (!is_menu_white(BUFFERPOS(22,  9))) return false;
-		else if (!is_menu_white(BUFFERPOS(11, 15))) return false;
-		else if (!is_menu_white(BUFFERPOS(13, 15))) return false;
-		else if (!is_menu_white(BUFFERPOS(15, 15))) return false;
-		else if (!is_menu_white(BUFFERPOS(17, 15))) return false;
-		else if (!is_menu_white(BUFFERPOS(19, 15))) return false;
-		else if (!is_menu_white(BUFFERPOS(21, 15))) return false;
-		else if (!is_menu_white(BUFFERPOS(23, 15))) return false;
-		else if (!is_menu_white(BUFFERPOS(11, 21))) return false;
-		else if (!is_menu_white(BUFFERPOS(13, 21))) return false;
-		else if (!is_menu_white(BUFFERPOS(15, 21))) return false;
-		else if (!is_menu_white(BUFFERPOS(17, 21))) return false;
-		else if (!is_menu_white(BUFFERPOS(19, 21))) return false;
-		else if (!is_menu_white(BUFFERPOS(21, 21))) return false;
-		else if (!is_menu_white(BUFFERPOS(23, 21))) return false;
+		if      (!is_teamnameframe_white(BUFFERPOS(11,  0))) return false;
+		else if (!is_teamnameframe_white(BUFFERPOS(10,  2))) return false;
+		else if (!is_teamnameframe_white(BUFFERPOS( 9,  4))) return false;
+		else if (!is_teamnameframe_white(BUFFERPOS( 8,  6))) return false;
+		else if (!is_teamnameframe_white(BUFFERPOS( 7,  8))) return false;
+		else if (!is_teamnameframe_white(BUFFERPOS( 6, 10))) return false;
+		else if (!is_teamnameframe_white(BUFFERPOS( 7, 12))) return false;
+		else if (!is_teamnameframe_white(BUFFERPOS( 8, 14))) return false;
+		else if (!is_teamnameframe_white(BUFFERPOS(10, 17))) return false;
+		else if (!is_teamnameframe_white(BUFFERPOS(11, 19))) return false;
+		else if (!is_teamnameframe_white(BUFFERPOS(12, 21))) return false;
+		else if (!is_teamnameframe_white(BUFFERPOS(13, 23))) return false;
+		else if (!is_teamnameframe_white(BUFFERPOS(15, 26))) return false;
+		else if (!is_teamnameframe_white(BUFFERPOS(16, 28))) return false;
+		else if (!is_teamnameframe_white(BUFFERPOS(18, 31))) return false;
+		else if (!is_teamnameframe_gray(BUFFERPOS(14,  0))) return false;
+		else if (!is_teamnameframe_gray(BUFFERPOS(13,  2))) return false;
+		else if (!is_teamnameframe_gray(BUFFERPOS(12,  4))) return false;
+		else if (!is_teamnameframe_gray(BUFFERPOS(11,  6))) return false;
+		else if (!is_teamnameframe_gray(BUFFERPOS(10,  8))) return false;
+		else if (!is_teamnameframe_gray(BUFFERPOS( 9, 10))) return false;
+		else if (!is_teamnameframe_gray(BUFFERPOS(10, 12))) return false;
+		else if (!is_teamnameframe_gray(BUFFERPOS(11, 14))) return false;
+		else if (!is_teamnameframe_gray(BUFFERPOS(13, 17))) return false;
+		else if (!is_teamnameframe_gray(BUFFERPOS(14, 19))) return false;
+		else if (!is_teamnameframe_gray(BUFFERPOS(15, 21))) return false;
+		else if (!is_teamnameframe_gray(BUFFERPOS(16, 23))) return false;
+		else if (!is_teamnameframe_gray(BUFFERPOS(18, 26))) return false;
+		else if (!is_teamnameframe_gray(BUFFERPOS(19, 28))) return false;
+		else if (!is_teamnameframe_gray(BUFFERPOS(21, 31))) return false;
 		return true;
 	}
 
 	inline bool is_shown_team1frame(const std::vector<uint32_t>& _buffer)
 	{
-		const UINT base = 64;
+		const UINT base = 32;
 		if      (!is_team1frame_color(BUFFERPOS(16, 13))) return false;
 		else if (!is_team1frame_color(BUFFERPOS(31, 14))) return false;
 		else if (!is_team1frame_color(BUFFERPOS(17, 31))) return false;
 		return true;
 	}
 
-	inline bool is_shown_healitemframe(const std::vector<uint32_t>& _buffer)
+	inline bool is_shown_grenadeframe(const std::vector<uint32_t>& _buffer)
 	{
-		const UINT base = 96;
-		if (!is_playerframe_gray(BUFFERPOS(6, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(8, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(10, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(12, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(14, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(16, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(18, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(20, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(22, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(24, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(26, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(28, 0))) return false;
-		else if (!is_playerframe_gray(BUFFERPOS(31, 0))) return false;
+		const UINT base = 64;
+		if      (!is_grayframe(BUFFERPOS( 0,  0))) return false;
+		else if (!is_grayframe(BUFFERPOS( 2,  0))) return false;
+		else if (!is_grayframe(BUFFERPOS( 4,  0))) return false;
+		else if (!is_grayframe(BUFFERPOS( 6,  0))) return false;
+		else if (!is_grayframe(BUFFERPOS( 8,  0))) return false;
+		else if (!is_grayframe(BUFFERPOS(10,  0))) return false;
+		else if (!is_grayframe(BUFFERPOS(12,  0))) return false;
+		else if (!is_grayframe(BUFFERPOS(14,  0))) return false;
+		else if (!is_grayframe(BUFFERPOS(16,  0))) return false;
+		else if (!is_grayframe(BUFFERPOS(18,  0))) return false;
+		else if (!is_grayframe(BUFFERPOS(20,  0))) return false;
+		else if (!is_grayframe(BUFFERPOS(22,  0))) return false;
+		else if (!is_grayframe(BUFFERPOS(24,  0))) return false;
+		else if (!is_grayframe(BUFFERPOS(24,  2))) return false;
+		else if (!is_grayframe(BUFFERPOS(26,  4))) return false;
+		else if (!is_grayframe(BUFFERPOS(27,  6))) return false;
+		else if (!is_grayframe(BUFFERPOS(28,  8))) return false;
+		else if (!is_grayframe(BUFFERPOS(28, 10))) return false;
+		else if (!is_grayframe(BUFFERPOS(27, 12))) return false;
+		else if (!is_grayframe(BUFFERPOS(25, 14))) return false;
+		else if (!is_grayframe(BUFFERPOS(24, 16))) return false;
+		else if (!is_grayframe(BUFFERPOS(23, 18))) return false;
+		else if (!is_grayframe(BUFFERPOS(22, 20))) return false;
+		else if (!is_grayframe(BUFFERPOS(21, 22))) return false;
+		else if (!is_grayframe(BUFFERPOS(20, 24))) return false;
+		else if (!is_grayframe(BUFFERPOS(19, 26))) return false;
+		else if (!is_grayframe(BUFFERPOS(18, 28))) return false;
+		else if (!is_grayframe(BUFFERPOS(16, 30))) return false;
 		return true;
 	}
 
 	inline bool is_shown_alivesicon(const std::vector<uint32_t>& _buffer)
 	{
-		const UINT base = 128;
+		const UINT base = 96;
 		if      (!is_black(BUFFERPOS( 8, 24))) return false;
 		else if (!is_black(BUFFERPOS(10, 24))) return false;
 		else if (!is_black(BUFFERPOS(12, 24))) return false;
@@ -212,7 +182,7 @@ namespace app {
 
 	inline bool is_shown_map_bottom_border(const std::vector<uint32_t>& _buffer)
 	{
-		const UINT base = 160;
+		const UINT base = 128;
 		if      (!is_black(BUFFERPOS( 0,  0))) return false;
 		else if (!is_black(BUFFERPOS( 8,  0))) return false;
 		else if (!is_black(BUFFERPOS(18,  0))) return false;
@@ -272,14 +242,12 @@ namespace app {
 		uint64_t frame_exited = 0;
 		struct {
 			bool teambanner_show;
-			bool playerframe;
-			bool healitemframe;
-			bool menu;
+			bool teamnameframe;
 			bool team1frame;
-			bool map;
+			bool grenadeframe;
 			bool alivesicon;
+			bool mapbottomborder;
 		} screen_state_prev = {
-				false,
 				false,
 				false,
 				false,
@@ -338,24 +306,22 @@ namespace app {
 					{
 						frame_captured++;
 
-						bool playerframe = is_shown_playerframe(buffer);
-						bool healitemframe = is_shown_healitemframe(buffer);
-						bool menu = is_shown_menu(buffer);
+						bool teamnameframe = is_shown_teamnameframe(buffer);
+						bool grenadeframe = is_shown_grenadeframe(buffer);
 						bool team1frame = is_shown_team1frame(buffer);
-						bool map = is_shown_map_bottom_border(buffer);
+						bool mapbottomborder = is_shown_map_bottom_border(buffer);
 						bool alivesicon = is_shown_alivesicon(buffer);
 						bool teambanner_show = screen_state_prev.teambanner_show;
 
 						// 差分表示
-						if (playerframe != screen_state_prev.playerframe) log(LOG_DUPLICATION, L"Info: playerframe=%s.", playerframe ? L"true" : L"false");
-						if (healitemframe != screen_state_prev.healitemframe) log(LOG_DUPLICATION, L"Info: healitemframe=%s.", healitemframe ? L"true" : L"false");
-						if (menu != screen_state_prev.menu) log(LOG_DUPLICATION, L"Info: menu=%s.", menu ? L"true" : L"false");
+						if (teamnameframe != screen_state_prev.teamnameframe) log(LOG_DUPLICATION, L"Info: teamnameframe=%s.", teamnameframe ? L"true" : L"false");
+						if (grenadeframe != screen_state_prev.grenadeframe) log(LOG_DUPLICATION, L"Info: grenadeframe=%s.", grenadeframe ? L"true" : L"false");
 						if (team1frame != screen_state_prev.team1frame) log(LOG_DUPLICATION, L"Info: team1frame=%s.", team1frame ? L"true" : L"false");
 						if (alivesicon != screen_state_prev.alivesicon) log(LOG_DUPLICATION, L"Info: alivesicon=%s.", alivesicon ? L"true" : L"false");
-						if (map != screen_state_prev.map)
+						if (mapbottomborder != screen_state_prev.mapbottomborder)
 						{
-							log(LOG_DUPLICATION, L"Info: map=%s.", map ? L"true" : L"false");
-							if (map)
+							log(LOG_DUPLICATION, L"Info: mapbottomborder=%s.", mapbottomborder ? L"true" : L"false");
+							if (mapbottomborder)
 							{
 								::PostMessageW(window_, CWM_MONITOR_MAP_STATE, 1, 0);
 							}
@@ -364,16 +330,15 @@ namespace app {
 								::PostMessageW(window_, CWM_MONITOR_MAP_STATE, 0, 0);
 							}
 						}
-						screen_state_prev.playerframe = playerframe;
-						screen_state_prev.healitemframe = healitemframe;
-						screen_state_prev.menu = menu;
+						screen_state_prev.teamnameframe = teamnameframe;
+						screen_state_prev.grenadeframe = grenadeframe;
 						screen_state_prev.team1frame = team1frame;
-						screen_state_prev.map = map;
+						screen_state_prev.mapbottomborder = mapbottomborder;
 						screen_state_prev.alivesicon = alivesicon;
 
-						if ((playerframe || healitemframe) && alivesicon && menu) teambanner_show = true;
-						else if (alivesicon && menu) teambanner_show = false;
-						else if (map && menu) teambanner_show = false;
+						if ((teamnameframe || grenadeframe) && alivesicon) teambanner_show = true;
+						else if (alivesicon) teambanner_show = false;
+						else if (mapbottomborder) teambanner_show = false;
 						else if (team1frame) teambanner_show = false;
 
 						if (teambanner_show != screen_state_prev.teambanner_show)
