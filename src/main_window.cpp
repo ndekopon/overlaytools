@@ -10,6 +10,7 @@
 #pragma comment(lib, "imm32.lib")
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "Comctl32.lib")
+#pragma comment(lib, "Gdi32.lib")
 
 namespace
 {

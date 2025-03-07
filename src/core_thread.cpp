@@ -2230,7 +2230,7 @@ namespace app {
 		}
 		else
 		{
-			log(LOG_CORE, L"Error: unknown Any type.(%s)", s_to_ws(_any.GetTypeName()).c_str());
+			log(LOG_CORE, L"Error: unknown Any type.(%s)", s_to_ws(_any.type_url()));
 		}
 	}
 
