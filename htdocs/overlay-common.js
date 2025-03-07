@@ -166,6 +166,20 @@ export function calcPoints(gameid, placement, kills, params) {
     return points;
 }
 
+export function getAdvancePoints(teamid, params) {
+    try {
+        if (!('calcmethod' in params)) return 0;
+        if (!('advancepoints' in params.calcmethod)) return 0;
+        const points = params.calcmethod.advancepoints;
+        if (points instanceof Array && teamid < points.length) {
+            return points[teamid];
+        }
+    } catch (e) {
+        return 0;
+    }
+    return 0;
+}
+
 /**
  * 計算用のチームオブジェクト
  * @typedef {object} teamresult

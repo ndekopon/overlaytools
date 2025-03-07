@@ -6,6 +6,7 @@ import {
     htmlToElement,
     resultsToTeamResults,
     setRankParameterToTeamResults,
+    getAdvancePoints,
 } from "./overlay-common.js";
 
 class WebAPIConfigBase {
@@ -258,6 +259,7 @@ class TournamentCalculationMethod extends WebAPIConfigBase {
         this.getNode('list');
         this.getNode('count');
         this.getNode('send');
+        this.getNode('advancepoints');
         this.#forms = [];
         this.#appendTableRow();
         this.#callback = undefined;
@@ -421,6 +423,17 @@ class TournamentCalculationMethod extends WebAPIConfigBase {
     #dumpCalcMethod() {
         const dumpobject = {};
 
+        // 先行ポイント
+        {
+            const text = this.nodes.advancepoints.value;
+            const values = text.split(/,/).map((x) => {
+                const v = parseInt(x.trim(), 10);
+                if (Number.isNaN(v)) return 0;
+                return v;
+            }).slice(0, 30);
+            dumpobject.advancepoints = values;
+        }
+
         for (let gameid = 0; gameid < this.#forms.length; ++gameid) {
             const form = this.#forms[gameid];
             const data = {};
@@ -466,6 +479,13 @@ class TournamentCalculationMethod extends WebAPIConfigBase {
      */
     importCalcMethod(params) {
         if (!params) return;
+
+        if ('advancepoints' in params) {
+            if (params.advancepoints instanceof Array) {
+                this.nodes.advancepoints.value = params.advancepoints.join();
+            }
+        }
+
         for (const [k, v] of Object.entries(params)) {
             const gameid = parseInt(k, 10);
             if (Number.isNaN(gameid)) continue;
@@ -505,6 +525,7 @@ class TournamentCalculationMethod extends WebAPIConfigBase {
      * 選択状況をクリアする
      */
     clear() {
+        this.nodes.advancepoints.value = "";
         this.#changeTableSize(0);
         this.#changeTableSize(1);
         this.nodes.count.value = 1;
@@ -1722,7 +1743,8 @@ class ResultView {
         }
 
         // ポイントを計算して追加
-        for (const [_, team] of Object.entries(data)) {
+        for (const [teamidstr, team] of Object.entries(data)) {
+            const teamid = parseInt(teamidstr, 10);
             for (let i = 0; i < team.kills.length; ++i) {
                 let points;
                 if (target == 'all') {
@@ -1735,7 +1757,12 @@ class ResultView {
                 team.placement_points.push(points.placement);
                 team.other_points.push(points.other);
             }
-            team.total_points = team.points.reduce((a, c) => a + c, 0);
+
+            if (target == 'all') {
+                team.total_points = getAdvancePoints(teamid, this.#tournamentparams) + team.points.reduce((a, c) => a + c, 0);
+            } else {
+                team.total_points = team.points.reduce((a, c) => a + c, 0);
+            }
         }
 
         // results -> table
@@ -1931,6 +1958,18 @@ class ResultView {
     }
 
     /**
+     * 再度計算する
+     */
+    recalcAll() {
+        this.#drawResults('all');
+        if (this.#_results instanceof Array) {
+            for (let i = 0; i < this.#_results; ++i) {
+                this.#drawResults(i);
+            }
+        }
+    }
+
+    /**
      * リザルト表示用にゲームオブジェクトを設定する
      * @param {object} game webapiのゲームオブジェクト
      */
@@ -1945,6 +1984,7 @@ class ResultView {
      */
     setTournamentParams(params) {
         this.#tournamentparams = params;
+        this.recalcAll();
     }
 
     /**
@@ -2775,7 +2815,6 @@ export class WebAPIConfig {
         });
 
         this.#webapi.addEventListener('lobbyenumend', (ev) => {
-            console.log({ lobby: this.#lobby });
             this.#teamingamesettings.setLobby(this.#lobby);
         });
 

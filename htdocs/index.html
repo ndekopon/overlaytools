@@ -307,6 +307,15 @@
         <span class="ja">トーナメント: ポイント計算方法</span>
     </h3>
     <h4>
+        <span class="en">advance points</span>
+        <span class="ja">先行スタートポイント</span>
+    </h4>
+    <p>
+        <input id="tournament-calc-advancepoints" value="" placeholder="5,4,3,2,1"><br>
+        <span class="en">ex: set 10point to team4 and team6 -> 0,0,0,10,0,10</span>
+        <span class="ja">例: チーム4とチーム6に10ポイント付ける → 0,0,0,10,0,10</span>
+    </p>
+    <h4>
         <span class="en">number of matches</span>
         <span class="ja">マッチ数</span>
     </h4>
@@ -1116,7 +1125,6 @@ import {
 window.onload = (event) => {
     const config = new WebAPIConfig("ws://127.0.0.1:20081", "ws://127.0.0.1:20080");
     console.log(config);
-    console.log(document.styleSheets);
 }
 </script>
 </body>

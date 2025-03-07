@@ -1,5 +1,6 @@
 import {
     calcPoints,
+    getAdvancePoints,
     appendToTeamResults,
     resultsToTeamResults,
     setRankParameterToTeamResults,
@@ -1630,7 +1631,9 @@ export class TemplateOverlayHandler {
         }
 
         // ポイントを計算して追加
-        for (const team of Object.values(teamresults)) {
+        for (const [teamidstr, team] of Object.entries(teamresults)) {
+            const teamid = parseInt(teamidstr, 10);
+            const advancepoint = getAdvancePoints(teamid, this.#tournament_params);
             for (let gameid = 0; gameid < team.kills.length && gameid < team.placements.length; ++gameid) {
                 const points = calcPoints(gameid, team.placements[gameid], team.kills[gameid], this.#tournament_params);
                 team.points.push(points.total);
@@ -1638,7 +1641,7 @@ export class TemplateOverlayHandler {
                 team.placement_points.push(points.placement);
                 team.other_points.push(points.other);
             }
-            team.total_points = team.points.reduce((a, c) => a + c, 0);
+            team.total_points = advancepoint + team.points.reduce((a, c) => a + c, 0);
         }
 
         // 順位計算
