@@ -78,6 +78,12 @@
     <ClInclude Include="src\http_get_thread.hpp">
       <Filter>hdr</Filter>
     </ClInclude>
+    <ClInclude Include="src\version.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.hpp">
+      <Filter>hdr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\config_ini.cpp">
@@ -134,5 +140,15 @@
     <ClCompile Include="src\http_get_thread.cpp">
       <Filter>src</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\apexliveapi_proxy.rc">
+      <Filter>res</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\apexliveapi_proxy.ico">
+      <Filter>res</Filter>
+    </Image>
   </ItemGroup>
 </Project>

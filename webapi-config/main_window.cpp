@@ -1,5 +1,7 @@
 ﻿#include "main_window.hpp"
 
+#include "resource.hpp"
+
 using namespace Microsoft::WRL;
 
 namespace {
@@ -99,12 +101,12 @@ namespace app
 		wcex.cbClsExtra = 0;
 		wcex.cbWndExtra = 0;
 		wcex.hInstance = instance_;
-		wcex.hIcon = ::LoadIconW(nullptr, IDI_APPLICATION);
+		wcex.hIcon = ::LoadIconW(instance_, MAKEINTRESOURCEW(IDI_WEBAPI_CONFIG_ICON));
 		wcex.hCursor = ::LoadCursorW(nullptr, IDC_ARROW);
 		wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW);
 		wcex.lpszMenuName = nullptr;
 		wcex.lpszClassName = window_class_;
-		wcex.hIconSm = ::LoadIconW(nullptr, IDI_APPLICATION);
+		wcex.hIconSm = ::LoadIconW(instance_, MAKEINTRESOURCEW(IDI_WEBAPI_CONFIG_ICON));
 
 		return ::RegisterClassExW(&wcex);
 	}

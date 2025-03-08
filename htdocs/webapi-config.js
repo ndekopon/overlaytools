@@ -2727,6 +2727,7 @@ export class WebAPIConfig {
             this.#webapi.getTournamentResults();
             this.#webapi.getTournamentParams();
             this.#webapi.getLiveAPIConfig();
+            this.#webapi.getVersion();
             this.#getTeamNames();
         });
 
@@ -2998,6 +2999,10 @@ export class WebAPIConfig {
             document.getElementById('test-getsettings-playlist').innerText = ev.detail.playlistname;
             document.getElementById('test-getsettings-aimassist').innerText = ev.detail.aimassist;
             document.getElementById('test-getsettings-anonmode').innerText = ev.detail.anonmode;
+        });
+
+        this.#webapi.addEventListener('getversion', ev => {
+            document.getElementById('exeversion').textContent = ev.detail.version;
         });
     }
 

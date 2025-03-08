@@ -59,6 +59,9 @@
     <ClCompile Include="src\dump2json.cpp" />
     <ClCompile Include="src\events\events.pb.cc" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\dump2json.rc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

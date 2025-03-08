@@ -207,6 +207,21 @@
         </div>
     </div>
 
+    <!-- バージョン情報 -->
+    <div id="versioninfo">
+        EXE:
+        <span id="exeversion">
+            <span class="en">0.4.9 or lower</span>
+            <span class="ja">0.4.9以下</span>
+        </span>
+        <br>
+        HTML:
+        <span id="htmlversion">
+            <span class="en">0.4.9 or lower</span>
+            <span class="ja">0.4.9以下</span>
+        </span>
+    </div>
+
     <!-- 言語選択-->
     <div id="lang-select">
         [<span>en</span>][<span>ja</span>]
@@ -1124,6 +1139,16 @@ import {
 
 window.onload = (event) => {
     const config = new WebAPIConfig("ws://127.0.0.1:20081", "ws://127.0.0.1:20080");
+
+    // get version
+    fetch('version.json').then(r => {
+        return r.json();
+    }).then(j => {
+        if ('version' in j) {
+            document.getElementById('htmlversion').textContent = j.version;
+        }
+    });
+
     console.log(config);
 }
 </script>

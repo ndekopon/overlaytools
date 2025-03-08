@@ -3,6 +3,7 @@
 #include "log.hpp"
 
 #include "utils.hpp"
+#include "version.hpp"
 
 #include <regex>
 #include <chrono>
@@ -400,6 +401,24 @@ namespace app {
 
 		switch (wdata.event_type())
 		{
+		case WEBAPI_GET_VERSION:
+		{
+			log(LOG_CORE, L"Info: WEBAPI_GET_VERSION received.");
+			if (wdata.size() != 1)
+			{
+				log(LOG_CORE, L"Error: sended data size is not 1. (size=%d)", wdata.size());
+				return;
+			}
+			try
+			{
+				reply_webapi_get_version(socket, sequence);
+			}
+			catch (...)
+			{
+				log(LOG_CORE, L"Error: data parse failed.");
+			}
+			break;
+		}
 		case WEBAPI_SEND_CUSTOMMATCH_CREATELOBBY:
 		{
 			log(LOG_CORE, L"Info: WEBAPI_SEND_CUSTOMMATCH_CREATELOBBY received.");
@@ -2686,6 +2705,16 @@ namespace app {
 		if (sdata.append(_conn_count) && sdata.append(_recv_count) && sdata.append(_send_count))
 		{
 			sendto_webapi(std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::reply_webapi_get_version(SOCKET _sock, uint32_t _sequence)
+	{
+		const std::string version = OVERLAYTOOLS_VERSION;
+		send_webapi_data sdata(WEBAPI_GET_VERSION);
+		if (sdata.append(_sequence) && sdata.append(version))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
 		}
 	}
 

@@ -20,9 +20,11 @@
     <ClInclude Include="src\log.hpp" />
     <ClInclude Include="src\main.hpp" />
     <ClInclude Include="src\main_window.hpp" />
+    <ClInclude Include="src\resource.hpp" />
     <ClInclude Include="src\sha1.hpp" />
     <ClInclude Include="src\shared_context.hpp" />
     <ClInclude Include="src\utils.hpp" />
+    <ClInclude Include="src\version.hpp" />
     <ClInclude Include="src\webapi.hpp" />
     <ClInclude Include="src\websocket_thread.hpp" />
     <ClInclude Include="src\websocket_server.hpp" />
@@ -46,6 +48,12 @@
     <ClCompile Include="src\webapi.cpp" />
     <ClCompile Include="src\websocket_thread.cpp" />
     <ClCompile Include="src\websocket_server.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\apexliveapi_proxy.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\apexliveapi_proxy.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

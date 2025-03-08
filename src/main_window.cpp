@@ -3,6 +3,7 @@
 #include "log.hpp"
 
 #include "utils.hpp"
+#include "resource.hpp"
 
 #include <imm.h>
 #include <commctrl.h>
@@ -139,12 +140,12 @@ namespace app
 		wcex.cbClsExtra = 0;
 		wcex.cbWndExtra = 0;
 		wcex.hInstance = instance_;
-		wcex.hIcon = ::LoadIconW(nullptr, IDI_APPLICATION);
+		wcex.hIcon = ::LoadIconW(instance_, MAKEINTRESOURCEW(IDI_APEXLIVEAPI_PROXY_ICON));
 		wcex.hCursor = ::LoadCursorW(nullptr, IDC_ARROW);
 		wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW);
 		wcex.lpszMenuName = nullptr;
 		wcex.lpszClassName = window_class_;
-		wcex.hIconSm = ::LoadIconW(nullptr, IDI_APPLICATION);
+		wcex.hIconSm = ::LoadIconW(instance_, MAKEINTRESOURCEW(IDI_APEXLIVEAPI_PROXY_ICON));
 
 		return ::RegisterClassExW(&wcex);
 	}

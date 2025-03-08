@@ -299,6 +299,8 @@ export class ApexWebAPI extends EventTarget {
 
   static WEBAPI_BROADCAST_OBJECT = 0xf0;
 
+  static WEBAPI_GET_VERSION = 0xff;
+
   static WEBAPI_DATA_BOOL = 0x00;
   static WEBAPI_DATA_UINT8 = 0x01;
   static WEBAPI_DATA_UINT16 = 0x02;
@@ -1347,6 +1349,9 @@ export class ApexWebAPI extends EventTarget {
       case ApexWebAPI.WEBAPI_MANUAL_POSTMATCH:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('manualpostmatch', {detail: {sequence: data_array[0]}}));
+      case ApexWebAPI.WEBAPI_GET_VERSION:
+        if (count != 2) return false;
+        this.dispatchEvent(new CustomEvent('getversion', {detail: {sequence: data_array[0], version: data_array[1]}}));
         break;
     }
     return true;
@@ -1877,6 +1882,11 @@ export class ApexWebAPI extends EventTarget {
 
   isConnected() {
     return this.#socket.readyState == 1;
+  }
+
+  getVersion() {
+    const buffer = new SendBuffer(ApexWebAPI.WEBAPI_GET_VERSION);
+    return this.#sendAndReceiveReply(buffer, "getversion");
   }
 
 }

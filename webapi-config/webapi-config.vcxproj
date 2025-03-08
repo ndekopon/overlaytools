@@ -57,6 +57,7 @@
     <ClInclude Include="common.hpp" />
     <ClInclude Include="main_window.hpp" />
     <ClInclude Include="main.hpp" />
+    <ClInclude Include="resource.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -64,6 +65,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="webapi-config.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="webapi-config.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

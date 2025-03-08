@@ -147,7 +147,10 @@ namespace app {
 		WEBAPI_MANUAL_POSTMATCH,
 
 		// ブロードキャスト
-		WEBAPI_BROADCAST_OBJECT = 0xF0
+		WEBAPI_BROADCAST_OBJECT = 0xF0,
+
+		// バージョン取得
+		WEBAPI_GET_VERSION = 0xFF,
 	};
 
 	// プレーヤーのステータス
