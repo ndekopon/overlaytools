@@ -2189,6 +2189,15 @@ class ResultFixView extends WebAPIConfigBase {
             const date = (new Date(data.update)).toLocaleString();
             const div = document.createElement('div');
             div.innerText = `${key}[${date}](${data.matches.length}matches)`;
+            for (const m of data.matches.sort((a, b) => a.start - b.start)) {
+                // jsonのリンクを作成
+                const a = document.createElement('a');
+                a.textContent = (new Date(m.start)).toLocaleString();
+                const type = 'application/json';
+                a.href = window.URL.createObjectURL(new Blob([JSON.stringify(m)], { type: type }), { type: type });
+                a.download = `${m.start}.json`;
+                div.appendChild(a);
+            }
             this.nodes["from-stats-code-lists"].appendChild(div);
         }
 

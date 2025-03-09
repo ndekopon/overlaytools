@@ -462,6 +462,10 @@ body {
     margin-top: 0.5em;
 }
 
+#result-fix-from-stats-code-lists a {
+    margin-left: 0.5em;
+}
+
 #result-fix-from-stats-code.hide {
     display: none;
 }
