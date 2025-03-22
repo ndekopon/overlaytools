@@ -345,15 +345,17 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_EXTENDED_RESPAWN = 0x05;
 
   #uri;
+  #delay;
   #socket;
   #decoder;
   #encoder;
   #game;
 
-  constructor(uri) {
+  constructor(uri, delay = 0) {
     super();
 
     this.#uri = uri;
+    this.#delay = delay;
     this.#socket = null;
     this.#decoder = new TextDecoder();
     this.#encoder = new TextEncoder();
@@ -598,17 +600,34 @@ export class ApexWebAPI extends EventTarget {
     const own = arr[4];
     if (oteamid != 1) return false;
     if (tteamid < 2) return false;
-    if (tteamid - 2 >= this.#game.teams.length) return false;
-    if (tsquadindex >= this.#game.teams[tteamid - 2].players.length) return false;
-    if (osquadindex >= this.#game.observers.length) return false;
-    this.dispatchEvent(new CustomEvent('observerswitch', {
-      detail: {
-        observer: this.#game.observers[osquadindex],
-        player: this.#game.teams[tteamid - 2].players[tsquadindex],
-        team: this.#game.teams[tteamid - 2],
-        own: own
-      }
-    }));
+    let delaycall = false;
+    if (tteamid - 2 >= this.#game.teams.length) delaycall = true;
+    else if (tsquadindex >= this.#game.teams[tteamid - 2].players.length) delaycall = true;
+    if (osquadindex >= this.#game.observers.length) delaycall = true;
+    if (delaycall) {
+      setTimeout(() => {
+        if (tteamid - 2 >= this.#game.teams.length) return;
+        if (tsquadindex >= this.#game.teams[tteamid - 2].players.length) return;
+        if (osquadindex >= this.#game.observers.length) return;
+        this.dispatchEvent(new CustomEvent('observerswitch', {
+          detail: {
+            observer: this.#game.observers[osquadindex],
+            player: this.#game.teams[tteamid - 2].players[tsquadindex],
+            team: this.#game.teams[tteamid - 2],
+            own: own
+          }
+        }));
+      }, this.#delay);
+    } else {
+      this.dispatchEvent(new CustomEvent('observerswitch', {
+        detail: {
+          observer: this.#game.observers[osquadindex],
+          player: this.#game.teams[tteamid - 2].players[tsquadindex],
+          team: this.#game.teams[tteamid - 2],
+          own: own
+        }
+      }));
+    }
     return true;
   }
 
@@ -1043,261 +1062,451 @@ export class ApexWebAPI extends EventTarget {
 
   #procData(type, count, data) {
     const data_array = this.#parseData(count, data);
-    if (data_array == null) return;
-    
+    if (data_array == null) return false;
     switch (type) {
-      case ApexWebAPI.WEBAPI_EVENT_LOBBYPLAYER:
+      case ApexWebAPI.WEBAPI_EVENT_LOBBYPLAYER: {}
         if (count != 4) return false;
         return this.#procEventLobbyPlayer(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_LOBBYENUM_START:
         if (count != 0) return false;
         this.dispatchEvent(new CustomEvent('lobbyenumstart', { detail: {} }));
         break;
+
       case ApexWebAPI.WEBAPI_EVENT_LOBBYENUM_END:
         if (count != 0) return false;
         this.dispatchEvent(new CustomEvent('lobbyenumend', { detail: {} }));
         break;
+
       case ApexWebAPI.WEBAPI_EVENT_LOBBYTEAM:
         if (count != 3) return false;
         return this.#procEventLobbyTeam(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_LOBBYTOKEN:
         if (count != 1) return false;
         return this.#procEventLobbyToken(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_CUSTOMMATCH_SETTINGS:
         if (count != 6) return false;
         return this.#procEventCustomMatchSettings(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_OBSERVERSWITCHED:
         if (count != 5) return false;
         return this.#procEventObserverSwitched(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_INIT_CAMERA:
         if (count != 2) return false;
         return this.#procEventInitCamera(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_CLEAR_LIVEDATA:
         return this.#procEventClearLiveData();
+
       case ApexWebAPI.WEBAPI_EVENT_MATCHSETUP_MAP:
         if (count != 1) return false;
         this.#game.map = data_array[0];
         break;
+
       case ApexWebAPI.WEBAPI_EVENT_MATCHSETUP_PLAYLIST:
         if (count != 2) return false;
         this.#game.playlistname = data_array[0];
         this.#game.playlistdesc = data_array[1];
         break;
+
       case ApexWebAPI.WEBAPI_EVENT_MATCHSETUP_DATACENTER:
         if (count != 1) return false;
         this.#game.datacenter = data_array[0];
         break;
+
       case ApexWebAPI.WEBAPI_EVENT_MATCHSETUP_AIMASSISTON:
         if (count != 1) return false;
         this.#game.aimassiston = data_array[0];
         break;
+
       case ApexWebAPI.WEBAPI_EVENT_MATCHSETUP_ANONYMOUSMODE:
         if (count != 1) return false;
         this.#game.anonymousmode = data_array[0];
         break;
+
       case ApexWebAPI.WEBAPI_EVENT_MATCHSETUP_SERVERID:
         if (count != 1) return false;
         this.#game.serverid = data_array[0];
         this.dispatchEvent(new CustomEvent('matchsetup', {detail: {game: this.#game}})); // 一連のMATCHSETUP系の最後
         break;
+
       case ApexWebAPI.WEBAPI_EVENT_GAMESTATECHANGED:
         if (count != 1) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventGameStateChanged(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventGameStateChanged(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_MATCHSTATEEND_WINNERDETERMINED:
         if (count != 1) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventMatchStateEndWinnerDetermined(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventMatchStateEndWinnerDetermined(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_SAVE_RESULT:
         if (count != 3) return false;
         this.#game.end = Date.now();
         this.dispatchEvent(new CustomEvent('saveresult', {detail: {id: data_array[0], gameid: data_array[1], result: data_array[2]}}));
         break;
+
       case ApexWebAPI.WEBAPI_EVENT_RINGINFO:
         if (count != 6) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.dispatchEvent(new CustomEvent('ringinfo', {detail: {timestamp: data_array[0], x: data_array[1], y: data_array[2], current: data_array[3], end: data_array[4], duration: data_array[5]}})) }, this.#delay);
+          return true;
+        }
         this.dispatchEvent(new CustomEvent('ringinfo', {detail: {timestamp: data_array[0], x: data_array[1], y: data_array[2], current: data_array[3], end: data_array[4], duration: data_array[5]}}));
         break;
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYERCONNECTED:
         if (count != 2) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerConnected(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerConnected(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYERDISCONNECTED:
         if (count != 3) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerDisconnected(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerDisconnected(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_KILLED:
         if (count != 4) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerKilled(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerKilled(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_KILLED_COUNT:
         if (count != 3) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerKilledCount(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerKilledCount(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_ID:
         if (count != 3) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerID(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerID(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_NAME:
         if (count != 3) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerName(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerName(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_HP:
         if (count != 4) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerHP(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerHP(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_SHIELD:
         if (count != 4) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerShield(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerShield(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_POS:
         if (count != 5) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerPosition(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerPosition(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_STATE:
         if (count != 3) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerState(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerState(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_STATS:
         if (count != 7) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerStats(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerStats(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_LEVEL:
         if (count != 3) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerLevel(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerLevel(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_PERK:
         if (count != 4) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerPerk(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerPerk(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_WEAPON:
         if (count != 3) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerWeapon(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerWeapon(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYERABILITYUSED:
         if (count != 3) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerAbilityUsed(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerAbilityUsed(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYERULTIMATECHARGED:
         if (count != 3) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerUltimateCharged(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerUltimateCharged(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_DAMAGE:
         if (count != 4) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerDamage(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerDamage(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_CHARACTER:
         if (count != 3) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerCharacter(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerCharacter(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_PLAYER_ITEMS:
         if (count != 4) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventPlayerItems(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventPlayerItems(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_SQUADELIMINATED:
         if (count != 2) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventSquadEliminated(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventSquadEliminated(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_TEAM_NAME:
         if (count != 2) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventTeamName(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventTeamName(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_TEAM_PLACEMENT:
         if (count != 2) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventTeamPlacement(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventTeamPlacement(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_TEAM_RESPAWN:
         if (count < 3) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventTeamRespawn(data_array) }, this.#delay);
+          return true;
+        }
         return this.#procEventTeamRespawn(data_array);
+
+      case ApexWebAPI.WEBAPI_EVENT_EXTENDED:
+        if (count < 1) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventExtended(data_array) }, this.#delay);
+          return true;
+        }
+        return this.#procEventExtended(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_TEAMBANNER_STATE:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('teambannerstate', {detail: {state: data_array[0]}}));
         break;
-      case ApexWebAPI.WEBAPI_EVENT_EXTENDED:
-        if (count < 1) return false;
-        return this.#procEventExtended(data_array);
+
       case ApexWebAPI.WEBAPI_EVENT_MAP_STATE:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('mapstate', {detail: {state: data_array[0]}}));
         break;
+
       case ApexWebAPI.WEBAPI_EVENT_LIVEAPI_SOCKET_STATS:
         if (count != 3) return false;
         this.dispatchEvent(new CustomEvent('liveapisocketstats', {detail: {conn: data_array[0], recv: data_array[1], send: data_array[2]}}));
         break;
+
       case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SENDCHAT:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('sendchat', {detail: {sequence: data_array[0]}}));
         break;
+
       case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETSETTINGS:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('setsettings', {detail: {sequence: data_array[0]}}));
         break;
+
       case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_GETSETTINGS:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('getsettings', {detail: {sequence: data_array[0]}}));
         break;
+
       case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_GETLOBBYPLAYERS:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('getlobbyplayers', {detail: {sequence: data_array[0]}}));
         break;
+
       case ApexWebAPI.WEBAPI_SEND_CHANGECAMERA:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('changecamera', {detail: {sequence: data_array[0]}}));
         break;
+
       case ApexWebAPI.WEBAPI_SEND_PAUSETOGGLE:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('pausetoggle', {detail: {sequence: data_array[0]}}));
         break;
+
       case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETTEAMNAME:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('setteamname', {detail: {sequence: data_array[0]}}));
         break;
+
       case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETSPAWNPOINT:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('setspawnpoint', {detail: {sequence: data_array[0]}}));
         break;
+
       case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETENDRINGEXCLUSION:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('setendringexclusion', {detail: {sequence: data_array[0]}}));
         break;
+
       case ApexWebAPI.WEBAPI_LIVEDATA_GET_GAME:
         if (count != 1) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.dispatchEvent(new CustomEvent('getgame', { detail: { sequence: data_array[0], game: this.#game } })) }, this.#delay);
+          return true;
+        }
         this.dispatchEvent(new CustomEvent('getgame', {detail: {sequence: data_array[0], game: this.#game}}));
         break;
+
       case ApexWebAPI.WEBAPI_LIVEDATA_GET_TEAMS:
         if (count != 1) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.dispatchEvent(new CustomEvent('getteams', { detail: { sequence: data_array[0], teams: this.#game.teams } })) }, this.#delay);
+          return true;
+        }
         this.dispatchEvent(new CustomEvent('getteams', {detail: {sequence: data_array[0], teams: this.#game.teams}}));
         break;
+
       case ApexWebAPI.WEBAPI_LIVEDATA_GET_TEAM_PLAYERS:
         if (count != 2) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.dispatchEvent(new CustomEvent('getteamplayers', { detail: { sequence: data_array[0], team: this.#game.teams[data_array[1]] } })) }, this.#delay);
+          return true;
+        }
         this.dispatchEvent(new CustomEvent('getteamplayers', {detail: {sequence: data_array[0], team: this.#game.teams[data_array[1]]}}));
         break;
+
       case ApexWebAPI.WEBAPI_LIVEDATA_GET_OBSERVERS_CAMERA:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('getobserverscamera', {detail: {sequence: data_array[0], observers: this.#game.observers}}));
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_SET_OBSERVER:
         if (count != 2) return false;
         this.dispatchEvent(new CustomEvent('setobserver', {detail: {sequence: data_array[0], hash: data_array[1]}}));
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_GET_OBSERVER:
         if (count != 2) return false;
         this.dispatchEvent(new CustomEvent('getobserver', {detail: {sequence: data_array[0], hash: data_array[1]}}));
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_GET_OBSERVERS:
         return this.#procLocalDataGetObservers(count, data_array);
+
       case ApexWebAPI.WEBAPI_LOCALDATA_GET_TOURNAMENT_IDS:
         if (count != 2) return false;
         this.dispatchEvent(new CustomEvent('gettournamentids', {detail: {sequence: data_array[0], ids: data_array[1]}}));
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_SET_TOURNAMENT_NAME:
         if (count != 3) return false;
         this.dispatchEvent(new CustomEvent('settournamentname', {detail: {sequence: data_array[0], id: data_array[1], name: data_array[2]}}));
         this.#refreshTeamParams();
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_RENAME_TOURNAMENT_NAME:
         if (count != 4) return false;
         this.dispatchEvent(new CustomEvent('renametournamentname', {detail: {sequence: data_array[0], id: data_array[1], name: data_array[2], result: data_array[3]}}));
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_SET_TOURNAMENT_PARAMS:
         if (count != 4) return false;
         this.dispatchEvent(new CustomEvent('settournamentparams', {detail: {sequence: data_array[0], id: data_array[1], result: data_array[2], params: data_array[3]}}));
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_GET_TOURNAMENT_PARAMS:
         if (count != 3) return false;
         this.dispatchEvent(new CustomEvent('gettournamentparams', {detail: {sequence: data_array[0], id: data_array[1], params: data_array[2]}}));
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_SET_TOURNAMENT_RESULT:
         if (count != 5) return false;
         this.dispatchEvent(new CustomEvent('settournamentresult', {detail: {sequence: data_array[0], id: data_array[1], gameid: data_array[2], setresult: data_array[3], result: data_array[4] }}));
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_GET_TOURNAMENT_RESULT:
         if (count != 4) return false;
         this.dispatchEvent(new CustomEvent('gettournamentresult', {detail: {sequence: data_array[0], id: data_array[1], gameid: data_array[2], result: data_array[3]}}));
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_GET_TOURNAMENT_RESULTS:
         if (count != 3) return false;
         this.dispatchEvent(new CustomEvent('gettournamentresults', {detail: {sequence: data_array[0], id: data_array[1], results: data_array[2]}}));
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_GET_CURRENT_TOURNAMENT:
         if (count != 4) return false;
         this.dispatchEvent(new CustomEvent('getcurrenttournament', {detail: {sequence: data_array[0], id: data_array[1], name: data_array[2], count: data_array[3]}}));
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_SET_TEAM_PARAMS:
         if (count != 5) return false;
         this.dispatchEvent(new CustomEvent('setteamparams', {detail: {sequence: data_array[0], id: data_array[1], teamid: data_array[2], result: data_array[3], params: data_array[4]}}));
@@ -1305,6 +1514,7 @@ export class ApexWebAPI extends EventTarget {
           this.#game.teams[data_array[2]].params = data_array[4];
         }
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_GET_TEAM_PARAMS:
         if (count != 4) return false;
         this.dispatchEvent(new CustomEvent('getteamparams', {detail: {sequence: data_array[0], id: data_array[1], teamid: data_array[2], params: data_array[3]}}));
@@ -1312,6 +1522,7 @@ export class ApexWebAPI extends EventTarget {
           this.#game.teams[data_array[2]].params = data_array[3];
         }
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_SET_PLAYER_PARAMS:
         if (count != 4) return false;
         this.dispatchEvent(new CustomEvent('setplayerparams', {detail: {sequence: data_array[0], hash: data_array[1], result: data_array[2], params: data_array[3]}}));
@@ -1319,6 +1530,7 @@ export class ApexWebAPI extends EventTarget {
           this.#game.playerindex[data_array[1]].params = data_array[3];
         }
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_GET_PLAYER_PARAMS:
         if (count != 3) return false;
         this.dispatchEvent(new CustomEvent('getplayerparams', {detail: {sequence: data_array[0], hash: data_array[1], params: data_array[2]}}));
@@ -1326,29 +1538,36 @@ export class ApexWebAPI extends EventTarget {
           this.#game.playerindex[data_array[1]].params = data_array[2];
         }
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_GET_PLAYERS:
         if (count != 2) return false;
         this.dispatchEvent(new CustomEvent('getplayers', {detail: {sequence: data_array[0], players: data_array[1]}}));
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_SET_LIVEAPI_CONFIG:
         if (count != 3) return false;
         this.dispatchEvent(new CustomEvent('setliveapiconfig', {detail: {sequence: data_array[0], result: data_array[1], config: data_array[2]}}));
         break;
+
       case ApexWebAPI.WEBAPI_LOCALDATA_GET_LIVEAPI_CONFIG:
         if (count != 2) return false;
         this.dispatchEvent(new CustomEvent('getliveapiconfig', {detail: {sequence: data_array[0], config: data_array[1]}}));
         break;
+
       case ApexWebAPI.WEBAPI_BROADCAST_OBJECT:
         if (count != 2) return false;
         this.dispatchEvent(new CustomEvent('broadcastobject', {detail: {sequence: data_array[0], data: data_array[1]}}));
         break;
+
       case ApexWebAPI.WEBAPI_HTTP_GET_STATS_FROM_CODE:
         if (count != 4) return false;
         this.dispatchEvent(new CustomEvent('getstatsfromcode', {detail: {sequence: data_array[0], statscode: data_array[1], statuscode: data_array[2], stats: data_array[3]}}));
         break;
+
       case ApexWebAPI.WEBAPI_MANUAL_POSTMATCH:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('manualpostmatch', {detail: {sequence: data_array[0]}}));
+
       case ApexWebAPI.WEBAPI_GET_VERSION:
         if (count != 2) return false;
         this.dispatchEvent(new CustomEvent('getversion', {detail: {sequence: data_array[0], version: data_array[1]}}));
