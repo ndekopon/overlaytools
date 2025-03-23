@@ -35,7 +35,7 @@ namespace app {
 
 	class wspacket {
 	private:
-		size_t readed;
+		size_t header_readed;
 		size_t mask_index;
 		uint64_t len;
 		uint64_t exlen;

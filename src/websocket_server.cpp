@@ -18,7 +18,7 @@
 
 namespace {
 	constexpr auto BACKLOG = 16;
-	constexpr auto WS_BUFFER_READ_SIZE = 16 * 1024;
+	constexpr auto WS_BUFFER_READ_SIZE = 64 * 1024;
 
 	const std::array<bool, 0x80> http_available_ascii_codes = {
 		0, 0, 0, 0, 0, 0, 0, 0,
@@ -125,7 +125,7 @@ namespace app {
 	}
 
 	wspacket::wspacket()
-		: readed(0)
+		: header_readed(0)
 		, mask_index(0)
 		, len(0)
 		, exlen(0)
@@ -146,49 +146,57 @@ namespace app {
 
 	bool wspacket::parse(const std::vector<uint8_t>& in, size_t inlen, size_t offset, size_t& remain) noexcept
 	{
-		auto prev_readed = readed;
+		bool filled = false;
+		size_t readed = 0;
 		for (auto i = offset; i < inlen; ++i)
 		{
-			const auto& d = in[i];
-			if (readed == 0)
+			const auto& d = in.at(i);
+			if (header_readed < 2)
 			{
-				fin = (d & 0x80) > 0;
-				rsv1 = (d & 0x40) > 0;
-				rsv2 = (d & 0x20) > 0;
-				rsv3 = (d & 0x10) > 0;
-				opcode = d & 0x0f;
-			}
-			else if (readed == 1)
-			{
-				mask = (d & 0x80) > 0;
-				len = d & 0x7f;
-				if (len < 126) {
-					data->reserve(len);
-
+				if (header_readed == 0)
+				{
+					fin = (d & 0x80) > 0;
+					rsv1 = (d & 0x40) > 0;
+					rsv2 = (d & 0x20) > 0;
+					rsv3 = (d & 0x10) > 0;
+					opcode = d & 0x0f;
 				}
+				else if (header_readed == 1)
+				{
+					mask = (d & 0x80) > 0;
+					len = d & 0x7f;
+					if (len < 0x7e)
+					{
+						data->reserve(len);
+					}
+				}
+				header_readed++;
 			}
-			else if (len == 126 && (readed == 2 || readed == 3))
+			else if (len == 0x7e && header_readed < 4)
 			{
 				exlen <<= 8;
 				exlen |= d;
-				if (readed == 3)
+				if (header_readed == 3)
 				{
 					data->reserve(exlen);
 				}
+				header_readed++;
 			}
-			else if (len == 127 && (2 <= readed && readed < 10))
+			else if (len == 0x7f && header_readed < 10)
 			{
 				exlen <<= 8;
 				exlen |= d;
-				if (readed == 9)
+				if (header_readed == 9)
 				{
 					data->reserve(exlen);
 				}
+				header_readed++;
 			}
 			else if (mask && mask_index < 4)
 			{
 				masking_key.at(mask_index) = d;
 				mask_index++;
+				header_readed++;
 			}
 			else if (data->size() < payload_length())
 			{
@@ -196,41 +204,37 @@ namespace app {
 				{
 					data->push_back(d ^ masking_key.at(data->size() % masking_key.size()));
 				}
-				else {
+				else
+				{
 					data->push_back(d);
 				}
+			}
 
-				// データが埋まった
-				if (data->size() == payload_length())
-				{
-					++readed;
-					break;
-				}
-			}
-			else {
-				// データが埋まった
-				break;
-			}
 			++readed;
 
-
+			if (header_length() == header_readed && payload_length() == data->size())
+			{
+				filled = true;
+				break;
+			}
 		}
-		remain = inlen - (offset + (readed - prev_readed));
-		return true;
+		remain = inlen - (offset + readed);
+		if (filled) return true;
+		return false;
 	}
 
 	uint64_t wspacket::header_length() const noexcept
 	{
 		uint64_t hlen = 2;
-		if (len > 125) hlen += 2;
-		if (exlen > 65535) hlen += 6;
+		if (len > 0x7d) hlen += 2;
+		if (exlen > 0xffff) hlen += 6;
 		if (mask) hlen += 4;
 		return hlen;
 	}
 
 	uint64_t wspacket::payload_length() const noexcept
 	{
-		if (len >= 126) {
+		if (len >= 0x7e) {
 			return exlen;
 		}
 		return len;
@@ -647,71 +651,73 @@ namespace app {
 				{
 					x.packet.reset(new wspacket());
 				}
-				if (!x.packet->parse(_data, _len, offset, remain))
+				if (x.packet->parse(_data, _len, offset, remain))
 				{
-					log(logid_, L"Error: cannot parse data as websocket data.");
-					close(_sock);
-					return r;
-				}
 
-				if (x.packet && x.packet->filled())
-				{
-					std::unique_ptr<wspacket> packet = std::move(x.packet);
-
-					// パケット情報出力
-					log(logid_, L"Info: sock=%d,opcode=%d,fin=%d,len=%d,remain=%d", _sock, packet->opcode, packet->fin ? 1 : 0, packet->payload_length(), remain);
-
-					switch (packet->opcode)
+					if (x.packet && x.packet->filled())
 					{
-					case 0x0: // 継続フレーム
-						if (x.buffer != nullptr)
+						std::unique_ptr<wspacket> packet = std::move(x.packet);
+
+						// パケット情報出力
+						log(logid_, L"Info: sock=%d,opcode=%d,fin=%d,len=%d,remain=%d", _sock, packet->opcode, packet->fin ? 1 : 0, packet->payload_length(), remain);
+
+						switch (packet->opcode)
 						{
-							x.buffer->reserve(x.buffer->size() + packet->data->size());
-							x.buffer->insert(x.buffer->end(), packet->data->begin(), packet->data->end());
+						case 0x0: // 継続フレーム
+							if (x.buffer != nullptr)
+							{
+								x.buffer->reserve(x.buffer->size() + packet->data->size());
+								x.buffer->insert(x.buffer->end(), packet->data->begin(), packet->data->end());
+								if (packet->fin)
+								{
+									r.push(std::move(x.buffer));
+								}
+							}
+							break;
+						case 0x1: // テキストフレーム
+							x.buffer.reset(new std::vector<uint8_t>());
+							break;
+						case 0x2: // バイナリフレーム
+							x.buffer.reset(new std::vector<uint8_t>());
 							if (packet->fin)
 							{
-								r.push(std::move(x.buffer));
+								/* 単独 */
+								r.push(std::move(packet->data));
 							}
-						}
-						break;
-					case 0x1: // テキストフレーム
-						x.buffer.reset(new std::vector<uint8_t>());
-						break;
-					case 0x2: // バイナリフレーム
-						x.buffer.reset(new std::vector<uint8_t>());
-						if (packet->fin)
+							else
+							{
+								/* 継続 */
+								x.buffer->reserve(x.buffer->size() + packet->data->size());
+								x.buffer->insert(x.buffer->end(), packet->data->begin(), packet->data->end());
+							}
+							break;
+						case 0xa: // pong
+							// 何もしない
+							break;
+						case 0x9: // ping
+							pong(x, _data.data() + offset, _len - offset - remain);
+							break;
+						case 0x8: // close
 						{
-							/* 単独 */
-							r.push(std::move(packet->data));
+							if (packet->data->size() >= 2)
+							{
+								uint16_t close_code = (packet->data->at(0) << 8) | packet->data->at(1);
+								log(logid_, L"Info: close_code=%d", close_code);
+							}
+							::shutdown(_sock, SD_SEND);
 						}
-						else
-						{
-							/* 継続 */
-							x.buffer->reserve(x.buffer->size() + packet->data->size());
-							x.buffer->insert(x.buffer->end(), packet->data->begin(), packet->data->end());
-						}
-						break;
-					case 0xa: // pong
-						// 何もしない
-						break;
-					case 0x9: // ping
-						pong(x, _data.data() + offset, _len - offset - remain);
-						break;
-					case 0x8: // close
-					{
-						if (packet->data->size() >= 2)
-						{
-							uint16_t close_code = (packet->data->at(0) << 8) | packet->data->at(1);
-							log(logid_, L"Info: close_code=%d", close_code);
-						}
-						::shutdown(_sock, SD_SEND);
-					}
-					return r;
-					default:
-						log(logid_, L"Error: invalid opcode.");
-						close(_sock);
 						return r;
+						default:
+							log(logid_, L"Error: invalid opcode.");
+							close(_sock);
+							return r;
+						}
 					}
+				}
+				else
+				{
+					log(logid_, L"Info: sock=%d,offset=%d,remain=%d", _sock, offset, remain);
+					break;
 				}
 				offset = _len - remain;
 			}
