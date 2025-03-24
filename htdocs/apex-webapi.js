@@ -1156,12 +1156,12 @@ export class ApexWebAPI extends EventTarget {
         break;
 
       case ApexWebAPI.WEBAPI_EVENT_RINGINFO:
-        if (count != 6) return false;
+        if (count != 7) return false;
         if (this.#delay > 0) {
-          setTimeout(() => { this.dispatchEvent(new CustomEvent('ringinfo', {detail: {timestamp: data_array[0], x: data_array[1], y: data_array[2], current: data_array[3], end: data_array[4], duration: data_array[5]}})) }, this.#delay);
+          setTimeout(() => { this.dispatchEvent(new CustomEvent('ringinfo', {detail: {timestamp: data_array[0], x: data_array[1], y: data_array[2], current: data_array[3], end: data_array[4], duration: data_array[5], stage: data_array[6]}})) }, this.#delay);
           return true;
         }
-        this.dispatchEvent(new CustomEvent('ringinfo', {detail: {timestamp: data_array[0], x: data_array[1], y: data_array[2], current: data_array[3], end: data_array[4], duration: data_array[5]}}));
+        this.dispatchEvent(new CustomEvent('ringinfo', {detail: {timestamp: data_array[0], x: data_array[1], y: data_array[2], current: data_array[3], end: data_array[4], duration: data_array[5], stage: data_array[6]}}));
         break;
 
       case ApexWebAPI.WEBAPI_EVENT_PLAYERCONNECTED:

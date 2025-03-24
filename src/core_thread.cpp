@@ -2387,7 +2387,7 @@ namespace app {
 	{
 		send_webapi_data sdata(WEBAPI_EVENT_RINGINFO);
 		if (sdata.append(_timestamp) && sdata.append(_x) && sdata.append(_y) &&
-			sdata.append(_current) && sdata.append(_end) && sdata.append(_duration))
+			sdata.append(_current) && sdata.append(_end) && sdata.append(_duration) && sdata.append(_stage))
 		{
 			// データ送信
 			sendto_webapi(std::move(sdata.buffer_));
@@ -3604,6 +3604,12 @@ namespace app {
 		send_webapi_matchsetup_aimassiston(_sock, game_.aimassiston);
 		send_webapi_matchsetup_anonymousmode(_sock, game_.anonymousmode);
 		send_webapi_matchsetup_serverid(_sock, game_.serverid);
+
+		if (game_.rings.size() > 0)
+		{
+			const auto& ring = game_.rings.at(game_.rings.size() - 1);
+			send_webapi_ringinfo(_sock, ring.timestamp, ring.stage, ring.x, ring.y, ring.current, ring.end, ring.shrinkduration);
+		}
 
 		reply_livedata_get_game(_sock, _sequence);
 	}
