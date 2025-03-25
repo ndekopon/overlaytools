@@ -136,6 +136,36 @@ struct PauseToggleDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PauseToggleDefaultTypeInternal _PauseToggle_default_instance_;
 
+inline constexpr PauseStateChangeNotification::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        message_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        timestamp_{::uint64_t{0u}},
+        timeleft_{::uint64_t{0u}},
+        ispausing_{false} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR PauseStateChangeNotification::PauseStateChangeNotification(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(PauseStateChangeNotification_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct PauseStateChangeNotificationDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PauseStateChangeNotificationDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PauseStateChangeNotificationDefaultTypeInternal() {}
+  union {
+    PauseStateChangeNotification _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PauseStateChangeNotificationDefaultTypeInternal _PauseStateChangeNotification_default_instance_;
+
 inline constexpr ObserverAnnotation::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
@@ -164,6 +194,37 @@ struct ObserverAnnotationDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ObserverAnnotationDefaultTypeInternal _ObserverAnnotation_default_instance_;
+
+inline constexpr LegendMatchStatus::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        name_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        reference_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        banned_{false} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR LegendMatchStatus::LegendMatchStatus(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(LegendMatchStatus_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct LegendMatchStatusDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR LegendMatchStatusDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~LegendMatchStatusDefaultTypeInternal() {}
+  union {
+    LegendMatchStatus _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LegendMatchStatusDefaultTypeInternal _LegendMatchStatus_default_instance_;
 
 inline constexpr InventoryItem::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -454,6 +515,31 @@ struct CustomMatch_SetMatchmakingDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_SetMatchmakingDefaultTypeInternal _CustomMatch_SetMatchmaking_default_instance_;
 
+inline constexpr CustomMatch_SetLegendBan::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : legendrefs_{},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR CustomMatch_SetLegendBan::CustomMatch_SetLegendBan(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(CustomMatch_SetLegendBan_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct CustomMatch_SetLegendBanDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CustomMatch_SetLegendBanDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CustomMatch_SetLegendBanDefaultTypeInternal() {}
+  union {
+    CustomMatch_SetLegendBan _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_SetLegendBanDefaultTypeInternal _CustomMatch_SetLegendBan_default_instance_;
+
 inline constexpr CustomMatch_SetEndRingExclusion::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
@@ -650,6 +736,24 @@ struct CustomMatch_GetLobbyPlayersDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_GetLobbyPlayersDefaultTypeInternal _CustomMatch_GetLobbyPlayers_default_instance_;
+template <typename>
+PROTOBUF_CONSTEXPR CustomMatch_GetLegendBanStatus::CustomMatch_GetLegendBanStatus(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(CustomMatch_GetLegendBanStatus_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct CustomMatch_GetLegendBanStatusDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CustomMatch_GetLegendBanStatusDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CustomMatch_GetLegendBanStatusDefaultTypeInternal() {}
+  union {
+    CustomMatch_GetLegendBanStatus _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_GetLegendBanStatusDefaultTypeInternal _CustomMatch_GetLegendBanStatus_default_instance_;
 template <typename>
 PROTOBUF_CONSTEXPR CustomMatch_CreateLobby::CustomMatch_CreateLobby(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
@@ -984,6 +1088,31 @@ struct CustomMatch_LobbyPlayersDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_LobbyPlayersDefaultTypeInternal _CustomMatch_LobbyPlayers_default_instance_;
+
+inline constexpr CustomMatch_LegendBanStatus::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : legends_{},
+        _cached_size_{0} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR CustomMatch_LegendBanStatus::CustomMatch_LegendBanStatus(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(CustomMatch_LegendBanStatus_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct CustomMatch_LegendBanStatusDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CustomMatch_LegendBanStatusDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CustomMatch_LegendBanStatusDefaultTypeInternal() {}
+  union {
+    CustomMatch_LegendBanStatus _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_LegendBanStatusDefaultTypeInternal _CustomMatch_LegendBanStatus_default_instance_;
 
 inline constexpr ZiplineUsed::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -2140,6 +2269,20 @@ const ::uint32_t
         1,
         0,
         2,
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LegendMatchStatus, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LegendMatchStatus, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LegendMatchStatus, _impl_.name_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LegendMatchStatus, _impl_.reference_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LegendMatchStatus, _impl_.banned_),
+        0,
+        1,
+        2,
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Datacenter, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Datacenter, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -2194,6 +2337,22 @@ const ::uint32_t
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LoadoutConfiguration, _impl_.weapons_),
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::LoadoutConfiguration, _impl_.equipment_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PauseStateChangeNotification, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PauseStateChangeNotification, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PauseStateChangeNotification, _impl_.timestamp_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PauseStateChangeNotification, _impl_.ispausing_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PauseStateChangeNotification, _impl_.timeleft_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PauseStateChangeNotification, _impl_.message_),
+        1,
+        3,
+        2,
+        0,
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Init, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Init, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -2228,6 +2387,15 @@ const ::uint32_t
         0,
         ~0u,
         ~0u,
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_LegendBanStatus, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_LegendBanStatus, _impl_.legends_),
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::ObserverSwitched, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::ObserverSwitched, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -3039,6 +3207,23 @@ const ::uint32_t
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_SetEndRingExclusion, _impl_.sectiontoexclude_),
         0,
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_GetLegendBanStatus, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_SetLegendBan, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_SetLegendBan, _impl_.legendrefs_),
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_SendChat, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_SendChat, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -3075,9 +3260,13 @@ const ::uint32_t
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Request, _impl_.actions_),
         1,
         0,
+        ~0u,
+        ~0u,
         ~0u,
         ~0u,
         ~0u,
@@ -3136,81 +3325,89 @@ static const ::_pbi::MigrationSchema
         {14, 36, -1, sizeof(::rtech::liveapi::Player)},
         {50, 62, -1, sizeof(::rtech::liveapi::CustomMatch_LobbyPlayer)},
         {66, 77, -1, sizeof(::rtech::liveapi::CustomMatch_Team)},
-        {80, 91, -1, sizeof(::rtech::liveapi::Datacenter)},
-        {94, 106, -1, sizeof(::rtech::liveapi::Version)},
-        {110, 121, -1, sizeof(::rtech::liveapi::InventoryItem)},
-        {124, -1, -1, sizeof(::rtech::liveapi::LoadoutConfiguration)},
-        {134, 148, -1, sizeof(::rtech::liveapi::Init)},
-        {154, 165, -1, sizeof(::rtech::liveapi::CustomMatch_LobbyPlayers)},
-        {168, 181, -1, sizeof(::rtech::liveapi::ObserverSwitched)},
-        {186, 197, -1, sizeof(::rtech::liveapi::ObserverAnnotation)},
-        {200, 218, -1, sizeof(::rtech::liveapi::MatchSetup)},
-        {228, 239, -1, sizeof(::rtech::liveapi::GameStateChanged)},
-        {242, 253, -1, sizeof(::rtech::liveapi::CharacterSelected)},
-        {256, 268, -1, sizeof(::rtech::liveapi::MatchStateEnd)},
-        {272, 287, -1, sizeof(::rtech::liveapi::RingStartClosing)},
-        {294, 308, -1, sizeof(::rtech::liveapi::RingFinishedClosing)},
-        {314, 325, -1, sizeof(::rtech::liveapi::PlayerConnected)},
-        {328, 341, -1, sizeof(::rtech::liveapi::PlayerDisconnected)},
-        {346, 359, -1, sizeof(::rtech::liveapi::PlayerStatChanged)},
-        {364, 376, -1, sizeof(::rtech::liveapi::PlayerUpgradeTierChanged)},
-        {380, 394, -1, sizeof(::rtech::liveapi::PlayerDamaged)},
-        {400, 414, -1, sizeof(::rtech::liveapi::PlayerKilled)},
-        {420, 433, -1, sizeof(::rtech::liveapi::PlayerDowned)},
-        {438, 451, -1, sizeof(::rtech::liveapi::PlayerAssist)},
-        {456, 467, -1, sizeof(::rtech::liveapi::SquadEliminated)},
-        {470, 482, -1, sizeof(::rtech::liveapi::PlayerUltimateCharged)},
-        {486, 499, -1, sizeof(::rtech::liveapi::GibraltarShieldAbsorbed)},
-        {504, 517, -1, sizeof(::rtech::liveapi::RevenantForgedShadowDamaged)},
-        {522, 535, -1, sizeof(::rtech::liveapi::PlayerRespawnTeam)},
-        {540, 552, -1, sizeof(::rtech::liveapi::PlayerRevive)},
-        {556, 569, -1, sizeof(::rtech::liveapi::ArenasItemSelected)},
-        {574, 587, -1, sizeof(::rtech::liveapi::ArenasItemDeselected)},
-        {592, 605, -1, sizeof(::rtech::liveapi::InventoryPickUp)},
-        {610, 624, -1, sizeof(::rtech::liveapi::InventoryDrop)},
-        {630, 643, -1, sizeof(::rtech::liveapi::InventoryUse)},
-        {648, 660, -1, sizeof(::rtech::liveapi::BannerCollected)},
-        {664, 676, -1, sizeof(::rtech::liveapi::PlayerAbilityUsed)},
-        {680, 694, -1, sizeof(::rtech::liveapi::LegendUpgradeSelected)},
-        {700, 712, -1, sizeof(::rtech::liveapi::ZiplineUsed)},
-        {716, 728, -1, sizeof(::rtech::liveapi::GrenadeThrown)},
-        {732, 744, -1, sizeof(::rtech::liveapi::BlackMarketAction)},
-        {748, 759, -1, sizeof(::rtech::liveapi::WraithPortal)},
-        {762, 773, -1, sizeof(::rtech::liveapi::WarpGateUsed)},
-        {776, 791, -1, sizeof(::rtech::liveapi::AmmoUsed)},
-        {798, 811, -1, sizeof(::rtech::liveapi::WeaponSwitched)},
-        {816, -1, -1, sizeof(::rtech::liveapi::ChangeCamera)},
-        {827, 836, -1, sizeof(::rtech::liveapi::PauseToggle)},
-        {837, -1, -1, sizeof(::rtech::liveapi::CustomMatch_CreateLobby)},
-        {845, 854, -1, sizeof(::rtech::liveapi::CustomMatch_JoinLobby)},
-        {855, -1, -1, sizeof(::rtech::liveapi::CustomMatch_LeaveLobby)},
-        {863, 872, -1, sizeof(::rtech::liveapi::CustomMatch_SetReady)},
-        {873, -1, -1, sizeof(::rtech::liveapi::CustomMatch_GetLobbyPlayers)},
-        {881, 890, -1, sizeof(::rtech::liveapi::CustomMatch_SetMatchmaking)},
-        {891, 902, -1, sizeof(::rtech::liveapi::CustomMatch_SetTeam)},
-        {905, 915, -1, sizeof(::rtech::liveapi::CustomMatch_KickPlayer)},
-        {917, 931, -1, sizeof(::rtech::liveapi::CustomMatch_SetSettings)},
-        {937, -1, -1, sizeof(::rtech::liveapi::CustomMatch_GetSettings)},
-        {945, 955, -1, sizeof(::rtech::liveapi::CustomMatch_SetTeamName)},
-        {957, 967, -1, sizeof(::rtech::liveapi::CustomMatch_SetSpawnPoint)},
-        {969, 978, -1, sizeof(::rtech::liveapi::CustomMatch_SetEndRingExclusion)},
-        {979, 988, -1, sizeof(::rtech::liveapi::CustomMatch_SendChat)},
-        {989, 1016, -1, sizeof(::rtech::liveapi::Request)},
-        {1034, 1043, -1, sizeof(::rtech::liveapi::RequestStatus)},
-        {1044, 1054, -1, sizeof(::rtech::liveapi::Response)},
-        {1056, 1066, -1, sizeof(::rtech::liveapi::LiveAPIEvent)},
+        {80, 91, -1, sizeof(::rtech::liveapi::LegendMatchStatus)},
+        {94, 105, -1, sizeof(::rtech::liveapi::Datacenter)},
+        {108, 120, -1, sizeof(::rtech::liveapi::Version)},
+        {124, 135, -1, sizeof(::rtech::liveapi::InventoryItem)},
+        {138, -1, -1, sizeof(::rtech::liveapi::LoadoutConfiguration)},
+        {148, 160, -1, sizeof(::rtech::liveapi::PauseStateChangeNotification)},
+        {164, 178, -1, sizeof(::rtech::liveapi::Init)},
+        {184, 195, -1, sizeof(::rtech::liveapi::CustomMatch_LobbyPlayers)},
+        {198, -1, -1, sizeof(::rtech::liveapi::CustomMatch_LegendBanStatus)},
+        {207, 220, -1, sizeof(::rtech::liveapi::ObserverSwitched)},
+        {225, 236, -1, sizeof(::rtech::liveapi::ObserverAnnotation)},
+        {239, 257, -1, sizeof(::rtech::liveapi::MatchSetup)},
+        {267, 278, -1, sizeof(::rtech::liveapi::GameStateChanged)},
+        {281, 292, -1, sizeof(::rtech::liveapi::CharacterSelected)},
+        {295, 307, -1, sizeof(::rtech::liveapi::MatchStateEnd)},
+        {311, 326, -1, sizeof(::rtech::liveapi::RingStartClosing)},
+        {333, 347, -1, sizeof(::rtech::liveapi::RingFinishedClosing)},
+        {353, 364, -1, sizeof(::rtech::liveapi::PlayerConnected)},
+        {367, 380, -1, sizeof(::rtech::liveapi::PlayerDisconnected)},
+        {385, 398, -1, sizeof(::rtech::liveapi::PlayerStatChanged)},
+        {403, 415, -1, sizeof(::rtech::liveapi::PlayerUpgradeTierChanged)},
+        {419, 433, -1, sizeof(::rtech::liveapi::PlayerDamaged)},
+        {439, 453, -1, sizeof(::rtech::liveapi::PlayerKilled)},
+        {459, 472, -1, sizeof(::rtech::liveapi::PlayerDowned)},
+        {477, 490, -1, sizeof(::rtech::liveapi::PlayerAssist)},
+        {495, 506, -1, sizeof(::rtech::liveapi::SquadEliminated)},
+        {509, 521, -1, sizeof(::rtech::liveapi::PlayerUltimateCharged)},
+        {525, 538, -1, sizeof(::rtech::liveapi::GibraltarShieldAbsorbed)},
+        {543, 556, -1, sizeof(::rtech::liveapi::RevenantForgedShadowDamaged)},
+        {561, 574, -1, sizeof(::rtech::liveapi::PlayerRespawnTeam)},
+        {579, 591, -1, sizeof(::rtech::liveapi::PlayerRevive)},
+        {595, 608, -1, sizeof(::rtech::liveapi::ArenasItemSelected)},
+        {613, 626, -1, sizeof(::rtech::liveapi::ArenasItemDeselected)},
+        {631, 644, -1, sizeof(::rtech::liveapi::InventoryPickUp)},
+        {649, 663, -1, sizeof(::rtech::liveapi::InventoryDrop)},
+        {669, 682, -1, sizeof(::rtech::liveapi::InventoryUse)},
+        {687, 699, -1, sizeof(::rtech::liveapi::BannerCollected)},
+        {703, 715, -1, sizeof(::rtech::liveapi::PlayerAbilityUsed)},
+        {719, 733, -1, sizeof(::rtech::liveapi::LegendUpgradeSelected)},
+        {739, 751, -1, sizeof(::rtech::liveapi::ZiplineUsed)},
+        {755, 767, -1, sizeof(::rtech::liveapi::GrenadeThrown)},
+        {771, 783, -1, sizeof(::rtech::liveapi::BlackMarketAction)},
+        {787, 798, -1, sizeof(::rtech::liveapi::WraithPortal)},
+        {801, 812, -1, sizeof(::rtech::liveapi::WarpGateUsed)},
+        {815, 830, -1, sizeof(::rtech::liveapi::AmmoUsed)},
+        {837, 850, -1, sizeof(::rtech::liveapi::WeaponSwitched)},
+        {855, -1, -1, sizeof(::rtech::liveapi::ChangeCamera)},
+        {866, 875, -1, sizeof(::rtech::liveapi::PauseToggle)},
+        {876, -1, -1, sizeof(::rtech::liveapi::CustomMatch_CreateLobby)},
+        {884, 893, -1, sizeof(::rtech::liveapi::CustomMatch_JoinLobby)},
+        {894, -1, -1, sizeof(::rtech::liveapi::CustomMatch_LeaveLobby)},
+        {902, 911, -1, sizeof(::rtech::liveapi::CustomMatch_SetReady)},
+        {912, -1, -1, sizeof(::rtech::liveapi::CustomMatch_GetLobbyPlayers)},
+        {920, 929, -1, sizeof(::rtech::liveapi::CustomMatch_SetMatchmaking)},
+        {930, 941, -1, sizeof(::rtech::liveapi::CustomMatch_SetTeam)},
+        {944, 954, -1, sizeof(::rtech::liveapi::CustomMatch_KickPlayer)},
+        {956, 970, -1, sizeof(::rtech::liveapi::CustomMatch_SetSettings)},
+        {976, -1, -1, sizeof(::rtech::liveapi::CustomMatch_GetSettings)},
+        {984, 994, -1, sizeof(::rtech::liveapi::CustomMatch_SetTeamName)},
+        {996, 1006, -1, sizeof(::rtech::liveapi::CustomMatch_SetSpawnPoint)},
+        {1008, 1017, -1, sizeof(::rtech::liveapi::CustomMatch_SetEndRingExclusion)},
+        {1018, -1, -1, sizeof(::rtech::liveapi::CustomMatch_GetLegendBanStatus)},
+        {1026, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetLegendBan)},
+        {1035, 1044, -1, sizeof(::rtech::liveapi::CustomMatch_SendChat)},
+        {1045, 1074, -1, sizeof(::rtech::liveapi::Request)},
+        {1094, 1103, -1, sizeof(::rtech::liveapi::RequestStatus)},
+        {1104, 1114, -1, sizeof(::rtech::liveapi::Response)},
+        {1116, 1126, -1, sizeof(::rtech::liveapi::LiveAPIEvent)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::rtech::liveapi::_Vector3_default_instance_._instance,
     &::rtech::liveapi::_Player_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_LobbyPlayer_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_Team_default_instance_._instance,
+    &::rtech::liveapi::_LegendMatchStatus_default_instance_._instance,
     &::rtech::liveapi::_Datacenter_default_instance_._instance,
     &::rtech::liveapi::_Version_default_instance_._instance,
     &::rtech::liveapi::_InventoryItem_default_instance_._instance,
     &::rtech::liveapi::_LoadoutConfiguration_default_instance_._instance,
+    &::rtech::liveapi::_PauseStateChangeNotification_default_instance_._instance,
     &::rtech::liveapi::_Init_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_LobbyPlayers_default_instance_._instance,
+    &::rtech::liveapi::_CustomMatch_LegendBanStatus_default_instance_._instance,
     &::rtech::liveapi::_ObserverSwitched_default_instance_._instance,
     &::rtech::liveapi::_ObserverAnnotation_default_instance_._instance,
     &::rtech::liveapi::_MatchSetup_default_instance_._instance,
@@ -3263,6 +3460,8 @@ static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::rtech::liveapi::_CustomMatch_SetTeamName_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_SetSpawnPoint_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_SetEndRingExclusion_default_instance_._instance,
+    &::rtech::liveapi::_CustomMatch_GetLegendBanStatus_default_instance_._instance,
+    &::rtech::liveapi::_CustomMatch_SetLegendBan_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_SendChat_default_instance_._instance,
     &::rtech::liveapi::_Request_default_instance_._instance,
     &::rtech::liveapi::_RequestStatus_default_instance_._instance,
@@ -3285,215 +3484,228 @@ const char descriptor_table_protodef_events_2eproto[] ABSL_ATTRIBUTE_SECTION_VAR
     "byPlayer\022\014\n\004name\030\001 \001(\t\022\016\n\006teamId\030\002 \001(\r\022\023"
     "\n\013nucleusHash\030\003 \001(\t\022\024\n\014hardwareName\030\004 \001("
     "\t\"@\n\020CustomMatch_Team\022\n\n\002id\030\001 \001(\r\022\014\n\004nam"
-    "e\030\002 \001(\t\022\022\n\nspawnPoint\030\003 \001(\005\"\?\n\nDatacente"
-    "r\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\014"
-    "\n\004name\030\003 \001(\t\"V\n\007Version\022\021\n\tmajor_num\030\001 \001"
-    "(\r\022\021\n\tminor_num\030\002 \001(\r\022\023\n\013build_stamp\030\003 \001"
-    "(\r\022\020\n\010revision\030\004 \001(\t\"B\n\rInventoryItem\022\020\n"
-    "\010quantity\030\001 \001(\005\022\014\n\004item\030\002 \001(\t\022\021\n\textraDa"
-    "ta\030\003 \001(\t\"v\n\024LoadoutConfiguration\022-\n\007weap"
-    "ons\030\001 \003(\0132\034.rtech.liveapi.InventoryItem\022"
-    "/\n\tequipment\030\002 \003(\0132\034.rtech.liveapi.Inven"
-    "toryItem\"\214\001\n\004Init\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010"
-    "category\030\002 \001(\t\022\023\n\013gameVersion\030\003 \001(\t\022*\n\na"
-    "piVersion\030\004 \001(\0132\026.rtech.liveapi.Version\022"
-    "\020\n\010platform\030\005 \001(\t\022\014\n\004name\030\006 \001(\t\"\230\001\n\030Cust"
-    "omMatch_LobbyPlayers\022\023\n\013playerToken\030\001 \001("
-    "\t\0227\n\007players\030\002 \003(\0132&.rtech.liveapi.Custo"
-    "mMatch_LobbyPlayer\022.\n\005teams\030\003 \003(\0132\037.rtec"
-    "h.liveapi.CustomMatch_Team\"\262\001\n\020ObserverS"
-    "witched\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002"
-    " \001(\t\022\'\n\010observer\030\003 \001(\0132\025.rtech.liveapi.P"
-    "layer\022%\n\006target\030\004 \001(\0132\025.rtech.liveapi.Pl"
-    "ayer\022)\n\ntargetTeam\030\005 \003(\0132\025.rtech.liveapi"
-    ".Player\"S\n\022ObserverAnnotation\022\021\n\ttimesta"
-    "mp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\030\n\020annotation"
-    "Serial\030\003 \001(\005\"\225\002\n\nMatchSetup\022\021\n\ttimestamp"
-    "\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\013\n\003map\030\003 \001(\t\022\024\n"
-    "\014playlistName\030\004 \001(\t\022\024\n\014playlistDesc\030\005 \001("
-    "\t\022-\n\ndatacenter\030\006 \001(\0132\031.rtech.liveapi.Da"
-    "tacenter\022\023\n\013aimAssistOn\030\007 \001(\010\022\025\n\ranonymo"
-    "usMode\030\010 \001(\010\022\020\n\010serverId\030\t \001(\t\022<\n\017starti"
-    "ngLoadout\030\n \001(\0132#.rtech.liveapi.LoadoutC"
-    "onfiguration\"F\n\020GameStateChanged\022\021\n\ttime"
-    "stamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\r\n\005state\030\003"
-    " \001(\t\"_\n\021CharacterSelected\022\021\n\ttimestamp\030\001"
-    " \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025"
-    ".rtech.liveapi.Player\"k\n\rMatchStateEnd\022\021"
-    "\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\r\n\005s"
-    "tate\030\003 \001(\t\022&\n\007winners\030\004 \003(\0132\025.rtech.live"
-    "api.Player\"\260\001\n\020RingStartClosing\022\021\n\ttimes"
-    "tamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\r\n\005stage\030\003 "
-    "\001(\r\022&\n\006center\030\004 \001(\0132\026.rtech.liveapi.Vect"
-    "or3\022\025\n\rcurrentRadius\030\005 \001(\002\022\021\n\tendRadius\030"
-    "\006 \001(\002\022\026\n\016shrinkDuration\030\007 \001(\002\"\240\001\n\023RingFi"
-    "nishedClosing\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010cate"
-    "gory\030\002 \001(\t\022\r\n\005stage\030\003 \001(\r\022&\n\006center\030\004 \001("
-    "\0132\026.rtech.liveapi.Vector3\022\025\n\rcurrentRadi"
-    "us\030\005 \001(\002\022\026\n\016shrinkDuration\030\007 \001(\002\"]\n\017Play"
-    "erConnected\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010catego"
-    "ry\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi"
-    ".Player\"\207\001\n\022PlayerDisconnected\022\021\n\ttimest"
-    "amp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 "
-    "\001(\0132\025.rtech.liveapi.Player\022\024\n\014canReconne"
-    "ct\030\004 \001(\010\022\017\n\007isAlive\030\005 \001(\010\"\203\001\n\021PlayerStat"
-    "Changed\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002"
-    " \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Pla"
-    "yer\022\020\n\010statName\030\004 \001(\t\022\020\n\010newValue\030\005 \001(\r\""
-    "u\n\030PlayerUpgradeTierChanged\022\021\n\ttimestamp"
-    "\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\013"
-    "2\025.rtech.liveapi.Player\022\r\n\005level\030\004 \001(\005\"\255"
-    "\001\n\rPlayerDamaged\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010c"
-    "ategory\030\002 \001(\t\022\'\n\010attacker\030\003 \001(\0132\025.rtech."
-    "liveapi.Player\022%\n\006victim\030\004 \001(\0132\025.rtech.l"
-    "iveapi.Player\022\016\n\006weapon\030\005 \001(\t\022\027\n\017damageI"
-    "nflicted\030\006 \001(\r\"\275\001\n\014PlayerKilled\022\021\n\ttimes"
-    "tamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\'\n\010attacker"
-    "\030\003 \001(\0132\025.rtech.liveapi.Player\022%\n\006victim\030"
-    "\004 \001(\0132\025.rtech.liveapi.Player\022(\n\tawardedT"
-    "o\030\005 \001(\0132\025.rtech.liveapi.Player\022\016\n\006weapon"
-    "\030\006 \001(\t\"\223\001\n\014PlayerDowned\022\021\n\ttimestamp\030\001 \001"
-    "(\004\022\020\n\010category\030\002 \001(\t\022\'\n\010attacker\030\003 \001(\0132\025"
-    ".rtech.liveapi.Player\022%\n\006victim\030\004 \001(\0132\025."
-    "rtech.liveapi.Player\022\016\n\006weapon\030\005 \001(\t\"\224\001\n"
-    "\014PlayerAssist\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010cate"
-    "gory\030\002 \001(\t\022(\n\tassistant\030\003 \001(\0132\025.rtech.li"
-    "veapi.Player\022%\n\006victim\030\004 \001(\0132\025.rtech.liv"
-    "eapi.Player\022\016\n\006weapon\030\005 \001(\t\"^\n\017SquadElim"
-    "inated\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 "
-    "\001(\t\022&\n\007players\030\003 \003(\0132\025.rtech.liveapi.Pla"
-    "yer\"y\n\025PlayerUltimateCharged\022\021\n\ttimestam"
+    "e\030\002 \001(\t\022\022\n\nspawnPoint\030\003 \001(\005\"D\n\021LegendMat"
+    "chStatus\022\014\n\004name\030\001 \001(\t\022\021\n\treference\030\002 \001("
+    "\t\022\016\n\006banned\030\003 \001(\010\"\?\n\nDatacenter\022\021\n\ttimes"
+    "tamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\014\n\004name\030\003 \001"
+    "(\t\"V\n\007Version\022\021\n\tmajor_num\030\001 \001(\r\022\021\n\tmino"
+    "r_num\030\002 \001(\r\022\023\n\013build_stamp\030\003 \001(\r\022\020\n\010revi"
+    "sion\030\004 \001(\t\"B\n\rInventoryItem\022\020\n\010quantity\030"
+    "\001 \001(\005\022\014\n\004item\030\002 \001(\t\022\021\n\textraData\030\003 \001(\t\"v"
+    "\n\024LoadoutConfiguration\022-\n\007weapons\030\001 \003(\0132"
+    "\034.rtech.liveapi.InventoryItem\022/\n\tequipme"
+    "nt\030\002 \003(\0132\034.rtech.liveapi.InventoryItem\"g"
+    "\n\034PauseStateChangeNotification\022\021\n\ttimest"
+    "amp\030\001 \001(\004\022\021\n\tisPausing\030\002 \001(\010\022\020\n\010timeLeft"
+    "\030\003 \001(\004\022\017\n\007message\030\004 \001(\t\"\214\001\n\004Init\022\021\n\ttime"
+    "stamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\023\n\013gameVer"
+    "sion\030\003 \001(\t\022*\n\napiVersion\030\004 \001(\0132\026.rtech.l"
+    "iveapi.Version\022\020\n\010platform\030\005 \001(\t\022\014\n\004name"
+    "\030\006 \001(\t\"\230\001\n\030CustomMatch_LobbyPlayers\022\023\n\013p"
+    "layerToken\030\001 \001(\t\0227\n\007players\030\002 \003(\0132&.rtec"
+    "h.liveapi.CustomMatch_LobbyPlayer\022.\n\005tea"
+    "ms\030\003 \003(\0132\037.rtech.liveapi.CustomMatch_Tea"
+    "m\"P\n\033CustomMatch_LegendBanStatus\0221\n\007lege"
+    "nds\030\003 \003(\0132 .rtech.liveapi.LegendMatchSta"
+    "tus\"\262\001\n\020ObserverSwitched\022\021\n\ttimestamp\030\001 "
+    "\001(\004\022\020\n\010category\030\002 \001(\t\022\'\n\010observer\030\003 \001(\0132"
+    "\025.rtech.liveapi.Player\022%\n\006target\030\004 \001(\0132\025"
+    ".rtech.liveapi.Player\022)\n\ntargetTeam\030\005 \003("
+    "\0132\025.rtech.liveapi.Player\"S\n\022ObserverAnno"
+    "tation\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 "
+    "\001(\t\022\030\n\020annotationSerial\030\003 \001(\005\"\225\002\n\nMatchS"
+    "etup\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001("
+    "\t\022\013\n\003map\030\003 \001(\t\022\024\n\014playlistName\030\004 \001(\t\022\024\n\014"
+    "playlistDesc\030\005 \001(\t\022-\n\ndatacenter\030\006 \001(\0132\031"
+    ".rtech.liveapi.Datacenter\022\023\n\013aimAssistOn"
+    "\030\007 \001(\010\022\025\n\ranonymousMode\030\010 \001(\010\022\020\n\010serverI"
+    "d\030\t \001(\t\022<\n\017startingLoadout\030\n \001(\0132#.rtech"
+    ".liveapi.LoadoutConfiguration\"F\n\020GameSta"
+    "teChanged\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category"
+    "\030\002 \001(\t\022\r\n\005state\030\003 \001(\t\"_\n\021CharacterSelect"
+    "ed\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022"
+    "%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Player\"k"
+    "\n\rMatchStateEnd\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010ca"
+    "tegory\030\002 \001(\t\022\r\n\005state\030\003 \001(\t\022&\n\007winners\030\004"
+    " \003(\0132\025.rtech.liveapi.Player\"\260\001\n\020RingStar"
+    "tClosing\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030"
+    "\002 \001(\t\022\r\n\005stage\030\003 \001(\r\022&\n\006center\030\004 \001(\0132\026.r"
+    "tech.liveapi.Vector3\022\025\n\rcurrentRadius\030\005 "
+    "\001(\002\022\021\n\tendRadius\030\006 \001(\002\022\026\n\016shrinkDuration"
+    "\030\007 \001(\002\"\240\001\n\023RingFinishedClosing\022\021\n\ttimest"
+    "amp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\r\n\005stage\030\003 \001"
+    "(\r\022&\n\006center\030\004 \001(\0132\026.rtech.liveapi.Vecto"
+    "r3\022\025\n\rcurrentRadius\030\005 \001(\002\022\026\n\016shrinkDurat"
+    "ion\030\007 \001(\002\"]\n\017PlayerConnected\022\021\n\ttimestam"
     "p\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001("
-    "\0132\025.rtech.liveapi.Player\022\024\n\014linkedEntity"
-    "\030\004 \001(\t\"\247\001\n\027GibraltarShieldAbsorbed\022\021\n\tti"
-    "mestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\'\n\010attac"
-    "ker\030\003 \001(\0132\025.rtech.liveapi.Player\022%\n\006vict"
-    "im\030\004 \001(\0132\025.rtech.liveapi.Player\022\027\n\017damag"
-    "eInflicted\030\006 \001(\r\"\253\001\n\033RevenantForgedShado"
-    "wDamaged\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030"
+    "\0132\025.rtech.liveapi.Player\"\207\001\n\022PlayerDisco"
+    "nnected\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002"
+    " \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Pla"
+    "yer\022\024\n\014canReconnect\030\004 \001(\010\022\017\n\007isAlive\030\005 \001"
+    "(\010\"\203\001\n\021PlayerStatChanged\022\021\n\ttimestamp\030\001 "
+    "\001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025."
+    "rtech.liveapi.Player\022\020\n\010statName\030\004 \001(\t\022\020"
+    "\n\010newValue\030\005 \001(\r\"u\n\030PlayerUpgradeTierCha"
+    "nged\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001("
+    "\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Player"
+    "\022\r\n\005level\030\004 \001(\005\"\255\001\n\rPlayerDamaged\022\021\n\ttim"
+    "estamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\'\n\010attack"
+    "er\030\003 \001(\0132\025.rtech.liveapi.Player\022%\n\006victi"
+    "m\030\004 \001(\0132\025.rtech.liveapi.Player\022\016\n\006weapon"
+    "\030\005 \001(\t\022\027\n\017damageInflicted\030\006 \001(\r\"\275\001\n\014Play"
+    "erKilled\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030"
     "\002 \001(\t\022\'\n\010attacker\030\003 \001(\0132\025.rtech.liveapi."
     "Player\022%\n\006victim\030\004 \001(\0132\025.rtech.liveapi.P"
-    "layer\022\027\n\017damageInflicted\030\006 \001(\r\"\245\001\n\021Playe"
-    "rRespawnTeam\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010categ"
-    "ory\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveap"
-    "i.Player\022\021\n\trespawned\030\004 \001(\t\0221\n\022respawned"
-    "Teammates\030\005 \003(\0132\025.rtech.liveapi.Player\"\202"
-    "\001\n\014PlayerRevive\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010ca"
-    "tegory\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liv"
-    "eapi.Player\022&\n\007revived\030\004 \001(\0132\025.rtech.liv"
-    "eapi.Player\"\200\001\n\022ArenasItemSelected\022\021\n\tti"
-    "mestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006playe"
-    "r\030\003 \001(\0132\025.rtech.liveapi.Player\022\014\n\004item\030\004"
-    " \001(\t\022\020\n\010quantity\030\005 \001(\005\"\202\001\n\024ArenasItemDes"
-    "elected\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002"
-    " \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Pla"
-    "yer\022\014\n\004item\030\004 \001(\t\022\020\n\010quantity\030\005 \001(\005\"}\n\017I"
-    "nventoryPickUp\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010cat"
-    "egory\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.live"
-    "api.Player\022\014\n\004item\030\004 \001(\t\022\020\n\010quantity\030\005 \001"
-    "(\005\"\216\001\n\rInventoryDrop\022\021\n\ttimestamp\030\001 \001(\004\022"
+    "layer\022(\n\tawardedTo\030\005 \001(\0132\025.rtech.liveapi"
+    ".Player\022\016\n\006weapon\030\006 \001(\t\"\223\001\n\014PlayerDowned"
+    "\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\'\n"
+    "\010attacker\030\003 \001(\0132\025.rtech.liveapi.Player\022%"
+    "\n\006victim\030\004 \001(\0132\025.rtech.liveapi.Player\022\016\n"
+    "\006weapon\030\005 \001(\t\"\224\001\n\014PlayerAssist\022\021\n\ttimest"
+    "amp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022(\n\tassistant"
+    "\030\003 \001(\0132\025.rtech.liveapi.Player\022%\n\006victim\030"
+    "\004 \001(\0132\025.rtech.liveapi.Player\022\016\n\006weapon\030\005"
+    " \001(\t\"^\n\017SquadEliminated\022\021\n\ttimestamp\030\001 \001"
+    "(\004\022\020\n\010category\030\002 \001(\t\022&\n\007players\030\003 \003(\0132\025."
+    "rtech.liveapi.Player\"y\n\025PlayerUltimateCh"
+    "arged\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001"
+    "(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Playe"
+    "r\022\024\n\014linkedEntity\030\004 \001(\t\"\247\001\n\027GibraltarShi"
+    "eldAbsorbed\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010catego"
+    "ry\030\002 \001(\t\022\'\n\010attacker\030\003 \001(\0132\025.rtech.livea"
+    "pi.Player\022%\n\006victim\030\004 \001(\0132\025.rtech.liveap"
+    "i.Player\022\027\n\017damageInflicted\030\006 \001(\r\"\253\001\n\033Re"
+    "venantForgedShadowDamaged\022\021\n\ttimestamp\030\001"
+    " \001(\004\022\020\n\010category\030\002 \001(\t\022\'\n\010attacker\030\003 \001(\013"
+    "2\025.rtech.liveapi.Player\022%\n\006victim\030\004 \001(\0132"
+    "\025.rtech.liveapi.Player\022\027\n\017damageInflicte"
+    "d\030\006 \001(\r\"\245\001\n\021PlayerRespawnTeam\022\021\n\ttimesta"
+    "mp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001"
+    "(\0132\025.rtech.liveapi.Player\022\021\n\trespawned\030\004"
+    " \001(\t\0221\n\022respawnedTeammates\030\005 \003(\0132\025.rtech"
+    ".liveapi.Player\"\202\001\n\014PlayerRevive\022\021\n\ttime"
+    "stamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030"
+    "\003 \001(\0132\025.rtech.liveapi.Player\022&\n\007revived\030"
+    "\004 \001(\0132\025.rtech.liveapi.Player\"\200\001\n\022ArenasI"
+    "temSelected\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010catego"
+    "ry\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi"
+    ".Player\022\014\n\004item\030\004 \001(\t\022\020\n\010quantity\030\005 \001(\005\""
+    "\202\001\n\024ArenasItemDeselected\022\021\n\ttimestamp\030\001 "
+    "\001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025."
+    "rtech.liveapi.Player\022\014\n\004item\030\004 \001(\t\022\020\n\010qu"
+    "antity\030\005 \001(\005\"}\n\017InventoryPickUp\022\021\n\ttimes"
+    "tamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003"
+    " \001(\0132\025.rtech.liveapi.Player\022\014\n\004item\030\004 \001("
+    "\t\022\020\n\010quantity\030\005 \001(\005\"\216\001\n\rInventoryDrop\022\021\n"
+    "\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006pl"
+    "ayer\030\003 \001(\0132\025.rtech.liveapi.Player\022\014\n\004ite"
+    "m\030\004 \001(\t\022\020\n\010quantity\030\005 \001(\005\022\021\n\textraData\030\006"
+    " \003(\t\"z\n\014InventoryUse\022\021\n\ttimestamp\030\001 \001(\004\022"
     "\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtec"
     "h.liveapi.Player\022\014\n\004item\030\004 \001(\t\022\020\n\010quanti"
-    "ty\030\005 \001(\005\022\021\n\textraData\030\006 \003(\t\"z\n\014Inventory"
-    "Use\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t"
-    "\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Player\022"
-    "\014\n\004item\030\004 \001(\t\022\020\n\010quantity\030\005 \001(\005\"\207\001\n\017Bann"
-    "erCollected\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010catego"
+    "ty\030\005 \001(\005\"\207\001\n\017BannerCollected\022\021\n\ttimestam"
+    "p\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001("
+    "\0132\025.rtech.liveapi.Player\022(\n\tcollected\030\004 "
+    "\001(\0132\025.rtech.liveapi.Player\"u\n\021PlayerAbil"
+    "ityUsed\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002"
+    " \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Pla"
+    "yer\022\024\n\014linkedEntity\030\004 \001(\t\"\234\001\n\025LegendUpgr"
+    "adeSelected\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010catego"
     "ry\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.liveapi"
-    ".Player\022(\n\tcollected\030\004 \001(\0132\025.rtech.livea"
-    "pi.Player\"u\n\021PlayerAbilityUsed\022\021\n\ttimest"
-    "amp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 "
-    "\001(\0132\025.rtech.liveapi.Player\022\024\n\014linkedEnti"
-    "ty\030\004 \001(\t\"\234\001\n\025LegendUpgradeSelected\022\021\n\tti"
+    ".Player\022\023\n\013upgradeName\030\004 \001(\t\022\023\n\013upgradeD"
+    "esc\030\005 \001(\t\022\r\n\005level\030\006 \001(\005\"o\n\013ZiplineUsed\022"
+    "\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006"
+    "player\030\003 \001(\0132\025.rtech.liveapi.Player\022\024\n\014l"
+    "inkedEntity\030\004 \001(\t\"q\n\rGrenadeThrown\022\021\n\tti"
     "mestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006playe"
-    "r\030\003 \001(\0132\025.rtech.liveapi.Player\022\023\n\013upgrad"
-    "eName\030\004 \001(\t\022\023\n\013upgradeDesc\030\005 \001(\t\022\r\n\005leve"
-    "l\030\006 \001(\005\"o\n\013ZiplineUsed\022\021\n\ttimestamp\030\001 \001("
-    "\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rt"
-    "ech.liveapi.Player\022\024\n\014linkedEntity\030\004 \001(\t"
-    "\"q\n\rGrenadeThrown\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010"
-    "category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.l"
-    "iveapi.Player\022\024\n\014linkedEntity\030\004 \001(\t\"m\n\021B"
-    "lackMarketAction\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010c"
-    "ategory\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.li"
-    "veapi.Player\022\014\n\004item\030\004 \001(\t\"Z\n\014WraithPort"
-    "al\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022"
-    "%\n\006player\030\003 \001(\0132\025.rtech.liveapi.Player\"Z"
-    "\n\014WarpGateUsed\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010cat"
-    "egory\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.live"
-    "api.Player\"\250\001\n\010AmmoUsed\022\021\n\ttimestamp\030\001 \001"
-    "(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.r"
-    "tech.liveapi.Player\022\020\n\010ammoType\030\004 \001(\t\022\022\n"
-    "\namountUsed\030\005 \001(\r\022\024\n\014oldAmmoCount\030\006 \001(\r\022"
-    "\024\n\014newAmmoCount\030\007 \001(\r\"\202\001\n\016WeaponSwitched"
+    "r\030\003 \001(\0132\025.rtech.liveapi.Player\022\024\n\014linked"
+    "Entity\030\004 \001(\t\"m\n\021BlackMarketAction\022\021\n\ttim"
+    "estamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player"
+    "\030\003 \001(\0132\025.rtech.liveapi.Player\022\014\n\004item\030\004 "
+    "\001(\t\"Z\n\014WraithPortal\022\021\n\ttimestamp\030\001 \001(\004\022\020"
+    "\n\010category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech"
+    ".liveapi.Player\"Z\n\014WarpGateUsed\022\021\n\ttimes"
+    "tamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030\003"
+    " \001(\0132\025.rtech.liveapi.Player\"\250\001\n\010AmmoUsed"
     "\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n"
-    "\006player\030\003 \001(\0132\025.rtech.liveapi.Player\022\021\n\t"
-    "oldWeapon\030\004 \001(\t\022\021\n\tnewWeapon\030\005 \001(\t\"X\n\014Ch"
-    "angeCamera\022.\n\003poi\030\001 \001(\0162\037.rtech.liveapi."
-    "PlayerOfInterestH\000\022\016\n\004name\030\002 \001(\tH\000B\010\n\006ta"
-    "rget\"\037\n\013PauseToggle\022\020\n\010preTimer\030\001 \001(\002\"\031\n"
-    "\027CustomMatch_CreateLobby\"*\n\025CustomMatch_"
-    "JoinLobby\022\021\n\troleToken\030\001 \001(\t\"\030\n\026CustomMa"
-    "tch_LeaveLobby\"\'\n\024CustomMatch_SetReady\022\017"
-    "\n\007isReady\030\001 \001(\010\"\035\n\033CustomMatch_GetLobbyP"
-    "layers\"-\n\032CustomMatch_SetMatchmaking\022\017\n\007"
-    "enabled\030\001 \001(\010\"\\\n\023CustomMatch_SetTeam\022\016\n\006"
-    "teamId\030\001 \001(\005\022\032\n\022targetHardwareName\030\002 \001(\t"
-    "\022\031\n\021targetNucleusHash\030\003 \001(\t\"O\n\026CustomMat"
-    "ch_KickPlayer\022\032\n\022targetHardwareName\030\001 \001("
-    "\t\022\031\n\021targetNucleusHash\030\002 \001(\t\"\217\001\n\027CustomM"
-    "atch_SetSettings\022\024\n\014playlistName\030\001 \001(\t\022\021"
-    "\n\tadminChat\030\002 \001(\010\022\022\n\nteamRename\030\003 \001(\010\022\022\n"
-    "\nselfAssign\030\004 \001(\010\022\021\n\taimAssist\030\005 \001(\010\022\020\n\010"
-    "anonMode\030\006 \001(\010\"\031\n\027CustomMatch_GetSetting"
-    "s\";\n\027CustomMatch_SetTeamName\022\016\n\006teamId\030\001"
-    " \001(\005\022\020\n\010teamName\030\002 \001(\t\"\?\n\031CustomMatch_Se"
-    "tSpawnPoint\022\016\n\006teamId\030\001 \001(\005\022\022\n\nspawnPoin"
-    "t\030\002 \001(\005\"U\n\037CustomMatch_SetEndRingExclusi"
-    "on\0222\n\020sectionToExclude\030\001 \001(\0162\030.rtech.liv"
-    "eapi.MapRegion\"$\n\024CustomMatch_SendChat\022\014"
-    "\n\004text\030\001 \001(\t\"\300\t\n\007Request\022\017\n\007withAck\030\001 \001("
-    "\010\022\024\n\014preSharedKey\030\002 \001(\t\0220\n\tchangeCam\030\004 \001"
-    "(\0132\033.rtech.liveapi.ChangeCameraH\000\0221\n\013pau"
-    "seToggle\030\005 \001(\0132\032.rtech.liveapi.PauseTogg"
-    "leH\000\022I\n\027customMatch_CreateLobby\030\n \001(\0132&."
-    "rtech.liveapi.CustomMatch_CreateLobbyH\000\022"
-    "E\n\025customMatch_JoinLobby\030\013 \001(\0132$.rtech.l"
-    "iveapi.CustomMatch_JoinLobbyH\000\022G\n\026custom"
-    "Match_LeaveLobby\030\014 \001(\0132%.rtech.liveapi.C"
-    "ustomMatch_LeaveLobbyH\000\022C\n\024customMatch_S"
-    "etReady\030\r \001(\0132#.rtech.liveapi.CustomMatc"
-    "h_SetReadyH\000\022O\n\032customMatch_SetMatchmaki"
-    "ng\030\016 \001(\0132).rtech.liveapi.CustomMatch_Set"
-    "MatchmakingH\000\022A\n\023customMatch_SetTeam\030\017 \001"
-    "(\0132\".rtech.liveapi.CustomMatch_SetTeamH\000"
-    "\022G\n\026customMatch_KickPlayer\030\020 \001(\0132%.rtech"
-    ".liveapi.CustomMatch_KickPlayerH\000\022I\n\027cus"
-    "tomMatch_SetSettings\030\021 \001(\0132&.rtech.livea"
-    "pi.CustomMatch_SetSettingsH\000\022C\n\024customMa"
-    "tch_SendChat\030\022 \001(\0132#.rtech.liveapi.Custo"
-    "mMatch_SendChatH\000\022Q\n\033customMatch_GetLobb"
-    "yPlayers\030\023 \001(\0132*.rtech.liveapi.CustomMat"
-    "ch_GetLobbyPlayersH\000\022I\n\027customMatch_SetT"
-    "eamName\030\024 \001(\0132&.rtech.liveapi.CustomMatc"
-    "h_SetTeamNameH\000\022I\n\027customMatch_GetSettin"
-    "gs\030\025 \001(\0132&.rtech.liveapi.CustomMatch_Get"
-    "SettingsH\000\022M\n\031customMatch_SetSpawnPoint\030"
-    "\026 \001(\0132(.rtech.liveapi.CustomMatch_SetSpa"
-    "wnPointH\000\022Y\n\037customMatch_SetEndRingExclu"
-    "sion\030\027 \001(\0132..rtech.liveapi.CustomMatch_S"
-    "etEndRingExclusionH\000B\t\n\007actions\"\037\n\rReque"
-    "stStatus\022\016\n\006status\030\001 \001(\t\"A\n\010Response\022\017\n\007"
-    "success\030\001 \001(\010\022$\n\006result\030\002 \001(\0132\024.google.p"
-    "rotobuf.Any\"M\n\014LiveAPIEvent\022\022\n\nevent_siz"
-    "e\030\001 \001(\007\022)\n\013gameMessage\030\003 \001(\0132\024.google.pr"
-    "otobuf.Any*\210\001\n\020PlayerOfInterest\022\017\n\013UNSPE"
-    "CIFIED\020\000\022\010\n\004NEXT\020\001\022\014\n\010PREVIOUS\020\002\022\017\n\013KILL"
-    "_LEADER\020\003\022\021\n\rCLOSEST_ENEMY\020\004\022\022\n\016CLOSEST_"
-    "PLAYER\020\005\022\023\n\017LATEST_ATTACKER\020\006*j\n\tMapRegi"
-    "on\022\014\n\010TOP_LEFT\020\000\022\r\n\tTOP_RIGHT\020\001\022\017\n\013BOTTO"
-    "M_LEFT\020\002\022\020\n\014BOTTOM_RIGHT\020\003\022\n\n\006CENTER\020\004\022\021"
-    "\n\rREGIONS_COUNT\020\005b\006proto3"
+    "\006player\030\003 \001(\0132\025.rtech.liveapi.Player\022\020\n\010"
+    "ammoType\030\004 \001(\t\022\022\n\namountUsed\030\005 \001(\r\022\024\n\014ol"
+    "dAmmoCount\030\006 \001(\r\022\024\n\014newAmmoCount\030\007 \001(\r\"\202"
+    "\001\n\016WeaponSwitched\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010"
+    "category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.l"
+    "iveapi.Player\022\021\n\toldWeapon\030\004 \001(\t\022\021\n\tnewW"
+    "eapon\030\005 \001(\t\"X\n\014ChangeCamera\022.\n\003poi\030\001 \001(\016"
+    "2\037.rtech.liveapi.PlayerOfInterestH\000\022\016\n\004n"
+    "ame\030\002 \001(\tH\000B\010\n\006target\"\037\n\013PauseToggle\022\020\n\010"
+    "preTimer\030\001 \001(\002\"\031\n\027CustomMatch_CreateLobb"
+    "y\"*\n\025CustomMatch_JoinLobby\022\021\n\troleToken\030"
+    "\001 \001(\t\"\030\n\026CustomMatch_LeaveLobby\"\'\n\024Custo"
+    "mMatch_SetReady\022\017\n\007isReady\030\001 \001(\010\"\035\n\033Cust"
+    "omMatch_GetLobbyPlayers\"-\n\032CustomMatch_S"
+    "etMatchmaking\022\017\n\007enabled\030\001 \001(\010\"\\\n\023Custom"
+    "Match_SetTeam\022\016\n\006teamId\030\001 \001(\005\022\032\n\022targetH"
+    "ardwareName\030\002 \001(\t\022\031\n\021targetNucleusHash\030\003"
+    " \001(\t\"O\n\026CustomMatch_KickPlayer\022\032\n\022target"
+    "HardwareName\030\001 \001(\t\022\031\n\021targetNucleusHash\030"
+    "\002 \001(\t\"\217\001\n\027CustomMatch_SetSettings\022\024\n\014pla"
+    "ylistName\030\001 \001(\t\022\021\n\tadminChat\030\002 \001(\010\022\022\n\nte"
+    "amRename\030\003 \001(\010\022\022\n\nselfAssign\030\004 \001(\010\022\021\n\tai"
+    "mAssist\030\005 \001(\010\022\020\n\010anonMode\030\006 \001(\010\"\031\n\027Custo"
+    "mMatch_GetSettings\";\n\027CustomMatch_SetTea"
+    "mName\022\016\n\006teamId\030\001 \001(\005\022\020\n\010teamName\030\002 \001(\t\""
+    "\?\n\031CustomMatch_SetSpawnPoint\022\016\n\006teamId\030\001"
+    " \001(\005\022\022\n\nspawnPoint\030\002 \001(\005\"U\n\037CustomMatch_"
+    "SetEndRingExclusion\0222\n\020sectionToExclude\030"
+    "\001 \001(\0162\030.rtech.liveapi.MapRegion\" \n\036Custo"
+    "mMatch_GetLegendBanStatus\".\n\030CustomMatch"
+    "_SetLegendBan\022\022\n\nlegendRefs\030\001 \003(\t\"$\n\024Cus"
+    "tomMatch_SendChat\022\014\n\004text\030\001 \001(\t\"\346\n\n\007Requ"
+    "est\022\017\n\007withAck\030\001 \001(\010\022\024\n\014preSharedKey\030\002 \001"
+    "(\t\0220\n\tchangeCam\030\004 \001(\0132\033.rtech.liveapi.Ch"
+    "angeCameraH\000\0221\n\013pauseToggle\030\005 \001(\0132\032.rtec"
+    "h.liveapi.PauseToggleH\000\022I\n\027customMatch_C"
+    "reateLobby\030\n \001(\0132&.rtech.liveapi.CustomM"
+    "atch_CreateLobbyH\000\022E\n\025customMatch_JoinLo"
+    "bby\030\013 \001(\0132$.rtech.liveapi.CustomMatch_Jo"
+    "inLobbyH\000\022G\n\026customMatch_LeaveLobby\030\014 \001("
+    "\0132%.rtech.liveapi.CustomMatch_LeaveLobby"
+    "H\000\022C\n\024customMatch_SetReady\030\r \001(\0132#.rtech"
+    ".liveapi.CustomMatch_SetReadyH\000\022O\n\032custo"
+    "mMatch_SetMatchmaking\030\016 \001(\0132).rtech.live"
+    "api.CustomMatch_SetMatchmakingH\000\022A\n\023cust"
+    "omMatch_SetTeam\030\017 \001(\0132\".rtech.liveapi.Cu"
+    "stomMatch_SetTeamH\000\022G\n\026customMatch_KickP"
+    "layer\030\020 \001(\0132%.rtech.liveapi.CustomMatch_"
+    "KickPlayerH\000\022I\n\027customMatch_SetSettings\030"
+    "\021 \001(\0132&.rtech.liveapi.CustomMatch_SetSet"
+    "tingsH\000\022C\n\024customMatch_SendChat\030\022 \001(\0132#."
+    "rtech.liveapi.CustomMatch_SendChatH\000\022Q\n\033"
+    "customMatch_GetLobbyPlayers\030\023 \001(\0132*.rtec"
+    "h.liveapi.CustomMatch_GetLobbyPlayersH\000\022"
+    "I\n\027customMatch_SetTeamName\030\024 \001(\0132&.rtech"
+    ".liveapi.CustomMatch_SetTeamNameH\000\022I\n\027cu"
+    "stomMatch_GetSettings\030\025 \001(\0132&.rtech.live"
+    "api.CustomMatch_GetSettingsH\000\022M\n\031customM"
+    "atch_SetSpawnPoint\030\026 \001(\0132(.rtech.liveapi"
+    ".CustomMatch_SetSpawnPointH\000\022Y\n\037customMa"
+    "tch_SetEndRingExclusion\030\027 \001(\0132..rtech.li"
+    "veapi.CustomMatch_SetEndRingExclusionH\000\022"
+    "W\n\036customMatch_GetLegendBanStatus\030\030 \001(\0132"
+    "-.rtech.liveapi.CustomMatch_GetLegendBan"
+    "StatusH\000\022K\n\030customMatch_SetLegendBan\030\031 \001"
+    "(\0132\'.rtech.liveapi.CustomMatch_SetLegend"
+    "BanH\000B\t\n\007actions\"\037\n\rRequestStatus\022\016\n\006sta"
+    "tus\030\001 \001(\t\"A\n\010Response\022\017\n\007success\030\001 \001(\010\022$"
+    "\n\006result\030\002 \001(\0132\024.google.protobuf.Any\"M\n\014"
+    "LiveAPIEvent\022\022\n\nevent_size\030\001 \001(\007\022)\n\013game"
+    "Message\030\003 \001(\0132\024.google.protobuf.Any*\210\001\n\020"
+    "PlayerOfInterest\022\017\n\013UNSPECIFIED\020\000\022\010\n\004NEX"
+    "T\020\001\022\014\n\010PREVIOUS\020\002\022\017\n\013KILL_LEADER\020\003\022\021\n\rCL"
+    "OSEST_ENEMY\020\004\022\022\n\016CLOSEST_PLAYER\020\005\022\023\n\017LAT"
+    "EST_ATTACKER\020\006*j\n\tMapRegion\022\014\n\010TOP_LEFT\020"
+    "\000\022\r\n\tTOP_RIGHT\020\001\022\017\n\013BOTTOM_LEFT\020\002\022\020\n\014BOT"
+    "TOM_RIGHT\020\003\022\n\n\006CENTER\020\004\022\021\n\rREGIONS_COUNT"
+    "\020\005b\006proto3"
 };
 static const ::_pbi::DescriptorTable* PROTOBUF_NONNULL const
     descriptor_table_events_2eproto_deps[1] = {
@@ -3503,13 +3715,13 @@ static ::absl::once_flag descriptor_table_events_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_events_2eproto = {
     false,
     false,
-    8905,
+    9410,
     descriptor_table_protodef_events_2eproto,
     "events.proto",
     &descriptor_table_events_2eproto_once,
     descriptor_table_events_2eproto_deps,
     1,
-    67,
+    72,
     schemas,
     file_default_instances,
     TableStruct_events_2eproto::offsets,
@@ -5292,6 +5504,344 @@ void CustomMatch_Team::InternalSwap(CustomMatch_Team* PROTOBUF_RESTRICT PROTOBUF
 }
 // ===================================================================
 
+class LegendMatchStatus::_Internal {
+ public:
+  using HasBits =
+      decltype(std::declval<LegendMatchStatus>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(LegendMatchStatus, _impl_._has_bits_);
+};
+
+LegendMatchStatus::LegendMatchStatus(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, LegendMatchStatus_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.LegendMatchStatus)
+}
+PROTOBUF_NDEBUG_INLINE LegendMatchStatus::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    const ::rtech::liveapi::LegendMatchStatus& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        name_(arena, from.name_),
+        reference_(arena, from.reference_) {}
+
+LegendMatchStatus::LegendMatchStatus(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const LegendMatchStatus& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, LegendMatchStatus_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  LegendMatchStatus* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  _impl_.banned_ = from._impl_.banned_;
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.LegendMatchStatus)
+}
+PROTOBUF_NDEBUG_INLINE LegendMatchStatus::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        name_(arena),
+        reference_(arena) {}
+
+inline void LegendMatchStatus::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.banned_ = {};
+}
+LegendMatchStatus::~LegendMatchStatus() {
+  // @@protoc_insertion_point(destructor:rtech.liveapi.LegendMatchStatus)
+  SharedDtor(*this);
+}
+inline void LegendMatchStatus::SharedDtor(MessageLite& self) {
+  LegendMatchStatus& this_ = static_cast<LegendMatchStatus&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.name_.Destroy();
+  this_._impl_.reference_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL LegendMatchStatus::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) LegendMatchStatus(arena);
+}
+constexpr auto LegendMatchStatus::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(LegendMatchStatus),
+                                            alignof(LegendMatchStatus));
+}
+constexpr auto LegendMatchStatus::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_LegendMatchStatus_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &LegendMatchStatus::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<LegendMatchStatus>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &LegendMatchStatus::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<LegendMatchStatus>(), &LegendMatchStatus::ByteSizeLong,
+              &LegendMatchStatus::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(LegendMatchStatus, _impl_._cached_size_),
+          false,
+      },
+      &LegendMatchStatus::kDescriptorMethods,
+      &descriptor_table_events_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const ::google::protobuf::internal::ClassDataFull
+        LegendMatchStatus_class_data_ =
+            LegendMatchStatus::InternalGenerateClassData_();
+
+const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL LegendMatchStatus::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&LegendMatchStatus_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(LegendMatchStatus_class_data_.tc_table);
+  return LegendMatchStatus_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<2, 3, 0, 53, 2>
+LegendMatchStatus::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(LegendMatchStatus, _impl_._has_bits_),
+    0, // no _extensions_
+    3, 24,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967288,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    3,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    LegendMatchStatus_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::rtech::liveapi::LegendMatchStatus>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // string name = 1;
+    {::_pbi::TcParser::FastUS1,
+     {10, 0, 0, PROTOBUF_FIELD_OFFSET(LegendMatchStatus, _impl_.name_)}},
+    // string reference = 2;
+    {::_pbi::TcParser::FastUS1,
+     {18, 1, 0, PROTOBUF_FIELD_OFFSET(LegendMatchStatus, _impl_.reference_)}},
+    // bool banned = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(LegendMatchStatus, _impl_.banned_), 2>(),
+     {24, 2, 0, PROTOBUF_FIELD_OFFSET(LegendMatchStatus, _impl_.banned_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // string name = 1;
+    {PROTOBUF_FIELD_OFFSET(LegendMatchStatus, _impl_.name_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // string reference = 2;
+    {PROTOBUF_FIELD_OFFSET(LegendMatchStatus, _impl_.reference_), _Internal::kHasBitsOffset + 1, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // bool banned = 3;
+    {PROTOBUF_FIELD_OFFSET(LegendMatchStatus, _impl_.banned_), _Internal::kHasBitsOffset + 2, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kBool)},
+  }},
+  // no aux_entries
+  {{
+    "\37\4\11\0\0\0\0\0"
+    "rtech.liveapi.LegendMatchStatus"
+    "name"
+    "reference"
+  }},
+};
+PROTOBUF_NOINLINE void LegendMatchStatus::Clear() {
+// @@protoc_insertion_point(message_clear_start:rtech.liveapi.LegendMatchStatus)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if ((cached_has_bits & 0x00000003u) != 0) {
+    if ((cached_has_bits & 0x00000001u) != 0) {
+      _impl_.name_.ClearNonDefaultToEmpty();
+    }
+    if ((cached_has_bits & 0x00000002u) != 0) {
+      _impl_.reference_.ClearNonDefaultToEmpty();
+    }
+  }
+  _impl_.banned_ = false;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL LegendMatchStatus::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const LegendMatchStatus& this_ = static_cast<const LegendMatchStatus&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL LegendMatchStatus::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const LegendMatchStatus& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(serialize_to_array_start:rtech.liveapi.LegendMatchStatus)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  // string name = 1;
+  if ((this_._impl_._has_bits_[0] & 0x00000001u) != 0) {
+    if (!this_._internal_name().empty()) {
+      const std::string& _s = this_._internal_name();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.LegendMatchStatus.name");
+      target = stream->WriteStringMaybeAliased(1, _s, target);
+    }
+  }
+
+  // string reference = 2;
+  if ((this_._impl_._has_bits_[0] & 0x00000002u) != 0) {
+    if (!this_._internal_reference().empty()) {
+      const std::string& _s = this_._internal_reference();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.LegendMatchStatus.reference");
+      target = stream->WriteStringMaybeAliased(2, _s, target);
+    }
+  }
+
+  // bool banned = 3;
+  if ((this_._impl_._has_bits_[0] & 0x00000004u) != 0) {
+    if (this_._internal_banned() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteBoolToArray(
+          3, this_._internal_banned(), target);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rtech.liveapi.LegendMatchStatus)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t LegendMatchStatus::ByteSizeLong(const MessageLite& base) {
+  const LegendMatchStatus& this_ = static_cast<const LegendMatchStatus&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t LegendMatchStatus::ByteSizeLong() const {
+  const LegendMatchStatus& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:rtech.liveapi.LegendMatchStatus)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if ((cached_has_bits & 0x00000007u) != 0) {
+    // string name = 1;
+    if ((cached_has_bits & 0x00000001u) != 0) {
+      if (!this_._internal_name().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_name());
+      }
+    }
+    // string reference = 2;
+    if ((cached_has_bits & 0x00000002u) != 0) {
+      if (!this_._internal_reference().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_reference());
+      }
+    }
+    // bool banned = 3;
+    if ((cached_has_bits & 0x00000004u) != 0) {
+      if (this_._internal_banned() != 0) {
+        total_size += 2;
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void LegendMatchStatus::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<LegendMatchStatus*>(&to_msg);
+  auto& from = static_cast<const LegendMatchStatus&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:rtech.liveapi.LegendMatchStatus)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if ((cached_has_bits & 0x00000007u) != 0) {
+    if ((cached_has_bits & 0x00000001u) != 0) {
+      if (!from._internal_name().empty()) {
+        _this->_internal_set_name(from._internal_name());
+      } else {
+        if (_this->_impl_.name_.IsDefault()) {
+          _this->_internal_set_name("");
+        }
+      }
+    }
+    if ((cached_has_bits & 0x00000002u) != 0) {
+      if (!from._internal_reference().empty()) {
+        _this->_internal_set_reference(from._internal_reference());
+      } else {
+        if (_this->_impl_.reference_.IsDefault()) {
+          _this->_internal_set_reference("");
+        }
+      }
+    }
+    if ((cached_has_bits & 0x00000004u) != 0) {
+      if (from._internal_banned() != 0) {
+        _this->_impl_.banned_ = from._impl_.banned_;
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void LegendMatchStatus::CopyFrom(const LegendMatchStatus& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:rtech.liveapi.LegendMatchStatus)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void LegendMatchStatus::InternalSwap(LegendMatchStatus* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, &other->_impl_.name_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.reference_, &other->_impl_.reference_, arena);
+  swap(_impl_.banned_, other->_impl_.banned_);
+}
+
+::google::protobuf::Metadata LegendMatchStatus::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
 class Datacenter::_Internal {
  public:
   using HasBits =
@@ -6627,6 +7177,375 @@ void LoadoutConfiguration::InternalSwap(LoadoutConfiguration* PROTOBUF_RESTRICT 
 }
 // ===================================================================
 
+class PauseStateChangeNotification::_Internal {
+ public:
+  using HasBits =
+      decltype(std::declval<PauseStateChangeNotification>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(PauseStateChangeNotification, _impl_._has_bits_);
+};
+
+PauseStateChangeNotification::PauseStateChangeNotification(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, PauseStateChangeNotification_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.PauseStateChangeNotification)
+}
+PROTOBUF_NDEBUG_INLINE PauseStateChangeNotification::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    const ::rtech::liveapi::PauseStateChangeNotification& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        message_(arena, from.message_) {}
+
+PauseStateChangeNotification::PauseStateChangeNotification(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const PauseStateChangeNotification& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, PauseStateChangeNotification_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  PauseStateChangeNotification* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::memcpy(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char *>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, ispausing_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::ispausing_));
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.PauseStateChangeNotification)
+}
+PROTOBUF_NDEBUG_INLINE PauseStateChangeNotification::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        message_(arena) {}
+
+inline void PauseStateChangeNotification::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char *>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           0,
+           offsetof(Impl_, ispausing_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::ispausing_));
+}
+PauseStateChangeNotification::~PauseStateChangeNotification() {
+  // @@protoc_insertion_point(destructor:rtech.liveapi.PauseStateChangeNotification)
+  SharedDtor(*this);
+}
+inline void PauseStateChangeNotification::SharedDtor(MessageLite& self) {
+  PauseStateChangeNotification& this_ = static_cast<PauseStateChangeNotification&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.message_.Destroy();
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL PauseStateChangeNotification::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) PauseStateChangeNotification(arena);
+}
+constexpr auto PauseStateChangeNotification::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(PauseStateChangeNotification),
+                                            alignof(PauseStateChangeNotification));
+}
+constexpr auto PauseStateChangeNotification::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_PauseStateChangeNotification_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &PauseStateChangeNotification::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<PauseStateChangeNotification>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &PauseStateChangeNotification::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<PauseStateChangeNotification>(), &PauseStateChangeNotification::ByteSizeLong,
+              &PauseStateChangeNotification::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(PauseStateChangeNotification, _impl_._cached_size_),
+          false,
+      },
+      &PauseStateChangeNotification::kDescriptorMethods,
+      &descriptor_table_events_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const ::google::protobuf::internal::ClassDataFull
+        PauseStateChangeNotification_class_data_ =
+            PauseStateChangeNotification::InternalGenerateClassData_();
+
+const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL PauseStateChangeNotification::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&PauseStateChangeNotification_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(PauseStateChangeNotification_class_data_.tc_table);
+  return PauseStateChangeNotification_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<2, 4, 0, 58, 2>
+PauseStateChangeNotification::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(PauseStateChangeNotification, _impl_._has_bits_),
+    0, // no _extensions_
+    4, 24,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967280,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    4,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    PauseStateChangeNotification_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::rtech::liveapi::PauseStateChangeNotification>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // string message = 4;
+    {::_pbi::TcParser::FastUS1,
+     {34, 0, 0, PROTOBUF_FIELD_OFFSET(PauseStateChangeNotification, _impl_.message_)}},
+    // uint64 timestamp = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(PauseStateChangeNotification, _impl_.timestamp_), 1>(),
+     {8, 1, 0, PROTOBUF_FIELD_OFFSET(PauseStateChangeNotification, _impl_.timestamp_)}},
+    // bool isPausing = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<bool, offsetof(PauseStateChangeNotification, _impl_.ispausing_), 3>(),
+     {16, 3, 0, PROTOBUF_FIELD_OFFSET(PauseStateChangeNotification, _impl_.ispausing_)}},
+    // uint64 timeLeft = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(PauseStateChangeNotification, _impl_.timeleft_), 2>(),
+     {24, 2, 0, PROTOBUF_FIELD_OFFSET(PauseStateChangeNotification, _impl_.timeleft_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // uint64 timestamp = 1;
+    {PROTOBUF_FIELD_OFFSET(PauseStateChangeNotification, _impl_.timestamp_), _Internal::kHasBitsOffset + 1, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+    // bool isPausing = 2;
+    {PROTOBUF_FIELD_OFFSET(PauseStateChangeNotification, _impl_.ispausing_), _Internal::kHasBitsOffset + 3, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kBool)},
+    // uint64 timeLeft = 3;
+    {PROTOBUF_FIELD_OFFSET(PauseStateChangeNotification, _impl_.timeleft_), _Internal::kHasBitsOffset + 2, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+    // string message = 4;
+    {PROTOBUF_FIELD_OFFSET(PauseStateChangeNotification, _impl_.message_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+  }},
+  // no aux_entries
+  {{
+    "\52\0\0\0\7\0\0\0"
+    "rtech.liveapi.PauseStateChangeNotification"
+    "message"
+  }},
+};
+PROTOBUF_NOINLINE void PauseStateChangeNotification::Clear() {
+// @@protoc_insertion_point(message_clear_start:rtech.liveapi.PauseStateChangeNotification)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if ((cached_has_bits & 0x00000001u) != 0) {
+    _impl_.message_.ClearNonDefaultToEmpty();
+  }
+  if ((cached_has_bits & 0x0000000eu) != 0) {
+    ::memset(&_impl_.timestamp_, 0, static_cast<::size_t>(
+        reinterpret_cast<char*>(&_impl_.ispausing_) -
+        reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.ispausing_));
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL PauseStateChangeNotification::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const PauseStateChangeNotification& this_ = static_cast<const PauseStateChangeNotification&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL PauseStateChangeNotification::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const PauseStateChangeNotification& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(serialize_to_array_start:rtech.liveapi.PauseStateChangeNotification)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  // uint64 timestamp = 1;
+  if ((this_._impl_._has_bits_[0] & 0x00000002u) != 0) {
+    if (this_._internal_timestamp() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          1, this_._internal_timestamp(), target);
+    }
+  }
+
+  // bool isPausing = 2;
+  if ((this_._impl_._has_bits_[0] & 0x00000008u) != 0) {
+    if (this_._internal_ispausing() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteBoolToArray(
+          2, this_._internal_ispausing(), target);
+    }
+  }
+
+  // uint64 timeLeft = 3;
+  if ((this_._impl_._has_bits_[0] & 0x00000004u) != 0) {
+    if (this_._internal_timeleft() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          3, this_._internal_timeleft(), target);
+    }
+  }
+
+  // string message = 4;
+  if ((this_._impl_._has_bits_[0] & 0x00000001u) != 0) {
+    if (!this_._internal_message().empty()) {
+      const std::string& _s = this_._internal_message();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.PauseStateChangeNotification.message");
+      target = stream->WriteStringMaybeAliased(4, _s, target);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rtech.liveapi.PauseStateChangeNotification)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t PauseStateChangeNotification::ByteSizeLong(const MessageLite& base) {
+  const PauseStateChangeNotification& this_ = static_cast<const PauseStateChangeNotification&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t PauseStateChangeNotification::ByteSizeLong() const {
+  const PauseStateChangeNotification& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:rtech.liveapi.PauseStateChangeNotification)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if ((cached_has_bits & 0x0000000fu) != 0) {
+    // string message = 4;
+    if ((cached_has_bits & 0x00000001u) != 0) {
+      if (!this_._internal_message().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_message());
+      }
+    }
+    // uint64 timestamp = 1;
+    if ((cached_has_bits & 0x00000002u) != 0) {
+      if (this_._internal_timestamp() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+            this_._internal_timestamp());
+      }
+    }
+    // uint64 timeLeft = 3;
+    if ((cached_has_bits & 0x00000004u) != 0) {
+      if (this_._internal_timeleft() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+            this_._internal_timeleft());
+      }
+    }
+    // bool isPausing = 2;
+    if ((cached_has_bits & 0x00000008u) != 0) {
+      if (this_._internal_ispausing() != 0) {
+        total_size += 2;
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void PauseStateChangeNotification::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<PauseStateChangeNotification*>(&to_msg);
+  auto& from = static_cast<const PauseStateChangeNotification&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:rtech.liveapi.PauseStateChangeNotification)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if ((cached_has_bits & 0x0000000fu) != 0) {
+    if ((cached_has_bits & 0x00000001u) != 0) {
+      if (!from._internal_message().empty()) {
+        _this->_internal_set_message(from._internal_message());
+      } else {
+        if (_this->_impl_.message_.IsDefault()) {
+          _this->_internal_set_message("");
+        }
+      }
+    }
+    if ((cached_has_bits & 0x00000002u) != 0) {
+      if (from._internal_timestamp() != 0) {
+        _this->_impl_.timestamp_ = from._impl_.timestamp_;
+      }
+    }
+    if ((cached_has_bits & 0x00000004u) != 0) {
+      if (from._internal_timeleft() != 0) {
+        _this->_impl_.timeleft_ = from._impl_.timeleft_;
+      }
+    }
+    if ((cached_has_bits & 0x00000008u) != 0) {
+      if (from._internal_ispausing() != 0) {
+        _this->_impl_.ispausing_ = from._impl_.ispausing_;
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void PauseStateChangeNotification::CopyFrom(const PauseStateChangeNotification& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:rtech.liveapi.PauseStateChangeNotification)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void PauseStateChangeNotification::InternalSwap(PauseStateChangeNotification* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.message_, &other->_impl_.message_, arena);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(PauseStateChangeNotification, _impl_.ispausing_)
+      + sizeof(PauseStateChangeNotification::_impl_.ispausing_)
+      - PROTOBUF_FIELD_OFFSET(PauseStateChangeNotification, _impl_.timestamp_)>(
+          reinterpret_cast<char*>(&_impl_.timestamp_),
+          reinterpret_cast<char*>(&other->_impl_.timestamp_));
+}
+
+::google::protobuf::Metadata PauseStateChangeNotification::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
 class Init::_Internal {
  public:
   using HasBits =
@@ -7437,6 +8356,258 @@ void CustomMatch_LobbyPlayers::InternalSwap(CustomMatch_LobbyPlayers* PROTOBUF_R
 }
 
 ::google::protobuf::Metadata CustomMatch_LobbyPlayers::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class CustomMatch_LegendBanStatus::_Internal {
+ public:
+};
+
+CustomMatch_LegendBanStatus::CustomMatch_LegendBanStatus(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, CustomMatch_LegendBanStatus_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_LegendBanStatus)
+}
+PROTOBUF_NDEBUG_INLINE CustomMatch_LegendBanStatus::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    const ::rtech::liveapi::CustomMatch_LegendBanStatus& from_msg)
+      : legends_{visibility, arena, from.legends_},
+        _cached_size_{0} {}
+
+CustomMatch_LegendBanStatus::CustomMatch_LegendBanStatus(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const CustomMatch_LegendBanStatus& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, CustomMatch_LegendBanStatus_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  CustomMatch_LegendBanStatus* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CustomMatch_LegendBanStatus)
+}
+PROTOBUF_NDEBUG_INLINE CustomMatch_LegendBanStatus::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : legends_{visibility, arena},
+        _cached_size_{0} {}
+
+inline void CustomMatch_LegendBanStatus::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+}
+CustomMatch_LegendBanStatus::~CustomMatch_LegendBanStatus() {
+  // @@protoc_insertion_point(destructor:rtech.liveapi.CustomMatch_LegendBanStatus)
+  SharedDtor(*this);
+}
+inline void CustomMatch_LegendBanStatus::SharedDtor(MessageLite& self) {
+  CustomMatch_LegendBanStatus& this_ = static_cast<CustomMatch_LegendBanStatus&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL CustomMatch_LegendBanStatus::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) CustomMatch_LegendBanStatus(arena);
+}
+constexpr auto CustomMatch_LegendBanStatus::InternalNewImpl_() {
+  constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
+      PROTOBUF_FIELD_OFFSET(CustomMatch_LegendBanStatus, _impl_.legends_) +
+          decltype(CustomMatch_LegendBanStatus::_impl_.legends_)::
+              InternalGetArenaOffset(
+                  ::google::protobuf::Message::internal_visibility()),
+  });
+  if (arena_bits.has_value()) {
+    return ::google::protobuf::internal::MessageCreator::ZeroInit(
+        sizeof(CustomMatch_LegendBanStatus), alignof(CustomMatch_LegendBanStatus), *arena_bits);
+  } else {
+    return ::google::protobuf::internal::MessageCreator(&CustomMatch_LegendBanStatus::PlacementNew_,
+                                 sizeof(CustomMatch_LegendBanStatus),
+                                 alignof(CustomMatch_LegendBanStatus));
+  }
+}
+constexpr auto CustomMatch_LegendBanStatus::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_CustomMatch_LegendBanStatus_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &CustomMatch_LegendBanStatus::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<CustomMatch_LegendBanStatus>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &CustomMatch_LegendBanStatus::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<CustomMatch_LegendBanStatus>(), &CustomMatch_LegendBanStatus::ByteSizeLong,
+              &CustomMatch_LegendBanStatus::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(CustomMatch_LegendBanStatus, _impl_._cached_size_),
+          false,
+      },
+      &CustomMatch_LegendBanStatus::kDescriptorMethods,
+      &descriptor_table_events_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const ::google::protobuf::internal::ClassDataFull
+        CustomMatch_LegendBanStatus_class_data_ =
+            CustomMatch_LegendBanStatus::InternalGenerateClassData_();
+
+const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL CustomMatch_LegendBanStatus::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&CustomMatch_LegendBanStatus_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(CustomMatch_LegendBanStatus_class_data_.tc_table);
+  return CustomMatch_LegendBanStatus_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 1, 0, 2>
+CustomMatch_LegendBanStatus::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    3, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967291,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    CustomMatch_LegendBanStatus_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::rtech::liveapi::CustomMatch_LegendBanStatus>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // repeated .rtech.liveapi.LegendMatchStatus legends = 3;
+    {::_pbi::TcParser::FastMtR1,
+     {26, 63, 0, PROTOBUF_FIELD_OFFSET(CustomMatch_LegendBanStatus, _impl_.legends_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // repeated .rtech.liveapi.LegendMatchStatus legends = 3;
+    {PROTOBUF_FIELD_OFFSET(CustomMatch_LegendBanStatus, _impl_.legends_), 0, 0,
+    (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+  }},
+  {{
+      {::_pbi::TcParser::GetTable<::rtech::liveapi::LegendMatchStatus>()},
+  }},
+  {{
+  }},
+};
+PROTOBUF_NOINLINE void CustomMatch_LegendBanStatus::Clear() {
+// @@protoc_insertion_point(message_clear_start:rtech.liveapi.CustomMatch_LegendBanStatus)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.legends_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL CustomMatch_LegendBanStatus::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const CustomMatch_LegendBanStatus& this_ = static_cast<const CustomMatch_LegendBanStatus&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL CustomMatch_LegendBanStatus::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const CustomMatch_LegendBanStatus& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(serialize_to_array_start:rtech.liveapi.CustomMatch_LegendBanStatus)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  // repeated .rtech.liveapi.LegendMatchStatus legends = 3;
+  for (unsigned i = 0, n = static_cast<unsigned>(
+                           this_._internal_legends_size());
+       i < n; i++) {
+    const auto& repfield = this_._internal_legends().Get(i);
+    target =
+        ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+            3, repfield, repfield.GetCachedSize(),
+            target, stream);
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rtech.liveapi.CustomMatch_LegendBanStatus)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t CustomMatch_LegendBanStatus::ByteSizeLong(const MessageLite& base) {
+  const CustomMatch_LegendBanStatus& this_ = static_cast<const CustomMatch_LegendBanStatus&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t CustomMatch_LegendBanStatus::ByteSizeLong() const {
+  const CustomMatch_LegendBanStatus& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:rtech.liveapi.CustomMatch_LegendBanStatus)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+   {
+    // repeated .rtech.liveapi.LegendMatchStatus legends = 3;
+    {
+      total_size += 1UL * this_._internal_legends_size();
+      for (const auto& msg : this_._internal_legends()) {
+        total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void CustomMatch_LegendBanStatus::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<CustomMatch_LegendBanStatus*>(&to_msg);
+  auto& from = static_cast<const CustomMatch_LegendBanStatus&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:rtech.liveapi.CustomMatch_LegendBanStatus)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_internal_mutable_legends()->MergeFrom(
+      from._internal_legends());
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void CustomMatch_LegendBanStatus::CopyFrom(const CustomMatch_LegendBanStatus& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:rtech.liveapi.CustomMatch_LegendBanStatus)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void CustomMatch_LegendBanStatus::InternalSwap(CustomMatch_LegendBanStatus* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.legends_.InternalSwap(&other->_impl_.legends_);
+}
+
+::google::protobuf::Metadata CustomMatch_LegendBanStatus::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
@@ -26308,6 +27479,366 @@ void CustomMatch_SetEndRingExclusion::InternalSwap(CustomMatch_SetEndRingExclusi
 }
 // ===================================================================
 
+class CustomMatch_GetLegendBanStatus::_Internal {
+ public:
+};
+
+CustomMatch_GetLegendBanStatus::CustomMatch_GetLegendBanStatus(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, CustomMatch_GetLegendBanStatus_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_GetLegendBanStatus)
+}
+CustomMatch_GetLegendBanStatus::CustomMatch_GetLegendBanStatus(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const CustomMatch_GetLegendBanStatus& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, CustomMatch_GetLegendBanStatus_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  CustomMatch_GetLegendBanStatus* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CustomMatch_GetLegendBanStatus)
+}
+
+inline void* PROTOBUF_NONNULL CustomMatch_GetLegendBanStatus::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) CustomMatch_GetLegendBanStatus(arena);
+}
+constexpr auto CustomMatch_GetLegendBanStatus::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(CustomMatch_GetLegendBanStatus),
+                                            alignof(CustomMatch_GetLegendBanStatus));
+}
+constexpr auto CustomMatch_GetLegendBanStatus::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_CustomMatch_GetLegendBanStatus_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &CustomMatch_GetLegendBanStatus::MergeImpl,
+          ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<CustomMatch_GetLegendBanStatus>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &CustomMatch_GetLegendBanStatus::SharedDtor,
+          ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<CustomMatch_GetLegendBanStatus>(), &CustomMatch_GetLegendBanStatus::ByteSizeLong,
+              &CustomMatch_GetLegendBanStatus::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(CustomMatch_GetLegendBanStatus, _impl_._cached_size_),
+          false,
+      },
+      &CustomMatch_GetLegendBanStatus::kDescriptorMethods,
+      &descriptor_table_events_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const ::google::protobuf::internal::ClassDataFull
+        CustomMatch_GetLegendBanStatus_class_data_ =
+            CustomMatch_GetLegendBanStatus::InternalGenerateClassData_();
+
+const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL CustomMatch_GetLegendBanStatus::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&CustomMatch_GetLegendBanStatus_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(CustomMatch_GetLegendBanStatus_class_data_.tc_table);
+  return CustomMatch_GetLegendBanStatus_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2>
+CustomMatch_GetLegendBanStatus::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    CustomMatch_GetLegendBanStatus_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::rtech::liveapi::CustomMatch_GetLegendBanStatus>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }}, // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+::google::protobuf::Metadata CustomMatch_GetLegendBanStatus::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class CustomMatch_SetLegendBan::_Internal {
+ public:
+};
+
+CustomMatch_SetLegendBan::CustomMatch_SetLegendBan(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, CustomMatch_SetLegendBan_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CustomMatch_SetLegendBan)
+}
+PROTOBUF_NDEBUG_INLINE CustomMatch_SetLegendBan::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    const ::rtech::liveapi::CustomMatch_SetLegendBan& from_msg)
+      : legendrefs_{visibility, arena, from.legendrefs_},
+        _cached_size_{0} {}
+
+CustomMatch_SetLegendBan::CustomMatch_SetLegendBan(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const CustomMatch_SetLegendBan& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, CustomMatch_SetLegendBan_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  CustomMatch_SetLegendBan* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CustomMatch_SetLegendBan)
+}
+PROTOBUF_NDEBUG_INLINE CustomMatch_SetLegendBan::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : legendrefs_{visibility, arena},
+        _cached_size_{0} {}
+
+inline void CustomMatch_SetLegendBan::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+}
+CustomMatch_SetLegendBan::~CustomMatch_SetLegendBan() {
+  // @@protoc_insertion_point(destructor:rtech.liveapi.CustomMatch_SetLegendBan)
+  SharedDtor(*this);
+}
+inline void CustomMatch_SetLegendBan::SharedDtor(MessageLite& self) {
+  CustomMatch_SetLegendBan& this_ = static_cast<CustomMatch_SetLegendBan&>(self);
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL CustomMatch_SetLegendBan::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) CustomMatch_SetLegendBan(arena);
+}
+constexpr auto CustomMatch_SetLegendBan::InternalNewImpl_() {
+  constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
+      PROTOBUF_FIELD_OFFSET(CustomMatch_SetLegendBan, _impl_.legendrefs_) +
+          decltype(CustomMatch_SetLegendBan::_impl_.legendrefs_)::
+              InternalGetArenaOffset(
+                  ::google::protobuf::Message::internal_visibility()),
+  });
+  if (arena_bits.has_value()) {
+    return ::google::protobuf::internal::MessageCreator::ZeroInit(
+        sizeof(CustomMatch_SetLegendBan), alignof(CustomMatch_SetLegendBan), *arena_bits);
+  } else {
+    return ::google::protobuf::internal::MessageCreator(&CustomMatch_SetLegendBan::PlacementNew_,
+                                 sizeof(CustomMatch_SetLegendBan),
+                                 alignof(CustomMatch_SetLegendBan));
+  }
+}
+constexpr auto CustomMatch_SetLegendBan::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_CustomMatch_SetLegendBan_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &CustomMatch_SetLegendBan::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<CustomMatch_SetLegendBan>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &CustomMatch_SetLegendBan::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<CustomMatch_SetLegendBan>(), &CustomMatch_SetLegendBan::ByteSizeLong,
+              &CustomMatch_SetLegendBan::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(CustomMatch_SetLegendBan, _impl_._cached_size_),
+          false,
+      },
+      &CustomMatch_SetLegendBan::kDescriptorMethods,
+      &descriptor_table_events_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const ::google::protobuf::internal::ClassDataFull
+        CustomMatch_SetLegendBan_class_data_ =
+            CustomMatch_SetLegendBan::InternalGenerateClassData_();
+
+const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL CustomMatch_SetLegendBan::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&CustomMatch_SetLegendBan_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(CustomMatch_SetLegendBan_class_data_.tc_table);
+  return CustomMatch_SetLegendBan_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 1, 0, 57, 2>
+CustomMatch_SetLegendBan::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    1, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967294,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    1,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    CustomMatch_SetLegendBan_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::rtech::liveapi::CustomMatch_SetLegendBan>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // repeated string legendRefs = 1;
+    {::_pbi::TcParser::FastUR1,
+     {10, 63, 0, PROTOBUF_FIELD_OFFSET(CustomMatch_SetLegendBan, _impl_.legendrefs_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // repeated string legendRefs = 1;
+    {PROTOBUF_FIELD_OFFSET(CustomMatch_SetLegendBan, _impl_.legendrefs_), 0, 0,
+    (0 | ::_fl::kFcRepeated | ::_fl::kUtf8String | ::_fl::kRepSString)},
+  }},
+  // no aux_entries
+  {{
+    "\46\12\0\0\0\0\0\0"
+    "rtech.liveapi.CustomMatch_SetLegendBan"
+    "legendRefs"
+  }},
+};
+PROTOBUF_NOINLINE void CustomMatch_SetLegendBan::Clear() {
+// @@protoc_insertion_point(message_clear_start:rtech.liveapi.CustomMatch_SetLegendBan)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.legendrefs_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL CustomMatch_SetLegendBan::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const CustomMatch_SetLegendBan& this_ = static_cast<const CustomMatch_SetLegendBan&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL CustomMatch_SetLegendBan::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const CustomMatch_SetLegendBan& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(serialize_to_array_start:rtech.liveapi.CustomMatch_SetLegendBan)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  // repeated string legendRefs = 1;
+  for (int i = 0, n = this_._internal_legendrefs_size(); i < n; ++i) {
+    const auto& s = this_._internal_legendrefs().Get(i);
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        s.data(), static_cast<int>(s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.CustomMatch_SetLegendBan.legendRefs");
+    target = stream->WriteString(1, s, target);
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rtech.liveapi.CustomMatch_SetLegendBan)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t CustomMatch_SetLegendBan::ByteSizeLong(const MessageLite& base) {
+  const CustomMatch_SetLegendBan& this_ = static_cast<const CustomMatch_SetLegendBan&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t CustomMatch_SetLegendBan::ByteSizeLong() const {
+  const CustomMatch_SetLegendBan& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:rtech.liveapi.CustomMatch_SetLegendBan)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+   {
+    // repeated string legendRefs = 1;
+    {
+      total_size +=
+          1 * ::google::protobuf::internal::FromIntSize(this_._internal_legendrefs().size());
+      for (int i = 0, n = this_._internal_legendrefs().size(); i < n; ++i) {
+        total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
+            this_._internal_legendrefs().Get(i));
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void CustomMatch_SetLegendBan::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<CustomMatch_SetLegendBan*>(&to_msg);
+  auto& from = static_cast<const CustomMatch_SetLegendBan&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:rtech.liveapi.CustomMatch_SetLegendBan)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_internal_mutable_legendrefs()->MergeFrom(from._internal_legendrefs());
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void CustomMatch_SetLegendBan::CopyFrom(const CustomMatch_SetLegendBan& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:rtech.liveapi.CustomMatch_SetLegendBan)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void CustomMatch_SetLegendBan::InternalSwap(CustomMatch_SetLegendBan* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.legendrefs_.InternalSwap(&other->_impl_.legendrefs_);
+}
+
+::google::protobuf::Metadata CustomMatch_SetLegendBan::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
 class CustomMatch_SendChat::_Internal {
  public:
   using HasBits =
@@ -26788,6 +28319,32 @@ void Request::set_allocated_custommatch_setendringexclusion(::rtech::liveapi::Cu
   }
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_SetEndRingExclusion)
 }
+void Request::set_allocated_custommatch_getlegendbanstatus(::rtech::liveapi::CustomMatch_GetLegendBanStatus* PROTOBUF_NULLABLE custommatch_getlegendbanstatus) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_actions();
+  if (custommatch_getlegendbanstatus) {
+    ::google::protobuf::Arena* submessage_arena = custommatch_getlegendbanstatus->GetArena();
+    if (message_arena != submessage_arena) {
+      custommatch_getlegendbanstatus = ::google::protobuf::internal::GetOwnedMessage(message_arena, custommatch_getlegendbanstatus, submessage_arena);
+    }
+    set_has_custommatch_getlegendbanstatus();
+    _impl_.actions_.custommatch_getlegendbanstatus_ = custommatch_getlegendbanstatus;
+  }
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_GetLegendBanStatus)
+}
+void Request::set_allocated_custommatch_setlegendban(::rtech::liveapi::CustomMatch_SetLegendBan* PROTOBUF_NULLABLE custommatch_setlegendban) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_actions();
+  if (custommatch_setlegendban) {
+    ::google::protobuf::Arena* submessage_arena = custommatch_setlegendban->GetArena();
+    if (message_arena != submessage_arena) {
+      custommatch_setlegendban = ::google::protobuf::internal::GetOwnedMessage(message_arena, custommatch_setlegendban, submessage_arena);
+    }
+    set_has_custommatch_setlegendban();
+    _impl_.actions_.custommatch_setlegendban_ = custommatch_setlegendban;
+  }
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_SetLegendBan)
+}
 Request::Request(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, Request_class_data_.base()) {
@@ -26871,6 +28428,12 @@ Request::Request(
         break;
       case kCustomMatchSetEndRingExclusion:
         _impl_.actions_.custommatch_setendringexclusion_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.actions_.custommatch_setendringexclusion_);
+        break;
+      case kCustomMatchGetLegendBanStatus:
+        _impl_.actions_.custommatch_getlegendbanstatus_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.actions_.custommatch_getlegendbanstatus_);
+        break;
+      case kCustomMatchSetLegendBan:
+        _impl_.actions_.custommatch_setlegendban_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.actions_.custommatch_setlegendban_);
         break;
   }
 
@@ -27035,6 +28598,22 @@ void Request::clear_actions() {
       }
       break;
     }
+    case kCustomMatchGetLegendBanStatus: {
+      if (GetArena() == nullptr) {
+        delete _impl_.actions_.custommatch_getlegendbanstatus_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.actions_.custommatch_getlegendbanstatus_);
+      }
+      break;
+    }
+    case kCustomMatchSetLegendBan: {
+      if (GetArena() == nullptr) {
+        delete _impl_.actions_.custommatch_setlegendban_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.actions_.custommatch_setlegendban_);
+      }
+      break;
+    }
     case ACTIONS_NOT_SET: {
       break;
     }
@@ -27086,17 +28665,17 @@ const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL Request::GetClas
   return Request_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 18, 16, 58, 2>
+const ::_pbi::TcParseTable<1, 20, 18, 58, 2>
 Request::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(Request, _impl_._has_bits_),
     0, // no _extensions_
-    23, 8,  // max_field_number, fast_idx_mask
+    25, 8,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4286579172,  // skipmap
+    4261413348,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    18,  // num_field_entries
-    16,  // num_aux_entries
+    20,  // num_field_entries
+    18,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     Request_class_data_.base(),
     nullptr,  // post_loop_handler
@@ -27168,6 +28747,12 @@ Request::_table_ = {
     // .rtech.liveapi.CustomMatch_SetEndRingExclusion customMatch_SetEndRingExclusion = 23;
     {PROTOBUF_FIELD_OFFSET(Request, _impl_.actions_.custommatch_setendringexclusion_), _Internal::kOneofCaseOffset + 0, 15,
     (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .rtech.liveapi.CustomMatch_GetLegendBanStatus customMatch_GetLegendBanStatus = 24;
+    {PROTOBUF_FIELD_OFFSET(Request, _impl_.actions_.custommatch_getlegendbanstatus_), _Internal::kOneofCaseOffset + 0, 16,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .rtech.liveapi.CustomMatch_SetLegendBan customMatch_SetLegendBan = 25;
+    {PROTOBUF_FIELD_OFFSET(Request, _impl_.actions_.custommatch_setlegendban_), _Internal::kOneofCaseOffset + 0, 17,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }},
   {{
       {::_pbi::TcParser::GetTable<::rtech::liveapi::ChangeCamera>()},
@@ -27186,6 +28771,8 @@ Request::_table_ = {
       {::_pbi::TcParser::GetTable<::rtech::liveapi::CustomMatch_GetSettings>()},
       {::_pbi::TcParser::GetTable<::rtech::liveapi::CustomMatch_SetSpawnPoint>()},
       {::_pbi::TcParser::GetTable<::rtech::liveapi::CustomMatch_SetEndRingExclusion>()},
+      {::_pbi::TcParser::GetTable<::rtech::liveapi::CustomMatch_GetLegendBanStatus>()},
+      {::_pbi::TcParser::GetTable<::rtech::liveapi::CustomMatch_SetLegendBan>()},
   }},
   {{
     "\25\0\14\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
@@ -27341,6 +28928,18 @@ PROTOBUF_NOINLINE void Request::Clear() {
           stream);
       break;
     }
+    case kCustomMatchGetLegendBanStatus: {
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          24, *this_._impl_.actions_.custommatch_getlegendbanstatus_, this_._impl_.actions_.custommatch_getlegendbanstatus_->GetCachedSize(), target,
+          stream);
+      break;
+    }
+    case kCustomMatchSetLegendBan: {
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          25, *this_._impl_.actions_.custommatch_setlegendban_, this_._impl_.actions_.custommatch_setlegendban_->GetCachedSize(), target,
+          stream);
+      break;
+    }
     default:
       break;
   }
@@ -27479,6 +29078,18 @@ PROTOBUF_NOINLINE void Request::Clear() {
     case kCustomMatchSetEndRingExclusion: {
       total_size += 2 +
                     ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.actions_.custommatch_setendringexclusion_);
+      break;
+    }
+    // .rtech.liveapi.CustomMatch_GetLegendBanStatus customMatch_GetLegendBanStatus = 24;
+    case kCustomMatchGetLegendBanStatus: {
+      total_size += 2 +
+                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.actions_.custommatch_getlegendbanstatus_);
+      break;
+    }
+    // .rtech.liveapi.CustomMatch_SetLegendBan customMatch_SetLegendBan = 25;
+    case kCustomMatchSetLegendBan: {
+      total_size += 2 +
+                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.actions_.custommatch_setlegendban_);
       break;
     }
     case ACTIONS_NOT_SET: {
@@ -27652,6 +29263,22 @@ void Request::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google:
           _this->_impl_.actions_.custommatch_setendringexclusion_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.actions_.custommatch_setendringexclusion_);
         } else {
           _this->_impl_.actions_.custommatch_setendringexclusion_->MergeFrom(*from._impl_.actions_.custommatch_setendringexclusion_);
+        }
+        break;
+      }
+      case kCustomMatchGetLegendBanStatus: {
+        if (oneof_needs_init) {
+          _this->_impl_.actions_.custommatch_getlegendbanstatus_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.actions_.custommatch_getlegendbanstatus_);
+        } else {
+          _this->_impl_.actions_.custommatch_getlegendbanstatus_->MergeFrom(*from._impl_.actions_.custommatch_getlegendbanstatus_);
+        }
+        break;
+      }
+      case kCustomMatchSetLegendBan: {
+        if (oneof_needs_init) {
+          _this->_impl_.actions_.custommatch_setlegendban_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.actions_.custommatch_setlegendban_);
+        } else {
+          _this->_impl_.actions_.custommatch_setlegendban_->MergeFrom(*from._impl_.actions_.custommatch_setlegendban_);
         }
         break;
       }

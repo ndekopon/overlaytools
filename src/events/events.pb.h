@@ -93,6 +93,10 @@ class CustomMatch_CreateLobby;
 struct CustomMatch_CreateLobbyDefaultTypeInternal;
 extern CustomMatch_CreateLobbyDefaultTypeInternal _CustomMatch_CreateLobby_default_instance_;
 extern const ::google::protobuf::internal::ClassDataFull CustomMatch_CreateLobby_class_data_;
+class CustomMatch_GetLegendBanStatus;
+struct CustomMatch_GetLegendBanStatusDefaultTypeInternal;
+extern CustomMatch_GetLegendBanStatusDefaultTypeInternal _CustomMatch_GetLegendBanStatus_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull CustomMatch_GetLegendBanStatus_class_data_;
 class CustomMatch_GetLobbyPlayers;
 struct CustomMatch_GetLobbyPlayersDefaultTypeInternal;
 extern CustomMatch_GetLobbyPlayersDefaultTypeInternal _CustomMatch_GetLobbyPlayers_default_instance_;
@@ -113,6 +117,10 @@ class CustomMatch_LeaveLobby;
 struct CustomMatch_LeaveLobbyDefaultTypeInternal;
 extern CustomMatch_LeaveLobbyDefaultTypeInternal _CustomMatch_LeaveLobby_default_instance_;
 extern const ::google::protobuf::internal::ClassDataFull CustomMatch_LeaveLobby_class_data_;
+class CustomMatch_LegendBanStatus;
+struct CustomMatch_LegendBanStatusDefaultTypeInternal;
+extern CustomMatch_LegendBanStatusDefaultTypeInternal _CustomMatch_LegendBanStatus_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull CustomMatch_LegendBanStatus_class_data_;
 class CustomMatch_LobbyPlayer;
 struct CustomMatch_LobbyPlayerDefaultTypeInternal;
 extern CustomMatch_LobbyPlayerDefaultTypeInternal _CustomMatch_LobbyPlayer_default_instance_;
@@ -129,6 +137,10 @@ class CustomMatch_SetEndRingExclusion;
 struct CustomMatch_SetEndRingExclusionDefaultTypeInternal;
 extern CustomMatch_SetEndRingExclusionDefaultTypeInternal _CustomMatch_SetEndRingExclusion_default_instance_;
 extern const ::google::protobuf::internal::ClassDataFull CustomMatch_SetEndRingExclusion_class_data_;
+class CustomMatch_SetLegendBan;
+struct CustomMatch_SetLegendBanDefaultTypeInternal;
+extern CustomMatch_SetLegendBanDefaultTypeInternal _CustomMatch_SetLegendBan_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull CustomMatch_SetLegendBan_class_data_;
 class CustomMatch_SetMatchmaking;
 struct CustomMatch_SetMatchmakingDefaultTypeInternal;
 extern CustomMatch_SetMatchmakingDefaultTypeInternal _CustomMatch_SetMatchmaking_default_instance_;
@@ -193,6 +205,10 @@ class InventoryUse;
 struct InventoryUseDefaultTypeInternal;
 extern InventoryUseDefaultTypeInternal _InventoryUse_default_instance_;
 extern const ::google::protobuf::internal::ClassDataFull InventoryUse_class_data_;
+class LegendMatchStatus;
+struct LegendMatchStatusDefaultTypeInternal;
+extern LegendMatchStatusDefaultTypeInternal _LegendMatchStatus_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull LegendMatchStatus_class_data_;
 class LegendUpgradeSelected;
 struct LegendUpgradeSelectedDefaultTypeInternal;
 extern LegendUpgradeSelectedDefaultTypeInternal _LegendUpgradeSelected_default_instance_;
@@ -221,6 +237,10 @@ class ObserverSwitched;
 struct ObserverSwitchedDefaultTypeInternal;
 extern ObserverSwitchedDefaultTypeInternal _ObserverSwitched_default_instance_;
 extern const ::google::protobuf::internal::ClassDataFull ObserverSwitched_class_data_;
+class PauseStateChangeNotification;
+struct PauseStateChangeNotificationDefaultTypeInternal;
+extern PauseStateChangeNotificationDefaultTypeInternal _PauseStateChangeNotification_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull PauseStateChangeNotification_class_data_;
 class PauseToggle;
 struct PauseToggleDefaultTypeInternal;
 extern PauseToggleDefaultTypeInternal _PauseToggle_default_instance_;
@@ -486,7 +506,7 @@ class Version final : public ::google::protobuf::Message
     return *reinterpret_cast<const Version*>(
         &_Version_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 5;
+  static constexpr int kIndexInFileMessages = 6;
   friend void swap(Version& a, Version& b) { a.Swap(&b); }
   inline void Swap(Version* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -933,7 +953,7 @@ class RequestStatus final : public ::google::protobuf::Message
     return *reinterpret_cast<const RequestStatus*>(
         &_RequestStatus_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 64;
+  static constexpr int kIndexInFileMessages = 69;
   friend void swap(RequestStatus& a, RequestStatus& b) { a.Swap(&b); }
   inline void Swap(RequestStatus* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -1129,7 +1149,7 @@ class PauseToggle final : public ::google::protobuf::Message
     return *reinterpret_cast<const PauseToggle*>(
         &_PauseToggle_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 48;
+  static constexpr int kIndexInFileMessages = 51;
   friend void swap(PauseToggle& a, PauseToggle& b) { a.Swap(&b); }
   inline void Swap(PauseToggle* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -1265,6 +1285,238 @@ class PauseToggle final : public ::google::protobuf::Message
 extern const ::google::protobuf::internal::ClassDataFull PauseToggle_class_data_;
 // -------------------------------------------------------------------
 
+class PauseStateChangeNotification final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:rtech.liveapi.PauseStateChangeNotification) */ {
+ public:
+  inline PauseStateChangeNotification() : PauseStateChangeNotification(nullptr) {}
+  ~PauseStateChangeNotification() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(PauseStateChangeNotification* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(PauseStateChangeNotification));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR PauseStateChangeNotification(::google::protobuf::internal::ConstantInitialized);
+
+  inline PauseStateChangeNotification(const PauseStateChangeNotification& from) : PauseStateChangeNotification(nullptr, from) {}
+  inline PauseStateChangeNotification(PauseStateChangeNotification&& from) noexcept
+      : PauseStateChangeNotification(nullptr, std::move(from)) {}
+  inline PauseStateChangeNotification& operator=(const PauseStateChangeNotification& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PauseStateChangeNotification& operator=(PauseStateChangeNotification&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const PauseStateChangeNotification& default_instance() {
+    return *reinterpret_cast<const PauseStateChangeNotification*>(
+        &_PauseStateChangeNotification_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 9;
+  friend void swap(PauseStateChangeNotification& a, PauseStateChangeNotification& b) { a.Swap(&b); }
+  inline void Swap(PauseStateChangeNotification* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PauseStateChangeNotification* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  PauseStateChangeNotification* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<PauseStateChangeNotification>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const PauseStateChangeNotification& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const PauseStateChangeNotification& from) { PauseStateChangeNotification::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(PauseStateChangeNotification* PROTOBUF_NONNULL other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "rtech.liveapi.PauseStateChangeNotification"; }
+
+ protected:
+  explicit PauseStateChangeNotification(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  PauseStateChangeNotification(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const PauseStateChangeNotification& from);
+  PauseStateChangeNotification(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, PauseStateChangeNotification&& from) noexcept
+      : PauseStateChangeNotification(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kMessageFieldNumber = 4,
+    kTimestampFieldNumber = 1,
+    kTimeLeftFieldNumber = 3,
+    kIsPausingFieldNumber = 2,
+  };
+  // string message = 4;
+  void clear_message() ;
+  const std::string& message() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_message(Arg_&& arg, Args_... args);
+  std::string* PROTOBUF_NONNULL mutable_message();
+  [[nodiscard]] std::string* PROTOBUF_NULLABLE release_message();
+  void set_allocated_message(std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const std::string& _internal_message() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_message(const std::string& value);
+  std::string* PROTOBUF_NONNULL _internal_mutable_message();
+
+  public:
+  // uint64 timestamp = 1;
+  void clear_timestamp() ;
+  ::uint64_t timestamp() const;
+  void set_timestamp(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_timestamp() const;
+  void _internal_set_timestamp(::uint64_t value);
+
+  public:
+  // uint64 timeLeft = 3;
+  void clear_timeleft() ;
+  ::uint64_t timeleft() const;
+  void set_timeleft(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_timeleft() const;
+  void _internal_set_timeleft(::uint64_t value);
+
+  public:
+  // bool isPausing = 2;
+  void clear_ispausing() ;
+  bool ispausing() const;
+  void set_ispausing(bool value);
+
+  private:
+  bool _internal_ispausing() const;
+  void _internal_set_ispausing(bool value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.PauseStateChangeNotification)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<2, 4,
+                                   0, 58,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const PauseStateChangeNotification& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr message_;
+    ::uint64_t timestamp_;
+    ::uint64_t timeleft_;
+    bool ispausing_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_events_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull PauseStateChangeNotification_class_data_;
+// -------------------------------------------------------------------
+
 class ObserverAnnotation final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:rtech.liveapi.ObserverAnnotation) */ {
  public:
@@ -1320,7 +1572,7 @@ class ObserverAnnotation final : public ::google::protobuf::Message
     return *reinterpret_cast<const ObserverAnnotation*>(
         &_ObserverAnnotation_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 11;
+  static constexpr int kIndexInFileMessages = 14;
   friend void swap(ObserverAnnotation& a, ObserverAnnotation& b) { a.Swap(&b); }
   inline void Swap(ObserverAnnotation* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -1485,6 +1737,231 @@ class ObserverAnnotation final : public ::google::protobuf::Message
 extern const ::google::protobuf::internal::ClassDataFull ObserverAnnotation_class_data_;
 // -------------------------------------------------------------------
 
+class LegendMatchStatus final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:rtech.liveapi.LegendMatchStatus) */ {
+ public:
+  inline LegendMatchStatus() : LegendMatchStatus(nullptr) {}
+  ~LegendMatchStatus() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(LegendMatchStatus* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(LegendMatchStatus));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR LegendMatchStatus(::google::protobuf::internal::ConstantInitialized);
+
+  inline LegendMatchStatus(const LegendMatchStatus& from) : LegendMatchStatus(nullptr, from) {}
+  inline LegendMatchStatus(LegendMatchStatus&& from) noexcept
+      : LegendMatchStatus(nullptr, std::move(from)) {}
+  inline LegendMatchStatus& operator=(const LegendMatchStatus& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline LegendMatchStatus& operator=(LegendMatchStatus&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const LegendMatchStatus& default_instance() {
+    return *reinterpret_cast<const LegendMatchStatus*>(
+        &_LegendMatchStatus_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 4;
+  friend void swap(LegendMatchStatus& a, LegendMatchStatus& b) { a.Swap(&b); }
+  inline void Swap(LegendMatchStatus* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(LegendMatchStatus* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  LegendMatchStatus* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<LegendMatchStatus>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const LegendMatchStatus& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const LegendMatchStatus& from) { LegendMatchStatus::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(LegendMatchStatus* PROTOBUF_NONNULL other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "rtech.liveapi.LegendMatchStatus"; }
+
+ protected:
+  explicit LegendMatchStatus(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  LegendMatchStatus(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const LegendMatchStatus& from);
+  LegendMatchStatus(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, LegendMatchStatus&& from) noexcept
+      : LegendMatchStatus(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kNameFieldNumber = 1,
+    kReferenceFieldNumber = 2,
+    kBannedFieldNumber = 3,
+  };
+  // string name = 1;
+  void clear_name() ;
+  const std::string& name() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_name(Arg_&& arg, Args_... args);
+  std::string* PROTOBUF_NONNULL mutable_name();
+  [[nodiscard]] std::string* PROTOBUF_NULLABLE release_name();
+  void set_allocated_name(std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const std::string& _internal_name() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_name(const std::string& value);
+  std::string* PROTOBUF_NONNULL _internal_mutable_name();
+
+  public:
+  // string reference = 2;
+  void clear_reference() ;
+  const std::string& reference() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_reference(Arg_&& arg, Args_... args);
+  std::string* PROTOBUF_NONNULL mutable_reference();
+  [[nodiscard]] std::string* PROTOBUF_NULLABLE release_reference();
+  void set_allocated_reference(std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const std::string& _internal_reference() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_reference(const std::string& value);
+  std::string* PROTOBUF_NONNULL _internal_mutable_reference();
+
+  public:
+  // bool banned = 3;
+  void clear_banned() ;
+  bool banned() const;
+  void set_banned(bool value);
+
+  private:
+  bool _internal_banned() const;
+  void _internal_set_banned(bool value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.LegendMatchStatus)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<2, 3,
+                                   0, 53,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const LegendMatchStatus& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr name_;
+    ::google::protobuf::internal::ArenaStringPtr reference_;
+    bool banned_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_events_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull LegendMatchStatus_class_data_;
+// -------------------------------------------------------------------
+
 class InventoryItem final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:rtech.liveapi.InventoryItem) */ {
  public:
@@ -1540,7 +2017,7 @@ class InventoryItem final : public ::google::protobuf::Message
     return *reinterpret_cast<const InventoryItem*>(
         &_InventoryItem_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 6;
+  static constexpr int kIndexInFileMessages = 7;
   friend void swap(InventoryItem& a, InventoryItem& b) { a.Swap(&b); }
   inline void Swap(InventoryItem* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -1765,7 +2242,7 @@ class GameStateChanged final : public ::google::protobuf::Message
     return *reinterpret_cast<const GameStateChanged*>(
         &_GameStateChanged_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 13;
+  static constexpr int kIndexInFileMessages = 16;
   friend void swap(GameStateChanged& a, GameStateChanged& b) { a.Swap(&b); }
   inline void Swap(GameStateChanged* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -1990,7 +2467,7 @@ class Datacenter final : public ::google::protobuf::Message
     return *reinterpret_cast<const Datacenter*>(
         &_Datacenter_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 4;
+  static constexpr int kIndexInFileMessages = 5;
   friend void swap(Datacenter& a, Datacenter& b) { a.Swap(&b); }
   inline void Swap(Datacenter* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -2435,7 +2912,7 @@ class CustomMatch_SetTeamName final : public ::google::protobuf::Message
     return *reinterpret_cast<const CustomMatch_SetTeamName*>(
         &_CustomMatch_SetTeamName_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 59;
+  static constexpr int kIndexInFileMessages = 62;
   friend void swap(CustomMatch_SetTeamName& a, CustomMatch_SetTeamName& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetTeamName* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -2643,7 +3120,7 @@ class CustomMatch_SetTeam final : public ::google::protobuf::Message
     return *reinterpret_cast<const CustomMatch_SetTeam*>(
         &_CustomMatch_SetTeam_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 55;
+  static constexpr int kIndexInFileMessages = 58;
   friend void swap(CustomMatch_SetTeam& a, CustomMatch_SetTeam& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetTeam* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -2868,7 +3345,7 @@ class CustomMatch_SetSpawnPoint final : public ::google::protobuf::Message
     return *reinterpret_cast<const CustomMatch_SetSpawnPoint*>(
         &_CustomMatch_SetSpawnPoint_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 60;
+  static constexpr int kIndexInFileMessages = 63;
   friend void swap(CustomMatch_SetSpawnPoint& a, CustomMatch_SetSpawnPoint& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetSpawnPoint* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -3071,7 +3548,7 @@ class CustomMatch_SetSettings final : public ::google::protobuf::Message
     return *reinterpret_cast<const CustomMatch_SetSettings*>(
         &_CustomMatch_SetSettings_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 57;
+  static constexpr int kIndexInFileMessages = 60;
   friend void swap(CustomMatch_SetSettings& a, CustomMatch_SetSettings& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetSettings* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -3327,7 +3804,7 @@ class CustomMatch_SetReady final : public ::google::protobuf::Message
     return *reinterpret_cast<const CustomMatch_SetReady*>(
         &_CustomMatch_SetReady_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 52;
+  static constexpr int kIndexInFileMessages = 55;
   friend void swap(CustomMatch_SetReady& a, CustomMatch_SetReady& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetReady* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -3518,7 +3995,7 @@ class CustomMatch_SetMatchmaking final : public ::google::protobuf::Message
     return *reinterpret_cast<const CustomMatch_SetMatchmaking*>(
         &_CustomMatch_SetMatchmaking_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 54;
+  static constexpr int kIndexInFileMessages = 57;
   friend void swap(CustomMatch_SetMatchmaking& a, CustomMatch_SetMatchmaking& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetMatchmaking* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -3654,6 +4131,208 @@ class CustomMatch_SetMatchmaking final : public ::google::protobuf::Message
 extern const ::google::protobuf::internal::ClassDataFull CustomMatch_SetMatchmaking_class_data_;
 // -------------------------------------------------------------------
 
+class CustomMatch_SetLegendBan final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:rtech.liveapi.CustomMatch_SetLegendBan) */ {
+ public:
+  inline CustomMatch_SetLegendBan() : CustomMatch_SetLegendBan(nullptr) {}
+  ~CustomMatch_SetLegendBan() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(CustomMatch_SetLegendBan* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(CustomMatch_SetLegendBan));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR CustomMatch_SetLegendBan(::google::protobuf::internal::ConstantInitialized);
+
+  inline CustomMatch_SetLegendBan(const CustomMatch_SetLegendBan& from) : CustomMatch_SetLegendBan(nullptr, from) {}
+  inline CustomMatch_SetLegendBan(CustomMatch_SetLegendBan&& from) noexcept
+      : CustomMatch_SetLegendBan(nullptr, std::move(from)) {}
+  inline CustomMatch_SetLegendBan& operator=(const CustomMatch_SetLegendBan& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CustomMatch_SetLegendBan& operator=(CustomMatch_SetLegendBan&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CustomMatch_SetLegendBan& default_instance() {
+    return *reinterpret_cast<const CustomMatch_SetLegendBan*>(
+        &_CustomMatch_SetLegendBan_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 66;
+  friend void swap(CustomMatch_SetLegendBan& a, CustomMatch_SetLegendBan& b) { a.Swap(&b); }
+  inline void Swap(CustomMatch_SetLegendBan* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CustomMatch_SetLegendBan* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CustomMatch_SetLegendBan* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<CustomMatch_SetLegendBan>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const CustomMatch_SetLegendBan& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const CustomMatch_SetLegendBan& from) { CustomMatch_SetLegendBan::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(CustomMatch_SetLegendBan* PROTOBUF_NONNULL other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "rtech.liveapi.CustomMatch_SetLegendBan"; }
+
+ protected:
+  explicit CustomMatch_SetLegendBan(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  CustomMatch_SetLegendBan(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const CustomMatch_SetLegendBan& from);
+  CustomMatch_SetLegendBan(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, CustomMatch_SetLegendBan&& from) noexcept
+      : CustomMatch_SetLegendBan(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kLegendRefsFieldNumber = 1,
+  };
+  // repeated string legendRefs = 1;
+  int legendrefs_size() const;
+  private:
+  int _internal_legendrefs_size() const;
+
+  public:
+  void clear_legendrefs() ;
+  const std::string& legendrefs(int index) const;
+  std::string* PROTOBUF_NONNULL mutable_legendrefs(int index);
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_legendrefs(int index, Arg_&& value, Args_... args);
+  std::string* PROTOBUF_NONNULL add_legendrefs();
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void add_legendrefs(Arg_&& value, Args_... args);
+  const ::google::protobuf::RepeatedPtrField<std::string>& legendrefs() const;
+  ::google::protobuf::RepeatedPtrField<std::string>* PROTOBUF_NONNULL mutable_legendrefs();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<std::string>& _internal_legendrefs() const;
+  ::google::protobuf::RepeatedPtrField<std::string>* PROTOBUF_NONNULL _internal_mutable_legendrefs();
+
+  public:
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.CustomMatch_SetLegendBan)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<0, 1,
+                                   0, 57,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const CustomMatch_SetLegendBan& from_msg);
+    ::google::protobuf::RepeatedPtrField<std::string> legendrefs_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_events_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull CustomMatch_SetLegendBan_class_data_;
+// -------------------------------------------------------------------
+
 class CustomMatch_SetEndRingExclusion final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:rtech.liveapi.CustomMatch_SetEndRingExclusion) */ {
  public:
@@ -3709,7 +4388,7 @@ class CustomMatch_SetEndRingExclusion final : public ::google::protobuf::Message
     return *reinterpret_cast<const CustomMatch_SetEndRingExclusion*>(
         &_CustomMatch_SetEndRingExclusion_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 61;
+  static constexpr int kIndexInFileMessages = 64;
   friend void swap(CustomMatch_SetEndRingExclusion& a, CustomMatch_SetEndRingExclusion& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetEndRingExclusion* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -3900,7 +4579,7 @@ class CustomMatch_SendChat final : public ::google::protobuf::Message
     return *reinterpret_cast<const CustomMatch_SendChat*>(
         &_CustomMatch_SendChat_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 62;
+  static constexpr int kIndexInFileMessages = 67;
   friend void swap(CustomMatch_SendChat& a, CustomMatch_SendChat& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SendChat* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -4337,7 +5016,7 @@ class CustomMatch_LeaveLobby final : public ::google::protobuf::internal::ZeroFi
     return *reinterpret_cast<const CustomMatch_LeaveLobby*>(
         &_CustomMatch_LeaveLobby_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 51;
+  static constexpr int kIndexInFileMessages = 54;
   friend void swap(CustomMatch_LeaveLobby& a, CustomMatch_LeaveLobby& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_LeaveLobby* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -4484,7 +5163,7 @@ class CustomMatch_KickPlayer final : public ::google::protobuf::Message
     return *reinterpret_cast<const CustomMatch_KickPlayer*>(
         &_CustomMatch_KickPlayer_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 56;
+  static constexpr int kIndexInFileMessages = 59;
   friend void swap(CustomMatch_KickPlayer& a, CustomMatch_KickPlayer& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_KickPlayer* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -4697,7 +5376,7 @@ class CustomMatch_JoinLobby final : public ::google::protobuf::Message
     return *reinterpret_cast<const CustomMatch_JoinLobby*>(
         &_CustomMatch_JoinLobby_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 50;
+  static constexpr int kIndexInFileMessages = 53;
   friend void swap(CustomMatch_JoinLobby& a, CustomMatch_JoinLobby& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_JoinLobby* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -4892,7 +5571,7 @@ class CustomMatch_GetSettings final : public ::google::protobuf::internal::ZeroF
     return *reinterpret_cast<const CustomMatch_GetSettings*>(
         &_CustomMatch_GetSettings_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 58;
+  static constexpr int kIndexInFileMessages = 61;
   friend void swap(CustomMatch_GetSettings& a, CustomMatch_GetSettings& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_GetSettings* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -5038,7 +5717,7 @@ class CustomMatch_GetLobbyPlayers final : public ::google::protobuf::internal::Z
     return *reinterpret_cast<const CustomMatch_GetLobbyPlayers*>(
         &_CustomMatch_GetLobbyPlayers_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 53;
+  static constexpr int kIndexInFileMessages = 56;
   friend void swap(CustomMatch_GetLobbyPlayers& a, CustomMatch_GetLobbyPlayers& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_GetLobbyPlayers* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -5130,6 +5809,152 @@ class CustomMatch_GetLobbyPlayers final : public ::google::protobuf::internal::Z
 extern const ::google::protobuf::internal::ClassDataFull CustomMatch_GetLobbyPlayers_class_data_;
 // -------------------------------------------------------------------
 
+class CustomMatch_GetLegendBanStatus final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:rtech.liveapi.CustomMatch_GetLegendBanStatus) */ {
+ public:
+  inline CustomMatch_GetLegendBanStatus() : CustomMatch_GetLegendBanStatus(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(CustomMatch_GetLegendBanStatus* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(CustomMatch_GetLegendBanStatus));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR CustomMatch_GetLegendBanStatus(::google::protobuf::internal::ConstantInitialized);
+
+  inline CustomMatch_GetLegendBanStatus(const CustomMatch_GetLegendBanStatus& from) : CustomMatch_GetLegendBanStatus(nullptr, from) {}
+  inline CustomMatch_GetLegendBanStatus(CustomMatch_GetLegendBanStatus&& from) noexcept
+      : CustomMatch_GetLegendBanStatus(nullptr, std::move(from)) {}
+  inline CustomMatch_GetLegendBanStatus& operator=(const CustomMatch_GetLegendBanStatus& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CustomMatch_GetLegendBanStatus& operator=(CustomMatch_GetLegendBanStatus&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CustomMatch_GetLegendBanStatus& default_instance() {
+    return *reinterpret_cast<const CustomMatch_GetLegendBanStatus*>(
+        &_CustomMatch_GetLegendBanStatus_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 65;
+  friend void swap(CustomMatch_GetLegendBanStatus& a, CustomMatch_GetLegendBanStatus& b) { a.Swap(&b); }
+  inline void Swap(CustomMatch_GetLegendBanStatus* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CustomMatch_GetLegendBanStatus* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CustomMatch_GetLegendBanStatus* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<CustomMatch_GetLegendBanStatus>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const CustomMatch_GetLegendBanStatus& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const CustomMatch_GetLegendBanStatus& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "rtech.liveapi.CustomMatch_GetLegendBanStatus"; }
+
+ protected:
+  explicit CustomMatch_GetLegendBanStatus(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  CustomMatch_GetLegendBanStatus(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const CustomMatch_GetLegendBanStatus& from);
+  CustomMatch_GetLegendBanStatus(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, CustomMatch_GetLegendBanStatus&& from) noexcept
+      : CustomMatch_GetLegendBanStatus(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.CustomMatch_GetLegendBanStatus)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<0, 0,
+                                   0, 0,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const CustomMatch_GetLegendBanStatus& from_msg);
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  friend struct ::TableStruct_events_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull CustomMatch_GetLegendBanStatus_class_data_;
+// -------------------------------------------------------------------
+
 class CustomMatch_CreateLobby final : public ::google::protobuf::internal::ZeroFieldsBase
 /* @@protoc_insertion_point(class_definition:rtech.liveapi.CustomMatch_CreateLobby) */ {
  public:
@@ -5184,7 +6009,7 @@ class CustomMatch_CreateLobby final : public ::google::protobuf::internal::ZeroF
     return *reinterpret_cast<const CustomMatch_CreateLobby*>(
         &_CustomMatch_CreateLobby_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 49;
+  static constexpr int kIndexInFileMessages = 52;
   friend void swap(CustomMatch_CreateLobby& a, CustomMatch_CreateLobby& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_CreateLobby* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -5336,7 +6161,7 @@ class ChangeCamera final : public ::google::protobuf::Message
     kName = 2,
     TARGET_NOT_SET = 0,
   };
-  static constexpr int kIndexInFileMessages = 47;
+  static constexpr int kIndexInFileMessages = 50;
   friend void swap(ChangeCamera& a, ChangeCamera& b) { a.Swap(&b); }
   inline void Swap(ChangeCamera* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -5556,7 +6381,7 @@ class RingStartClosing final : public ::google::protobuf::Message
     return *reinterpret_cast<const RingStartClosing*>(
         &_RingStartClosing_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 16;
+  static constexpr int kIndexInFileMessages = 19;
   friend void swap(RingStartClosing& a, RingStartClosing& b) { a.Swap(&b); }
   inline void Swap(RingStartClosing* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -5829,7 +6654,7 @@ class RingFinishedClosing final : public ::google::protobuf::Message
     return *reinterpret_cast<const RingFinishedClosing*>(
         &_RingFinishedClosing_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 17;
+  static constexpr int kIndexInFileMessages = 20;
   friend void swap(RingFinishedClosing& a, RingFinishedClosing& b) { a.Swap(&b); }
   inline void Swap(RingFinishedClosing* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -6090,7 +6915,7 @@ class Response final : public ::google::protobuf::Message
     return *reinterpret_cast<const Response*>(
         &_Response_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 65;
+  static constexpr int kIndexInFileMessages = 70;
   friend void swap(Response& a, Response& b) { a.Swap(&b); }
   inline void Swap(Response* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -6315,9 +7140,11 @@ class Request final : public ::google::protobuf::Message
     kCustomMatchGetSettings = 21,
     kCustomMatchSetSpawnPoint = 22,
     kCustomMatchSetEndRingExclusion = 23,
+    kCustomMatchGetLegendBanStatus = 24,
+    kCustomMatchSetLegendBan = 25,
     ACTIONS_NOT_SET = 0,
   };
-  static constexpr int kIndexInFileMessages = 63;
+  static constexpr int kIndexInFileMessages = 68;
   friend void swap(Request& a, Request& b) { a.Swap(&b); }
   inline void Swap(Request* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -6423,6 +7250,8 @@ class Request final : public ::google::protobuf::Message
     kCustomMatchGetSettingsFieldNumber = 21,
     kCustomMatchSetSpawnPointFieldNumber = 22,
     kCustomMatchSetEndRingExclusionFieldNumber = 23,
+    kCustomMatchGetLegendBanStatusFieldNumber = 24,
+    kCustomMatchSetLegendBanFieldNumber = 25,
   };
   // string preSharedKey = 2;
   void clear_presharedkey() ;
@@ -6753,6 +7582,44 @@ class Request final : public ::google::protobuf::Message
   ::rtech::liveapi::CustomMatch_SetEndRingExclusion* PROTOBUF_NONNULL _internal_mutable_custommatch_setendringexclusion();
 
   public:
+  // .rtech.liveapi.CustomMatch_GetLegendBanStatus customMatch_GetLegendBanStatus = 24;
+  bool has_custommatch_getlegendbanstatus() const;
+  private:
+  bool _internal_has_custommatch_getlegendbanstatus() const;
+
+  public:
+  void clear_custommatch_getlegendbanstatus() ;
+  const ::rtech::liveapi::CustomMatch_GetLegendBanStatus& custommatch_getlegendbanstatus() const;
+  [[nodiscard]] ::rtech::liveapi::CustomMatch_GetLegendBanStatus* PROTOBUF_NULLABLE release_custommatch_getlegendbanstatus();
+  ::rtech::liveapi::CustomMatch_GetLegendBanStatus* PROTOBUF_NONNULL mutable_custommatch_getlegendbanstatus();
+  void set_allocated_custommatch_getlegendbanstatus(::rtech::liveapi::CustomMatch_GetLegendBanStatus* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_custommatch_getlegendbanstatus(::rtech::liveapi::CustomMatch_GetLegendBanStatus* PROTOBUF_NULLABLE value);
+  ::rtech::liveapi::CustomMatch_GetLegendBanStatus* PROTOBUF_NULLABLE unsafe_arena_release_custommatch_getlegendbanstatus();
+
+  private:
+  const ::rtech::liveapi::CustomMatch_GetLegendBanStatus& _internal_custommatch_getlegendbanstatus() const;
+  ::rtech::liveapi::CustomMatch_GetLegendBanStatus* PROTOBUF_NONNULL _internal_mutable_custommatch_getlegendbanstatus();
+
+  public:
+  // .rtech.liveapi.CustomMatch_SetLegendBan customMatch_SetLegendBan = 25;
+  bool has_custommatch_setlegendban() const;
+  private:
+  bool _internal_has_custommatch_setlegendban() const;
+
+  public:
+  void clear_custommatch_setlegendban() ;
+  const ::rtech::liveapi::CustomMatch_SetLegendBan& custommatch_setlegendban() const;
+  [[nodiscard]] ::rtech::liveapi::CustomMatch_SetLegendBan* PROTOBUF_NULLABLE release_custommatch_setlegendban();
+  ::rtech::liveapi::CustomMatch_SetLegendBan* PROTOBUF_NONNULL mutable_custommatch_setlegendban();
+  void set_allocated_custommatch_setlegendban(::rtech::liveapi::CustomMatch_SetLegendBan* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_custommatch_setlegendban(::rtech::liveapi::CustomMatch_SetLegendBan* PROTOBUF_NULLABLE value);
+  ::rtech::liveapi::CustomMatch_SetLegendBan* PROTOBUF_NULLABLE unsafe_arena_release_custommatch_setlegendban();
+
+  private:
+  const ::rtech::liveapi::CustomMatch_SetLegendBan& _internal_custommatch_setlegendban() const;
+  ::rtech::liveapi::CustomMatch_SetLegendBan* PROTOBUF_NONNULL _internal_mutable_custommatch_setlegendban();
+
+  public:
   void clear_actions();
   ActionsCase actions_case() const;
   // @@protoc_insertion_point(class_scope:rtech.liveapi.Request)
@@ -6774,11 +7641,13 @@ class Request final : public ::google::protobuf::Message
   void set_has_custommatch_getsettings();
   void set_has_custommatch_setspawnpoint();
   void set_has_custommatch_setendringexclusion();
+  void set_has_custommatch_getlegendbanstatus();
+  void set_has_custommatch_setlegendban();
   inline bool has_actions() const;
   inline void clear_has_actions();
   friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<1, 18,
-                                   16, 58,
+  static const ::google::protobuf::internal::TcParseTable<1, 20,
+                                   18, 58,
                                    2>
       _table_;
 
@@ -6820,6 +7689,8 @@ class Request final : public ::google::protobuf::Message
       ::google::protobuf::Message* PROTOBUF_NULLABLE custommatch_getsettings_;
       ::google::protobuf::Message* PROTOBUF_NULLABLE custommatch_setspawnpoint_;
       ::google::protobuf::Message* PROTOBUF_NULLABLE custommatch_setendringexclusion_;
+      ::google::protobuf::Message* PROTOBUF_NULLABLE custommatch_getlegendbanstatus_;
+      ::google::protobuf::Message* PROTOBUF_NULLABLE custommatch_setlegendban_;
     } actions_;
     ::uint32_t _oneof_case_[1];
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -7273,7 +8144,7 @@ class LoadoutConfiguration final : public ::google::protobuf::Message
     return *reinterpret_cast<const LoadoutConfiguration*>(
         &_LoadoutConfiguration_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 7;
+  static constexpr int kIndexInFileMessages = 8;
   friend void swap(LoadoutConfiguration& a, LoadoutConfiguration& b) { a.Swap(&b); }
   inline void Swap(LoadoutConfiguration* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -7489,7 +8360,7 @@ class LiveAPIEvent final : public ::google::protobuf::Message
     return *reinterpret_cast<const LiveAPIEvent*>(
         &_LiveAPIEvent_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 66;
+  static constexpr int kIndexInFileMessages = 71;
   friend void swap(LiveAPIEvent& a, LiveAPIEvent& b) { a.Swap(&b); }
   inline void Swap(LiveAPIEvent* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -7697,7 +8568,7 @@ class Init final : public ::google::protobuf::Message
     return *reinterpret_cast<const Init*>(
         &_Init_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 8;
+  static constexpr int kIndexInFileMessages = 10;
   friend void swap(Init& a, Init& b) { a.Swap(&b); }
   inline void Swap(Init* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -7973,7 +8844,7 @@ class CustomMatch_LobbyPlayers final : public ::google::protobuf::Message
     return *reinterpret_cast<const CustomMatch_LobbyPlayers*>(
         &_CustomMatch_LobbyPlayers_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 9;
+  static constexpr int kIndexInFileMessages = 11;
   friend void swap(CustomMatch_LobbyPlayers& a, CustomMatch_LobbyPlayers& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_LobbyPlayers* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -8152,6 +9023,203 @@ class CustomMatch_LobbyPlayers final : public ::google::protobuf::Message
 extern const ::google::protobuf::internal::ClassDataFull CustomMatch_LobbyPlayers_class_data_;
 // -------------------------------------------------------------------
 
+class CustomMatch_LegendBanStatus final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:rtech.liveapi.CustomMatch_LegendBanStatus) */ {
+ public:
+  inline CustomMatch_LegendBanStatus() : CustomMatch_LegendBanStatus(nullptr) {}
+  ~CustomMatch_LegendBanStatus() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(CustomMatch_LegendBanStatus* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(CustomMatch_LegendBanStatus));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR CustomMatch_LegendBanStatus(::google::protobuf::internal::ConstantInitialized);
+
+  inline CustomMatch_LegendBanStatus(const CustomMatch_LegendBanStatus& from) : CustomMatch_LegendBanStatus(nullptr, from) {}
+  inline CustomMatch_LegendBanStatus(CustomMatch_LegendBanStatus&& from) noexcept
+      : CustomMatch_LegendBanStatus(nullptr, std::move(from)) {}
+  inline CustomMatch_LegendBanStatus& operator=(const CustomMatch_LegendBanStatus& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CustomMatch_LegendBanStatus& operator=(CustomMatch_LegendBanStatus&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CustomMatch_LegendBanStatus& default_instance() {
+    return *reinterpret_cast<const CustomMatch_LegendBanStatus*>(
+        &_CustomMatch_LegendBanStatus_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 12;
+  friend void swap(CustomMatch_LegendBanStatus& a, CustomMatch_LegendBanStatus& b) { a.Swap(&b); }
+  inline void Swap(CustomMatch_LegendBanStatus* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CustomMatch_LegendBanStatus* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CustomMatch_LegendBanStatus* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<CustomMatch_LegendBanStatus>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const CustomMatch_LegendBanStatus& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const CustomMatch_LegendBanStatus& from) { CustomMatch_LegendBanStatus::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(CustomMatch_LegendBanStatus* PROTOBUF_NONNULL other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "rtech.liveapi.CustomMatch_LegendBanStatus"; }
+
+ protected:
+  explicit CustomMatch_LegendBanStatus(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  CustomMatch_LegendBanStatus(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const CustomMatch_LegendBanStatus& from);
+  CustomMatch_LegendBanStatus(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, CustomMatch_LegendBanStatus&& from) noexcept
+      : CustomMatch_LegendBanStatus(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kLegendsFieldNumber = 3,
+  };
+  // repeated .rtech.liveapi.LegendMatchStatus legends = 3;
+  int legends_size() const;
+  private:
+  int _internal_legends_size() const;
+
+  public:
+  void clear_legends() ;
+  ::rtech::liveapi::LegendMatchStatus* PROTOBUF_NONNULL mutable_legends(int index);
+  ::google::protobuf::RepeatedPtrField<::rtech::liveapi::LegendMatchStatus>* PROTOBUF_NONNULL mutable_legends();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::LegendMatchStatus>& _internal_legends() const;
+  ::google::protobuf::RepeatedPtrField<::rtech::liveapi::LegendMatchStatus>* PROTOBUF_NONNULL _internal_mutable_legends();
+  public:
+  const ::rtech::liveapi::LegendMatchStatus& legends(int index) const;
+  ::rtech::liveapi::LegendMatchStatus* PROTOBUF_NONNULL add_legends();
+  const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::LegendMatchStatus>& legends() const;
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.CustomMatch_LegendBanStatus)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<0, 1,
+                                   1, 0,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const CustomMatch_LegendBanStatus& from_msg);
+    ::google::protobuf::RepeatedPtrField< ::rtech::liveapi::LegendMatchStatus > legends_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_events_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull CustomMatch_LegendBanStatus_class_data_;
+// -------------------------------------------------------------------
+
 class ZiplineUsed final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:rtech.liveapi.ZiplineUsed) */ {
  public:
@@ -8207,7 +9275,7 @@ class ZiplineUsed final : public ::google::protobuf::Message
     return *reinterpret_cast<const ZiplineUsed*>(
         &_ZiplineUsed_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 40;
+  static constexpr int kIndexInFileMessages = 43;
   friend void swap(ZiplineUsed& a, ZiplineUsed& b) { a.Swap(&b); }
   inline void Swap(ZiplineUsed* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -8449,7 +9517,7 @@ class WraithPortal final : public ::google::protobuf::Message
     return *reinterpret_cast<const WraithPortal*>(
         &_WraithPortal_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 43;
+  static constexpr int kIndexInFileMessages = 46;
   friend void swap(WraithPortal& a, WraithPortal& b) { a.Swap(&b); }
   inline void Swap(WraithPortal* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -8674,7 +9742,7 @@ class WeaponSwitched final : public ::google::protobuf::Message
     return *reinterpret_cast<const WeaponSwitched*>(
         &_WeaponSwitched_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 46;
+  static constexpr int kIndexInFileMessages = 49;
   friend void swap(WeaponSwitched& a, WeaponSwitched& b) { a.Swap(&b); }
   inline void Swap(WeaponSwitched* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -8933,7 +10001,7 @@ class WarpGateUsed final : public ::google::protobuf::Message
     return *reinterpret_cast<const WarpGateUsed*>(
         &_WarpGateUsed_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 44;
+  static constexpr int kIndexInFileMessages = 47;
   friend void swap(WarpGateUsed& a, WarpGateUsed& b) { a.Swap(&b); }
   inline void Swap(WarpGateUsed* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -9158,7 +10226,7 @@ class SquadEliminated final : public ::google::protobuf::Message
     return *reinterpret_cast<const SquadEliminated*>(
         &_SquadEliminated_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 26;
+  static constexpr int kIndexInFileMessages = 29;
   friend void swap(SquadEliminated& a, SquadEliminated& b) { a.Swap(&b); }
   inline void Swap(SquadEliminated* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -9385,7 +10453,7 @@ class RevenantForgedShadowDamaged final : public ::google::protobuf::Message
     return *reinterpret_cast<const RevenantForgedShadowDamaged*>(
         &_RevenantForgedShadowDamaged_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 29;
+  static constexpr int kIndexInFileMessages = 32;
   friend void swap(RevenantForgedShadowDamaged& a, RevenantForgedShadowDamaged& b) { a.Swap(&b); }
   inline void Swap(RevenantForgedShadowDamaged* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -9639,7 +10707,7 @@ class PlayerUpgradeTierChanged final : public ::google::protobuf::Message
     return *reinterpret_cast<const PlayerUpgradeTierChanged*>(
         &_PlayerUpgradeTierChanged_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 21;
+  static constexpr int kIndexInFileMessages = 24;
   friend void swap(PlayerUpgradeTierChanged& a, PlayerUpgradeTierChanged& b) { a.Swap(&b); }
   inline void Swap(PlayerUpgradeTierChanged* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -9876,7 +10944,7 @@ class PlayerUltimateCharged final : public ::google::protobuf::Message
     return *reinterpret_cast<const PlayerUltimateCharged*>(
         &_PlayerUltimateCharged_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 27;
+  static constexpr int kIndexInFileMessages = 30;
   friend void swap(PlayerUltimateCharged& a, PlayerUltimateCharged& b) { a.Swap(&b); }
   inline void Swap(PlayerUltimateCharged* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -10118,7 +11186,7 @@ class PlayerStatChanged final : public ::google::protobuf::Message
     return *reinterpret_cast<const PlayerStatChanged*>(
         &_PlayerStatChanged_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 20;
+  static constexpr int kIndexInFileMessages = 23;
   friend void swap(PlayerStatChanged& a, PlayerStatChanged& b) { a.Swap(&b); }
   inline void Swap(PlayerStatChanged* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -10372,7 +11440,7 @@ class PlayerRevive final : public ::google::protobuf::Message
     return *reinterpret_cast<const PlayerRevive*>(
         &_PlayerRevive_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 31;
+  static constexpr int kIndexInFileMessages = 34;
   friend void swap(PlayerRevive& a, PlayerRevive& b) { a.Swap(&b); }
   inline void Swap(PlayerRevive* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -10614,7 +11682,7 @@ class PlayerRespawnTeam final : public ::google::protobuf::Message
     return *reinterpret_cast<const PlayerRespawnTeam*>(
         &_PlayerRespawnTeam_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 30;
+  static constexpr int kIndexInFileMessages = 33;
   friend void swap(PlayerRespawnTeam& a, PlayerRespawnTeam& b) { a.Swap(&b); }
   inline void Swap(PlayerRespawnTeam* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -10875,7 +11943,7 @@ class PlayerKilled final : public ::google::protobuf::Message
     return *reinterpret_cast<const PlayerKilled*>(
         &_PlayerKilled_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 23;
+  static constexpr int kIndexInFileMessages = 26;
   friend void swap(PlayerKilled& a, PlayerKilled& b) { a.Swap(&b); }
   inline void Swap(PlayerKilled* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -11151,7 +12219,7 @@ class PlayerDowned final : public ::google::protobuf::Message
     return *reinterpret_cast<const PlayerDowned*>(
         &_PlayerDowned_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 24;
+  static constexpr int kIndexInFileMessages = 27;
   friend void swap(PlayerDowned& a, PlayerDowned& b) { a.Swap(&b); }
   inline void Swap(PlayerDowned* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -11410,7 +12478,7 @@ class PlayerDisconnected final : public ::google::protobuf::Message
     return *reinterpret_cast<const PlayerDisconnected*>(
         &_PlayerDisconnected_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 19;
+  static constexpr int kIndexInFileMessages = 22;
   friend void swap(PlayerDisconnected& a, PlayerDisconnected& b) { a.Swap(&b); }
   inline void Swap(PlayerDisconnected* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -11659,7 +12727,7 @@ class PlayerDamaged final : public ::google::protobuf::Message
     return *reinterpret_cast<const PlayerDamaged*>(
         &_PlayerDamaged_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 22;
+  static constexpr int kIndexInFileMessages = 25;
   friend void swap(PlayerDamaged& a, PlayerDamaged& b) { a.Swap(&b); }
   inline void Swap(PlayerDamaged* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -11930,7 +12998,7 @@ class PlayerConnected final : public ::google::protobuf::Message
     return *reinterpret_cast<const PlayerConnected*>(
         &_PlayerConnected_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 18;
+  static constexpr int kIndexInFileMessages = 21;
   friend void swap(PlayerConnected& a, PlayerConnected& b) { a.Swap(&b); }
   inline void Swap(PlayerConnected* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -12155,7 +13223,7 @@ class PlayerAssist final : public ::google::protobuf::Message
     return *reinterpret_cast<const PlayerAssist*>(
         &_PlayerAssist_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 25;
+  static constexpr int kIndexInFileMessages = 28;
   friend void swap(PlayerAssist& a, PlayerAssist& b) { a.Swap(&b); }
   inline void Swap(PlayerAssist* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -12414,7 +13482,7 @@ class PlayerAbilityUsed final : public ::google::protobuf::Message
     return *reinterpret_cast<const PlayerAbilityUsed*>(
         &_PlayerAbilityUsed_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 38;
+  static constexpr int kIndexInFileMessages = 41;
   friend void swap(PlayerAbilityUsed& a, PlayerAbilityUsed& b) { a.Swap(&b); }
   inline void Swap(PlayerAbilityUsed* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -12656,7 +13724,7 @@ class ObserverSwitched final : public ::google::protobuf::Message
     return *reinterpret_cast<const ObserverSwitched*>(
         &_ObserverSwitched_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 10;
+  static constexpr int kIndexInFileMessages = 13;
   friend void swap(ObserverSwitched& a, ObserverSwitched& b) { a.Swap(&b); }
   inline void Swap(ObserverSwitched* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -12917,7 +13985,7 @@ class MatchStateEnd final : public ::google::protobuf::Message
     return *reinterpret_cast<const MatchStateEnd*>(
         &_MatchStateEnd_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 15;
+  static constexpr int kIndexInFileMessages = 18;
   friend void swap(MatchStateEnd& a, MatchStateEnd& b) { a.Swap(&b); }
   inline void Swap(MatchStateEnd* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -13161,7 +14229,7 @@ class MatchSetup final : public ::google::protobuf::Message
     return *reinterpret_cast<const MatchSetup*>(
         &_MatchSetup_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 12;
+  static constexpr int kIndexInFileMessages = 15;
   friend void swap(MatchSetup& a, MatchSetup& b) { a.Swap(&b); }
   inline void Swap(MatchSetup* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -13495,7 +14563,7 @@ class LegendUpgradeSelected final : public ::google::protobuf::Message
     return *reinterpret_cast<const LegendUpgradeSelected*>(
         &_LegendUpgradeSelected_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 39;
+  static constexpr int kIndexInFileMessages = 42;
   friend void swap(LegendUpgradeSelected& a, LegendUpgradeSelected& b) { a.Swap(&b); }
   inline void Swap(LegendUpgradeSelected* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -13766,7 +14834,7 @@ class InventoryUse final : public ::google::protobuf::Message
     return *reinterpret_cast<const InventoryUse*>(
         &_InventoryUse_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 36;
+  static constexpr int kIndexInFileMessages = 39;
   friend void swap(InventoryUse& a, InventoryUse& b) { a.Swap(&b); }
   inline void Swap(InventoryUse* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -14020,7 +15088,7 @@ class InventoryPickUp final : public ::google::protobuf::Message
     return *reinterpret_cast<const InventoryPickUp*>(
         &_InventoryPickUp_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 34;
+  static constexpr int kIndexInFileMessages = 37;
   friend void swap(InventoryPickUp& a, InventoryPickUp& b) { a.Swap(&b); }
   inline void Swap(InventoryPickUp* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -14274,7 +15342,7 @@ class InventoryDrop final : public ::google::protobuf::Message
     return *reinterpret_cast<const InventoryDrop*>(
         &_InventoryDrop_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 35;
+  static constexpr int kIndexInFileMessages = 38;
   friend void swap(InventoryDrop& a, InventoryDrop& b) { a.Swap(&b); }
   inline void Swap(InventoryDrop* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -14552,7 +15620,7 @@ class GrenadeThrown final : public ::google::protobuf::Message
     return *reinterpret_cast<const GrenadeThrown*>(
         &_GrenadeThrown_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 41;
+  static constexpr int kIndexInFileMessages = 44;
   friend void swap(GrenadeThrown& a, GrenadeThrown& b) { a.Swap(&b); }
   inline void Swap(GrenadeThrown* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -14794,7 +15862,7 @@ class GibraltarShieldAbsorbed final : public ::google::protobuf::Message
     return *reinterpret_cast<const GibraltarShieldAbsorbed*>(
         &_GibraltarShieldAbsorbed_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 28;
+  static constexpr int kIndexInFileMessages = 31;
   friend void swap(GibraltarShieldAbsorbed& a, GibraltarShieldAbsorbed& b) { a.Swap(&b); }
   inline void Swap(GibraltarShieldAbsorbed* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -15048,7 +16116,7 @@ class CharacterSelected final : public ::google::protobuf::Message
     return *reinterpret_cast<const CharacterSelected*>(
         &_CharacterSelected_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 14;
+  static constexpr int kIndexInFileMessages = 17;
   friend void swap(CharacterSelected& a, CharacterSelected& b) { a.Swap(&b); }
   inline void Swap(CharacterSelected* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -15273,7 +16341,7 @@ class BlackMarketAction final : public ::google::protobuf::Message
     return *reinterpret_cast<const BlackMarketAction*>(
         &_BlackMarketAction_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 42;
+  static constexpr int kIndexInFileMessages = 45;
   friend void swap(BlackMarketAction& a, BlackMarketAction& b) { a.Swap(&b); }
   inline void Swap(BlackMarketAction* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -15515,7 +16583,7 @@ class BannerCollected final : public ::google::protobuf::Message
     return *reinterpret_cast<const BannerCollected*>(
         &_BannerCollected_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 37;
+  static constexpr int kIndexInFileMessages = 40;
   friend void swap(BannerCollected& a, BannerCollected& b) { a.Swap(&b); }
   inline void Swap(BannerCollected* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -15757,7 +16825,7 @@ class ArenasItemSelected final : public ::google::protobuf::Message
     return *reinterpret_cast<const ArenasItemSelected*>(
         &_ArenasItemSelected_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 32;
+  static constexpr int kIndexInFileMessages = 35;
   friend void swap(ArenasItemSelected& a, ArenasItemSelected& b) { a.Swap(&b); }
   inline void Swap(ArenasItemSelected* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -16011,7 +17079,7 @@ class ArenasItemDeselected final : public ::google::protobuf::Message
     return *reinterpret_cast<const ArenasItemDeselected*>(
         &_ArenasItemDeselected_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 33;
+  static constexpr int kIndexInFileMessages = 36;
   friend void swap(ArenasItemDeselected& a, ArenasItemDeselected& b) { a.Swap(&b); }
   inline void Swap(ArenasItemDeselected* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -16265,7 +17333,7 @@ class AmmoUsed final : public ::google::protobuf::Message
     return *reinterpret_cast<const AmmoUsed*>(
         &_AmmoUsed_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 45;
+  static constexpr int kIndexInFileMessages = 48;
   friend void swap(AmmoUsed& a, AmmoUsed& b) { a.Swap(&b); }
   inline void Swap(AmmoUsed* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -17651,6 +18719,164 @@ inline void CustomMatch_Team::_internal_set_spawnpoint(::int32_t value) {
 
 // -------------------------------------------------------------------
 
+// LegendMatchStatus
+
+// string name = 1;
+inline void LegendMatchStatus::clear_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.name_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& LegendMatchStatus::name() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.LegendMatchStatus.name)
+  return _internal_name();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void LegendMatchStatus::set_name(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.name_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:rtech.liveapi.LegendMatchStatus.name)
+}
+inline std::string* PROTOBUF_NONNULL LegendMatchStatus::mutable_name()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_name();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.LegendMatchStatus.name)
+  return _s;
+}
+inline const std::string& LegendMatchStatus::_internal_name() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.name_.Get();
+}
+inline void LegendMatchStatus::_internal_set_name(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.name_.Set(value, GetArena());
+}
+inline std::string* PROTOBUF_NONNULL LegendMatchStatus::_internal_mutable_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.name_.Mutable( GetArena());
+}
+inline std::string* PROTOBUF_NULLABLE LegendMatchStatus::release_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.LegendMatchStatus.name)
+  if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* released = _impl_.name_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.name_.Set("", GetArena());
+  }
+  return released;
+}
+inline void LegendMatchStatus::set_allocated_name(std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.name_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.name_.IsDefault()) {
+    _impl_.name_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.LegendMatchStatus.name)
+}
+
+// string reference = 2;
+inline void LegendMatchStatus::clear_reference() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.reference_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const std::string& LegendMatchStatus::reference() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.LegendMatchStatus.reference)
+  return _internal_reference();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void LegendMatchStatus::set_reference(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.reference_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:rtech.liveapi.LegendMatchStatus.reference)
+}
+inline std::string* PROTOBUF_NONNULL LegendMatchStatus::mutable_reference()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_reference();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.LegendMatchStatus.reference)
+  return _s;
+}
+inline const std::string& LegendMatchStatus::_internal_reference() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.reference_.Get();
+}
+inline void LegendMatchStatus::_internal_set_reference(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.reference_.Set(value, GetArena());
+}
+inline std::string* PROTOBUF_NONNULL LegendMatchStatus::_internal_mutable_reference() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  return _impl_.reference_.Mutable( GetArena());
+}
+inline std::string* PROTOBUF_NULLABLE LegendMatchStatus::release_reference() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.LegendMatchStatus.reference)
+  if ((_impl_._has_bits_[0] & 0x00000002u) == 0) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  auto* released = _impl_.reference_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.reference_.Set("", GetArena());
+  }
+  return released;
+}
+inline void LegendMatchStatus::set_allocated_reference(std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  _impl_.reference_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.reference_.IsDefault()) {
+    _impl_.reference_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.LegendMatchStatus.reference)
+}
+
+// bool banned = 3;
+inline void LegendMatchStatus::clear_banned() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.banned_ = false;
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline bool LegendMatchStatus::banned() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.LegendMatchStatus.banned)
+  return _internal_banned();
+}
+inline void LegendMatchStatus::set_banned(bool value) {
+  _internal_set_banned(value);
+  _impl_._has_bits_[0] |= 0x00000004u;
+  // @@protoc_insertion_point(field_set:rtech.liveapi.LegendMatchStatus.banned)
+}
+inline bool LegendMatchStatus::_internal_banned() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.banned_;
+}
+inline void LegendMatchStatus::_internal_set_banned(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.banned_ = value;
+}
+
+// -------------------------------------------------------------------
+
 // Datacenter
 
 // uint64 timestamp = 1;
@@ -18212,6 +19438,147 @@ LoadoutConfiguration::_internal_mutable_equipment() {
 
 // -------------------------------------------------------------------
 
+// PauseStateChangeNotification
+
+// uint64 timestamp = 1;
+inline void PauseStateChangeNotification::clear_timestamp() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.timestamp_ = ::uint64_t{0u};
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline ::uint64_t PauseStateChangeNotification::timestamp() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.PauseStateChangeNotification.timestamp)
+  return _internal_timestamp();
+}
+inline void PauseStateChangeNotification::set_timestamp(::uint64_t value) {
+  _internal_set_timestamp(value);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  // @@protoc_insertion_point(field_set:rtech.liveapi.PauseStateChangeNotification.timestamp)
+}
+inline ::uint64_t PauseStateChangeNotification::_internal_timestamp() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.timestamp_;
+}
+inline void PauseStateChangeNotification::_internal_set_timestamp(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.timestamp_ = value;
+}
+
+// bool isPausing = 2;
+inline void PauseStateChangeNotification::clear_ispausing() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ispausing_ = false;
+  _impl_._has_bits_[0] &= ~0x00000008u;
+}
+inline bool PauseStateChangeNotification::ispausing() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.PauseStateChangeNotification.isPausing)
+  return _internal_ispausing();
+}
+inline void PauseStateChangeNotification::set_ispausing(bool value) {
+  _internal_set_ispausing(value);
+  _impl_._has_bits_[0] |= 0x00000008u;
+  // @@protoc_insertion_point(field_set:rtech.liveapi.PauseStateChangeNotification.isPausing)
+}
+inline bool PauseStateChangeNotification::_internal_ispausing() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.ispausing_;
+}
+inline void PauseStateChangeNotification::_internal_set_ispausing(bool value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.ispausing_ = value;
+}
+
+// uint64 timeLeft = 3;
+inline void PauseStateChangeNotification::clear_timeleft() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.timeleft_ = ::uint64_t{0u};
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline ::uint64_t PauseStateChangeNotification::timeleft() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.PauseStateChangeNotification.timeLeft)
+  return _internal_timeleft();
+}
+inline void PauseStateChangeNotification::set_timeleft(::uint64_t value) {
+  _internal_set_timeleft(value);
+  _impl_._has_bits_[0] |= 0x00000004u;
+  // @@protoc_insertion_point(field_set:rtech.liveapi.PauseStateChangeNotification.timeLeft)
+}
+inline ::uint64_t PauseStateChangeNotification::_internal_timeleft() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.timeleft_;
+}
+inline void PauseStateChangeNotification::_internal_set_timeleft(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.timeleft_ = value;
+}
+
+// string message = 4;
+inline void PauseStateChangeNotification::clear_message() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.message_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& PauseStateChangeNotification::message() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.PauseStateChangeNotification.message)
+  return _internal_message();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void PauseStateChangeNotification::set_message(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.message_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:rtech.liveapi.PauseStateChangeNotification.message)
+}
+inline std::string* PROTOBUF_NONNULL PauseStateChangeNotification::mutable_message()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_message();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.PauseStateChangeNotification.message)
+  return _s;
+}
+inline const std::string& PauseStateChangeNotification::_internal_message() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.message_.Get();
+}
+inline void PauseStateChangeNotification::_internal_set_message(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.message_.Set(value, GetArena());
+}
+inline std::string* PROTOBUF_NONNULL PauseStateChangeNotification::_internal_mutable_message() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.message_.Mutable( GetArena());
+}
+inline std::string* PROTOBUF_NULLABLE PauseStateChangeNotification::release_message() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.PauseStateChangeNotification.message)
+  if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* released = _impl_.message_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.message_.Set("", GetArena());
+  }
+  return released;
+}
+inline void PauseStateChangeNotification::set_allocated_message(std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.message_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.message_.IsDefault()) {
+    _impl_.message_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.PauseStateChangeNotification.message)
+}
+
+// -------------------------------------------------------------------
+
 // Init
 
 // uint64 timestamp = 1;
@@ -18763,6 +20130,60 @@ inline ::google::protobuf::RepeatedPtrField<::rtech::liveapi::CustomMatch_Team>*
 CustomMatch_LobbyPlayers::_internal_mutable_teams() {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return &_impl_.teams_;
+}
+
+// -------------------------------------------------------------------
+
+// CustomMatch_LegendBanStatus
+
+// repeated .rtech.liveapi.LegendMatchStatus legends = 3;
+inline int CustomMatch_LegendBanStatus::_internal_legends_size() const {
+  return _internal_legends().size();
+}
+inline int CustomMatch_LegendBanStatus::legends_size() const {
+  return _internal_legends_size();
+}
+inline void CustomMatch_LegendBanStatus::clear_legends() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.legends_.Clear();
+}
+inline ::rtech::liveapi::LegendMatchStatus* PROTOBUF_NONNULL CustomMatch_LegendBanStatus::mutable_legends(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.CustomMatch_LegendBanStatus.legends)
+  return _internal_mutable_legends()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::rtech::liveapi::LegendMatchStatus>* PROTOBUF_NONNULL CustomMatch_LegendBanStatus::mutable_legends()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:rtech.liveapi.CustomMatch_LegendBanStatus.legends)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_legends();
+}
+inline const ::rtech::liveapi::LegendMatchStatus& CustomMatch_LegendBanStatus::legends(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.CustomMatch_LegendBanStatus.legends)
+  return _internal_legends().Get(index);
+}
+inline ::rtech::liveapi::LegendMatchStatus* PROTOBUF_NONNULL CustomMatch_LegendBanStatus::add_legends()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::rtech::liveapi::LegendMatchStatus* _add = _internal_mutable_legends()->Add();
+  // @@protoc_insertion_point(field_add:rtech.liveapi.CustomMatch_LegendBanStatus.legends)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::LegendMatchStatus>& CustomMatch_LegendBanStatus::legends() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:rtech.liveapi.CustomMatch_LegendBanStatus.legends)
+  return _internal_legends();
+}
+inline const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::LegendMatchStatus>&
+CustomMatch_LegendBanStatus::_internal_legends() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.legends_;
+}
+inline ::google::protobuf::RepeatedPtrField<::rtech::liveapi::LegendMatchStatus>* PROTOBUF_NONNULL
+CustomMatch_LegendBanStatus::_internal_mutable_legends() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.legends_;
 }
 
 // -------------------------------------------------------------------
@@ -30117,6 +31538,78 @@ inline void CustomMatch_SetEndRingExclusion::_internal_set_sectiontoexclude(::rt
 
 // -------------------------------------------------------------------
 
+// CustomMatch_GetLegendBanStatus
+
+// -------------------------------------------------------------------
+
+// CustomMatch_SetLegendBan
+
+// repeated string legendRefs = 1;
+inline int CustomMatch_SetLegendBan::_internal_legendrefs_size() const {
+  return _internal_legendrefs().size();
+}
+inline int CustomMatch_SetLegendBan::legendrefs_size() const {
+  return _internal_legendrefs_size();
+}
+inline void CustomMatch_SetLegendBan::clear_legendrefs() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.legendrefs_.Clear();
+}
+inline std::string* PROTOBUF_NONNULL CustomMatch_SetLegendBan::add_legendrefs()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  std::string* _s = _internal_mutable_legendrefs()->Add();
+  // @@protoc_insertion_point(field_add_mutable:rtech.liveapi.CustomMatch_SetLegendBan.legendRefs)
+  return _s;
+}
+inline const std::string& CustomMatch_SetLegendBan::legendrefs(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.CustomMatch_SetLegendBan.legendRefs)
+  return _internal_legendrefs().Get(index);
+}
+inline std::string* PROTOBUF_NONNULL CustomMatch_SetLegendBan::mutable_legendrefs(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.CustomMatch_SetLegendBan.legendRefs)
+  return _internal_mutable_legendrefs()->Mutable(index);
+}
+template <typename Arg_, typename... Args_>
+inline void CustomMatch_SetLegendBan::set_legendrefs(int index, Arg_&& value, Args_... args) {
+  ::google::protobuf::internal::AssignToString(*_internal_mutable_legendrefs()->Mutable(index), std::forward<Arg_>(value),
+                        args... );
+  // @@protoc_insertion_point(field_set:rtech.liveapi.CustomMatch_SetLegendBan.legendRefs)
+}
+template <typename Arg_, typename... Args_>
+inline void CustomMatch_SetLegendBan::add_legendrefs(Arg_&& value, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::google::protobuf::internal::AddToRepeatedPtrField(*_internal_mutable_legendrefs(),
+                               std::forward<Arg_>(value),
+                               args... );
+  // @@protoc_insertion_point(field_add:rtech.liveapi.CustomMatch_SetLegendBan.legendRefs)
+}
+inline const ::google::protobuf::RepeatedPtrField<std::string>& CustomMatch_SetLegendBan::legendrefs() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:rtech.liveapi.CustomMatch_SetLegendBan.legendRefs)
+  return _internal_legendrefs();
+}
+inline ::google::protobuf::RepeatedPtrField<std::string>* PROTOBUF_NONNULL
+CustomMatch_SetLegendBan::mutable_legendrefs() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:rtech.liveapi.CustomMatch_SetLegendBan.legendRefs)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_legendrefs();
+}
+inline const ::google::protobuf::RepeatedPtrField<std::string>&
+CustomMatch_SetLegendBan::_internal_legendrefs() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.legendrefs_;
+}
+inline ::google::protobuf::RepeatedPtrField<std::string>* PROTOBUF_NONNULL
+CustomMatch_SetLegendBan::_internal_mutable_legendrefs() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.legendrefs_;
+}
+
+// -------------------------------------------------------------------
+
 // CustomMatch_SendChat
 
 // string text = 1;
@@ -31570,6 +33063,168 @@ inline ::rtech::liveapi::CustomMatch_SetEndRingExclusion* PROTOBUF_NONNULL Reque
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::rtech::liveapi::CustomMatch_SetEndRingExclusion* _msg = _internal_mutable_custommatch_setendringexclusion();
   // @@protoc_insertion_point(field_mutable:rtech.liveapi.Request.customMatch_SetEndRingExclusion)
+  return _msg;
+}
+
+// .rtech.liveapi.CustomMatch_GetLegendBanStatus customMatch_GetLegendBanStatus = 24;
+inline bool Request::has_custommatch_getlegendbanstatus() const {
+  return actions_case() == kCustomMatchGetLegendBanStatus;
+}
+inline bool Request::_internal_has_custommatch_getlegendbanstatus() const {
+  return actions_case() == kCustomMatchGetLegendBanStatus;
+}
+inline void Request::set_has_custommatch_getlegendbanstatus() {
+  _impl_._oneof_case_[0] = kCustomMatchGetLegendBanStatus;
+}
+inline void Request::clear_custommatch_getlegendbanstatus() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (actions_case() == kCustomMatchGetLegendBanStatus) {
+    if (GetArena() == nullptr) {
+      delete _impl_.actions_.custommatch_getlegendbanstatus_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.actions_.custommatch_getlegendbanstatus_);
+    }
+    clear_has_actions();
+  }
+}
+inline ::rtech::liveapi::CustomMatch_GetLegendBanStatus* PROTOBUF_NULLABLE Request::release_custommatch_getlegendbanstatus() {
+  // @@protoc_insertion_point(field_release:rtech.liveapi.Request.customMatch_GetLegendBanStatus)
+  if (actions_case() == kCustomMatchGetLegendBanStatus) {
+    clear_has_actions();
+    auto* temp = reinterpret_cast<::rtech::liveapi::CustomMatch_GetLegendBanStatus*>(_impl_.actions_.custommatch_getlegendbanstatus_);
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.actions_.custommatch_getlegendbanstatus_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::rtech::liveapi::CustomMatch_GetLegendBanStatus& Request::_internal_custommatch_getlegendbanstatus() const {
+  return actions_case() == kCustomMatchGetLegendBanStatus ? *reinterpret_cast<::rtech::liveapi::CustomMatch_GetLegendBanStatus*>(_impl_.actions_.custommatch_getlegendbanstatus_) : reinterpret_cast<::rtech::liveapi::CustomMatch_GetLegendBanStatus&>(::rtech::liveapi::_CustomMatch_GetLegendBanStatus_default_instance_);
+}
+inline const ::rtech::liveapi::CustomMatch_GetLegendBanStatus& Request::custommatch_getlegendbanstatus() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.Request.customMatch_GetLegendBanStatus)
+  return _internal_custommatch_getlegendbanstatus();
+}
+inline ::rtech::liveapi::CustomMatch_GetLegendBanStatus* PROTOBUF_NULLABLE Request::unsafe_arena_release_custommatch_getlegendbanstatus() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:rtech.liveapi.Request.customMatch_GetLegendBanStatus)
+  if (actions_case() == kCustomMatchGetLegendBanStatus) {
+    clear_has_actions();
+    auto* temp = reinterpret_cast<::rtech::liveapi::CustomMatch_GetLegendBanStatus*>(_impl_.actions_.custommatch_getlegendbanstatus_);
+    _impl_.actions_.custommatch_getlegendbanstatus_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Request::unsafe_arena_set_allocated_custommatch_getlegendbanstatus(
+    ::rtech::liveapi::CustomMatch_GetLegendBanStatus* PROTOBUF_NULLABLE value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_actions();
+  if (value) {
+    set_has_custommatch_getlegendbanstatus();
+    _impl_.actions_.custommatch_getlegendbanstatus_ = reinterpret_cast<::google::protobuf::Message*>(value);
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:rtech.liveapi.Request.customMatch_GetLegendBanStatus)
+}
+inline ::rtech::liveapi::CustomMatch_GetLegendBanStatus* PROTOBUF_NONNULL Request::_internal_mutable_custommatch_getlegendbanstatus() {
+  if (actions_case() != kCustomMatchGetLegendBanStatus) {
+    clear_actions();
+    set_has_custommatch_getlegendbanstatus();
+    _impl_.actions_.custommatch_getlegendbanstatus_ = reinterpret_cast<::google::protobuf::Message*>(
+        ::google::protobuf::Message::DefaultConstruct<::rtech::liveapi::CustomMatch_GetLegendBanStatus>(GetArena()));
+  }
+  return reinterpret_cast<::rtech::liveapi::CustomMatch_GetLegendBanStatus*>(_impl_.actions_.custommatch_getlegendbanstatus_);
+}
+inline ::rtech::liveapi::CustomMatch_GetLegendBanStatus* PROTOBUF_NONNULL Request::mutable_custommatch_getlegendbanstatus()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::rtech::liveapi::CustomMatch_GetLegendBanStatus* _msg = _internal_mutable_custommatch_getlegendbanstatus();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.Request.customMatch_GetLegendBanStatus)
+  return _msg;
+}
+
+// .rtech.liveapi.CustomMatch_SetLegendBan customMatch_SetLegendBan = 25;
+inline bool Request::has_custommatch_setlegendban() const {
+  return actions_case() == kCustomMatchSetLegendBan;
+}
+inline bool Request::_internal_has_custommatch_setlegendban() const {
+  return actions_case() == kCustomMatchSetLegendBan;
+}
+inline void Request::set_has_custommatch_setlegendban() {
+  _impl_._oneof_case_[0] = kCustomMatchSetLegendBan;
+}
+inline void Request::clear_custommatch_setlegendban() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (actions_case() == kCustomMatchSetLegendBan) {
+    if (GetArena() == nullptr) {
+      delete _impl_.actions_.custommatch_setlegendban_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.actions_.custommatch_setlegendban_);
+    }
+    clear_has_actions();
+  }
+}
+inline ::rtech::liveapi::CustomMatch_SetLegendBan* PROTOBUF_NULLABLE Request::release_custommatch_setlegendban() {
+  // @@protoc_insertion_point(field_release:rtech.liveapi.Request.customMatch_SetLegendBan)
+  if (actions_case() == kCustomMatchSetLegendBan) {
+    clear_has_actions();
+    auto* temp = reinterpret_cast<::rtech::liveapi::CustomMatch_SetLegendBan*>(_impl_.actions_.custommatch_setlegendban_);
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.actions_.custommatch_setlegendban_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::rtech::liveapi::CustomMatch_SetLegendBan& Request::_internal_custommatch_setlegendban() const {
+  return actions_case() == kCustomMatchSetLegendBan ? *reinterpret_cast<::rtech::liveapi::CustomMatch_SetLegendBan*>(_impl_.actions_.custommatch_setlegendban_) : reinterpret_cast<::rtech::liveapi::CustomMatch_SetLegendBan&>(::rtech::liveapi::_CustomMatch_SetLegendBan_default_instance_);
+}
+inline const ::rtech::liveapi::CustomMatch_SetLegendBan& Request::custommatch_setlegendban() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.Request.customMatch_SetLegendBan)
+  return _internal_custommatch_setlegendban();
+}
+inline ::rtech::liveapi::CustomMatch_SetLegendBan* PROTOBUF_NULLABLE Request::unsafe_arena_release_custommatch_setlegendban() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:rtech.liveapi.Request.customMatch_SetLegendBan)
+  if (actions_case() == kCustomMatchSetLegendBan) {
+    clear_has_actions();
+    auto* temp = reinterpret_cast<::rtech::liveapi::CustomMatch_SetLegendBan*>(_impl_.actions_.custommatch_setlegendban_);
+    _impl_.actions_.custommatch_setlegendban_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Request::unsafe_arena_set_allocated_custommatch_setlegendban(
+    ::rtech::liveapi::CustomMatch_SetLegendBan* PROTOBUF_NULLABLE value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_actions();
+  if (value) {
+    set_has_custommatch_setlegendban();
+    _impl_.actions_.custommatch_setlegendban_ = reinterpret_cast<::google::protobuf::Message*>(value);
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:rtech.liveapi.Request.customMatch_SetLegendBan)
+}
+inline ::rtech::liveapi::CustomMatch_SetLegendBan* PROTOBUF_NONNULL Request::_internal_mutable_custommatch_setlegendban() {
+  if (actions_case() != kCustomMatchSetLegendBan) {
+    clear_actions();
+    set_has_custommatch_setlegendban();
+    _impl_.actions_.custommatch_setlegendban_ = reinterpret_cast<::google::protobuf::Message*>(
+        ::google::protobuf::Message::DefaultConstruct<::rtech::liveapi::CustomMatch_SetLegendBan>(GetArena()));
+  }
+  return reinterpret_cast<::rtech::liveapi::CustomMatch_SetLegendBan*>(_impl_.actions_.custommatch_setlegendban_);
+}
+inline ::rtech::liveapi::CustomMatch_SetLegendBan* PROTOBUF_NONNULL Request::mutable_custommatch_setlegendban()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::rtech::liveapi::CustomMatch_SetLegendBan* _msg = _internal_mutable_custommatch_setlegendban();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.Request.customMatch_SetLegendBan)
   return _msg;
 }
 
