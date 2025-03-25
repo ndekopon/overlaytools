@@ -136,6 +136,9 @@ namespace app {
 		void send_webapi_lobbyteam(uint8_t _teamid, const std::string& _name, const uint8_t _spawnpoint);
 		void send_webapi_lobbytoken(const std::string& _token);
 		void send_webapi_custommatch_settings(const std::string& _playlistname, bool _adminchat, bool _teamrename, bool _selfassign, bool _aimassist, bool _anonmode);
+		void send_webapi_legendbanenum_start();
+		void send_webapi_legendbanenum_end();
+		void send_webapi_legendbanstatus(const std::string& _name, const std::string& _reference, const bool _banned);
 
 		void send_webapi_clear_livedata();
 		void send_webapi_save_result(const std::string &_tournament_id, uint8_t _gameid, std::unique_ptr<std::string> &&_json);
@@ -157,6 +160,8 @@ namespace app {
 		void reply_webapi_send_custommatch_setspawnpoint(SOCKET _sock, uint32_t _sequence);
 		void reply_webapi_send_custommatch_setendringexclusion(SOCKET _sock, uint32_t _sequence);
 		void reply_webapi_send_pausetoggle(SOCKET _sock, uint32_t _sequence);
+		void reply_webapi_send_custtommatch_getlegendbanstatus(SOCKET _sock, uint32_t _sequence);
+		void reply_webapi_send_custtommatch_setlegendban(SOCKET _sock, uint32_t _sequence);
 		void reply_livedata_get_game(SOCKET _sock, uint32_t _sequence);
 		void reply_livedata_get_teams(SOCKET _sock, uint32_t _sequence);
 		void reply_livedata_get_team_players(SOCKET _sock, uint32_t _sequence, uint8_t _teamid);

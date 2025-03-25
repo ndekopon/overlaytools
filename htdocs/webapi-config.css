@@ -249,6 +249,26 @@ body {
     background-color: #CCC;
 }
 
+/* legendban */
+#legendban table {
+    border-collapse: collapse;
+    margin-top: 1em;
+}
+#legendban th {
+    border: 1px solid black;
+    padding: 0.1em 1em;
+    background-color: #666;
+    color: #FFF;
+}
+#legendban td {
+    border: 1px solid black;
+    padding: 0.1em 1em;
+}
+
+#legendban tr:hover {
+    background-color: #FFFFCC;
+}
+
 /* realtime */
 #realtime #realtime-gameinfo {
     position: fixed;

@@ -95,6 +95,12 @@
                 </ul>
             </li>
             <li>
+                <a href="#legendban">
+                    <span class="en">Legend BAN</span>
+                    <span class="ja">レジェンドBAN</span>
+                </a>
+            </li>
+            <li>
                 <a href="#realtime">
                     <span class="en">Realtime View</span>
                     <span class="ja">リアルタイムデータ表示</span>
@@ -534,6 +540,53 @@
     <button id="team-ingamesettings-spawnpoints-button">
         <span class="en">set spawn points</span>
         <span class="ja">スポーン地点設定</span>
+    </button>
+</div>
+
+<div id="legendban" class="hide">
+    <h3>
+        <span class="en">Legend BAN</span>
+        <span class="ja">レジェンドBAN</span>
+    </h3>
+
+    <p>
+        <span class="en">You can switch the ban status by first pressing the Get Legend Ban Information button and then clicking on the list of legends that appears. After switching, press the Settings button at the bottom. As with the team name settings, it may take some time to be reflected. Please retrieve and confirm the information again.</span>
+        <span class="ja">最初にレジェンドBAN情報取得ボタンを押して、現れたレジェンド一覧をクリックしてBAN状態を切り替えることができます。<br>切替後、下部の設定ボタンを押してください。<br>※チーム名設定等と同じく、反映に時間がかかる場合があります。再度情報を取得して確認してください。</span>
+    </p>
+
+    <button id="legendban-get">
+        <span class="en">get legendban</span>
+        <span class="ja">レジェンドBAN情報取得</span>
+    </button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    <span class="en">name</span>
+                    <span class="ja">名前</span>
+                </th>
+                <th>
+                    <span class="en">ban</span>
+                    <span class="ja">BAN</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody id="legendban-list"></tbody>
+    </table>
+
+    <button id="legendban-banall">
+        <span class="en">ban all</span>
+        <span class="ja">全BAN</span>
+    </button>
+    <button id="legendban-unbanall">
+        <span class="en">unban all</span>
+        <span class="ja">全BAN解除</span>
+    </button>
+    <br>
+    <button id="legendban-set">
+        <span class="en">get legendban</span>
+        <span class="ja">レジェンドBAN情報設定</span>
     </button>
 </div>
 

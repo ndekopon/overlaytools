@@ -870,6 +870,95 @@ class TeamInGameSettings extends WebAPIConfigBase {
     }
 }
 
+class LegendBan {
+    #api;
+    #tbody;
+    constructor() {
+        this.#api = null;
+        this.#tbody = document.getElementById('legendban-list');
+    }
+
+    setWebAPI(api) {
+        this.#api = api;
+
+        document.getElementById('legendban-get').addEventListener('click', () => {
+            api.sendGetLegendBanStatus();
+        });
+
+        document.getElementById('legendban-set').addEventListener('click', () => {
+            const legendrefs = this.#getLegendRefs();
+            console.log(legendrefs);
+            api.sendSetLegendBan(legendrefs);
+        });
+
+        document.getElementById('legendban-banall').addEventListener('click', () => {
+            this.#setAll(true);
+        });
+
+        document.getElementById('legendban-unbanall').addEventListener('click', () => {
+            this.#setAll(false);
+        });
+
+        api.addEventListener('legendbanenumstart', ev => {
+            console.log('legendbanenumstart');
+            this.#clear();
+        });
+
+        api.addEventListener('legendbanstatus', ev => {
+            const data = ev.detail;
+            this.#add(data.name, data.legendref, data.banned);
+        });
+
+        api.addEventListener('legendbanenumend', ev => {
+            console.log('legendbanenumend');
+        });
+    }
+
+    #getLegendRefs() {
+        const refs = [];
+        for (const tr of this.#tbody.children) {
+            if (tr.dataset.banned == 'true') {
+                refs.push(tr.dataset.legendref);
+            }
+        }
+        return refs.join(',');
+    }
+
+    #add(name, legendref, banned) {
+        const tr = document.createElement('tr');
+        tr.appendChild(document.createElement('td'));
+        tr.appendChild(document.createElement('td'));
+        tr.dataset.legendref = legendref;
+        tr.dataset.banned = banned;
+        tr.children[0].textContent = name;
+        tr.children[1].textContent = banned;
+        this.#tbody.appendChild(tr);
+
+        tr.addEventListener('click', () => {
+            if (tr.dataset.banned == 'true') {
+                tr.dataset.banned = 'false';
+                tr.children[1].textContent = 'false';
+            } else {
+                tr.dataset.banned = 'true';
+                tr.children[1].textContent = 'true';
+            }
+        });
+    }
+
+    #setAll(banned) {
+        for (const tr of this.#tbody.children) {
+            tr.dataset.banned = banned;
+            tr.children[1].textContent = banned;
+        }
+    }
+
+    #clear() {
+        while (this.#tbody.firstChild) {
+            this.#tbody.removeChild(this.#tbody.firstChild);
+        }
+    }
+}
+
 class RealtimeView {
     #_game;
     #basenode;
@@ -2681,6 +2770,7 @@ export class WebAPIConfig {
     #playername;
     #teamname;
     #teamingamesettings;
+    #legendban;
     #resultview;
     #resultfixview;
     #tryconnecting;
@@ -2707,6 +2797,7 @@ export class WebAPIConfig {
         this.#playername = new PlayerName();
         this.#teamname = new TeamName();
         this.#teamingamesettings = new TeamInGameSettings();
+        this.#legendban = new LegendBan();
         this.#tryconnecting = false;
 
         this.#setupWebAPI(url);
@@ -2717,6 +2808,8 @@ export class WebAPIConfig {
 
     #setupWebAPI(url) {
         this.#webapi = new ApexWebAPI.ApexWebAPI(url);
+
+        this.#legendban.setWebAPI(this.#webapi);
 
         // 接続系
         this.#webapi.addEventListener('open', (ev) => {

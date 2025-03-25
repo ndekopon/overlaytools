@@ -1042,6 +1042,82 @@ namespace app {
 			}
 			break;
 		}
+		case WEBAPI_SEND_CUSTOMMATCH_GETLEGENDBANSTATUS:
+		{
+			log(LOG_CORE, L"Info: WEBAPI_SEND_CUSTOMMATCH_GETLEGENDBANSTATUS received.");
+			// CustomMatch_GetLegendBanStatus
+			rtech::liveapi::Request req;
+			auto act = req.mutable_custommatch_getlegendbanstatus();
+
+			req.set_withack(true);
+
+			// 送信
+			auto buf = std::make_unique<std::vector<uint8_t>>();
+			buf->resize(req.ByteSizeLong());
+			if (buf->size() > 0)
+			{
+				req.SerializeToArray(buf->data(), buf->size());
+				sendto_liveapi(std::move(buf));
+				reply_webapi_send_custtommatch_getlegendbanstatus(socket, sequence);
+			}
+			break;
+		}
+		case WEBAPI_SEND_CUSTOMMATCH_SETLEGENDBAN:
+		{
+			log(LOG_CORE, L"Info: WEBAPI_SEND_CUSTOMMATCH_SETLEGENDBAN received.");
+			if (wdata.size() != 2)
+			{
+				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				return;
+			}
+			// CustomMatch_SetLegendBan
+			rtech::liveapi::Request req;
+			auto act = req.mutable_custommatch_setlegendban();
+
+			try
+			{
+				const auto legendrefsstr = wdata.get_string(1);
+				std::string legendref = "";
+				for (const auto c : legendrefsstr)
+				{
+					if (c == ',')
+					{
+						if (legendref != "")
+						{
+							act->add_legendrefs(legendref);
+							legendref = "";
+						}
+					}
+					else
+					{
+						legendref += c;
+					}
+				}
+				if (legendref != "")
+				{
+					act->add_legendrefs(legendref);
+					legendref = "";
+				}
+			}
+			catch (...)
+			{
+				log(LOG_CORE, L"Error: data parse failed.");
+				return;
+			}
+
+			req.set_withack(true);
+
+			// 送信
+			auto buf = std::make_unique<std::vector<uint8_t>>();
+			buf->resize(req.ByteSizeLong());
+			if (buf->size() > 0)
+			{
+				req.SerializeToArray(buf->data(), buf->size());
+				sendto_liveapi(std::move(buf));
+				reply_webapi_send_custtommatch_setlegendban(socket, sequence);
+			}
+			break;
+		}
 		case WEBAPI_SEND_CHANGECAMERA:
 		{
 			log(LOG_CORE, L"Info: WEBAPI_SEND_CHANGECAMERA received.");
@@ -1423,6 +1499,23 @@ namespace app {
 			auto aimassist = p.aimassist();
 			auto anonmode = p.anonmode();
 			send_webapi_custommatch_settings(playlistname, adminchat, teamrename, selfassign, aimassist, anonmode);
+		}
+		else if (_any.Is<api::CustomMatch_LegendBanStatus>())
+		{
+			api::CustomMatch_LegendBanStatus p;
+			if (!_any.UnpackTo(&p)) return;
+
+			log(LOG_CORE, L"Info: CustomMatch_LegendBanStatus received.");
+
+			send_webapi_legendbanenum_start();
+			for (int i = 0; i < p.legends_size(); ++i)
+			{
+				const auto& name = p.legends(i).name();
+				const auto& reference = p.legends(i).reference();
+				const auto banned = p.legends(i).banned();
+				send_webapi_legendbanstatus(name, reference, banned);
+			}
+			send_webapi_legendbanenum_end();
 		}
 		else if (_any.Is<api::ObserverSwitched>())
 		{
@@ -2666,6 +2759,28 @@ namespace app {
 		}
 	}
 
+
+	void core_thread::send_webapi_legendbanenum_start()
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_LEGENDBANENUM_START);
+		sendto_webapi(std::move(sdata.buffer_));
+	}
+
+	void core_thread::send_webapi_legendbanenum_end()
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_LEGENDBANENUM_END);
+		sendto_webapi(std::move(sdata.buffer_));
+	}
+
+	void core_thread::send_webapi_legendbanstatus(const std::string& _name, const std::string& _reference, const bool _banned)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_LEGENDBANSTATUS);
+		if (sdata.append(_name) && sdata.append(_reference) && sdata.append(_banned))
+		{
+			sendto_webapi(std::move(sdata.buffer_));
+		}
+	}
+
 	void core_thread::send_webapi_clear_livedata()
 	{
 		send_webapi_data sdata(WEBAPI_EVENT_CLEAR_LIVEDATA);
@@ -2721,6 +2836,24 @@ namespace app {
 	void core_thread::reply_webapi_send_custommatch_createlobby(SOCKET _sock, uint32_t _sequence)
 	{
 		send_webapi_data sdata(WEBAPI_SEND_CUSTOMMATCH_CREATELOBBY);
+		if (sdata.append(_sequence))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::reply_webapi_send_custtommatch_getlegendbanstatus(SOCKET _sock, uint32_t _sequence)
+	{
+		send_webapi_data sdata(WEBAPI_SEND_CUSTOMMATCH_GETLEGENDBANSTATUS);
+		if (sdata.append(_sequence))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::reply_webapi_send_custtommatch_setlegendban(SOCKET _sock, uint32_t _sequence)
+	{
+		send_webapi_data sdata(WEBAPI_SEND_CUSTOMMATCH_SETLEGENDBAN);
 		if (sdata.append(_sequence))
 		{
 			sendto_webapi(_sock, std::move(sdata.buffer_));

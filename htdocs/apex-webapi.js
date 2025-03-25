@@ -253,6 +253,9 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_EVENT_LOBBYENUM_END = 0x43;
   static WEBAPI_EVENT_LOBBYTEAM = 0x44;
   static WEBAPI_EVENT_LOBBYTOKEN = 0x45;
+  static WEBAPI_EVENT_LEGENDBANENUM_START = 0x46;
+  static WEBAPI_EVENT_LEGENDBANENUM_END = 0x47;
+  static WEBAPI_EVENT_LEGENDBANSTATUS = 0x48;
 
   static WEBAPI_SEND_CUSTOMMATCH_SENDCHAT = 0x50;
   static WEBAPI_SEND_CUSTOMMATCH_CREATELOBBY = 0x51;
@@ -264,6 +267,8 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_SEND_CUSTOMMATCH_GETSETTINGS = 0x57;
   static WEBAPI_SEND_CUSTOMMATCH_SETSPAWNPOINT = 0x58;
   static WEBAPI_SEND_CUSTOMMATCH_SETENDRINGEXCLUSION = 0x59;
+  static WEBAPI_SEND_CUSTOMMATCH_GETLEGENDBANSTATUS = 0x5a;
+  static WEBAPI_SEND_CUSTOMMATCH_SETLEGENDBAN = 0x5b;
 
   static WEBAPI_LIVEDATA_GET_GAME = 0x60;
   static WEBAPI_LIVEDATA_GET_TEAMS = 0x61;
@@ -587,6 +592,20 @@ export class ApexWebAPI extends EventTarget {
         selfassign: arr[3],
         aimassist: arr[4],
         anonmode: arr[5]
+      }
+    }));
+    return true;
+  }
+
+  #procEventLegendBanStatus(arr) {
+    const name = arr[0];
+    const legendref = arr[1];
+    const banned = arr[2];
+    this.dispatchEvent(new CustomEvent('legendbanstatus', {
+      detail: {
+        name: name,
+        legendref: legendref,
+        banned: banned
       }
     }));
     return true;
@@ -1064,7 +1083,7 @@ export class ApexWebAPI extends EventTarget {
     const data_array = this.#parseData(count, data);
     if (data_array == null) return false;
     switch (type) {
-      case ApexWebAPI.WEBAPI_EVENT_LOBBYPLAYER: {}
+      case ApexWebAPI.WEBAPI_EVENT_LOBBYPLAYER:
         if (count != 4) return false;
         return this.#procEventLobbyPlayer(data_array);
 
@@ -1089,6 +1108,20 @@ export class ApexWebAPI extends EventTarget {
       case ApexWebAPI.WEBAPI_EVENT_CUSTOMMATCH_SETTINGS:
         if (count != 6) return false;
         return this.#procEventCustomMatchSettings(data_array);
+
+      case ApexWebAPI.WEBAPI_EVENT_LEGENDBANSTATUS:
+        if (count != 3) return false;
+        return this.#procEventLegendBanStatus(data_array);
+
+      case ApexWebAPI.WEBAPI_EVENT_LEGENDBANENUM_START:
+        if (count != 0) return false;
+        this.dispatchEvent(new CustomEvent('legendbanenumstart', { detail: {} }));
+        break;
+
+      case ApexWebAPI.WEBAPI_EVENT_LEGENDBANENUM_END:
+        if (count != 0) return false;
+        this.dispatchEvent(new CustomEvent('legendbanenumend', { detail: {} }));
+        break;
 
       case ApexWebAPI.WEBAPI_EVENT_OBSERVERSWITCHED:
         if (count != 5) return false;
@@ -1414,6 +1447,16 @@ export class ApexWebAPI extends EventTarget {
       case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETENDRINGEXCLUSION:
         if (count != 1) return false;
         this.dispatchEvent(new CustomEvent('setendringexclusion', {detail: {sequence: data_array[0]}}));
+        break;
+
+      case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_GETLEGENDBANSTATUS:
+        if (count != 1) return false;
+        this.dispatchEvent(new CustomEvent('getlegendbanstatus', {detail: {sequence: data_array[0]}}));
+        break;
+
+      case ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETLEGENDBAN:
+        if (count != 1) return false;
+        this.dispatchEvent(new CustomEvent('setlegendban', {detail: {sequence: data_array[0]}}));
         break;
 
       case ApexWebAPI.WEBAPI_LIVEDATA_GET_GAME:
@@ -1957,6 +2000,18 @@ export class ApexWebAPI extends EventTarget {
     const buffer = new SendBuffer(ApexWebAPI.WEBAPI_SEND_CHANGECAMERA);
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_STRING, name, this.#encoder)) precheck = false;
     return this.#sendAndReceiveReply(buffer, "changecamera", precheck);
+  }
+
+  sendGetLegendBanStatus() {
+    const buffer = new SendBuffer(ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_GETLEGENDBANSTATUS);
+    return this.#sendAndReceiveReply(buffer, "getlegendbanstatus");
+  }
+
+  sendSetLegendBan(legendlefs) {
+    let precheck = true;
+    const buffer = new SendBuffer(ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETLEGENDBAN);
+    if (!buffer.append(ApexWebAPI.WEBAPI_DATA_STRING, legendlefs, this.#encoder)) precheck = false;
+    return this.#sendAndReceiveReply(buffer, "setlegendban", precheck);
   }
 
   setObserver(hash) {
