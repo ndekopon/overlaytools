@@ -3623,10 +3623,8 @@ namespace app {
 		{
 			const auto& items = game_.loadout.items;
 
-			// WORKAROUND: 注射器・セルはリスポーン時倍量所持
-			if (player.items.syringe != items.syringe * 2) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SYRINGE, items.syringe * 2);
-			if (player.items.shield_cell != items.shield_cell * 2) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDCELL, items.shield_cell * 2);
-
+			if (player.items.syringe != items.syringe) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SYRINGE, items.syringe);
+			if (player.items.shield_cell != items.shield_cell) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDCELL, items.shield_cell);
 			if (player.items.medkit != items.medkit) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_MEDKIT, items.medkit);
 			if (player.items.shield_battery != items.shield_battery) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDBATTERY, items.shield_battery);
 			if (player.items.phoenixkit != items.phoenixkit) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_PHOENIXKIT, items.phoenixkit);
@@ -3643,10 +3641,6 @@ namespace app {
 			if (player.items.shieldcore != items.shieldcore) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDCORE, items.shieldcore);
 
 			player.items = items;
-
-			// WORKAROUND: 注射器・セルはリスポーン時倍量所持
-			player.items.syringe *= 2;
-			player.items.shield_cell *= 2;
 		}
 	}
 
