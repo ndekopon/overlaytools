@@ -60,6 +60,7 @@ namespace livedata {
 		float angle = 0.0f;
 		bool disconnected = false;
 		bool canreconnect = false;
+		bool characterselected = false;
 		items items;
 		std::map<int32_t, perkinfo> perks{};
 		std::string weapon;

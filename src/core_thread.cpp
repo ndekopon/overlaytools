@@ -1706,6 +1706,10 @@ namespace app {
 			log(LOG_CORE, L"Info: CharacterSelected received.");
 			if (!p.has_player()) return;
 			proc_player(p.player());
+			uint8_t teamid = p.player().teamid();
+			uint8_t squadindex = get_squadindex(p.player());
+
+			proc_characterselected(teamid, squadindex);
 		}
 		else if (_any.Is<api::MatchStateEnd>())
 		{
@@ -2711,6 +2715,15 @@ namespace app {
 		}
 	}
 
+	void core_thread::send_webapi_extended_characterselected(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_EXTENDED);
+		if (sdata.append(WEBAPI_EXTENDED_CHARACTERSELECTED) && sdata.append(_teamid) && sdata.append(_squadindex))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
 	void core_thread::send_webapi_lobbyplayer(uint8_t _teamid, const std::string& _hash, const std::string& _name, const std::string& _hardware)
 	{
 		send_webapi_data sdata(WEBAPI_EVENT_LOBBYPLAYER);
@@ -3438,6 +3451,15 @@ namespace app {
 		}
 	}
 
+	void core_thread::proc_characterselected(uint8_t _teamid, uint8_t _squadindex)
+	{
+		auto& player = game_.teams.at(_teamid).players.at(_squadindex);
+		if (!player.characterselected)
+		{
+			send_webapi_extended_characterselected(INVALID_SOCKET, _teamid, _squadindex);
+		}
+	}
+
 	void core_thread::proc_upgradetierchanged(uint8_t _teamid, uint8_t _squadindex, int32_t _level)
 	{
 		auto& player = game_.teams.at(_teamid).players.at(_squadindex);
@@ -3808,6 +3830,12 @@ namespace app {
 			send_webapi_player_items(_sock, _teamid, i, WEBAPI_ITEM_HEATSHIELD, p.items.heatshield);
 			send_webapi_player_items(_sock, _teamid, i, WEBAPI_ITEM_EVACTOWER, p.items.evactower);
 			send_webapi_player_items(_sock, _teamid, i, WEBAPI_ITEM_SHIELDCORE, p.items.shieldcore);
+
+			// キャラクター選択済み情報
+			if (p.characterselected)
+			{
+				send_webapi_extended_characterselected(_sock, _teamid, i);
+			}
 		}
 
 		reply_livedata_get_team_players(_sock, _sequence, _teamid);

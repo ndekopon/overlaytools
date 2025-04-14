@@ -64,6 +64,7 @@ namespace app {
 		void proc_player(const rtech::liveapi::Player& _player);
 		void proc_connected(uint8_t _teamid, uint8_t _squadindex);
 		void proc_disconnected(uint8_t _teamid, uint8_t _squadindex, bool _canreconnect, bool _alive);
+		void proc_characterselected(uint8_t _teamid, uint8_t _squadindex);
 		void proc_upgradetierchanged(uint8_t _teamid, uint8_t _squadindex, int32_t _level);
 		void proc_upgradeselected(uint8_t _teamid, uint8_t _squadindex, int32_t _level, const std::string& _name, const std::string& _desc);
 		void proc_player_stats(uint8_t _teamid, uint8_t _squadindex, const std::string& _stat, uint32_t _v);
@@ -129,6 +130,7 @@ namespace app {
 		void send_webapi_extended_revive(uint8_t _teamid, uint8_t _psquadindex, uint8_t _rsquadindex);
 		void send_webapi_extended_collected(uint8_t _teamid, uint8_t _psquadindex, uint8_t _csquadindex);
 		void send_webapi_extended_respawn(uint8_t _teamid, uint8_t _psquadindex, uint8_t _rsquadindex);
+		void send_webapi_extended_characterselected(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex);
 
 		void send_webapi_lobbyplayer(uint8_t _teamid, const std::string& _hash, const std::string& _name, const std::string& _hardware);
 		void send_webapi_lobbyenum_start();
