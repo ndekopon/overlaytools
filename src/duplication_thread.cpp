@@ -61,18 +61,10 @@ namespace {
 		return true;
 	}
 
-	inline bool is_mapborder_gray(uint32_t _c)
-	{
-		rgba_t d = { .c = _c };
-		// r:88-8f g:88-8f b:88-8f
-		if (d.r < 0x60 || 0x90 < d.r) return false;
-		if (d.g < 0x60 || 0x90 < d.g) return false;
-		if (d.b < 0x60 || 0x90 < d.b) return false;
-		return true;
-	}
 	inline bool is_black(uint32_t _c)
 	{
 		rgba_t d = { .c = _c };
+		// r:00-00 g:00-00 b:00-00
 		if (0x00 < d.r) return false;
 		if (0x00 < d.g) return false;
 		if (0x00 < d.b) return false;
