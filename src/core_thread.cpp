@@ -3456,6 +3456,7 @@ namespace app {
 		auto& player = game_.teams.at(_teamid).players.at(_squadindex);
 		if (!player.characterselected)
 		{
+			player.characterselected = true;
 			send_webapi_extended_characterselected(INVALID_SOCKET, _teamid, _squadindex);
 		}
 	}

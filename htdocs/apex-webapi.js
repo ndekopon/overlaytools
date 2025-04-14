@@ -348,6 +348,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_EXTENDED_REVIVE = 0x03;
   static WEBAPI_EXTENDED_COLLECTED = 0x04;
   static WEBAPI_EXTENDED_RESPAWN = 0x05;
+  static WEBAPI_EXTENDED_CHARACTERSELECTED = 0x06;
 
   #uri;
   #delay;
@@ -1075,6 +1076,16 @@ export class ApexWebAPI extends EventTarget {
           this.dispatchEvent(new CustomEvent('inforespawn', { detail: { team: team, player: player, respawned: respawned } }));
         }
         break;
+        case ApexWebAPI.WEBAPI_EXTENDED_CHARACTERSELECTED:
+          if (len == 3) {
+            if (arr[1] < 2) break;
+            this.#procPlayer(arr[1], arr[2], { characterselected: true });
+            const teamid = arr[1] - 2;
+            const team = this.#game.teams[teamid];
+            const player = team.players[arr[2]];
+            this.dispatchEvent(new CustomEvent('playercharacterselected', { detail: { team: team, player: player } }));
+          }
+          break;
     }
     return true;
   }
@@ -1666,6 +1677,7 @@ export class ApexWebAPI extends EventTarget {
       respawns: 0,
       connected: true,
       canreconnect: false,
+      characterselected: false,
       x: 0,
       y: 0,
       angle: 0,
