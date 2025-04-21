@@ -2175,7 +2175,7 @@ export class ApexWebAPI extends EventTarget {
     let precheck = true;
     const buffer = new SendBuffer(ApexWebAPI.WEBAPI_BROADCAST_OBJECT);
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_JSON, data, this.#encoder)) precheck = false;
-    return this.#sendAndReceiveReply(buffer, "broadcastobject");
+    return this.#sendAndReceiveReply(buffer, "broadcastobject", precheck);
   }
 
   getStatsFromCode(code) {
