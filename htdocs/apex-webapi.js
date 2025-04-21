@@ -294,6 +294,8 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_LOCALDATA_SET_TOURNAMENT_RESULT = 0x80;
   static WEBAPI_LOCALDATA_SET_LIVEAPI_CONFIG = 0x81;
   static WEBAPI_LOCALDATA_GET_LIVEAPI_CONFIG = 0x82;
+  static WEBAPI_LOCALDATA_SET_CONFIG = 0x83;
+  static WEBAPI_LOCALDATA_GET_CONFIG = 0x84;
 
   static WEBAPI_EVENT_TEAMBANNER_STATE = 0xc0;
   static WEBAPI_EVENT_MAP_STATE = 0xc1;
@@ -1608,6 +1610,16 @@ export class ApexWebAPI extends EventTarget {
         this.dispatchEvent(new CustomEvent('getliveapiconfig', {detail: {sequence: data_array[0], config: data_array[1]}}));
         break;
 
+      case ApexWebAPI.WEBAPI_LOCALDATA_SET_CONFIG:
+        if (count != 3) return false;
+        this.dispatchEvent(new CustomEvent('setconfig', {detail: {sequence: data_array[0], result: data_array[1], config: data_array[2]}}));
+        break;
+
+      case ApexWebAPI.WEBAPI_LOCALDATA_GET_CONFIG:
+        if (count != 2) return false;
+        this.dispatchEvent(new CustomEvent('getconfig', {detail: {sequence: data_array[0], config: data_array[1]}}));
+      break;
+
       case ApexWebAPI.WEBAPI_BROADCAST_OBJECT:
         if (count != 2) return false;
         this.dispatchEvent(new CustomEvent('broadcastobject', {detail: {sequence: data_array[0], data: data_array[1]}}));
@@ -2145,6 +2157,18 @@ export class ApexWebAPI extends EventTarget {
   getLiveAPIConfig() {
     const buffer = new SendBuffer(ApexWebAPI.WEBAPI_LOCALDATA_GET_LIVEAPI_CONFIG);
     return this.#sendAndReceiveReply(buffer, "getliveapiconfig");
+  }
+
+  setConfig(config) {
+    let precheck = true;
+    const buffer = new SendBuffer(ApexWebAPI.WEBAPI_LOCALDATA_SET_CONFIG);
+    if (!buffer.append(ApexWebAPI.WEBAPI_DATA_JSON, config, this.#encoder)) precheck = false;
+    return this.#sendAndReceiveReply(buffer, "setconfig", precheck);
+  }
+
+  getConfig() {
+    const buffer = new SendBuffer(ApexWebAPI.WEBAPI_LOCALDATA_GET_CONFIG);
+    return this.#sendAndReceiveReply(buffer, "getconfig");
   }
 
   broadcastObject(data) {

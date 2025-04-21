@@ -54,6 +54,47 @@ namespace app {
 
 	using json = nlohmann::json;
 
+	std::string load_config_json()
+	{
+		std::wstring path = ::get_data_directory() + L"\\config.json";
+		if (std::filesystem::is_regular_file(path))
+		{
+			try
+			{
+				std::ifstream s(path);
+				json j = json::parse(s);
+				if (j.type() == json::value_t::object)
+				{
+					return j.dump();
+				}
+			}
+			catch (...)
+			{
+			}
+		}
+		return "{}";
+	}
+
+	bool save_config_json(const std::string& _json)
+	{
+		std::wstring path = get_data_directory() + L"\\config.json";
+
+		try
+		{
+			json j = json::parse(_json);
+			if (j.type() == json::value_t::object)
+			{
+				std::ofstream s(path);
+				s << j.dump(2);
+				return true;
+			}
+		}
+		catch (...)
+		{
+		}
+		return false;
+	}
+
 	bool local_tournament_data::create_base_directory()
 	{
 		if (std::filesystem::is_directory(base_)) return true;
@@ -658,6 +699,23 @@ namespace app {
 
 		switch (_data->data_type)
 		{
+		case LOCAL_DATA_TYPE_SET_CONFIG:
+			log(logid_, L"Info: proc LOCAL_DATA_TYPE_SET_CONFIG event.");
+			if (_data->json != nullptr)
+			{
+				d->json = std::move(_data->json);
+				d->result = save_config_json(*d->json);
+			}
+			else
+			{
+				d->json.reset(new std::string("{}"));
+				d->result = false;
+			}
+			break;
+		case LOCAL_DATA_TYPE_GET_CONFIG:
+			log(logid_, L"Info: proc LOCAL_DATA_TYPE_GET_CONFIG event.");
+			d->json.reset(new std::string(load_config_json()));
+			break;
 		case LOCAL_DATA_TYPE_SET_OBSERVER:
 			if (_data->hash != "")
 			{
@@ -1050,6 +1108,25 @@ namespace app {
 	HANDLE local_thread::get_event_wq()
 	{
 		return event_wq_;
+	}
+
+	void local_thread::set_config(SOCKET _sock, uint32_t _sequence, const std::string& _json)
+	{
+		local_queue_data_t d(new local_queue_data());
+		d->data_type = LOCAL_DATA_TYPE_SET_CONFIG;
+		d->sock = _sock;
+		d->sequence = _sequence;
+		d->json.reset(new std::string(_json));
+		push_rq(std::move(d));
+	}
+
+	void local_thread::get_config(SOCKET _sock, uint32_t _sequence)
+	{
+		local_queue_data_t d(new local_queue_data());
+		d->data_type = LOCAL_DATA_TYPE_GET_CONFIG;
+		d->sock = _sock;
+		d->sequence = _sequence;
+		push_rq(std::move(d));
 	}
 
 	void local_thread::set_observer(SOCKET _sock, uint32_t _sequence, const std::string& _hash)

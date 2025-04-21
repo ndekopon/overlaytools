@@ -15,6 +15,8 @@ namespace app
 {
 	enum : uint32_t {
 		LOCAL_DATA_TYPE_NONE,
+		LOCAL_DATA_TYPE_SET_CONFIG,
+		LOCAL_DATA_TYPE_GET_CONFIG,
 		LOCAL_DATA_TYPE_SET_OBSERVER,
 		LOCAL_DATA_TYPE_GET_OBSERVER,
 		LOCAL_DATA_TYPE_GET_OBSERVERS,
@@ -162,6 +164,9 @@ namespace app
 		HANDLE get_event_wq();
 
 		std::queue<local_queue_data_t> pull_wq();
+
+		void set_config(SOCKET _sock, uint32_t _sequence, const std::string& _json);
+		void get_config(SOCKET _sock, uint32_t _sequence);
 
 		void set_observer(SOCKET _sock, uint32_t _sequence, const std::string& _hash);
 		void get_observer(SOCKET _sock, uint32_t _sequence);
