@@ -294,7 +294,7 @@ namespace app {
 			CComPtr<IDXGIResource> resource;
 			CComPtr<ID3D11Texture2D> gpu_texture;
 			DXGI_OUTDUPL_FRAME_INFO frame_info;
-			hr = output_duplication_->AcquireNextFrame(250, &frame_info, &resource);
+			hr = output_duplication_->AcquireNextFrame(0, &frame_info, &resource);
 			if (FAILED(hr)) return hr;
 
 			hr = resource->QueryInterface(IID_PPV_ARGS(&gpu_texture));
