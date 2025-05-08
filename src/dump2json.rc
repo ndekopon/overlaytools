@@ -18,7 +18,7 @@ BEGIN
 	BEGIN
 		BLOCK "040004b0"
 		BEGIN
-			VALUE "FileDescription", "https://github.com/ndekopon/overlaytools"
+			VALUE "FileDescription", "dump2json.exe"
 			VALUE "FileVersion", "0.5.5.0"
 			VALUE "InternalName", "dump2json"
 			VALUE "OriginalFilename", "dump2json.exe"

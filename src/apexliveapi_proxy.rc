@@ -20,7 +20,7 @@ BEGIN
 	BEGIN
 		BLOCK "040004b0"
 		BEGIN
-			VALUE "FileDescription", "https://github.com/ndekopon/overlaytools"
+			VALUE "FileDescription", "apexliveapi_proxy.exe"
 			VALUE "FileVersion", "0.5.5.0"
 			VALUE "InternalName", "apexliveapi_proxy"
 			VALUE "OriginalFilename", "apexliveapi_proxy.exe"
