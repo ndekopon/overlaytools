@@ -259,6 +259,8 @@ namespace app {
 		DXGI_OUTDUPL_DESC dupl_desc;
 		D3D11_TEXTURE2D_DESC desc;
 
+		cpu_texture_ = nullptr;
+
 		output_duplication_->GetDesc(&dupl_desc);
 
 		desc.Width = dupl_desc.ModeDesc.Width;
