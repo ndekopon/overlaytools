@@ -3054,6 +3054,7 @@ const ::uint32_t
         ~0u,  // no sizeof(Split)
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::ChangeCamera, _impl_.target_),
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PauseToggle, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::PauseToggle, _internal_metadata_),
@@ -3372,27 +3373,27 @@ static const ::_pbi::MigrationSchema
         {815, 830, -1, sizeof(::rtech::liveapi::AmmoUsed)},
         {837, 850, -1, sizeof(::rtech::liveapi::WeaponSwitched)},
         {855, -1, -1, sizeof(::rtech::liveapi::ChangeCamera)},
-        {866, 875, -1, sizeof(::rtech::liveapi::PauseToggle)},
-        {876, -1, -1, sizeof(::rtech::liveapi::CustomMatch_CreateLobby)},
-        {884, 893, -1, sizeof(::rtech::liveapi::CustomMatch_JoinLobby)},
-        {894, -1, -1, sizeof(::rtech::liveapi::CustomMatch_LeaveLobby)},
-        {902, 911, -1, sizeof(::rtech::liveapi::CustomMatch_SetReady)},
-        {912, -1, -1, sizeof(::rtech::liveapi::CustomMatch_GetLobbyPlayers)},
-        {920, 929, -1, sizeof(::rtech::liveapi::CustomMatch_SetMatchmaking)},
-        {930, 941, -1, sizeof(::rtech::liveapi::CustomMatch_SetTeam)},
-        {944, 954, -1, sizeof(::rtech::liveapi::CustomMatch_KickPlayer)},
-        {956, 970, -1, sizeof(::rtech::liveapi::CustomMatch_SetSettings)},
-        {976, -1, -1, sizeof(::rtech::liveapi::CustomMatch_GetSettings)},
-        {984, 994, -1, sizeof(::rtech::liveapi::CustomMatch_SetTeamName)},
-        {996, 1006, -1, sizeof(::rtech::liveapi::CustomMatch_SetSpawnPoint)},
-        {1008, 1017, -1, sizeof(::rtech::liveapi::CustomMatch_SetEndRingExclusion)},
-        {1018, -1, -1, sizeof(::rtech::liveapi::CustomMatch_GetLegendBanStatus)},
-        {1026, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetLegendBan)},
-        {1035, 1044, -1, sizeof(::rtech::liveapi::CustomMatch_SendChat)},
-        {1045, 1074, -1, sizeof(::rtech::liveapi::Request)},
-        {1094, 1103, -1, sizeof(::rtech::liveapi::RequestStatus)},
-        {1104, 1114, -1, sizeof(::rtech::liveapi::Response)},
-        {1116, 1126, -1, sizeof(::rtech::liveapi::LiveAPIEvent)},
+        {867, 876, -1, sizeof(::rtech::liveapi::PauseToggle)},
+        {877, -1, -1, sizeof(::rtech::liveapi::CustomMatch_CreateLobby)},
+        {885, 894, -1, sizeof(::rtech::liveapi::CustomMatch_JoinLobby)},
+        {895, -1, -1, sizeof(::rtech::liveapi::CustomMatch_LeaveLobby)},
+        {903, 912, -1, sizeof(::rtech::liveapi::CustomMatch_SetReady)},
+        {913, -1, -1, sizeof(::rtech::liveapi::CustomMatch_GetLobbyPlayers)},
+        {921, 930, -1, sizeof(::rtech::liveapi::CustomMatch_SetMatchmaking)},
+        {931, 942, -1, sizeof(::rtech::liveapi::CustomMatch_SetTeam)},
+        {945, 955, -1, sizeof(::rtech::liveapi::CustomMatch_KickPlayer)},
+        {957, 971, -1, sizeof(::rtech::liveapi::CustomMatch_SetSettings)},
+        {977, -1, -1, sizeof(::rtech::liveapi::CustomMatch_GetSettings)},
+        {985, 995, -1, sizeof(::rtech::liveapi::CustomMatch_SetTeamName)},
+        {997, 1007, -1, sizeof(::rtech::liveapi::CustomMatch_SetSpawnPoint)},
+        {1009, 1018, -1, sizeof(::rtech::liveapi::CustomMatch_SetEndRingExclusion)},
+        {1019, -1, -1, sizeof(::rtech::liveapi::CustomMatch_GetLegendBanStatus)},
+        {1027, -1, -1, sizeof(::rtech::liveapi::CustomMatch_SetLegendBan)},
+        {1036, 1045, -1, sizeof(::rtech::liveapi::CustomMatch_SendChat)},
+        {1046, 1075, -1, sizeof(::rtech::liveapi::Request)},
+        {1095, 1104, -1, sizeof(::rtech::liveapi::RequestStatus)},
+        {1105, 1115, -1, sizeof(::rtech::liveapi::Response)},
+        {1117, 1127, -1, sizeof(::rtech::liveapi::LiveAPIEvent)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::rtech::liveapi::_Vector3_default_instance_._instance,
@@ -3634,78 +3635,78 @@ const char descriptor_table_protodef_events_2eproto[] ABSL_ATTRIBUTE_SECTION_VAR
     "\001\n\016WeaponSwitched\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010"
     "category\030\002 \001(\t\022%\n\006player\030\003 \001(\0132\025.rtech.l"
     "iveapi.Player\022\021\n\toldWeapon\030\004 \001(\t\022\021\n\tnewW"
-    "eapon\030\005 \001(\t\"X\n\014ChangeCamera\022.\n\003poi\030\001 \001(\016"
+    "eapon\030\005 \001(\t\"o\n\014ChangeCamera\022.\n\003poi\030\001 \001(\016"
     "2\037.rtech.liveapi.PlayerOfInterestH\000\022\016\n\004n"
-    "ame\030\002 \001(\tH\000B\010\n\006target\"\037\n\013PauseToggle\022\020\n\010"
-    "preTimer\030\001 \001(\002\"\031\n\027CustomMatch_CreateLobb"
-    "y\"*\n\025CustomMatch_JoinLobby\022\021\n\troleToken\030"
-    "\001 \001(\t\"\030\n\026CustomMatch_LeaveLobby\"\'\n\024Custo"
-    "mMatch_SetReady\022\017\n\007isReady\030\001 \001(\010\"\035\n\033Cust"
-    "omMatch_GetLobbyPlayers\"-\n\032CustomMatch_S"
-    "etMatchmaking\022\017\n\007enabled\030\001 \001(\010\"\\\n\023Custom"
-    "Match_SetTeam\022\016\n\006teamId\030\001 \001(\005\022\032\n\022targetH"
-    "ardwareName\030\002 \001(\t\022\031\n\021targetNucleusHash\030\003"
-    " \001(\t\"O\n\026CustomMatch_KickPlayer\022\032\n\022target"
-    "HardwareName\030\001 \001(\t\022\031\n\021targetNucleusHash\030"
-    "\002 \001(\t\"\217\001\n\027CustomMatch_SetSettings\022\024\n\014pla"
-    "ylistName\030\001 \001(\t\022\021\n\tadminChat\030\002 \001(\010\022\022\n\nte"
-    "amRename\030\003 \001(\010\022\022\n\nselfAssign\030\004 \001(\010\022\021\n\tai"
-    "mAssist\030\005 \001(\010\022\020\n\010anonMode\030\006 \001(\010\"\031\n\027Custo"
-    "mMatch_GetSettings\";\n\027CustomMatch_SetTea"
-    "mName\022\016\n\006teamId\030\001 \001(\005\022\020\n\010teamName\030\002 \001(\t\""
-    "\?\n\031CustomMatch_SetSpawnPoint\022\016\n\006teamId\030\001"
-    " \001(\005\022\022\n\nspawnPoint\030\002 \001(\005\"U\n\037CustomMatch_"
-    "SetEndRingExclusion\0222\n\020sectionToExclude\030"
-    "\001 \001(\0162\030.rtech.liveapi.MapRegion\" \n\036Custo"
-    "mMatch_GetLegendBanStatus\".\n\030CustomMatch"
-    "_SetLegendBan\022\022\n\nlegendRefs\030\001 \003(\t\"$\n\024Cus"
-    "tomMatch_SendChat\022\014\n\004text\030\001 \001(\t\"\346\n\n\007Requ"
-    "est\022\017\n\007withAck\030\001 \001(\010\022\024\n\014preSharedKey\030\002 \001"
-    "(\t\0220\n\tchangeCam\030\004 \001(\0132\033.rtech.liveapi.Ch"
-    "angeCameraH\000\0221\n\013pauseToggle\030\005 \001(\0132\032.rtec"
-    "h.liveapi.PauseToggleH\000\022I\n\027customMatch_C"
-    "reateLobby\030\n \001(\0132&.rtech.liveapi.CustomM"
-    "atch_CreateLobbyH\000\022E\n\025customMatch_JoinLo"
-    "bby\030\013 \001(\0132$.rtech.liveapi.CustomMatch_Jo"
-    "inLobbyH\000\022G\n\026customMatch_LeaveLobby\030\014 \001("
-    "\0132%.rtech.liveapi.CustomMatch_LeaveLobby"
-    "H\000\022C\n\024customMatch_SetReady\030\r \001(\0132#.rtech"
-    ".liveapi.CustomMatch_SetReadyH\000\022O\n\032custo"
-    "mMatch_SetMatchmaking\030\016 \001(\0132).rtech.live"
-    "api.CustomMatch_SetMatchmakingH\000\022A\n\023cust"
-    "omMatch_SetTeam\030\017 \001(\0132\".rtech.liveapi.Cu"
-    "stomMatch_SetTeamH\000\022G\n\026customMatch_KickP"
-    "layer\030\020 \001(\0132%.rtech.liveapi.CustomMatch_"
-    "KickPlayerH\000\022I\n\027customMatch_SetSettings\030"
-    "\021 \001(\0132&.rtech.liveapi.CustomMatch_SetSet"
-    "tingsH\000\022C\n\024customMatch_SendChat\030\022 \001(\0132#."
-    "rtech.liveapi.CustomMatch_SendChatH\000\022Q\n\033"
-    "customMatch_GetLobbyPlayers\030\023 \001(\0132*.rtec"
-    "h.liveapi.CustomMatch_GetLobbyPlayersH\000\022"
-    "I\n\027customMatch_SetTeamName\030\024 \001(\0132&.rtech"
-    ".liveapi.CustomMatch_SetTeamNameH\000\022I\n\027cu"
-    "stomMatch_GetSettings\030\025 \001(\0132&.rtech.live"
-    "api.CustomMatch_GetSettingsH\000\022M\n\031customM"
-    "atch_SetSpawnPoint\030\026 \001(\0132(.rtech.liveapi"
-    ".CustomMatch_SetSpawnPointH\000\022Y\n\037customMa"
-    "tch_SetEndRingExclusion\030\027 \001(\0132..rtech.li"
-    "veapi.CustomMatch_SetEndRingExclusionH\000\022"
-    "W\n\036customMatch_GetLegendBanStatus\030\030 \001(\0132"
-    "-.rtech.liveapi.CustomMatch_GetLegendBan"
-    "StatusH\000\022K\n\030customMatch_SetLegendBan\030\031 \001"
-    "(\0132\'.rtech.liveapi.CustomMatch_SetLegend"
-    "BanH\000B\t\n\007actions\"\037\n\rRequestStatus\022\016\n\006sta"
-    "tus\030\001 \001(\t\"A\n\010Response\022\017\n\007success\030\001 \001(\010\022$"
-    "\n\006result\030\002 \001(\0132\024.google.protobuf.Any\"M\n\014"
-    "LiveAPIEvent\022\022\n\nevent_size\030\001 \001(\007\022)\n\013game"
-    "Message\030\003 \001(\0132\024.google.protobuf.Any*\210\001\n\020"
-    "PlayerOfInterest\022\017\n\013UNSPECIFIED\020\000\022\010\n\004NEX"
-    "T\020\001\022\014\n\010PREVIOUS\020\002\022\017\n\013KILL_LEADER\020\003\022\021\n\rCL"
-    "OSEST_ENEMY\020\004\022\022\n\016CLOSEST_PLAYER\020\005\022\023\n\017LAT"
-    "EST_ATTACKER\020\006*j\n\tMapRegion\022\014\n\010TOP_LEFT\020"
-    "\000\022\r\n\tTOP_RIGHT\020\001\022\017\n\013BOTTOM_LEFT\020\002\022\020\n\014BOT"
-    "TOM_RIGHT\020\003\022\n\n\006CENTER\020\004\022\021\n\rREGIONS_COUNT"
-    "\020\005b\006proto3"
+    "ame\030\002 \001(\tH\000\022\025\n\013nucleusHash\030\003 \001(\tH\000B\010\n\006ta"
+    "rget\"\037\n\013PauseToggle\022\020\n\010preTimer\030\001 \001(\002\"\031\n"
+    "\027CustomMatch_CreateLobby\"*\n\025CustomMatch_"
+    "JoinLobby\022\021\n\troleToken\030\001 \001(\t\"\030\n\026CustomMa"
+    "tch_LeaveLobby\"\'\n\024CustomMatch_SetReady\022\017"
+    "\n\007isReady\030\001 \001(\010\"\035\n\033CustomMatch_GetLobbyP"
+    "layers\"-\n\032CustomMatch_SetMatchmaking\022\017\n\007"
+    "enabled\030\001 \001(\010\"\\\n\023CustomMatch_SetTeam\022\016\n\006"
+    "teamId\030\001 \001(\005\022\032\n\022targetHardwareName\030\002 \001(\t"
+    "\022\031\n\021targetNucleusHash\030\003 \001(\t\"O\n\026CustomMat"
+    "ch_KickPlayer\022\032\n\022targetHardwareName\030\001 \001("
+    "\t\022\031\n\021targetNucleusHash\030\002 \001(\t\"\217\001\n\027CustomM"
+    "atch_SetSettings\022\024\n\014playlistName\030\001 \001(\t\022\021"
+    "\n\tadminChat\030\002 \001(\010\022\022\n\nteamRename\030\003 \001(\010\022\022\n"
+    "\nselfAssign\030\004 \001(\010\022\021\n\taimAssist\030\005 \001(\010\022\020\n\010"
+    "anonMode\030\006 \001(\010\"\031\n\027CustomMatch_GetSetting"
+    "s\";\n\027CustomMatch_SetTeamName\022\016\n\006teamId\030\001"
+    " \001(\005\022\020\n\010teamName\030\002 \001(\t\"\?\n\031CustomMatch_Se"
+    "tSpawnPoint\022\016\n\006teamId\030\001 \001(\005\022\022\n\nspawnPoin"
+    "t\030\002 \001(\005\"U\n\037CustomMatch_SetEndRingExclusi"
+    "on\0222\n\020sectionToExclude\030\001 \001(\0162\030.rtech.liv"
+    "eapi.MapRegion\" \n\036CustomMatch_GetLegendB"
+    "anStatus\".\n\030CustomMatch_SetLegendBan\022\022\n\n"
+    "legendRefs\030\001 \003(\t\"$\n\024CustomMatch_SendChat"
+    "\022\014\n\004text\030\001 \001(\t\"\346\n\n\007Request\022\017\n\007withAck\030\001 "
+    "\001(\010\022\024\n\014preSharedKey\030\002 \001(\t\0220\n\tchangeCam\030\004"
+    " \001(\0132\033.rtech.liveapi.ChangeCameraH\000\0221\n\013p"
+    "auseToggle\030\005 \001(\0132\032.rtech.liveapi.PauseTo"
+    "ggleH\000\022I\n\027customMatch_CreateLobby\030\n \001(\0132"
+    "&.rtech.liveapi.CustomMatch_CreateLobbyH"
+    "\000\022E\n\025customMatch_JoinLobby\030\013 \001(\0132$.rtech"
+    ".liveapi.CustomMatch_JoinLobbyH\000\022G\n\026cust"
+    "omMatch_LeaveLobby\030\014 \001(\0132%.rtech.liveapi"
+    ".CustomMatch_LeaveLobbyH\000\022C\n\024customMatch"
+    "_SetReady\030\r \001(\0132#.rtech.liveapi.CustomMa"
+    "tch_SetReadyH\000\022O\n\032customMatch_SetMatchma"
+    "king\030\016 \001(\0132).rtech.liveapi.CustomMatch_S"
+    "etMatchmakingH\000\022A\n\023customMatch_SetTeam\030\017"
+    " \001(\0132\".rtech.liveapi.CustomMatch_SetTeam"
+    "H\000\022G\n\026customMatch_KickPlayer\030\020 \001(\0132%.rte"
+    "ch.liveapi.CustomMatch_KickPlayerH\000\022I\n\027c"
+    "ustomMatch_SetSettings\030\021 \001(\0132&.rtech.liv"
+    "eapi.CustomMatch_SetSettingsH\000\022C\n\024custom"
+    "Match_SendChat\030\022 \001(\0132#.rtech.liveapi.Cus"
+    "tomMatch_SendChatH\000\022Q\n\033customMatch_GetLo"
+    "bbyPlayers\030\023 \001(\0132*.rtech.liveapi.CustomM"
+    "atch_GetLobbyPlayersH\000\022I\n\027customMatch_Se"
+    "tTeamName\030\024 \001(\0132&.rtech.liveapi.CustomMa"
+    "tch_SetTeamNameH\000\022I\n\027customMatch_GetSett"
+    "ings\030\025 \001(\0132&.rtech.liveapi.CustomMatch_G"
+    "etSettingsH\000\022M\n\031customMatch_SetSpawnPoin"
+    "t\030\026 \001(\0132(.rtech.liveapi.CustomMatch_SetS"
+    "pawnPointH\000\022Y\n\037customMatch_SetEndRingExc"
+    "lusion\030\027 \001(\0132..rtech.liveapi.CustomMatch"
+    "_SetEndRingExclusionH\000\022W\n\036customMatch_Ge"
+    "tLegendBanStatus\030\030 \001(\0132-.rtech.liveapi.C"
+    "ustomMatch_GetLegendBanStatusH\000\022K\n\030custo"
+    "mMatch_SetLegendBan\030\031 \001(\0132\'.rtech.liveap"
+    "i.CustomMatch_SetLegendBanH\000B\t\n\007actions\""
+    "\037\n\rRequestStatus\022\016\n\006status\030\001 \001(\t\"A\n\010Resp"
+    "onse\022\017\n\007success\030\001 \001(\010\022$\n\006result\030\002 \001(\0132\024."
+    "google.protobuf.Any\"M\n\014LiveAPIEvent\022\022\n\ne"
+    "vent_size\030\001 \001(\007\022)\n\013gameMessage\030\003 \001(\0132\024.g"
+    "oogle.protobuf.Any*\210\001\n\020PlayerOfInterest\022"
+    "\017\n\013UNSPECIFIED\020\000\022\010\n\004NEXT\020\001\022\014\n\010PREVIOUS\020\002"
+    "\022\017\n\013KILL_LEADER\020\003\022\021\n\rCLOSEST_ENEMY\020\004\022\022\n\016"
+    "CLOSEST_PLAYER\020\005\022\023\n\017LATEST_ATTACKER\020\006*j\n"
+    "\tMapRegion\022\014\n\010TOP_LEFT\020\000\022\r\n\tTOP_RIGHT\020\001\022"
+    "\017\n\013BOTTOM_LEFT\020\002\022\020\n\014BOTTOM_RIGHT\020\003\022\n\n\006CE"
+    "NTER\020\004\022\021\n\rREGIONS_COUNT\020\005b\006proto3"
 };
 static const ::_pbi::DescriptorTable* PROTOBUF_NONNULL const
     descriptor_table_events_2eproto_deps[1] = {
@@ -3715,7 +3716,7 @@ static ::absl::once_flag descriptor_table_events_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_events_2eproto = {
     false,
     false,
-    9410,
+    9433,
     descriptor_table_protodef_events_2eproto,
     "events.proto",
     &descriptor_table_events_2eproto_once,
@@ -23878,6 +23879,9 @@ ChangeCamera::ChangeCamera(
       case kName:
         new (&_impl_.target_.name_) decltype(_impl_.target_.name_){arena, from._impl_.target_.name_};
         break;
+      case kNucleusHash:
+        new (&_impl_.target_.nucleushash_) decltype(_impl_.target_.nucleushash_){arena, from._impl_.target_.nucleushash_};
+        break;
   }
 
   // @@protoc_insertion_point(copy_constructor:rtech.liveapi.ChangeCamera)
@@ -23916,6 +23920,10 @@ void ChangeCamera::clear_target() {
     }
     case kName: {
       _impl_.target_.name_.Destroy();
+      break;
+    }
+    case kNucleusHash: {
+      _impl_.target_.nucleushash_.Destroy();
       break;
     }
     case TARGET_NOT_SET: {
@@ -23968,16 +23976,16 @@ const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL ChangeCamera::Ge
   return ChangeCamera_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 2, 0, 39, 2>
+const ::_pbi::TcParseTable<0, 3, 0, 50, 2>
 ChangeCamera::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    2, 0,  // max_field_number, fast_idx_mask
+    3, 0,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967292,  // skipmap
+    4294967288,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    2,  // num_field_entries
+    3,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     ChangeCamera_class_data_.base(),
@@ -23997,12 +24005,16 @@ ChangeCamera::_table_ = {
     // string name = 2;
     {PROTOBUF_FIELD_OFFSET(ChangeCamera, _impl_.target_.name_), _Internal::kOneofCaseOffset + 0, 0,
     (0 | ::_fl::kFcOneof | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // string nucleusHash = 3;
+    {PROTOBUF_FIELD_OFFSET(ChangeCamera, _impl_.target_.nucleushash_), _Internal::kOneofCaseOffset + 0, 0,
+    (0 | ::_fl::kFcOneof | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }},
   // no aux_entries
   {{
-    "\32\0\4\0\0\0\0\0"
+    "\32\0\4\13\0\0\0\0"
     "rtech.liveapi.ChangeCamera"
     "name"
+    "nucleusHash"
   }},
 };
 PROTOBUF_NOINLINE void ChangeCamera::Clear() {
@@ -24045,6 +24057,13 @@ PROTOBUF_NOINLINE void ChangeCamera::Clear() {
       target = stream->WriteStringMaybeAliased(2, _s, target);
       break;
     }
+    case kNucleusHash: {
+      const std::string& _s = this_._internal_nucleushash();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.ChangeCamera.nucleusHash");
+      target = stream->WriteStringMaybeAliased(3, _s, target);
+      break;
+    }
     default:
       break;
   }
@@ -24084,6 +24103,12 @@ PROTOBUF_NOINLINE void ChangeCamera::Clear() {
                                       this_._internal_name());
       break;
     }
+    // string nucleusHash = 3;
+    case kNucleusHash: {
+      total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                      this_._internal_nucleushash());
+      break;
+    }
     case TARGET_NOT_SET: {
       break;
     }
@@ -24121,6 +24146,13 @@ void ChangeCamera::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::go
           _this->_impl_.target_.name_.InitDefault();
         }
         _this->_impl_.target_.name_.Set(from._internal_name(), arena);
+        break;
+      }
+      case kNucleusHash: {
+        if (oneof_needs_init) {
+          _this->_impl_.target_.nucleushash_.InitDefault();
+        }
+        _this->_impl_.target_.nucleushash_.Set(from._internal_nucleushash(), arena);
         break;
       }
       case TARGET_NOT_SET:

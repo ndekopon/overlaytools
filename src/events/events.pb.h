@@ -6159,6 +6159,7 @@ class ChangeCamera final : public ::google::protobuf::Message
   enum TargetCase {
     kPoi = 1,
     kName = 2,
+    kNucleusHash = 3,
     TARGET_NOT_SET = 0,
   };
   static constexpr int kIndexInFileMessages = 50;
@@ -6251,6 +6252,7 @@ class ChangeCamera final : public ::google::protobuf::Message
   enum : int {
     kPoiFieldNumber = 1,
     kNameFieldNumber = 2,
+    kNucleusHashFieldNumber = 3,
   };
   // .rtech.liveapi.PlayerOfInterest poi = 1;
   bool has_poi() const;
@@ -6279,6 +6281,22 @@ class ChangeCamera final : public ::google::protobuf::Message
   std::string* PROTOBUF_NONNULL _internal_mutable_name();
 
   public:
+  // string nucleusHash = 3;
+  bool has_nucleushash() const;
+  void clear_nucleushash() ;
+  const std::string& nucleushash() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_nucleushash(Arg_&& arg, Args_... args);
+  std::string* PROTOBUF_NONNULL mutable_nucleushash();
+  [[nodiscard]] std::string* PROTOBUF_NULLABLE release_nucleushash();
+  void set_allocated_nucleushash(std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const std::string& _internal_nucleushash() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_nucleushash(const std::string& value);
+  std::string* PROTOBUF_NONNULL _internal_mutable_nucleushash();
+
+  public:
   void clear_target();
   TargetCase target_case() const;
   // @@protoc_insertion_point(class_scope:rtech.liveapi.ChangeCamera)
@@ -6286,11 +6304,12 @@ class ChangeCamera final : public ::google::protobuf::Message
   class _Internal;
   void set_has_poi();
   void set_has_name();
+  void set_has_nucleushash();
   inline bool has_target() const;
   inline void clear_has_target();
   friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<0, 2,
-                                   0, 39,
+  static const ::google::protobuf::internal::TcParseTable<0, 3,
+                                   0, 50,
                                    2>
       _table_;
 
@@ -6314,6 +6333,7 @@ class ChangeCamera final : public ::google::protobuf::Message
       ::google::protobuf::internal::ConstantInitialized _constinit_;
       int poi_;
       ::google::protobuf::internal::ArenaStringPtr name_;
+      ::google::protobuf::internal::ArenaStringPtr nucleushash_;
     } target_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -30702,6 +30722,91 @@ inline void ChangeCamera::set_allocated_name(std::string* PROTOBUF_NULLABLE valu
     _impl_.target_.name_.InitAllocated(value, GetArena());
   }
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.ChangeCamera.name)
+}
+
+// string nucleusHash = 3;
+inline bool ChangeCamera::has_nucleushash() const {
+  return target_case() == kNucleusHash;
+}
+inline void ChangeCamera::set_has_nucleushash() {
+  _impl_._oneof_case_[0] = kNucleusHash;
+}
+inline void ChangeCamera::clear_nucleushash() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (target_case() == kNucleusHash) {
+    _impl_.target_.nucleushash_.Destroy();
+    clear_has_target();
+  }
+}
+inline const std::string& ChangeCamera::nucleushash() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.ChangeCamera.nucleusHash)
+  return _internal_nucleushash();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void ChangeCamera::set_nucleushash(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (target_case() != kNucleusHash) {
+    clear_target();
+
+    set_has_nucleushash();
+    _impl_.target_.nucleushash_.InitDefault();
+  }
+  _impl_.target_.nucleushash_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:rtech.liveapi.ChangeCamera.nucleusHash)
+}
+inline std::string* PROTOBUF_NONNULL ChangeCamera::mutable_nucleushash()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_nucleushash();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.ChangeCamera.nucleusHash)
+  return _s;
+}
+inline const std::string& ChangeCamera::_internal_nucleushash() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  if (target_case() != kNucleusHash) {
+    return ::google::protobuf::internal::GetEmptyStringAlreadyInited();
+  }
+  return _impl_.target_.nucleushash_.Get();
+}
+inline void ChangeCamera::_internal_set_nucleushash(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (target_case() != kNucleusHash) {
+    clear_target();
+
+    set_has_nucleushash();
+    _impl_.target_.nucleushash_.InitDefault();
+  }
+  _impl_.target_.nucleushash_.Set(value, GetArena());
+}
+inline std::string* PROTOBUF_NONNULL ChangeCamera::_internal_mutable_nucleushash() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (target_case() != kNucleusHash) {
+    clear_target();
+
+    set_has_nucleushash();
+    _impl_.target_.nucleushash_.InitDefault();
+  }
+  return _impl_.target_.nucleushash_.Mutable( GetArena());
+}
+inline std::string* PROTOBUF_NULLABLE ChangeCamera::release_nucleushash() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.ChangeCamera.nucleusHash)
+  if (target_case() != kNucleusHash) {
+    return nullptr;
+  }
+  clear_has_target();
+  return _impl_.target_.nucleushash_.Release();
+}
+inline void ChangeCamera::set_allocated_nucleushash(std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (has_target()) {
+    clear_target();
+  }
+  if (value != nullptr) {
+    set_has_nucleushash();
+    _impl_.target_.nucleushash_.InitAllocated(value, GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.ChangeCamera.nucleusHash)
 }
 
 inline bool ChangeCamera::has_target() const {
