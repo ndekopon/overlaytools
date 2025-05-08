@@ -3452,11 +3452,11 @@ export class WebAPIConfig {
             const team = this.#_game.teams[teamid];
             if (playerid >= team.players.length) return;
             const player = team.players[playerid];
-            if (!('name' in player)) return;
+            if (!('hash' in player)) return;
             if (!('state' in player)) return;
-            if (player.name == '') return;
+            if (player.hash == '') return;
             if (player.state != ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE) return;
-            this.#webapi.changeCamera(player.name).then(() => {}, () => {});
+            this.#webapi.changeCameraByHash(player.hash);
         });
 
         this.#resultview.setGameClickCallback((gameid) => {
