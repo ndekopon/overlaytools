@@ -1163,9 +1163,9 @@ namespace app {
 		{
 			log(LOG_CORE, L"Info: WEBAPI_SEND_CHANGECAMERA received.");
 			
-			if (wdata.size() != 2)
+			if (wdata.size() != 2 && wdata.size() != 3)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				log(LOG_CORE, L"Error: sended data size is not 2 or 3. (size=%d)", wdata.size());
 				return;
 			}
 
@@ -1173,10 +1173,19 @@ namespace app {
 			rtech::liveapi::Request req;
 			auto act = req.mutable_changecam();
 
+			bool ishash = (wdata.size() == 3 && wdata.get_bool(2));
+
 			// カメラ設定
 			try
 			{
-				act->set_name(wdata.get_string(1).c_str());
+				if (ishash)
+				{
+					act->set_nucleushash(wdata.get_string(1).c_str());
+				}
+				else
+				{
+					act->set_name(wdata.get_string(1).c_str());
+				}
 			}
 			catch (...)
 			{
