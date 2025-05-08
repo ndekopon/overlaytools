@@ -2018,11 +2018,19 @@ export class ApexWebAPI extends EventTarget {
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_FLOAT32, pretimer)) precheck = false;
     return this.#sendAndReceiveReply(buffer, "pausetoggle", precheck);
   }
-  
+
   changeCamera(name) {
     let precheck = true;
     const buffer = new SendBuffer(ApexWebAPI.WEBAPI_SEND_CHANGECAMERA);
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_STRING, name, this.#encoder)) precheck = false;
+    return this.#sendAndReceiveReply(buffer, "changecamera", precheck);
+  }
+
+  changeCameraByHash(hash) {
+    let precheck = true;
+    const buffer = new SendBuffer(ApexWebAPI.WEBAPI_SEND_CHANGECAMERA);
+    if (!buffer.append(ApexWebAPI.WEBAPI_DATA_STRING, hash, this.#encoder)) precheck = false;
+    if (!buffer.append(ApexWebAPI.WEBAPI_DATA_BOOL, true, this.#encoder)) precheck = false;
     return this.#sendAndReceiveReply(buffer, "changecamera", precheck);
   }
 
