@@ -54,9 +54,9 @@ namespace app {
 
 	using json = nlohmann::json;
 
-	std::string load_config_json()
+	std::string load_config_json(uint32_t _slot)
 	{
-		std::wstring path = ::get_data_directory() + L"\\config.json";
+		std::wstring path = ::get_data_directory() + L"\\config" + (_slot > 0 ? L"_" + std::to_wstring(_slot) : L"") + L".json";
 		if (std::filesystem::is_regular_file(path))
 		{
 			try
@@ -75,9 +75,9 @@ namespace app {
 		return "{}";
 	}
 
-	bool save_config_json(const std::string& _json)
+	bool save_config_json(const std::string& _json, uint32_t _slot)
 	{
-		std::wstring path = get_data_directory() + L"\\config.json";
+		std::wstring path = get_data_directory() + L"\\config" + (_slot > 0 ? L"_" + std::to_wstring(_slot) : L"") + L".json";
 
 		try
 		{
@@ -701,10 +701,11 @@ namespace app {
 		{
 		case LOCAL_DATA_TYPE_SET_CONFIG:
 			log(logid_, L"Info: proc LOCAL_DATA_TYPE_SET_CONFIG event.");
+			d->slot = _data->slot;
 			if (_data->json != nullptr)
 			{
 				d->json = std::move(_data->json);
-				d->result = save_config_json(*d->json);
+				d->result = save_config_json(*d->json, _data->slot);
 			}
 			else
 			{
@@ -714,7 +715,8 @@ namespace app {
 			break;
 		case LOCAL_DATA_TYPE_GET_CONFIG:
 			log(logid_, L"Info: proc LOCAL_DATA_TYPE_GET_CONFIG event.");
-			d->json.reset(new std::string(load_config_json()));
+			d->slot = _data->slot;
+			d->json.reset(new std::string(load_config_json(_data->slot)));
 			break;
 		case LOCAL_DATA_TYPE_SET_OBSERVER:
 			if (_data->hash != "")
@@ -1110,22 +1112,24 @@ namespace app {
 		return event_wq_;
 	}
 
-	void local_thread::set_config(SOCKET _sock, uint32_t _sequence, const std::string& _json)
+	void local_thread::set_config(SOCKET _sock, uint32_t _sequence, const std::string& _json, uint8_t _slot)
 	{
 		local_queue_data_t d(new local_queue_data());
 		d->data_type = LOCAL_DATA_TYPE_SET_CONFIG;
 		d->sock = _sock;
 		d->sequence = _sequence;
+		d->slot = _slot;
 		d->json.reset(new std::string(_json));
 		push_rq(std::move(d));
 	}
 
-	void local_thread::get_config(SOCKET _sock, uint32_t _sequence)
+	void local_thread::get_config(SOCKET _sock, uint32_t _sequence, uint8_t _slot)
 	{
 		local_queue_data_t d(new local_queue_data());
 		d->data_type = LOCAL_DATA_TYPE_GET_CONFIG;
 		d->sock = _sock;
 		d->sequence = _sequence;
+		d->slot = _slot;
 		push_rq(std::move(d));
 	}
 

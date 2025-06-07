@@ -814,15 +814,23 @@ namespace app {
 		case WEBAPI_LOCALDATA_SET_CONFIG:
 		{
 			log(LOG_CORE, L"Info: WEBAPI_LOCALDATA_SET_CONFIG received.");
-			if (wdata.size() != 2)
+			if (wdata.size() != 2 && wdata.size() != 3)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				log(LOG_CORE, L"Error: sended data size is not 2 or 3. (size=%d)", wdata.size());
 				return;
 			}
 			try
 			{
 				auto json = wdata.get_json(1);
-				local_.set_config(socket, sequence, json);
+				if (wdata.size() == 2)
+				{
+					local_.set_config(socket, sequence, json, 0);
+				}
+				else if (wdata.size() == 3)
+				{
+					auto slot = wdata.get_uint8(2);
+					local_.set_config(socket, sequence, json, slot);
+				}
 			}
 			catch (std::out_of_range& oor)
 			{
@@ -837,14 +845,22 @@ namespace app {
 		case WEBAPI_LOCALDATA_GET_CONFIG:
 		{
 			log(LOG_CORE, L"Info: WEBAPI_LOCALDATA_GET_CONFIG received.");
-			if (wdata.size() != 1)
+			if (wdata.size() != 1 && wdata.size() != 2)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 1. (size=%d)", wdata.size());
+				log(LOG_CORE, L"Error: sended data size is not 1 or 2. (size=%d)", wdata.size());
 				return;
 			}
 			try
 			{
-				local_.get_config(socket, sequence);
+				if (wdata.size() == 1)
+				{
+					local_.get_config(socket, sequence, 0);
+				}
+				else if (wdata.size() == 2)
+				{
+					auto slot = wdata.get_uint8(1);
+					local_.get_config(socket, sequence, slot);
+				}
 			}
 			catch (...)
 			{
@@ -1364,13 +1380,13 @@ namespace app {
 		case LOCAL_DATA_TYPE_SET_CONFIG:
 			if (_data->json != nullptr)
 			{
-				reply_webapi_set_config(INVALID_SOCKET, _data->sequence, _data->result, *_data->json);
+				reply_webapi_set_config(INVALID_SOCKET, _data->sequence, _data->result, *_data->json, _data->slot);
 			}
 			break;
 		case LOCAL_DATA_TYPE_GET_CONFIG:
 			if (_data->json != nullptr)
 			{
-				reply_webapi_get_config(_data->sock, _data->sequence, *_data->json);
+				reply_webapi_get_config(_data->sock, _data->sequence, *_data->json, _data->slot);
 			}
 			break;
 		case LOCAL_DATA_TYPE_SET_OBSERVER:
@@ -3157,21 +3173,41 @@ namespace app {
 		}
 	}
 
-	void core_thread::reply_webapi_set_config(SOCKET _sock, uint32_t _sequence, bool _result, const std::string& _json)
+	void core_thread::reply_webapi_set_config(SOCKET _sock, uint32_t _sequence, bool _result, const std::string& _json, uint8_t _slot)
 	{
 		send_webapi_data sdata(WEBAPI_LOCALDATA_SET_CONFIG);
-		if (sdata.append(_sequence) && sdata.append(_result) && sdata.append_json(_json))
+		if (_slot == 0)
 		{
-			sendto_webapi(_sock, std::move(sdata.buffer_));
+			if (sdata.append(_sequence) && sdata.append(_result) && sdata.append_json(_json))
+			{
+				sendto_webapi(_sock, std::move(sdata.buffer_));
+			}
+		}
+		else
+		{
+			if (sdata.append(_sequence) && sdata.append(_result) && sdata.append_json(_json) && sdata.append(_slot))
+			{
+				sendto_webapi(_sock, std::move(sdata.buffer_));
+			}
 		}
 	}
 
-	void core_thread::reply_webapi_get_config(SOCKET _sock, uint32_t _sequence, const std::string& _json)
+	void core_thread::reply_webapi_get_config(SOCKET _sock, uint32_t _sequence, const std::string& _json, uint8_t _slot)
 	{
 		send_webapi_data sdata(WEBAPI_LOCALDATA_GET_CONFIG);
-		if (sdata.append(_sequence) && sdata.append_json(_json))
+		if (_slot == 0)
 		{
-			sendto_webapi(_sock, std::move(sdata.buffer_));
+			if (sdata.append(_sequence) && sdata.append_json(_json))
+			{
+				sendto_webapi(_sock, std::move(sdata.buffer_));
+			}
+		}
+		else
+		{
+			if (sdata.append(_sequence) && sdata.append_json(_json) && sdata.append(_slot))
+			{
+				sendto_webapi(_sock, std::move(sdata.buffer_));
+			}
 		}
 	}
 

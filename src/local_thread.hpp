@@ -114,6 +114,7 @@ namespace app
 		std::string tournament_name = "";
 		uint32_t game_id = 0;
 		uint32_t result_count = 0;
+		uint32_t slot = 0;
 		std::unique_ptr<livedata::result> game_result = nullptr;
 	};
 
@@ -165,8 +166,8 @@ namespace app
 
 		std::queue<local_queue_data_t> pull_wq();
 
-		void set_config(SOCKET _sock, uint32_t _sequence, const std::string& _json);
-		void get_config(SOCKET _sock, uint32_t _sequence);
+		void set_config(SOCKET _sock, uint32_t _sequence, const std::string& _json, uint8_t _slot);
+		void get_config(SOCKET _sock, uint32_t _sequence, uint8_t _slot);
 
 		void set_observer(SOCKET _sock, uint32_t _sequence, const std::string& _hash);
 		void get_observer(SOCKET _sock, uint32_t _sequence);

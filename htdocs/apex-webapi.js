@@ -1611,13 +1611,13 @@ export class ApexWebAPI extends EventTarget {
         break;
 
       case ApexWebAPI.WEBAPI_LOCALDATA_SET_CONFIG:
-        if (count != 3) return false;
-        this.dispatchEvent(new CustomEvent('setconfig', {detail: {sequence: data_array[0], result: data_array[1], config: data_array[2]}}));
+        if (count != 3 && count != 4) return false;
+        this.dispatchEvent(new CustomEvent('setconfig', {detail: {sequence: data_array[0], result: data_array[1], config: data_array[2], slot: count == 4 ? data_array[3]: 0}}));
         break;
 
       case ApexWebAPI.WEBAPI_LOCALDATA_GET_CONFIG:
-        if (count != 2) return false;
-        this.dispatchEvent(new CustomEvent('getconfig', {detail: {sequence: data_array[0], config: data_array[1]}}));
+        if (count != 2 && count != 3) return false;
+        this.dispatchEvent(new CustomEvent('getconfig', {detail: {sequence: data_array[0], config: data_array[1], slot: count == 3 ? data_array[2] : 0}}));
       break;
 
       case ApexWebAPI.WEBAPI_BROADCAST_OBJECT:
@@ -2167,16 +2167,19 @@ export class ApexWebAPI extends EventTarget {
     return this.#sendAndReceiveReply(buffer, "getliveapiconfig");
   }
 
-  setConfig(config) {
+  setConfig(config, slot = 0) {
     let precheck = true;
     const buffer = new SendBuffer(ApexWebAPI.WEBAPI_LOCALDATA_SET_CONFIG);
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_JSON, config, this.#encoder)) precheck = false;
+    if (slot > 0 && !buffer.append(ApexWebAPI.WEBAPI_DATA_UINT8, slot)) precheck = false;
     return this.#sendAndReceiveReply(buffer, "setconfig", precheck);
   }
 
-  getConfig() {
+  getConfig(slot = 0) {
+    let precheck = true;
     const buffer = new SendBuffer(ApexWebAPI.WEBAPI_LOCALDATA_GET_CONFIG);
-    return this.#sendAndReceiveReply(buffer, "getconfig");
+    if (slot > 0 && !buffer.append(ApexWebAPI.WEBAPI_DATA_UINT8, slot)) precheck = false;
+    return this.#sendAndReceiveReply(buffer, "getconfig", precheck);
   }
 
   broadcastObject(data) {
