@@ -678,7 +678,7 @@ export class ApexWebAPI extends EventTarget {
 
   #procEventMatchStateEndWinnerDetermined(arr) {
     if (arr[0] < 2) return false;
-    this.#procTeam(arr[0], {placement: 1});
+    this.#procTeam(arr[0] - 2, {placement: 1});
     this.dispatchEvent(new CustomEvent('winnerdetermine', {
       detail: {
         game: this.#game,
