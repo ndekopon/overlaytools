@@ -218,9 +218,12 @@ function initTeamResult(teamid, name) {
         kill_points: [],
         placement_points: [],
         other_points: [],
+        cumulative_points: [],
         eliminated: false,
         status: [],
-        rank: -1
+        rank: -1,
+        matchpoints: false,
+        winner: false
     };
 }
 
@@ -247,6 +250,13 @@ export function resultsToTeamResults(results) {
             tr.placements.push(team.placement);
         }
     });
+
+    // 参加していない試合分を末尾まで埋める(順位は0xff)
+    for (const team of Object.values(teamresults)) {
+        while (team.kills.length < results.length) { team.kills.push(0) }
+        while (team.placements.length < results.length) { team.placements.push(0xff) }
+    }
+
     return teamresults;
 }
 
@@ -283,59 +293,67 @@ export function setRankParameterToTeamResults(teamresults) {
     const keys = JSON.parse(JSON.stringify(Object.keys(teamresults)));
     const sorted_teamids = keys.sort((a, b) => {
         // 現在のトータルポイント比較
-            const ta = teamresults[a];
-            const tb = teamresults[b];
+        const ta = teamresults[a];
+        const tb = teamresults[b];
 
-            // 現在のトータルポイント比較
-            if (ta.total_points > tb.total_points) return -1;
-            if (ta.total_points < tb.total_points) return  1;
+        // マッチポイントの勝者
+        if ('winner' in ta && ta.winner) return -1;
+        if ('winner' in tb && tb.winner) return  1;
 
-            // ソート
-            const numsort = (a, b) => {
-                if (a < b) return -1;
-                if (a > b) return 1;
-                return 0;
-            };
-            const numrevsort = (a, b) => {
-                if (a < b) return 1;
-                if (a > b) return -1;
-                return 0;
-            };
-            ta.points.sort(numrevsort);
-            tb.points.sort(numrevsort);
-            ta.placements.sort(numsort);
-            tb.placements.sort(numsort);
-            ta.kills.sort(numrevsort);
-            tb.kills.sort(numrevsort);
+        // 現在のトータルポイント比較
+        if (ta.total_points > tb.total_points) return -1;
+        if (ta.total_points < tb.total_points) return  1;
 
-            // 同点の場合は、過去のゲームの最高ポイント
-            for (let i = 0; i < ta.points.length && i < tb.points.length; ++i) {
-                if (ta.points[i] > tb.points[i]) return -1;
-                if (ta.points[i] < tb.points[i]) return  1;
-            }
-
-            // 同点の場合は、過去のゲームの最高順位
-            for (let i = 0; i < ta.placements.length && i < tb.placements.length; ++i) {
-                if (ta.placements[i] > tb.placements[i]) return  1;
-                if (ta.placements[i] < tb.placements[i]) return -1;
-            }
-
-            // 同点の場合は、過去のゲームの最高キル数
-            for (let i = 0; i < ta.kills.length && i < tb.kills.length; ++i) {
-                if (ta.kills[i] > tb.kills[i]) return -1;
-                if (ta.kills[i] < tb.kills[i]) return  1;
-            }
-
-            // イレギュラー: 試合数多いほうが勝ち(比較対象が多い)
-            if (ta.points.length > tb.points.length) return -1;
-            if (ta.points.length < tb.points.length) return  1;
-
+        // ソート
+        const numsort = (a, b) => {
+            if (a < b) return -1;
+            if (a > b) return 1;
             return 0;
+        };
+
+        const numrevsort = (a, b) => {
+            if (a < b) return 1;
+            if (a > b) return -1;
+            return 0;
+        };
+
+        ta.points.sort(numrevsort);
+        tb.points.sort(numrevsort);
+        ta.placements.sort(numsort);
+        tb.placements.sort(numsort);
+        ta.kills.sort(numrevsort);
+        tb.kills.sort(numrevsort);
+
+        // 同点の場合は、過去のゲームの最高ポイント
+        for (let i = 0; i < ta.points.length && i < tb.points.length; ++i) {
+            if (ta.points[i] > tb.points[i]) return -1;
+            if (ta.points[i] < tb.points[i]) return  1;
+        }
+
+        // 同点の場合は、過去のゲームの最高順位
+        for (let i = 0; i < ta.placements.length && i < tb.placements.length; ++i) {
+            if (ta.placements[i] > tb.placements[i]) return  1;
+            if (ta.placements[i] < tb.placements[i]) return -1;
+        }
+
+        // 同点の場合は、過去のゲームの最高キル数
+        for (let i = 0; i < ta.kills.length && i < tb.kills.length; ++i) {
+            if (ta.kills[i] > tb.kills[i]) return -1;
+            if (ta.kills[i] < tb.kills[i]) return  1;
+        }
+
+        // イレギュラー: 試合数多いほうが勝ち(比較対象が多い)
+        if (ta.points.length > tb.points.length) return -1;
+        if (ta.points.length < tb.points.length) return  1;
+
+        return 0;
     });
+
     for (let rank = 0; rank < sorted_teamids.length; ++rank) {
         const teamid = sorted_teamids[rank];
         teamresults[teamid].rank = rank;
     }
+
     return sorted_teamids;
 }
 

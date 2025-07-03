@@ -1170,6 +1170,24 @@ export class TemplateOverlayHandler {
         }
     }
 
+    #updatedTeamMatchpointsState(teamid, state) {
+        for (const overlay of Object.values(this.#overlays)) {
+            overlay.setTeamParam(teamid, 'team-matchpoints', state ? 1 : 0);
+        }
+        if (this.#camera_teamid == teamid) {
+            this.#updatedCameraTeamMatchpointsState(state);
+        }
+    }
+
+    #updatedTeamWinnerState(teamid, state) {
+        for (const overlay of Object.values(this.#overlays)) {
+            overlay.setTeamParam(teamid, 'team-winner', state ? 1 : 0);
+        }
+        if (this.#camera_teamid == teamid) {
+            this.#updatedCameraTeamWinnerState(state);
+        }
+    }
+
     #updatedSingleResultMapName(map) {
         for (const overlay of Object.values(this.#overlays)) {
             overlay.setParam('single-last-map-name', map);
@@ -1532,6 +1550,12 @@ export class TemplateOverlayHandler {
             if ('points' in team) {
                 this.#updatedCameraTeamTotalPoints(team.points.reduce((a, c) => a + c, 0));
             }
+            if ('matchpoints' in team) {
+                this.#updatedCameraTeamMatchpointsState(team.matchpoints);
+            }
+            if ('winner' in team) {
+                this.#updatedCameraTeamWinnerState(team.winner);
+            }
         }
     }
 
@@ -1563,6 +1587,18 @@ export class TemplateOverlayHandler {
     #updatedCameraTeamTotalPoints(points) {
         for (const overlay of Object.values(this.#overlays)) {
             overlay.setParam('camera-team-total-points', points);
+        }
+    }
+
+    #updatedCameraTeamMatchpointsState(state) {
+        for (const overlay of Object.values(this.#overlays)) {
+            overlay.setParam('camera-team-matchpoints', state ? 1 : 0);
+        }
+    }
+
+    #updatedCameraTeamWinnerState(state) {
+        for (const overlay of Object.values(this.#overlays)) {
+            overlay.setParam('camera-team-winner', state ? 1 : 0);
         }
     }
 
@@ -1616,6 +1652,7 @@ export class TemplateOverlayHandler {
         // リザルトデータを格納
         const teamresults = resultsToTeamResults(this.#results);
         if (!this.#calc_resultsonly) {
+            let added = false;
             // 現在の試合のポイントをいれる
             for (let teamid = 0; teamid < this.#game.teams.length; ++teamid) {
                 const src = this.#game.teams[teamid];
@@ -1626,9 +1663,21 @@ export class TemplateOverlayHandler {
                     for (const player of src.players) {
                         dst.status.push(player.state);
                     }
+                    added = true;
+                }
+            }
+
+            if (added) {
+                // 他の未参加チームのデータを追加する(順位は0xff)
+                for (const team of Object.values(teamresults)) {
+                    while (team.kills.length < results.length + 1) { team.kills.push(0) }
+                    while (team.placements.length < results.length + 1) { team.placements.push(0xff) }
                 }
             }
         }
+
+        // マッチポイント閾値を取得
+        const matchpoints = ('matchpoints' in this.#tournament_params && this.#tournament_params.matchpoints > 0) ? this.#tournament_params.matchpoints : 0;
 
         // ポイントを計算して追加
         for (const [teamidstr, team] of Object.entries(teamresults)) {
@@ -1640,8 +1689,32 @@ export class TemplateOverlayHandler {
                 team.kill_points.push(points.kills);
                 team.placement_points.push(points.placement);
                 team.other_points.push(points.other);
+                team.cumulative_points.push(advancepoint + team.points.reduce((p, c) => p + c, 0));
+
+                // マッチポイント到達の確認
+                let check_gameid = this.#calc_resultsonly ? gameid : gameid - 1;
+                if (matchpoints > 0 && gameid > 0 && team.cumulative_points[check_gameid] >= matchpoints) {
+                    team.matchpoints = true;
+                }
             }
             team.total_points = advancepoint + team.points.reduce((a, c) => a + c, 0);
+        }
+
+        // マッチポイントの勝者決定
+        if (matchpoints > 0) {
+            for (const i of [...Array(results.length).keys()]) {
+                if (i == 0) continue;
+                for (const team of Object.values(teamresults)) {
+                    const prev_points = team.cumulative_points[i - 1];
+                    const placement = team.placements[i];
+                    if (prev_points >= matchpoints && placement == 1) {
+                        team.winner = true;
+                        break;
+                    }
+                }
+                // 勝者決定済
+                if (Object.values(teamresults).some(x => x.winner)) break;
+            }
         }
 
         // 順位計算
@@ -1656,10 +1729,13 @@ export class TemplateOverlayHandler {
     #reCalc() {
         const teamresults = this.#calcPoints();
         const changeinfo = [];
-        for (const [teamid, teamresult] of Object.entries(teamresults)) {
-            // 順位・ポイント変動確認
+        for (const [teamidstr, teamresult] of Object.entries(teamresults)) {
+            const teamid = parseInt(teamidstr, 10);
+            // 順位・ポイント・マッチポイント変動確認
             let rank_flag = true;
             let points_flag = true;
+            let matchpoints_flag = true;
+            let winner_flag = true;
             if (teamid in this.#saved_teamresults) {
                 const prev_teamresult = this.#saved_teamresults[teamid];
                 if (teamresult.rank == prev_teamresult.rank) {
@@ -1668,15 +1744,27 @@ export class TemplateOverlayHandler {
                 if (teamresult.total_points == prev_teamresult.total_points) {
                     points_flag = false;
                 }
+                if (teamresult.matchpoints == prev_teamresult.matchpoints) {
+                    matchpoints_flag = false;
+                }
+                if (teamresult.winner == prev_teamresult.winner) {
+                    winner_flag = false;
+                }
             }
             if (rank_flag) {
-                this.#updatedTeamTotalRank(parseInt(teamid, 10), teamresult.rank);
-                changeinfo.push({ id: parseInt(teamid, 10), changed: true });
+                this.#updatedTeamTotalRank(teamid, teamresult.rank);
+                changeinfo.push({ id: teamid, changed: true });
             }
             if (points_flag) {
-                this.#updatedTeamTotalKillPoints(parseInt(teamid, 10), teamresult.kill_points.reduce((a, c) => a + c, 0));
-                this.#updatedTeamTotalPlacementPoints(parseInt(teamid, 10), teamresult.placement_points.reduce((a, c) => a + c, 0));
-                this.#updatedTeamTotalPoints(parseInt(teamid, 10), teamresult.total_points);
+                this.#updatedTeamTotalKillPoints(teamid, teamresult.kill_points.reduce((a, c) => a + c, 0));
+                this.#updatedTeamTotalPlacementPoints(teamid, teamresult.placement_points.reduce((a, c) => a + c, 0));
+                this.#updatedTeamTotalPoints(teamid, teamresult.total_points);
+            }
+            if (matchpoints_flag) {
+                this.#updatedTeamMatchpointsState(teamid, teamresult.matchpoints);
+            }
+            if (winner_flag) {
+                this.#updatedTeamWinnerState(teamid, teamresult.winner);
             }
         }
         if (changeinfo.length > 0) {
