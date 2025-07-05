@@ -260,6 +260,7 @@ class TournamentCalculationMethod extends WebAPIConfigBase {
         this.getNode('count');
         this.getNode('send');
         this.getNode('advancepoints');
+        this.getNode('matchpoints');
         this.#forms = [];
         this.#appendTableRow();
         this.#callback = undefined;
@@ -434,6 +435,15 @@ class TournamentCalculationMethod extends WebAPIConfigBase {
             dumpobject.advancepoints = values;
         }
 
+        // マッチポイント
+        {
+            const text = this.nodes.matchpoints.value;
+            let value = parseInt(text, 10);
+            if (Number.isNaN(value)) value = 0;
+            if (value < 0) value = 0;
+            dumpobject.matchpoints = value;
+        }
+
         for (let gameid = 0; gameid < this.#forms.length; ++gameid) {
             const form = this.#forms[gameid];
             const data = {};
@@ -484,6 +494,15 @@ class TournamentCalculationMethod extends WebAPIConfigBase {
             if (params.advancepoints instanceof Array) {
                 this.nodes.advancepoints.value = params.advancepoints.join();
             }
+        }
+
+        if ('matchpoints' in params) {
+            let value = parseInt(params.matchpoints, 10);
+            if (Number.isNaN(value)) value = 0;
+            if (value < 0) value = 0;
+            this.nodes.matchpoints.value = value;
+        } else {
+            this.nodes.matchpoints.value = 0; // デフォルト値
         }
 
         for (const [k, v] of Object.entries(params)) {
@@ -1623,6 +1642,8 @@ class ResultView {
         node.points_value.innerText = team.total_points;
         node.points_label.innerText = 'TOTAL';
 
+        node.base.dataset.winner = team.winner;
+
         // 更新用に登録
         this.#saveTeamNode(team.id, node.name);
     }
@@ -1831,26 +1852,52 @@ class ResultView {
             return;
         }
 
+        // マッチポイント閾値を取得
+        const matchpoints = ('calcmethod' in this.#tournamentparams && 'matchpoints' in this.#tournamentparams.calcmethod && this.#tournamentparams.calcmethod.matchpoints > 0) ? this.#tournamentparams.calcmethod.matchpoints : 0;
+
         // ポイントを計算して追加
         for (const [teamidstr, team] of Object.entries(data)) {
             const teamid = parseInt(teamidstr, 10);
-            for (let i = 0; i < team.kills.length; ++i) {
+            const advancepoint = getAdvancePoints(teamid, this.#tournamentparams);
+            for (let gameid = 0; gameid < team.kills.length; ++gameid) {
                 let points;
                 if (target == 'all') {
-                    points = calcPoints(i, team.placements[i], team.kills[i], this.#tournamentparams);
+                    points = calcPoints(gameid, team.placements[gameid], team.kills[gameid], this.#tournamentparams);
                 } else {
-                    points = calcPoints(target, team.placements[i], team.kills[i], this.#tournamentparams);
+                    points = calcPoints(target, team.placements[gameid], team.kills[gameid], this.#tournamentparams);
                 }
                 team.points.push(points.total);
                 team.kill_points.push(points.kills);
                 team.placement_points.push(points.placement);
                 team.other_points.push(points.other);
+                team.cumulative_points.push(advancepoint + team.points.reduce((p, c) => p + c, 0));
             }
 
             if (target == 'all') {
-                team.total_points = getAdvancePoints(teamid, this.#tournamentparams) + team.points.reduce((a, c) => a + c, 0);
+                team.total_points = advancepoint + team.points.reduce((a, c) => a + c, 0);
+                // マッチポイント到達の確認
+                if (matchpoints > 0 && team.total_points >= matchpoints) {
+                    team.matchpoints = true;
+                }
             } else {
                 team.total_points = team.points.reduce((a, c) => a + c, 0);
+            }
+        }
+
+        // マッチポイントの勝者決定
+        if (target == 'all' && matchpoints > 0) {
+            for (const i of [...Array(this.#_results.length).keys()]) {
+                if (i == 0) continue;
+                for (const team of Object.values(data)) {
+                    const prev_points = team.cumulative_points[i - 1];
+                    const placement = team.placements[i];
+                    if (prev_points >= matchpoints && placement == 1) {
+                        team.winner = true;
+                        break;
+                    }
+                }
+                // 勝者決定済
+                if (Object.values(data).some(x => x.winner)) break;
             }
         }
 

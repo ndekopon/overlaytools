@@ -518,6 +518,11 @@ body {
     border-bottom: 1px solid black;
     box-sizing: border-box;
 }
+
+.result-all-team-base[data-winner="true"] {
+    background-color: #FFCCCC;
+}
+
 .result-all-team-banner {
     display: grid;
     grid-template-columns: 2em 1fr 4em 4em 4em;

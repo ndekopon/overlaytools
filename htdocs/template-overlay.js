@@ -1677,7 +1677,7 @@ export class TemplateOverlayHandler {
         }
 
         // マッチポイント閾値を取得
-        const matchpoints = ('matchpoints' in this.#tournament_params && this.#tournament_params.matchpoints > 0) ? this.#tournament_params.matchpoints : 0;
+        const matchpoints = ('calcmethod' in this.#tournament_params && 'matchpoints' in this.#tournament_params.calcmethod && this.#tournament_params.calcmethod.matchpoints > 0) ? this.#tournament_params.calcmethod.matchpoints : 0;
 
         // ポイントを計算して追加
         for (const [teamidstr, team] of Object.entries(teamresults)) {
