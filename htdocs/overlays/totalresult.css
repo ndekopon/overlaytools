@@ -97,6 +97,11 @@
     color: #333;
 }
 
+.team[data-team-winner="1"] {
+    background-color: rgb(251, 255, 25);
+    color: #333;
+}
+
 .team-total-rank-frame {
     color: white;
     background-color: var(--red-color);
