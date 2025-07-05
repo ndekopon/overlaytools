@@ -6,8 +6,8 @@
 LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
 
 VS_VERSION_INFO VERSIONINFO
-	FILEVERSION 0,5,5,0
-	PRODUCTVERSION 0,5,5,0
+	FILEVERSION 0,5,6,0
+	PRODUCTVERSION 0,5,6,0
 	FILEFLAGSMASK 0x3fL
 	FILEFLAGS 0x0L
 	FILEOS 0x40004L
@@ -19,11 +19,11 @@ BEGIN
 		BLOCK "040004b0"
 		BEGIN
 			VALUE "FileDescription", "dump2json.exe"
-			VALUE "FileVersion", "0.5.5.0"
+			VALUE "FileVersion", "0.5.6.0"
 			VALUE "InternalName", "dump2json"
 			VALUE "OriginalFilename", "dump2json.exe"
 			VALUE "ProductName", "dump2json"
-			VALUE "ProductVersion", "0.5.5.0"
+			VALUE "ProductVersion", "0.5.6.0"
 			VALUE "LegalCopyright", "© 2023-2025 ndekopon."
 		END
 	END
