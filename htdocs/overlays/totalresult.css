@@ -92,7 +92,13 @@
     opacity: 0.0;
 }
 
+.team[data-team-matchpoints="1"] {
+    background-color: white;
+    color: #333;
+}
+
 .team-total-rank-frame {
+    color: white;
     background-color: var(--red-color);
 }
 
