@@ -90,7 +90,13 @@
     box-sizing: border-box;
     text-align: center;
 }
-
+[data-team-matchpoints="1"] .team-total-points {
+    align-self: center;
+    height: calc(var(--leaderboard-height) - 4px);
+    line-height: calc(var(--leaderboard-height) - 4px);
+    background-color: var(--leaderboard-color);
+    color: var(--leaderboard-bgcolor);
+}
 .team-squad-eliminate {
     opacity: 0.3;
 }
