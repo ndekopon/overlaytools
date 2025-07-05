@@ -880,11 +880,13 @@ export class TemplateOverlayHandler {
         // Overlayの表示状態
         this.#webapi.addEventListener("gettournamentparams", (ev) => {
             this.#updatedTournamentParams(ev.detail.params);
+            if (!this.#getallprocessing) this.#reCalc();
         });
 
         this.#webapi.addEventListener("settournamentparams", (ev) => {
             if (ev.detail.result) {
                 this.#updatedTournamentParams(ev.detail.params);
+                if (!this.#getallprocessing) this.#reCalc();
             }
         });
 
