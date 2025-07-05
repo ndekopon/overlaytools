@@ -142,6 +142,10 @@
     box-sizing: border-box;
     text-align: center;
 }
+[data-team-matchpoints="1"] .team-total-points {
+    background-color: white;
+    color: black;
+}
 
 .team-squad-eliminate {
     opacity: 0.3;
