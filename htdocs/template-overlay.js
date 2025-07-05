@@ -1670,8 +1670,8 @@ export class TemplateOverlayHandler {
             if (added) {
                 // 他の未参加チームのデータを追加する(順位は0xff)
                 for (const team of Object.values(teamresults)) {
-                    while (team.kills.length < results.length + 1) { team.kills.push(0) }
-                    while (team.placements.length < results.length + 1) { team.placements.push(0xff) }
+                    while (team.kills.length < this.#results.length + 1) { team.kills.push(0) }
+                    while (team.placements.length < this.#results.length + 1) { team.placements.push(0xff) }
                 }
             }
         }
@@ -1702,7 +1702,7 @@ export class TemplateOverlayHandler {
 
         // マッチポイントの勝者決定
         if (matchpoints > 0) {
-            for (const i of [...Array(results.length).keys()]) {
+            for (const i of [...Array(this.#results.length).keys()]) {
                 if (i == 0) continue;
                 for (const team of Object.values(teamresults)) {
                     const prev_points = team.cumulative_points[i - 1];
