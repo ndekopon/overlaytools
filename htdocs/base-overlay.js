@@ -251,6 +251,9 @@ class TeamBanner extends TemplateOverlay {
             this.drawCanvas();
             this.drawNameCanvas(paramvalue);
         }
+        if (paramname == "camera-team-matchpoints") {
+            this.drawCanvas();
+        }
     }
 
     drawCanvas() {
@@ -262,7 +265,7 @@ class TeamBanner extends TemplateOverlay {
         canvas.height = canvas.clientHeight;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        //
+        // 切り抜き
         const rate = canvas.height / 74;
         ctx.beginPath();
         ctx.moveTo(10 * rate, 0);
@@ -274,7 +277,7 @@ class TeamBanner extends TemplateOverlay {
         ctx.closePath();
         ctx.clip();
 
-        // 画像の描画
+        // 背景塗りつぶし
         const bgcolor = window.getComputedStyle(canvas).getPropertyValue('--apexrect-background-color');
         ctx.fillStyle = bgcolor != "" ? bgcolor : '#141414';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -291,6 +294,20 @@ class TeamBanner extends TemplateOverlay {
         ctx.lineTo(- xborder            , 16 * rate);
         ctx.lineTo(- xborder + 10 * rate, 0);
         ctx.fill();
+
+        // マッチポイントの場合の背景色描画
+        if (canvas.closest('[data-camera-team-matchpoints="1"]') !== null) {
+            const backgroundcolor = window.getComputedStyle(canvas).getPropertyValue('--teambanner-matchpoints-background-color');
+            ctx.fillStyle = backgroundcolor != "" ? backgroundcolor : '#B03039';
+            const width = 87;
+            ctx.beginPath();
+            ctx.moveTo(canvas.width - width + 10 * rate, 0);
+            ctx.lineTo(canvas.width - width            , 16 * rate);
+            ctx.lineTo(canvas.width - width + 34 * rate, canvas.height);
+            ctx.lineTo(canvas.width, canvas.height);
+            ctx.lineTo(canvas.width, 0);
+            ctx.fill();
+        }
     }
 
     drawNameCanvas(name) {

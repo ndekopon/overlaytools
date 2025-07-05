@@ -1,5 +1,6 @@
 :host {
     --teambanner-height: 38px;
+    --teambanner-matchpoints-background-color: white;
 }
 
 .camera-team {
@@ -49,4 +50,8 @@ canvas.camera-team-name {
 .camera-team-total-points {
     height: 100%;
     text-align: center;
+}
+
+[data-camera-team-matchpoints="1"] .camera-team-total-points {
+    color: black;
 }
