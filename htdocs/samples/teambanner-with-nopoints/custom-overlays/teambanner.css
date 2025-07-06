@@ -1,0 +1,48 @@
+:host {
+    --teambanner-height: 38px;
+    --teambanner-matchpoints-background-color: white;
+}
+
+.camera-team {
+    position: absolute;
+    left: 34px;
+    /* top: 715px; */
+    bottom: calc(1080px - 769px);
+    width: 350px;
+    height: var(--teambanner-height);
+    box-sizing: border-box;
+    color: white;
+    display: grid;
+    grid-template-columns: 58px 1fr;
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow: hidden;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.camera-team-id:not([data-camera-team-id]) {
+    left: -1920px;
+    top: -1080px;
+}
+
+canvas.apexrect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+canvas.camera-team-name {
+    width: 100%;
+    height: var(--teambanner-height);
+}
+
+.camera-team > div {
+    line-height: var(--teambanner-height);
+}
+
+.camera-team-id-frame {
+    height: 100%;
+    text-align: center;
+}
