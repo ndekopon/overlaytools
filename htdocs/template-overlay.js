@@ -1564,7 +1564,7 @@ export class TemplateOverlayHandler {
     /* カメラ系 */
     #updatedCameraTeamId(teamid) {
         for (const overlay of Object.values(this.#overlays)) {
-            overlay.setParam('camera-team-id', teamid);
+            overlay.setParam('camera-team-id', parseInt(teamid, 10) + 1);
         }
     }
 

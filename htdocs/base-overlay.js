@@ -470,7 +470,7 @@ class SquadEliminated extends TemplateOverlay {
         // 次のデータを表示
         const data = this.#queue.shift();
         if (data) {
-            this.setParam('eliminated-team-id', data.teamid, true);
+            this.setParam('eliminated-team-id', parseInt(data.teamid, 10) + 1, true);
             this.setParam('eliminated-team-placement', data.placement);
             this.setParam('eliminated-team-name', data.teamname);
             this.#startFadeIn();
@@ -564,7 +564,7 @@ class TeamRespawned extends TemplateOverlay {
         // 次のデータを表示
         const data = this.#queue.shift();
         if (data) {
-            this.setParam('teamrespawned-team-id', data.teamid, true);
+            this.setParam('teamrespawned-team-id', parseInt(data.teamid, 10) + 1, true);
             this.setParam('teamrespawned-team-name', data.teamname);
             this.setParam('teamrespawned-respawn-player', data.respawn_playername);
             this.setParam('teamrespawned-respawned-players', data.respawned_playernames.join(' / '));
