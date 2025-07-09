@@ -824,9 +824,24 @@ export class TemplateOverlayHandler {
             this.#updatedPlayerState(ev.detail.player.hash, ev.detail.player.state);
         });
 
+        const checkObserverHash = (ev) => {
+            if ('observerhash' in this.#initparams) {
+                // オブザーバーハッシュが固定で指定されている場合
+                const hash = this.#initparams.observerhash;
+                if (hash == ev.detail.observer.hash) {
+                    return true;
+                }
+            } else {
+                // オブザーバーハッシュがWebAPIからのイベントである場合
+                if (ev.detail.own) return true;
+            }
+            return false;
+        }
+
         this.#webapi.addEventListener("observerswitch", (ev) => {
-            if (!ev.detail.own) return;
-            // カメラ変更
+            // オブザーバーの切り替えイベントが担当カメラのハッシュであるか確認
+            if (!checkObserverHash(ev)) return;
+
             const teamid = ev.detail.team.id;
             const playerhash = ev.detail.player.hash;
             if (this.#camera_teamid != teamid || this.#camera_playerhash != playerhash) {
