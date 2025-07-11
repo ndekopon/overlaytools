@@ -73,6 +73,11 @@ LiveAPIデータ取得協力
 - Apex競技観戦ミトツ鯖 様(おさんぽカスタム)
 - ESCL 様
 
+試用・フィードバック協力
+
+- iEs_Hayate 様
+- YamatoShuhei 様
+- DizzyMizLizyy 様
 
 ## ライセンス
 
