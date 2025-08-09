@@ -54,6 +54,11 @@ namespace app {
 		{"Body Shield (Level 3)", WEBAPI_ITEM_BODYSHIELD_LV3},
 		{"Body Shield (Level 4)", WEBAPI_ITEM_BODYSHIELD_LV4},
 		{"Shield Core", WEBAPI_ITEM_SHIELDCORE},
+		{"Infinite Ammo Amp (Level 3)", WEBAPI_ITEM_AMP_INFINITE_AMMO},
+		{"Bottomless Batteries Amp (Level 3)", WEBAPI_ITEM_AMP_BOTTOMLESS_BATTERIES},
+		{"Over Armor Amp (Level 3)", WEBAPI_ITEM_AMP_OVER_ARMOR},
+		{"Heal Overflow Amp (Level 3)", WEBAPI_ITEM_AMP_HEAL_OVERFLOW},
+		{"Power Booster Amp (Level 3)", WEBAPI_ITEM_AMP_POWER_BOOSTER},
 
 		/* 日本語 */
 		{(const char*)u8"注射器", WEBAPI_ITEM_SYRINGE},
@@ -86,6 +91,11 @@ namespace app {
 		{(const char*)u8"ボディーシールド (Level 3)", WEBAPI_ITEM_BODYSHIELD_LV3},
 		{(const char*)u8"ボディーシールド (Level 4)", WEBAPI_ITEM_BODYSHIELD_LV4},
 		{(const char*)u8"シールドコア", WEBAPI_ITEM_SHIELDCORE},
+		{"無限弾薬増幅器 (Level 3)", WEBAPI_ITEM_AMP_INFINITE_AMMO},
+		{"バッテリー無限増幅器 (Level 3)", WEBAPI_ITEM_AMP_BOTTOMLESS_BATTERIES},
+		{"オーバーアーマー増幅器 (Level 3)", WEBAPI_ITEM_AMP_OVER_ARMOR},
+		{"オーバーフロー回復増幅器 (Level 3)", WEBAPI_ITEM_AMP_HEAL_OVERFLOW},
+		{"パワーブースト増幅器 (Level 3)", WEBAPI_ITEM_AMP_POWER_BOOSTER},
 	};
 
 	uint8_t string_to_itemid(const std::string& _str)
@@ -1688,6 +1698,14 @@ namespace app {
 						if (quantity > 0) items.shieldcore = 1;
 						break;
 
+					case WEBAPI_ITEM_AMP_INFINITE_AMMO:
+					case WEBAPI_ITEM_AMP_BOTTOMLESS_BATTERIES:
+					case WEBAPI_ITEM_AMP_OVER_ARMOR:
+					case WEBAPI_ITEM_AMP_HEAL_OVERFLOW:
+					case WEBAPI_ITEM_AMP_POWER_BOOSTER:
+						if (quantity > 0) items.amp = itemid - WEBAPI_ITEM_AMP;
+						break;
+
 					default:
 					{
 						if (itemid == WEBAPI_ITEM_SYRINGE) update_quantity(items.syringe, quantity);
@@ -1730,6 +1748,7 @@ namespace app {
 						if (player.items.heatshield != items.heatshield) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_HEATSHIELD, items.heatshield);
 						if (player.items.evactower != items.evactower) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_EVACTOWER, items.evactower);
 						if (player.items.shieldcore != items.shieldcore) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_SHIELDCORE, items.shieldcore);
+						if (player.items.amp != items.amp) send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_AMP, items.amp);
 
 						player.items = items;
 					}
@@ -2275,7 +2294,21 @@ namespace app {
 			
 			uint8_t teamid = p.player().teamid();
 			uint8_t squadindex = get_squadindex(p.player());
-			proc_item(teamid, squadindex, item, -p.quantity());
+
+			bool skip = false;
+			if (item == WEBAPI_ITEM_SHIELDBATTERY)
+			{
+				// バッテリー使用の際に例外処理
+				auto& player = game_.teams.at(teamid).players.at(squadindex);
+				if (player.items.amp == WEBAPI_ITEM_AMP_TYPE_BOTTOMLESS_BATTERIES)
+				{
+					if (player.items.shield_battery >= 2) // 2個以上所有
+					{
+						skip = true;
+					}
+				}
+			}
+			if (!skip) proc_item(teamid, squadindex, item, -p.quantity());
 		}
 		else if (_any.Is<api::BannerCollected>())
 		{
@@ -3506,6 +3539,7 @@ namespace app {
 				send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_HEATSHIELD, player.items.heatshield);
 				send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_EVACTOWER, player.items.evactower);
 				send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_SHIELDCORE, player.items.shieldcore);
+				send_webapi_player_items(INVALID_SOCKET, teamid, squadindex, WEBAPI_ITEM_AMP, player.items.amp);
 			}
 
 			// チーム名
@@ -3728,6 +3762,22 @@ namespace app {
 			}
 			break;
 
+		case WEBAPI_ITEM_AMP_INFINITE_AMMO:
+		case WEBAPI_ITEM_AMP_BOTTOMLESS_BATTERIES:
+		case WEBAPI_ITEM_AMP_OVER_ARMOR:
+		case WEBAPI_ITEM_AMP_HEAL_OVERFLOW:
+		case WEBAPI_ITEM_AMP_POWER_BOOSTER:
+			if (_quantity < 0)
+			{
+				player.items.amp = WEBAPI_ITEM_AMP_TYPE_NONE;
+				send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_AMP, player.items.amp);
+			}
+			if (_quantity > 0)
+			{
+				player.items.amp = _item - WEBAPI_ITEM_AMP;
+				send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_AMP, player.items.amp);
+			}
+
 		default:
 		{
 			uint32_t q = 0;
@@ -3947,6 +3997,7 @@ namespace app {
 			send_webapi_player_items(_sock, _teamid, i, WEBAPI_ITEM_HEATSHIELD, p.items.heatshield);
 			send_webapi_player_items(_sock, _teamid, i, WEBAPI_ITEM_EVACTOWER, p.items.evactower);
 			send_webapi_player_items(_sock, _teamid, i, WEBAPI_ITEM_SHIELDCORE, p.items.shieldcore);
+			send_webapi_player_items(_sock, _teamid, i, WEBAPI_ITEM_AMP, p.items.amp);
 
 			// キャラクター選択済み情報
 			if (p.characterselected)
