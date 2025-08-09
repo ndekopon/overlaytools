@@ -565,7 +565,7 @@ export class TemplateOverlayHandler {
         this.#overlays = params.overlays;
         this.#buildOverlays().then(_ => {
             if ('url' in this.#initparams) {
-                this.#setupApexWebAPI(url);
+                this.#setupApexWebAPI(this.#initparams.url);
             } else {
                 this.#setupApexWebAPI("ws://127.0.0.1:20081/");
             }
@@ -742,8 +742,8 @@ export class TemplateOverlayHandler {
         // プレイヤー名系
         this.#webapi.addEventListener("playername", (ev) => {
             this.#updatedPlayerName(ev.detail.player.hash, ev.detail.player.name);
-            this.#updatedPlayerSingleResultName(ev.detail.player.hash, ev.detail.player.name);
-            this.#updatedPlayerTotalResultName(ev.detail.player.hash, ev.detail.player.name);
+            this.#updatedPlayerSingleResultName(ev.detail.player.hash, this.#getPlayerName(ev.detail.player.hash, ev.detail.player.name));
+            this.#updatedPlayerTotalResultName(ev.detail.player.hash, this.#getPlayerName(ev.detail.player.hash, ev.detail.player.name));
         });
 
         this.#webapi.addEventListener("getplayerparams", (ev) => {
@@ -1294,8 +1294,8 @@ export class TemplateOverlayHandler {
             // 現ゲームに存在するプレイヤー処理
             const player = this.#player_index[hash];
             for (const overlay of Object.values(this.#overlays)) {
-                overlay.setPlayerParam(hash, `player-${param}`, value);
                 if (!overlay.hasType("players-singleresult") && !overlay.hasType("players-totalresult")) {
+                    overlay.setPlayerParam(hash, `player-${param}`, value);
                     overlay.setTeamPlayerParam(player.teamid, hash, `teamplayer-${param}`, value);
                 }
             }
@@ -1341,7 +1341,7 @@ export class TemplateOverlayHandler {
         if (playerid in this.#player_index_singleresult) {
             const teamid = this.#player_index_singleresult[playerid].teamid;
             for (const overlay of Object.values(this.#overlays)) {
-                if (overlay.hasType("players-singleresult")) {
+                if (overlay.hasType("players-singleresult") && !overlay.hasType("players-totalresult")) {
                     overlay.setPlayerParam(playerid, `player-${param}`, value);
                     overlay.setTeamPlayerParam(teamid, playerid, `teamplayer-${param}`, value);
                 }
@@ -1353,7 +1353,7 @@ export class TemplateOverlayHandler {
         if (playerid in this.#player_index_totalresult) {
             const teamid = this.#player_index_totalresult[playerid].teamid;
             for (const overlay of Object.values(this.#overlays)) {
-                if (overlay.hasType("players-totalresult")) {
+                if (overlay.hasType("players-totalresult") && !overlay.hasType("players-singleresult")) {
                     overlay.setPlayerParam(playerid, `player-${param}`, value);
                     overlay.setTeamPlayerParam(teamid, playerid, `teamplayer-${param}`, value);
                 }
@@ -1830,7 +1830,7 @@ export class TemplateOverlayHandler {
                     player.teamid = teamid;
                     this.#player_index_singleresult[hash] = player;
                     this.#updatedPlayerSingleResultId(hash);
-                    this.#updatedPlayerSingleResultName(hash, player.name);
+                    this.#updatedPlayerSingleResultName(hash, this.#getPlayerName(hash, player.name));
                     this.#updatedPlayerSingleResultLegend(hash, player.character);
                     this.#updatedPlayerSingleResultKills(hash, player.kills);
                     this.#updatedPlayerSingleResultDamage(hash, player.damage_dealt, player.damage_taken);
@@ -1995,7 +1995,6 @@ export class TemplateOverlayHandler {
      */
     #getPlayerName(hash, fallback = '') {
         if (hash == '') return fallback;
-        if (!(hash in this.#player_index)) return fallback;
 
         // 保存されているパラメータ
         if (hash in this.#player_params) {
