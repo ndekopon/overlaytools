@@ -4140,6 +4140,7 @@ namespace app {
 						{"heatshield", player.items.heatshield},
 						{"evactower", player.items.evactower},
 						{"shieldcore", player.items.shieldcore},
+						{"amp", player.items.amp},
 					}
 				});
 				kills += player.kills;
