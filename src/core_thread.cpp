@@ -91,11 +91,11 @@ namespace app {
 		{(const char*)u8"ボディーシールド (Level 3)", WEBAPI_ITEM_BODYSHIELD_LV3},
 		{(const char*)u8"ボディーシールド (Level 4)", WEBAPI_ITEM_BODYSHIELD_LV4},
 		{(const char*)u8"シールドコア", WEBAPI_ITEM_SHIELDCORE},
-		{"無限弾薬増幅器 (Level 3)", WEBAPI_ITEM_AMP_INFINITE_AMMO},
-		{"バッテリー無限増幅器 (Level 3)", WEBAPI_ITEM_AMP_BOTTOMLESS_BATTERIES},
-		{"オーバーアーマー増幅器 (Level 3)", WEBAPI_ITEM_AMP_OVER_ARMOR},
-		{"オーバーフロー回復増幅器 (Level 3)", WEBAPI_ITEM_AMP_HEAL_OVERFLOW},
-		{"パワーブースト増幅器 (Level 3)", WEBAPI_ITEM_AMP_POWER_BOOSTER},
+		{(const char*)u8"無限弾薬増幅器 (Level 3)", WEBAPI_ITEM_AMP_INFINITE_AMMO},
+		{(const char*)u8"バッテリー無限増幅器 (Level 3)", WEBAPI_ITEM_AMP_BOTTOMLESS_BATTERIES},
+		{(const char*)u8"オーバーアーマー増幅器 (Level 3)", WEBAPI_ITEM_AMP_OVER_ARMOR},
+		{(const char*)u8"オーバーフロー回復増幅器 (Level 3)", WEBAPI_ITEM_AMP_HEAL_OVERFLOW},
+		{(const char*)u8"パワーブースト増幅器 (Level 3)", WEBAPI_ITEM_AMP_POWER_BOOSTER},
 	};
 
 	uint8_t string_to_itemid(const std::string& _str)
