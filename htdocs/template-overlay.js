@@ -491,7 +491,7 @@ export class TemplateOverlay {
 }
 
 
-export class TemplateOverlayHandler {
+export class TemplateOverlayHandler extends EventTarget {
     #initparams;
     /** @type {ApexWebAPI} */
     #webapi;
@@ -533,6 +533,7 @@ export class TemplateOverlayHandler {
      * @param {string} url 接続先WebSocketのURL
      */
     constructor(params = {}) {
+        super();
         this.#initparams = params;
         this.#liveapi_connection_count = -1;
         this.#calc_resultsonly = true;
@@ -596,6 +597,7 @@ export class TemplateOverlayHandler {
      */
     #setupApexWebAPI(url) {
         this.#webapi = new ApexWebAPI(url);
+        this.dispatchEvent(new CustomEvent("webapi", { detail: { api: this.#webapi } }));
 
         this.#webapi.addEventListener("open", (ev) => {
             this.#updatedWebAPIConnectionStatus('open');
