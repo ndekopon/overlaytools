@@ -24,6 +24,7 @@
 .single-last-map-name[data-single-last-map-name^="mp_rr_olympus"]:after       { content: "Olympus"; }
 .single-last-map-name[data-single-last-map-name^="mp_rr_tropic_island"]:after { content: "Storm Point"; }
 .single-last-map-name[data-single-last-map-name^="mp_rr_divided_moon"]:after  { content: "Broken Moon"; }
+.single-last-map-name[data-single-last-map-name^="mp_rr_district"]:after      { content: "E-District"; }
 
 .gamenumber, .mapname {
     padding-left: 60px;
