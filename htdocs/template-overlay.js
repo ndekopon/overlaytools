@@ -1213,6 +1213,12 @@ export class TemplateOverlayHandler extends EventTarget {
         }
     }
 
+    #updatedTeamSingleResultRank(teamid, rank) {
+        for (const overlay of Object.values(this.#overlays)) {
+            overlay.setTeamParam(teamid, 'team-single-last-rank', rank);
+        }
+    }
+
     #updatedTeamSingleResultPlacement(teamid, placement) {
         for (const overlay of Object.values(this.#overlays)) {
             overlay.setTeamParam(teamid, 'team-single-last-placement', placement);
@@ -1815,6 +1821,8 @@ export class TemplateOverlayHandler extends EventTarget {
         if (this.#results.length == 0) return;
         const gameid = this.#results.length - 1;
         const result = this.#results[gameid];
+        const teamresults = resultsToTeamResults([result]);
+        console.log({singleteamresults: teamresults});
         this.#updatedSingleResultMapName('map' in result ? result.map : '');
         if ('teams' in result) {
             for (const [teamidstr, team] of Object.entries(result.teams)) {
@@ -1840,8 +1848,26 @@ export class TemplateOverlayHandler extends EventTarget {
                     damage_taken += player.damage_taken;
                 }
                 this.#updatedTeamSingleResultDamage(teamid, damage_dealt, damage_taken);
+
+                // teamresultに格納
+                const teamresult = teamresults[teamidstr];
+                if (teamresult) {
+                    teamresult.points.push(points.total);
+                    teamresult.kill_points.push(points.kills);
+                    teamresult.placement_points.push(points.placement);
+                    teamresult.other_points.push(points.other);
+                    teamresult.cumulative_points.push(teamresult.points.reduce((p, c) => p + c, 0));
+                }
             }
         }
+
+        // 順位計算
+        setRankParameterToTeamResults(teamresults);
+        for (const [teamidstr, team] of Object.entries(teamresults)) {
+            const teamid = parseInt(teamidstr, 10);
+            this.#updatedTeamSingleResultRank(teamid, team.rank + 1);
+        }
+
         for (const overlay of Object.values(this.#overlays)) {
             if ('sortTeamSingleResultPlacement' in overlay && typeof(overlay.sortTeamSingleResultPlacement) == 'function') {
                 overlay.sortTeamSingleResultPlacement();
