@@ -1822,7 +1822,6 @@ export class TemplateOverlayHandler extends EventTarget {
         const gameid = this.#results.length - 1;
         const result = this.#results[gameid];
         const teamresults = resultsToTeamResults([result]);
-        console.log({singleteamresults: teamresults});
         this.#updatedSingleResultMapName('map' in result ? result.map : '');
         if ('teams' in result) {
             for (const [teamidstr, team] of Object.entries(result.teams)) {
