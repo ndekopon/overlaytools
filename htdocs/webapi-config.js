@@ -2822,6 +2822,7 @@ export class WebAPIConfig {
     #resultfixview;
     #tryconnecting;
     #lobby;
+    #getallplayers;
 
     constructor(url, liveapi_url) {
         this.#tournament_id = "";
@@ -2846,6 +2847,7 @@ export class WebAPIConfig {
         this.#teamingamesettings = new TeamInGameSettings();
         this.#legendban = new LegendBan();
         this.#tryconnecting = false;
+        this.#getallplayers = false;
 
         this.#setupWebAPI(url);
         this.#setupButton();
@@ -2866,9 +2868,9 @@ export class WebAPIConfig {
             this.#webapiconnectionstatus.setStatus('open');
 
             /* 初回情報取得 */
+            this.#webapi.getPlayers();
             this.#webapi.getCurrentTournament();
             this.#webapi.getTournamentIDs();
-            this.#webapi.getPlayers();
             this.#webapi.getAll();
             this.#webapi.getObserver();
             this.#webapi.getObservers();
@@ -2931,6 +2933,7 @@ export class WebAPIConfig {
                 if ('name' in params) this.#playername.setName(hash, params.name);
                 if ('ingamenames' in params) this.#playername.setInGameNames(hash, params.ingamenames);
             }
+            this.#getallplayers = true;
         });
 
         this.#webapi.addEventListener('lobbyenumstart', (ev) => {
@@ -3772,7 +3775,7 @@ export class WebAPIConfig {
             params.ingamenames.push(ingamename);
             updated = true;
         }
-        if (updated) {
+        if (updated && this.#getallplayers) {
             // プレイヤーのパラメータを更新
             this.#webapi.setPlayerParams(hash, params);
         }
