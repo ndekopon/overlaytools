@@ -739,6 +739,132 @@ class PlayerName extends WebAPIConfigBase {
     }
 }
 
+class PlayerNameLobbyView extends WebAPIConfigBase {
+    #teams = [];
+    #players = new Map();
+    #callback = undefined;
+    constructor() {
+        super('player-lobbyview-');
+        this.getNode('container');
+
+        // チーム初期化
+        for (let i = 0; i < 30; ++i) {
+            const div = document.createElement('div');
+            div.innerHTML = `
+            <div class="player-lobbyview-team-info"><div class="team-id">${i + 1}</div><div class="team-name"></div></div>
+            <div class="player-lobbyview-team-players"></div>
+            `;
+            div.classList.add('player-lobbyview-team');
+            div.classList.add('hide');
+            div.dataset.teamid = i + 1;
+            this.nodes.container.appendChild(div);
+            this.#teams.push(div);
+        }
+    }
+
+    setCallback(func) {
+        if (typeof func == 'function') {
+            this.#callback = func;
+        }
+    }
+
+    #createPlayerDiv(hash) {
+        const div = document.createElement('div');
+        div.classList.add('player-lobbyview-player');
+        div.dataset.hash = hash;
+        div.innerHTML = `
+            <div class="player-name-container">
+                <span class="player-name"></span>
+                <span class="player-ingame-name"></span>
+            </div>
+            <div class="player-actions">
+                <input type="text" class="player-name-input">
+                <button class="player-set-name">
+                    <span class="en">set</span>
+                    <span class="jp">設定</span>
+                </button>
+            </div>
+        `;
+        this.#players.set(hash, div);
+        const button = div.querySelector('.player-set-name');
+        button.addEventListener('click', () => {
+            const input = div.querySelector('.player-name-input');
+            const name = input.value.trim();
+            const prev_name = div.querySelector('.player-name').innerText;
+            if (name != prev_name) {
+                if (this.#callback) {
+                    this.#callback(hash, name);
+                }
+            }
+        });
+    }
+
+    start() {
+        for (const team of this.#teams) {
+            team.classList.remove('exists');
+        }
+        for (const player of this.#players.values()) {
+            player.classList.remove('exists');
+        }
+    }
+
+    end() {
+        for (const team of this.#teams) {
+            if (team.classList.contains('exists')) {
+                team.classList.remove('hide');
+            } else {
+                team.classList.add('hide');
+            }
+        }
+        for (const player of this.#players.values()) {
+            if (player.classList.contains('exists')) {
+                player.classList.remove('hide');
+            } else {
+                player.classList.add('hide');
+            }
+        }
+    }
+
+    setTeamName(teamid, teamname) {
+        if (teamid < 0 || teamid >= this.#teams.length) return;
+        const team = this.#teams[teamid];
+        if (team) {
+            const div = team.querySelector('.team-name');
+            if (div) {
+                div.innerText = teamname;
+            }
+        }
+        team.classList.add('exists');
+    }
+
+    setPlayerIngameName(hash, teamid, name, ingamename) {
+        if (!this.#players.has(hash)) {
+            this.#createPlayerDiv(hash);
+        }
+        if (this.#players.has(hash)) {
+            const div = this.#players.get(hash);
+            div.querySelector('.player-name').innerText = name;
+            div.querySelector('.player-ingame-name').innerText = ingamename;
+            div.classList.add('exists');
+
+            // チームの枠に挿入
+            const team = this.#teams[teamid];
+            if (team && !team.contains(div)) {
+                const container = team.querySelector('.player-lobbyview-team-players');
+                if (container) {
+                    container.appendChild(div);
+                }
+            }
+        }
+    }
+
+    setPlayerName(hash, name) {
+        if (!this.#players.has(hash)) return;
+        const div = this.#players.get(hash);
+        div.querySelector('.player-name').innerText = name;
+    }
+}
+
 class TeamName extends WebAPIConfigBase {
     /** @type {setPlayerNameCallback} */
     #callback;
@@ -2815,6 +2941,7 @@ export class WebAPIConfig {
     #realtimeview;
     #observerconfig;
     #playername;
+    #playernamelobbyview;
     #teamname;
     #teamingamesettings;
     #legendban;
@@ -2843,6 +2970,7 @@ export class WebAPIConfig {
         this.#liveapiconnectionstatus = new LiveAPIConnectionStatus();
         this.#languageselect = new LanguageSelect();
         this.#playername = new PlayerName();
+        this.#playernamelobbyview = new PlayerNameLobbyView();
         this.#teamname = new TeamName();
         this.#teamingamesettings = new TeamInGameSettings();
         this.#legendban = new LegendBan();
@@ -2930,7 +3058,10 @@ export class WebAPIConfig {
                 this.#playerparams[hash] = params;
                 this.#realtimeview.redrawPlayerName(hash, params); // RealtimeViewの再描画
                 this.#resultview.savePlayerParams(hash, params); // ResultView用にも保存
-                if ('name' in params) this.#playername.setName(hash, params.name);
+                if ('name' in params) {
+                    this.#playername.setName(hash, params.name);
+                    this.#playernamelobbyview.setPlayerName(hash, params.name);
+                }
                 if ('ingamenames' in params) this.#playername.setInGameNames(hash, params.ingamenames);
             }
             this.#getallplayers = true;
@@ -2938,6 +3069,7 @@ export class WebAPIConfig {
 
         this.#webapi.addEventListener('lobbyenumstart', (ev) => {
             this.#lobby = {};
+            this.#playernamelobbyview.start();
         });
 
         this.#webapi.addEventListener('lobbytoken', (ev) => {
@@ -2955,6 +3087,19 @@ export class WebAPIConfig {
             }
         });
 
+        this.#webapi.addEventListener('lobbyplayer', ev => {
+            if (ev.detail.unassigned) return;
+            if (ev.detail.observer) return;
+            const hash = ev.detail.hash;
+            const ingamename = ev.detail.name;
+            const teamid = ev.detail.teamid;
+            let name = '';
+            if (hash in this.#playerparams && 'name' in this.#playerparams[hash]) {
+                name = this.#playerparams[hash].name;
+            }
+            this.#playernamelobbyview.setPlayerIngameName(hash, teamid, name, ingamename);
+        });
+
         this.#webapi.addEventListener('lobbyteam', (ev) => {
             // store lobby data
             if (!('teams' in this.#lobby)) this.#lobby.teams = {};
@@ -2967,8 +3112,17 @@ export class WebAPIConfig {
             }
         });
 
+        this.#webapi.addEventListener('lobbyteam', ev => {
+            if (ev.detail.unassigned) return;
+            if (ev.detail.observer) return;
+            const teamid = ev.detail.teamid;
+            const name = ev.detail.name;
+            this.#playernamelobbyview.setTeamName(teamid, name);
+        });
+
         this.#webapi.addEventListener('lobbyenumend', (ev) => {
             this.#teamingamesettings.setLobby(this.#lobby);
+            this.#playernamelobbyview.end();
         });
 
         /* observer用 */
@@ -3091,7 +3245,10 @@ export class WebAPIConfig {
             const params = ev.detail.params;
             this.#resultview.savePlayerParams(hash, params);
             this.#realtimeview.redrawPlayerName(hash, params); // RealtimeViewの再描画
-            if ('name' in params) this.#playername.setName(hash, params.name);
+            if ('name' in params) {
+                this.#playername.setName(hash, params.name);
+                this.#playernamelobbyview.setPlayerName(hash, params.name);
+            }
             if ('ingamenames' in params) this.#playername.setInGameNames(hash, params.ingamenames);
         });
 
@@ -3101,7 +3258,10 @@ export class WebAPIConfig {
                 const params = ev.detail.params;
                 this.#resultview.savePlayerParams(hash, params);
                 this.#realtimeview.redrawPlayerName(hash, params); // RealtimeViewの再描画
-                if ('name' in params) this.#playername.setName(hash, params.name);
+                if ('name' in params) {
+                    this.#playername.setName(hash, params.name);
+                    this.#playernamelobbyview.setPlayerName(hash, params.name);
+                }
                 if ('ingamenames' in params) this.#playername.setInGameNames(hash, params.ingamenames);
             }
         });
@@ -3202,6 +3362,10 @@ export class WebAPIConfig {
         });
 
         document.getElementById('player-name-getfromlobby').addEventListener('click', (ev) => {
+            this.#webapi.sendGetLobbyPlayers();
+        });
+
+        document.getElementById('player-lobbyview-getfromlobby').addEventListener('click', (ev) => {
             this.#webapi.sendGetLobbyPlayers();
         });
 
@@ -3522,6 +3686,12 @@ export class WebAPIConfig {
         });
 
         this.#playername.setCallback((hash, name) => {
+            const params = this.#playerparams[hash];
+            params.name = name;
+            this.#webapi.setPlayerParams(hash, params);
+        });
+
+        this.#playernamelobbyview.setCallback((hash, name) => {
             const params = this.#playerparams[hash];
             params.name = name;
             this.#webapi.setPlayerParams(hash, params);

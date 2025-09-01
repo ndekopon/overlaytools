@@ -201,6 +201,53 @@ body {
     line-height: 1.3em;
 }
 
+/* player-namelobbyview */
+#player-lobbyview #player-lobbyview-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+#player-lobbyview .player-lobbyview-team {
+    border: 1px solid black;
+    box-sizing: border-box;
+    margin: 1px;
+}
+
+#player-lobbyview .player-lobbyview-team.hide {
+    display: none;
+}
+
+#player-lobbyview .player-lobbyview-team-info {
+    border: 1px solid black;
+    padding: 2px;
+    margin: 1px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 2em 1fr;
+}
+
+#player-lobbyview .player-lobbyview-team-info .team-id {
+    font-weight: bold;
+    text-align: center;
+}
+
+#player-lobbyview .player-lobbyview-team-players {
+    padding-left: 1em;
+}
+
+#player-lobbyview .player-lobbyview-player.hide {
+    display: none;
+}
+
+#player-lobbyview .player-lobbyview-player:hover {
+    background-color: #FFFFCC;
+}
+
+#player-lobbyview .player-name {
+    font-weight: bold;
+}
+
+
 /* team-name */
 #team-name #team-name-container {
     display: grid;

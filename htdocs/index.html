@@ -74,6 +74,12 @@
                             <span class="ja">名前設定</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="#player-lobbyview">
+                            <span class="en">set name(lobby view)</span>
+                            <span class="ja">名前設定(ロビー画面表示)</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li>
@@ -482,6 +488,28 @@
         </thead>
         <tbody id="player-name-list"></tbody>
     </table>
+</div>
+
+<div id="player-lobbyview" class="hide">
+    <h3>
+        <span class="en">Player: set name(lobby view)</span>
+        <span class="ja">プレイヤー: 名前設定(ロビー画面表示)</span>
+    </h3>
+    <h4>
+        <span class="en">gather player hash</span>
+        <span class="ja">プレイヤーハッシュの収集</span>
+    </h4>
+    <p>
+        <button id="player-lobbyview-getfromlobby">
+            <span class="en">get from lobby</span>
+            <span class="ja">カスタムロビーから取得</span>
+        </button>
+    </p>
+    <h4>
+        <span class="en">set player name</span>
+        <span class="ja">名前設定</span>
+    </h4>
+    <div id="player-lobbyview-container"></div>
 </div>
 
 <div id="team-name" class="hide">
