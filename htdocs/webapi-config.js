@@ -3443,7 +3443,7 @@ export class WebAPIConfig {
 
         // Test
         document.getElementById('test-change-gamestate').addEventListener('click', (ev) => {
-            const state_table = ["WaitingForPlayers", "PickLoadout", "Prematch", "Playing", "Resolution", "Postmatch"];
+            const state_table = ["WaitingForPlayers", "PreGamePreview", "PickLoadout", "Prematch", "Playing", "Resolution", "Postmatch"];
             const current_state = document.getElementById('test-gamestate-current').innerText;
             const current_index = state_table.indexOf(current_state);
             const next_index = ((current_index + 1) % state_table.length);

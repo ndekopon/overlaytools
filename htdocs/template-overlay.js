@@ -1029,6 +1029,7 @@ export class TemplateOverlayHandler extends EventTarget {
             let flag = false;
             switch(game) {
                 case "WaitingForPlayers":
+                case "PreGamePreview":
                 case "PickLoadout":
                 case "Prematch":
                     // prematch
@@ -1496,6 +1497,7 @@ export class TemplateOverlayHandler extends EventTarget {
         let calc_resultsonly = this.#calc_resultsonly;
         switch(state) {
             case "WaitingForPlayers":
+            case "PreGamePreview":
             case "PickLoadout":
             case "Prematch":
             case "Playing":
