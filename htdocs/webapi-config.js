@@ -935,7 +935,7 @@ class TeamName extends WebAPIConfigBase {
     }
 }
 
-class TeamInGameSettings extends WebAPIConfigBase {
+class InGameSettings extends WebAPIConfigBase {
     #lobby;
     /**
      * コンストラクタ
@@ -2943,7 +2943,7 @@ export class WebAPIConfig {
     #playername;
     #playernamelobbyview;
     #teamname;
-    #teamingamesettings;
+    #ingamesettings;
     #legendban;
     #resultview;
     #resultfixview;
@@ -2972,7 +2972,7 @@ export class WebAPIConfig {
         this.#playername = new PlayerName();
         this.#playernamelobbyview = new PlayerNameLobbyView();
         this.#teamname = new TeamName();
-        this.#teamingamesettings = new TeamInGameSettings();
+        this.#ingamesettings = new InGameSettings();
         this.#legendban = new LegendBan();
         this.#tryconnecting = false;
         this.#getallplayers = false;
@@ -3121,7 +3121,7 @@ export class WebAPIConfig {
         });
 
         this.#webapi.addEventListener('lobbyenumend', (ev) => {
-            this.#teamingamesettings.setLobby(this.#lobby);
+            this.#ingamesettings.setLobby(this.#lobby);
             this.#playernamelobbyview.end();
         });
 
@@ -3823,7 +3823,7 @@ export class WebAPIConfig {
      * @returns {Promise} 設定を行った結果を返す
      */
     #setInGameTeamNames(ingamesettings = false) {
-        const lines = ingamesettings ? this.#teamingamesettings.getTeamNames() : this.#teamname.getLines();
+        const lines = ingamesettings ? this.#ingamesettings.getTeamNames() : this.#teamname.getLines();
         let timerid = null;
 
         const enumend = (ev) => {
@@ -3862,7 +3862,7 @@ export class WebAPIConfig {
      * @returns {Promise} 設定を行った結果を返す
      */
     #setInGameSpawnPoints() {
-        const spawnpoints = this.#teamingamesettings.getSpawnPoints();
+        const spawnpoints = this.#ingamesettings.getSpawnPoints();
         let timerid = null;
 
         const enumend = (ev) => {
