@@ -941,7 +941,7 @@ class TeamInGameSettings extends WebAPIConfigBase {
      * コンストラクタ
      */
     constructor() {
-        super('team-ingamesettings-');
+        super('ingamesettings-');
         this.getNode('num');
         this.getNode('teamnames');
         this.getNode('spawnpoints');
@@ -3375,7 +3375,7 @@ export class WebAPIConfig {
             });
         });
 
-        document.getElementById('team-ingamesettings-getfromlobby').addEventListener('click', ev => {
+        document.getElementById('ingamesettings-getfromlobby').addEventListener('click', ev => {
             this.#webapi.sendGetLobbyPlayers();
         });
 
@@ -3394,11 +3394,11 @@ export class WebAPIConfig {
             this.#webapi.manualPostMatch();
         });
 
-        document.getElementById('team-ingamesettings-teamnames-button').addEventListener('click', (ev) => {
+        document.getElementById('ingamesettings-teamnames-button').addEventListener('click', (ev) => {
             this.#setInGameTeamNames(true);
         });
 
-        document.getElementById('team-ingamesettings-spawnpoints-button').addEventListener('click', (ev) => {
+        document.getElementById('ingamesettings-spawnpoints-button').addEventListener('click', (ev) => {
             this.#setInGameSpawnPoints();
         });
 
