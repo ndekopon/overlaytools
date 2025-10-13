@@ -132,6 +132,14 @@ namespace app {
 		sendto_liveapi_queuecheck();
 	}
 
+	void core_thread::sendto_liveapi_noqueue(ctx_buffer_t&& _data)
+	{
+		ctx_.push_wq(CTX_LIVEAPI, std::make_unique<std::pair<SOCKET, ctx_buffer_t>>(INVALID_SOCKET, std::move(_data)));
+		liveapi_.tell_wq();
+		liveapi_available_ = false;
+		liveapi_lastsend_ = get_millis();
+	}
+
 	void core_thread::sendto_liveapi_queuecheck()
 	{
 		uint64_t current = get_millis();
@@ -1227,7 +1235,7 @@ namespace app {
 			if (buf->size() > 0)
 			{
 				req.SerializeToArray(buf->data(), buf->size());
-				sendto_liveapi(std::move(buf));
+				sendto_liveapi_noqueue(std::move(buf));
 				reply_webapi_send_changecamera(socket, sequence);
 			}
 			break;

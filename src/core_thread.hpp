@@ -81,6 +81,7 @@ namespace app {
 		void proc_squad_eliminated(uint8_t _teamid);
 
 		void sendto_liveapi(ctx_buffer_t&& _data);
+		void sendto_liveapi_noqueue(ctx_buffer_t&& _data);
 		void sendto_webapi(ctx_buffer_t&& _data);
 		void sendto_webapi(SOCKET _sock, ctx_buffer_t&& _data);
 		void sendto_liveapi_queuecheck();
