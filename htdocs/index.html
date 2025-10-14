@@ -551,6 +551,13 @@
         <span class="en">get lobby info</span>
         <span class="ja">ロビー情報取得</span>
     </button>
+    <p>
+        token: [<span id="ingamesettings-token"></span>]
+        <span>
+            <span class="en">(if token is empty or starts with 'c', team name and spawn point settings cannot be applied)</span>
+            <span class="ja">(tokenが空、または'c'で始まる場合、チーム名・スポーン地点の設定は反映されません)</span>
+        </span>
+    </p>
     <div id="ingamesettings-container">
         <div></div>
         <div>
@@ -562,13 +569,27 @@
             <span class="ja">スポーン地点</span>
         </div>
         <div>
-            <span class="en">settings overview</span>
-            <span class="ja">設定反映概要</span>
+            <span class="en">in-game value</span>
+            <span class="ja">インゲームの値</span>
         </div>
         <pre id="ingamesettings-num"></pre>
         <textarea id="ingamesettings-teamnames"></textarea>
         <textarea id="ingamesettings-spawnpoints"></textarea>
-        <pre id="ingamesettings-output"></pre>
+        <table>
+            <thead>
+                <th>#</th>
+                <th>
+                    <span class="en">team name</span>
+                    <span class="ja">チーム名</span>
+                </th>
+                <th>
+                    <span class="en">spawn point</span>
+                    <span class="ja">スポーン地点</span>
+                </th>
+            </thead>
+            <tbody id="ingamesettings-teamsettings">
+            </tbody>
+        </table>
     </div>
     <button id="ingamesettings-teamnames-button">
         <span class="en">set name</span>
@@ -577,6 +598,189 @@
     <button id="ingamesettings-spawnpoints-button">
         <span class="en">set spawn points</span>
         <span class="ja">スポーン地点設定</span>
+    </button>
+    <div id="ingamesettings-customsettings">
+        <h4>
+            <span class="en">custom settings</span>
+            <span class="ja">カスタム設定</span>
+        </h4>
+        <table>
+            <tr>
+                <th>
+                    <span class="en">setting</span>
+                    <span class="ja">設定項目</span>
+                </th>
+                <th colspan="2">
+                    <span class="en">value</span>
+                    <span class="ja">値</span>
+                </th>
+                <th>
+                    <span class="en">in-game value</span>
+                    <span class="ja">インゲームの値</span>
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <span class="en">playlist name</span>
+                    <span class="ja">プレイリスト名</span>
+                </td>
+                <td colspan="2">
+                    <input type="text" id="ingamesettings-customsettings-playlistname" />
+                </td>
+                <td id="ingamesettings-currentplaylistname">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="en">admin chat</span>
+                    <span class="ja">管理者チャット</span>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="ingamesettings-customsettings-adminchat" value="0" checked />
+                        <span class="en">allow all(false)</span>
+                        <span class="ja">全員許可(false)</span>
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="ingamesettings-customsettings-adminchat" value="1" />
+                        <span class="en">admin only(true)</span>
+                        <span class="ja">管理者のみ許可(true)</span>
+                    </label>
+                </td>
+                <td id="ingamesettings-currentadminchat">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="en">team rename</span>
+                    <span class="ja">プレイヤーによるチーム名変更</span>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="ingamesettings-customsettings-teamrename" value="0" />
+                        <span class="en">deny(false)</span>
+                        <span class="ja">拒否(false)</span>
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="ingamesettings-customsettings-teamrename" value="1" checked />
+                        <span class="en">allow(true)</span>
+                        <span class="ja">許可(true)</span>
+                    </label>
+                </td>
+                <td id="ingamesettings-currentteamrename">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="en">self assign</span>
+                    <span class="ja">プレイヤーによるチーム移動</span>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="ingamesettings-customsettings-selfassign" value="0" />
+                        <span class="en">deny(false)</span>
+                        <span class="ja">拒否(false)</span>
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="ingamesettings-customsettings-selfassign" value="1" checked />
+                        <span class="en">allow(true)</span>
+                        <span class="ja">許可(true)</span>
+                    </label>
+                </td>
+                <td id="ingamesettings-currentselfassign">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="en">aimassist</span>
+                    <span class="ja">エイムアシスト</span>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="ingamesettings-customsettings-aimassist" value="0" />
+                        <span class="en">pc != console(false)</span>
+                        <span class="ja">PC/コンソールで差異あり(false)</span>
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="ingamesettings-customsettings-aimassist" value="1" checked />
+                        <span class="en">pc == console(true)</span>
+                        <span class="ja">PC/コンソール共通(true)</span>
+                    </label>
+                </td>
+                <td id="ingamesettings-currentaimassist">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="en">anonmode</span>
+                    <span class="ja">匿名モード</span>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="ingamesettings-customsettings-anonmode" value="0" checked />
+                        <span class="en">disabled(false)</span>
+                        <span class="ja">無効(false)</span>
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="ingamesettings-customsettings-anonmode" value="1" />
+                        <span class="en">enabled(true)</span>
+                        <span class="ja">有効(true)</span>
+                    </label>
+                </td>
+                <td id="ingamesettings-currentanonmode">
+                </td>
+            </tr>
+        </table>
+    </div>
+    <button id="ingamesettings-customsettings-button">
+        <span class="en">set custom settings</span>
+        <span class="ja">カスタム設定</span>
+    </button>
+    <div>
+        <h4>
+            <span class="en">Presets</span>
+            <span class="ja">プリセット</span>
+        </h4>
+        <input type="text" id="ingamesettings-preset-name" placeholder="input preset name" />
+        <button id="ingamesettings-preset-save">
+            <span class="en">save current settings as preset</span>
+            <span class="ja">現在の設定をプリセットとして保存</span>
+        </button>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <span class="en">name</span>
+                        <span class="ja">名前</span>
+                    </th>
+                    <th>
+                        <span class="en">playlist name</span>
+                        <span class="ja">プレイリスト名</span>
+                    </th>
+                    <th>
+                        <span class="en">action</span>
+                        <span class="ja">アクション</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="ingamesettings-presets">
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <button id="ingamesettings-all-button">
+        <span class="en">set all settings</span>
+        <span class="ja">一括設定</span>
     </button>
 </div>
 

@@ -936,7 +936,11 @@ class TeamName extends WebAPIConfigBase {
 }
 
 class InGameSettings extends WebAPIConfigBase {
-    #lobby;
+    #base = document.getElementById('ingamesettings');
+    #lobby = {};
+    #customsettings = {};
+    #presets = {};
+    #callback = undefined;
     /**
      * コンストラクタ
      */
@@ -945,12 +949,69 @@ class InGameSettings extends WebAPIConfigBase {
         this.getNode('num');
         this.getNode('teamnames');
         this.getNode('spawnpoints');
-        this.getNode('output');
-
-        this.#lobby = {};
+        this.getNode('teamsettings');
+        this.getNode('currentplaylistname');
+        this.getNode('currentadminchat');
+        this.getNode('currentteamrename');
+        this.getNode('currentselfassign');
+        this.getNode('currentaimassist');
+        this.getNode('currentanonmode');
+        this.getNode('token');
+        this.getNode('presets');
 
         // テキスト設定
         this.#setLineNumber();
+
+        // テキスト変更時にチェックを入れる
+        this.nodes.teamnames.addEventListener('change', (ev) => {
+            this.#checkTeamSettings();
+        });
+        this.nodes.spawnpoints.addEventListener('change', (ev) => {
+            this.#checkTeamSettings();
+        });
+
+        // 値の変更時にチェックを入れる
+        this.#base.querySelector('#ingamesettings-customsettings-playlistname').addEventListener('change', (ev) => {
+            this.#checkCustomSettings();
+        });
+        for (const node of this.#base.querySelectorAll('[name=ingamesettings-customsettings-adminchat]')) {
+            node.addEventListener('change', (ev) => {
+                this.#checkCustomSettings();
+            });
+        }
+        for (const node of this.#base.querySelectorAll('[name=ingamesettings-customsettings-teamrename]')) {
+            node.addEventListener('change', (ev) => {
+                this.#checkCustomSettings();
+            });
+        }
+        for (const node of this.#base.querySelectorAll('[name=ingamesettings-customsettings-selfassign]')) {
+            node.addEventListener('change', (ev) => {
+                this.#checkCustomSettings();
+            });
+        }
+        for (const node of this.#base.querySelectorAll('[name=ingamesettings-customsettings-aimassist]')) {
+            node.addEventListener('change', (ev) => {
+                this.#checkCustomSettings();
+            });
+        }
+        for (const node of this.#base.querySelectorAll('[name=ingamesettings-customsettings-anonmode]')) {
+            node.addEventListener('change', (ev) => {
+                this.#checkCustomSettings();
+            });
+        }
+
+        // プリセットの保存
+        this.#base.querySelector('#ingamesettings-preset-save').addEventListener('click', (ev) => {
+            const name = this.#base.querySelector('#ingamesettings-preset-name').value.trim();
+            if (name == '') return;
+            this.#savePreset(name);
+        });
+    }
+
+    setUpdatePresetsCallback(func) {
+        if (typeof func == 'function') {
+            this.#callback = func;
+        }
     }
 
     /**
@@ -963,6 +1024,30 @@ class InGameSettings extends WebAPIConfigBase {
             dst += (i + 1);
         }
         this.nodes.num.innerText = dst;
+    }
+
+    #getPlaylistName() {
+        return this.#base.querySelector('#ingamesettings-customsettings-playlistname').value;
+    }
+
+    #getAdminChat() {
+        return this.#base.querySelector('[name="ingamesettings-customsettings-adminchat"]:checked').value === '1';
+    }
+
+    #getTeamRename() {
+        return this.#base.querySelector('[name="ingamesettings-customsettings-teamrename"]:checked').value === '1';
+    }
+
+    #getSelfAssign() {
+        return this.#base.querySelector('[name="ingamesettings-customsettings-selfassign"]:checked').value === '1';
+    }
+
+    #getAimAssist() {
+        return this.#base.querySelector('[name="ingamesettings-customsettings-aimassist"]:checked').value === '1';
+    }
+
+    #getAnonMode() {
+        return this.#base.querySelector('[name="ingamesettings-customsettings-anonmode"]:checked').value === '1';
     }
 
     /**
@@ -989,29 +1074,322 @@ class InGameSettings extends WebAPIConfigBase {
         });
     }
 
+    getCustomSettings() {
+        return {
+            playlistname: this.#getPlaylistName(),
+            adminchat: this.#getAdminChat(),
+            teamrename: this.#getTeamRename(),
+            selfassign: this.#getSelfAssign(),
+            aimassist: this.#getAimAssist(),
+            anonmode: this.#getAnonMode()
+        };
+    }
+
     /**
-     * 1行毎に「TeamXX: 」をつけてoutput側のTextAreaに設定
+     * インゲーム情報のチームテーブルを更新
      */
-    #updateOutput() {
-        let dst = '';
-        if (!('token' in this.#lobby) || this.#lobby.token == '' || this.#lobby.token.indexOf('c') == 0) {
-            dst = 'need special token';
-        } else if ('teams' in this.#lobby) {
+    #updateInGameTeamSettings() {
+        while (this.nodes.teamsettings.firstChild) {
+            this.nodes.teamsettings.removeChild(this.nodes.teamsettings.firstChild);
+        }
+        if ('token' in this.#lobby) {
+            this.nodes.token.textContent = this.#lobby.token;
+            if (this.#lobby.token.indexOf('c') == 0) {
+                this.nodes.token.dataset.status = 'common';
+            } else {
+                this.nodes.token.dataset.status = 'special';
+            }
+        } else {
+            this.nodes.token.textContent = 'xxxxxxxx';
+            this.nodes.token.dataset.status = 'none';
+        }
+        if ('teams' in this.#lobby) {
             for (let i = 0; i < 30; ++i) {
                 if (i in this.#lobby.teams) {
                     const t = this.#lobby.teams[i];
-                    dst += 'Team' + (i + 1) + ': ' + t.name + '@' + t.spawnpoint + '\r\n';
+                    const tr = document.createElement('tr');
+                    tr.dataset.teamid = i;
+                    tr.dataset.name = t.name;
+                    tr.dataset.spawnpoint = t.spawnpoint;
+                    tr.appendChild(document.createElement('td')).textContent = (i + 1);
+                    tr.appendChild(document.createElement('td')).textContent = t.name;
+                    tr.appendChild(document.createElement('td')).textContent = t.spawnpoint;
+                    this.nodes.teamsettings.appendChild(tr);
                 } else {
-                    dst += '\r\n';
+                    break;
                 }
             }
         }
-        this.nodes.output.innerText = dst;
+    }
+
+    #checkTeamSettings() {
+        const teamnames = this.getTeamNames();
+        const spawnpoints = this.getSpawnPoints();
+        for (const node of this.nodes.teamsettings.children) {
+            const teamid = parseInt(node.dataset.teamid, 10);
+            if (Number.isNaN(teamid)) continue;
+            if (teamid < 0 || 29 < teamid) continue;
+            let teamname = '';
+            let spawnpoint = 0;
+            if (teamid < teamnames.length) {
+                teamname = teamnames[teamid];
+            }
+            if (teamid < spawnpoints.length) {
+                spawnpoint = spawnpoints[teamid];
+            }
+            if (node.dataset.name == teamname) {
+                node.children[1].dataset.correct = 'true';
+            } else {
+                node.children[1].dataset.correct = 'false';
+            }
+            if (node.dataset.spawnpoint == String(spawnpoint)) {
+                node.children[2].dataset.correct = 'true';
+            } else {
+                node.children[2].dataset.correct = 'false';
+            }
+        }
+    }
+
+    #updatedCustomSettings() {
+        if ('playlistname' in this.#customsettings) {
+            this.nodes.currentplaylistname.textContent = this.#customsettings.playlistname;
+        } else {
+            this.nodes.currentplaylistname.textContent = '';
+        }
+        if ('adminchat' in this.#customsettings) {
+            this.nodes.currentadminchat.textContent = String(this.#customsettings.adminchat);
+        } else {
+            this.nodes.currentadminchat.textContent = '';
+        }
+        if ('teamrename' in this.#customsettings) {
+            this.nodes.currentteamrename.textContent = String(this.#customsettings.teamrename);
+        } else {
+            this.nodes.currentteamrename.textContent = '';
+        }
+        if ('selfassign' in this.#customsettings) {
+            this.nodes.currentselfassign.textContent = String(this.#customsettings.selfassign);
+        } else {
+            this.nodes.currentselfassign.textContent = '';
+        }
+        if ('aimassist' in this.#customsettings) {
+            this.nodes.currentaimassist.textContent = String(this.#customsettings.aimassist);
+        } else {
+            this.nodes.currentaimassist.textContent = '';
+        }
+        if ('anonmode' in this.#customsettings) {
+            this.nodes.currentanonmode.textContent = String(this.#customsettings.anonmode);
+        } else {
+            this.nodes.currentanonmode.textContent = '';
+        }
+    }
+
+    #checkCustomSettings() {
+        console.log(this.#customsettings);
+        let playlistname = '';
+        let adminchat = false;
+        let teamrename = false;
+        let selfassign = false;
+        let aimassist = false;
+        let anonmode = false;
+        if ('playlistname' in this.#customsettings) {
+            playlistname = this.#customsettings.playlistname;
+        }
+        if ('adminchat' in this.#customsettings) {
+            adminchat = this.#customsettings.adminchat;
+        }
+        if ('teamrename' in this.#customsettings) {
+            teamrename = this.#customsettings.teamrename;
+        }
+        if ('selfassign' in this.#customsettings) {
+            selfassign = this.#customsettings.selfassign;
+        }
+        if ('aimassist' in this.#customsettings) {
+            aimassist = this.#customsettings.aimassist;
+        }
+        if ('anonmode' in this.#customsettings) {
+            anonmode = this.#customsettings.anonmode;
+        }
+        if (this.#getPlaylistName() == playlistname) {
+            this.nodes.currentplaylistname.dataset.correct = 'true';
+        } else {
+            this.nodes.currentplaylistname.dataset.correct = 'false';
+        }
+        if (this.#getAdminChat() == adminchat) {
+            this.nodes.currentadminchat.dataset.correct = 'true';
+        } else {
+            this.nodes.currentadminchat.dataset.correct = 'false';
+        }
+        if (this.#getTeamRename() == teamrename) {
+            this.nodes.currentteamrename.dataset.correct = 'true';
+        } else {
+            this.nodes.currentteamrename.dataset.correct = 'false';
+        }
+        if (this.#getSelfAssign() == selfassign) {
+            this.nodes.currentselfassign.dataset.correct = 'true';
+        } else {
+            this.nodes.currentselfassign.dataset.correct = 'false';
+        }
+        if (this.#getAimAssist() == aimassist) {
+            this.nodes.currentaimassist.dataset.correct = 'true';
+        } else {
+            this.nodes.currentaimassist.dataset.correct = 'false';
+        }
+        if (this.#getAnonMode() == anonmode) {
+            this.nodes.currentanonmode.dataset.correct = 'true';
+        } else {
+            this.nodes.currentanonmode.dataset.correct = 'false';
+        }
+    }
+
+    #savePreset(key) {
+        if (key == '') return;
+        const preset = {};
+        preset.teamnames = this.getTeamNames();
+        preset.spawnpoints = this.getSpawnPoints();
+        preset.customsettings = {
+            playlistname: this.#getPlaylistName(),
+            adminchat: this.#getAdminChat(),
+            teamrename: this.#getTeamRename(),
+            selfassign: this.#getSelfAssign(),
+            aimassist: this.#getAimAssist(),
+            anonmode: this.#getAnonMode()
+        };
+        this.#presets[key] = preset;
+        if (typeof this.#callback == 'function') {
+            this.#callback(this.#presets);
+        }
+    }
+
+    #loadPreset(key) {
+        if (key in this.#presets) {
+            this.#base.querySelector('#ingamesettings-preset-name').value = key;
+
+            // load
+            const preset = this.#presets[key];
+            if ('teamnames' in preset) {
+                if (preset.teamnames instanceof Array) {
+                    this.nodes.teamnames.value = preset.teamnames.join('\r\n');
+                }
+            }
+            if ('spawnpoints' in preset) {
+                if (preset.spawnpoints instanceof Array) {
+                    this.nodes.spawnpoints.value = preset.spawnpoints.join('\r\n');
+                }
+            }
+            if ('customsettings' in preset) {
+                const settings = preset.customsettings;
+                if ('playlistname' in settings) {
+                    this.#base.querySelector('#ingamesettings-customsettings-playlistname').value = settings.playlistname;
+                }
+                if ('adminchat' in settings) {
+                    const value = settings.adminchat ? '1' : '0';
+                    for (const node of this.#base.querySelectorAll('[name=ingamesettings-customsettings-adminchat]')) {
+                        if (node.value == value) {
+                            node.checked = true;
+                        } else {
+                            node.checked = false;
+                        }
+                    }
+                }
+                if ('teamrename' in settings) {
+                    const value = settings.teamrename ? '1' : '0';
+                    for (const node of this.#base.querySelectorAll('[name=ingamesettings-customsettings-teamrename]')) {
+                        if (node.value == value) {
+                            node.checked = true;
+                        } else {
+                            node.checked = false;
+                        }
+                    }
+                }
+                if ('selfassign' in settings) {
+                    const value = settings.selfassign ? '1' : '0';
+                    for (const node of this.#base.querySelectorAll('[name=ingamesettings-customsettings-selfassign]')) {
+                        if (node.value == value) {
+                            node.checked = true;
+                        } else {
+                            node.checked = false;
+                        }
+                    }
+                }
+                if ('aimassist' in settings) {
+                    const value = settings.aimassist ? '1' : '0';
+                    for (const node of this.#base.querySelectorAll('[name=ingamesettings-customsettings-aimassist]')) {
+                        if (node.value == value) {
+                            node.checked = true;
+                        } else {
+                            node.checked = false;
+                        }
+                    }
+                }
+                if ('anonmode' in settings) {
+                    const value = settings.anonmode ? '1' : '0';
+                    for (const node of this.#base.querySelectorAll('[name=ingamesettings-customsettings-anonmode]')) {
+                        if (node.value == value) {
+                            node.checked = true;
+                        } else {
+                            node.checked = false;
+                        }
+                    }
+                }
+            }
+
+            // check
+            this.#checkTeamSettings();
+            this.#checkCustomSettings();
+        }
+    }
+
+    #deletePreset(key) {
+        if (key in this.#presets) {
+            delete this.#presets[key];
+            if (typeof this.#callback == 'function') {
+                this.#callback(this.#presets);
+            }
+        }
+    }
+
+    #updatedPresets() {
+        while (this.nodes.presets.firstChild) {
+            this.nodes.presets.removeChild(this.nodes.presets.firstChild);
+        }
+        const keys = Object.keys(this.#presets).sort((a, b) => a.localeCompare(b));
+        for (const key of keys) {
+            const preset = this.#presets[key];
+            const playlistname = ('customsettings' in preset && 'playlistname' in preset.customsettings) ? preset.customsettings.playlistname : '';
+            const tr = document.createElement('tr');
+            tr.appendChild(document.createElement('td')).textContent = key;
+            tr.appendChild(document.createElement('td')).textContent = playlistname;
+            const action = tr.appendChild(document.createElement('td'));
+            action.appendChild(document.createElement('button')).textContent = 'load';
+            action.appendChild(document.createElement('button')).textContent = 'delete';
+            action.children[0].addEventListener('click', () => {
+                this.#loadPreset(key);
+            });
+            action.children[1].addEventListener('click', () => {
+                this.#deletePreset(key);
+            });
+            this.nodes.presets.appendChild(tr);
+        }
+    }
+
+    setTournamentParams(params) {
+        this.#presets = {};
+        if (params && 'presets' in params) {
+            this.#presets = params.presets;
+        }
+        this.#updatedPresets();
     }
 
     setLobby(lobby) {
         this.#lobby = lobby;
-        this.#updateOutput();
+        this.#updateInGameTeamSettings();
+        this.#checkTeamSettings();
+    }
+
+    setCustomSettings(settings) {
+        this.#customsettings = settings;
+        this.#updatedCustomSettings();
+        this.#checkCustomSettings();
     }
 }
 
@@ -3003,6 +3381,7 @@ export class WebAPIConfig {
             this.#webapi.getObserver();
             this.#webapi.getObservers();
             this.#webapi.sendGetLobbyPlayers();
+            this.#webapi.sendGetSettings();
             this.#webapi.getTournamentResults();
             this.#webapi.getTournamentParams();
             this.#webapi.getLiveAPIConfig();
@@ -3271,6 +3650,7 @@ export class WebAPIConfig {
             this.#tournament_params = ev.detail.params;
             this.#setOverlayStatusFromParams(ev.detail.params);
             this.#resultview.setTournamentParams(ev.detail.params);
+            this.#ingamesettings.setTournamentParams(ev.detail.params);
             this.#tournamentcalculationmethod.importCalcMethod(ev.detail.params['calcmethod']);
         });
 
@@ -3279,6 +3659,7 @@ export class WebAPIConfig {
                 this.#tournament_params = ev.detail.params;
                 this.#setOverlayStatusFromParams(ev.detail.params);
                 this.#resultview.setTournamentParams(ev.detail.params);
+                this.#ingamesettings.setTournamentParams(ev.detail.params);
                 this.#tournamentcalculationmethod.importCalcMethod(ev.detail.params['calcmethod']);
             }
         });
@@ -3311,6 +3692,10 @@ export class WebAPIConfig {
             document.getElementById('test-getsettings-playlist').innerText = ev.detail.playlistname;
             document.getElementById('test-getsettings-aimassist').innerText = ev.detail.aimassist;
             document.getElementById('test-getsettings-anonmode').innerText = ev.detail.anonmode;
+        });
+
+        this.#webapi.addEventListener('custommatchsettings', (ev) => {
+            this.#ingamesettings.setCustomSettings(ev.detail);
         });
 
         this.#webapi.addEventListener('getversion', ev => {
@@ -3377,6 +3762,7 @@ export class WebAPIConfig {
 
         document.getElementById('ingamesettings-getfromlobby').addEventListener('click', ev => {
             this.#webapi.sendGetLobbyPlayers();
+            this.#webapi.sendGetSettings();
         });
 
         document.getElementById('team-ingamename-button').addEventListener('click', (ev) => {
@@ -3400,6 +3786,16 @@ export class WebAPIConfig {
 
         document.getElementById('ingamesettings-spawnpoints-button').addEventListener('click', (ev) => {
             this.#setInGameSpawnPoints();
+        });
+
+        document.getElementById('ingamesettings-customsettings-button').addEventListener('click', (ev) => {
+            this.#setInGameSettings();
+        });
+
+        document.getElementById('ingamesettings-all-button').addEventListener('click', (ev) => {
+            this.#setInGameTeamNames(true);
+            this.#setInGameSpawnPoints();
+            this.#setInGameSettings();
         });
 
         document.getElementById('result-view-button').addEventListener('click', (ev) => {
@@ -3705,6 +4101,11 @@ export class WebAPIConfig {
         this.#liveapiconfig.setCallback((config) => {
             this.#webapi.setLiveAPIConfig(config);
         });
+
+        this.#ingamesettings.setUpdatePresetsCallback((presets) => {
+            this.#tournament_params['presets'] = presets;
+            this.#webapi.setTournamentParams(this.#tournament_params);
+        });
     }
 
     #setupMenuSelect() {
@@ -3894,6 +4295,13 @@ export class WebAPIConfig {
         }, 2000); // 2sでタイムアウト
 
         this.#webapi.sendGetLobbyPlayers();
+    }
+
+
+    #setInGameSettings() {
+        const d = this.#ingamesettings.getCustomSettings();
+        this.#webapi.sendSetSettings(d.playlistname, d.adminchat, d.teamrename, d.selfassign, d.aimassist, d.anonmode);
+        this.#webapi.sendGetSettings();
     }
 
     /**

@@ -296,6 +296,41 @@ body {
     background-color: #CCC;
 }
 
+#ingamesettings table {
+    border-collapse: collapse;
+}
+#ingamesettings th {
+    border: 1px solid black;
+    padding: 0.1em 1em;
+}
+#ingamesettings td {
+    border: 1px solid black;
+    padding: 0.1em 1em;
+}
+#ingamesettings td[data-correct=false] {
+    background-color: #FFCCCC;
+}
+#ingamesettings td[data-correct=true] {
+    background-color: #CCFFCC;
+}
+#ingamesettings-container th:nth-child(1) {
+    width: 2em;
+    text-align: right;
+}
+#ingamesettings-container th:nth-child(3) {
+    width: 6em;
+}
+#ingamesettings-container td:nth-child(1) {
+    text-align: right;
+}
+#ingamesettings-container td:nth-child(3) {
+    text-align: right;
+}
+#ingamesettings-customsettings input[type=text] {
+    width: 100%;
+    line-height: 1.3em;
+}
+
 /* legendban */
 #legendban table {
     border-collapse: collapse;
