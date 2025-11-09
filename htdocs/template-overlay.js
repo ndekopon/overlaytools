@@ -723,6 +723,8 @@ export class TemplateOverlayHandler extends EventTarget {
             const placement = ev.detail.team.placement;
             const teamid = ev.detail.team.id;
             this.#updatedSquadEliminate(placement, teamid, init);
+            this.#updatedAliveTeamsCount();
+            this.#updatedAlivePlayersCount();
         });
 
         this.#webapi.addEventListener("teamname", (ev) => {
@@ -1433,10 +1435,41 @@ export class TemplateOverlayHandler extends EventTarget {
     #updatedSquadEliminate(placement, teamid, init) {
         for (const overlay of Object.values(this.#overlays)) {
             overlay.addTeamClass(teamid, 'team-squad-eliminate'); // 削除されたチームにクラスを付与
+            console.log(`Team ${teamid} eliminated at placement ${placement}`);
             if ('setSquadEliminate' in overlay && typeof(overlay.setSquadEliminate) == 'function') {
                 const teamname = this.#getTeamName(teamid);
                 overlay.setSquadEliminate(placement, teamid, teamname, init);
             }
+        }
+    }
+
+    #updatedAliveTeamsCount() {
+        let aliveTeams = 0;
+        if (this.#game && 'teams' in this.#game) {
+            for (const team of this.#game.teams) {
+                if (!team.eliminated) aliveTeams++;
+            }
+        }
+        for (const overlay of Object.values(this.#overlays)) {
+            overlay.setParam('alive-teams', aliveTeams);
+        }
+    }
+
+    #updatedAlivePlayersCount() {
+        let alivePlayers = 0;
+        if (this.#game && 'teams' in this.#game) {
+            for (const team of this.#game.teams) {
+                if (!team.eliminated) {
+                    for (const player of team.players) {
+                        if (player.state === ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE || player.state === ApexWebAPI.WEBAPI_PLAYER_STATE_DOWN) {
+                            alivePlayers++;
+                        }
+                    }
+                }
+            }
+        }
+        for (const overlay of Object.values(this.#overlays)) {
+            overlay.setParam('alive-players', alivePlayers);
         }
     }
 
@@ -1465,8 +1498,9 @@ export class TemplateOverlayHandler extends EventTarget {
                 }
             }
         }
-
         this.#updatedPlayerParam(hash, 'state', state);
+
+        this.#updatedAlivePlayersCount();
     }
 
     #updatedTournamentName(name) {
