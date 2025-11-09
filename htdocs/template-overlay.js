@@ -1434,8 +1434,8 @@ export class TemplateOverlayHandler extends EventTarget {
 
     #updatedSquadEliminate(placement, teamid, init) {
         for (const overlay of Object.values(this.#overlays)) {
+            overlay.setTeamParam(teamid, 'team-eliminated', 1)
             overlay.addTeamClass(teamid, 'team-squad-eliminate'); // 削除されたチームにクラスを付与
-            console.log(`Team ${teamid} eliminated at placement ${placement}`);
             if ('setSquadEliminate' in overlay && typeof(overlay.setSquadEliminate) == 'function') {
                 const teamname = this.#getTeamName(teamid);
                 overlay.setSquadEliminate(placement, teamid, teamname, init);
