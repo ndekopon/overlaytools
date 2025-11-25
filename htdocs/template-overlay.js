@@ -1501,6 +1501,9 @@ export class TemplateOverlayHandler extends EventTarget {
         this.#updatedPlayerParam(hash, 'state', state);
 
         this.#updatedAlivePlayersCount();
+        if (state == ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE) {
+            this.#updatedAliveTeamsCount();
+        }
     }
 
     #updatedTournamentName(name) {
