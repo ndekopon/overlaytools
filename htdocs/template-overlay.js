@@ -675,7 +675,7 @@ export class TemplateOverlayHandler extends EventTarget {
 
         // 結果の保存
         this.#webapi.addEventListener("saveresult", (ev) => {
-            if (this.#calc_resultsonly != false) {
+            if (this.#calc_resultsonly == false) {
                 this.#updatedCalcResultsOnly(true);
             }
             if (ev.detail.gameid == this.#results.length) {
@@ -1542,7 +1542,7 @@ export class TemplateOverlayHandler extends EventTarget {
                 break;
         }
         if (this.#calc_resultsonly != calc_resultsonly) {
-            this.#updatedCalcResultsOnly();
+            this.#updatedCalcResultsOnly(calc_resultsonly);
         }
     }
 
