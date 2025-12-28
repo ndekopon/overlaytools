@@ -1428,6 +1428,7 @@ export class TemplateOverlayHandler extends EventTarget {
 
     #updatedTeamExists(teamid) {
         for (const overlay of Object.values(this.#overlays)) {
+            overlay.setTeamParam(teamid, 'team-id', parseInt(teamid, 10) + 1);
             overlay.addTeamClass(teamid, 'team-exists'); // 存在するチームにクラスを付与
         }
     }
