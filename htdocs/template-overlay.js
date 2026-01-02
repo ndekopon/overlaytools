@@ -1990,7 +1990,7 @@ export class TemplateOverlayHandler extends EventTarget {
             const damage_dealt = player.damage_dealt.reduce((a, c) => a + c, 0);
             const damage_taken = player.damage_taken.reduce((a, c) => a + c, 0);
             this.#updatedPlayerTotalResultId(hash);
-            this.#updatedPlayerTotalResultName(hash, mode(player.name));
+            this.#updatedPlayerTotalResultName(hash, this.#getPlayerName(hash, mode(player.name)));
             this.#updatedPlayerTotalResultLegend(hash, mode(player.character));
             this.#updatedPlayerTotalResultKills(hash, player.kills.reduce((a, c) => a + c, 0));
             this.#updatedPlayerTotalResultDamage(hash, damage_dealt, damage_taken);
