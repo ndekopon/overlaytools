@@ -88,6 +88,16 @@ namespace livedata {
 		items items;
 	};
 
+	struct carepackageinfo {
+		uint64_t launched = 0;
+		uint64_t landed = 0;
+		uint64_t opened = 0;
+		float x = 0.0f;
+		float y = 0.0f;
+		std::vector<std::string> contents;
+		std::string player;
+	};
+
 	struct game {
 		std::vector<team> teams{};
 		std::string matchendreason = "";
@@ -103,6 +113,7 @@ namespace livedata {
 		uint64_t end = 0;
 		std::vector<ringinfo> rings{};
 		loadout_info loadout;
+		std::map<uint32_t, carepackageinfo> carepackages{};
 	};
 
 	/* 保存するリザルト */
@@ -137,6 +148,7 @@ namespace livedata {
 		bool aimassiston = false;
 		bool anonymousmode = false;
 		std::vector<ringinfo> rings{};
+		std::map<uint32_t, carepackageinfo> carepackages{};
 	};
 
 	struct tournament {

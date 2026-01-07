@@ -2469,6 +2469,19 @@ namespace app {
 			if (!_any.UnpackTo(&p)) return;
 
 			log(LOG_CORE, L"Info: CarePackageLaunched received.");
+
+			uint32_t packageid = p.packageid();
+			auto [it, b] = game_.carepackages.try_emplace(packageid);
+			it->second.launched = get_millis();
+			for (auto i = 0; i < p.contents_size(); ++i)
+			{
+				it->second.contents.emplace_back(p.contents(i));
+			}
+			if (p.has_position())
+			{
+				it->second.x = p.position().x();
+				it->second.y = p.position().y();
+			}
 		}
 		else if (_any.Is<api::CarePackageLanded>())
 		{
@@ -2476,6 +2489,15 @@ namespace app {
 			if (!_any.UnpackTo(&p)) return;
 
 			log(LOG_CORE, L"Info: CarePackageLanded received.");
+
+			uint32_t packageid = p.packageid();
+			auto [it, b] = game_.carepackages.try_emplace(packageid);
+			it->second.landed = get_millis();
+			if (p.has_position())
+			{
+				it->second.x = p.position().x();
+				it->second.y = p.position().y();
+			}
 		}
 		else if (_any.Is<api::CarePackageOpened>())
 		{
@@ -2486,6 +2508,16 @@ namespace app {
 
 			if (!p.has_player()) return;
 			proc_player(p.player());
+
+			uint32_t packageid = p.packageid();
+			auto [it, b] = game_.carepackages.try_emplace(packageid);
+			it->second.opened = get_millis();
+			if (p.has_position())
+			{
+				it->second.x = p.position().x();
+				it->second.y = p.position().y();
+			}
+			it->second.player = p.player().nucleushash();
 		}
 		else
 		{
@@ -4111,6 +4143,7 @@ namespace app {
 		game_.start = get_millis();
 		game_.end = 0;
 		game_.rings.clear();
+		game_.carepackages.clear();
 	}
 
 
@@ -4132,6 +4165,7 @@ namespace app {
 		r->aimassiston = game_.aimassiston;
 		r->anonymousmode = game_.anonymousmode;
 		r->rings = game_.rings;
+		r->carepackages = game_.carepackages;
 
 		for (uint8_t i = 2; i < game_.teams.size(); ++i)
 		{

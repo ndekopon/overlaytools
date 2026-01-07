@@ -775,7 +775,8 @@ namespace app {
 					{"aimassiston", r.aimassiston},
 					{"anonymousmode", r.anonymousmode},
 					{"teams", json::object() },
-					{"rings", json::array() }
+					{"rings", json::array() },
+					{"carepackages", json::array() },
 				};
 
 				for (const auto& [teamid, team] : r.teams)
@@ -818,6 +819,21 @@ namespace app {
 						{"shrinkduration", ring.shrinkduration}
 					};
 					j["rings"].push_back(ring_json);
+				}
+
+				for (const auto& [packageid, carepackage] : r.carepackages)
+				{
+					json carepackage_json = {
+						{"packageid", packageid},
+						{"lanched", carepackage.launched},
+						{"landed", carepackage.landed},
+						{"opened", carepackage.opened},
+						{"contents", carepackage.contents},
+						{"x", carepackage.x},
+						{"y", carepackage.y},
+						{"player", carepackage.player},
+					};
+					j["carepackages"].push_back(carepackage_json);
 				}
 
 				// データの保存
