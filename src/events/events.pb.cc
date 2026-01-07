@@ -1114,6 +1114,67 @@ struct CustomMatch_LegendBanStatusDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CustomMatch_LegendBanStatusDefaultTypeInternal _CustomMatch_LegendBanStatus_default_instance_;
 
+inline constexpr CarePackageLaunched::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        contents_{},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        position_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        packageid_{0u} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR CarePackageLaunched::CarePackageLaunched(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(CarePackageLaunched_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct CarePackageLaunchedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CarePackageLaunchedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CarePackageLaunchedDefaultTypeInternal() {}
+  union {
+    CarePackageLaunched _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CarePackageLaunchedDefaultTypeInternal _CarePackageLaunched_default_instance_;
+
+inline constexpr CarePackageLanded::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        position_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        packageid_{0u} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR CarePackageLanded::CarePackageLanded(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(CarePackageLanded_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct CarePackageLandedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CarePackageLandedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CarePackageLandedDefaultTypeInternal() {}
+  union {
+    CarePackageLanded _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CarePackageLandedDefaultTypeInternal _CarePackageLanded_default_instance_;
+
 inline constexpr ZiplineUsed::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
@@ -2019,6 +2080,37 @@ struct CharacterSelectedDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CharacterSelectedDefaultTypeInternal _CharacterSelected_default_instance_;
 
+inline constexpr CarePackageOpened::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        position_{nullptr},
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}},
+        packageid_{0u} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR CarePackageOpened::CarePackageOpened(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(CarePackageOpened_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct CarePackageOpenedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CarePackageOpenedDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CarePackageOpenedDefaultTypeInternal() {}
+  union {
+    CarePackageOpened _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CarePackageOpenedDefaultTypeInternal _CarePackageOpened_default_instance_;
+
 inline constexpr BlackMarketAction::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
@@ -2800,6 +2892,43 @@ const ::uint32_t
         3,
         1,
         2,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageLaunched, _impl_._has_bits_),
+        8, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageLaunched, _impl_.timestamp_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageLaunched, _impl_.category_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageLaunched, _impl_.packageid_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageLaunched, _impl_.position_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageLaunched, _impl_.contents_),
+        3,
+        1,
+        4,
+        2,
+        0,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageLanded, _impl_._has_bits_),
+        7, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageLanded, _impl_.timestamp_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageLanded, _impl_.category_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageLanded, _impl_.packageid_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageLanded, _impl_.position_),
+        2,
+        0,
+        3,
+        1,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageOpened, _impl_._has_bits_),
+        8, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageOpened, _impl_.timestamp_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageOpened, _impl_.category_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageOpened, _impl_.packageid_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageOpened, _impl_.position_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CarePackageOpened, _impl_.player_),
+        3,
+        0,
+        4,
+        1,
+        2,
         0x004, // bitmap
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::ChangeCamera, _impl_._oneof_case_[0]),
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::ChangeCamera, _impl_.target_),
@@ -3009,28 +3138,31 @@ static const ::_pbi::MigrationSchema
         {571, sizeof(::rtech::liveapi::WarpGateUsed)},
         {580, sizeof(::rtech::liveapi::AmmoUsed)},
         {597, sizeof(::rtech::liveapi::WeaponSwitched)},
-        {610, sizeof(::rtech::liveapi::ChangeCamera)},
-        {616, sizeof(::rtech::liveapi::PauseToggle)},
-        {621, sizeof(::rtech::liveapi::CustomMatch_CreateLobby)},
-        {622, sizeof(::rtech::liveapi::CustomMatch_JoinLobby)},
-        {627, sizeof(::rtech::liveapi::CustomMatch_LeaveLobby)},
-        {628, sizeof(::rtech::liveapi::CustomMatch_SetReady)},
-        {633, sizeof(::rtech::liveapi::CustomMatch_GetLobbyPlayers)},
-        {634, sizeof(::rtech::liveapi::CustomMatch_SetMatchmaking)},
-        {639, sizeof(::rtech::liveapi::CustomMatch_SetTeam)},
-        {648, sizeof(::rtech::liveapi::CustomMatch_KickPlayer)},
-        {655, sizeof(::rtech::liveapi::CustomMatch_SetSettings)},
-        {670, sizeof(::rtech::liveapi::CustomMatch_GetSettings)},
-        {671, sizeof(::rtech::liveapi::CustomMatch_SetTeamName)},
-        {678, sizeof(::rtech::liveapi::CustomMatch_SetSpawnPoint)},
-        {685, sizeof(::rtech::liveapi::CustomMatch_SetEndRingExclusion)},
-        {690, sizeof(::rtech::liveapi::CustomMatch_GetLegendBanStatus)},
-        {691, sizeof(::rtech::liveapi::CustomMatch_SetLegendBan)},
-        {696, sizeof(::rtech::liveapi::CustomMatch_SendChat)},
-        {701, sizeof(::rtech::liveapi::Request)},
-        {746, sizeof(::rtech::liveapi::RequestStatus)},
-        {751, sizeof(::rtech::liveapi::Response)},
-        {758, sizeof(::rtech::liveapi::LiveAPIEvent)},
+        {610, sizeof(::rtech::liveapi::CarePackageLaunched)},
+        {623, sizeof(::rtech::liveapi::CarePackageLanded)},
+        {634, sizeof(::rtech::liveapi::CarePackageOpened)},
+        {647, sizeof(::rtech::liveapi::ChangeCamera)},
+        {653, sizeof(::rtech::liveapi::PauseToggle)},
+        {658, sizeof(::rtech::liveapi::CustomMatch_CreateLobby)},
+        {659, sizeof(::rtech::liveapi::CustomMatch_JoinLobby)},
+        {664, sizeof(::rtech::liveapi::CustomMatch_LeaveLobby)},
+        {665, sizeof(::rtech::liveapi::CustomMatch_SetReady)},
+        {670, sizeof(::rtech::liveapi::CustomMatch_GetLobbyPlayers)},
+        {671, sizeof(::rtech::liveapi::CustomMatch_SetMatchmaking)},
+        {676, sizeof(::rtech::liveapi::CustomMatch_SetTeam)},
+        {685, sizeof(::rtech::liveapi::CustomMatch_KickPlayer)},
+        {692, sizeof(::rtech::liveapi::CustomMatch_SetSettings)},
+        {707, sizeof(::rtech::liveapi::CustomMatch_GetSettings)},
+        {708, sizeof(::rtech::liveapi::CustomMatch_SetTeamName)},
+        {715, sizeof(::rtech::liveapi::CustomMatch_SetSpawnPoint)},
+        {722, sizeof(::rtech::liveapi::CustomMatch_SetEndRingExclusion)},
+        {727, sizeof(::rtech::liveapi::CustomMatch_GetLegendBanStatus)},
+        {728, sizeof(::rtech::liveapi::CustomMatch_SetLegendBan)},
+        {733, sizeof(::rtech::liveapi::CustomMatch_SendChat)},
+        {738, sizeof(::rtech::liveapi::Request)},
+        {783, sizeof(::rtech::liveapi::RequestStatus)},
+        {788, sizeof(::rtech::liveapi::Response)},
+        {795, sizeof(::rtech::liveapi::LiveAPIEvent)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::rtech::liveapi::_Vector3_default_instance_._instance,
@@ -3083,6 +3215,9 @@ static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::rtech::liveapi::_WarpGateUsed_default_instance_._instance,
     &::rtech::liveapi::_AmmoUsed_default_instance_._instance,
     &::rtech::liveapi::_WeaponSwitched_default_instance_._instance,
+    &::rtech::liveapi::_CarePackageLaunched_default_instance_._instance,
+    &::rtech::liveapi::_CarePackageLanded_default_instance_._instance,
+    &::rtech::liveapi::_CarePackageOpened_default_instance_._instance,
     &::rtech::liveapi::_ChangeCamera_default_instance_._instance,
     &::rtech::liveapi::_PauseToggle_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_CreateLobby_default_instance_._instance,
@@ -3272,79 +3407,89 @@ const char descriptor_table_protodef_events_2eproto[] ABSL_ATTRIBUTE_SECTION_VAR
     "ewAmmoCount\030\007 \001(\r\"\202\001\n\016WeaponSwitched\022\021\n\t"
     "timestamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006pla"
     "yer\030\003 \001(\0132\025.rtech.liveapi.Player\022\021\n\toldW"
-    "eapon\030\004 \001(\t\022\021\n\tnewWeapon\030\005 \001(\t\"o\n\014Change"
-    "Camera\022.\n\003poi\030\001 \001(\0162\037.rtech.liveapi.Play"
-    "erOfInterestH\000\022\016\n\004name\030\002 \001(\tH\000\022\025\n\013nucleu"
-    "sHash\030\003 \001(\tH\000B\010\n\006target\"\037\n\013PauseToggle\022\020"
-    "\n\010preTimer\030\001 \001(\002\"\031\n\027CustomMatch_CreateLo"
-    "bby\"*\n\025CustomMatch_JoinLobby\022\021\n\troleToke"
-    "n\030\001 \001(\t\"\030\n\026CustomMatch_LeaveLobby\"\'\n\024Cus"
-    "tomMatch_SetReady\022\017\n\007isReady\030\001 \001(\010\"\035\n\033Cu"
-    "stomMatch_GetLobbyPlayers\"-\n\032CustomMatch"
-    "_SetMatchmaking\022\017\n\007enabled\030\001 \001(\010\"\\\n\023Cust"
-    "omMatch_SetTeam\022\016\n\006teamId\030\001 \001(\005\022\032\n\022targe"
-    "tHardwareName\030\002 \001(\t\022\031\n\021targetNucleusHash"
-    "\030\003 \001(\t\"O\n\026CustomMatch_KickPlayer\022\032\n\022targ"
-    "etHardwareName\030\001 \001(\t\022\031\n\021targetNucleusHas"
-    "h\030\002 \001(\t\"\217\001\n\027CustomMatch_SetSettings\022\024\n\014p"
-    "laylistName\030\001 \001(\t\022\021\n\tadminChat\030\002 \001(\010\022\022\n\n"
-    "teamRename\030\003 \001(\010\022\022\n\nselfAssign\030\004 \001(\010\022\021\n\t"
-    "aimAssist\030\005 \001(\010\022\020\n\010anonMode\030\006 \001(\010\"\031\n\027Cus"
-    "tomMatch_GetSettings\";\n\027CustomMatch_SetT"
-    "eamName\022\016\n\006teamId\030\001 \001(\005\022\020\n\010teamName\030\002 \001("
-    "\t\"\?\n\031CustomMatch_SetSpawnPoint\022\016\n\006teamId"
-    "\030\001 \001(\005\022\022\n\nspawnPoint\030\002 \001(\005\"U\n\037CustomMatc"
-    "h_SetEndRingExclusion\0222\n\020sectionToExclud"
-    "e\030\001 \001(\0162\030.rtech.liveapi.MapRegion\" \n\036Cus"
-    "tomMatch_GetLegendBanStatus\".\n\030CustomMat"
-    "ch_SetLegendBan\022\022\n\nlegendRefs\030\001 \003(\t\"$\n\024C"
-    "ustomMatch_SendChat\022\014\n\004text\030\001 \001(\t\"\346\n\n\007Re"
-    "quest\022\017\n\007withAck\030\001 \001(\010\022\024\n\014preSharedKey\030\002"
-    " \001(\t\0220\n\tchangeCam\030\004 \001(\0132\033.rtech.liveapi."
-    "ChangeCameraH\000\0221\n\013pauseToggle\030\005 \001(\0132\032.rt"
-    "ech.liveapi.PauseToggleH\000\022I\n\027customMatch"
-    "_CreateLobby\030\n \001(\0132&.rtech.liveapi.Custo"
-    "mMatch_CreateLobbyH\000\022E\n\025customMatch_Join"
-    "Lobby\030\013 \001(\0132$.rtech.liveapi.CustomMatch_"
-    "JoinLobbyH\000\022G\n\026customMatch_LeaveLobby\030\014 "
-    "\001(\0132%.rtech.liveapi.CustomMatch_LeaveLob"
-    "byH\000\022C\n\024customMatch_SetReady\030\r \001(\0132#.rte"
-    "ch.liveapi.CustomMatch_SetReadyH\000\022O\n\032cus"
-    "tomMatch_SetMatchmaking\030\016 \001(\0132).rtech.li"
-    "veapi.CustomMatch_SetMatchmakingH\000\022A\n\023cu"
-    "stomMatch_SetTeam\030\017 \001(\0132\".rtech.liveapi."
-    "CustomMatch_SetTeamH\000\022G\n\026customMatch_Kic"
-    "kPlayer\030\020 \001(\0132%.rtech.liveapi.CustomMatc"
-    "h_KickPlayerH\000\022I\n\027customMatch_SetSetting"
-    "s\030\021 \001(\0132&.rtech.liveapi.CustomMatch_SetS"
-    "ettingsH\000\022C\n\024customMatch_SendChat\030\022 \001(\0132"
-    "#.rtech.liveapi.CustomMatch_SendChatH\000\022Q"
-    "\n\033customMatch_GetLobbyPlayers\030\023 \001(\0132*.rt"
-    "ech.liveapi.CustomMatch_GetLobbyPlayersH"
-    "\000\022I\n\027customMatch_SetTeamName\030\024 \001(\0132&.rte"
-    "ch.liveapi.CustomMatch_SetTeamNameH\000\022I\n\027"
-    "customMatch_GetSettings\030\025 \001(\0132&.rtech.li"
-    "veapi.CustomMatch_GetSettingsH\000\022M\n\031custo"
-    "mMatch_SetSpawnPoint\030\026 \001(\0132(.rtech.livea"
-    "pi.CustomMatch_SetSpawnPointH\000\022Y\n\037custom"
-    "Match_SetEndRingExclusion\030\027 \001(\0132..rtech."
-    "liveapi.CustomMatch_SetEndRingExclusionH"
-    "\000\022W\n\036customMatch_GetLegendBanStatus\030\030 \001("
-    "\0132-.rtech.liveapi.CustomMatch_GetLegendB"
-    "anStatusH\000\022K\n\030customMatch_SetLegendBan\030\031"
-    " \001(\0132\'.rtech.liveapi.CustomMatch_SetLege"
-    "ndBanH\000B\t\n\007actions\"\037\n\rRequestStatus\022\016\n\006s"
-    "tatus\030\001 \001(\t\"A\n\010Response\022\017\n\007success\030\001 \001(\010"
-    "\022$\n\006result\030\002 \001(\0132\024.google.protobuf.Any\"M"
-    "\n\014LiveAPIEvent\022\022\n\nevent_size\030\001 \001(\007\022)\n\013ga"
-    "meMessage\030\003 \001(\0132\024.google.protobuf.Any*\210\001"
-    "\n\020PlayerOfInterest\022\017\n\013UNSPECIFIED\020\000\022\010\n\004N"
-    "EXT\020\001\022\014\n\010PREVIOUS\020\002\022\017\n\013KILL_LEADER\020\003\022\021\n\r"
-    "CLOSEST_ENEMY\020\004\022\022\n\016CLOSEST_PLAYER\020\005\022\023\n\017L"
-    "ATEST_ATTACKER\020\006*j\n\tMapRegion\022\014\n\010TOP_LEF"
-    "T\020\000\022\r\n\tTOP_RIGHT\020\001\022\017\n\013BOTTOM_LEFT\020\002\022\020\n\014B"
-    "OTTOM_RIGHT\020\003\022\n\n\006CENTER\020\004\022\021\n\rREGIONS_COU"
-    "NT\020\005b\006proto3"
+    "eapon\030\004 \001(\t\022\021\n\tnewWeapon\030\005 \001(\t\"\211\001\n\023CareP"
+    "ackageLaunched\022\021\n\ttimestamp\030\001 \001(\004\022\020\n\010cat"
+    "egory\030\002 \001(\t\022\021\n\tpackageId\030\003 \001(\r\022(\n\010positi"
+    "on\030\004 \001(\0132\026.rtech.liveapi.Vector3\022\020\n\010cont"
+    "ents\030\005 \003(\t\"u\n\021CarePackageLanded\022\021\n\ttimes"
+    "tamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\021\n\tpackageI"
+    "d\030\003 \001(\r\022(\n\010position\030\004 \001(\0132\026.rtech.liveap"
+    "i.Vector3\"\234\001\n\021CarePackageOpened\022\021\n\ttimes"
+    "tamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\021\n\tpackageI"
+    "d\030\003 \001(\r\022(\n\010position\030\004 \001(\0132\026.rtech.liveap"
+    "i.Vector3\022%\n\006player\030\005 \001(\0132\025.rtech.liveap"
+    "i.Player\"o\n\014ChangeCamera\022.\n\003poi\030\001 \001(\0162\037."
+    "rtech.liveapi.PlayerOfInterestH\000\022\016\n\004name"
+    "\030\002 \001(\tH\000\022\025\n\013nucleusHash\030\003 \001(\tH\000B\010\n\006targe"
+    "t\"\037\n\013PauseToggle\022\020\n\010preTimer\030\001 \001(\002\"\031\n\027Cu"
+    "stomMatch_CreateLobby\"*\n\025CustomMatch_Joi"
+    "nLobby\022\021\n\troleToken\030\001 \001(\t\"\030\n\026CustomMatch"
+    "_LeaveLobby\"\'\n\024CustomMatch_SetReady\022\017\n\007i"
+    "sReady\030\001 \001(\010\"\035\n\033CustomMatch_GetLobbyPlay"
+    "ers\"-\n\032CustomMatch_SetMatchmaking\022\017\n\007ena"
+    "bled\030\001 \001(\010\"\\\n\023CustomMatch_SetTeam\022\016\n\006tea"
+    "mId\030\001 \001(\005\022\032\n\022targetHardwareName\030\002 \001(\t\022\031\n"
+    "\021targetNucleusHash\030\003 \001(\t\"O\n\026CustomMatch_"
+    "KickPlayer\022\032\n\022targetHardwareName\030\001 \001(\t\022\031"
+    "\n\021targetNucleusHash\030\002 \001(\t\"\217\001\n\027CustomMatc"
+    "h_SetSettings\022\024\n\014playlistName\030\001 \001(\t\022\021\n\ta"
+    "dminChat\030\002 \001(\010\022\022\n\nteamRename\030\003 \001(\010\022\022\n\nse"
+    "lfAssign\030\004 \001(\010\022\021\n\taimAssist\030\005 \001(\010\022\020\n\010ano"
+    "nMode\030\006 \001(\010\"\031\n\027CustomMatch_GetSettings\";"
+    "\n\027CustomMatch_SetTeamName\022\016\n\006teamId\030\001 \001("
+    "\005\022\020\n\010teamName\030\002 \001(\t\"\?\n\031CustomMatch_SetSp"
+    "awnPoint\022\016\n\006teamId\030\001 \001(\005\022\022\n\nspawnPoint\030\002"
+    " \001(\005\"U\n\037CustomMatch_SetEndRingExclusion\022"
+    "2\n\020sectionToExclude\030\001 \001(\0162\030.rtech.liveap"
+    "i.MapRegion\" \n\036CustomMatch_GetLegendBanS"
+    "tatus\".\n\030CustomMatch_SetLegendBan\022\022\n\nleg"
+    "endRefs\030\001 \003(\t\"$\n\024CustomMatch_SendChat\022\014\n"
+    "\004text\030\001 \001(\t\"\346\n\n\007Request\022\017\n\007withAck\030\001 \001(\010"
+    "\022\024\n\014preSharedKey\030\002 \001(\t\0220\n\tchangeCam\030\004 \001("
+    "\0132\033.rtech.liveapi.ChangeCameraH\000\0221\n\013paus"
+    "eToggle\030\005 \001(\0132\032.rtech.liveapi.PauseToggl"
+    "eH\000\022I\n\027customMatch_CreateLobby\030\n \001(\0132&.r"
+    "tech.liveapi.CustomMatch_CreateLobbyH\000\022E"
+    "\n\025customMatch_JoinLobby\030\013 \001(\0132$.rtech.li"
+    "veapi.CustomMatch_JoinLobbyH\000\022G\n\026customM"
+    "atch_LeaveLobby\030\014 \001(\0132%.rtech.liveapi.Cu"
+    "stomMatch_LeaveLobbyH\000\022C\n\024customMatch_Se"
+    "tReady\030\r \001(\0132#.rtech.liveapi.CustomMatch"
+    "_SetReadyH\000\022O\n\032customMatch_SetMatchmakin"
+    "g\030\016 \001(\0132).rtech.liveapi.CustomMatch_SetM"
+    "atchmakingH\000\022A\n\023customMatch_SetTeam\030\017 \001("
+    "\0132\".rtech.liveapi.CustomMatch_SetTeamH\000\022"
+    "G\n\026customMatch_KickPlayer\030\020 \001(\0132%.rtech."
+    "liveapi.CustomMatch_KickPlayerH\000\022I\n\027cust"
+    "omMatch_SetSettings\030\021 \001(\0132&.rtech.liveap"
+    "i.CustomMatch_SetSettingsH\000\022C\n\024customMat"
+    "ch_SendChat\030\022 \001(\0132#.rtech.liveapi.Custom"
+    "Match_SendChatH\000\022Q\n\033customMatch_GetLobby"
+    "Players\030\023 \001(\0132*.rtech.liveapi.CustomMatc"
+    "h_GetLobbyPlayersH\000\022I\n\027customMatch_SetTe"
+    "amName\030\024 \001(\0132&.rtech.liveapi.CustomMatch"
+    "_SetTeamNameH\000\022I\n\027customMatch_GetSetting"
+    "s\030\025 \001(\0132&.rtech.liveapi.CustomMatch_GetS"
+    "ettingsH\000\022M\n\031customMatch_SetSpawnPoint\030\026"
+    " \001(\0132(.rtech.liveapi.CustomMatch_SetSpaw"
+    "nPointH\000\022Y\n\037customMatch_SetEndRingExclus"
+    "ion\030\027 \001(\0132..rtech.liveapi.CustomMatch_Se"
+    "tEndRingExclusionH\000\022W\n\036customMatch_GetLe"
+    "gendBanStatus\030\030 \001(\0132-.rtech.liveapi.Cust"
+    "omMatch_GetLegendBanStatusH\000\022K\n\030customMa"
+    "tch_SetLegendBan\030\031 \001(\0132\'.rtech.liveapi.C"
+    "ustomMatch_SetLegendBanH\000B\t\n\007actions\"\037\n\r"
+    "RequestStatus\022\016\n\006status\030\001 \001(\t\"A\n\010Respons"
+    "e\022\017\n\007success\030\001 \001(\010\022$\n\006result\030\002 \001(\0132\024.goo"
+    "gle.protobuf.Any\"M\n\014LiveAPIEvent\022\022\n\neven"
+    "t_size\030\001 \001(\007\022)\n\013gameMessage\030\003 \001(\0132\024.goog"
+    "le.protobuf.Any*\210\001\n\020PlayerOfInterest\022\017\n\013"
+    "UNSPECIFIED\020\000\022\010\n\004NEXT\020\001\022\014\n\010PREVIOUS\020\002\022\017\n"
+    "\013KILL_LEADER\020\003\022\021\n\rCLOSEST_ENEMY\020\004\022\022\n\016CLO"
+    "SEST_PLAYER\020\005\022\023\n\017LATEST_ATTACKER\020\006*j\n\tMa"
+    "pRegion\022\014\n\010TOP_LEFT\020\000\022\r\n\tTOP_RIGHT\020\001\022\017\n\013"
+    "BOTTOM_LEFT\020\002\022\020\n\014BOTTOM_RIGHT\020\003\022\n\n\006CENTE"
+    "R\020\004\022\021\n\rREGIONS_COUNT\020\005b\006proto3"
 };
 static const ::_pbi::DescriptorTable* PROTOBUF_NONNULL const
     descriptor_table_events_2eproto_deps[1] = {
@@ -3354,13 +3499,13 @@ static ::absl::once_flag descriptor_table_events_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_events_2eproto = {
     false,
     false,
-    9452,
+    9870,
     descriptor_table_protodef_events_2eproto,
     "events.proto",
     &descriptor_table_events_2eproto_once,
     descriptor_table_events_2eproto_deps,
     1,
-    72,
+    75,
     schemas,
     file_default_instances,
     TableStruct_events_2eproto::offsets,
@@ -24275,6 +24420,1284 @@ void WeaponSwitched::InternalSwap(WeaponSwitched* PROTOBUF_RESTRICT PROTOBUF_NON
 }
 
 ::google::protobuf::Metadata WeaponSwitched::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class CarePackageLaunched::_Internal {
+ public:
+  using HasBits =
+      decltype(::std::declval<CarePackageLaunched>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(CarePackageLaunched, _impl_._has_bits_);
+};
+
+CarePackageLaunched::CarePackageLaunched(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, CarePackageLaunched_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CarePackageLaunched)
+}
+PROTOBUF_NDEBUG_INLINE CarePackageLaunched::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::rtech::liveapi::CarePackageLaunched& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        contents_{visibility, arena, from.contents_},
+        category_(arena, from.category_) {}
+
+CarePackageLaunched::CarePackageLaunched(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const CarePackageLaunched& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, CarePackageLaunched_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  CarePackageLaunched* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.position_ = (CheckHasBit(cached_has_bits, 0x00000004U))
+                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.position_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char*>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char*>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, packageid_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::packageid_));
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CarePackageLaunched)
+}
+PROTOBUF_NDEBUG_INLINE CarePackageLaunched::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        contents_{visibility, arena},
+        category_(arena) {}
+
+inline void CarePackageLaunched::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char*>(&_impl_) +
+               offsetof(Impl_, position_),
+           0,
+           offsetof(Impl_, packageid_) -
+               offsetof(Impl_, position_) +
+               sizeof(Impl_::packageid_));
+}
+CarePackageLaunched::~CarePackageLaunched() {
+  // @@protoc_insertion_point(destructor:rtech.liveapi.CarePackageLaunched)
+  SharedDtor(*this);
+}
+inline void CarePackageLaunched::SharedDtor(MessageLite& self) {
+  CarePackageLaunched& this_ = static_cast<CarePackageLaunched&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.category_.Destroy();
+  delete this_._impl_.position_;
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL CarePackageLaunched::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) CarePackageLaunched(arena);
+}
+constexpr auto CarePackageLaunched::InternalNewImpl_() {
+  constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
+      PROTOBUF_FIELD_OFFSET(CarePackageLaunched, _impl_.contents_) +
+          decltype(CarePackageLaunched::_impl_.contents_)::
+              InternalGetArenaOffset(
+                  ::google::protobuf::Message::internal_visibility()),
+  });
+  if (arena_bits.has_value()) {
+    return ::google::protobuf::internal::MessageCreator::CopyInit(
+        sizeof(CarePackageLaunched), alignof(CarePackageLaunched), *arena_bits);
+  } else {
+    return ::google::protobuf::internal::MessageCreator(&CarePackageLaunched::PlacementNew_,
+                                 sizeof(CarePackageLaunched),
+                                 alignof(CarePackageLaunched));
+  }
+}
+constexpr auto CarePackageLaunched::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_CarePackageLaunched_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &CarePackageLaunched::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<CarePackageLaunched>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &CarePackageLaunched::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<CarePackageLaunched>(), &CarePackageLaunched::ByteSizeLong,
+              &CarePackageLaunched::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(CarePackageLaunched, _impl_._cached_size_),
+          false,
+      },
+      &CarePackageLaunched::kDescriptorMethods,
+      &descriptor_table_events_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull CarePackageLaunched_class_data_ =
+        CarePackageLaunched::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+CarePackageLaunched::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&CarePackageLaunched_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(CarePackageLaunched_class_data_.tc_table);
+  return CarePackageLaunched_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<3, 5, 1, 58, 2>
+CarePackageLaunched::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(CarePackageLaunched, _impl_._has_bits_),
+    0, // no _extensions_
+    5, 56,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967264,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    5,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    CarePackageLaunched_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::rtech::liveapi::CarePackageLaunched>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // uint64 timestamp = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(CarePackageLaunched, _impl_.timestamp_), 3>(),
+     {8, 3, 0,
+      PROTOBUF_FIELD_OFFSET(CarePackageLaunched, _impl_.timestamp_)}},
+    // string category = 2;
+    {::_pbi::TcParser::FastUS1,
+     {18, 1, 0,
+      PROTOBUF_FIELD_OFFSET(CarePackageLaunched, _impl_.category_)}},
+    // uint32 packageId = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(CarePackageLaunched, _impl_.packageid_), 4>(),
+     {24, 4, 0,
+      PROTOBUF_FIELD_OFFSET(CarePackageLaunched, _impl_.packageid_)}},
+    // .rtech.liveapi.Vector3 position = 4;
+    {::_pbi::TcParser::FastMtS1,
+     {34, 2, 0,
+      PROTOBUF_FIELD_OFFSET(CarePackageLaunched, _impl_.position_)}},
+    // repeated string contents = 5;
+    {::_pbi::TcParser::FastUR1,
+     {42, 0, 0,
+      PROTOBUF_FIELD_OFFSET(CarePackageLaunched, _impl_.contents_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // uint64 timestamp = 1;
+    {PROTOBUF_FIELD_OFFSET(CarePackageLaunched, _impl_.timestamp_), _Internal::kHasBitsOffset + 3, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+    // string category = 2;
+    {PROTOBUF_FIELD_OFFSET(CarePackageLaunched, _impl_.category_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // uint32 packageId = 3;
+    {PROTOBUF_FIELD_OFFSET(CarePackageLaunched, _impl_.packageid_), _Internal::kHasBitsOffset + 4, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+    // .rtech.liveapi.Vector3 position = 4;
+    {PROTOBUF_FIELD_OFFSET(CarePackageLaunched, _impl_.position_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // repeated string contents = 5;
+    {PROTOBUF_FIELD_OFFSET(CarePackageLaunched, _impl_.contents_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcRepeated | ::_fl::kUtf8String | ::_fl::kRepSString)},
+  }},
+  {{
+      {::_pbi::TcParser::GetTable<::rtech::liveapi::Vector3>()},
+  }},
+  {{
+    "\41\0\10\0\0\10\0\0"
+    "rtech.liveapi.CarePackageLaunched"
+    "category"
+    "contents"
+  }},
+};
+PROTOBUF_NOINLINE void CarePackageLaunched::Clear() {
+// @@protoc_insertion_point(message_clear_start:rtech.liveapi.CarePackageLaunched)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
+    if (CheckHasBitForRepeated(cached_has_bits, 0x00000001U)) {
+      _impl_.contents_.Clear();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      _impl_.category_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      ABSL_DCHECK(_impl_.position_ != nullptr);
+      _impl_.position_->Clear();
+    }
+  }
+  if (BatchCheckHasBit(cached_has_bits, 0x00000018U)) {
+    ::memset(&_impl_.timestamp_, 0, static_cast<::size_t>(
+        reinterpret_cast<char*>(&_impl_.packageid_) -
+        reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.packageid_));
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL CarePackageLaunched::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const CarePackageLaunched& this_ = static_cast<const CarePackageLaunched&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL CarePackageLaunched::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const CarePackageLaunched& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:rtech.liveapi.CarePackageLaunched)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // uint64 timestamp = 1;
+  if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+    if (this_._internal_timestamp() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          1, this_._internal_timestamp(), target);
+    }
+  }
+
+  // string category = 2;
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+    if (!this_._internal_category().empty()) {
+      const ::std::string& _s = this_._internal_category();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.CarePackageLaunched.category");
+      target = stream->WriteStringMaybeAliased(2, _s, target);
+    }
+  }
+
+  // uint32 packageId = 3;
+  if (CheckHasBit(cached_has_bits, 0x00000010U)) {
+    if (this_._internal_packageid() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+          3, this_._internal_packageid(), target);
+    }
+  }
+
+  // .rtech.liveapi.Vector3 position = 4;
+  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        4, *this_._impl_.position_, this_._impl_.position_->GetCachedSize(), target,
+        stream);
+  }
+
+  // repeated string contents = 5;
+  if (CheckHasBitForRepeated(cached_has_bits, 0x00000001U)) {
+    for (int i = 0, n = this_._internal_contents_size(); i < n; ++i) {
+      const auto& s = this_._internal_contents().Get(i);
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          s.data(), static_cast<int>(s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.CarePackageLaunched.contents");
+      target = stream->WriteString(5, s, target);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rtech.liveapi.CarePackageLaunched)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t CarePackageLaunched::ByteSizeLong(const MessageLite& base) {
+  const CarePackageLaunched& this_ = static_cast<const CarePackageLaunched&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t CarePackageLaunched::ByteSizeLong() const {
+  const CarePackageLaunched& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:rtech.liveapi.CarePackageLaunched)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x0000001fU)) {
+    // repeated string contents = 5;
+    if (CheckHasBitForRepeated(cached_has_bits, 0x00000001U)) {
+      total_size +=
+          1 * ::google::protobuf::internal::FromIntSize(this_._internal_contents().size());
+      for (int i = 0, n = this_._internal_contents().size(); i < n; ++i) {
+        total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
+            this_._internal_contents().Get(i));
+      }
+    }
+    // string category = 2;
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (!this_._internal_category().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_category());
+      }
+    }
+    // .rtech.liveapi.Vector3 position = 4;
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      total_size += 1 +
+                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.position_);
+    }
+    // uint64 timestamp = 1;
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      if (this_._internal_timestamp() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+            this_._internal_timestamp());
+      }
+    }
+    // uint32 packageId = 3;
+    if (CheckHasBit(cached_has_bits, 0x00000010U)) {
+      if (this_._internal_packageid() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+            this_._internal_packageid());
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void CarePackageLaunched::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                            const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this =
+      static_cast<CarePackageLaunched*>(&to_msg);
+  auto& from = static_cast<const CarePackageLaunched&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:rtech.liveapi.CarePackageLaunched)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x0000001fU)) {
+    if (CheckHasBitForRepeated(cached_has_bits, 0x00000001U)) {
+      _this->_internal_mutable_contents()->InternalMergeFromWithArena(
+          ::google::protobuf::MessageLite::internal_visibility(), arena,
+          from._internal_contents());
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      if (!from._internal_category().empty()) {
+        _this->_internal_set_category(from._internal_category());
+      } else {
+        if (_this->_impl_.category_.IsDefault()) {
+          _this->_internal_set_category("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      ABSL_DCHECK(from._impl_.position_ != nullptr);
+      if (_this->_impl_.position_ == nullptr) {
+        _this->_impl_.position_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.position_);
+      } else {
+        _this->_impl_.position_->MergeFrom(*from._impl_.position_);
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      if (from._internal_timestamp() != 0) {
+        _this->_impl_.timestamp_ = from._impl_.timestamp_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000010U)) {
+      if (from._internal_packageid() != 0) {
+        _this->_impl_.packageid_ = from._impl_.packageid_;
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void CarePackageLaunched::CopyFrom(const CarePackageLaunched& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:rtech.liveapi.CarePackageLaunched)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void CarePackageLaunched::InternalSwap(CarePackageLaunched* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  _impl_.contents_.InternalSwap(&other->_impl_.contents_);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(CarePackageLaunched, _impl_.packageid_)
+      + sizeof(CarePackageLaunched::_impl_.packageid_)
+      - PROTOBUF_FIELD_OFFSET(CarePackageLaunched, _impl_.position_)>(
+          reinterpret_cast<char*>(&_impl_.position_),
+          reinterpret_cast<char*>(&other->_impl_.position_));
+}
+
+::google::protobuf::Metadata CarePackageLaunched::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class CarePackageLanded::_Internal {
+ public:
+  using HasBits =
+      decltype(::std::declval<CarePackageLanded>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(CarePackageLanded, _impl_._has_bits_);
+};
+
+CarePackageLanded::CarePackageLanded(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, CarePackageLanded_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CarePackageLanded)
+}
+PROTOBUF_NDEBUG_INLINE CarePackageLanded::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::rtech::liveapi::CarePackageLanded& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_) {}
+
+CarePackageLanded::CarePackageLanded(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const CarePackageLanded& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, CarePackageLanded_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  CarePackageLanded* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.position_ = (CheckHasBit(cached_has_bits, 0x00000002U))
+                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.position_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char*>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char*>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, packageid_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::packageid_));
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CarePackageLanded)
+}
+PROTOBUF_NDEBUG_INLINE CarePackageLanded::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        category_(arena) {}
+
+inline void CarePackageLanded::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char*>(&_impl_) +
+               offsetof(Impl_, position_),
+           0,
+           offsetof(Impl_, packageid_) -
+               offsetof(Impl_, position_) +
+               sizeof(Impl_::packageid_));
+}
+CarePackageLanded::~CarePackageLanded() {
+  // @@protoc_insertion_point(destructor:rtech.liveapi.CarePackageLanded)
+  SharedDtor(*this);
+}
+inline void CarePackageLanded::SharedDtor(MessageLite& self) {
+  CarePackageLanded& this_ = static_cast<CarePackageLanded&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.category_.Destroy();
+  delete this_._impl_.position_;
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL CarePackageLanded::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) CarePackageLanded(arena);
+}
+constexpr auto CarePackageLanded::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(CarePackageLanded),
+                                            alignof(CarePackageLanded));
+}
+constexpr auto CarePackageLanded::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_CarePackageLanded_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &CarePackageLanded::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<CarePackageLanded>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &CarePackageLanded::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<CarePackageLanded>(), &CarePackageLanded::ByteSizeLong,
+              &CarePackageLanded::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(CarePackageLanded, _impl_._cached_size_),
+          false,
+      },
+      &CarePackageLanded::kDescriptorMethods,
+      &descriptor_table_events_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull CarePackageLanded_class_data_ =
+        CarePackageLanded::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+CarePackageLanded::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&CarePackageLanded_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(CarePackageLanded_class_data_.tc_table);
+  return CarePackageLanded_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<2, 4, 1, 48, 2>
+CarePackageLanded::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(CarePackageLanded, _impl_._has_bits_),
+    0, // no _extensions_
+    4, 24,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967280,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    4,  // num_field_entries
+    1,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    CarePackageLanded_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::rtech::liveapi::CarePackageLanded>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    // .rtech.liveapi.Vector3 position = 4;
+    {::_pbi::TcParser::FastMtS1,
+     {34, 1, 0,
+      PROTOBUF_FIELD_OFFSET(CarePackageLanded, _impl_.position_)}},
+    // uint64 timestamp = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(CarePackageLanded, _impl_.timestamp_), 2>(),
+     {8, 2, 0,
+      PROTOBUF_FIELD_OFFSET(CarePackageLanded, _impl_.timestamp_)}},
+    // string category = 2;
+    {::_pbi::TcParser::FastUS1,
+     {18, 0, 0,
+      PROTOBUF_FIELD_OFFSET(CarePackageLanded, _impl_.category_)}},
+    // uint32 packageId = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(CarePackageLanded, _impl_.packageid_), 3>(),
+     {24, 3, 0,
+      PROTOBUF_FIELD_OFFSET(CarePackageLanded, _impl_.packageid_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // uint64 timestamp = 1;
+    {PROTOBUF_FIELD_OFFSET(CarePackageLanded, _impl_.timestamp_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+    // string category = 2;
+    {PROTOBUF_FIELD_OFFSET(CarePackageLanded, _impl_.category_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // uint32 packageId = 3;
+    {PROTOBUF_FIELD_OFFSET(CarePackageLanded, _impl_.packageid_), _Internal::kHasBitsOffset + 3, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+    // .rtech.liveapi.Vector3 position = 4;
+    {PROTOBUF_FIELD_OFFSET(CarePackageLanded, _impl_.position_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+  }},
+  {{
+      {::_pbi::TcParser::GetTable<::rtech::liveapi::Vector3>()},
+  }},
+  {{
+    "\37\0\10\0\0\0\0\0"
+    "rtech.liveapi.CarePackageLanded"
+    "category"
+  }},
+};
+PROTOBUF_NOINLINE void CarePackageLanded::Clear() {
+// @@protoc_insertion_point(message_clear_start:rtech.liveapi.CarePackageLanded)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      _impl_.category_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      ABSL_DCHECK(_impl_.position_ != nullptr);
+      _impl_.position_->Clear();
+    }
+  }
+  if (BatchCheckHasBit(cached_has_bits, 0x0000000cU)) {
+    ::memset(&_impl_.timestamp_, 0, static_cast<::size_t>(
+        reinterpret_cast<char*>(&_impl_.packageid_) -
+        reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.packageid_));
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL CarePackageLanded::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const CarePackageLanded& this_ = static_cast<const CarePackageLanded&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL CarePackageLanded::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const CarePackageLanded& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:rtech.liveapi.CarePackageLanded)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // uint64 timestamp = 1;
+  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+    if (this_._internal_timestamp() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          1, this_._internal_timestamp(), target);
+    }
+  }
+
+  // string category = 2;
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    if (!this_._internal_category().empty()) {
+      const ::std::string& _s = this_._internal_category();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.CarePackageLanded.category");
+      target = stream->WriteStringMaybeAliased(2, _s, target);
+    }
+  }
+
+  // uint32 packageId = 3;
+  if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+    if (this_._internal_packageid() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+          3, this_._internal_packageid(), target);
+    }
+  }
+
+  // .rtech.liveapi.Vector3 position = 4;
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        4, *this_._impl_.position_, this_._impl_.position_->GetCachedSize(), target,
+        stream);
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rtech.liveapi.CarePackageLanded)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t CarePackageLanded::ByteSizeLong(const MessageLite& base) {
+  const CarePackageLanded& this_ = static_cast<const CarePackageLanded&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t CarePackageLanded::ByteSizeLong() const {
+  const CarePackageLanded& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:rtech.liveapi.CarePackageLanded)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x0000000fU)) {
+    // string category = 2;
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!this_._internal_category().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_category());
+      }
+    }
+    // .rtech.liveapi.Vector3 position = 4;
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      total_size += 1 +
+                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.position_);
+    }
+    // uint64 timestamp = 1;
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (this_._internal_timestamp() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+            this_._internal_timestamp());
+      }
+    }
+    // uint32 packageId = 3;
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      if (this_._internal_packageid() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+            this_._internal_packageid());
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void CarePackageLanded::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                            const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this =
+      static_cast<CarePackageLanded*>(&to_msg);
+  auto& from = static_cast<const CarePackageLanded&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:rtech.liveapi.CarePackageLanded)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x0000000fU)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!from._internal_category().empty()) {
+        _this->_internal_set_category(from._internal_category());
+      } else {
+        if (_this->_impl_.category_.IsDefault()) {
+          _this->_internal_set_category("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      ABSL_DCHECK(from._impl_.position_ != nullptr);
+      if (_this->_impl_.position_ == nullptr) {
+        _this->_impl_.position_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.position_);
+      } else {
+        _this->_impl_.position_->MergeFrom(*from._impl_.position_);
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (from._internal_timestamp() != 0) {
+        _this->_impl_.timestamp_ = from._impl_.timestamp_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      if (from._internal_packageid() != 0) {
+        _this->_impl_.packageid_ = from._impl_.packageid_;
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void CarePackageLanded::CopyFrom(const CarePackageLanded& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:rtech.liveapi.CarePackageLanded)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void CarePackageLanded::InternalSwap(CarePackageLanded* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(CarePackageLanded, _impl_.packageid_)
+      + sizeof(CarePackageLanded::_impl_.packageid_)
+      - PROTOBUF_FIELD_OFFSET(CarePackageLanded, _impl_.position_)>(
+          reinterpret_cast<char*>(&_impl_.position_),
+          reinterpret_cast<char*>(&other->_impl_.position_));
+}
+
+::google::protobuf::Metadata CarePackageLanded::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class CarePackageOpened::_Internal {
+ public:
+  using HasBits =
+      decltype(::std::declval<CarePackageOpened>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(CarePackageOpened, _impl_._has_bits_);
+};
+
+CarePackageOpened::CarePackageOpened(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, CarePackageOpened_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.CarePackageOpened)
+}
+PROTOBUF_NDEBUG_INLINE CarePackageOpened::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::rtech::liveapi::CarePackageOpened& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        category_(arena, from.category_) {}
+
+CarePackageOpened::CarePackageOpened(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const CarePackageOpened& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, CarePackageOpened_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  CarePackageOpened* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.position_ = (CheckHasBit(cached_has_bits, 0x00000002U))
+                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.position_)
+                : nullptr;
+  _impl_.player_ = (CheckHasBit(cached_has_bits, 0x00000004U))
+                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.player_)
+                : nullptr;
+  ::memcpy(reinterpret_cast<char*>(&_impl_) +
+               offsetof(Impl_, timestamp_),
+           reinterpret_cast<const char*>(&from._impl_) +
+               offsetof(Impl_, timestamp_),
+           offsetof(Impl_, packageid_) -
+               offsetof(Impl_, timestamp_) +
+               sizeof(Impl_::packageid_));
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.CarePackageOpened)
+}
+PROTOBUF_NDEBUG_INLINE CarePackageOpened::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        category_(arena) {}
+
+inline void CarePackageOpened::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char*>(&_impl_) +
+               offsetof(Impl_, position_),
+           0,
+           offsetof(Impl_, packageid_) -
+               offsetof(Impl_, position_) +
+               sizeof(Impl_::packageid_));
+}
+CarePackageOpened::~CarePackageOpened() {
+  // @@protoc_insertion_point(destructor:rtech.liveapi.CarePackageOpened)
+  SharedDtor(*this);
+}
+inline void CarePackageOpened::SharedDtor(MessageLite& self) {
+  CarePackageOpened& this_ = static_cast<CarePackageOpened&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.category_.Destroy();
+  delete this_._impl_.position_;
+  delete this_._impl_.player_;
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL CarePackageOpened::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) CarePackageOpened(arena);
+}
+constexpr auto CarePackageOpened::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(CarePackageOpened),
+                                            alignof(CarePackageOpened));
+}
+constexpr auto CarePackageOpened::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_CarePackageOpened_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &CarePackageOpened::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<CarePackageOpened>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &CarePackageOpened::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<CarePackageOpened>(), &CarePackageOpened::ByteSizeLong,
+              &CarePackageOpened::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(CarePackageOpened, _impl_._cached_size_),
+          false,
+      },
+      &CarePackageOpened::kDescriptorMethods,
+      &descriptor_table_events_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull CarePackageOpened_class_data_ =
+        CarePackageOpened::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+CarePackageOpened::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&CarePackageOpened_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(CarePackageOpened_class_data_.tc_table);
+  return CarePackageOpened_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<3, 5, 2, 48, 2>
+CarePackageOpened::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(CarePackageOpened, _impl_._has_bits_),
+    0, // no _extensions_
+    5, 56,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967264,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    5,  // num_field_entries
+    2,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    CarePackageOpened_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::rtech::liveapi::CarePackageOpened>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // uint64 timestamp = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(CarePackageOpened, _impl_.timestamp_), 3>(),
+     {8, 3, 0,
+      PROTOBUF_FIELD_OFFSET(CarePackageOpened, _impl_.timestamp_)}},
+    // string category = 2;
+    {::_pbi::TcParser::FastUS1,
+     {18, 0, 0,
+      PROTOBUF_FIELD_OFFSET(CarePackageOpened, _impl_.category_)}},
+    // uint32 packageId = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(CarePackageOpened, _impl_.packageid_), 4>(),
+     {24, 4, 0,
+      PROTOBUF_FIELD_OFFSET(CarePackageOpened, _impl_.packageid_)}},
+    // .rtech.liveapi.Vector3 position = 4;
+    {::_pbi::TcParser::FastMtS1,
+     {34, 1, 0,
+      PROTOBUF_FIELD_OFFSET(CarePackageOpened, _impl_.position_)}},
+    // .rtech.liveapi.Player player = 5;
+    {::_pbi::TcParser::FastMtS1,
+     {42, 2, 1,
+      PROTOBUF_FIELD_OFFSET(CarePackageOpened, _impl_.player_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // uint64 timestamp = 1;
+    {PROTOBUF_FIELD_OFFSET(CarePackageOpened, _impl_.timestamp_), _Internal::kHasBitsOffset + 3, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+    // string category = 2;
+    {PROTOBUF_FIELD_OFFSET(CarePackageOpened, _impl_.category_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // uint32 packageId = 3;
+    {PROTOBUF_FIELD_OFFSET(CarePackageOpened, _impl_.packageid_), _Internal::kHasBitsOffset + 4, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt32)},
+    // .rtech.liveapi.Vector3 position = 4;
+    {PROTOBUF_FIELD_OFFSET(CarePackageOpened, _impl_.position_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .rtech.liveapi.Player player = 5;
+    {PROTOBUF_FIELD_OFFSET(CarePackageOpened, _impl_.player_), _Internal::kHasBitsOffset + 2, 1, (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+  }},
+  {{
+      {::_pbi::TcParser::GetTable<::rtech::liveapi::Vector3>()},
+      {::_pbi::TcParser::GetTable<::rtech::liveapi::Player>()},
+  }},
+  {{
+    "\37\0\10\0\0\0\0\0"
+    "rtech.liveapi.CarePackageOpened"
+    "category"
+  }},
+};
+PROTOBUF_NOINLINE void CarePackageOpened::Clear() {
+// @@protoc_insertion_point(message_clear_start:rtech.liveapi.CarePackageOpened)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      _impl_.category_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      ABSL_DCHECK(_impl_.position_ != nullptr);
+      _impl_.position_->Clear();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      ABSL_DCHECK(_impl_.player_ != nullptr);
+      _impl_.player_->Clear();
+    }
+  }
+  if (BatchCheckHasBit(cached_has_bits, 0x00000018U)) {
+    ::memset(&_impl_.timestamp_, 0, static_cast<::size_t>(
+        reinterpret_cast<char*>(&_impl_.packageid_) -
+        reinterpret_cast<char*>(&_impl_.timestamp_)) + sizeof(_impl_.packageid_));
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL CarePackageOpened::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const CarePackageOpened& this_ = static_cast<const CarePackageOpened&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL CarePackageOpened::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const CarePackageOpened& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:rtech.liveapi.CarePackageOpened)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // uint64 timestamp = 1;
+  if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+    if (this_._internal_timestamp() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          1, this_._internal_timestamp(), target);
+    }
+  }
+
+  // string category = 2;
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    if (!this_._internal_category().empty()) {
+      const ::std::string& _s = this_._internal_category();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.CarePackageOpened.category");
+      target = stream->WriteStringMaybeAliased(2, _s, target);
+    }
+  }
+
+  // uint32 packageId = 3;
+  if (CheckHasBit(cached_has_bits, 0x00000010U)) {
+    if (this_._internal_packageid() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+          3, this_._internal_packageid(), target);
+    }
+  }
+
+  // .rtech.liveapi.Vector3 position = 4;
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        4, *this_._impl_.position_, this_._impl_.position_->GetCachedSize(), target,
+        stream);
+  }
+
+  // .rtech.liveapi.Player player = 5;
+  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        5, *this_._impl_.player_, this_._impl_.player_->GetCachedSize(), target,
+        stream);
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rtech.liveapi.CarePackageOpened)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t CarePackageOpened::ByteSizeLong(const MessageLite& base) {
+  const CarePackageOpened& this_ = static_cast<const CarePackageOpened&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t CarePackageOpened::ByteSizeLong() const {
+  const CarePackageOpened& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:rtech.liveapi.CarePackageOpened)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x0000001fU)) {
+    // string category = 2;
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!this_._internal_category().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_category());
+      }
+    }
+    // .rtech.liveapi.Vector3 position = 4;
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      total_size += 1 +
+                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.position_);
+    }
+    // .rtech.liveapi.Player player = 5;
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      total_size += 1 +
+                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.player_);
+    }
+    // uint64 timestamp = 1;
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      if (this_._internal_timestamp() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+            this_._internal_timestamp());
+      }
+    }
+    // uint32 packageId = 3;
+    if (CheckHasBit(cached_has_bits, 0x00000010U)) {
+      if (this_._internal_packageid() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+            this_._internal_packageid());
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void CarePackageOpened::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                            const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this =
+      static_cast<CarePackageOpened*>(&to_msg);
+  auto& from = static_cast<const CarePackageOpened&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:rtech.liveapi.CarePackageOpened)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x0000001fU)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      if (!from._internal_category().empty()) {
+        _this->_internal_set_category(from._internal_category());
+      } else {
+        if (_this->_impl_.category_.IsDefault()) {
+          _this->_internal_set_category("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      ABSL_DCHECK(from._impl_.position_ != nullptr);
+      if (_this->_impl_.position_ == nullptr) {
+        _this->_impl_.position_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.position_);
+      } else {
+        _this->_impl_.position_->MergeFrom(*from._impl_.position_);
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      ABSL_DCHECK(from._impl_.player_ != nullptr);
+      if (_this->_impl_.player_ == nullptr) {
+        _this->_impl_.player_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.player_);
+      } else {
+        _this->_impl_.player_->MergeFrom(*from._impl_.player_);
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      if (from._internal_timestamp() != 0) {
+        _this->_impl_.timestamp_ = from._impl_.timestamp_;
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000010U)) {
+      if (from._internal_packageid() != 0) {
+        _this->_impl_.packageid_ = from._impl_.packageid_;
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void CarePackageOpened::CopyFrom(const CarePackageOpened& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:rtech.liveapi.CarePackageOpened)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void CarePackageOpened::InternalSwap(CarePackageOpened* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(CarePackageOpened, _impl_.packageid_)
+      + sizeof(CarePackageOpened::_impl_.packageid_)
+      - PROTOBUF_FIELD_OFFSET(CarePackageOpened, _impl_.position_)>(
+          reinterpret_cast<char*>(&_impl_.position_),
+          reinterpret_cast<char*>(&other->_impl_.position_));
+}
+
+::google::protobuf::Metadata CarePackageOpened::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
