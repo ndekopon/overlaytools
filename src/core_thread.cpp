@@ -2463,6 +2463,30 @@ namespace app {
 				}
 			}
 		}
+		else if (_any.Is<api::CarePackageLaunched>())
+		{
+			api::CarePackageLaunched p;
+			if (!_any.UnpackTo(&p)) return;
+
+			log(LOG_CORE, L"Info: CarePackageLaunched received.");
+		}
+		else if (_any.Is<api::CarePackageLanded>())
+		{
+			api::CarePackageLanded p;
+			if (!_any.UnpackTo(&p)) return;
+
+			log(LOG_CORE, L"Info: CarePackageLanded received.");
+		}
+		else if (_any.Is<api::CarePackageOpened>())
+		{
+			api::CarePackageOpened p;
+			if (!_any.UnpackTo(&p)) return;
+
+			log(LOG_CORE, L"Info: CarePackageOpened received.");
+
+			if (!p.has_player()) return;
+			proc_player(p.player());
+		}
 		else
 		{
 			log(LOG_CORE, L"Error: unknown Any type.(%s)", s_to_ws(_any.type_url()));
