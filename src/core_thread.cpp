@@ -1354,6 +1354,10 @@ namespace app {
 					// dumpファイルを一旦リセット
 					filedump_.reset();
 				}
+
+				// ゲームのステータスをマッチ終了後に変更
+				game_.gamestate = "Postmatch";
+				send_webapi_gamestatechanged(INVALID_SOCKET, game_.gamestate);
 			}
 			reply_webapi_manual_postmatch(socket, sequence);
 			break;
