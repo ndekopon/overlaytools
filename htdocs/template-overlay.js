@@ -900,12 +900,14 @@ export class TemplateOverlayHandler extends EventTarget {
         this.#webapi.addEventListener("gettournamentparams", (ev) => {
             this.#updatedTournamentParams(ev.detail.params);
             if (!this.#getallprocessing) this.#reCalc();
+            this.#updatedSingleResult();
         });
 
         this.#webapi.addEventListener("settournamentparams", (ev) => {
             if (ev.detail.result) {
                 this.#updatedTournamentParams(ev.detail.params);
                 if (!this.#getallprocessing) this.#reCalc();
+                this.#updatedSingleResult();
             }
         });
 
