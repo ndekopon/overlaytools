@@ -24,7 +24,7 @@ BEGIN
 			VALUE "OriginalFilename", "dump2json.exe"
 			VALUE "ProductName", "dump2json"
 			VALUE "ProductVersion", "0.5.9.0"
-			VALUE "LegalCopyright", "© 2023-2025 ndekopon."
+			VALUE "LegalCopyright", "© 2023-2026 ndekopon."
 		END
 	END
 	BLOCK "VarFileInfo"

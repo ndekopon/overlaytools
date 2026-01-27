@@ -26,7 +26,7 @@ BEGIN
 			VALUE "OriginalFilename", "webapi-config.exe"
 			VALUE "ProductName", "webapi-config"
 			VALUE "ProductVersion", "0.5.9.0"
-			VALUE "LegalCopyright", "© 2023-2025 ndekopon."
+			VALUE "LegalCopyright", "© 2023-2026 ndekopon."
 		END
 	END
 	BLOCK "VarFileInfo"
