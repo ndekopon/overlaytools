@@ -18,7 +18,8 @@
 
 namespace {
 	constexpr auto BACKLOG = 16;
-	constexpr auto WS_BUFFER_READ_SIZE = 64 * 1024;
+	constexpr auto WS_BUFFER_READ_SIZE = 512 * 1024; // 512KB
+	constexpr auto WS_MAX_PAYLOAD_SIZE = 16 * 1024 * 1024; // 16MB
 
 	const std::array<bool, 0x80> http_available_ascii_codes = {
 		0, 0, 0, 0, 0, 0, 0, 0,
@@ -189,7 +190,10 @@ namespace app {
 				exlen |= d;
 				if (header_readed == 9)
 				{
-					data->reserve(exlen);
+					if (exlen < WS_MAX_PAYLOAD_SIZE)
+					{
+						data->reserve(exlen);
+					}
 				}
 				header_readed++;
 			}
@@ -199,21 +203,24 @@ namespace app {
 				mask_index++;
 				header_readed++;
 			}
-			else if (data->size() < payload_length())
+			else if (payload_readed < payload_length())
 			{
-				if (mask)
+				if (payload_length() < WS_MAX_PAYLOAD_SIZE)
 				{
-					data->push_back(d ^ masking_key.at(data->size() % masking_key.size()));
+					if (mask)
+					{
+						data->push_back(d ^ masking_key.at(data->size() % masking_key.size()));
+					}
+					else
+					{
+						data->push_back(d);
+					}
 				}
-				else
-				{
-					data->push_back(d);
-				}
+				++payload_readed;
 			}
-
 			++readed;
 
-			if (header_length() == header_readed && payload_length() == data->size())
+			if (header_length() == header_readed && payload_length() == payload_readed)
 			{
 				filled = true;
 				break;
@@ -227,15 +234,16 @@ namespace app {
 	uint64_t wspacket::header_length() const noexcept
 	{
 		uint64_t hlen = 2;
-		if (len > 0x7d) hlen += 2;
-		if (exlen > 0xffff) hlen += 6;
+		if (len == 0x7e) hlen += 2;
+		if (len == 0x7f) hlen += 8;
 		if (mask) hlen += 4;
 		return hlen;
 	}
 
 	uint64_t wspacket::payload_length() const noexcept
 	{
-		if (len >= 0x7e) {
+		if (len >= 0x7e)
+		{
 			return exlen;
 		}
 		return len;
@@ -260,7 +268,8 @@ namespace app {
 	{
 	}
 
-	websocket_server::~websocket_server() {
+	websocket_server::~websocket_server()
+	{
 		for (auto& [sock, x] : wsconns_) if (sock != INVALID_SOCKET) ::closesocket(sock);
 		if (sock_ != INVALID_SOCKET) ::closesocket(sock_);
 	}
@@ -417,7 +426,8 @@ namespace app {
 		send(_sock, buf);
 	}
 
-	bool websocket_server::prepare() {
+	bool websocket_server::prepare()
+	{
 		if (!socket()) return false;
 		if (!bind()) return false;
 		if (!listen()) return false;
@@ -646,12 +656,25 @@ namespace app {
 					case 0x0: // 継続フレーム
 						if (x.buffer != nullptr)
 						{
-							x.buffer->reserve(x.buffer->size() + packet->data->size());
-							x.buffer->insert(x.buffer->end(), packet->data->begin(), packet->data->end());
-							if (packet->fin)
+							if (x.buffer->size() + packet->payload_length() < WS_MAX_PAYLOAD_SIZE)
+							{
+								// 継続用バッファに追加
+								x.buffer->reserve(x.buffer->size() + packet->data->size());
+								x.buffer->insert(x.buffer->end(), packet->data->begin(), packet->data->end());
+							}
+							else
+							{
+								// サイズオーバー
+								x.invalid = true;
+							}
+						}
+						if (packet->fin)
+						{
+							if (x.buffer != nullptr && !x.invalid)
 							{
 								r.push(std::move(x.buffer));
 							}
+							x.buffer.reset(nullptr);
 						}
 						break;
 					case 0x1: // テキストフレーム
@@ -662,13 +685,25 @@ namespace app {
 						if (packet->fin)
 						{
 							/* 単独 */
-							r.push(std::move(packet->data));
+							if (packet->payload_length() < WS_MAX_PAYLOAD_SIZE)
+							{
+								r.push(std::move(packet->data));
+							}
 						}
 						else
 						{
 							/* 継続 */
-							x.buffer->reserve(x.buffer->size() + packet->data->size());
-							x.buffer->insert(x.buffer->end(), packet->data->begin(), packet->data->end());
+							if (packet->payload_length() < WS_MAX_PAYLOAD_SIZE)
+							{
+								// 継続用バッファに追加
+								x.buffer->reserve(packet->data->size());
+								x.buffer->insert(x.buffer->end(), packet->data->begin(), packet->data->end());
+							}
+							else
+							{
+								// サイズオーバー
+								x.invalid = true;
+							}
 						}
 						break;
 					case 0xa: // pong

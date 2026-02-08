@@ -35,6 +35,7 @@ namespace app {
 	class wspacket {
 	private:
 		size_t header_readed;
+		size_t payload_readed;
 		size_t mask_index;
 		uint64_t len;
 		uint64_t exlen;
@@ -64,12 +65,13 @@ namespace app {
 	//   1: handshaked
 	struct wsconn_t {
 		bool handshake;
+		bool invalid;
 		std::unique_ptr<wspacket> packet;
 		std::unique_ptr<std::vector<uint8_t>> buffer;
 		WS_IO_CONTEXT ior_ctx;
 		WS_IO_CONTEXT iow_ctx;
 		std::queue<std::shared_ptr<std::vector<uint8_t>>> wq;
-		wsconn_t() : handshake(false), packet(nullptr), buffer(nullptr) {};
+		wsconn_t() : handshake(false), invalid(false), packet(nullptr), buffer(nullptr) {};
 	};
 
 	class websocket_server {
