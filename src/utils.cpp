@@ -59,7 +59,7 @@ namespace app {
 
 		// パスの合成
 		std::wstring prefix = L"";
-		if (path.at(0) == L'\\' && path.at(1) == L'\\')
+		if (path.length() > 1 && path.at(0) == L'\\' && path.at(1) == L'\\')
 		{
 			prefix += L"\\\\?\\UN";
 			path.at(0) = L'C';
