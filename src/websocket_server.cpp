@@ -95,7 +95,8 @@ namespace {
 
 		line = trim(line);
 		auto index = line.find(':', 0);
-		if (index != std::string::npos) {
+		if (index != std::string::npos)
+		{
 			rv.key = trim(line.substr(0, index));
 			rv.value = trim(line.substr(index + 1));
 		}
@@ -248,32 +249,26 @@ namespace app {
 	}
 
 	websocket_server::websocket_server(const std::string address, uint16_t port, uint16_t maxconn, DWORD _logid)
-		: listen_address(address)
-		, listen_port(port)
-		, addr_buffer()
-		, accept_ctx()
-		, sock(-1)
-		, wsconns(maxconn)
+		: listen_address_(address)
+		, listen_port_(port)
+		, addr_buffer_()
+		, accept_ctx_()
+		, sock_(-1)
+		, maxconn_(maxconn)
+		, wsconns_()
 		, logid_(_logid)
 	{
-		for (auto& x : wsconns)
-		{
-			x.ior_ctx.rbuf.resize(WS_BUFFER_READ_SIZE);
-			x.ior_ctx.buf.buf = reinterpret_cast<CHAR*>(x.ior_ctx.rbuf.data());
-			x.ior_ctx.buf.len = x.ior_ctx.rbuf.size();
-			x.ior_ctx.type = WS_TCP_RECV;
-		}
 	}
 
 	websocket_server::~websocket_server() {
-		for (auto& x : wsconns) if (x.sock != INVALID_SOCKET) ::closesocket(x.sock);
-		if (sock != INVALID_SOCKET) ::closesocket(sock);
+		for (auto& [sock, x] : wsconns_) if (sock != INVALID_SOCKET) ::closesocket(sock);
+		if (sock_ != INVALID_SOCKET) ::closesocket(sock_);
 	}
 
 	bool websocket_server::socket()
 	{
-		sock = ::WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_IP, NULL, 0, WSA_FLAG_OVERLAPPED);
-		if (sock == INVALID_SOCKET)
+		sock_ = ::WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_IP, NULL, 0, WSA_FLAG_OVERLAPPED);
+		if (sock_ == INVALID_SOCKET)
 		{
 			log(logid_, L"Error: WSASocket() failed. ErrorCode=%d", ::WSAGetLastError());
 			return false;
@@ -285,9 +280,9 @@ namespace app {
 	{
 		struct sockaddr_in addr;
 		addr.sin_family = AF_INET;
-		addr.sin_port = htons(listen_port);
-		::inet_pton(AF_INET, listen_address.c_str(), &addr.sin_addr.s_addr);
-		if (::bind(sock, (struct sockaddr*)&addr, sizeof(addr)) != 0)
+		addr.sin_port = htons(listen_port_);
+		::inet_pton(AF_INET, listen_address_.c_str(), &addr.sin_addr.s_addr);
+		if (::bind(sock_, (struct sockaddr*)&addr, sizeof(addr)) != 0)
 		{
 			log(logid_, L"Error: bind() failed. ErrorCode=%d", ::WSAGetLastError());
 			return false;
@@ -297,7 +292,7 @@ namespace app {
 
 	bool websocket_server::listen()
 	{
-		if (::listen(sock, 16) != 0)
+		if (::listen(sock_, 16) != 0)
 		{
 			log(logid_, L"Error: listen() failed. ErrorCode=%d", ::WSAGetLastError());
 			return false;
@@ -307,32 +302,36 @@ namespace app {
 
 	bool websocket_server::insert(SOCKET _sock)
 	{
-		for (auto& x : wsconns)
-		{
-			if (x.sock == INVALID_SOCKET)
-			{
-				x.sock = _sock;
-				x.handshake = 0;
-				return true;
-			}
-		}
-		return false;
+		if (_sock == INVALID_SOCKET) return false;
+		if (wsconns_.size() == maxconn_) return false;
+		if (wsconns_.contains(_sock)) return false;
+
+		wsconns_.emplace(_sock, wsconn_t());
+		auto& x = wsconns_.at(_sock);
+
+		// 読込バッファ確保
+		x.ior_ctx.rbuf.resize(WS_BUFFER_READ_SIZE);
+		x.ior_ctx.buf.buf = reinterpret_cast<CHAR*>(x.ior_ctx.rbuf.data());
+		x.ior_ctx.buf.len = x.ior_ctx.rbuf.size();
+		x.ior_ctx.type = WS_TCP_RECV;
+
+		return true;
 	}
 
 	void websocket_server::broadcast(std::shared_ptr<std::vector<uint8_t>> &_data)
 	{
-		for (const auto& x : wsconns)
+		for (const auto& [sock, x] : wsconns_)
 		{
-			if (x.sock != INVALID_SOCKET && x.handshake == true)
+			if (x.handshake == true)
 			{
-				send(x.sock, _data);
+				send(sock, _data);
 			}
 		}
 	}
 
-	bool websocket_server::response(wsconn_t& wsconn, const std::vector<uint8_t>& data, int len)
+	bool websocket_server::response(SOCKET _sock, const std::vector<uint8_t>& _data, int _len)
 	{
-		std::istringstream req(reinterpret_cast<const char*>(data.data()));
+		std::istringstream req(reinterpret_cast<const char*>(_data.data()));
 		bool firstline = true;
 		std::string line;
 		std::string key = "";
@@ -393,56 +392,52 @@ namespace app {
 
 		auto buf = std::make_shared<std::vector<uint8_t>>(
 			reinterpret_cast<const uint8_t*>(res.c_str()), reinterpret_cast<const uint8_t*>(res.c_str()) + res.length());
-		if (!send(wsconn.sock, buf))
+
+		if (!send(_sock, buf))
 		{
 			log(logid_, L"Error: send() failed.");
 			return false;
 		}
 
-		// handshake完了
-		wsconn.handshake = true;
-
 		return true;
 	}
 
-	void websocket_server::pong(wsconn_t& wsconn, const uint8_t* data, int len) {
+	void websocket_server::pong(SOCKET _sock, const uint8_t* _data, int _len)
+	{
 		// FINがない
-		if ((data[0] & 0x80) == 0) return;
+		if ((_data[0] & 0x80) == 0) return;
 
 		// PINGじゃない
-		char opcode = data[0] & 0xf;
+		char opcode = _data[0] & 0xf;
 		if (opcode != 0x9) return;
 
 		// opcodeだけ変えて返送
-		auto buf = std::make_shared<std::vector<uint8_t>>(data, data + len);
+		auto buf = std::make_shared<std::vector<uint8_t>>(_data, _data + _len);
 		buf->at(0) = ((buf->at(0) & 0xf0) | 0xa);
-		send(wsconn.sock, buf);
+		send(_sock, buf);
 	}
 
 	bool websocket_server::prepare() {
 		if (!socket()) return false;
 		if (!bind()) return false;
 		if (!listen()) return false;
-		log(logid_, L"Info: listen websocket server at %s:%d", s_to_ws(listen_address).c_str(), listen_port);
+		log(logid_, L"Info: listen websocket server at %s:%d", s_to_ws(listen_address_).c_str(), listen_port_);
 		return true;
 	}
 
 	size_t websocket_server::count() const noexcept
 	{
-		size_t i = 0;
-		for (const auto& x : wsconns)
-			if (x.sock != INVALID_SOCKET) i++;
-		return i;
+		return wsconns_.size();
 	}
 
 	bool websocket_server::acceptex()
 	{
-		accept_ctx.sock = ::WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_IP, NULL, 0, WSA_FLAG_OVERLAPPED);
-		accept_ctx.data = addr_buffer;
-		DWORD received;
+		accept_ctx_.sock = ::WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_IP, NULL, 0, WSA_FLAG_OVERLAPPED);
+		accept_ctx_.data = addr_buffer_;
+		DWORD received = 0;
 
-		auto rc = ::AcceptEx(sock, accept_ctx.sock, addr_buffer, 0,
-			sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, NULL, &accept_ctx.ov);
+		auto rc = ::AcceptEx(sock_, accept_ctx_.sock, addr_buffer_, 0,
+			sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &received, &accept_ctx_.ov);
 
 		if (rc == TRUE)
 		{
@@ -462,79 +457,71 @@ namespace app {
 
 	bool websocket_server::send(SOCKET _sock, std::shared_ptr<std::vector<uint8_t>>& _data)
 	{
-		for (auto& x : wsconns)
+		if (!wsconns_.contains(_sock)) return false;
+		auto& x = wsconns_.at(_sock);
+
+		// キューに追加
+		if (_data) x.wq.push(_data);
+
+		if (x.iow_ctx.wbuf) return true; // 既に送信中
+
+		if (x.wq.size() == 0) return true; // キューが空になった
+
+		// キューの先頭から取り出し
+		x.iow_ctx.wbuf = x.wq.front();
+		x.wq.pop();
+
+		if (!x.iow_ctx.wbuf) return true; // 送信要求データが空
+
+		// バッファに情報を格納
+		std::memset(&x.iow_ctx.ov, 0, sizeof(WSAOVERLAPPED));
+		x.iow_ctx.sock = _sock;
+		x.iow_ctx.buf.buf = reinterpret_cast<CHAR*>(x.iow_ctx.wbuf->data());
+		x.iow_ctx.buf.len = x.iow_ctx.wbuf->size();
+		x.iow_ctx.type = WS_TCP_SEND;
+
+		auto rc = ::WSASend(_sock, &x.iow_ctx.buf, 1, nullptr, 0, &x.iow_ctx.ov, nullptr);
+		if (rc == 0)
 		{
-			if (x.sock != _sock) continue;
-			
-			// キューに追加
-			if (_data) x.wq.push(_data);
-
-			if (x.iow_ctx.wbuf) return true; // 既に送信中
-
-			if (x.wq.size() == 0) return true; // キューが空になった
-
-			// キューの先頭から取り出し
-			x.iow_ctx.wbuf = x.wq.front();
-			x.wq.pop();
-
-			if (!x.iow_ctx.wbuf) return true; // 送信要求データが空
-
-			// バッファに情報を格納
-			std::memset(&x.iow_ctx.ov, 0, sizeof(WSAOVERLAPPED));
-			x.iow_ctx.sock = _sock;
-			x.iow_ctx.buf.buf = reinterpret_cast<CHAR*>(x.iow_ctx.wbuf->data());
-			x.iow_ctx.buf.len = x.iow_ctx.wbuf->size();
-			x.iow_ctx.type = WS_TCP_SEND;
-
-			auto rc = ::WSASend(x.sock, &x.iow_ctx.buf, 1, nullptr, 0, &x.iow_ctx.ov, nullptr);
-			if (rc == 0)
-			{
-				return true;
-			}
-				
-			auto error = ::WSAGetLastError();
-			if (error != ERROR_IO_PENDING)
-			{
-				// その他エラー
-				log(logid_, L"Error: WSASend() failed. ErrorCode=%d", error);
-				close(_sock);
-				return false;
-			}
 			return true;
 		}
-		return false;
+
+		auto error = ::WSAGetLastError();
+		if (error != ERROR_IO_PENDING)
+		{
+			// その他エラー
+			log(logid_, L"Error: WSASend() failed. ErrorCode=%d", error);
+			close(_sock);
+			return false;
+		}
+		return true;
 	}
 
 	bool websocket_server::read(SOCKET _sock)
 	{
-		for (auto& x : wsconns)
+		if (!wsconns_.contains(_sock)) return false;
+		auto& x = wsconns_.at(_sock);
+
+		// バッファに情報を格納
+		std::memset(&x.ior_ctx.ov, 0, sizeof(WSAOVERLAPPED));
+		x.ior_ctx.sock = _sock;
+
+		DWORD flags = 0;
+		auto rc = ::WSARecv(_sock, &x.ior_ctx.buf, 1, NULL, &flags, &x.ior_ctx.ov, NULL);
+		if (rc == 0)
 		{
-			if (x.sock != _sock) continue;
-
-			// バッファに情報を格納
-			std::memset(&x.ior_ctx.ov, 0, sizeof(WSAOVERLAPPED));
-			x.ior_ctx.sock = _sock;
-
-			DWORD flags = 0;
-			auto rc = ::WSARecv(_sock, &x.ior_ctx.buf, 1, NULL, &flags, &x.ior_ctx.ov, NULL);
-			if (rc == 0)
-			{
-				return true;
-			}
-			
-			auto error = ::WSAGetLastError();
-			if (error != WSA_IO_PENDING)
-			{
-				log(logid_, L"Error: WSARecv() failed. ErrorCode=%d", error);
-				close(_sock);
-				return false;
-			}
-
 			return true;
 		}
 
-		log(logid_, L"Error: read() invalid socket.");
-		return false;
+		auto error = ::WSAGetLastError();
+		if (error != WSA_IO_PENDING)
+		{
+			log(logid_, L"Error: WSARecv() failed. ErrorCode=%d", error);
+			close(_sock);
+			return false;
+		}
+
+		return true;
 	}
 
 	void websocket_server::send_binary(SOCKET _sock, const std::vector<uint8_t>& _data, size_t _len)
@@ -550,17 +537,20 @@ namespace app {
 
 		/* ヘッダ格納 */
 		sbuf->at(0) = 0x82;
-		if (_len > 0xffff) {
+		if (_len > 0xffff)
+		{
 			sbuf->at(1) = 0x7f;
 			uint64_t be64len = _byteswap_uint64(_len);
 			std::memcpy(&sbuf->at(2), &be64len, 8);
 		}
-		else if (_len > 0x7d) {
+		else if (_len > 0x7d)
+		{
 			sbuf->at(1) = 0x7e;
 			uint16_t be16len = _byteswap_ushort(_len);
 			std::memcpy(&sbuf->at(2), &be16len, 2);
 		}
-		else {
+		else
+		{
 			sbuf->at(1) = (_len & 0x7F);
 		}
 
@@ -593,32 +583,18 @@ namespace app {
 
 	bool websocket_server::contains(SOCKET _sock) const noexcept
 	{
-		for (const auto& x : wsconns) {
-			if (x.sock == _sock) return true;
-		}
-		return false;
+		return wsconns_.contains(_sock);
 	}
 
 	void websocket_server::close(SOCKET _sock)
 	{
-		for (auto& x : wsconns) {
-			if (x.sock == _sock) {
-				::closesocket(_sock);
-				x.sock = INVALID_SOCKET;
-				x.handshake = false;
-				x.buffer = nullptr;
-				x.packet = nullptr;
-				x.ior_ctx.wbuf = nullptr;
-				x.iow_ctx.wbuf = nullptr;
-				while (x.wq.size() > 0)
-				{
-					x.wq.pop();
-				}
-				log(logid_, L"Info: close socket = %d", _sock);
-				return;
-			}
+		if (!wsconns_.contains(_sock)) return;
+		{
+			auto& x = wsconns_.at(_sock);
+			::closesocket(_sock);
 		}
-		log(logid_, L"Info: close() ignored. socket(%d) not found.", _sock);
+		wsconns_.erase(_sock);
+		log(logid_, L"Info: close socket = %d", _sock);
 	}
 
 	std::queue<std::unique_ptr<std::vector<uint8_t>>> websocket_server::receive_data(SOCKET _sock, const std::vector<uint8_t>& _data, int _len)
@@ -626,102 +602,104 @@ namespace app {
 		// 入力データの出力
 		log(logid_, L"Info: sock=%d,len=%d", _sock, _len);
 		std::queue<std::unique_ptr<std::vector<uint8_t>>> r;
-		
-		for (auto& x : wsconns)
+
+		if (!wsconns_.contains(_sock)) return r;
+
+		auto& x = wsconns_.at(_sock);
+
+		/* handshake未実施の場合は実施 */
+		if (x.handshake == 0)
 		{
-			if (x.sock != _sock) continue;
-
-			/* handshake未実施の場合は実施 */
-			if (x.handshake == 0)
+			// handshake実施
+			if (!response(_sock, _data, _len))
 			{
-				// handshake実施
-				if (!response(x, _data, _len))
-				{
-					log(logid_, L"Error: response() failed.");
-					close(_sock);
-				}
-				return r;
+				log(logid_, L"Error: response() failed.");
+				close(_sock);
 			}
-
-			int offset = 0;
-			size_t remain = _len;
-			while (remain)
+			else
 			{
-				if (x.packet == nullptr)
-				{
-					x.packet.reset(new wspacket());
-				}
-				if (x.packet->parse(_data, _len, offset, remain))
-				{
+				x.handshake = true;
+			}
+			return r;
+		}
 
-					if (x.packet && x.packet->filled())
+		int offset = 0;
+		size_t remain = _len;
+		while (remain)
+		{
+			if (x.packet == nullptr)
+			{
+				x.packet.reset(new wspacket());
+			}
+			if (x.packet->parse(_data, _len, offset, remain))
+			{
+
+				if (x.packet && x.packet->filled())
+				{
+					std::unique_ptr<wspacket> packet = std::move(x.packet);
+
+					// パケット情報出力
+					log(logid_, L"Info: sock=%d,opcode=%d,fin=%d,len=%d,remain=%d", _sock, packet->opcode, packet->fin ? 1 : 0, packet->payload_length(), remain);
+
+					switch (packet->opcode)
 					{
-						std::unique_ptr<wspacket> packet = std::move(x.packet);
-
-						// パケット情報出力
-						log(logid_, L"Info: sock=%d,opcode=%d,fin=%d,len=%d,remain=%d", _sock, packet->opcode, packet->fin ? 1 : 0, packet->payload_length(), remain);
-
-						switch (packet->opcode)
+					case 0x0: // 継続フレーム
+						if (x.buffer != nullptr)
 						{
-						case 0x0: // 継続フレーム
-							if (x.buffer != nullptr)
-							{
-								x.buffer->reserve(x.buffer->size() + packet->data->size());
-								x.buffer->insert(x.buffer->end(), packet->data->begin(), packet->data->end());
-								if (packet->fin)
-								{
-									r.push(std::move(x.buffer));
-								}
-							}
-							break;
-						case 0x1: // テキストフレーム
-							x.buffer.reset(new std::vector<uint8_t>());
-							break;
-						case 0x2: // バイナリフレーム
-							x.buffer.reset(new std::vector<uint8_t>());
+							x.buffer->reserve(x.buffer->size() + packet->data->size());
+							x.buffer->insert(x.buffer->end(), packet->data->begin(), packet->data->end());
 							if (packet->fin)
 							{
-								/* 単独 */
-								r.push(std::move(packet->data));
+								r.push(std::move(x.buffer));
 							}
-							else
-							{
-								/* 継続 */
-								x.buffer->reserve(x.buffer->size() + packet->data->size());
-								x.buffer->insert(x.buffer->end(), packet->data->begin(), packet->data->end());
-							}
-							break;
-						case 0xa: // pong
-							// 何もしない
-							break;
-						case 0x9: // ping
-							pong(x, _data.data() + offset, _len - offset - remain);
-							break;
-						case 0x8: // close
+						}
+						break;
+					case 0x1: // テキストフレーム
+						x.buffer.reset(new std::vector<uint8_t>());
+						break;
+					case 0x2: // バイナリフレーム
+						x.buffer.reset(new std::vector<uint8_t>());
+						if (packet->fin)
 						{
-							if (packet->data->size() >= 2)
-							{
-								uint16_t close_code = (packet->data->at(0) << 8) | packet->data->at(1);
-								log(logid_, L"Info: close_code=%d", close_code);
-							}
-							::shutdown(_sock, SD_SEND);
+							/* 単独 */
+							r.push(std::move(packet->data));
 						}
+						else
+						{
+							/* 継続 */
+							x.buffer->reserve(x.buffer->size() + packet->data->size());
+							x.buffer->insert(x.buffer->end(), packet->data->begin(), packet->data->end());
+						}
+						break;
+					case 0xa: // pong
+						// 何もしない
+						break;
+					case 0x9: // ping
+						pong(sock_, _data.data() + offset, _len - offset - remain);
+						break;
+					case 0x8: // close
+					{
+						if (packet->data->size() >= 2)
+						{
+							uint16_t close_code = (packet->data->at(0) << 8) | packet->data->at(1);
+							log(logid_, L"Info: close_code=%d", close_code);
+						}
+						::shutdown(_sock, SD_SEND);
+					}
+					return r;
+					default:
+						log(logid_, L"Error: invalid opcode.");
+						close(_sock);
 						return r;
-						default:
-							log(logid_, L"Error: invalid opcode.");
-							close(_sock);
-							return r;
-						}
 					}
 				}
-				else
-				{
-					log(logid_, L"Info: sock=%d,offset=%d,remain=%d", _sock, offset, remain);
-					break;
-				}
-				offset = _len - remain;
 			}
-			break;
+			else
+			{
+				log(logid_, L"Info: sock=%d,offset=%d,remain=%d", _sock, offset, remain);
+				break;
+			}
+			offset = _len - remain;
 		}
 		return r;
 	}

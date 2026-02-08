@@ -38,7 +38,7 @@ namespace app {
 		{
 			log(logid_, L"Info: websocket_server::prepare() success.");
 
-			auto port = ::CreateIoCompletionPort((HANDLE)ws.sock, compport_, 0, 0);
+			auto port = ::CreateIoCompletionPort((HANDLE)ws.sock_, compport_, 0, 0);
 			uint64_t recv_count = 0;
 			uint64_t send_count = 0;
 

@@ -10,6 +10,7 @@
 #include <queue>
 #include <utility>
 #include <tuple>
+#include <unordered_map>
 
 namespace app {
 
@@ -64,23 +65,23 @@ namespace app {
 	//   0: none
 	//   1: handshaked
 	struct wsconn_t {
-		SOCKET sock;
 		bool handshake;
 		std::unique_ptr<wspacket> packet;
 		std::unique_ptr<std::vector<uint8_t>> buffer;
 		WS_IO_CONTEXT ior_ctx;
 		WS_IO_CONTEXT iow_ctx;
 		std::queue<std::shared_ptr<std::vector<uint8_t>>> wq;
-		wsconn_t() : sock(INVALID_SOCKET), handshake(false), packet(nullptr), buffer(nullptr) {};
+		wsconn_t() : handshake(false), packet(nullptr), buffer(nullptr) {};
 	};
 
 	class websocket_server {
 	private:
-		std::string listen_address;
-		uint16_t listen_port;
-		char addr_buffer[1024];
-		WS_ACCEPT_CONTEXT accept_ctx;
+		std::string listen_address_;
+		uint16_t listen_port_;
+		char addr_buffer_[1024];
+		WS_ACCEPT_CONTEXT accept_ctx_;
 		DWORD logid_;
+		uint16_t maxconn_;
 
 
 		bool socket();
@@ -89,12 +90,12 @@ namespace app {
 		bool listen();
 
 		void broadcast(std::shared_ptr<std::vector<uint8_t>>&_data);
-		bool response(wsconn_t& wsconn, const std::vector<uint8_t>& data, int len);
-		void pong(wsconn_t& wsconn, const uint8_t* data, int len);
+		bool response(SOCKET _sock, const std::vector<uint8_t>& _data, int _len);
+		void pong(SOCKET _sock, const uint8_t* _data, int _len);
 
 	public:
-		SOCKET sock;
-		std::vector<wsconn_t> wsconns;
+		SOCKET sock_;
+		std::unordered_map<SOCKET, wsconn_t> wsconns_;
 
 		websocket_server(const std::string _address, uint16_t _port, uint16_t _maxconn, DWORD _logid);
 		~websocket_server();
