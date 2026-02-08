@@ -4,9 +4,6 @@
 
 #include "duplicator.hpp"
 
-#include <chrono>
-#include <mmsystem.h>
-
 #pragma comment(lib, "winmm.lib")
 
 namespace {

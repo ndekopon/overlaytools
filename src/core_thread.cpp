@@ -6,7 +6,6 @@
 #include "version.hpp"
 
 #include <regex>
-#include <chrono>
 
 
 namespace {

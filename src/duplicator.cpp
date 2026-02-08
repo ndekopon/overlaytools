@@ -2,9 +2,8 @@
 
 #include "log.hpp"
 
+#include <array>
 #include <algorithm>
-#include <iostream>
-#include <iterator>
 
 #pragma comment(lib, "D3D11.lib")
 #pragma comment(lib, "DXGI.lib")

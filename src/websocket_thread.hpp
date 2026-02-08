@@ -5,9 +5,7 @@
 #include "shared_context.hpp"
 
 #include <array>
-#include <mutex>
 #include <string>
-#include <vector>
 
 namespace app
 {

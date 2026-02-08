@@ -6,8 +6,6 @@
 #include <vector>
 #include <string>
 
-#include "config_ini.hpp"
-
 namespace app {
 
 	struct duplication_stats

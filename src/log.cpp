@@ -1,7 +1,13 @@
 ﻿#include "log.hpp"
 
+#include <array>
+#include <mutex>
+#include <memory>
+#include <string>
+#include <vector>
 #include <iomanip>
 #include <sstream>
+#include <cstdarg>
 
 namespace {
 

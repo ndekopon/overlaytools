@@ -8,7 +8,6 @@
 #include <array>
 #include <mutex>
 #include <string>
-#include <vector>
 #include <queue>
 
 namespace app
