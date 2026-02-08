@@ -674,6 +674,10 @@ namespace app {
 							{
 								r.push(std::move(x.buffer));
 							}
+							if (x.invalid)
+							{
+								log(logid_, L"Error: ws packet size over.");
+							}
 							x.buffer.reset(nullptr);
 						}
 						break;
@@ -688,6 +692,10 @@ namespace app {
 							if (packet->payload_length() < WS_MAX_PAYLOAD_SIZE)
 							{
 								r.push(std::move(packet->data));
+							}
+							else
+							{
+								log(logid_, L"Error: ws packet size over.");
 							}
 						}
 						else
