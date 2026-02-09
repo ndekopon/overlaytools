@@ -610,7 +610,6 @@ namespace app {
 	std::queue<std::unique_ptr<std::vector<uint8_t>>> websocket_server::receive_data(SOCKET _sock, const std::vector<uint8_t>& _data, int _len)
 	{
 		// 入力データの出力
-		log(logid_, L"Info: sock=%d,len=%d", _sock, _len);
 		std::queue<std::unique_ptr<std::vector<uint8_t>>> r;
 
 		if (!wsconns_.contains(_sock)) return r;

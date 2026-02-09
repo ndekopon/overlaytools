@@ -80,7 +80,6 @@ namespace app {
 							wq->pop();
 							if (q)
 							{
-								log(logid_, L"Info: receive data from core thread. size=%zu", q->second->size());
 								ws.send_binary(q->first, *(q->second), q->second->size());
 							}
 						}
@@ -139,7 +138,6 @@ namespace app {
 						{
 							auto data = std::make_unique<std::pair<SOCKET, ctx_buffer_t>>(std::make_pair(ioctx->sock, std::move(queue.front())));
 							queue.pop();
-							log(logid_, L"Info: read data size=%d", data->second->size());
 
 							if (data)
 							{
