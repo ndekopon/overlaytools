@@ -34,14 +34,7 @@ namespace
 
 namespace app
 {
-	constexpr UINT MID_TAB = 1;
-	constexpr UINT MID_EDIT_LOG_LIVEAPI = 2;
-	constexpr UINT MID_EDIT_LOG_CORE = 3;
-	constexpr UINT MID_EDIT_LOG_WEBAPI = 4;
-	constexpr UINT MID_EDIT_LOG_LOCAL = 5;
-	constexpr UINT MID_EDIT_LOG_DUPLICATION = 6;
-	constexpr UINT MID_EDIT_LOG_HTTP_GET = 7;
-	constexpr UINT MID_POPUP_CAPTURE_DISABLED = 8;
+	constexpr UINT MID_POPUP_CAPTURE_DISABLED = 1;
 	constexpr UINT MID_POPUP_CAPTURE_MONITORPREFIX = 100;
 
 	constexpr UINT TIMER_ID_PING = 1;
@@ -54,14 +47,11 @@ namespace app
 	const wchar_t* main_window::window_mutex_ = L"apexliveapi_proxy_mutex";
 	const LONG main_window::window_width_ = 640;
 	const LONG main_window::window_height_ = 480;
-	const size_t MAX_LOGLINE = 1024;
 
 
 	main_window::main_window(HINSTANCE _instance)
 		: instance_(_instance)
 		, window_(nullptr)
-		, tab_(nullptr)
-		, edit_log_({ nullptr })
 		, items_({})
 		, font_(nullptr)
 		, ini_()
@@ -166,53 +156,6 @@ namespace app
 		return true;
 	}
 
-	HWND main_window::create_tab()
-	{
-		tab_ = ::CreateWindowExW(0, WC_TABCONTROLW, L"", WS_CHILD | WS_CLIPSIBLINGS | WS_VISIBLE,
-			0, 0, window_width_, window_height_, window_, (HMENU)MID_TAB, instance_, NULL);
-		if (tab_)
-		{
-			::SendMessageW(tab_, WM_SETFONT, (WPARAM)font_, MAKELPARAM(1, 0));
-		}
-		return tab_;
-	}
-
-	void main_window::select_tab_item(UINT _id)
-	{
-		for (size_t i = 0; i < items_.size(); ++i)
-		{
-			for (const HWND item : items_.at(i))
-			{
-				if (i == _id)
-				{
-					::ShowWindow(item, SW_SHOW);
-					if (std::find(edit_log_.begin(), edit_log_.end(), item) != edit_log_.end())
-					{
-						auto len = ::SendMessageW(item, WM_GETTEXTLENGTH, 0, 0);
-						::SendMessageW(item, EM_SETSEL, (WPARAM)len, (LPARAM)len);
-					}
-				}
-				else
-				{
-					::ShowWindow(item, SW_HIDE);
-				}
-			}
-		}
-	}
-
-	void main_window::add_tab_item(UINT _id, const WCHAR* _text)
-	{
-		TC_ITEMW item;
-		auto text = std::wstring(_text);
-
-		std::memset(&item, 0, sizeof(TC_ITEM));
-
-		item.mask = TCIF_TEXT;
-		item.pszText = text.data();
-		item.cchTextMax = text.length();
-		::SendMessageW(tab_, TCM_INSERTITEMW, _id, (LPARAM)&item);
-	}
-
 	HWND main_window::create_label(const WCHAR* _text, DWORD _x, DWORD _y, DWORD _width, DWORD _height)
 	{
 		auto label = ::CreateWindowExW(
@@ -223,21 +166,6 @@ namespace app
 			::SendMessageW(label, WM_SETFONT, (WPARAM)font_, MAKELPARAM(1, 0));
 		}
 		return label;
-	}
-
-	HWND main_window::create_edit(HMENU _id, DWORD _x, DWORD _y, DWORD _w, DWORD _h)
-	{
-		HWND edit = ::CreateWindowExW(
-			0, WC_EDITW, L"",
-			WS_CHILD | WS_VISIBLE | WS_BORDER | ES_MULTILINE | WS_VSCROLL | WS_HSCROLL | ES_AUTOHSCROLL | ES_AUTOVSCROLL | ES_READONLY,
-			_x, _y, _w, _h, window_, (HMENU)_id, instance_, NULL);
-		if (edit)
-		{
-			::SendMessageW(edit, WM_SETFONT, (WPARAM)font_, MAKELPARAM(1, 0));
-			// 文字数制限を取っ払う
-			::SendMessageW(edit, EM_SETLIMITTEXT, 0, 0);
-		}
-		return edit;
 	}
 
 	void main_window::create_menu(const std::vector<std::wstring>& _monitors)
@@ -286,85 +214,48 @@ namespace app
 				CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_MODERN,
 				L"MS Shell Dlg");
 
-			create_tab();
-			add_tab_item(0, L"Main");
-			add_tab_item(1, L"LiveAPI");
-			add_tab_item(2, L"Core");
-			add_tab_item(3, L"WebAPI");
-			add_tab_item(4, L"Local");
-			add_tab_item(5, L"Duplication");
-			add_tab_item(6, L"HTTP Get");
-
 			{
 				// タブの中身作成
 				RECT rect;
-				RECT tabrect;
-				RECT tabitemrect;
 				DWORD top = 0;
 				::GetClientRect(window_, &rect);
-				::GetClientRect(tab_, &tabrect);
-				::SendMessageW(tab_, TCM_GETITEMRECT, 0, (LPARAM)&tabitemrect);
-				::SetWindowPos(tab_, NULL, 0, 0, tabrect.right - tabrect.left, tabitemrect.bottom - tabitemrect.top + 3, SWP_NOZORDER | SWP_NOMOVE);
 
 				// IP等の情報
-				top = tabitemrect.bottom + 10;
-				items_.at(0).push_back(create_label(L"LiveAPI Websocket", 10, top, rect.right - 20, 12));
+				top =  10;
+				items_.push_back(create_label(L"LiveAPI Websocket", 10, top, rect.right - 20, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label((L"Listen Address: " + s_to_ws(ini_.get_liveapi_ipaddress() + ":" + std::to_string(ini_.get_liveapi_port()))).c_str(), 20, top, rect.right - 30, 12));
+				items_.push_back(create_label((L"Listen Address: " + s_to_ws(ini_.get_liveapi_ipaddress() + ":" + std::to_string(ini_.get_liveapi_port()))).c_str(), 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label(L"conn count: 0", 20, top, rect.right - 30, 12));
+				items_.push_back(create_label(L"conn count: 0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label(L"recv count: 0", 20, top, rect.right - 30, 12));
+				items_.push_back(create_label(L"recv count: 0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label(L"send count: 0", 20, top, rect.right - 30, 12));
+				items_.push_back(create_label(L"send count: 0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label(L"WebAPI Websocket", 10, top, rect.right - 20, 12));
+				items_.push_back(create_label(L"WebAPI Websocket", 10, top, rect.right - 20, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label((L"Listen Address: " + s_to_ws(ini_.get_webapi_ipaddress() + ":" + std::to_string(ini_.get_webapi_port()))).c_str(), 20, top, rect.right - 30, 12));
+				items_.push_back(create_label((L"Listen Address: " + s_to_ws(ini_.get_webapi_ipaddress() + ":" + std::to_string(ini_.get_webapi_port()))).c_str(), 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label(L"conn count: 0", 20, top, rect.right - 30, 12));
+				items_.push_back(create_label(L"conn count: 0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label(L"recv count: 0", 20, top, rect.right - 30, 12));
+				items_.push_back(create_label(L"recv count: 0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label(L"send count: 0", 20, top, rect.right - 30, 12));
+				items_.push_back(create_label(L"send count: 0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
 				frame_rect_.left = 10;
 				frame_rect_.top = top;
 				frame_rect_.right = frame_rect_.left + CAPTURE_WIDTH;
 				frame_rect_.bottom = frame_rect_.top + CAPTURE_HEIGHT;
 				top += CAPTURE_HEIGHT + 5;
-				items_.at(0).push_back(create_label(L"Capture FPS:0", 20, top, rect.right - 30, 12));
+				items_.push_back(create_label(L"Capture FPS:0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label(L"Capture Total:0", 20, top, rect.right - 30, 12));
+				items_.push_back(create_label(L"Capture Total:0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label(L"Capture Skipped:0", 20, top, rect.right - 30, 12));
+				items_.push_back(create_label(L"Capture Skipped:0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.at(0).push_back(create_label(L"Capture Exited:0", 20, top, rect.right - 30, 12));
+				items_.push_back(create_label(L"Capture Exited:0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-
-
-				// エディトボックス
-				edit_log_.at(0) = create_edit((HMENU)MID_EDIT_LOG_LIVEAPI, 10, tabitemrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabitemrect.bottom));
-				edit_log_.at(1) = create_edit((HMENU)MID_EDIT_LOG_CORE, 10, tabitemrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabitemrect.bottom));
-				edit_log_.at(2) = create_edit((HMENU)MID_EDIT_LOG_WEBAPI, 10,  tabitemrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabitemrect.bottom));
-				edit_log_.at(3) = create_edit((HMENU)MID_EDIT_LOG_LOCAL, 10, tabitemrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabitemrect.bottom));
-				edit_log_.at(4) = create_edit((HMENU)MID_EDIT_LOG_DUPLICATION, 10, tabitemrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabitemrect.bottom));
-				edit_log_.at(5) = create_edit((HMENU)MID_EDIT_LOG_HTTP_GET, 10, tabitemrect.bottom + 10, rect.right - 20, rect.bottom - (20 + tabitemrect.bottom));
-				::ShowWindow(edit_log_.at(0), SW_HIDE);
-				::ShowWindow(edit_log_.at(1), SW_HIDE);
-				::ShowWindow(edit_log_.at(2), SW_HIDE);
-				::ShowWindow(edit_log_.at(3), SW_HIDE);
-				::ShowWindow(edit_log_.at(4), SW_HIDE);
-				::ShowWindow(edit_log_.at(5), SW_HIDE);
-				items_.at(1).push_back(edit_log_.at(0));
-				items_.at(2).push_back(edit_log_.at(1));
-				items_.at(3).push_back(edit_log_.at(2));
-				items_.at(4).push_back(edit_log_.at(3));
-				items_.at(5).push_back(edit_log_.at(4));
-				items_.at(6).push_back(edit_log_.at(5));
 			}
-			current_tab_ = SendMessageW(tab_, TCM_GETCURSEL, 0, 0);
-			select_tab_item(current_tab_);
 
 			// スレッド開始
 			if (!core_thread_.run(window_)) return -1;
@@ -458,19 +349,6 @@ namespace app
 			auto nmhdr = (LPNMHDR)_lparam;
 			switch (nmhdr->code)
 			{
-			case TCN_SELCHANGE:
-			{
-				if (nmhdr->idFrom == MID_TAB)
-				{
-					auto id = SendMessageW(tab_, TCM_GETCURSEL, 0, 0);
-					if (id >= 0)
-					{
-						current_tab_ = id;
-						select_tab_item(id);
-					}
-				}
-				break;
-			}
 			}
 			break;
 		}
@@ -530,12 +408,12 @@ namespace app
 		case CWM_DUPLICATION_STATS_UPDATE:
 		{
 			auto stats = duplication_thread_.get_stats();
-			if (7 < items_.at(0).size())
+			if (13 < items_.size())
 			{
-				::SetWindowTextW(items_.at(0).at(10), (L"Capture FPS: " + std::to_wstring(stats.fps)).c_str());
-				::SetWindowTextW(items_.at(0).at(11), (L"Capture Total: " + std::to_wstring(stats.total)).c_str());
-				::SetWindowTextW(items_.at(0).at(12), (L"Capture Skipped: " + std::to_wstring(stats.skipped)).c_str());
-				::SetWindowTextW(items_.at(0).at(13), (L"Capture Exited: " + std::to_wstring(stats.exited)).c_str());
+				::SetWindowTextW(items_.at(10), (L"Capture FPS: " + std::to_wstring(stats.fps)).c_str());
+				::SetWindowTextW(items_.at(11), (L"Capture Total: " + std::to_wstring(stats.total)).c_str());
+				::SetWindowTextW(items_.at(12), (L"Capture Skipped: " + std::to_wstring(stats.skipped)).c_str());
+				::SetWindowTextW(items_.at(13), (L"Capture Exited: " + std::to_wstring(stats.exited)).c_str());
 			}
 			break;
 		}
@@ -545,7 +423,7 @@ namespace app
 			// 2,7
 			size_t id = _wparam;
 			uint64_t count = _lparam;
-			::SetWindowTextW(items_.at(0).at(id == 0 ? 2 : 7), (L"conn count: " + std::to_wstring(count)).c_str());
+			::SetWindowTextW(items_.at(id == 0 ? 2 : 7), (L"conn count: " + std::to_wstring(count)).c_str());
 			break;
 		}
 
@@ -554,7 +432,7 @@ namespace app
 			// 3,8
 			size_t id = _wparam;
 			uint64_t count = _lparam;
-			::SetWindowTextW(items_.at(0).at(id == 0 ? 3 : 8), (L"recv count: " + std::to_wstring(count)).c_str());
+			::SetWindowTextW(items_.at(id == 0 ? 3 : 8), (L"recv count: " + std::to_wstring(count)).c_str());
 			break;
 		}
 
@@ -563,7 +441,7 @@ namespace app
 			// 4,9
 			size_t id = _wparam;
 			uint64_t count = _lparam;
-			::SetWindowTextW(items_.at(0).at(id == 0 ? 4 : 9), (L"send count: " + std::to_wstring(count)).c_str());
+			::SetWindowTextW(items_.at(id == 0 ? 4 : 9), (L"send count: " + std::to_wstring(count)).c_str());
 			break;
 		}
 

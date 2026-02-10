@@ -13,9 +13,7 @@ namespace app
 	private:
 		const HINSTANCE instance_;
 		HWND window_;
-		HWND tab_;
-		std::array<HWND, 6> edit_log_;
-		std::array<std::vector<HWND>, 7> items_;
+		std::vector<HWND> items_;
 		HFONT font_;
 		config_ini ini_;
 		core_thread core_thread_;
@@ -36,11 +34,7 @@ namespace app
 		void set_dpi_awareness();
 		ATOM register_window_class();
 		bool create_window();
-		HWND create_tab();
-		void add_tab_item(UINT _id, const WCHAR *_text);
-		void select_tab_item(UINT _id);
 		HWND create_label(const WCHAR* _text, DWORD _x, DWORD _y, DWORD _width, DWORD _height);
-		HWND create_edit(HMENU, DWORD, DWORD, DWORD, DWORD);
 		void create_menu(const std::vector<std::wstring>& _monitors);
 
 		LRESULT window_proc(UINT, WPARAM, LPARAM);
