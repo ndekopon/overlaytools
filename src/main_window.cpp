@@ -247,13 +247,13 @@ namespace app
 				frame_rect_.right = frame_rect_.left + CAPTURE_WIDTH;
 				frame_rect_.bottom = frame_rect_.top + CAPTURE_HEIGHT;
 				top += CAPTURE_HEIGHT + 5;
-				items_.push_back(create_label(L"Capture FPS:0", 20, top, rect.right - 30, 12));
+				items_.push_back(create_label(L"Capture FPS: 0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.push_back(create_label(L"Capture Total:0", 20, top, rect.right - 30, 12));
+				items_.push_back(create_label(L"Capture Total: 0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.push_back(create_label(L"Capture Skipped:0", 20, top, rect.right - 30, 12));
+				items_.push_back(create_label(L"Capture Skipped: 0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
-				items_.push_back(create_label(L"Capture Exited:0", 20, top, rect.right - 30, 12));
+				items_.push_back(create_label(L"Capture Exited: 0", 20, top, rect.right - 30, 12));
 				top += 12 + 5;
 			}
 
