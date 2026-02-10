@@ -511,30 +511,6 @@ namespace app
 			break;
 		}
 
-		case CWM_LOG_UPDATE:
-		{
-			DWORD id = _wparam;
-			auto text = log_read(id);
-			if (text)
-			{
-				HWND edit = edit_log_.at(id);
-
-				auto linecount = ::SendMessageW(edit, EM_GETLINECOUNT, 0, 0);
-				if (linecount >= MAX_LOGLINE)
-				{
-					auto len = ::SendMessageW(edit, WM_GETTEXTLENGTH, 0, 0);
-					::SendMessageW(edit, EM_SETSEL, (WPARAM)0, (LPARAM)len);
-					WCHAR tmp[] = L"";
-					::SendMessageW(edit, EM_REPLACESEL, FALSE, (LPARAM)tmp);
-				}
-
-				auto len = ::SendMessageW(edit, WM_GETTEXTLENGTH, 0, 0);
-				::SendMessageW(edit, EM_SETSEL, (WPARAM)len, (LPARAM)len);
-				::SendMessageW(edit, EM_REPLACESEL, FALSE, (LPARAM)text->c_str());
-			}
-		}
-			break;
-
 		case CWM_FRAME_ARRIVED:
 		{
 			buffer_ = duplication_thread_.get_buffer();
@@ -635,9 +611,6 @@ namespace app
 			auto instance = reinterpret_cast<main_window*>(cs->lpCreateParams);
 
 			instance->window_ = _window;
-
-			// ログの設定
-			log_set_window(_window);
 
 			// USERDATAにポインタ格納
 			::SetWindowLongPtrW(_window, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(instance));
