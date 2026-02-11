@@ -217,6 +217,10 @@ class InventoryUse;
 struct InventoryUseDefaultTypeInternal;
 extern InventoryUseDefaultTypeInternal _InventoryUse_default_instance_;
 extern const ::google::protobuf::internal::ClassDataFull InventoryUse_class_data_;
+class JoinPartyServer;
+struct JoinPartyServerDefaultTypeInternal;
+extern JoinPartyServerDefaultTypeInternal _JoinPartyServer_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull JoinPartyServer_class_data_;
 class LegendMatchStatus;
 struct LegendMatchStatusDefaultTypeInternal;
 extern LegendMatchStatusDefaultTypeInternal _LegendMatchStatus_default_instance_;
@@ -963,7 +967,7 @@ class RequestStatus final : public ::google::protobuf::Message
     return *reinterpret_cast<const RequestStatus*>(
         &_RequestStatus_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 72;
+  static constexpr int kIndexInFileMessages = 73;
   friend void swap(RequestStatus& a, RequestStatus& b) { a.Swap(&b); }
   inline void Swap(RequestStatus* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -1965,6 +1969,140 @@ class LegendMatchStatus final : public ::google::protobuf::Message
 };
 
 extern const ::google::protobuf::internal::ClassDataFull LegendMatchStatus_class_data_;
+// -------------------------------------------------------------------
+
+class JoinPartyServer final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:rtech.liveapi.JoinPartyServer) */ {
+ public:
+  inline JoinPartyServer() : JoinPartyServer(nullptr) {}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(JoinPartyServer* PROTOBUF_NONNULL msg, ::std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(JoinPartyServer));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR JoinPartyServer(::google::protobuf::internal::ConstantInitialized);
+
+  inline JoinPartyServer(const JoinPartyServer& from) : JoinPartyServer(nullptr, from) {}
+  inline JoinPartyServer(JoinPartyServer&& from) noexcept
+      : JoinPartyServer(nullptr, ::std::move(from)) {}
+  inline JoinPartyServer& operator=(const JoinPartyServer& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline JoinPartyServer& operator=(JoinPartyServer&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const JoinPartyServer& default_instance() {
+    return *reinterpret_cast<const JoinPartyServer*>(
+        &_JoinPartyServer_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 71;
+  friend void swap(JoinPartyServer& a, JoinPartyServer& b) { a.Swap(&b); }
+  inline void Swap(JoinPartyServer* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(JoinPartyServer* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  JoinPartyServer* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<JoinPartyServer>(arena);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const JoinPartyServer& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const JoinPartyServer& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "rtech.liveapi.JoinPartyServer"; }
+
+  explicit JoinPartyServer(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  JoinPartyServer(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const JoinPartyServer& from);
+  JoinPartyServer(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, JoinPartyServer&& from) noexcept
+      : JoinPartyServer(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.JoinPartyServer)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<0, 0,
+                                   0, 0,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  friend struct ::TableStruct_events_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull JoinPartyServer_class_data_;
 // -------------------------------------------------------------------
 
 class InventoryItem final : public ::google::protobuf::Message
@@ -6862,7 +7000,7 @@ class Response final : public ::google::protobuf::Message
     return *reinterpret_cast<const Response*>(
         &_Response_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 73;
+  static constexpr int kIndexInFileMessages = 74;
   friend void swap(Response& a, Response& b) { a.Swap(&b); }
   inline void Swap(Response* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -7088,9 +7226,10 @@ class Request final : public ::google::protobuf::Message
     kCustomMatchSetEndRingExclusion = 23,
     kCustomMatchGetLegendBanStatus = 24,
     kCustomMatchSetLegendBan = 25,
+    kJoinPartyServer = 31,
     ACTIONS_NOT_SET = 0,
   };
-  static constexpr int kIndexInFileMessages = 71;
+  static constexpr int kIndexInFileMessages = 72;
   friend void swap(Request& a, Request& b) { a.Swap(&b); }
   inline void Swap(Request* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -7197,6 +7336,7 @@ class Request final : public ::google::protobuf::Message
     kCustomMatchSetEndRingExclusionFieldNumber = 23,
     kCustomMatchGetLegendBanStatusFieldNumber = 24,
     kCustomMatchSetLegendBanFieldNumber = 25,
+    kJoinPartyServerFieldNumber = 31,
   };
   // string preSharedKey = 2;
   void clear_presharedkey() ;
@@ -7565,6 +7705,25 @@ class Request final : public ::google::protobuf::Message
   ::rtech::liveapi::CustomMatch_SetLegendBan* PROTOBUF_NONNULL _internal_mutable_custommatch_setlegendban();
 
   public:
+  // .rtech.liveapi.JoinPartyServer joinPartyServer = 31;
+  bool has_joinpartyserver() const;
+  private:
+  bool _internal_has_joinpartyserver() const;
+
+  public:
+  void clear_joinpartyserver() ;
+  const ::rtech::liveapi::JoinPartyServer& joinpartyserver() const;
+  [[nodiscard]] ::rtech::liveapi::JoinPartyServer* PROTOBUF_NULLABLE release_joinpartyserver();
+  ::rtech::liveapi::JoinPartyServer* PROTOBUF_NONNULL mutable_joinpartyserver();
+  void set_allocated_joinpartyserver(::rtech::liveapi::JoinPartyServer* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_joinpartyserver(::rtech::liveapi::JoinPartyServer* PROTOBUF_NULLABLE value);
+  ::rtech::liveapi::JoinPartyServer* PROTOBUF_NULLABLE unsafe_arena_release_joinpartyserver();
+
+  private:
+  const ::rtech::liveapi::JoinPartyServer& _internal_joinpartyserver() const;
+  ::rtech::liveapi::JoinPartyServer* PROTOBUF_NONNULL _internal_mutable_joinpartyserver();
+
+  public:
   void clear_actions();
   ActionsCase actions_case() const;
   // @@protoc_insertion_point(class_scope:rtech.liveapi.Request)
@@ -7588,11 +7747,12 @@ class Request final : public ::google::protobuf::Message
   void set_has_custommatch_setendringexclusion();
   void set_has_custommatch_getlegendbanstatus();
   void set_has_custommatch_setlegendban();
+  void set_has_joinpartyserver();
   inline bool has_actions() const;
   inline void clear_has_actions();
   friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<1, 20,
-                                   18, 58,
+  static const ::google::protobuf::internal::TcParseTable<1, 21,
+                                   19, 58,
                                    2>
       _table_;
 
@@ -7636,6 +7796,7 @@ class Request final : public ::google::protobuf::Message
       ::google::protobuf::Message* PROTOBUF_NULLABLE custommatch_setendringexclusion_;
       ::google::protobuf::Message* PROTOBUF_NULLABLE custommatch_getlegendbanstatus_;
       ::google::protobuf::Message* PROTOBUF_NULLABLE custommatch_setlegendban_;
+      ::google::protobuf::Message* PROTOBUF_NULLABLE joinpartyserver_;
     } actions_;
     ::uint32_t _oneof_case_[1];
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -8304,7 +8465,7 @@ class LiveAPIEvent final : public ::google::protobuf::Message
     return *reinterpret_cast<const LiveAPIEvent*>(
         &_LiveAPIEvent_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 74;
+  static constexpr int kIndexInFileMessages = 75;
   friend void swap(LiveAPIEvent& a, LiveAPIEvent& b) { a.Swap(&b); }
   inline void Swap(LiveAPIEvent* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -33486,6 +33647,10 @@ inline void CustomMatch_SendChat::set_allocated_text(::std::string* PROTOBUF_NUL
 
 // -------------------------------------------------------------------
 
+// JoinPartyServer
+
+// -------------------------------------------------------------------
+
 // Request
 
 // bool withAck = 1;
@@ -35051,6 +35216,88 @@ inline ::rtech::liveapi::CustomMatch_SetLegendBan* PROTOBUF_NONNULL Request::mut
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::rtech::liveapi::CustomMatch_SetLegendBan* _msg = _internal_mutable_custommatch_setlegendban();
   // @@protoc_insertion_point(field_mutable:rtech.liveapi.Request.customMatch_SetLegendBan)
+  return _msg;
+}
+
+// .rtech.liveapi.JoinPartyServer joinPartyServer = 31;
+inline bool Request::has_joinpartyserver() const {
+  return actions_case() == kJoinPartyServer;
+}
+inline bool Request::_internal_has_joinpartyserver() const {
+  return actions_case() == kJoinPartyServer;
+}
+inline void Request::set_has_joinpartyserver() {
+  _impl_._oneof_case_[0] = kJoinPartyServer;
+}
+inline void Request::clear_joinpartyserver() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (actions_case() == kJoinPartyServer) {
+    if (GetArena() == nullptr) {
+      delete _impl_.actions_.joinpartyserver_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.actions_.joinpartyserver_);
+    }
+    clear_has_actions();
+  }
+}
+inline ::rtech::liveapi::JoinPartyServer* PROTOBUF_NULLABLE Request::release_joinpartyserver() {
+  // @@protoc_insertion_point(field_release:rtech.liveapi.Request.joinPartyServer)
+  if (actions_case() == kJoinPartyServer) {
+    clear_has_actions();
+    auto* temp = reinterpret_cast<::rtech::liveapi::JoinPartyServer*>(_impl_.actions_.joinpartyserver_);
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.actions_.joinpartyserver_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::rtech::liveapi::JoinPartyServer& Request::_internal_joinpartyserver() const {
+  return actions_case() == kJoinPartyServer ? static_cast<const ::rtech::liveapi::JoinPartyServer&>(*reinterpret_cast<::rtech::liveapi::JoinPartyServer*>(_impl_.actions_.joinpartyserver_))
+                     : reinterpret_cast<const ::rtech::liveapi::JoinPartyServer&>(::rtech::liveapi::_JoinPartyServer_default_instance_);
+}
+inline const ::rtech::liveapi::JoinPartyServer& Request::joinpartyserver() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.Request.joinPartyServer)
+  return _internal_joinpartyserver();
+}
+inline ::rtech::liveapi::JoinPartyServer* PROTOBUF_NULLABLE Request::unsafe_arena_release_joinpartyserver() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:rtech.liveapi.Request.joinPartyServer)
+  if (actions_case() == kJoinPartyServer) {
+    clear_has_actions();
+    auto* temp = reinterpret_cast<::rtech::liveapi::JoinPartyServer*>(_impl_.actions_.joinpartyserver_);
+    _impl_.actions_.joinpartyserver_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Request::unsafe_arena_set_allocated_joinpartyserver(
+    ::rtech::liveapi::JoinPartyServer* PROTOBUF_NULLABLE value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_actions();
+  if (value) {
+    set_has_joinpartyserver();
+    _impl_.actions_.joinpartyserver_ = reinterpret_cast<::google::protobuf::Message*>(value);
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:rtech.liveapi.Request.joinPartyServer)
+}
+inline ::rtech::liveapi::JoinPartyServer* PROTOBUF_NONNULL Request::_internal_mutable_joinpartyserver() {
+  if (actions_case() != kJoinPartyServer) {
+    clear_actions();
+    set_has_joinpartyserver();
+    _impl_.actions_.joinpartyserver_ = reinterpret_cast<::google::protobuf::Message*>(
+        ::google::protobuf::Message::DefaultConstruct<::rtech::liveapi::JoinPartyServer>(GetArena()));
+  }
+  return reinterpret_cast<::rtech::liveapi::JoinPartyServer*>(_impl_.actions_.joinpartyserver_);
+}
+inline ::rtech::liveapi::JoinPartyServer* PROTOBUF_NONNULL Request::mutable_joinpartyserver()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::rtech::liveapi::JoinPartyServer* _msg = _internal_mutable_joinpartyserver();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.Request.joinPartyServer)
   return _msg;
 }
 

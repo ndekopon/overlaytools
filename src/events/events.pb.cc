@@ -225,6 +225,24 @@ struct LegendMatchStatusDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 LegendMatchStatusDefaultTypeInternal _LegendMatchStatus_default_instance_;
+template <typename>
+PROTOBUF_CONSTEXPR JoinPartyServer::JoinPartyServer(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(JoinPartyServer_class_data_.base()){}
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase() {
+}
+#endif  // PROTOBUF_CUSTOM_VTABLE
+struct JoinPartyServerDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR JoinPartyServerDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~JoinPartyServerDefaultTypeInternal() {}
+  union {
+    JoinPartyServer _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 JoinPartyServerDefaultTypeInternal _JoinPartyServer_default_instance_;
 
 inline constexpr InventoryItem::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -3020,10 +3038,11 @@ const ::uint32_t
         4, // hasbit index offset
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::CustomMatch_SendChat, _impl_.text_),
         0,
+        0x000, // bitmap
         0x085, // bitmap
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Request, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Request, _impl_._oneof_case_[0]),
-        25, // hasbit index offset
+        26, // hasbit index offset
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Request, _impl_.withack_),
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Request, _impl_.presharedkey_),
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Request, _impl_.actions_),
@@ -3045,8 +3064,10 @@ const ::uint32_t
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Request, _impl_.actions_),
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Request, _impl_.actions_),
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Request, _impl_.actions_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::Request, _impl_.actions_),
         1,
         0,
+        ~0u,
         ~0u,
         ~0u,
         ~0u,
@@ -3159,10 +3180,11 @@ static const ::_pbi::MigrationSchema
         {727, sizeof(::rtech::liveapi::CustomMatch_GetLegendBanStatus)},
         {728, sizeof(::rtech::liveapi::CustomMatch_SetLegendBan)},
         {733, sizeof(::rtech::liveapi::CustomMatch_SendChat)},
-        {738, sizeof(::rtech::liveapi::Request)},
-        {783, sizeof(::rtech::liveapi::RequestStatus)},
-        {788, sizeof(::rtech::liveapi::Response)},
-        {795, sizeof(::rtech::liveapi::LiveAPIEvent)},
+        {738, sizeof(::rtech::liveapi::JoinPartyServer)},
+        {739, sizeof(::rtech::liveapi::Request)},
+        {786, sizeof(::rtech::liveapi::RequestStatus)},
+        {791, sizeof(::rtech::liveapi::Response)},
+        {798, sizeof(::rtech::liveapi::LiveAPIEvent)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::rtech::liveapi::_Vector3_default_instance_._instance,
@@ -3236,6 +3258,7 @@ static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::rtech::liveapi::_CustomMatch_GetLegendBanStatus_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_SetLegendBan_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_SendChat_default_instance_._instance,
+    &::rtech::liveapi::_JoinPartyServer_default_instance_._instance,
     &::rtech::liveapi::_Request_default_instance_._instance,
     &::rtech::liveapi::_RequestStatus_default_instance_._instance,
     &::rtech::liveapi::_Response_default_instance_._instance,
@@ -3444,52 +3467,54 @@ const char descriptor_table_protodef_events_2eproto[] ABSL_ATTRIBUTE_SECTION_VAR
     "i.MapRegion\" \n\036CustomMatch_GetLegendBanS"
     "tatus\".\n\030CustomMatch_SetLegendBan\022\022\n\nleg"
     "endRefs\030\001 \003(\t\"$\n\024CustomMatch_SendChat\022\014\n"
-    "\004text\030\001 \001(\t\"\346\n\n\007Request\022\017\n\007withAck\030\001 \001(\010"
-    "\022\024\n\014preSharedKey\030\002 \001(\t\0220\n\tchangeCam\030\004 \001("
-    "\0132\033.rtech.liveapi.ChangeCameraH\000\0221\n\013paus"
-    "eToggle\030\005 \001(\0132\032.rtech.liveapi.PauseToggl"
-    "eH\000\022I\n\027customMatch_CreateLobby\030\n \001(\0132&.r"
-    "tech.liveapi.CustomMatch_CreateLobbyH\000\022E"
-    "\n\025customMatch_JoinLobby\030\013 \001(\0132$.rtech.li"
-    "veapi.CustomMatch_JoinLobbyH\000\022G\n\026customM"
-    "atch_LeaveLobby\030\014 \001(\0132%.rtech.liveapi.Cu"
-    "stomMatch_LeaveLobbyH\000\022C\n\024customMatch_Se"
-    "tReady\030\r \001(\0132#.rtech.liveapi.CustomMatch"
-    "_SetReadyH\000\022O\n\032customMatch_SetMatchmakin"
-    "g\030\016 \001(\0132).rtech.liveapi.CustomMatch_SetM"
-    "atchmakingH\000\022A\n\023customMatch_SetTeam\030\017 \001("
-    "\0132\".rtech.liveapi.CustomMatch_SetTeamH\000\022"
-    "G\n\026customMatch_KickPlayer\030\020 \001(\0132%.rtech."
-    "liveapi.CustomMatch_KickPlayerH\000\022I\n\027cust"
-    "omMatch_SetSettings\030\021 \001(\0132&.rtech.liveap"
-    "i.CustomMatch_SetSettingsH\000\022C\n\024customMat"
-    "ch_SendChat\030\022 \001(\0132#.rtech.liveapi.Custom"
-    "Match_SendChatH\000\022Q\n\033customMatch_GetLobby"
-    "Players\030\023 \001(\0132*.rtech.liveapi.CustomMatc"
-    "h_GetLobbyPlayersH\000\022I\n\027customMatch_SetTe"
-    "amName\030\024 \001(\0132&.rtech.liveapi.CustomMatch"
-    "_SetTeamNameH\000\022I\n\027customMatch_GetSetting"
-    "s\030\025 \001(\0132&.rtech.liveapi.CustomMatch_GetS"
-    "ettingsH\000\022M\n\031customMatch_SetSpawnPoint\030\026"
-    " \001(\0132(.rtech.liveapi.CustomMatch_SetSpaw"
-    "nPointH\000\022Y\n\037customMatch_SetEndRingExclus"
-    "ion\030\027 \001(\0132..rtech.liveapi.CustomMatch_Se"
-    "tEndRingExclusionH\000\022W\n\036customMatch_GetLe"
-    "gendBanStatus\030\030 \001(\0132-.rtech.liveapi.Cust"
-    "omMatch_GetLegendBanStatusH\000\022K\n\030customMa"
-    "tch_SetLegendBan\030\031 \001(\0132\'.rtech.liveapi.C"
-    "ustomMatch_SetLegendBanH\000B\t\n\007actions\"\037\n\r"
-    "RequestStatus\022\016\n\006status\030\001 \001(\t\"A\n\010Respons"
-    "e\022\017\n\007success\030\001 \001(\010\022$\n\006result\030\002 \001(\0132\024.goo"
-    "gle.protobuf.Any\"M\n\014LiveAPIEvent\022\022\n\neven"
-    "t_size\030\001 \001(\007\022)\n\013gameMessage\030\003 \001(\0132\024.goog"
-    "le.protobuf.Any*\210\001\n\020PlayerOfInterest\022\017\n\013"
-    "UNSPECIFIED\020\000\022\010\n\004NEXT\020\001\022\014\n\010PREVIOUS\020\002\022\017\n"
-    "\013KILL_LEADER\020\003\022\021\n\rCLOSEST_ENEMY\020\004\022\022\n\016CLO"
-    "SEST_PLAYER\020\005\022\023\n\017LATEST_ATTACKER\020\006*j\n\tMa"
-    "pRegion\022\014\n\010TOP_LEFT\020\000\022\r\n\tTOP_RIGHT\020\001\022\017\n\013"
-    "BOTTOM_LEFT\020\002\022\020\n\014BOTTOM_RIGHT\020\003\022\n\n\006CENTE"
-    "R\020\004\022\021\n\rREGIONS_COUNT\020\005b\006proto3"
+    "\004text\030\001 \001(\t\"\021\n\017JoinPartyServer\"\241\013\n\007Reque"
+    "st\022\017\n\007withAck\030\001 \001(\010\022\024\n\014preSharedKey\030\002 \001("
+    "\t\0220\n\tchangeCam\030\004 \001(\0132\033.rtech.liveapi.Cha"
+    "ngeCameraH\000\0221\n\013pauseToggle\030\005 \001(\0132\032.rtech"
+    ".liveapi.PauseToggleH\000\022I\n\027customMatch_Cr"
+    "eateLobby\030\n \001(\0132&.rtech.liveapi.CustomMa"
+    "tch_CreateLobbyH\000\022E\n\025customMatch_JoinLob"
+    "by\030\013 \001(\0132$.rtech.liveapi.CustomMatch_Joi"
+    "nLobbyH\000\022G\n\026customMatch_LeaveLobby\030\014 \001(\013"
+    "2%.rtech.liveapi.CustomMatch_LeaveLobbyH"
+    "\000\022C\n\024customMatch_SetReady\030\r \001(\0132#.rtech."
+    "liveapi.CustomMatch_SetReadyH\000\022O\n\032custom"
+    "Match_SetMatchmaking\030\016 \001(\0132).rtech.livea"
+    "pi.CustomMatch_SetMatchmakingH\000\022A\n\023custo"
+    "mMatch_SetTeam\030\017 \001(\0132\".rtech.liveapi.Cus"
+    "tomMatch_SetTeamH\000\022G\n\026customMatch_KickPl"
+    "ayer\030\020 \001(\0132%.rtech.liveapi.CustomMatch_K"
+    "ickPlayerH\000\022I\n\027customMatch_SetSettings\030\021"
+    " \001(\0132&.rtech.liveapi.CustomMatch_SetSett"
+    "ingsH\000\022C\n\024customMatch_SendChat\030\022 \001(\0132#.r"
+    "tech.liveapi.CustomMatch_SendChatH\000\022Q\n\033c"
+    "ustomMatch_GetLobbyPlayers\030\023 \001(\0132*.rtech"
+    ".liveapi.CustomMatch_GetLobbyPlayersH\000\022I"
+    "\n\027customMatch_SetTeamName\030\024 \001(\0132&.rtech."
+    "liveapi.CustomMatch_SetTeamNameH\000\022I\n\027cus"
+    "tomMatch_GetSettings\030\025 \001(\0132&.rtech.livea"
+    "pi.CustomMatch_GetSettingsH\000\022M\n\031customMa"
+    "tch_SetSpawnPoint\030\026 \001(\0132(.rtech.liveapi."
+    "CustomMatch_SetSpawnPointH\000\022Y\n\037customMat"
+    "ch_SetEndRingExclusion\030\027 \001(\0132..rtech.liv"
+    "eapi.CustomMatch_SetEndRingExclusionH\000\022W"
+    "\n\036customMatch_GetLegendBanStatus\030\030 \001(\0132-"
+    ".rtech.liveapi.CustomMatch_GetLegendBanS"
+    "tatusH\000\022K\n\030customMatch_SetLegendBan\030\031 \001("
+    "\0132\'.rtech.liveapi.CustomMatch_SetLegendB"
+    "anH\000\0229\n\017joinPartyServer\030\037 \001(\0132\036.rtech.li"
+    "veapi.JoinPartyServerH\000B\t\n\007actions\"\037\n\rRe"
+    "questStatus\022\016\n\006status\030\001 \001(\t\"A\n\010Response\022"
+    "\017\n\007success\030\001 \001(\010\022$\n\006result\030\002 \001(\0132\024.googl"
+    "e.protobuf.Any\"M\n\014LiveAPIEvent\022\022\n\nevent_"
+    "size\030\001 \001(\007\022)\n\013gameMessage\030\003 \001(\0132\024.google"
+    ".protobuf.Any*\210\001\n\020PlayerOfInterest\022\017\n\013UN"
+    "SPECIFIED\020\000\022\010\n\004NEXT\020\001\022\014\n\010PREVIOUS\020\002\022\017\n\013K"
+    "ILL_LEADER\020\003\022\021\n\rCLOSEST_ENEMY\020\004\022\022\n\016CLOSE"
+    "ST_PLAYER\020\005\022\023\n\017LATEST_ATTACKER\020\006*j\n\tMapR"
+    "egion\022\014\n\010TOP_LEFT\020\000\022\r\n\tTOP_RIGHT\020\001\022\017\n\013BO"
+    "TTOM_LEFT\020\002\022\020\n\014BOTTOM_RIGHT\020\003\022\n\n\006CENTER\020"
+    "\004\022\021\n\rREGIONS_COUNT\020\005b\006proto3"
 };
 static const ::_pbi::DescriptorTable* PROTOBUF_NONNULL const
     descriptor_table_events_2eproto_deps[1] = {
@@ -3499,13 +3524,13 @@ static ::absl::once_flag descriptor_table_events_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_events_2eproto = {
     false,
     false,
-    9870,
+    9948,
     descriptor_table_protodef_events_2eproto,
     "events.proto",
     &descriptor_table_events_2eproto_once,
     descriptor_table_events_2eproto_deps,
     1,
-    75,
+    76,
     schemas,
     file_default_instances,
     TableStruct_events_2eproto::offsets,
@@ -30137,6 +30162,115 @@ void CustomMatch_SendChat::InternalSwap(CustomMatch_SendChat* PROTOBUF_RESTRICT 
 }
 // ===================================================================
 
+class JoinPartyServer::_Internal {
+ public:
+};
+
+JoinPartyServer::JoinPartyServer(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, JoinPartyServer_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.JoinPartyServer)
+}
+JoinPartyServer::JoinPartyServer(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const JoinPartyServer& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::internal::ZeroFieldsBase(arena, JoinPartyServer_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::internal::ZeroFieldsBase(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  JoinPartyServer* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.JoinPartyServer)
+}
+
+inline void* PROTOBUF_NONNULL JoinPartyServer::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) JoinPartyServer(arena);
+}
+constexpr auto JoinPartyServer::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(JoinPartyServer),
+                                            alignof(JoinPartyServer));
+}
+constexpr auto JoinPartyServer::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_JoinPartyServer_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // OnDemandRegisterArenaDtor
+          nullptr,  // IsInitialized
+          &JoinPartyServer::MergeImpl,
+          ::google::protobuf::internal::ZeroFieldsBase::GetNewImpl<JoinPartyServer>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &JoinPartyServer::SharedDtor,
+          ::google::protobuf::internal::ZeroFieldsBase::GetClearImpl<JoinPartyServer>(), &JoinPartyServer::ByteSizeLong,
+              &JoinPartyServer::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(JoinPartyServer, _impl_._cached_size_),
+          false,
+      },
+      &JoinPartyServer::kDescriptorMethods,
+      &descriptor_table_events_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull JoinPartyServer_class_data_ =
+        JoinPartyServer::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+JoinPartyServer::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&JoinPartyServer_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(JoinPartyServer_class_data_.tc_table);
+  return JoinPartyServer_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 0, 0, 0, 2>
+JoinPartyServer::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    0, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967295,  // skipmap
+    offsetof(decltype(_table_), field_names),  // no field_entries
+    0,  // num_field_entries
+    0,  // num_aux_entries
+    offsetof(decltype(_table_), field_names),  // no aux_entries
+    JoinPartyServer_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::rtech::liveapi::JoinPartyServer>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }}, // no field_entries, or aux_entries
+  {{
+  }},
+};
+
+
+
+
+
+
+
+::google::protobuf::Metadata JoinPartyServer::GetMetadata() const {
+  return ::google::protobuf::internal::ZeroFieldsBase::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
 class Request::_Internal {
  public:
   using HasBits =
@@ -30381,6 +30515,19 @@ void Request::set_allocated_custommatch_setlegendban(::rtech::liveapi::CustomMat
   }
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.customMatch_SetLegendBan)
 }
+void Request::set_allocated_joinpartyserver(::rtech::liveapi::JoinPartyServer* PROTOBUF_NULLABLE joinpartyserver) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_actions();
+  if (joinpartyserver) {
+    ::google::protobuf::Arena* submessage_arena = joinpartyserver->GetArena();
+    if (message_arena != submessage_arena) {
+      joinpartyserver = ::google::protobuf::internal::GetOwnedMessage(message_arena, joinpartyserver, submessage_arena);
+    }
+    set_has_joinpartyserver();
+    _impl_.actions_.joinpartyserver_ = joinpartyserver;
+  }
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.Request.joinPartyServer)
+}
 Request::Request(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, Request_class_data_.base()) {
@@ -30470,6 +30617,9 @@ Request::Request(
         break;
       case kCustomMatchSetLegendBan:
         _impl_.actions_.custommatch_setlegendban_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.actions_.custommatch_setlegendban_);
+        break;
+      case kJoinPartyServer:
+        _impl_.actions_.joinpartyserver_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.actions_.joinpartyserver_);
         break;
   }
 
@@ -30653,6 +30803,14 @@ void Request::clear_actions() {
       }
       break;
     }
+    case kJoinPartyServer: {
+      if (GetArena() == nullptr) {
+        delete _impl_.actions_.joinpartyserver_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.actions_.joinpartyserver_);
+      }
+      break;
+    }
     case ACTIONS_NOT_SET: {
       break;
     }
@@ -30704,17 +30862,17 @@ Request::GetClassData() const {
   return Request_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 20, 18, 58, 2>
+const ::_pbi::TcParseTable<1, 21, 19, 58, 2>
 Request::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(Request, _impl_._has_bits_),
     0, // no _extensions_
-    25, 8,  // max_field_number, fast_idx_mask
+    31, 8,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4261413348,  // skipmap
+    3187671524,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    20,  // num_field_entries
-    18,  // num_aux_entries
+    21,  // num_field_entries
+    19,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     Request_class_data_.base(),
     nullptr,  // post_loop_handler
@@ -30774,6 +30932,8 @@ Request::_table_ = {
     {PROTOBUF_FIELD_OFFSET(Request, _impl_.actions_.custommatch_getlegendbanstatus_), _Internal::kOneofCaseOffset + 0, 16, (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
     // .rtech.liveapi.CustomMatch_SetLegendBan customMatch_SetLegendBan = 25;
     {PROTOBUF_FIELD_OFFSET(Request, _impl_.actions_.custommatch_setlegendban_), _Internal::kOneofCaseOffset + 0, 17, (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .rtech.liveapi.JoinPartyServer joinPartyServer = 31;
+    {PROTOBUF_FIELD_OFFSET(Request, _impl_.actions_.joinpartyserver_), _Internal::kOneofCaseOffset + 0, 18, (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
   }},
   {{
       {::_pbi::TcParser::GetTable<::rtech::liveapi::ChangeCamera>()},
@@ -30794,6 +30954,7 @@ Request::_table_ = {
       {::_pbi::TcParser::GetTable<::rtech::liveapi::CustomMatch_SetEndRingExclusion>()},
       {::_pbi::TcParser::GetTable<::rtech::liveapi::CustomMatch_GetLegendBanStatus>()},
       {::_pbi::TcParser::GetTable<::rtech::liveapi::CustomMatch_SetLegendBan>()},
+      {::_pbi::TcParser::GetTable<::rtech::liveapi::JoinPartyServer>()},
   }},
   {{
     "\25\0\14\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"
@@ -30965,6 +31126,12 @@ PROTOBUF_NOINLINE void Request::Clear() {
           stream);
       break;
     }
+    case kJoinPartyServer: {
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          31, *this_._impl_.actions_.joinpartyserver_, this_._impl_.actions_.joinpartyserver_->GetCachedSize(), target,
+          stream);
+      break;
+    }
     default:
       break;
   }
@@ -31115,6 +31282,12 @@ PROTOBUF_NOINLINE void Request::Clear() {
     case kCustomMatchSetLegendBan: {
       total_size += 2 +
                     ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.actions_.custommatch_setlegendban_);
+      break;
+    }
+    // .rtech.liveapi.JoinPartyServer joinPartyServer = 31;
+    case kJoinPartyServer: {
+      total_size += 2 +
+                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.actions_.joinpartyserver_);
       break;
     }
     case ACTIONS_NOT_SET: {
@@ -31310,6 +31483,14 @@ void Request::MergeImpl(::google::protobuf::MessageLite& to_msg,
           _this->_impl_.actions_.custommatch_setlegendban_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.actions_.custommatch_setlegendban_);
         } else {
           _this->_impl_.actions_.custommatch_setlegendban_->MergeFrom(*from._impl_.actions_.custommatch_setlegendban_);
+        }
+        break;
+      }
+      case kJoinPartyServer: {
+        if (oneof_needs_init) {
+          _this->_impl_.actions_.joinpartyserver_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.actions_.joinpartyserver_);
+        } else {
+          _this->_impl_.actions_.joinpartyserver_->MergeFrom(*from._impl_.actions_.joinpartyserver_);
         }
         break;
       }
