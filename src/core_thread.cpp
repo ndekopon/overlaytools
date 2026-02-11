@@ -1280,6 +1280,26 @@ namespace app {
 			}
 			break;
 		}
+		case WEBAPI_SEND_JOINPARTYSERVER:
+		{
+			log(LOG_CORE, L"Info: WEBAPI_SEND_JOINPARTYSERVER received.");
+			// JoinPartyServer
+			rtech::liveapi::Request req;
+			auto act = req.mutable_joinpartyserver();
+
+			req.set_withack(true);
+
+			// 送信
+			auto buf = std::make_unique<std::vector<uint8_t>>();
+			buf->resize(req.ByteSizeLong());
+			if (buf->size() > 0)
+			{
+				req.SerializeToArray(buf->data(), buf->size());
+				sendto_liveapi_noqueue(std::move(buf));
+				reply_webapi_send_joinpartyserver(socket, sequence);
+			}
+			break;
+		}
 		case WEBAPI_LOCALDATA_SET_OBSERVER:
 		{
 			log(LOG_CORE, L"Info: WEBAPI_SEND_SET_OBSERVER received.");
@@ -3045,6 +3065,15 @@ namespace app {
 	void core_thread::reply_webapi_send_custtommatch_setlegendban(SOCKET _sock, uint32_t _sequence)
 	{
 		send_webapi_data sdata(WEBAPI_SEND_CUSTOMMATCH_SETLEGENDBAN);
+		if (sdata.append(_sequence))
+		{
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::reply_webapi_send_joinpartyserver(SOCKET _sock, uint32_t _sequence)
+	{
+		send_webapi_data sdata(WEBAPI_SEND_JOINPARTYSERVER);
 		if (sdata.append(_sequence))
 		{
 			sendto_webapi(_sock, std::move(sdata.buffer_));

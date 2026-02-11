@@ -269,6 +269,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_SEND_CUSTOMMATCH_SETENDRINGEXCLUSION = 0x59;
   static WEBAPI_SEND_CUSTOMMATCH_GETLEGENDBANSTATUS = 0x5a;
   static WEBAPI_SEND_CUSTOMMATCH_SETLEGENDBAN = 0x5b;
+  static WEBAPI_SEND_JOINPARTYSERVER = 0x5c;
 
   static WEBAPI_LIVEDATA_GET_GAME = 0x60;
   static WEBAPI_LIVEDATA_GET_TEAMS = 0x61;
@@ -1480,6 +1481,11 @@ export class ApexWebAPI extends EventTarget {
         this.dispatchEvent(new CustomEvent('setlegendban', {detail: {sequence: data_array[0]}}));
         break;
 
+      case ApexWebAPI.WEBAPI_SEND_JOINPARTYSERVER:
+        if (count != 1) return false;
+        this.dispatchEvent(new CustomEvent('joinpartyserver', {detail: {sequence: data_array[0]}}));
+        break;
+
       case ApexWebAPI.WEBAPI_LIVEDATA_GET_GAME:
         if (count != 1) return false;
         if (this.#delay > 0) {
@@ -2052,6 +2058,11 @@ export class ApexWebAPI extends EventTarget {
     const buffer = new SendBuffer(ApexWebAPI.WEBAPI_SEND_CUSTOMMATCH_SETLEGENDBAN);
     if (!buffer.append(ApexWebAPI.WEBAPI_DATA_STRING, legendlefs, this.#encoder)) precheck = false;
     return this.#sendAndReceiveReply(buffer, "setlegendban", precheck);
+  }
+
+  sendJoinPartyServer() {
+    const buffer = new SendBuffer(ApexWebAPI.WEBAPI_SEND_JOINPARTYSERVER);
+    return this.#sendAndReceiveReply(buffer, "joinpartyserver");
   }
 
   setObserver(hash) {

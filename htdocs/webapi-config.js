@@ -4048,6 +4048,10 @@ export class WebAPIConfig {
                 this.#webapi.getStatsFromCode(code);
             }
         });
+
+        document.getElementById('test-joinpartyserver').addEventListener('click', ev => {
+            this.#webapi.sendJoinPartyServer();
+        });
     }
 
     #setupCallback() {
