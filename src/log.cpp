@@ -19,6 +19,7 @@ namespace {
 	std::mutex mtx;
 	std::queue<std::tuple<DWORD, uint64_t, std::unique_ptr<std::vector<wchar_t>>>> log_queue;
 	HANDLE event_log = nullptr;
+	bool logdir_exists = false;
 
 	std::wstring get_current_timestring(uint64_t _millis)
 	{
@@ -66,19 +67,11 @@ namespace {
 		return app::get_exe_directory() + L"\\logs";
 	}
 
-	bool create_log_directory()
+	bool log_directory_exists()
 	{
 		auto path = get_log_directory();
-		if (::CreateDirectoryW(path.c_str(), NULL))
-		{
-			return true;
-		}
-		auto error = ::GetLastError();
-		if (error == ERROR_ALREADY_EXISTS)
-		{
-			return true;
-		}
-		return false;
+		auto attrib = ::GetFileAttributesW(path.c_str());
+		return (attrib != INVALID_FILE_ATTRIBUTES && (attrib & FILE_ATTRIBUTE_DIRECTORY) != 0);
 	}
 
 	std::wstring get_logname()
@@ -112,25 +105,34 @@ namespace app {
 
 	void log(DWORD _id, const wchar_t* format, ...)
 	{
-		std::va_list arg;
-		va_start(arg, format);
-		auto str = _log_vprintf(_id, format, arg);
-		va_end(arg);
+		if (logdir_exists)
 		{
-			std::lock_guard<std::mutex> lock(mtx);
-			log_queue.emplace(_id, get_millis(), std::move(str));
-		}
+			std::va_list arg;
+			va_start(arg, format);
+			auto str = _log_vprintf(_id, format, arg);
+			va_end(arg);
+			{
+				std::lock_guard<std::mutex> lock(mtx);
+				log_queue.emplace(_id, get_millis(), std::move(str));
+			}
 
-		if (event_log != nullptr)
-		{
-			::SetEvent(event_log);
+			if (event_log != nullptr)
+			{
+				::SetEvent(event_log);
+			}
 		}
 	}
 
 	log_thread::log_thread()
 		: thread_(NULL)
 		, event_close_(NULL)
+		, dir_exists_(false)
 	{
+		if (log_directory_exists())
+		{
+			dir_exists_ = true;
+			logdir_exists = true;
+		}
 	}
 
 	log_thread::~log_thread()
@@ -158,12 +160,14 @@ namespace app {
 
 		bool alive = true;
 
-		// ログディレクトリの作成
-		create_log_directory();
+		std::wofstream ws;
 
-		// ログファイルのオープン
-		auto log_filename = get_logname();
-		auto ws = std::wofstream(log_filename, std::ios::out | std::ios::binary);
+		if (dir_exists_)
+		{
+			// ログファイルのオープン
+			auto log_filename = get_logname();
+			ws = std::wofstream(log_filename, std::ios::out | std::ios::binary);
+		}
 
 		while (alive)
 		{
@@ -191,12 +195,15 @@ namespace app {
 
 					while (lq.size() > 0)
 					{
-						auto& item = lq.front();
-						auto id = std::get<0>(item);
-						auto timestamp = std::get<1>(item);
-						auto& str = std::get<2>(item);
+						if (dir_exists_)
+						{
+							auto& item = lq.front();
+							auto id = std::get<0>(item);
+							auto timestamp = std::get<1>(item);
+							auto& str = std::get<2>(item);
 
-						ws << get_current_timestring(timestamp) << L" " << get_id_string(id) << L" " << str->data() << L"\r\n";
+							ws << get_current_timestring(timestamp) << L" " << get_id_string(id) << L" " << str->data() << L"\r\n";
+						}
 
 						lq.pop();
 					}

@@ -18,6 +18,7 @@ namespace app {
 	private:
 		HANDLE thread_;
 		HANDLE event_close_;
+		bool dir_exists_;
 
 		static DWORD WINAPI proc_common(LPVOID);
 		DWORD proc();
