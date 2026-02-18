@@ -450,6 +450,22 @@ body {
     }
 }
 
+/* overlay */
+#overlay-status-content table {
+    border-collapse: collapse;
+}
+#overlay-status-content th {
+    border: 1px solid black;
+    padding: 0.1em 1em;
+}
+#overlay-status-content td {
+    border: 1px solid black;
+    padding: 0.1em 1em;
+}
+#overlay-status-content tr:hover:has(>td) {
+    background-color: #FFFFCC;
+}
+
 /* announce */
 #announce input {
     width: 40em;

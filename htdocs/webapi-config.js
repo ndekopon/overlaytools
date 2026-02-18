@@ -3299,6 +3299,63 @@ class ResultFixView extends WebAPIConfigBase {
     }
 }
 
+class OverlayStatus extends EventTarget {
+    #base = document.getElementById('overlay-status');
+    #tbody = this.#base.querySelector('tbody');
+    #lastcheck = 0;
+    constructor() {
+        super();
+    }
+
+    #removeOldStatus() {
+        const now = Date.now();
+        for (const tr of this.#tbody.children) {
+            const time = parseInt(tr.dataset.updated, 10);
+            if (now - time > 5000) {
+                this.#tbody.removeChild(tr);
+            }
+        }
+    }
+
+    updateStatus(status) {
+        console.log(status);
+        // 既存のステータスを更新
+        let tr = this.#tbody.querySelector(`tr[data-id="${status.id}"]`);
+        if (tr) {
+            // ステータスの更新
+            tr.dataset.updated = status.lastsendtime;
+            tr.children[1].innerText = (new Date(status.inittime)).toLocaleString();
+            tr.children[2].innerText = (new Date(status.lastsendtime)).toLocaleString();
+        } else {
+            // ステータスの追加
+            tr = document.createElement('tr');
+            tr.dataset.id = status.id;
+            tr.dataset.updated = status.lastsendtime;
+            tr.appendChild(document.createElement('td')).innerText = status.url;
+            tr.appendChild(document.createElement('td')).innerText = (new Date(status.inittime)).toLocaleString();
+            tr.appendChild(document.createElement('td')).innerText = (new Date(status.lastsendtime)).toLocaleString();
+            const td_action = tr.appendChild(document.createElement('td'));
+
+            // アクションの定義
+            const btn_reload = document.createElement('button');
+            btn_reload.innerHTML = '<span class="en">reload</span><span class="ja">再読込</span>';
+            td_action.appendChild(btn_reload);
+            btn_reload.addEventListener('click', (ev) => {
+                this.dispatchEvent(new CustomEvent('reload', { detail: { id: status.id } }));
+            });
+
+            // 列の追加
+            this.#tbody.appendChild(tr);
+        }
+
+        // 古いステータスの削除
+        if (Date.now() - this.#lastcheck >= 1000) {
+            this.#removeOldStatus();
+            this.#lastcheck = Date.now();
+        }
+    }
+}
+
 export class WebAPIConfig {
     #webapi;
     #_game;
@@ -3328,6 +3385,7 @@ export class WebAPIConfig {
     #tryconnecting;
     #lobby;
     #getallplayers;
+    #overlaystatus;
 
     constructor(url, liveapi_url) {
         this.#tournament_id = "";
@@ -3352,6 +3410,7 @@ export class WebAPIConfig {
         this.#teamname = new TeamName();
         this.#ingamesettings = new InGameSettings();
         this.#legendban = new LegendBan();
+        this.#overlaystatus = new OverlayStatus();
         this.#tryconnecting = false;
         this.#getallplayers = false;
 
@@ -3700,6 +3759,12 @@ export class WebAPIConfig {
 
         this.#webapi.addEventListener('getversion', ev => {
             document.getElementById('exeversion').textContent = ev.detail.version;
+        });
+
+        this.#webapi.addEventListener('broadcastobject', ev => {
+            if ('data' in ev.detail && 'type' in ev.detail.data && ev.detail.data.type == 'overlaystatus') {
+                this.#overlaystatus.updateStatus(ev.detail.data.data);
+            }
         });
     }
 
@@ -4109,6 +4174,13 @@ export class WebAPIConfig {
         this.#ingamesettings.setUpdatePresetsCallback((presets) => {
             this.#tournament_params['presets'] = presets;
             this.#webapi.setTournamentParams(this.#tournament_params);
+        });
+
+        this.#overlaystatus.addEventListener('reload', (ev) => {
+            this.#webapi.broadcastObject({
+                type: "reload",
+                id: ev.detail.id
+            });
         });
     }
 

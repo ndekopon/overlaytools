@@ -492,6 +492,11 @@ export class TemplateOverlay {
 
 
 export class TemplateOverlayHandler extends EventTarget {
+    #handlerid;
+    #url;
+    #inittime;
+    #lastsendtime;
+    #worker;
     #initparams;
     /** @type {ApexWebAPI} */
     #webapi;
@@ -534,6 +539,10 @@ export class TemplateOverlayHandler extends EventTarget {
      */
     constructor(params = {}) {
         super();
+        this.#handlerid = window.crypto.getRandomValues(new Uint8Array(16)).toHex();
+        this.#url = window.location.href.split('/').pop();
+        this.#inittime = Date.now();
+        this.#lastsendtime = 0;
         this.#initparams = params;
         this.#liveapi_connection_count = -1;
         this.#calc_resultsonly = true;
@@ -573,6 +582,23 @@ export class TemplateOverlayHandler extends EventTarget {
         });
 
         this.#setDefaultValue();
+        this.#setupWorker();
+    }
+
+    #setupWorker() {
+        const blob = new Blob(['self.setInterval(() => { self.postMessage(null); }, 1000);'], { type: 'application/javascript' });
+        const url = URL.createObjectURL(blob);
+        this.#worker = new Worker(url);
+        this.#worker.onmessage = (e) => {
+            this.#runInterval();
+        };
+    }
+
+    #runInterval() {
+        if (this.#lastsendtime + 5000 < Date.now()) {
+            // 5秒以上経過している場合はステータス送信
+            this.#broadcastStatus();
+        }
     }
 
     #buildOverlays() {
@@ -992,6 +1018,11 @@ export class TemplateOverlayHandler extends EventTarget {
                             location.reload();
                             break;
                         };
+                        case "reload": {
+                            if ('id' in data && data.id == this.#handlerid) {
+                                location.reload();
+                            }
+                        }
                     }
                 }
             }
@@ -2091,5 +2122,20 @@ export class TemplateOverlayHandler extends EventTarget {
             if (hide) overlay.addForceHide();
             else overlay.removeForceHide();
         }
+    }
+
+    #broadcastStatus() {
+        this.#lastsendtime = Date.now();
+        const status = {
+            id: this.#handlerid,
+            url: this.#url,
+            inittime: this.#inittime,
+            lastsendtime: this.#lastsendtime,
+            overlays: Object.keys(this.#overlays)
+        };
+        this.#webapi.broadcastObject({
+            type: 'overlaystatus',
+            data: status,
+        })
     }
 }
