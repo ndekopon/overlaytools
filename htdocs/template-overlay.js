@@ -539,7 +539,7 @@ export class TemplateOverlayHandler extends EventTarget {
      */
     constructor(params = {}) {
         super();
-        this.#handlerid = window.crypto.getRandomValues(new Uint8Array(16)).toHex();
+        this.#handlerid = window.crypto.getRandomValues(new Uint8Array(16)).map(x => x.toString(16).padStart(2, '0')).join('');
         this.#url = window.location.href.split('/').pop();
         this.#inittime = Date.now();
         this.#lastsendtime = 0;
