@@ -186,11 +186,7 @@ namespace app {
 					std::queue<std::tuple<DWORD, uint64_t, std::unique_ptr<std::vector<wchar_t>>>> lq;
 					{
 						std::lock_guard<std::mutex> lock(mtx);
-						while (log_queue.size() > 0)
-						{
-							lq.push(std::move(log_queue.front()));
-							log_queue.pop();
-						}
+						lq.swap(log_queue);
 					}
 
 					while (lq.size() > 0)
