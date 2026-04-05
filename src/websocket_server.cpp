@@ -114,20 +114,18 @@ namespace app {
 		DWORD slen = INET_ADDRSTRLEN;
 
 
-		SOCKADDR_IN* l;
-		SOCKADDR_IN* r;
+		SOCKADDR_IN* l = nullptr;
+		SOCKADDR_IN* r = nullptr;
 		INT llen = sizeof(SOCKADDR_IN);
-		INT rlen = sizeof(SOCKADDR_IN); r->sin_addr;
+		INT rlen = sizeof(SOCKADDR_IN);
 		::GetAcceptExSockaddrs(_buffer, _len, llen + 16, rlen + 16, reinterpret_cast<sockaddr **>(&l), &llen, reinterpret_cast<sockaddr**>(&r), &rlen);
-
 		::WSAAddressToStringW((SOCKADDR *)r, rlen, NULL, s, &slen);
 		return s;
-		;
-
 	}
 
 	wspacket::wspacket()
 		: header_readed(0)
+		, payload_readed(0)
 		, mask_index(0)
 		, len(0)
 		, exlen(0)
