@@ -51,11 +51,17 @@ namespace app {
 
 			while (true)
 			{
-				DWORD transferred;
-				ULONG_PTR compkey;
-				LPOVERLAPPED ov;
+				DWORD transferred = 0;
+				ULONG_PTR compkey = 0;
+				LPOVERLAPPED ov = NULL;
 				auto rc = ::GetQueuedCompletionStatus(compport_, &transferred, &compkey, &ov, INFINITE);
-				if (rc == FALSE) continue;
+				auto gqcs_error = rc == FALSE ? ::GetLastError() : ERROR_SUCCESS;
+
+				if (rc == FALSE && ov == NULL)
+				{
+					log(logid_, L"Error: GetQueuedCompletionStatus() failed. ErrorCode=%d", gqcs_error);
+					continue;
+				}
 
 				if (compkey == 0 && ov == NULL)
 				{
@@ -96,6 +102,23 @@ namespace app {
 					// ACCEPT
 					WS_ACCEPT_CONTEXT *ctx = (WS_ACCEPT_CONTEXT*)ov;
 					SOCKET sock = ctx->sock;
+
+					if (rc == FALSE)
+					{
+						log(logid_, L"Error: ACCEPT completion failed. ErrorCode=%d", gqcs_error);
+						if (sock != INVALID_SOCKET)
+						{
+							::closesocket(sock);
+						}
+						if (!ws.acceptex())
+						{
+							log(logid_, L"Error: websocket_server::acceptex() failed.");
+							break;
+						}
+						continue;
+					}
+
+
 					auto ipport = get_remote_ipport(ctx->data, transferred);
 					log(logid_, L"Info: connected from %s.", ipport.c_str());
 
@@ -126,6 +149,13 @@ namespace app {
 				{
 					WS_ACCEPT_CONTEXT* ctx = (WS_ACCEPT_CONTEXT*)compkey;
 					WS_IO_CONTEXT* ioctx = (WS_IO_CONTEXT*)ov;
+
+					if (rc == FALSE)
+					{
+						log(logid_, L"Error: socket I/O completion failed. sock=%d,type=%d,ErrorCode=%d", ioctx->sock, ioctx->type, gqcs_error);
+						ws.close(ioctx->sock);
+						continue;
+					}
 
 					if (transferred == 0 && (ioctx->type == WS_TCP_RECV || ioctx->type == WS_TCP_SEND))
 					{
