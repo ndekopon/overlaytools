@@ -44,12 +44,22 @@ namespace {
 	std::unique_ptr<std::vector<wchar_t>> _log_vprintf(DWORD _id, const wchar_t* _str, std::va_list _arg)
 	{
 		auto buf = std::make_unique<std::vector<wchar_t>>();
-		auto size = _vscwprintf(_str, _arg);
+
+		std::va_list arg_check;
+		va_copy(arg_check, _arg);
+		auto size = _vscwprintf(_str, arg_check);
+		va_end(arg_check);
+
 		int rc = 0;
 
 		do {
 			buf->resize(size + 1, L'\0');
-			rc = _vsnwprintf_s(buf->data(), buf->size(), buf->size() - 1, _str, _arg);
+
+			std::va_list arg_copy;
+			va_copy(arg_copy, _arg);
+			rc = _vsnwprintf_s(buf->data(), buf->size(), buf->size() - 1, _str, arg_copy);
+			va_end(arg_copy);
+
 			if (rc > 0)
 			{
 				break;
