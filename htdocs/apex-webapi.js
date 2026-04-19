@@ -1796,6 +1796,8 @@ export class ApexWebAPI extends EventTarget {
       return "evactower";
     case ApexWebAPI.WEBAPI_ITEM_SHIELDCCORE:
       return "shieldcore";
+    case ApexWebAPI.WEBAPI_ITEM_AMP:
+      return "amp";
     }
     return "";
   }
