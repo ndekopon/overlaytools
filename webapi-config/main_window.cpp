@@ -152,7 +152,7 @@ namespace app
 							if (webview3_)
 							{
 								webview3_->SetVirtualHostNameToFolderMapping(
-									L"webapi-config.example", get_htdocs().c_str(),
+									L"overlaytools.localhost", get_htdocs().c_str(),
 									COREWEBVIEW2_HOST_RESOURCE_ACCESS_KIND_DENY_CORS);
 							}
 
@@ -172,7 +172,7 @@ namespace app
 							webview_ctrl_->put_Bounds(bounds);
 
 							// 管理画面を開く
-							webview_->Navigate(L"http://webapi-config.example/index.html");
+							webview_->Navigate(L"https://overlaytools.localhost/index.html");
 
 							return S_OK;
 						}).Get());
