@@ -122,7 +122,7 @@ div {
 
 [data-teamplayer-legend="Alter" i]      ,[data-teamplayer-legend="オルター"]         { background-image: url('legends/alter.png'); }
 [data-teamplayer-legend="Ash" i]        ,[data-teamplayer-legend="アッシュ"]         { background-image: url('legends/ash.png'); }
-[data-teamplayer-legend="Axle" i]       ,[data-teamplayer-legend="アクセル"]         { background-image: url('legends/axle.png'); }
+[data-teamplayer-legend="Axle" i]       ,[data-teamplayer-legend="overdrive" i] ,[data-teamplayer-legend="アクセル"] { background-image: url('legends/axle.png'); }
 [data-teamplayer-legend="Ballistic" i]  ,[data-teamplayer-legend="バリスティック"]   { background-image: url('legends/ballistic.png'); }
 [data-teamplayer-legend="Bangalore" i]  ,[data-teamplayer-legend="バンガロール"]     { background-image: url('legends/bangalore.png'); }
 [data-teamplayer-legend="Bloodhound" i] ,[data-teamplayer-legend="ブラッドハウンド"] { background-image: url('legends/bloodhound.png'); }
@@ -135,7 +135,7 @@ div {
 [data-teamplayer-legend="Horizon" i]    ,[data-teamplayer-legend="ホライゾン"]       { background-image: url('legends/horizon.png'); }
 [data-teamplayer-legend="Lifeline" i]   ,[data-teamplayer-legend="ライフライン"]     { background-image: url('legends/lifeline.png'); }
 [data-teamplayer-legend="Loba" i]       ,[data-teamplayer-legend="ローバ"]           { background-image: url('legends/loba.png'); }
-[data-teamplayer-legend="Mad Maggie" i] ,[data-teamplayer-legend="マッドマギー"]     { background-image: url('legends/madmaggie.png'); }
+[data-teamplayer-legend="Mad Maggie" i], [data-teamplayer-legend="madmaggie" i] ,[data-teamplayer-legend="マッドマギー"] { background-image: url('legends/madmaggie.png'); }
 [data-teamplayer-legend="Mirage" i]     ,[data-teamplayer-legend="ミラージュ"]       { background-image: url('legends/mirage.png'); }
 [data-teamplayer-legend="Newcastle" i]  ,[data-teamplayer-legend="ニューキャッスル"] { background-image: url('legends/newcastle.png'); }
 [data-teamplayer-legend="Octane" i]     ,[data-teamplayer-legend="オクタン"]         { background-image: url('legends/octane.png'); }
