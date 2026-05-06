@@ -1,3 +1,3 @@
 #pragma once
 
-#define OVERLAYTOOLS_VERSION "0.5.10"
+#define OVERLAYTOOLS_VERSION "0.5.11"
