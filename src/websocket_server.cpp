@@ -724,9 +724,15 @@ namespace app {
 							uint16_t close_code = (packet->data->at(0) << 8) | packet->data->at(1);
 							log(logid_, L"Info: close_code=%d", close_code);
 						}
-						::shutdown(_sock, SD_SEND);
+						const auto rc = ::shutdown(_sock, SD_SEND);
+						if (rc != 0)
+						{
+							const auto error = ::WSAGetLastError();
+							log(logid_, L"Error: shutdown() failed. ErrorCode=%d", error);
+							close(_sock);
+						}
+						return r;
 					}
-					return r;
 					default:
 						log(logid_, L"Error: invalid opcode.");
 						close(_sock);
