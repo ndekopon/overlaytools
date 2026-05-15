@@ -322,6 +322,10 @@ class RequestStatus;
 struct RequestStatusDefaultTypeInternal;
 extern RequestStatusDefaultTypeInternal _RequestStatus_default_instance_;
 extern const ::google::protobuf::internal::ClassDataFull RequestStatus_class_data_;
+class RespawnFromDeathbox;
+struct RespawnFromDeathboxDefaultTypeInternal;
+extern RespawnFromDeathboxDefaultTypeInternal _RespawnFromDeathbox_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull RespawnFromDeathbox_class_data_;
 class Response;
 struct ResponseDefaultTypeInternal;
 extern ResponseDefaultTypeInternal _Response_default_instance_;
@@ -989,7 +993,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED RequestStatus final : public ::goog
     return *reinterpret_cast<const RequestStatus*>(
         &_RequestStatus_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 73;
+  static constexpr int kIndexInFileMessages = 74;
   friend void swap(RequestStatus& a, RequestStatus& b) { a.Swap(&b); }
   inline void Swap(RequestStatus* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -1190,7 +1194,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED PauseToggle final : public ::google
     return *reinterpret_cast<const PauseToggle*>(
         &_PauseToggle_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 54;
+  static constexpr int kIndexInFileMessages = 55;
   friend void swap(PauseToggle& a, PauseToggle& b) { a.Swap(&b); }
   inline void Swap(PauseToggle* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -2077,7 +2081,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED JoinPartyServer final : public ::go
     return *reinterpret_cast<const JoinPartyServer*>(
         &_JoinPartyServer_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 71;
+  static constexpr int kIndexInFileMessages = 72;
   friend void swap(JoinPartyServer& a, JoinPartyServer& b) { a.Swap(&b); }
   inline void Swap(JoinPartyServer* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -3130,7 +3134,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CustomMatch_SetTeamName final : pub
     return *reinterpret_cast<const CustomMatch_SetTeamName*>(
         &_CustomMatch_SetTeamName_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 65;
+  static constexpr int kIndexInFileMessages = 66;
   friend void swap(CustomMatch_SetTeamName& a, CustomMatch_SetTeamName& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetTeamName* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -3343,7 +3347,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CustomMatch_SetTeam final : public 
     return *reinterpret_cast<const CustomMatch_SetTeam*>(
         &_CustomMatch_SetTeam_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 61;
+  static constexpr int kIndexInFileMessages = 62;
   friend void swap(CustomMatch_SetTeam& a, CustomMatch_SetTeam& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetTeam* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -3573,7 +3577,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CustomMatch_SetSpawnPoint final : p
     return *reinterpret_cast<const CustomMatch_SetSpawnPoint*>(
         &_CustomMatch_SetSpawnPoint_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 66;
+  static constexpr int kIndexInFileMessages = 67;
   friend void swap(CustomMatch_SetSpawnPoint& a, CustomMatch_SetSpawnPoint& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetSpawnPoint* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -3781,7 +3785,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CustomMatch_SetSettings final : pub
     return *reinterpret_cast<const CustomMatch_SetSettings*>(
         &_CustomMatch_SetSettings_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 63;
+  static constexpr int kIndexInFileMessages = 64;
   friend void swap(CustomMatch_SetSettings& a, CustomMatch_SetSettings& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetSettings* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -4042,7 +4046,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CustomMatch_SetReady final : public
     return *reinterpret_cast<const CustomMatch_SetReady*>(
         &_CustomMatch_SetReady_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 58;
+  static constexpr int kIndexInFileMessages = 59;
   friend void swap(CustomMatch_SetReady& a, CustomMatch_SetReady& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetReady* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -4238,7 +4242,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CustomMatch_SetMatchmaking final : 
     return *reinterpret_cast<const CustomMatch_SetMatchmaking*>(
         &_CustomMatch_SetMatchmaking_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 60;
+  static constexpr int kIndexInFileMessages = 61;
   friend void swap(CustomMatch_SetMatchmaking& a, CustomMatch_SetMatchmaking& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetMatchmaking* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -4434,7 +4438,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CustomMatch_SetLegendBan final : pu
     return *reinterpret_cast<const CustomMatch_SetLegendBan*>(
         &_CustomMatch_SetLegendBan_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 69;
+  static constexpr int kIndexInFileMessages = 70;
   friend void swap(CustomMatch_SetLegendBan& a, CustomMatch_SetLegendBan& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetLegendBan* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -4645,7 +4649,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CustomMatch_SetEndRingExclusion fin
     return *reinterpret_cast<const CustomMatch_SetEndRingExclusion*>(
         &_CustomMatch_SetEndRingExclusion_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 67;
+  static constexpr int kIndexInFileMessages = 68;
   friend void swap(CustomMatch_SetEndRingExclusion& a, CustomMatch_SetEndRingExclusion& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SetEndRingExclusion* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -4841,7 +4845,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CustomMatch_SendChat final : public
     return *reinterpret_cast<const CustomMatch_SendChat*>(
         &_CustomMatch_SendChat_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 70;
+  static constexpr int kIndexInFileMessages = 71;
   friend void swap(CustomMatch_SendChat& a, CustomMatch_SendChat& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_SendChat* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -5288,7 +5292,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CustomMatch_LeaveLobby final : publ
     return *reinterpret_cast<const CustomMatch_LeaveLobby*>(
         &_CustomMatch_LeaveLobby_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 57;
+  static constexpr int kIndexInFileMessages = 58;
   friend void swap(CustomMatch_LeaveLobby& a, CustomMatch_LeaveLobby& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_LeaveLobby* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -5426,7 +5430,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CustomMatch_KickPlayer final : publ
     return *reinterpret_cast<const CustomMatch_KickPlayer*>(
         &_CustomMatch_KickPlayer_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 62;
+  static constexpr int kIndexInFileMessages = 63;
   friend void swap(CustomMatch_KickPlayer& a, CustomMatch_KickPlayer& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_KickPlayer* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -5644,7 +5648,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CustomMatch_JoinLobby final : publi
     return *reinterpret_cast<const CustomMatch_JoinLobby*>(
         &_CustomMatch_JoinLobby_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 56;
+  static constexpr int kIndexInFileMessages = 57;
   friend void swap(CustomMatch_JoinLobby& a, CustomMatch_JoinLobby& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_JoinLobby* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -5844,7 +5848,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CustomMatch_GetSettings final : pub
     return *reinterpret_cast<const CustomMatch_GetSettings*>(
         &_CustomMatch_GetSettings_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 64;
+  static constexpr int kIndexInFileMessages = 65;
   friend void swap(CustomMatch_GetSettings& a, CustomMatch_GetSettings& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_GetSettings* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -5981,7 +5985,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CustomMatch_GetLobbyPlayers final :
     return *reinterpret_cast<const CustomMatch_GetLobbyPlayers*>(
         &_CustomMatch_GetLobbyPlayers_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 59;
+  static constexpr int kIndexInFileMessages = 60;
   friend void swap(CustomMatch_GetLobbyPlayers& a, CustomMatch_GetLobbyPlayers& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_GetLobbyPlayers* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -6118,7 +6122,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CustomMatch_GetLegendBanStatus fina
     return *reinterpret_cast<const CustomMatch_GetLegendBanStatus*>(
         &_CustomMatch_GetLegendBanStatus_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 68;
+  static constexpr int kIndexInFileMessages = 69;
   friend void swap(CustomMatch_GetLegendBanStatus& a, CustomMatch_GetLegendBanStatus& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_GetLegendBanStatus* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -6255,7 +6259,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED CustomMatch_CreateLobby final : pub
     return *reinterpret_cast<const CustomMatch_CreateLobby*>(
         &_CustomMatch_CreateLobby_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 55;
+  static constexpr int kIndexInFileMessages = 56;
   friend void swap(CustomMatch_CreateLobby& a, CustomMatch_CreateLobby& b) { a.Swap(&b); }
   inline void Swap(CustomMatch_CreateLobby* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -6399,7 +6403,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED ChangeCamera final : public ::googl
     kNucleusHash = 3,
     TARGET_NOT_SET = 0,
   };
-  static constexpr int kIndexInFileMessages = 53;
+  static constexpr int kIndexInFileMessages = 54;
   friend void swap(ChangeCamera& a, ChangeCamera& b) { a.Swap(&b); }
   inline void Swap(ChangeCamera* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -7192,7 +7196,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED Response final : public ::google::p
     return *reinterpret_cast<const Response*>(
         &_Response_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 74;
+  static constexpr int kIndexInFileMessages = 75;
   friend void swap(Response& a, Response& b) { a.Swap(&b); }
   inline void Swap(Response* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -7428,7 +7432,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED Request final : public ::google::pr
     kJoinPartyServer = 31,
     ACTIONS_NOT_SET = 0,
   };
-  static constexpr int kIndexInFileMessages = 72;
+  static constexpr int kIndexInFileMessages = 73;
   friend void swap(Request& a, Request& b) { a.Swap(&b); }
   inline void Swap(Request* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -8709,7 +8713,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED LiveAPIEvent final : public ::googl
     return *reinterpret_cast<const LiveAPIEvent*>(
         &_LiveAPIEvent_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 75;
+  static constexpr int kIndexInFileMessages = 76;
   friend void swap(LiveAPIEvent& a, LiveAPIEvent& b) { a.Swap(&b); }
   inline void Swap(LiveAPIEvent* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -11594,6 +11598,281 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED RevenantForgedShadowDamaged final :
 };
 
 extern const ::google::protobuf::internal::ClassDataFull RevenantForgedShadowDamaged_class_data_;
+// -------------------------------------------------------------------
+
+class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED RespawnFromDeathbox final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:rtech.liveapi.RespawnFromDeathbox) */ {
+ public:
+  inline RespawnFromDeathbox() : RespawnFromDeathbox(nullptr) {}
+  ~RespawnFromDeathbox() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(RespawnFromDeathbox* PROTOBUF_NONNULL msg, ::std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(RespawnFromDeathbox));
+  }
+#endif
+
+  template <typename = void>
+  explicit constexpr RespawnFromDeathbox(::google::protobuf::internal::ConstantInitialized);
+
+  inline RespawnFromDeathbox(const RespawnFromDeathbox& from) : RespawnFromDeathbox(nullptr, from) {}
+  inline RespawnFromDeathbox(RespawnFromDeathbox&& from) noexcept
+      : RespawnFromDeathbox(nullptr, ::std::move(from)) {}
+  inline RespawnFromDeathbox& operator=(const RespawnFromDeathbox& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline RespawnFromDeathbox& operator=(RespawnFromDeathbox&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  [[nodiscard]] inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  [[nodiscard]] inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL
+  mutable_unknown_fields() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  [[nodiscard]] static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  [[nodiscard]] static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL
+  GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  [[nodiscard]] static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  [[nodiscard]] static const RespawnFromDeathbox& default_instance() {
+    return *reinterpret_cast<const RespawnFromDeathbox*>(
+        &_RespawnFromDeathbox_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 53;
+  friend void swap(RespawnFromDeathbox& a, RespawnFromDeathbox& b) { a.Swap(&b); }
+  inline void Swap(RespawnFromDeathbox* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(RespawnFromDeathbox* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  [[nodiscard]] RespawnFromDeathbox* PROTOBUF_NONNULL
+  New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<RespawnFromDeathbox>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const RespawnFromDeathbox& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const RespawnFromDeathbox& from) { RespawnFromDeathbox::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  [[nodiscard]] bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  [[nodiscard]] static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  [[nodiscard]] static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  [[nodiscard]] ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  [[nodiscard]] ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  [[nodiscard]] ::size_t ByteSizeLong() const final;
+  [[nodiscard]] ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  [[nodiscard]] int GetCachedSize() const {
+    return _impl_._cached_size_.Get();
+  }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(RespawnFromDeathbox* PROTOBUF_NONNULL other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "rtech.liveapi.RespawnFromDeathbox"; }
+
+  explicit RespawnFromDeathbox(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  RespawnFromDeathbox(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const RespawnFromDeathbox& from);
+  RespawnFromDeathbox(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, RespawnFromDeathbox&& from) noexcept
+      : RespawnFromDeathbox(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  [[nodiscard]] ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kInventoryFieldNumber = 4,
+    kRespawnedTeammatesFieldNumber = 5,
+    kCategoryFieldNumber = 2,
+    kPlayerFieldNumber = 3,
+    kTimestampFieldNumber = 1,
+  };
+  // repeated .rtech.liveapi.InventoryItem inventory = 4;
+  [[nodiscard]] int inventory_size()
+      const;
+  private:
+  int _internal_inventory_size() const;
+
+  public:
+  void clear_inventory() ;
+  [[nodiscard]] ::rtech::liveapi::InventoryItem* PROTOBUF_NONNULL mutable_inventory(int index);
+  [[nodiscard]] ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>* PROTOBUF_NONNULL
+  mutable_inventory();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>& _internal_inventory() const;
+  ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>* PROTOBUF_NONNULL _internal_mutable_inventory();
+  public:
+  [[nodiscard]] const ::rtech::liveapi::InventoryItem& inventory(int index) const;
+  ::rtech::liveapi::InventoryItem* PROTOBUF_NONNULL add_inventory();
+  [[nodiscard]] const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>& inventory()
+      const;
+  // repeated .rtech.liveapi.Player respawnedTeammates = 5;
+  [[nodiscard]] int respawnedteammates_size()
+      const;
+  private:
+  int _internal_respawnedteammates_size() const;
+
+  public:
+  void clear_respawnedteammates() ;
+  [[nodiscard]] ::rtech::liveapi::Player* PROTOBUF_NONNULL mutable_respawnedteammates(int index);
+  [[nodiscard]] ::google::protobuf::RepeatedPtrField<::rtech::liveapi::Player>* PROTOBUF_NONNULL
+  mutable_respawnedteammates();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::Player>& _internal_respawnedteammates() const;
+  ::google::protobuf::RepeatedPtrField<::rtech::liveapi::Player>* PROTOBUF_NONNULL _internal_mutable_respawnedteammates();
+  public:
+  [[nodiscard]] const ::rtech::liveapi::Player& respawnedteammates(int index) const;
+  ::rtech::liveapi::Player* PROTOBUF_NONNULL add_respawnedteammates();
+  [[nodiscard]] const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::Player>& respawnedteammates()
+      const;
+  // string category = 2;
+  void clear_category() ;
+  [[nodiscard]] const ::std::string& category() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_category(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_category();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_category();
+  void set_allocated_category(::std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const ::std::string& _internal_category() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_category(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_category();
+
+  public:
+  // .rtech.liveapi.Player player = 3;
+  [[nodiscard]] bool has_player()
+      const;
+  void clear_player() ;
+  [[nodiscard]] const ::rtech::liveapi::Player& player() const;
+  [[nodiscard]] ::rtech::liveapi::Player* PROTOBUF_NULLABLE release_player();
+  ::rtech::liveapi::Player* PROTOBUF_NONNULL mutable_player();
+  void set_allocated_player(::rtech::liveapi::Player* PROTOBUF_NULLABLE value);
+  void unsafe_arena_set_allocated_player(::rtech::liveapi::Player* PROTOBUF_NULLABLE value);
+  ::rtech::liveapi::Player* PROTOBUF_NULLABLE unsafe_arena_release_player();
+
+  private:
+  const ::rtech::liveapi::Player& _internal_player() const;
+  ::rtech::liveapi::Player* PROTOBUF_NONNULL _internal_mutable_player();
+
+  public:
+  // uint64 timestamp = 1;
+  void clear_timestamp() ;
+  [[nodiscard]] ::uint64_t timestamp() const;
+  void set_timestamp(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_timestamp() const;
+  void _internal_set_timestamp(::uint64_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:rtech.liveapi.RespawnFromDeathbox)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<3, 5,
+                                   3, 50,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  friend ::google::protobuf::internal::PrivateAccess;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                                    ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const RespawnFromDeathbox& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::RepeatedPtrField< ::rtech::liveapi::InventoryItem > inventory_;
+    ::google::protobuf::RepeatedPtrField< ::rtech::liveapi::Player > respawnedteammates_;
+    ::google::protobuf::internal::ArenaStringPtr category_;
+    ::rtech::liveapi::Player* PROTOBUF_NULLABLE player_;
+    ::uint64_t timestamp_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_events_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull RespawnFromDeathbox_class_data_;
 // -------------------------------------------------------------------
 
 class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED PlayerUpgradeTierChanged final : public ::google::protobuf::Message
@@ -33012,6 +33291,311 @@ inline void CarePackageOpened::set_allocated_player(::rtech::liveapi::Player* PR
 
   _impl_.player_ = reinterpret_cast<::rtech::liveapi::Player*>(value);
   // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.CarePackageOpened.player)
+}
+
+// -------------------------------------------------------------------
+
+// RespawnFromDeathbox
+
+// uint64 timestamp = 1;
+inline void RespawnFromDeathbox::clear_timestamp() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.timestamp_ = ::uint64_t{0u};
+  ClearHasBit(_impl_._has_bits_[0],
+                  0x00000010U);
+}
+inline ::uint64_t RespawnFromDeathbox::timestamp() const {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.RespawnFromDeathbox.timestamp)
+  return _internal_timestamp();
+}
+inline void RespawnFromDeathbox::set_timestamp(::uint64_t value) {
+  _internal_set_timestamp(value);
+  SetHasBit(_impl_._has_bits_[0], 0x00000010U);
+  // @@protoc_insertion_point(field_set:rtech.liveapi.RespawnFromDeathbox.timestamp)
+}
+inline ::uint64_t RespawnFromDeathbox::_internal_timestamp() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.timestamp_;
+}
+inline void RespawnFromDeathbox::_internal_set_timestamp(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.timestamp_ = value;
+}
+
+// string category = 2;
+inline void RespawnFromDeathbox::clear_category() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.category_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0],
+                  0x00000004U);
+}
+inline const ::std::string& RespawnFromDeathbox::category() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.RespawnFromDeathbox.category)
+  return _internal_category();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void RespawnFromDeathbox::set_category(Arg_&& arg, Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  SetHasBit(_impl_._has_bits_[0], 0x00000004U);
+  _impl_.category_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:rtech.liveapi.RespawnFromDeathbox.category)
+}
+inline ::std::string* PROTOBUF_NONNULL RespawnFromDeathbox::mutable_category()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000004U);
+  ::std::string* _s = _internal_mutable_category();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.RespawnFromDeathbox.category)
+  return _s;
+}
+inline const ::std::string& RespawnFromDeathbox::_internal_category() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.category_.Get();
+}
+inline void RespawnFromDeathbox::_internal_set_category(const ::std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.category_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL RespawnFromDeathbox::_internal_mutable_category() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.category_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE RespawnFromDeathbox::release_category() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.RespawnFromDeathbox.category)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000004U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000004U);
+  auto* released = _impl_.category_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.category_.Set("", GetArena());
+  }
+  return released;
+}
+inline void RespawnFromDeathbox::set_allocated_category(::std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000004U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000004U);
+  }
+  _impl_.category_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.category_.IsDefault()) {
+    _impl_.category_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.RespawnFromDeathbox.category)
+}
+
+// .rtech.liveapi.Player player = 3;
+inline bool RespawnFromDeathbox::has_player() const {
+  bool value = CheckHasBit(_impl_._has_bits_[0], 0x00000008U);
+  PROTOBUF_ASSUME(!value || _impl_.player_ != nullptr);
+  return value;
+}
+inline void RespawnFromDeathbox::clear_player() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.player_ != nullptr) _impl_.player_->Clear();
+  ClearHasBit(_impl_._has_bits_[0],
+                  0x00000008U);
+}
+inline const ::rtech::liveapi::Player& RespawnFromDeathbox::_internal_player() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::rtech::liveapi::Player* p = _impl_.player_;
+  return p != nullptr ? *p : reinterpret_cast<const ::rtech::liveapi::Player&>(::rtech::liveapi::_Player_default_instance_);
+}
+inline const ::rtech::liveapi::Player& RespawnFromDeathbox::player() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.RespawnFromDeathbox.player)
+  return _internal_player();
+}
+inline void RespawnFromDeathbox::unsafe_arena_set_allocated_player(
+    ::rtech::liveapi::Player* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.player_);
+  }
+  _impl_.player_ = reinterpret_cast<::rtech::liveapi::Player*>(value);
+  if (value != nullptr) {
+    SetHasBit(_impl_._has_bits_[0], 0x00000008U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000008U);
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:rtech.liveapi.RespawnFromDeathbox.player)
+}
+inline ::rtech::liveapi::Player* PROTOBUF_NULLABLE RespawnFromDeathbox::release_player() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  ClearHasBit(_impl_._has_bits_[0], 0x00000008U);
+  ::rtech::liveapi::Player* released = _impl_.player_;
+  _impl_.player_ = nullptr;
+  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
+    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    if (GetArena() == nullptr) {
+      delete old;
+    }
+  } else {
+    if (GetArena() != nullptr) {
+      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+    }
+  }
+  return released;
+}
+inline ::rtech::liveapi::Player* PROTOBUF_NULLABLE RespawnFromDeathbox::unsafe_arena_release_player() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:rtech.liveapi.RespawnFromDeathbox.player)
+
+  ClearHasBit(_impl_._has_bits_[0], 0x00000008U);
+  ::rtech::liveapi::Player* temp = _impl_.player_;
+  _impl_.player_ = nullptr;
+  return temp;
+}
+inline ::rtech::liveapi::Player* PROTOBUF_NONNULL RespawnFromDeathbox::_internal_mutable_player() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.player_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::rtech::liveapi::Player>(GetArena());
+    _impl_.player_ = reinterpret_cast<::rtech::liveapi::Player*>(p);
+  }
+  return _impl_.player_;
+}
+inline ::rtech::liveapi::Player* PROTOBUF_NONNULL RespawnFromDeathbox::mutable_player()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000008U);
+  ::rtech::liveapi::Player* _msg = _internal_mutable_player();
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.RespawnFromDeathbox.player)
+  return _msg;
+}
+inline void RespawnFromDeathbox::set_allocated_player(::rtech::liveapi::Player* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.player_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = value->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    SetHasBit(_impl_._has_bits_[0], 0x00000008U);
+  } else {
+    ClearHasBit(_impl_._has_bits_[0], 0x00000008U);
+  }
+
+  _impl_.player_ = reinterpret_cast<::rtech::liveapi::Player*>(value);
+  // @@protoc_insertion_point(field_set_allocated:rtech.liveapi.RespawnFromDeathbox.player)
+}
+
+// repeated .rtech.liveapi.InventoryItem inventory = 4;
+inline int RespawnFromDeathbox::_internal_inventory_size() const {
+  return _internal_inventory().size();
+}
+inline int RespawnFromDeathbox::inventory_size() const {
+  return _internal_inventory_size();
+}
+inline void RespawnFromDeathbox::clear_inventory() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.inventory_.Clear();
+  ClearHasBitForRepeated(_impl_._has_bits_[0],
+                  0x00000001U);
+}
+inline ::rtech::liveapi::InventoryItem* PROTOBUF_NONNULL RespawnFromDeathbox::mutable_inventory(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.RespawnFromDeathbox.inventory)
+  return _internal_mutable_inventory()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>* PROTOBUF_NONNULL RespawnFromDeathbox::mutable_inventory()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBitForRepeated(_impl_._has_bits_[0], 0x00000001U);
+  // @@protoc_insertion_point(field_mutable_list:rtech.liveapi.RespawnFromDeathbox.inventory)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_inventory();
+}
+inline const ::rtech::liveapi::InventoryItem& RespawnFromDeathbox::inventory(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.RespawnFromDeathbox.inventory)
+  return _internal_inventory().Get(index);
+}
+inline ::rtech::liveapi::InventoryItem* PROTOBUF_NONNULL RespawnFromDeathbox::add_inventory()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::rtech::liveapi::InventoryItem* _add =
+      _internal_mutable_inventory()->InternalAddWithArena(
+          ::google::protobuf::MessageLite::internal_visibility(), GetArena());
+  SetHasBitForRepeated(_impl_._has_bits_[0], 0x00000001U);
+  // @@protoc_insertion_point(field_add:rtech.liveapi.RespawnFromDeathbox.inventory)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>& RespawnFromDeathbox::inventory() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:rtech.liveapi.RespawnFromDeathbox.inventory)
+  return _internal_inventory();
+}
+inline const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>&
+RespawnFromDeathbox::_internal_inventory() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.inventory_;
+}
+inline ::google::protobuf::RepeatedPtrField<::rtech::liveapi::InventoryItem>* PROTOBUF_NONNULL
+RespawnFromDeathbox::_internal_mutable_inventory() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.inventory_;
+}
+
+// repeated .rtech.liveapi.Player respawnedTeammates = 5;
+inline int RespawnFromDeathbox::_internal_respawnedteammates_size() const {
+  return _internal_respawnedteammates().size();
+}
+inline int RespawnFromDeathbox::respawnedteammates_size() const {
+  return _internal_respawnedteammates_size();
+}
+inline void RespawnFromDeathbox::clear_respawnedteammates() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.respawnedteammates_.Clear();
+  ClearHasBitForRepeated(_impl_._has_bits_[0],
+                  0x00000002U);
+}
+inline ::rtech::liveapi::Player* PROTOBUF_NONNULL RespawnFromDeathbox::mutable_respawnedteammates(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:rtech.liveapi.RespawnFromDeathbox.respawnedTeammates)
+  return _internal_mutable_respawnedteammates()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::rtech::liveapi::Player>* PROTOBUF_NONNULL RespawnFromDeathbox::mutable_respawnedteammates()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBitForRepeated(_impl_._has_bits_[0], 0x00000002U);
+  // @@protoc_insertion_point(field_mutable_list:rtech.liveapi.RespawnFromDeathbox.respawnedTeammates)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_respawnedteammates();
+}
+inline const ::rtech::liveapi::Player& RespawnFromDeathbox::respawnedteammates(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:rtech.liveapi.RespawnFromDeathbox.respawnedTeammates)
+  return _internal_respawnedteammates().Get(index);
+}
+inline ::rtech::liveapi::Player* PROTOBUF_NONNULL RespawnFromDeathbox::add_respawnedteammates()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::rtech::liveapi::Player* _add =
+      _internal_mutable_respawnedteammates()->InternalAddWithArena(
+          ::google::protobuf::MessageLite::internal_visibility(), GetArena());
+  SetHasBitForRepeated(_impl_._has_bits_[0], 0x00000002U);
+  // @@protoc_insertion_point(field_add:rtech.liveapi.RespawnFromDeathbox.respawnedTeammates)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::Player>& RespawnFromDeathbox::respawnedteammates() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:rtech.liveapi.RespawnFromDeathbox.respawnedTeammates)
+  return _internal_respawnedteammates();
+}
+inline const ::google::protobuf::RepeatedPtrField<::rtech::liveapi::Player>&
+RespawnFromDeathbox::_internal_respawnedteammates() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.respawnedteammates_;
+}
+inline ::google::protobuf::RepeatedPtrField<::rtech::liveapi::Player>* PROTOBUF_NONNULL
+RespawnFromDeathbox::_internal_mutable_respawnedteammates() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.respawnedteammates_;
 }
 
 // -------------------------------------------------------------------

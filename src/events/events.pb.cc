@@ -1486,6 +1486,54 @@ struct RevenantForgedShadowDamagedDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RevenantForgedShadowDamagedDefaultTypeInternal _RevenantForgedShadowDamaged_default_instance_;
 
+inline constexpr RespawnFromDeathbox::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        #ifdef PROTOBUF_INTERNAL_REMOVE_ARENA_PTRS_REPEATED_PTR_FIELD
+        inventory_{visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::rtech::liveapi::RespawnFromDeathbox,
+            PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RespawnFromDeathbox, _impl_.inventory_)>()
+        }
+        #else  // !PROTOBUF_INTERNAL_REMOVE_ARENA_PTRS_REPEATED_PTR_FIELD
+        inventory_ {}
+        #endif
+        ,
+        #ifdef PROTOBUF_INTERNAL_REMOVE_ARENA_PTRS_REPEATED_PTR_FIELD
+        respawnedteammates_{visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::rtech::liveapi::RespawnFromDeathbox,
+            PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RespawnFromDeathbox, _impl_.respawnedteammates_)>()
+        }
+        #else  // !PROTOBUF_INTERNAL_REMOVE_ARENA_PTRS_REPEATED_PTR_FIELD
+        respawnedteammates_ {}
+        #endif
+        ,
+        category_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        player_{nullptr},
+        timestamp_{::uint64_t{0u}} {}
+
+template <typename>
+constexpr RespawnFromDeathbox::RespawnFromDeathbox(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(RespawnFromDeathbox_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
+}
+struct RespawnFromDeathboxDefaultTypeInternal {
+  constexpr RespawnFromDeathboxDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RespawnFromDeathboxDefaultTypeInternal() {}
+  union {
+    RespawnFromDeathbox _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RespawnFromDeathboxDefaultTypeInternal _RespawnFromDeathbox_default_instance_;
+
 inline constexpr PlayerUpgradeTierChanged::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
     ::_pbi::ConstantInitialized) noexcept
@@ -3114,6 +3162,19 @@ const ::uint32_t
         4,
         1,
         2,
+        0x081, // bitmap
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RespawnFromDeathbox, _impl_._has_bits_),
+        8, // hasbit index offset
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RespawnFromDeathbox, _impl_.timestamp_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RespawnFromDeathbox, _impl_.category_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RespawnFromDeathbox, _impl_.player_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RespawnFromDeathbox, _impl_.inventory_),
+        PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RespawnFromDeathbox, _impl_.respawnedteammates_),
+        4,
+        2,
+        3,
+        0,
+        1,
         0x004, // bitmap
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::ChangeCamera, _impl_._oneof_case_[0]),
         PROTOBUF_FIELD_OFFSET(::rtech::liveapi::ChangeCamera, _impl_.target_),
@@ -3329,29 +3390,30 @@ static const ::_pbi::MigrationSchema
         {610, sizeof(::rtech::liveapi::CarePackageLaunched)},
         {623, sizeof(::rtech::liveapi::CarePackageLanded)},
         {634, sizeof(::rtech::liveapi::CarePackageOpened)},
-        {647, sizeof(::rtech::liveapi::ChangeCamera)},
-        {653, sizeof(::rtech::liveapi::PauseToggle)},
-        {658, sizeof(::rtech::liveapi::CustomMatch_CreateLobby)},
-        {659, sizeof(::rtech::liveapi::CustomMatch_JoinLobby)},
-        {664, sizeof(::rtech::liveapi::CustomMatch_LeaveLobby)},
-        {665, sizeof(::rtech::liveapi::CustomMatch_SetReady)},
-        {670, sizeof(::rtech::liveapi::CustomMatch_GetLobbyPlayers)},
-        {671, sizeof(::rtech::liveapi::CustomMatch_SetMatchmaking)},
-        {676, sizeof(::rtech::liveapi::CustomMatch_SetTeam)},
-        {685, sizeof(::rtech::liveapi::CustomMatch_KickPlayer)},
-        {692, sizeof(::rtech::liveapi::CustomMatch_SetSettings)},
-        {707, sizeof(::rtech::liveapi::CustomMatch_GetSettings)},
-        {708, sizeof(::rtech::liveapi::CustomMatch_SetTeamName)},
-        {715, sizeof(::rtech::liveapi::CustomMatch_SetSpawnPoint)},
-        {722, sizeof(::rtech::liveapi::CustomMatch_SetEndRingExclusion)},
-        {727, sizeof(::rtech::liveapi::CustomMatch_GetLegendBanStatus)},
-        {728, sizeof(::rtech::liveapi::CustomMatch_SetLegendBan)},
-        {733, sizeof(::rtech::liveapi::CustomMatch_SendChat)},
-        {738, sizeof(::rtech::liveapi::JoinPartyServer)},
-        {739, sizeof(::rtech::liveapi::Request)},
-        {786, sizeof(::rtech::liveapi::RequestStatus)},
-        {791, sizeof(::rtech::liveapi::Response)},
-        {798, sizeof(::rtech::liveapi::LiveAPIEvent)},
+        {647, sizeof(::rtech::liveapi::RespawnFromDeathbox)},
+        {660, sizeof(::rtech::liveapi::ChangeCamera)},
+        {666, sizeof(::rtech::liveapi::PauseToggle)},
+        {671, sizeof(::rtech::liveapi::CustomMatch_CreateLobby)},
+        {672, sizeof(::rtech::liveapi::CustomMatch_JoinLobby)},
+        {677, sizeof(::rtech::liveapi::CustomMatch_LeaveLobby)},
+        {678, sizeof(::rtech::liveapi::CustomMatch_SetReady)},
+        {683, sizeof(::rtech::liveapi::CustomMatch_GetLobbyPlayers)},
+        {684, sizeof(::rtech::liveapi::CustomMatch_SetMatchmaking)},
+        {689, sizeof(::rtech::liveapi::CustomMatch_SetTeam)},
+        {698, sizeof(::rtech::liveapi::CustomMatch_KickPlayer)},
+        {705, sizeof(::rtech::liveapi::CustomMatch_SetSettings)},
+        {720, sizeof(::rtech::liveapi::CustomMatch_GetSettings)},
+        {721, sizeof(::rtech::liveapi::CustomMatch_SetTeamName)},
+        {728, sizeof(::rtech::liveapi::CustomMatch_SetSpawnPoint)},
+        {735, sizeof(::rtech::liveapi::CustomMatch_SetEndRingExclusion)},
+        {740, sizeof(::rtech::liveapi::CustomMatch_GetLegendBanStatus)},
+        {741, sizeof(::rtech::liveapi::CustomMatch_SetLegendBan)},
+        {746, sizeof(::rtech::liveapi::CustomMatch_SendChat)},
+        {751, sizeof(::rtech::liveapi::JoinPartyServer)},
+        {752, sizeof(::rtech::liveapi::Request)},
+        {799, sizeof(::rtech::liveapi::RequestStatus)},
+        {804, sizeof(::rtech::liveapi::Response)},
+        {811, sizeof(::rtech::liveapi::LiveAPIEvent)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::rtech::liveapi::_Vector3_default_instance_._instance,
@@ -3407,6 +3469,7 @@ static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::rtech::liveapi::_CarePackageLaunched_default_instance_._instance,
     &::rtech::liveapi::_CarePackageLanded_default_instance_._instance,
     &::rtech::liveapi::_CarePackageOpened_default_instance_._instance,
+    &::rtech::liveapi::_RespawnFromDeathbox_default_instance_._instance,
     &::rtech::liveapi::_ChangeCamera_default_instance_._instance,
     &::rtech::liveapi::_PauseToggle_default_instance_._instance,
     &::rtech::liveapi::_CustomMatch_CreateLobby_default_instance_._instance,
@@ -3608,6 +3671,11 @@ const char descriptor_table_protodef_events_2eproto[] ABSL_ATTRIBUTE_SECTION_VAR
     "tamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022\021\n\tpackageI"
     "d\030\003 \001(\r\022(\n\010position\030\004 \001(\0132\026.rtech.liveap"
     "i.Vector3\022%\n\006player\030\005 \001(\0132\025.rtech.liveap"
+    "i.Player\"\305\001\n\023RespawnFromDeathbox\022\021\n\ttime"
+    "stamp\030\001 \001(\004\022\020\n\010category\030\002 \001(\t\022%\n\006player\030"
+    "\003 \001(\0132\025.rtech.liveapi.Player\022/\n\tinventor"
+    "y\030\004 \003(\0132\034.rtech.liveapi.InventoryItem\0221\n"
+    "\022respawnedTeammates\030\005 \003(\0132\025.rtech.liveap"
     "i.Player\"o\n\014ChangeCamera\022.\n\003poi\030\001 \001(\0162\037."
     "rtech.liveapi.PlayerOfInterestH\000\022\016\n\004name"
     "\030\002 \001(\tH\000\022\025\n\013nucleusHash\030\003 \001(\tH\000B\010\n\006targe"
@@ -3691,13 +3759,13 @@ static ::absl::once_flag descriptor_table_events_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_events_2eproto = {
     false,
     false,
-    9948,
+    10148,
     descriptor_table_protodef_events_2eproto,
     "events.proto",
     &descriptor_table_events_2eproto_once,
     descriptor_table_events_2eproto_deps,
     1,
-    76,
+    77,
     schemas,
     file_default_instances,
     TableStruct_events_2eproto::offsets,
@@ -26078,6 +26146,498 @@ void CarePackageOpened::InternalSwap(CarePackageOpened* PROTOBUF_RESTRICT PROTOB
 }
 
 ::google::protobuf::Metadata CarePackageOpened::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class RespawnFromDeathbox::_Internal {
+ public:
+  using HasBits =
+      decltype(::std::declval<RespawnFromDeathbox>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_._has_bits_);
+};
+
+RespawnFromDeathbox::RespawnFromDeathbox(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, RespawnFromDeathbox_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:rtech.liveapi.RespawnFromDeathbox)
+}
+PROTOBUF_NDEBUG_INLINE RespawnFromDeathbox::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+    [[maybe_unused]] const ::rtech::liveapi::RespawnFromDeathbox& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        #ifdef PROTOBUF_INTERNAL_REMOVE_ARENA_PTRS_REPEATED_PTR_FIELD
+        inventory_{visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::rtech::liveapi::RespawnFromDeathbox,
+            PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RespawnFromDeathbox, _impl_.inventory_)>()
+        , from.inventory_}
+        #else
+        inventory_ { visibility, arena, from.inventory_ }
+        #endif
+        ,
+        #ifdef PROTOBUF_INTERNAL_REMOVE_ARENA_PTRS_REPEATED_PTR_FIELD
+        respawnedteammates_{visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::rtech::liveapi::RespawnFromDeathbox,
+            PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RespawnFromDeathbox, _impl_.respawnedteammates_)>()
+        , from.respawnedteammates_}
+        #else
+        respawnedteammates_ { visibility, arena, from.respawnedteammates_ }
+        #endif
+        ,
+        category_(arena, from.category_) {}
+
+RespawnFromDeathbox::RespawnFromDeathbox(
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
+    const RespawnFromDeathbox& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, RespawnFromDeathbox_class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  RespawnFromDeathbox* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.player_ = (CheckHasBit(cached_has_bits, 0x00000008U))
+                ? ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.player_)
+                : nullptr;
+  _impl_.timestamp_ = from._impl_.timestamp_;
+
+  // @@protoc_insertion_point(copy_constructor:rtech.liveapi.RespawnFromDeathbox)
+}
+PROTOBUF_NDEBUG_INLINE RespawnFromDeathbox::Impl_::Impl_(
+    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
+    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+      : _cached_size_{0},
+        #ifdef PROTOBUF_INTERNAL_REMOVE_ARENA_PTRS_REPEATED_PTR_FIELD
+        inventory_{visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::rtech::liveapi::RespawnFromDeathbox,
+            PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RespawnFromDeathbox, _impl_.inventory_)>()
+        }
+        #else
+        inventory_ { visibility, arena }
+        #endif
+        ,
+        #ifdef PROTOBUF_INTERNAL_REMOVE_ARENA_PTRS_REPEATED_PTR_FIELD
+        respawnedteammates_{visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::rtech::liveapi::RespawnFromDeathbox,
+            PROTOBUF_FIELD_OFFSET(::rtech::liveapi::RespawnFromDeathbox, _impl_.respawnedteammates_)>()
+        }
+        #else
+        respawnedteammates_ { visibility, arena }
+        #endif
+        ,
+        category_(arena) {}
+
+inline void RespawnFromDeathbox::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  ::memset(reinterpret_cast<char*>(&_impl_) +
+               offsetof(Impl_, player_),
+           0,
+           offsetof(Impl_, timestamp_) -
+               offsetof(Impl_, player_) +
+               sizeof(Impl_::timestamp_));
+}
+RespawnFromDeathbox::~RespawnFromDeathbox() {
+  // @@protoc_insertion_point(destructor:rtech.liveapi.RespawnFromDeathbox)
+  SharedDtor(*this);
+}
+inline void RespawnFromDeathbox::SharedDtor(MessageLite& self) {
+  RespawnFromDeathbox& this_ = static_cast<RespawnFromDeathbox&>(self);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  ABSL_DCHECK(this_.GetArena() == nullptr);
+  this_._impl_.category_.Destroy();
+  delete this_._impl_.player_;
+  this_._impl_.~Impl_();
+}
+
+inline void* PROTOBUF_NONNULL RespawnFromDeathbox::PlacementNew_(
+    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
+  return ::new (mem) RespawnFromDeathbox(arena);
+}
+#ifdef PROTOBUF_INTERNAL_REMOVE_ARENA_PTRS_REPEATED_PTR_FIELD
+constexpr auto RespawnFromDeathbox::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(RespawnFromDeathbox),
+                                            alignof(RespawnFromDeathbox));
+}
+#else  // !PROTOBUF_INTERNAL_REMOVE_ARENA_PTRS_REPEATED_PTR_FIELD
+constexpr auto RespawnFromDeathbox::InternalNewImpl_() {
+  constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
+      PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_.inventory_) +
+          decltype(RespawnFromDeathbox::_impl_.inventory_)::
+              InternalGetArenaOffset(
+                  ::google::protobuf::Message::internal_visibility()),
+      PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_.respawnedteammates_) +
+          decltype(RespawnFromDeathbox::_impl_.respawnedteammates_)::
+              InternalGetArenaOffset(
+                  ::google::protobuf::Message::internal_visibility()),
+  });
+  if (arena_bits.has_value()) {
+    return ::google::protobuf::internal::MessageCreator::CopyInit(
+        sizeof(RespawnFromDeathbox), alignof(RespawnFromDeathbox), *arena_bits);
+  } else {
+    return ::google::protobuf::internal::MessageCreator(&RespawnFromDeathbox::PlacementNew_,
+                                 sizeof(RespawnFromDeathbox),
+                                 alignof(RespawnFromDeathbox));
+  }
+}
+#endif
+constexpr auto RespawnFromDeathbox::InternalGenerateClassData_() {
+  return ::google::protobuf::internal::ClassDataFull{
+      ::google::protobuf::internal::ClassData{
+          &_RespawnFromDeathbox_default_instance_._instance,
+          &_table_.header,
+          nullptr,  // IsInitialized
+          &RespawnFromDeathbox::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<RespawnFromDeathbox>(),
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+          &RespawnFromDeathbox::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<RespawnFromDeathbox>(), &RespawnFromDeathbox::ByteSizeLong,
+              &RespawnFromDeathbox::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_._cached_size_),
+          false,
+      },
+      &RespawnFromDeathbox::kDescriptorMethods,
+      &descriptor_table_events_2eproto,
+      nullptr,  // tracker
+  };
+}
+
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
+    ::google::protobuf::internal::ClassDataFull RespawnFromDeathbox_class_data_ =
+        RespawnFromDeathbox::InternalGenerateClassData_();
+
+PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
+RespawnFromDeathbox::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&RespawnFromDeathbox_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(RespawnFromDeathbox_class_data_.tc_table);
+  return RespawnFromDeathbox_class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<3, 5, 3, 50, 2>
+RespawnFromDeathbox::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_._has_bits_),
+    0, // no _extensions_
+    5, 56,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967264,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    5,  // num_field_entries
+    3,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    RespawnFromDeathbox_class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::rtech::liveapi::RespawnFromDeathbox>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // uint64 timestamp = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(RespawnFromDeathbox, _impl_.timestamp_), 4>(),
+     {8, 4, 0,
+      PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_.timestamp_)}},
+    // string category = 2;
+    {::_pbi::TcParser::FastUS1,
+     {18, 2, 0,
+      PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_.category_)}},
+    // .rtech.liveapi.Player player = 3;
+    {::_pbi::TcParser::FastMtS1,
+     {26, 3, 0,
+      PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_.player_)}},
+    // repeated .rtech.liveapi.InventoryItem inventory = 4;
+    {::_pbi::TcParser::FastMtR1,
+     {34, 0, 1,
+      PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_.inventory_)}},
+    // repeated .rtech.liveapi.Player respawnedTeammates = 5;
+    {::_pbi::TcParser::FastMtR1,
+     {42, 1, 2,
+      PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_.respawnedteammates_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // uint64 timestamp = 1;
+    {PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_.timestamp_), _Internal::kHasBitsOffset + 4, 0, (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+    // string category = 2;
+    {PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_.category_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // .rtech.liveapi.Player player = 3;
+    {PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_.player_), _Internal::kHasBitsOffset + 3, 0, (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // repeated .rtech.liveapi.InventoryItem inventory = 4;
+    {PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_.inventory_), _Internal::kHasBitsOffset + 0, 1, (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+    // repeated .rtech.liveapi.Player respawnedTeammates = 5;
+    {PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_.respawnedteammates_), _Internal::kHasBitsOffset + 1, 2, (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+  }},
+  {{
+      {::_pbi::TcParser::GetTable<::rtech::liveapi::Player>()},
+      {::_pbi::TcParser::GetTable<::rtech::liveapi::InventoryItem>()},
+      {::_pbi::TcParser::GetTable<::rtech::liveapi::Player>()},
+  }},
+  {{
+    "\41\0\10\0\0\0\0\0"
+    "rtech.liveapi.RespawnFromDeathbox"
+    "category"
+  }},
+};
+PROTOBUF_NOINLINE void RespawnFromDeathbox::Clear() {
+// @@protoc_insertion_point(message_clear_start:rtech.liveapi.RespawnFromDeathbox)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x0000000fU)) {
+    if (CheckHasBitForRepeated(cached_has_bits, 0x00000001U)) {
+      _impl_.inventory_.Clear();
+    }
+    if (CheckHasBitForRepeated(cached_has_bits, 0x00000002U)) {
+      _impl_.respawnedteammates_.Clear();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      _impl_.category_.ClearNonDefaultToEmpty();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      ABSL_DCHECK(_impl_.player_ != nullptr);
+      _impl_.player_->Clear();
+    }
+  }
+  _impl_.timestamp_ = ::uint64_t{0u};
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::uint8_t* PROTOBUF_NONNULL RespawnFromDeathbox::_InternalSerialize(
+    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
+  const RespawnFromDeathbox& this_ = static_cast<const RespawnFromDeathbox&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::uint8_t* PROTOBUF_NONNULL RespawnFromDeathbox::_InternalSerialize(
+    ::uint8_t* PROTOBUF_NONNULL target,
+    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+  const RespawnFromDeathbox& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    this_.CheckHasBitConsistency();
+  }
+  // @@protoc_insertion_point(serialize_to_array_start:rtech.liveapi.RespawnFromDeathbox)
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = this_._impl_._has_bits_[0];
+  // uint64 timestamp = 1;
+  if (CheckHasBit(cached_has_bits, 0x00000010U)) {
+    if (this_._internal_timestamp() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          1, this_._internal_timestamp(), target);
+    }
+  }
+
+  // string category = 2;
+  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+    if (!this_._internal_category().empty()) {
+      const ::std::string& _s = this_._internal_category();
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "rtech.liveapi.RespawnFromDeathbox.category");
+      target = stream->WriteStringMaybeAliased(2, _s, target);
+    }
+  }
+
+  // .rtech.liveapi.Player player = 3;
+  if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+        3, *this_._impl_.player_, this_._impl_.player_->GetCachedSize(), target,
+        stream);
+  }
+
+  // repeated .rtech.liveapi.InventoryItem inventory = 4;
+  if (CheckHasBitForRepeated(cached_has_bits, 0x00000001U)) {
+    for (unsigned i = 0, n = static_cast<unsigned>(
+                             this_._internal_inventory_size());
+         i < n; i++) {
+      const auto& repfield = this_._internal_inventory().Get(i);
+      target =
+          ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+              4, repfield, repfield.GetCachedSize(),
+              target, stream);
+    }
+  }
+
+  // repeated .rtech.liveapi.Player respawnedTeammates = 5;
+  if (CheckHasBitForRepeated(cached_has_bits, 0x00000002U)) {
+    for (unsigned i = 0, n = static_cast<unsigned>(
+                             this_._internal_respawnedteammates_size());
+         i < n; i++) {
+      const auto& repfield = this_._internal_respawnedteammates().Get(i);
+      target =
+          ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+              5, repfield, repfield.GetCachedSize(),
+              target, stream);
+    }
+  }
+
+  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+    target =
+        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rtech.liveapi.RespawnFromDeathbox)
+  return target;
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+::size_t RespawnFromDeathbox::ByteSizeLong(const MessageLite& base) {
+  const RespawnFromDeathbox& this_ = static_cast<const RespawnFromDeathbox&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+::size_t RespawnFromDeathbox::ByteSizeLong() const {
+  const RespawnFromDeathbox& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  // @@protoc_insertion_point(message_byte_size_start:rtech.liveapi.RespawnFromDeathbox)
+  ::size_t total_size = 0;
+
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void)cached_has_bits;
+
+  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+  cached_has_bits = this_._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x0000001fU)) {
+    // repeated .rtech.liveapi.InventoryItem inventory = 4;
+    if (CheckHasBitForRepeated(cached_has_bits, 0x00000001U)) {
+      total_size += 1UL * this_._internal_inventory_size();
+      for (const auto& msg : this_._internal_inventory()) {
+        total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+      }
+    }
+    // repeated .rtech.liveapi.Player respawnedTeammates = 5;
+    if (CheckHasBitForRepeated(cached_has_bits, 0x00000002U)) {
+      total_size += 1UL * this_._internal_respawnedteammates_size();
+      for (const auto& msg : this_._internal_respawnedteammates()) {
+        total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+      }
+    }
+    // string category = 2;
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (!this_._internal_category().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                        this_._internal_category());
+      }
+    }
+    // .rtech.liveapi.Player player = 3;
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      total_size += 1 +
+                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.player_);
+    }
+    // uint64 timestamp = 1;
+    if (CheckHasBit(cached_has_bits, 0x00000010U)) {
+      if (this_._internal_timestamp() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+            this_._internal_timestamp());
+      }
+    }
+  }
+  return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                             &this_._impl_._cached_size_);
+}
+
+void RespawnFromDeathbox::MergeImpl(::google::protobuf::MessageLite& to_msg,
+                            const ::google::protobuf::MessageLite& from_msg) {
+   auto* const _this =
+      static_cast<RespawnFromDeathbox*>(&to_msg);
+  auto& from = static_cast<const RespawnFromDeathbox&>(from_msg);
+  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
+    from.CheckHasBitConsistency();
+  }
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:rtech.liveapi.RespawnFromDeathbox)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void)cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (BatchCheckHasBit(cached_has_bits, 0x0000001fU)) {
+    if (CheckHasBitForRepeated(cached_has_bits, 0x00000001U)) {
+      _this->_internal_mutable_inventory()->InternalMergeFromWithArena(
+          ::google::protobuf::MessageLite::internal_visibility(), arena,
+          from._internal_inventory());
+    }
+    if (CheckHasBitForRepeated(cached_has_bits, 0x00000002U)) {
+      _this->_internal_mutable_respawnedteammates()->InternalMergeFromWithArena(
+          ::google::protobuf::MessageLite::internal_visibility(), arena,
+          from._internal_respawnedteammates());
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+      if (!from._internal_category().empty()) {
+        _this->_internal_set_category(from._internal_category());
+      } else {
+        if (_this->_impl_.category_.IsDefault()) {
+          _this->_internal_set_category("");
+        }
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+      ABSL_DCHECK(from._impl_.player_ != nullptr);
+      if (_this->_impl_.player_ == nullptr) {
+        _this->_impl_.player_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.player_);
+      } else {
+        _this->_impl_.player_->MergeFrom(*from._impl_.player_);
+      }
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000010U)) {
+      if (from._internal_timestamp() != 0) {
+        _this->_impl_.timestamp_ = from._impl_.timestamp_;
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+}
+
+void RespawnFromDeathbox::CopyFrom(const RespawnFromDeathbox& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:rtech.liveapi.RespawnFromDeathbox)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+
+void RespawnFromDeathbox::InternalSwap(RespawnFromDeathbox* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+  using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  _impl_.inventory_.InternalSwap(&other->_impl_.inventory_);
+  _impl_.respawnedteammates_.InternalSwap(&other->_impl_.respawnedteammates_);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.category_, &other->_impl_.category_, arena);
+  ::google::protobuf::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_.timestamp_)
+      + sizeof(RespawnFromDeathbox::_impl_.timestamp_)
+      - PROTOBUF_FIELD_OFFSET(RespawnFromDeathbox, _impl_.player_)>(
+          reinterpret_cast<char*>(&_impl_.player_),
+          reinterpret_cast<char*>(&other->_impl_.player_));
+}
+
+::google::protobuf::Metadata RespawnFromDeathbox::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
