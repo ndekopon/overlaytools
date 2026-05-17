@@ -2805,13 +2805,8 @@ class ResultFixView extends WebAPIConfigBase {
 
         this.checkResultFromStats();
     }
-    /**
-     * リザルトのコピーを保持する
-     * @param {string} statscode statsコード
-     * @param {object} json 取得したjson
-     */
+
     setStatsFromCode(statscode, results) {
-        if (statscode != 200) return;
         this.#statscodes.set(statscode, { update: Date.now(), matches: results });
         this.checkResultFromStats();
     }
@@ -2820,6 +2815,7 @@ class ResultFixView extends WebAPIConfigBase {
      * 現在保存されているstatsから、リザルト修正の必要性を確認する
      */
     checkResultFromStats() {
+        console.log("checkResultFromStats", this.#statscodes);
         // 保持しているstats概要を表示
         this.nodes["from-stats-code-lists"].innerText = "";
         for (const [statscode, v] of this.#statscodes) {
@@ -2860,35 +2856,37 @@ class ResultFixView extends WebAPIConfigBase {
                     if (this.#comparePlayers(s, m)) {
                         this.#fixedresult = JSON.parse(JSON.stringify(s));
                         this.#fixedresult.matchid = m.matchid;
-                        this.#fixedresult.statscode = key;
+                        this.#fixedresult.statscode = statscode;
                         for(const [k, t] of Object.entries(m.teams)) {
                             const st = this.#fixedresult.teams[k];
+                            const teamname = this.#handler.getTeamResultName(k, st.name);
                             if (st.kills != t.kills) {
-                                diff.push(`team${k} kills not match ${st.kills}=>${t.kills}`);
+                                diff.push(`team [${teamname}] kills not match ${st.kills}=>${t.kills}`);
                                 st.kills = t.kills;
                             }
                             if (st.placement != t.placement) {
-                                diff.push(`team${k} placement not match ${st.placement}=>${t.placement}`);
+                                diff.push(`team [${teamname}] placement not match ${st.placement}=>${t.placement}`);
                                 st.placement = t.placement;
                             }
                             for (const p of t.players) {
                                 const sp = st.players.find((t) => p.id == t.id);
                                 if (sp) {
+                                    const playername = this.#handler.getPlayerName(p.id);
                                     if (sp.assists != p.assists) {
-                                        diff.push(`player [${p.name}] assists not match ${sp.assists}=>${p.assists}`);
+                                        diff.push(`player [${playername}] assists not match ${sp.assists}=>${p.assists}`);
                                         sp.assists = p.assists;
                                     }
                                     sp.assists = p.assists;
                                     sp.character = p.character;
                                     if (sp.damage_dealt != p.damage_dealt) {
-                                        diff.push(`player [${p.name}] damage_dealt not match ${sp.damage_dealt}=>${p.damage_dealt}`);
+                                        diff.push(`player [${playername}] damage_dealt not match ${sp.damage_dealt}=>${p.damage_dealt}`);
                                         sp.damage_dealt = p.damage_dealt;
                                     }
                                     sp.hardware = p.hardware;
                                     sp.headshots = p.headshots;
                                     sp.hits = p.hits;
                                     if (sp.kills != p.kills) {
-                                        diff.push(`player [${p.name}] kills not match ${sp.kills}=>${p.kills}`);
+                                        diff.push(`player [${playername}] kills not match ${sp.kills}=>${p.kills}`);
                                         sp.kills = p.kills;
                                     }
                                     sp.knockdowns = p.knockdowns;
@@ -2986,6 +2984,7 @@ class ResultFixView extends WebAPIConfigBase {
         for (let i = 0; i < p.length; ++i) {
             const teamid = parseInt(p[i], 10);
             const team = this.#result.teams[teamid];
+            const teamname = this.#handler.getTeamResultName(teamid, team.name);
             const div = htmlToElement(
                 `<div class="rf-placement-node" draggable="true">
                     <div class="rf-placement">
@@ -3021,7 +3020,7 @@ class ResultFixView extends WebAPIConfigBase {
                             <span class="ja">チーム名</span>
                         </div>
                         <div class="rf-teamname-value">
-                            ${team.name}
+                            ${teamname}
                         </div>
                     </div>
                 </div>`
@@ -3105,15 +3104,17 @@ class ResultFixView extends WebAPIConfigBase {
             nodes.removeChild(nodes.firstChild);
         }
 
-        for (const [teamid, team] of Object.entries(this.#result.teams)) {
+        for (const [teamidstr, team] of Object.entries(this.#result.teams)) {
+            const teamid = parseInt(teamidstr, 10);
+            const teamname = this.#handler.getTeamResultName(teamid, team.name);
             const div = htmlToElement(
                 `<div class="rf-kills-node">
                     <div class="rf-kills-teamheader">
                         <div class="rf-kills-teamid" data-teamid="${teamid}">
-                            ${parseInt(teamid, 10) + 1}
+                            ${teamid + 1}
                         </div>
                         <div class="rf-kills-teamname">
-                            ${team.name}
+                            ${teamname}
                         </div>
                         <div class="rf-kills-teamkills" data-prev="${team.kills}">
                             ${team.kills}
@@ -3140,10 +3141,11 @@ class ResultFixView extends WebAPIConfigBase {
             };
 
             for (const player of team.players) {
+                const playername = this.#handler.getPlayerName(player.id);
                 const div = htmlToElement(
                     `<div class="rf-kills-player-node" data-id="${player.id}">
                         <div class="rf-kills-player-name">
-                            ${player.name}
+                            ${playername}
                         </div>
                         <div class="rf-kills-player-kills" data-prev="${player.kills}">
                             ${player.kills}
@@ -3289,6 +3291,7 @@ class ResultFixView extends WebAPIConfigBase {
         if (mainmenu == 'result') {
             if (submenu == 'all') {
                 this.hideSwitchViewButton();
+                this.hideAll();
             } else {
                 const gameid = parseInt(submenu, 10);
                 if (submenu == gameid.toString()) {
@@ -4105,8 +4108,8 @@ class WebAPIWorkerHandler {
 
             // match形式からresult形式への変換
             const results = [];
-            if ('matches' in json) {
-                for (const m of json.matches) {
+            if ('matches' in stats) {
+                for (const m of stats.matches) {
                     let uncomplete = false;
                     const result = {teams:{}};
                     const ts = result.teams;
@@ -4123,77 +4126,79 @@ class WebAPIWorkerHandler {
                     if ('mid' in m) {
                         result.matchid = m.mid;
                     }
-                    for (const p of m.player_results) {
-                        if ('survivalTime' in p) {
-                            const survival_time = p.survivalTime * 1000;
-                            const temp_end = result.start + survival_time;
-                            if (result.end < temp_end) result.end = temp_end;
-                        }
-        
-                        if ('teamNum' in p) {
-                            // チームのパラメータ設定
-                            const teamid = p.teamNum - 2;
-                            if (!(teamid in ts)) ts[teamid] = {id: teamid, players:[]};
-                            const team = ts[teamid];
-                            if ('teamPlacement' in p) {
-                                team.placement = p.teamPlacement;
-                                if (p.teamPlacement <= 0) {
-                                    uncomplete = true;
-                                    break;
-                                }
-                            }
-                            if ('teamName' in p) {
-                                team.name = p.teamName;
-                            }
-                            if ('kills' in p) {
-                                if (!('kills' in team)) team.kills = 0;
-                                team.kills += p.kills;
-                            }
-        
-                            // 個人のパラメータ設定
-                            const player = {};
-                            team.players.push(player);
-                            if ('nidHash' in p) {
-                                player.id = p.nidHash.substring(0, 32);
-                            }
-                            if ('kills' in p) {
-                                player.kills = p.kills;
-                            }
-                            if ('assists' in p) {
-                                player.assists = p.assists;
-                            }
-                            if ('knockdowns' in p) {
-                                player.knockdowns = p.knockdowns;
-                            }
-                            if ('respawnsGiven' in p) {
-                                player.respawns_given = p.respawnsGiven;
-                            }
-                            if ('revivesGiven' in p) {
-                                player.revives_given = p.revivesGiven;
-                            }
-                            if ('damageDealt' in p) {
-                                player.damage_dealt = p.damageDealt;
-                            }
-                            if ('playerName' in p) {
-                                player.name = p.playerName;
-                            }
-                            if ('characterName' in p) {
-                                player.character = p.characterName;
-                            }
-                            if ('shots' in p) {
-                                player.shots = p.shots;
-                            }
-                            if ('hits' in p) {
-                                player.hits = p.hits;
-                            }
-                            if ('headshots' in p) {
-                                player.headshots = p.headshots;
-                            }
+                    if (Array.isArray(m.player_results)) {
+                        for (const p of m.player_results) {
                             if ('survivalTime' in p) {
-                                player.survival_time = p.survivalTime;
+                                const survival_time = p.survivalTime * 1000;
+                                const temp_end = result.start + survival_time;
+                                if (result.end < temp_end) result.end = temp_end;
                             }
-                            if ('hardware' in p) {
-                                player.hardware = p.hardware;
+        
+                            if ('teamNum' in p) {
+                                // チームのパラメータ設定
+                                const teamid = p.teamNum - 2;
+                                if (!(teamid in ts)) ts[teamid] = { id: teamid, players: [] };
+                                const team = ts[teamid];
+                                if ('teamPlacement' in p) {
+                                    team.placement = p.teamPlacement;
+                                    if (p.teamPlacement <= 0) {
+                                        uncomplete = true;
+                                        break;
+                                    }
+                                }
+                                if ('teamName' in p) {
+                                    team.name = p.teamName;
+                                }
+                                if ('kills' in p) {
+                                    if (!('kills' in team)) team.kills = 0;
+                                    team.kills += p.kills;
+                                }
+        
+                                // 個人のパラメータ設定
+                                const player = {};
+                                team.players.push(player);
+                                if ('nidHash' in p) {
+                                    player.id = p.nidHash.substring(0, 32);
+                                }
+                                if ('kills' in p) {
+                                    player.kills = p.kills;
+                                }
+                                if ('assists' in p) {
+                                    player.assists = p.assists;
+                                }
+                                if ('knockdowns' in p) {
+                                    player.knockdowns = p.knockdowns;
+                                }
+                                if ('respawnsGiven' in p) {
+                                    player.respawns_given = p.respawnsGiven;
+                                }
+                                if ('revivesGiven' in p) {
+                                    player.revives_given = p.revivesGiven;
+                                }
+                                if ('damageDealt' in p) {
+                                    player.damage_dealt = p.damageDealt;
+                                }
+                                if ('playerName' in p) {
+                                    player.name = p.playerName;
+                                }
+                                if ('characterName' in p) {
+                                    player.character = p.characterName;
+                                }
+                                if ('shots' in p) {
+                                    player.shots = p.shots;
+                                }
+                                if ('hits' in p) {
+                                    player.hits = p.hits;
+                                }
+                                if ('headshots' in p) {
+                                    player.headshots = p.headshots;
+                                }
+                                if ('survivalTime' in p) {
+                                    player.survival_time = p.survivalTime;
+                                }
+                                if ('hardware' in p) {
+                                    player.hardware = p.hardware;
+                                }
                             }
                         }
                     }
