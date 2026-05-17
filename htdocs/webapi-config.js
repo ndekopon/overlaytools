@@ -59,19 +59,11 @@ class WebAPIConfigBase {
     }
 }
 
-class WebAPIConnectionStatusView extends WebAPIConfigBase {
+class WebAPIConnectionStatusView {
     /** @type {WebAPIWorkerHandler|null} */
     #handler = null;
 
-    constructor() {
-        super('connection-status-webapi-');
-        this.getNode('state');
-    }
-
-    /**
-     * ハンドラを設定する
-     * @param {WebAPIWorkerHandler} handler ハンドラ
-     */
+    /** @param {WebAPIWorkerHandler} handler */
     setHandler(handler) {
         this.#handler = handler;
 
@@ -83,10 +75,8 @@ class WebAPIConnectionStatusView extends WebAPIConfigBase {
 
     /** @param {string} state */
     setWebAPIConnectionStatus(state) {
-        this.nodes.state.innerText = state;
+        document.getElementById('connection-status-state').innerText = state;
     }
-
-
 }
 
 class LiveAPIConnectionStatusView extends WebAPIConfigBase {
@@ -255,13 +245,9 @@ class LanguageSelectView extends WebAPIConfigBase {
 class TournamentSetView {
     /** @type {WebAPIWorkerHandler|null} */
     #handler = null;
-    #tbody = document.getElementById('tournamentids');
+    #tbody = document.querySelector('tbody#tournamentids');
     #tournament_id = '';
     #tournament_ids = new Map();
-
-    constructor() {
-
-    }
 
     /** @param {WebAPIWorkerHandler} handler */
     setHandler(handler) {
@@ -276,7 +262,9 @@ class TournamentSetView {
         });
     }
 
+    /** @param {Object} ids */
     setTournamentIDs(ids) {
+        if (this.#tbody == null) return;
         const tbody = this.#tbody;
         for (const [id, name] of Object.entries(ids)) {
             if (this.#tournament_ids.has(id)) {
@@ -296,7 +284,9 @@ class TournamentSetView {
                 c.node.children[1].innerText = id;
                 tbody.appendChild(c.node);
                 c.node.addEventListener('click', (ev) => {
-                    this.#handler.getWebAPI().setTournamentName(name);
+                    if (this.#handler) {
+                        this.#handler.getWebAPI().setTournamentName(name);
+                    }
                 });
                 if (id == this.#tournament_id) {
                     c.node.classList.add('tournament-set-selected');
@@ -317,6 +307,11 @@ class TournamentSetView {
         }
     }
 
+    /**
+     * @param {string} id トーナメントID
+     * @param {string} name トーナメント名
+     * @param {number} count リザルトの数
+     */
     setCurrentTournament(id, name, count) {
         this.#tournament_id = id;
         document.getElementById('current_tournament_id').innerText = id;
@@ -353,6 +348,11 @@ class TournamentRenameView {
         });
     }
 
+    /**
+     * @param {string} id トーナメントID
+     * @param {string} name トーナメント名
+     * @param {number} count リザルトの数
+     */
     setCurrentTournament(id, name, count) {
         this.#tournament_id = id;
         this.#input.value = name;
@@ -360,6 +360,7 @@ class TournamentRenameView {
 }
 
 class TournamentCalculationMethodView extends WebAPIConfigBase {
+    /** @type {WebAPIWorkerHandler|null} */
     #handler = null;
     #forms = [];
 
@@ -382,6 +383,7 @@ class TournamentCalculationMethodView extends WebAPIConfigBase {
         });
     }
 
+    /** @param {WebAPIWorkerHandler} handler */
     setHandler(handler) {
         this.#handler = handler;
     }
@@ -595,26 +597,44 @@ class TournamentCalculationMethodView extends WebAPIConfigBase {
         this.#handler.setTournamentParamsCalcMethod(dumpobject);
     }
 
+    /**
+     * 選択状況をクリアする
+     */
+    #clear() {
+        this.nodes.advancepoints.value = "";
+        this.#changeTableSize(0);
+        this.#changeTableSize(1);
+        this.nodes.count.value = 1;
+    }
+
+    /**
+     * @param {string} id トーナメントID
+     * @param {string} name トーナメント名
+     * @param {number} count リザルトの数
+     */
     setCurrentTournament(id, name, count) {
-        this.clear();
+        this.#clear();
     }
 
     /**
      * トーナメントparamsに含まれるパラメータから現在の設定を表示に反映する
      * @param {object} params 
      */
-    setTournamentParams(tournamentparams) {
-        const params = tournamentparams.calcmethod;
+    setTournamentParams(params) {
         if (!params) return;
+        if (!('calcmethod' in params)) return;
+        /** @type {object} */
+        const calcmethod = params.calcmethod;
+        if (!calcmethod) return;
 
-        if ('advancepoints' in params) {
-            if (params.advancepoints instanceof Array) {
-                this.nodes.advancepoints.value = params.advancepoints.join();
+        if ('advancepoints' in calcmethod) {
+            if (calcmethod.advancepoints instanceof Array) {
+                this.nodes.advancepoints.value = calcmethod.advancepoints.join();
             }
         }
 
-        if ('matchpoints' in params) {
-            let value = parseInt(params.matchpoints, 10);
+        if ('matchpoints' in calcmethod) {
+            let value = parseInt(calcmethod.matchpoints, 10);
             if (Number.isNaN(value)) value = 0;
             if (value < 0) value = 0;
             this.nodes.matchpoints.value = value;
@@ -645,16 +665,6 @@ class TournamentCalculationMethodView extends WebAPIConfigBase {
                 form.customtable_value.value = v.customtable.join();
             }
         }
-    }
-
-    /**
-     * 選択状況をクリアする
-     */
-    clear() {
-        this.nodes.advancepoints.value = "";
-        this.#changeTableSize(0);
-        this.#changeTableSize(1);
-        this.nodes.count.value = 1;
     }
 }
 
@@ -742,6 +752,7 @@ class ObserverConfigView {
 }
 
 class PlayerNameView extends WebAPIConfigBase {
+    /** @type {WebAPIWorkerHandler|null} */
     #handler = null;
     #players = new Map();
 
@@ -750,6 +761,7 @@ class PlayerNameView extends WebAPIConfigBase {
         this.getNode('list');
     }
 
+    /** @param {WebAPIWorkerHandler} handler */
     setHandler(handler) {
         this.#handler = handler;
         const api = handler.getWebAPI();
@@ -860,9 +872,11 @@ class PlayerNameView extends WebAPIConfigBase {
 }
 
 class PlayerNameLobbyView extends WebAPIConfigBase {
+    /** @type {WebAPIWorkerHandler|null} */
     #handler = null;
     #teams = [];
     #players = new Map();
+
     constructor() {
         super('player-lobbyview-');
         this.getNode('container');
@@ -882,6 +896,7 @@ class PlayerNameLobbyView extends WebAPIConfigBase {
         }
     }
 
+    /** @param {WebAPIWorkerHandler} handler */
     setHandler(handler) {
         this.#handler = handler;
         const api = handler.getWebAPI();
@@ -891,6 +906,7 @@ class PlayerNameLobbyView extends WebAPIConfigBase {
         });
     }
 
+    /** @param {string} hash プレイヤーID(hash) */
     #createPlayerDiv(hash) {
         const div = document.createElement('div');
         div.classList.add('player-lobbyview-player');
@@ -946,6 +962,10 @@ class PlayerNameLobbyView extends WebAPIConfigBase {
         }
     }
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {string} teamname チーム名
+     */
     setTeamIngameName(teamid, teamname) {
         if (teamid < 0 || teamid >= this.#teams.length) return;
         const team = this.#teams[teamid];
@@ -958,6 +978,11 @@ class PlayerNameLobbyView extends WebAPIConfigBase {
         team.classList.add('exists');
     }
 
+    /**
+     * @param {string} hash プレイヤーID(hash)
+     * @param {number} teamid チームID(1～30)
+     * @param {string} ingamename インゲーム名
+     */
     setPlayerIngameName(hash, teamid, ingamename) {
         if (!this.#players.has(hash)) {
             this.#createPlayerDiv(hash);
@@ -979,6 +1004,10 @@ class PlayerNameLobbyView extends WebAPIConfigBase {
         }
     }
 
+    /**
+     * @param {string} hash プレイヤーID(hash)
+     * @param {string} name プレイヤー名
+     */
     setPlayerParamsName(hash, name) {
         if (!this.#players.has(hash)) return;
         const div = this.#players.get(hash);
@@ -987,6 +1016,7 @@ class PlayerNameLobbyView extends WebAPIConfigBase {
 }
 
 class TeamNameView extends WebAPIConfigBase {
+    /** @type {WebAPIWorkerHandler|null} */
     #handler = null;
 
     constructor() {
@@ -1003,6 +1033,7 @@ class TeamNameView extends WebAPIConfigBase {
         });
     }
 
+    /** @param {WebAPIWorkerHandler} handler */
     setHandler(handler) {
         this.#handler = handler;
         const api = handler.getWebAPI();
@@ -1029,6 +1060,7 @@ class TeamNameView extends WebAPIConfigBase {
         this.nodes.num.innerText = dst;
     }
 
+    /** @param {string} text テキスト */
     setTeamParamsNameLines(text) {
         const prev_text = this.nodes.text.value;
         if (text != prev_text) {
@@ -1060,9 +1092,7 @@ class InGameSettingsView extends WebAPIConfigBase {
     #lobby = {};
     #customsettings = {};
     #presets = {};
-    /**
-     * コンストラクタ
-     */
+
     constructor() {
         super('ingamesettings-');
         this.getNode('num');
@@ -1131,7 +1161,6 @@ class InGameSettingsView extends WebAPIConfigBase {
     setHandler(handler) {
         this.#handler = handler;
         const api = handler.getWebAPI();
-
 
         document.getElementById('ingamesettings-getfromlobby').addEventListener('click', ev => {
             api.sendGetLobbyPlayers();
@@ -1401,6 +1430,7 @@ class InGameSettingsView extends WebAPIConfigBase {
         }
     }
 
+    /** @param {string} key プリセットのキー */
     #savePreset(key) {
         if (key == '') return;
         const preset = {};
@@ -1418,6 +1448,7 @@ class InGameSettingsView extends WebAPIConfigBase {
         this.#handler.setTournamentParamsPresets(this.#presets);
     }
 
+    /** @param {string} key プリセットのキー */
     #loadPreset(key) {
         if (key in this.#presets) {
             this.#base.querySelector('#ingamesettings-preset-name').value = key;
@@ -1497,6 +1528,7 @@ class InGameSettingsView extends WebAPIConfigBase {
         }
     }
 
+    /** @param {string} key プリセットのキー */
     #deletePreset(key) {
         if (key in this.#presets) {
             delete this.#presets[key];
@@ -1530,6 +1562,7 @@ class InGameSettingsView extends WebAPIConfigBase {
         }
     }
 
+    /** @param {object} params トーナメントパラメータ */
     setTournamentParams(params) {
         this.#presets = {};
         if (params && 'presets' in params) {
@@ -1538,12 +1571,14 @@ class InGameSettingsView extends WebAPIConfigBase {
         this.#updatedPresets();
     }
 
+    /** @param {object} lobby ロビー情報 */
     setLobby(lobby) {
         this.#lobby = lobby;
         this.#updateInGameTeamSettings();
         this.#checkTeamSettings();
     }
 
+    /** @param {object} settings カスタムマッチ設定 */
     setCustomMatchSettings(settings) {
         this.#customsettings = settings;
         this.#updatedCustomSettings();
@@ -1552,13 +1587,11 @@ class InGameSettingsView extends WebAPIConfigBase {
 }
 
 class LegendBanView {
-    #handler;
-    #tbody;
-    constructor() {
-        this.#handler = null;
-        this.#tbody = document.getElementById('legendban-list');
-    }
+    /** @type {WebAPIWorkerHandler|null} */
+    #handler = null;
+    #tbody = document.getElementById('legendban-list');
 
+    /** @param {WebAPIWorkerHandler} handler */
     setWebAPIHandler(handler) {
         this.#handler = handler;
         const api = this.#handler.getWebAPI();
@@ -1603,6 +1636,11 @@ class LegendBanView {
         return refs.join(',');
     }
 
+    /**
+     * @param {string} name レジェンド名
+     * @param {string} legendref レジェンドリファレンス
+     * @param {boolean} banned バンされているか
+     */
     #add(name, legendref, banned) {
         const tr = document.createElement('tr');
         tr.appendChild(document.createElement('td'));
@@ -1624,6 +1662,7 @@ class LegendBanView {
         });
     }
 
+    /** @param {boolean} banned バンするかどうか */
     #setAll(banned) {
         for (const tr of this.#tbody.children) {
             tr.dataset.banned = banned;
@@ -1639,6 +1678,7 @@ class LegendBanView {
 }
 
 class RealtimeView {
+    /** @type {WebAPIWorkerHandler|null} */
     #handler = null;
     #_game;
     #basenode;
@@ -1678,10 +1718,12 @@ class RealtimeView {
 
     }
 
+    /** @param {WebAPIWorkerHandler} handler */
     setHandler(handler) {
         this.#handler = handler;
     }
 
+    /** @param {number} teamid チームID(1～30) */
     #precheckTeamID(teamid) {
         if (teamid < this.#basenode.children.length) return;
         for (let i = this.#basenode.children.length; i <= teamid; ++i) {
@@ -1689,6 +1731,10 @@ class RealtimeView {
         }
     }
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {number} playerid プレイヤーID(0～)
+     */
     #precheckPlayerID(teamid, playerid) {
         const teamnode = this.#nodes[teamid];
         if (playerid < teamnode.players.length) return;
@@ -1697,22 +1743,37 @@ class RealtimeView {
         }
     }
 
+    /**
+     * HPバーを描画する
+     * @param {HTMLCanvasElement} canvas 描画先のCanvas
+     * @param {number} hp 現在のHP
+     * @param {number} hpmax 最大HP
+     */
     #drawBarHP(canvas, hp, hpmax) {
         const height = 8;
         canvas.width = hpmax + 2;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
+        if (!ctx) return;
         ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, hpmax + 2, height);
         ctx.fillStyle = "#FFFFFF";
         ctx.fillRect(1, 1, hp, height - 2);
     }
-    
+
+    /**
+     * シールドバーを描画する
+     * @param {HTMLCanvasElement} canvas 描画先のCanvas
+     * @param {number} shield 現在のシールド
+     * @param {number} shieldmax 最大シールド
+     * @param {boolean} gold ゴールドシールドかどうか
+     */
     #drawBarShield(canvas, shield, shieldmax, gold = false) {
         const height = 8;
         canvas.width = shieldmax + 2;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
+        if (!ctx) return;
         ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, shieldmax + 2, height);
 
@@ -1732,6 +1793,7 @@ class RealtimeView {
         ctx.fillRect(1, 1, shield, height - 2);
     }
 
+    /** @param {number} teamid チームID(1～30) */
     #generateTeamNode(teamid) {
         const teamnode = {};
         teamnode.base = document.createElement('div');
@@ -1779,6 +1841,10 @@ class RealtimeView {
         return teamnode;
     }
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {number} playerid プレイヤーID(0～)
+     */
     #generatePlayerNode(teamid, playerid) {
         const playernode = {};
         playernode.base = document.createElement('div');
@@ -1858,6 +1924,7 @@ class RealtimeView {
                 if (!('state' in player)) return;
                 if (player.hash == '') return;
                 if (player.state != ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE) return;
+                if (!this.#handler) return;
                 this.#handler.getWebAPI().changeCameraByHash(player.hash);
             }
         });
@@ -1872,18 +1939,24 @@ class RealtimeView {
         return playernode;
     }
 
+    /** @param {number} teamid チームID(1～30) */
     #appendTeamNode(teamid) {
         const teamnode = this.#generateTeamNode(teamid);
         this.#nodes.push(teamnode);
         this.#basenode.appendChild(teamnode.base);
     }
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {number} playerid プレイヤーID(0～)
+     */
     #appendPlayerNode(teamid, playerid) {
         const playernode = this.#generatePlayerNode(teamid, playerid);
         this.#nodes[teamid].players.push(playernode);
         this.#nodes[teamid].base.appendChild(playernode.base);
     }
 
+    /** @param {number} timestamp タイムスタンプ */
     #getDateString(timestamp) {
         if (timestamp == 0) return 'none';
         return (new Date(timestamp)).toLocaleString();
@@ -1903,30 +1976,44 @@ class RealtimeView {
         // this.#gameinfonodes.playlistdesc.innerText = 'playlistdesc:' + this.#_game.playlistdesc;
     }
 
+    /** @param {number} teamid チームID(1～30) */
     setTeamId(teamid) {
         this.#precheckTeamID(teamid);
         const name = this.#handler.getTeamName(teamid);
         this.#nodes[teamid].name.innerText = name;
     }
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {string} name チーム名
+     */
     setTeamName(teamid, name) {
         if (teamid < this.#nodes.length) {
             this.#nodes[teamid].name.innerText = name;
         }
     }
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {number} kills キル数
+     */
     setTeamKills(teamid, kills) {
         if (teamid < this.#nodes.length) {
             this.#nodes[teamid].kills_value.innerText = kills;
         }
     }
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {number} placement 順位
+     */
     setTeamPlacement(teamid, placement) {
         if (teamid < this.#nodes.length) {
             this.#nodes[teamid].placement_value.innerText = placement;
         }
     }
-    
+
+    /** @param {number} teamid チームID(1～30) */
     setSquadEliminated(teamid) {
         if (teamid < this.#nodes.length) {
             this.#nodes[teamid].base.classList.add('realtime-team-eliminated');
@@ -1945,11 +2032,17 @@ class RealtimeView {
     static PLAYERNODE_SELECTED = 0x09;
     static PLAYERNODE_WEAPON = 0x0a;
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {number} playerid プレイヤーID(0～)
+     * @param {number} nodetype ノードの種類
+     */
     #drawPlayerNode(teamid, playerid, nodetype = RealtimeView.PLAYERNODE_NAME) {
         this.#precheckTeamID(teamid);
         this.#precheckPlayerID(teamid, playerid);
-        if (teamid >= this.#_game.teams.length) return false;
-        if (playerid >= this.#_game.teams[teamid].length) return false;
+        if (!this.#handler) return;
+        if (teamid >= this.#_game.teams.length) return;
+        if (playerid >= this.#_game.teams[teamid].length) return;
         const player = this.#_game.teams[teamid].players[playerid];
         switch(nodetype) {
             case RealtimeView.PLAYERNODE_NAME: {
@@ -1962,7 +2055,6 @@ class RealtimeView {
                 const node = this.#nodes[teamid].players[playerid].character;
                 if ('character' in player) {
                     node.innerText = player.character;
-                    return true;
                 }
                 break;
             }
@@ -1971,7 +2063,6 @@ class RealtimeView {
                 if ('hp' in player && 'hp_max' in player) {
                     // node.innerText = 'HP:' + player.hp + '/' + player.hp_max;
                     this.#drawBarHP(node, player.hp, player.hp_max);
-                    return true;
                 }
                 break;
             }
@@ -1981,7 +2072,6 @@ class RealtimeView {
                     let gold = false;
                     if ('items' in player && 'bodyshield' in player.items && player.items.bodyshield == 4) gold = true;
                     this.#drawBarShield(node, player.shield, player.shield_max, gold);
-                    return true;
                 }
                 break;
             }
@@ -1989,7 +2079,6 @@ class RealtimeView {
                 const node = this.#nodes[teamid].players[playerid].kills;
                 if ('kills' in player) {
                     node.innerText = 'kills:' + player.kills;
-                    return true;
                 }
                 break;
             }
@@ -1997,7 +2086,6 @@ class RealtimeView {
                 const node = this.#nodes[teamid].players[playerid].assists;
                 if ('assists' in player) {
                     node.innerText = 'assists:' + player.assists;
-                    return true;
                 }
                 break;
             }
@@ -2011,7 +2099,6 @@ class RealtimeView {
                         this.#nodes[teamid].players[playerid].base.classList.add('realtime-player-changed-damage-dealt');
                     }
                     node.innerText = 'dealt:' + player.damage_dealt;
-                    return true;
                 }
                 break;
             }
@@ -2019,7 +2106,6 @@ class RealtimeView {
                 const node = this.#nodes[teamid].players[playerid].damage_taken;
                 if ('damage_taken' in player) {
                     node.innerText = 'taken:' + player.damage_taken;
-                    return true;
                 }
                 break;
             }
@@ -2047,7 +2133,6 @@ class RealtimeView {
                         node.classList.remove('realtime-player-state-killed');
                         node.classList.remove('realtime-player-state-collected');
                     }
-                    return true;
                 }
                 break;
             }
@@ -2063,14 +2148,16 @@ class RealtimeView {
                 const node = this.#nodes[teamid].players[playerid].weapon;
                 if ('weapon' in player) {
                     node.innerText = player.weapon;
-                    return true;
                 }
                 break;
             }
         }
-        return false;
     }
 
+    /**
+     * @param {string} hash プレイヤーのハッシュ
+     * @param {string} name プレイヤー名
+     */
     setPlayerName(hash, name) {
         if (this.#playersnamenode.has(hash)) {
             const namenode = this.#playersnamenode.get(hash);
@@ -2078,102 +2165,154 @@ class RealtimeView {
         }
     }
 
+    /**
+     * @param {string} hash プレイヤーのハッシュ
+     * @param {number} teamid チームID(1～30)
+     * @param {string} name プレイヤー名
+     * @param {number} playerid プレイヤーID(0～)
+     */
     setPlayerIngameName(hash, teamid, name, playerid) {
         this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_NAME);
     }
 
-    setPlayerState(teamid, playerid, state) {
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {number} playerid プレイヤーID(0～)
+     * @param {object} stats プレイヤーの状態
+     */
+    setPlayerStats(teamid, playerid, stats) {
         this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_KILLS);
         this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_ASSISTS);
     }
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {number} playerid プレイヤーID(0～)
+     * @param {string} character レジェンド名
+     */
     setPlayerCharacter(teamid, playerid, character) {
         this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_CHARACTER);
     }
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {number} playerid プレイヤーID(0～)
+     * @param {number} hp 現在のHP
+     * @param {number} hpmax 最大HP
+     */
     setPlayerHP(teamid, playerid, hp, hpmax) {
         this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_HP);
     }
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {number} playerid プレイヤーID(0～)
+     * @param {number} shield 現在のシールド
+     * @param {number} shieldmax 最大シールド
+     */
     setPlayerShield(teamid, playerid, shield, shieldmax) {
         this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_SHIELD);
     }
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {number} playerid プレイヤーID(0～)
+     * @param {number} damage_dealt 与えたダメージ
+     * @param {number} damage_taken 受けたダメージ
+     */
     setPlayerDamage(teamid, playerid, damage_dealt, damage_taken) {
         this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_DAMAGE_DEALT);
         this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_DAMAGE_TAKEN);
     }
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {number} playerid プレイヤーID(0～)
+     * @param {string} weapon 武器名
+     */
     setPlayerWeapon(teamid, playerid, weapon) {
         this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_WEAPON);
     }
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {number} playerid プレイヤーID(0～)
+     */
     setPlayerStateAlive(teamid, playerid) {
         this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_STATE);
     }
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {number} playerid プレイヤーID(0～)
+     */
     setPlayerStateDown(teamid, playerid) {
         this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_STATE);
     }
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {number} playerid プレイヤーID(0～)
+     */
     setPlayerStateKilled(teamid, playerid) {
         this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_STATE);
     }
 
+    /**
+     * @param {number} teamid チームID(1～30)
+     * @param {number} playerid プレイヤーID(0～)
+     */
     setPlayerStateCollected(teamid, playerid) {
         this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_STATE);
     }
 
+    /**
+     * @param {string} observerhash オブザーバーのハッシュ
+     * @param {number} teamid チームID(1～30)
+     * @param {number} playerid プレイヤーID(0～)
+     * @param {boolean} own 自分の視点かどうか
+     */
     callObserverSwitch(observerhash, teamid, playerid, own) {
         if (own) {
             this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_SELECTED);
         }
     }
 
-    drawPlayer(teamid, playerid) {
-        let result = true;
-        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_NAME)) result = false;
-        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_CHARACTER)) result = false;
-        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_HP)) result = false;
-        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_SHIELD)) result = false;
-        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_KILLS)) result = false;
-        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_ASSISTS)) result = false;
-        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_DAMAGE_DEALT)) result = false;
-        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_DAMAGE_TAKEN)) result = false;
-        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_STATE)) result = false;
-        return result;
-    }
-
+    /** @param {object} game ゲーム情報 */
     setGame(game) {
         this.#_game = game;
         this.clear();
         this.drawGameInfo();
     }
 
+    /** @param {object} game ゲーム情報 */
     callMatchSetup(game) {
         this.drawGameInfo();
     }
 
+    /** @param {object} game ゲーム情報 */
     callClearLiveData(game) {
         this.clear();
     }
 
+    /** @param {string} state ゲーム状態 */
     setGameState(state) {
         this.drawGameInfo();
     }
 
     clear() {
         this.#basenode.innerHTML = '';
-        this.#nodes.splice(0);
+        this.#nodes.splice(0);s
         this.#playersnamenode.clear();
     }
 }
 
 class ResultView {
+    /** @type {WebAPIWorkerHandler|null} */
     #handler = null;
-    #_game;
-    #_results;
-    #tournamentparams;
+    #_game = null;
+    #_results = null;
+    #tournamentparams = {};
     #info = document.getElementById('result-game-info');
     #all = document.getElementById('result-all-base');
     #left = document.getElementById('result-all-left');
@@ -2181,25 +2320,21 @@ class ResultView {
     #single = document.getElementById('result-single');
     #nodes = [];
     #infonodes = [];
-    #teams; // params保存用
-    #players; // params保存用
-    #current;
+    #teams = new Map(); // params保存用
+    #players = new Map(); // params保存用
+    #current = "all";
     static points_table = [12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1];
 
     constructor() {
-        this.#tournamentparams = {};
-        this.#_game = null;
-        this.#_results = null;
-        this.#teams = new Map();
-        this.#players = {};
-        this.#current = "all";
         this.clear();
     }
 
+    /** @param {WebAPIWorkerHandler} handler */
     setHandler(handler) {
         this.#handler = handler;
     }
-    
+
+    /** @param {number} gameid ゲームID */
     #generateGameInfoNode(gameid) {
         const node = {
             base: document.createElement('div'),
@@ -2283,7 +2418,14 @@ class ResultView {
         return node;
     }
 
+    /**
+     * @param {number} rank 順位(0～)
+     * @param {number} total チーム数
+     * @param {object} team チーム情報
+     * @param {number|null} placement 順位(オプション)
+     */
     #drawTeamForAll(rank, total, team, placement = null) {
+        if (!this.#handler) return;
         // 要素が足りてなかったら埋める
         if (rank >= this.#nodes.length) {
             for (let i = this.#nodes.length; i <= rank; ++i) {
@@ -2437,7 +2579,10 @@ class ResultView {
         return node;
     }
 
+    /** @param {number} gameid ゲームID */
     #drawResult(gameid) {
+        if (!this.#handler) return;
+        if (this.#_results == null) return;
         if (gameid >= this.#_results.length) return;
         const result = this.#_results[gameid];
 
@@ -2478,6 +2623,9 @@ class ResultView {
     }
 
     #drawGameInfo() {
+        if (this.#_results == null) return;
+        if (this.#info == null) return;
+
         // infonodesの数を調整
         if (this.#infonodes.length > this.#_results.length) {
             // 削除
@@ -2513,6 +2661,7 @@ class ResultView {
         }
     }
 
+    /** @param {string|number} target 対象ゲーム('all'またはゲームID) */
     #drawResults(target) {
         // 計算用
         let data;
@@ -2597,6 +2746,7 @@ class ResultView {
         }
     }
 
+    /** @param {number} gameid ゲームID */
     #selectCurrentGame(gameid) {
         if (gameid < this.#infonodes.length) {
             const node = this.#infonodes[gameid];
@@ -2610,29 +2760,41 @@ class ResultView {
         }
     }
 
-    #savePlayerNode(id, node) {
-        if (!(id in this.#players)) {
-            this.#players[id] = {
-                nodes: [],
-            };
+    /**
+     * @param {string} hash プレイヤーのハッシュ
+     * @param {object} node ノード情報
+     */
+    #savePlayerNode(hash, node) {
+        if (!this.#players.has(hash)) {
+            this.#players.set(hash, {
+                nodes: new Set(),
+            });
         }
-        const player = this.#players[id];
-        player.nodes.push(node);
+        const player = this.#players.get(hash);
+        player.nodes.add(node);
     }
 
+    /**
+     * @param {string} hash プレイヤーのハッシュ
+     * @param {string} name プレイヤー名
+     */
     setPlayerName(hash, name) {
-        if (!(hash in this.#players)) {
-            this.#players[hash] = {
-                nodes: [],
-            };
+        if (!this.#players.has(hash)) {
+            this.#players.set(hash, {
+                nodes: new Set(),
+            });
         }
-        const player = this.#players[hash];
+        const player = this.#players.get(hash);
         player.name = name;
         for (const node of player.nodes) {
             node.innerText = name;
         }
     }
 
+    /**
+     * @param {number} id チームID
+     * @param {object} node ノード情報
+     */
     #saveTeamNode(id, node) {
         if (!this.#teams.has(id)) {
             this.#teams.set(id, {
@@ -2650,8 +2812,8 @@ class ResultView {
         this.#single.innerHTML = '';
         this.#nodes.splice(0);
         this.#infonodes.splice(0);
-        for (const [playerid, data] of Object.entries(this.#players)) {
-            data.nodes.splice(0);
+        for (const [playerid, data] of this.#players) {
+            data.nodes.clear();
         }
         for (const [teamid, data] of this.#teams) {
             data.nodes.clear();
@@ -2754,6 +2916,11 @@ class ResultView {
         this.recalcAll();
     }
 
+    /**
+     * @param {string} fragment URLのハッシュ部分
+     * @param {string} mainmenu メインメニューの識別子
+     * @param {string} submenu サブメニューの識別子
+     */
     setURLHash(fragment, mainmenu, submenu) {
         if (mainmenu == 'result') {
             if (submenu == 'all') {
@@ -2767,7 +2934,12 @@ class ResultView {
         }
     }
 
+    /**
+     * @param {number} teamid チームID
+     * @param {string} name チーム名
+     */
     setTeamParamsName(teamid, name) {
+        if (!this.#handler) return;
         if (this.#teams.has(teamid)) {
             const team = this.#teams.get(teamid);
             for (const node of team.nodes) {
@@ -2779,6 +2951,7 @@ class ResultView {
 }
 
 class ResultFixView extends WebAPIConfigBase {
+    /** @type {WebAPIWorkerHandler|null} */
     #handler = null;
     #gameid = 0;
     #result = null;
@@ -2809,6 +2982,7 @@ class ResultFixView extends WebAPIConfigBase {
         });
     }
 
+    /** @param {WebAPIWorkerHandler} handler */
     setHandler(handler) {
         this.#handler = handler;
         const api = handler.getWebAPI();
@@ -2844,6 +3018,10 @@ class ResultFixView extends WebAPIConfigBase {
         this.checkResultFromStats();
     }
 
+    /**
+     * @param {string} statscode statscode
+     * @param {object[]} results statscodeに紐づくリザルトリスト
+     */
     setStatsFromCode(statscode, results) {
         this.#statscodes.set(statscode, { update: Date.now(), matches: results });
         this.checkResultFromStats();
@@ -2853,6 +3031,9 @@ class ResultFixView extends WebAPIConfigBase {
      * 現在保存されているstatsから、リザルト修正の必要性を確認する
      */
     checkResultFromStats() {
+        if (!this.#handler) return;
+        if (!this.#result) return;
+
         // 保持しているstats概要を表示
         this.nodes["from-stats-code-lists"].innerText = "";
         for (const [statscode, v] of this.#statscodes) {
@@ -3324,6 +3505,11 @@ class ResultFixView extends WebAPIConfigBase {
         this.nodes["from-stats-code"].classList.add("hide");
     }
 
+    /**
+     * @param {string} fragment URLのハッシュ部分
+     * @param {string} mainmenu メインメニューの識別子
+     * @param {string} submenu サブメニューの識別子
+     */
     setURLHash(fragment, mainmenu, submenu) {
         if (mainmenu == 'result') {
             if (submenu == 'all') {
@@ -3343,11 +3529,13 @@ class ResultFixView extends WebAPIConfigBase {
 }
 
 class OverlayForceHideView {
+    /** @type {WebAPIWorkerHandler|null} */
     #handler = null;
     #forcehide = {};
     #ids = new Set(["leaderboard", "mapleaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated", "teamrespawned", "tdmscoreboard"]);
     #default_forcehide_ids = new Set(["playerbanner"]);
 
+    /** @param {WebAPIWorkerHandler} handler */
     setHandler(handler) {
         this.#handler = handler;
         const api = handler.getWebAPI();
@@ -3378,6 +3566,7 @@ class OverlayForceHideView {
         this.#forcehide[id] = checked;
     }
 
+    /** @param {Object} params */
     setTournamentParams(params) {
         if (!('forcehide' in params)) {
             this.#forcehide = {};
@@ -3401,8 +3590,10 @@ class OverlayForceHideView {
 }
 
 class TestView {
+    /** @type {WebAPIWorkerHandler|null} */
     #handler = null;
 
+    /** @param {WebAPIWorkerHandler} handler */
     setHandler(handler) {
         this.#handler = handler;
         const api = handler.getWebAPI();
@@ -3631,6 +3822,7 @@ class TestView {
         });
     }
 
+    /** @param {Object} settings */
     setCustomMatchSettings(settings) {
         document.getElementById('test-settings-we-adminchat').checked = settings.adminchat;
         document.getElementById('test-settings-we-teamrename').checked = settings.teamrename;
@@ -3639,11 +3831,13 @@ class TestView {
 }
 
 class OverlayStatusView {
+    /** @type {WebAPIWorkerHandler|null} */
     #handler = null;
     #base = document.getElementById('overlay-status');
     #tbody = this.#base.querySelector('tbody');
     #lastcheck = 0;
 
+    /** @param {WebAPIWorkerHandler} handler */
     setHandler(handler) {
         this.#handler = handler;
     }
@@ -3658,6 +3852,7 @@ class OverlayStatusView {
         }
     }
 
+    /** @param {Object} obj */
     receiveBroadcastObject(obj) {
         if (!obj || !('data' in obj)) return;
         if (!('type' in obj.data)) return;
@@ -3705,8 +3900,10 @@ class OverlayStatusView {
 }
 
 class AnnouncementView {
-    #handler = null
+    /** @type {WebAPIWorkerHandler|null} */
+    #handler = null;
 
+    /** @param {WebAPIWorkerHandler} handler */
     setHandler(handler) {
         this.#handler = handler;
         const api = handler.getWebAPI();
@@ -3721,8 +3918,10 @@ class AnnouncementView {
 }
 
 class ManualPostMatchView {
-    #handler = null
+    /** @type {WebAPIWorkerHandler|null} */
+    #handler = null;
 
+    /** @param {WebAPIWorkerHandler} handler */
     setHandler(handler) {
         this.#handler = handler;
         const api = handler.getWebAPI();
@@ -3762,10 +3961,16 @@ class LeftResultSelector {
         }
     }
 
+    /** @param {Array} results */
     setResults(results) {
         this.#appendOrRemoveResultMenu(results.length);
     }
 
+    /**
+     * @param {string} id トーナメントID
+     * @param {string} name トーナメント名
+     * @param {number} count マッチ数
+     */
     setCurrentTournament(id, name, count) {
         this.#appendOrRemoveResultMenu(count);
     }
@@ -3782,16 +3987,23 @@ class VersionView {
         });
     }
 
+    /** @param {string} version HTMLバージョン */
     #setHTMLVersion(version) {
         document.getElementById('htmlversion').textContent = version;
     }
 
+    /** @param {string} version 実行ファイルバージョン */
     setExeVersion(version) {
         document.getElementById('exeversion').textContent = version;
     }
 }
 
 class MenuSwitcher {
+    /**
+     * @param {string} fragment URLのハッシュ部分
+     * @param {string} mainmenu メインメニューの識別子
+     * @param {string} submenu サブメニューの識別子
+     */
     setURLHash(fragment, mainmenu, submenu) {
         if (mainmenu == 'result') {
             for (const c of document.getElementById('main').children) {
