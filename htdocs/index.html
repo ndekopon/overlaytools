@@ -1475,18 +1475,8 @@ import {
     WebAPIConfig
 } from "./webapi-config.js";
 
-window.onload = (event) => {
+window.onload = _ => {
     const config = new WebAPIConfig("ws://127.0.0.1:20081", "ws://127.0.0.1:20080");
-
-    // get version
-    fetch('version.json').then(r => {
-        return r.json();
-    }).then(j => {
-        if ('version' in j) {
-            document.getElementById('htmlversion').textContent = j.version;
-        }
-    });
-
     console.log(config);
 }
 </script>

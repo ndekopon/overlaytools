@@ -1,3 +1,4 @@
+// @ts-check
 import * as ApexWebAPI from "./apex-webapi.js";
 import {
     calcPoints,
@@ -8,6 +9,21 @@ import {
     setRankParameterToTeamResults,
     getAdvancePoints,
 } from "./overlay-common.js";
+
+function getFragment(s) {
+    const first = s.indexOf('#');
+    return first >= 0 ? s.substring(first + 1) : '';
+}
+
+function getMainMenu(s) {
+    const first = s.indexOf('-');
+    return first >= 0 ? s.substring(0, first) : s;
+}
+
+function getSubMenu(s) {
+    const first = s.indexOf('-');
+    return first >= 0 ? s.substring(first + 1) : '';
+}
 
 class WebAPIConfigBase {
     /** @type {Object.<string, HTMLElement>} 関連するノードを格納 */
@@ -40,20 +56,26 @@ class WebAPIConfigBase {
 }
 
 class WebAPIConnectionStatus extends WebAPIConfigBase {
-    /**
-     * コンストラクタ
-     */
+    #handler = null;
     constructor() {
         super('connection-status-webapi-');
         this.getNode('state');
     }
-    /**
-     * WebAPIの接続ステータスを設定する
-     * @param {string} state 接続状況
-     */
-    setStatus(state) {
+
+    setHandler(handler) {
+        this.#handler = handler;
+
+        document.getElementById('connectbtn').addEventListener('click', (ev) => {
+            this.setWebAPIConnectionStatus('connecting...');
+            handler.getWebAPI().forceReconnect();
+        });
+    }
+
+    setWebAPIConnectionStatus(state) {
         this.nodes.state.innerText = state;
     }
+
+
 }
 
 class LiveAPIConnectionStatus extends WebAPIConfigBase {
@@ -72,29 +94,30 @@ class LiveAPIConnectionStatus extends WebAPIConfigBase {
      * @param {number} recv 受信パケット数
      * @param {number} send 送信パケット数
      */
-    setStatus(conn, recv, send) {
+    setLiveAPISocketStatus(conn, recv, send) {
         this.nodes.connection.innerText = conn;
         this.nodes.recv.innerText = recv;
         this.nodes.send.innerText = send;
     }
 }
 
-class LiveAPIConfig extends WebAPIConfigBase {
-    #config;
-    #callback;
-    #url;
-    /**
-     * コンストラクタ
-     */
+class LiveAPIConfigView extends WebAPIConfigBase {
+    #handler = null;
+    #config = {};
+    #url = '';
+
     constructor(url) {
         super('liveapi-config-');
         this.getNode('connections');
         this.getNode('submit');
         this.getNode('current');
 
-        this.#config = {};
-        this.#callback = null;
         this.#url = url;
+    }
+
+    setHandler(handler) {
+        this.#handler = handler;
+        const api = handler.getWebAPI();
 
         this.nodes.submit.addEventListener('click', (ev) => {
             if (!('settings' in this.#config)) this.#config.settings = {};
@@ -110,10 +133,8 @@ class LiveAPIConfig extends WebAPIConfigBase {
             settings.cl_liveapi_pretty_print_log = false;
             if (!('servers' in this.#config)) this.#config.servers = [];
             const servers = this.#config.servers;
-            if (servers.indexOf(url) < 0) servers.push(url);
-            if (typeof(this.#callback) == "function") {
-                this.#callback(this.#config);
-            }
+            if (servers.indexOf(this.#url) < 0) servers.push(this.#url);
+            api.setLiveAPIConfig(this.#config);
         });
     }
 
@@ -121,7 +142,7 @@ class LiveAPIConfig extends WebAPIConfigBase {
      * configを設定する
      * @param {object} config 設定オブジェクト
      */
-    setConfig(config) {
+    setLiveAPIConfig(config) {
         this.#config = config;
 
         // 現在表示中の接続先をクリア
@@ -144,31 +165,19 @@ class LiveAPIConfig extends WebAPIConfigBase {
 
         this.nodes.current.innerText = JSON.stringify(this.#config, null, "  ");
     }
+}
 
-    setCallback(func) {
-        if (typeof(func) == "function" && func.length == 1) {
-            this.#callback = func;
-        }
-    }
-
-    
-    /**
-     * LiveAPIの接続ステータスを設定する
-     * @param {number} conn コネクション数
-     * @param {number} recv 受信パケット数
-     * @param {number} send 送信パケット数
-     */
-    setStatus(conn, recv, send) {
-        this.nodes.connection.innerText = conn;
-        this.nodes.recv.innerText = recv;
-        this.nodes.send.innerText = send;
+class LiveAPIConnectionStatusView {
+    setLiveAPISocketStatus(conn, recv, send) {
+        document.getElementById('connection-status-liveapi-connection').innerText = conn;
+        document.getElementById('connection-status-liveapi-recv').innerText = recv;
+        document.getElementById('connection-status-liveapi-send').innerText = send;
     }
 }
 
-class LanguageSelect extends WebAPIConfigBase {
-    /** @type {HTMLElement[]} */
+class LanguageSelectView extends WebAPIConfigBase {
     #languages;
-    /** コンストラクタ */
+
     constructor() {
         super('language-select-');
 
@@ -237,23 +246,93 @@ class LanguageSelect extends WebAPIConfigBase {
     }
 }
 
-class TournamentCalculationMethod extends WebAPIConfigBase {
-    /** @type {Object.<string, HTMLElement>[]} 入力要素を保持 */
-    #forms;
-    /**
-     * プレイヤー名の設定ボタンが押された場合のコールバック
-     * @callback dumpedCalcMethodCallabck
-     * @param {object} calcmethod 計算方法のオブジェクト
-     */
+class TournamentSetView {
+    #handler = null;
+    #tbody = document.getElementById('tournamentids');
+    #tournament_id = '';
+    #tournament_ids = new Map();
+    constructor() {
+    }
 
-    /**
-     * コールバック関数
-     * @param {dumpedCalcMethodCallabck} func コールバック関数
-     */
-    #callback;
-    /**
-     * コンストラクタ
-     */
+    setHandler(handler) {
+        this.#handler = handler;
+        const api = handler.getWebAPI();
+
+        document.getElementById('tournament-set-button').addEventListener('click', (ev) => {
+            const text = document.getElementById('tournament-set-text').value;
+            if (text != '') {
+                api.setTournamentName(text);
+            }
+        });
+
+        document.getElementById('tournament-rename-button').addEventListener('click', (ev) => {
+            const text = document.getElementById('tournament-rename-text').value;
+            if (text != '' || this.#tournament_id != '') {
+                api.renameTournamentName(this.#tournament_id, text);
+            }
+        });
+    }
+
+    setTournamentIDs(ids) {
+        const tbody = this.#tbody;
+        for (const [id, name] of Object.entries(ids)) {
+            if (this.#tournament_ids.has(id)) {
+                const c = this.#tournament_ids.get(id);
+                c.name = name;
+                c.node.children[0].innerText = name;
+            } else {
+                this.#tournament_ids.set(id, {
+                    id: id,
+                    name: name,
+                    node: document.createElement('tr')
+                });
+                const c = this.#tournament_ids.get(id);
+                c.node.appendChild(document.createElement('td'));
+                c.node.appendChild(document.createElement('td'));
+                c.node.children[0].innerText = name;
+                c.node.children[1].innerText = id;
+                tbody.appendChild(c.node);
+                c.node.addEventListener('click', (ev) => {
+                    this.#handler.getWebAPI().setTournamentName(name);
+                });
+                if (id == this.#tournament_id) {
+                    c.node.classList.add('tournament-set-selected');
+                }
+            }
+        }
+
+        // 名前でソートする
+        const children = [...tbody.children].sort((a, b) => {
+            const a_name = a.children[0].innerText;
+            const b_name = b.children[0].innerText;
+            if (a_name < b_name) return -1;
+            if (a_name > b_name) return 1;
+            return 0;
+        });
+        for (const node of children) {
+            tbody.appendChild(node);
+        }
+    }
+
+    setCurrentTournament(id, name, count) {
+        document.getElementById('current_tournament_id').innerText = id;
+        document.getElementById('current_tournament_name').innerText = name;
+        document.getElementById('tournament-rename-text').value = name;
+
+        for (const tr of document.querySelectorAll('tr.tournament-set-selected')) {
+            tr.classList.remove('tournament-set-selected');
+        }
+
+        if (id != '' && id in this.#tournament_ids) {
+            this.#tournament_ids[id].node.classList.add('tournament-set-selected');
+        }
+    }
+}
+
+class TournamentCalculationMethodView extends WebAPIConfigBase {
+    #handler = null;
+    #forms = [];
+
     constructor() {
         super('tournament-calc-');
         this.getNode('list');
@@ -261,9 +340,7 @@ class TournamentCalculationMethod extends WebAPIConfigBase {
         this.getNode('send');
         this.getNode('advancepoints');
         this.getNode('matchpoints');
-        this.#forms = [];
         this.#appendTableRow();
-        this.#callback = undefined;
 
         // イベント
         this.nodes.count.addEventListener('change', (ev) => {
@@ -273,6 +350,10 @@ class TournamentCalculationMethod extends WebAPIConfigBase {
         this.nodes.send.addEventListener('click', (ev) => {
             this.#dumpCalcMethod();
         });
+    }
+
+    setHandler(handler) {
+        this.#handler = handler;
     }
 
     /**
@@ -478,16 +559,20 @@ class TournamentCalculationMethod extends WebAPIConfigBase {
                 dumpobject[gameid] = data;
             }
         }
-        if (typeof(this.#callback) == "function") {
-            this.#callback(dumpobject);
-        }
+
+        this.#handler.setTournamentParamsCalcMethod(dumpobject);
+    }
+
+    setCurrentTournament(id, name, count) {
+        this.clear();
     }
 
     /**
      * トーナメントparamsに含まれるパラメータから現在の設定を表示に反映する
      * @param {object} params 
      */
-    importCalcMethod(params) {
+    setTournamentParams(tournamentparams) {
+        const params = tournamentparams.calcmethod;
         if (!params) return;
 
         if ('advancepoints' in params) {
@@ -531,16 +616,6 @@ class TournamentCalculationMethod extends WebAPIConfigBase {
     }
 
     /**
-     * コールバック関数を定義する
-     * @param {dumpedCalcMethodCallabck} func 計算方法を含むオブジェクトをdumpした際に呼び出される関数
-     */
-    setDumpedCalcMethodCallback(func) {
-        if (typeof func == "function") {
-            this.#callback = func;
-        }
-    }
-
-    /**
      * 選択状況をクリアする
      */
     clear() {
@@ -551,107 +626,116 @@ class TournamentCalculationMethod extends WebAPIConfigBase {
     }
 }
 
-class ObserverConfig {
-    #callback;
-    #observers;
-    #current;
-    #base;
+class ObserverConfigView {
+    #handler = null;
+    #observers = new Map();
+    #current = '';
+    #base = document.getElementById('observer-set-list');
 
-    constructor() {
-        this.#observers = {};
-        this.#current = "";
-        this.#base = document.getElementById('observer-set-list');
+    setHandler(handler) {
+        this.#handler = handler;
+        const api = handler.getWebAPI();
+
+        document.getElementById('observer-set-getfromlobby').addEventListener('click', (ev) => {
+            api.sendGetLobbyPlayers();
+        });
     }
 
-    #generateObserverNode(id) {
+    #generateObserverNode(hash) {
         const node = {
             base: document.createElement('tr'),
-            id: document.createElement('td'),
+            hash: document.createElement('td'),
             name: document.createElement('td')
         }
 
-        /* append */
-        node.base.appendChild(node.id);
+        node.base.appendChild(node.hash);
         node.base.appendChild(node.name);
 
-        /* draw */
-        node.id.innerText = id;
+        node.hash.innerText = hash;
         
-        /* set current */
-        if (this.#current != "" && id == this.#current) {
+        if (this.#current != "" && hash == this.#current) {
             node.base.classList.add('observer-set-selected');
         }
 
-        /* set callback */
         node.base.addEventListener('click', () => {
-            if (this.#current == id) return;
-            if (typeof(this.#callback) != 'function') return;
-            this.#callback(id);
+            if (this.#current == hash) return;
+            this.#handler.getWebAPI().setObserver(hash);
         });
 
         return node;
     }
 
-    drawObserverName(id, name) {
-        if (id == '') return;
-        if (!(id in this.#observers)) {
-            this.#observers[id] = {};
+    setObserverName(hash, name) {
+        if (hash == '') return;
+        if (!this.#observers.has(hash)) {
+            this.#observers.set(hash, {});
         }
-        const observer = this.#observers[id];
+        const observer = this.#observers.get(hash);
         if (!('name' in observer)) {
             observer.name = name;
         }
 
         if (!('node' in observer)) {
-            observer.node = this.#generateObserverNode(id);
+            observer.node = this.#generateObserverNode(hash);
             this.#base.appendChild(observer.node.base);
         }
 
         observer.node.name.innerText = name;
     }
 
-    setCurrentObserver(id) {
-        this.#current = id;
-        if (id == '') return;
-        document.getElementById('current_observer_id').innerText = id;
-        if (!(id in this.#observers)) return;
-        const observer = this.#observers[id];
+    setCurrentObserver(hash) {
+        this.#current = hash;
+        if (hash == '') return;
+        document.getElementById('current_observer_id').innerText = hash;
+        if (!this.#observers.has(hash)) return;
+        const observer = this.#observers.get(hash);
         if (!('node' in observer)) return;
         for (const node of document.querySelectorAll('tr.observer-set-selected')) {
             node.classList.remove('observer-set-selected');
         }
         observer.node.base.classList.add('observer-set-selected');
     }
-    
-    setClickCallback(func) {
-        this.#callback = func;
+
+    setURLHash(fragment, mainmenu, submenu) {
+        if (fragment == 'observer-set') {
+            if (this.#handler) {
+                const api = this.#handler.getWebAPI();
+                api.getObserver();
+                api.getObservers();
+            }
+        }
     }
 }
 
-class PlayerName extends WebAPIConfigBase {
-    /** @type {Object.<string, HTMLElement>} hashに対応するテーブル列を保持 */
-    #players;
-    /** @type {setPlayerNameCallback} */
-    #callback;
+class PlayerNameView extends WebAPIConfigBase {
+    #handler = null;
+    #players = new Map();
 
-    /**
-     * コンストラクタ
-     */
     constructor() {
         super('player-name-');
         this.getNode('list');
-        this.#players = {};
-        this.#callback = undefined;
     }
 
-    /**
-     * 新しいHTMLElementを作る
-     * @param {string} hash プレイヤーID(hash)
-     */
-    #createTableRow(hash) {
+    setHandler(handler) {
+        this.#handler = handler;
+        const api = handler.getWebAPI();
+
+        document.getElementById('player-name-getfromresults').addEventListener('click', (ev) => {
+            api.getTournamentResults();
+        });
+
+        document.getElementById('player-name-getfromlivedata').addEventListener('click', (ev) => {
+
+        });
+
+        document.getElementById('player-name-getfromlobby').addEventListener('click', (ev) => {
+            api.sendGetLobbyPlayers();
+        });
+    }
+
+    #createPlayer(hash) {
+        if (this.#players.has(hash)) return;
         const tr = document.createElement('tr');
-        this.#players[hash] = tr;
-        this.nodes.list.appendChild(tr);
         tr.appendChild(document.createElement('td'));
         tr.appendChild(document.createElement('td'));
         tr.appendChild(document.createElement('td'));
@@ -669,30 +753,20 @@ class PlayerName extends WebAPIConfigBase {
         button.innerText = 'set';
         button.addEventListener('click', () => {
             const name = input.value.trim();
-            const prev_name = this.#getName(hash);
+            const prev_name = this.#players.get(hash).name;
             if (name != prev_name) {
-                if (this.#callback) {
-                    this.#callback(hash, name);
-                }
+                this.#handler.setPlayerParamsName(hash, name);
             }
         });
-    }
 
-    /**
-     * プレイヤー名の設定ボタンが押された場合のコールバック
-     * @callback setPlayerNameCallback
-     * @param {string} hash プレイヤーID(hash)
-     * @param {string} name 設定するプレイヤー名
-     */
+        // テーブルに追加
+        this.nodes.list.appendChild(tr);
 
-    /**
-     * コールバック関数
-     * @param {setPlayerNameCallback} func コールバック関数
-     */
-    setCallback(func) {
-        if (typeof func == 'function') {
-            this.#callback = func;
-        }
+        this.#players.set(hash, {
+            node: tr,
+            name: '',
+            ingamenames: new Set(),
+        });
     }
 
     /**
@@ -701,48 +775,60 @@ class PlayerName extends WebAPIConfigBase {
      * @returns {string} プレイヤー名
      */
     #getName(hash) {
-        if (hash in this.#players) {
-            const tr = this.#players[hash];
-            return tr.children[1].innerText;
+        if (this.#players.has(hash)) {
+            const player = this.#players.get(hash);
+            return player.name;
         }
         return '';
     }
 
-    /**
-     * バナー用プレイヤー名設定
-     * @param {string} hash プレイヤーID(hash)
-     * @param {string} name プレイヤー名
-     */
-    setName(hash, name) {
-        if (!(hash in this.#players)) {
-            this.#createTableRow(hash);
+    setPlayerParamsName(hash, name) {
+        if (!this.#players.has(hash)) {
+            this.#createPlayer(hash);
         }
-        if (hash in this.#players) {
-            const tr = this.#players[hash];
-            tr.children[1].innerText = name;
+        if (this.#players.has(hash)) {
+            const player = this.#players.get(hash);
+            player.name = name;
+            player.node.children[1].innerText = name;
         }
     }
 
-    /**
-     * インゲーム名リストを設定
-     * @param {string} hash プレイヤーID(hash)
-     * @param {string[]} names ゲーム内プレイヤー名の配列
-     */
-    setInGameNames(hash, names) {
-        if (!(hash in this.#players)) {
-            this.#createTableRow(hash);
+    setPlayerIngameName(hash, teamid, ingamename) {
+        if (!this.#players.has(hash)) {
+            this.#createPlayer(hash);
         }
-        if (hash in this.#players) {
-            const tr = this.#players[hash];
-            tr.children[2].innerText = names.join();
+
+        if (this.#players.has(hash)) {
+            const player = this.#players.get(hash);
+            player.ingamenames.add(ingamename);
+            player.node.children[2].innerText = Array.from(player.ingamenames).join();
+        }
+    }
+
+    setPlayerParams(hash, params) {
+        // paramsからingamenamesを取り出して表示に反映する
+        if (!params) return;
+        if (!('ingamenames' in params)) return;
+        const names = params.ingamenames;
+
+        if (!this.#players.has(hash)) {
+            this.#createPlayer(hash);
+        }
+
+        if (this.#players.has(hash)) {
+            const player = this.#players.get(hash);
+            for (const name of names) {
+                player.ingamenames.add(name);
+            }
+            player.node.children[2].innerText = Array.from(player.ingamenames).join();
         }
     }
 }
 
 class PlayerNameLobbyView extends WebAPIConfigBase {
+    #handler = null;
     #teams = [];
     #players = new Map();
-    #callback = undefined;
     constructor() {
         super('player-lobbyview-');
         this.getNode('container');
@@ -762,10 +848,13 @@ class PlayerNameLobbyView extends WebAPIConfigBase {
         }
     }
 
-    setCallback(func) {
-        if (typeof func == 'function') {
-            this.#callback = func;
-        }
+    setHandler(handler) {
+        this.#handler = handler;
+        const api = handler.getWebAPI();
+
+        document.getElementById('player-lobbyview-getfromlobby').addEventListener('click', (ev) => {
+            api.sendGetLobbyPlayers();
+        });
     }
 
     #createPlayerDiv(hash) {
@@ -792,14 +881,12 @@ class PlayerNameLobbyView extends WebAPIConfigBase {
             const name = input.value.trim();
             const prev_name = div.querySelector('.player-name').innerText;
             if (name != prev_name) {
-                if (this.#callback) {
-                    this.#callback(hash, name);
-                }
+                this.#handler.setPlayerParamsName(hash, name);
             }
         });
     }
 
-    start() {
+    lobbyEnumStart() {
         for (const team of this.#teams) {
             team.classList.remove('exists');
         }
@@ -808,7 +895,7 @@ class PlayerNameLobbyView extends WebAPIConfigBase {
         }
     }
 
-    end() {
+    lobbyEnumEnd() {
         for (const team of this.#teams) {
             if (team.classList.contains('exists')) {
                 team.classList.remove('hide');
@@ -825,7 +912,7 @@ class PlayerNameLobbyView extends WebAPIConfigBase {
         }
     }
 
-    setTeamName(teamid, teamname) {
+    setTeamIngameName(teamid, teamname) {
         if (teamid < 0 || teamid >= this.#teams.length) return;
         const team = this.#teams[teamid];
         if (team) {
@@ -837,13 +924,13 @@ class PlayerNameLobbyView extends WebAPIConfigBase {
         team.classList.add('exists');
     }
 
-    setPlayerIngameName(hash, teamid, name, ingamename) {
+    setPlayerIngameName(hash, teamid, ingamename) {
         if (!this.#players.has(hash)) {
             this.#createPlayerDiv(hash);
         }
         if (this.#players.has(hash)) {
             const div = this.#players.get(hash);
-            div.querySelector('.player-name').innerText = name;
+            div.querySelector('.player-name').innerText = this.#handler.getPlayerName(hash);
             div.querySelector('.player-ingame-name').innerText = ingamename;
             div.classList.add('exists');
 
@@ -858,20 +945,16 @@ class PlayerNameLobbyView extends WebAPIConfigBase {
         }
     }
 
-    setPlayerName(hash, name) {
+    setPlayerParamsName(hash, name) {
         if (!this.#players.has(hash)) return;
         const div = this.#players.get(hash);
         div.querySelector('.player-name').innerText = name;
     }
 }
 
-class TeamName extends WebAPIConfigBase {
-    /** @type {setPlayerNameCallback} */
-    #callback;
+class TeamNameView extends WebAPIConfigBase {
+    #handler = null;
 
-    /**
-     * コンストラクタ
-     */
     constructor() {
         super('team-name-');
         this.getNode('num');
@@ -886,6 +969,20 @@ class TeamName extends WebAPIConfigBase {
         });
     }
 
+    setHandler(handler) {
+        this.#handler = handler;
+        const api = handler.getWebAPI();
+
+        document.getElementById('team-name-button').addEventListener('click', (ev) => {
+            const text = this.nodes.text.value;
+            this.#handler.setTeamParamsNamesFromText(text);
+        });
+
+        document.getElementById('team-ingamename-button').addEventListener('click', (ev) => {
+            const text = this.nodes.text.value;
+            this.#handler.setTeamIngameNamesFromText(text);
+        });
+    }
     /**
      * 行番号を設定する
      */
@@ -898,25 +995,12 @@ class TeamName extends WebAPIConfigBase {
         this.nodes.num.innerText = dst;
     }
 
-    /**
-     * テキストエリアを更新する
-     * @param {*} text テキストエリアに設定する文字列
-     */
-    updateText(text) {
+    setTeamParamsNameLines(text) {
         const prev_text = this.nodes.text.value;
         if (text != prev_text) {
             this.nodes.text.value = text;
             this.#updateOutput(text);
         }
-    }
-
-    /**
-     * テキストエリアからチーム名の配列を作る
-     * @returns {string[]} チーム名の入った配列
-     */
-    getLines() {
-        const text = this.nodes.text.value;
-        return text.split(/\r\n|\n/).map((line) => line.trim()).slice(0, 30);
     }
 
     /**
@@ -935,12 +1019,12 @@ class TeamName extends WebAPIConfigBase {
     }
 }
 
-class InGameSettings extends WebAPIConfigBase {
+class InGameSettingsView extends WebAPIConfigBase {
+    #handler = null;
     #base = document.getElementById('ingamesettings');
     #lobby = {};
     #customsettings = {};
     #presets = {};
-    #callback = undefined;
     /**
      * コンストラクタ
      */
@@ -1008,10 +1092,51 @@ class InGameSettings extends WebAPIConfigBase {
         });
     }
 
-    setUpdatePresetsCallback(func) {
-        if (typeof func == 'function') {
-            this.#callback = func;
-        }
+    setHandler(handler) {
+        this.#handler = handler;
+        const api = handler.getWebAPI();
+
+
+        document.getElementById('ingamesettings-getfromlobby').addEventListener('click', ev => {
+            api.sendGetLobbyPlayers();
+            api.sendGetSettings();
+        });
+
+        document.getElementById('ingamesettings-teamnames-button').addEventListener('click', (ev) => {
+            this.#setInGameTeamNames();
+        });
+
+        document.getElementById('ingamesettings-spawnpoints-button').addEventListener('click', (ev) => {
+            this.#setInGameSpawnPoints();
+        });
+
+        document.getElementById('ingamesettings-customsettings-button').addEventListener('click', (ev) => {
+            this.#setInGameSettings();
+        });
+
+        document.getElementById('ingamesettings-all-button').addEventListener('click', (ev) => {
+            this.#setInGameTeamNames();
+            this.#setInGameSpawnPoints();
+            this.#setInGameSettings();
+        });
+    }
+
+    #setInGameSpawnPoints() {
+        const spawnpoints = this.getSpawnPoints();
+        this.#handler.setTeamParamsSpawnPoints(spawnpoints);
+    }
+
+    #setInGameTeamNames() {
+        const text = this.nodes.teamnames.value;
+        this.#handler.setTeamIngameNamesFromText(text);
+    }
+
+    #setInGameSettings() {
+        if (!this.#handler) return;
+        const d = this.getCustomSettings();
+        const api = this.#handler.getWebAPI();
+        api.sendSetSettings(d.playlistname, d.adminchat, d.teamrename, d.selfassign, d.aimassist, d.anonmode);
+        api.sendGetSettings();
     }
 
     /**
@@ -1184,7 +1309,6 @@ class InGameSettings extends WebAPIConfigBase {
     }
 
     #checkCustomSettings() {
-        console.log(this.#customsettings);
         let playlistname = '';
         let adminchat = false;
         let teamrename = false;
@@ -1255,9 +1379,7 @@ class InGameSettings extends WebAPIConfigBase {
             anonmode: this.#getAnonMode()
         };
         this.#presets[key] = preset;
-        if (typeof this.#callback == 'function') {
-            this.#callback(this.#presets);
-        }
+        this.#handler.setTournamentParamsPresets(this.#presets);
     }
 
     #loadPreset(key) {
@@ -1342,8 +1464,8 @@ class InGameSettings extends WebAPIConfigBase {
     #deletePreset(key) {
         if (key in this.#presets) {
             delete this.#presets[key];
-            if (typeof this.#callback == 'function') {
-                this.#callback(this.#presets);
+            if (this.#handler) {
+                this.#handler.setTournamentParamsPresets(this.#presets);
             }
         }
     }
@@ -1386,23 +1508,24 @@ class InGameSettings extends WebAPIConfigBase {
         this.#checkTeamSettings();
     }
 
-    setCustomSettings(settings) {
+    setCustomMatchSettings(settings) {
         this.#customsettings = settings;
         this.#updatedCustomSettings();
         this.#checkCustomSettings();
     }
 }
 
-class LegendBan {
-    #api;
+class LegendBanView {
+    #handler;
     #tbody;
     constructor() {
-        this.#api = null;
+        this.#handler = null;
         this.#tbody = document.getElementById('legendban-list');
     }
 
-    setWebAPI(api) {
-        this.#api = api;
+    setWebAPIHandler(handler) {
+        this.#handler = handler;
+        const api = this.#handler.getWebAPI();
 
         document.getElementById('legendban-get').addEventListener('click', () => {
             api.sendGetLegendBanStatus();
@@ -1410,7 +1533,6 @@ class LegendBan {
 
         document.getElementById('legendban-set').addEventListener('click', () => {
             const legendrefs = this.#getLegendRefs();
-            console.log(legendrefs);
             api.sendSetLegendBan(legendrefs);
         });
 
@@ -1423,7 +1545,6 @@ class LegendBan {
         });
 
         api.addEventListener('legendbanenumstart', ev => {
-            console.log('legendbanenumstart');
             this.#clear();
         });
 
@@ -1433,7 +1554,6 @@ class LegendBan {
         });
 
         api.addEventListener('legendbanenumend', ev => {
-            console.log('legendbanenumend');
         });
     }
 
@@ -1483,19 +1603,17 @@ class LegendBan {
 }
 
 class RealtimeView {
+    #handler = null;
     #_game;
     #basenode;
     #gameinfonode;
     #nodes;
     #gameinfonodes;
-    #callback;
-    #playersnamenode;
+    #playersnamenode = new Map();
 
     constructor() {
         this.#basenode = document.getElementById('realtime-teams');
         this.#nodes = [];
-        this.#callback = null;
-        this.#playersnamenode = {};
 
         // ゲーム情報の格納先作成
         this.#gameinfonode = document.getElementById('realtime-gameinfo');
@@ -1524,6 +1642,10 @@ class RealtimeView {
 
     }
 
+    setHandler(handler) {
+        this.#handler = handler;
+    }
+
     #precheckTeamID(teamid) {
         if (teamid < this.#basenode.children.length) return;
         for (let i = this.#basenode.children.length; i <= teamid; ++i) {
@@ -1532,8 +1654,9 @@ class RealtimeView {
     }
 
     #precheckPlayerID(teamid, playerid) {
-        if (playerid < this.#nodes[teamid].players.length) return;
-        for (let i = this.#nodes[teamid].players.length; i <= playerid; ++i) {
+        const teamnode = this.#nodes[teamid];
+        if (playerid < teamnode.players.length) return;
+        for (let i = teamnode.players.length; i <= playerid; ++i) {
             this.#appendPlayerNode(teamid, i);
         }
     }
@@ -1691,9 +1814,15 @@ class RealtimeView {
         /* set click callback */
         playernode.base.addEventListener('click', (ev) => {
             if (playernode.base.classList.contains('realtime-player-state-alive')) {
-                if (typeof(this.#callback) == "function") {
-                    this.#callback(teamid, playerid);
-                }
+                if (teamid >= this.#_game.teams.length) return;
+                const team = this.#_game.teams[teamid];
+                if (playerid >= team.players.length) return;
+                const player = team.players[playerid];
+                if (!('hash' in player)) return;
+                if (!('state' in player)) return;
+                if (player.hash == '') return;
+                if (player.state != ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE) return;
+                this.#handler.getWebAPI().changeCameraByHash(player.hash);
             }
         });
 
@@ -1738,71 +1867,34 @@ class RealtimeView {
         // this.#gameinfonodes.playlistdesc.innerText = 'playlistdesc:' + this.#_game.playlistdesc;
     }
 
-    drawTeamName(teamid) {
+    setTeamId(teamid) {
         this.#precheckTeamID(teamid);
-        if (teamid < this.#_game.teams.length) {
-            const team = this.#_game.teams[teamid];
-            let name = '';
-            if ('params' in team && 'name' in team.params) {
-                name = team.params.name;
-            } else if ('name' in team) {
-                name = team.name;
-            }
-            if (name != '') {
-                this.#nodes[teamid].name.innerText = name;
-                return true;
-            }
-        }
-        return false;
+        const name = this.#handler.getTeamName(teamid);
+        this.#nodes[teamid].name.innerText = name;
     }
 
-    drawTeamKills(teamid) {
-        this.#precheckTeamID(teamid);
-        if (teamid < this.#_game.teams.length) {
-            const team = this.#_game.teams[teamid];
-            if ('kills' in team) {
-                this.#nodes[teamid].kills_value.innerText = team.kills;
-                return true;
-            }
+    setTeamName(teamid, name) {
+        if (teamid < this.#nodes.length) {
+            this.#nodes[teamid].name.innerText = name;
         }
-        return false;
     }
 
-    drawTeamPlacement(teamid) {
-        this.#precheckTeamID(teamid);
-        if (teamid < this.#_game.teams.length) {
-            const team = this.#_game.teams[teamid];
-            if ('placement' in team) {
-                this.#nodes[teamid].placement_value.innerText = team.placement;
-                return true;
-            }
+    setTeamKills(teamid, kills) {
+        if (teamid < this.#nodes.length) {
+            this.#nodes[teamid].kills_value.innerText = kills;
         }
-        return false;
+    }
+
+    setTeamPlacement(teamid, placement) {
+        if (teamid < this.#nodes.length) {
+            this.#nodes[teamid].placement_value.innerText = placement;
+        }
     }
     
-    drawTeamEliminated(teamid) {
-        this.#precheckTeamID(teamid);
-        if (teamid < this.#_game.teams.length) {
-            const team = this.#_game.teams[teamid];
-            if ('eliminated' in team) {
-                if (team.eliminated) {
-                    this.#nodes[teamid].base.classList.add('realtime-team-eliminated');
-                } else {
-                    this.#nodes[teamid].base.classList.remove('realtime-team-eliminated');
-                }
-                return true;
-            }
+    setSquadEliminated(teamid) {
+        if (teamid < this.#nodes.length) {
+            this.#nodes[teamid].base.classList.add('realtime-team-eliminated');
         }
-        return false;
-    }
-
-    drawTeam(teamid) {
-        if (drawTeamName(teamid) &&
-        drawTeamKills(teamid) &&
-        drawTeamPlacement(teamid)) {
-            return true;
-        }
-        return false;
     }
 
     static PLAYERNODE_NAME = 0x00;
@@ -1817,7 +1909,7 @@ class RealtimeView {
     static PLAYERNODE_SELECTED = 0x09;
     static PLAYERNODE_WEAPON = 0x0a;
 
-    drawPlayerNode(teamid, playerid, nodetype = RealtimeView.PLAYERNODE_NAME) {
+    #drawPlayerNode(teamid, playerid, nodetype = RealtimeView.PLAYERNODE_NAME) {
         this.#precheckTeamID(teamid);
         this.#precheckPlayerID(teamid, playerid);
         if (teamid >= this.#_game.teams.length) return false;
@@ -1826,14 +1918,8 @@ class RealtimeView {
         switch(nodetype) {
             case RealtimeView.PLAYERNODE_NAME: {
                 const node = this.#nodes[teamid].players[playerid].name;
-                this.#playersnamenode[player.hash] = node;
-                if ('params' in player && 'name' in player.params) {
-                    node.innerText = player.params.name;
-                    return true;
-                } else if ('name' in player) {
-                    node.innerText = player.name;
-                    return true;
-                }
+                this.#playersnamenode.set(player.hash, node);
+                node.innerText = this.#handler.getPlayerName(player.hash);
                 break;
             }
             case RealtimeView.PLAYERNODE_CHARACTER: {
@@ -1949,82 +2035,133 @@ class RealtimeView {
         return false;
     }
 
-    redrawPlayerName(hash, params) {
-        if (hash in this.#playersnamenode) {
-            const namenode = this.#playersnamenode[hash];
-            if ('name' in params && params.name != '') {
-                namenode.innerText = params.name;
-            }
+    setPlayerName(hash, name) {
+        if (this.#playersnamenode.has(hash)) {
+            const namenode = this.#playersnamenode.get(hash);
+            namenode.innerText = name;
+        }
+    }
+
+    setPlayerIngameName(hash, teamid, name, playerid) {
+        this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_NAME);
+    }
+
+    setPlayerState(teamid, playerid, state) {
+        this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_KILLS);
+        this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_ASSISTS);
+    }
+
+    setPlayerCharacter(teamid, playerid, character) {
+        this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_CHARACTER);
+    }
+
+    setPlayerHP(teamid, playerid, hp, hpmax) {
+        this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_HP);
+    }
+
+    setPlayerShield(teamid, playerid, shield, shieldmax) {
+        this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_SHIELD);
+    }
+
+    setPlayerDamage(teamid, playerid, damage_dealt, damage_taken) {
+        this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_DAMAGE_DEALT);
+        this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_DAMAGE_TAKEN);
+    }
+
+    setPlayerWeapon(teamid, playerid, weapon) {
+        this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_WEAPON);
+    }
+
+    setPlayerStateAlive(teamid, playerid) {
+        this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_STATE);
+    }
+
+    setPlayerStateDown(teamid, playerid) {
+        this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_STATE);
+    }
+
+    setPlayerStateKilled(teamid, playerid) {
+        this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_STATE);
+    }
+
+    setPlayerStateCollected(teamid, playerid) {
+        this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_STATE);
+    }
+
+    callObserverSwitch(observerhash, teamid, playerid, own) {
+        if (own) {
+            this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_SELECTED);
         }
     }
 
     drawPlayer(teamid, playerid) {
         let result = true;
-        if (!drawPlayerNode(teamid, playerid, PLAYERNODE_NAME)) result = false;
-        if (!drawPlayerNode(teamid, playerid, PLAYERNODE_CHARACTER)) result = false;
-        if (!drawPlayerNode(teamid, playerid, PLAYERNODE_HP)) result = false;
-        if (!drawPlayerNode(teamid, playerid, PLAYERNODE_SHIELD)) result = false;
-        if (!drawPlayerNode(teamid, playerid, PLAYERNODE_KILLS)) result = false;
-        if (!drawPlayerNode(teamid, playerid, PLAYERNODE_ASSISTS)) result = false;
-        if (!drawPlayerNode(teamid, playerid, PLAYERNODE_DAMAGE_DEALT)) result = false;
-        if (!drawPlayerNode(teamid, playerid, PLAYERNODE_DAMAGE_TAKEN)) result = false;
-        if (!drawPlayerNode(teamid, playerid, PLAYERNODE_STATE)) result = false;
+        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_NAME)) result = false;
+        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_CHARACTER)) result = false;
+        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_HP)) result = false;
+        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_SHIELD)) result = false;
+        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_KILLS)) result = false;
+        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_ASSISTS)) result = false;
+        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_DAMAGE_DEALT)) result = false;
+        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_DAMAGE_TAKEN)) result = false;
+        if (!this.#drawPlayerNode(teamid, playerid, RealtimeView.PLAYERNODE_STATE)) result = false;
         return result;
     }
 
     setGame(game) {
         this.#_game = game;
+        this.clear();
+        this.drawGameInfo();
+    }
+
+    callMatchSetup(game) {
+        this.drawGameInfo();
+    }
+
+    callClearLiveData(game) {
+        this.clear();
+    }
+
+    setGameState(state) {
         this.drawGameInfo();
     }
 
     clear() {
         this.#basenode.innerHTML = '';
         this.#nodes.splice(0);
-        for (const key in this.#playersnamenode) {
-            delete this.#playersnamenode[key];
-        }
-    }
-
-    setPlayerClickCallback(func) {
-        this.#callback = func;
+        this.#playersnamenode.clear();
     }
 }
 
 class ResultView {
+    #handler = null;
     #_game;
     #_results;
     #tournamentparams;
-    #info;
-    #all;
-    #left;
-    #right;
-    #single;
-    #nodes;
-    #infonodes;
+    #info = document.getElementById('result-game-info');
+    #all = document.getElementById('result-all-base');
+    #left = document.getElementById('result-all-left');
+    #right = document.getElementById('result-all-right');
+    #single = document.getElementById('result-single');
+    #nodes = [];
+    #infonodes = [];
     #teams; // params保存用
     #players; // params保存用
     #current;
-    #callback;
-    #unknownidcallback;
     static points_table = [12, 9, 7, 5, 4, 3, 3, 2, 2, 2, 1, 1, 1, 1, 1];
 
     constructor() {
-        this.#info = document.getElementById('result-game-info');
-        this.#all = document.getElementById('result-all-base');
-        this.#left = document.getElementById('result-all-left');
-        this.#right = document.getElementById('result-all-right');
-        this.#single = document.getElementById('result-single');
         this.#tournamentparams = {};
-        this.#nodes = [];
-        this.#infonodes = [];
         this.#_game = null;
         this.#_results = null;
-        this.#teams = {};
+        this.#teams = new Map();
         this.#players = {};
         this.#current = "all";
-        this.#callback = null;
-        this.#unknownidcallback = null;
         this.clear();
+    }
+
+    setHandler(handler) {
+        this.#handler = handler;
     }
     
     #generateGameInfoNode(gameid) {
@@ -2059,9 +2196,7 @@ class ResultView {
 
         /* callback */
         node.base.addEventListener('click', () => {
-            if (typeof(this.#callback) == 'function') {
-                this.#callback(gameid);
-            }
+            location.assign('#result-' + gameid);
         });
 
         return node;
@@ -2132,7 +2267,8 @@ class ResultView {
         const kill_points = team.kill_points.reduce((a, c) => a + c, 0);
         const placement_points = team.placement_points.reduce((a, c) => a + c, 0);
         node.rank.innerText = team.rank + 1;
-        node.name.innerText = this.#getTeamName(team.id, team.name);
+        node.name.dataset.name = team.name;
+        node.name.innerText = this.#handler.getTeamResultName(team.id, team.name);
         node.placement_label.innerText = 'PP';
         node.placement_value.innerText = placement_points;
         if (placement != null) {
@@ -2274,7 +2410,8 @@ class ResultView {
             const teamnode = this.#generateTeamNodeForSingle();
             
             // テキスト設定
-            teamnode.name.innerText = this.#getTeamName(teamid, data.name);
+            teamnode.name.dataset.name = data.name;
+            teamnode.name.innerText = this.#handler.getTeamResultName(teamid, data.name);
             teamnode.placement_value.innerText = data.placement;
             teamnode.kills_value.innerText = data.kills;
             teamnode.points_value.innerText = data.kills + (data.placement - 1 < 15 ? ResultView.points_table[data.placement - 1] : 0);
@@ -2288,7 +2425,7 @@ class ResultView {
                 teamnode.base.appendChild(playernode.base);
 
                 // テキスト設定
-                playernode.name.innerText = this.#getPlayerName(player.id, player.name);
+                playernode.name.innerText = this.#handler.getPlayerName(player.id);
                 playernode.character.innerText = player.character;
                 playernode.kills.innerText = player.kills;
                 playernode.assists.innerText = player.assists;
@@ -2435,29 +2572,6 @@ class ResultView {
         }
     }
 
-    #getTeamName(id, fallback) {
-        if (typeof(id) == 'number') id = id.toString();
-        if (!(id in this.#teams)) return fallback;
-        const team = this.#teams[id];
-        if (!('params' in team)) return fallback;
-        if (!('name' in team.params)) return fallback;
-        return team.params.name;
-    }
-
-    #getPlayerName(id, fallback) {
-        if (id in this.#players) {
-            const player = this.#players[id];
-            if ('params' in player && 'name' in player.params && player.params.name != '') {
-                return player.params.name;
-            }
-        } else {
-            if (typeof(this.#unknownidcallback) == 'function') {
-                this.#unknownidcallback(id);
-            }
-        }
-        return fallback;
-    }
-
     #savePlayerNode(id, node) {
         if (!(id in this.#players)) {
             this.#players[id] = {
@@ -2468,51 +2582,27 @@ class ResultView {
         player.nodes.push(node);
     }
 
-    savePlayerParams(id, params) {
-        if (!(id in this.#players)) {
-            this.#players[id] = {
+    setPlayerName(hash, name) {
+        if (!(hash in this.#players)) {
+            this.#players[hash] = {
                 nodes: [],
             };
         }
-        const player = this.#players[id];
-        player.params = params;
+        const player = this.#players[hash];
+        player.name = name;
         for (const node of player.nodes) {
-            if ('name' in player.params) {
-                node.innerText = player.params.name;
-            }
+            node.innerText = name;
         }
     }
 
     #saveTeamNode(id, node) {
-        if (typeof(id) == 'number') id = id.toString();
-        if (!(id in this.#teams)) {
-            this.#teams[id] = {
-                nodes: [],
-            };
+        if (!this.#teams.has(id)) {
+            this.#teams.set(id, {
+                nodes: new Set(),
+            });
         }
-        const team = this.#teams[id];
-        if (team.nodes.indexOf(node) != -1) return;
-        team.nodes.push(node);
-    }
-
-    /**
-     * 表示用にチームparamsを保存・必要に応じて要素を更新する
-     * @param {number|string} id チームID(0～)
-     * @param {object} params チームparams
-     */
-    saveTeamParams(id, params) {
-        if (!(id in this.#teams)) {
-            this.#teams[id] = {
-                nodes: [],
-            };
-        }
-        const team = this.#teams[id];
-        team.params = params;
-        if ('name' in team.params) {
-            for (const node of team.nodes) {
-                    node.innerText = team.params.name;
-            }
-        }
+        const team = this.#teams.get(id);
+        team.nodes.add(node);
     }
 
     clear() {
@@ -2525,8 +2615,8 @@ class ResultView {
         for (const [playerid, data] of Object.entries(this.#players)) {
             data.nodes.splice(0);
         }
-        for (const [teamid, data] of Object.entries(this.#teams)) {
-            data.nodes.splice(0);
+        for (const [teamid, data] of this.#teams) {
+            data.nodes.clear();
         }
     }
 
@@ -2603,7 +2693,7 @@ class ResultView {
     recalcAll() {
         this.#drawResults('all');
         if (this.#_results instanceof Array) {
-            for (let i = 0; i < this.#_results; ++i) {
+            for (let i = 0; i < this.#_results.length; ++i) {
                 this.#drawResults(i);
             }
         }
@@ -2614,7 +2704,6 @@ class ResultView {
      * @param {object} game webapiのゲームオブジェクト
      */
     setGame(game) {
-        console.log(game);
         this.#_game = game;
     }
 
@@ -2627,30 +2716,38 @@ class ResultView {
         this.recalcAll();
     }
 
-    /**
-     * ゲームIDが選択された場合に呼び出されるコールバック関数を設定する
-     * @param {function} func コールバック関数
-     */
-    setGameClickCallback(func) {
-        this.#callback = func;
+    setURLHash(fragment, mainmenu, submenu) {
+        if (mainmenu == 'result') {
+            if (submenu == 'all') {
+                this.showAllResults();
+            } else {
+                const gameid = parseInt(submenu, 10);
+                if (submenu == gameid.toString()) {
+                    this.showSingleGameResult(gameid);
+                }
+            }
+        }
     }
 
-    /**
-     * 不明なプレイヤーID(hash)が存在した場合に呼ばれるコールバック関数を設定する
-     * @param {function} func コールバック関数
-     */
-    setUnknownPlayerHashCallback(func) {
-        this.#unknownidcallback = func;
+    setTeamParamsName(teamid, name) {
+        if (this.#teams.has(teamid)) {
+            const team = this.#teams.get(teamid);
+            for (const node of team.nodes) {
+                const resultname = node.dataset.name;
+                node.innerText = this.#handler.getTeamResultName(teamid, resultname);
+            }
+        }
     }
 }
 
 class ResultFixView extends WebAPIConfigBase {
-    #gameid;
-    #result;
-    #fixedresult;
-    #dragging_teamid;
-    #callback;
-    #statscodes;
+    #handler = null;
+    #gameid = 0;
+    #result = null;
+    #fixedresult = null;
+    #dragging_teamid = 0;
+    #statscodes = new Map();
+
     constructor() {
         super("result-fix-");
         this.getNode("buttons");
@@ -2664,21 +2761,30 @@ class ResultFixView extends WebAPIConfigBase {
         this.getNode("from-stats-code");
         this.getNode("from-stats-code-lists");
         this.getNode("from-stats-code-diff-lists");
-        this.#dragging_teamid = 0;
-        this.#callback = null;
-        this.#statscodes = {};
-        this.#fixedresult = null;
 
         this.nodes["placement-update-button"].addEventListener("click", (ev) => {
             this.#updatePlacement();
         });
+
         this.nodes["kills-update-button"].addEventListener("click", (ev) => {
             this.#updateKills();
         });
+    }
+
+    setHandler(handler) {
+        this.#handler = handler;
+        const api = handler.getWebAPI();
+
         this.nodes["from-stats-submit-button"].addEventListener("click", (ev) => {
-            // 修正送信
-            if (this.#fixedresult != null && typeof(this.#callback) == 'function') {
-                this.#callback(this.#gameid, this.#fixedresult);
+            if (this.#fixedresult != null) {
+                api.setTournamentResult(this.#gameid, this.#fixedresult);
+            }
+        });
+
+        document.getElementById('result-fix-from-stats-code-button').addEventListener('click', (ev) => {
+            const code = document.getElementById("result-fix-from-stats-code-input").value;
+            if (code.match(/^[0-9a-f]+-[0-9a-f]+$/)) {
+                api.getStatsFromCode(code);
             }
         });
     }
@@ -2704,117 +2810,9 @@ class ResultFixView extends WebAPIConfigBase {
      * @param {string} statscode statsコード
      * @param {object} json 取得したjson
      */
-    setStatsJson(statscode, json) {
-        /* TODO: matchesの中身から使えるもののみ整形する */
-        const matches = [];
-        if ('matches' in json) {
-            for (const m of json.matches) {
-                let uncomplete = false;
-                const result = {teams:{}};
-                const ts = result.teams;
-                if ('aim_assist_allowed' in m) {
-                    result.aimassiston = m.aim_assist_allowed;
-                }
-                if ('map_name' in m) {
-                    result.map = m.map_name;
-                }
-                if ('match_start' in m) {
-                    result.start = m.match_start * 1000;
-                    result.end = m.match_start * 1000;
-                }
-                if ('mid' in m) {
-                    result.matchid = m.mid;
-                }
-                for (const p of m.player_results) {
-                    if ('survivalTime' in p) {
-                        const survival_time = p.survivalTime * 1000;
-                        const temp_end = result.start + survival_time;
-                        if (result.end < temp_end) result.end = temp_end;
-                    }
-    
-                    if ('teamNum' in p) {
-                        // チームのパラメータ設定
-                        const teamid = p.teamNum - 2;
-                        if (!(teamid in ts)) ts[teamid] = {id: teamid, players:[]};
-                        const team = ts[teamid];
-                        if ('teamPlacement' in p) {
-                            team.placement = p.teamPlacement;
-                            if (p.teamPlacement <= 0) {
-                                uncomplete = true;
-                                break;
-                            }
-                        }
-                        if ('teamName' in p) {
-                            team.name = p.teamName;
-                        }
-                        if ('kills' in p) {
-                            if (!('kills' in team)) team.kills = 0;
-                            team.kills += p.kills;
-                        }
-    
-                        // 個人のパラメータ設定
-                        const player = {};
-                        team.players.push(player);
-                        if ('nidHash' in p) {
-                            player.id = p.nidHash.substring(0, 32);
-                        }
-                        if ('kills' in p) {
-                            player.kills = p.kills;
-                        }
-                        if ('assists' in p) {
-                            player.assists = p.assists;
-                        }
-                        if ('knockdowns' in p) {
-                            player.knockdowns = p.knockdowns;
-                        }
-                        if ('respawnsGiven' in p) {
-                            player.respawns_given = p.respawnsGiven;
-                        }
-                        if ('revivesGiven' in p) {
-                            player.revives_given = p.revivesGiven;
-                        }
-                        if ('damageDealt' in p) {
-                            player.damage_dealt = p.damageDealt;
-                        }
-                        if ('playerName' in p) {
-                            player.name = p.playerName;
-                        }
-                        if ('characterName' in p) {
-                            player.character = p.characterName;
-                        }
-                        if ('shots' in p) {
-                            player.shots = p.shots;
-                        }
-                        if ('hits' in p) {
-                            player.hits = p.hits;
-                        }
-                        if ('headshots' in p) {
-                            player.headshots = p.headshots;
-                        }
-                        if ('survivalTime' in p) {
-                            player.survival_time = p.survivalTime;
-                        }
-                        if ('hardware' in p) {
-                            player.hardware = p.hardware;
-                        }
-                    }
-                }
-                if (!uncomplete) {
-                    // 1位のチームがいるか確認する
-                    let has_1st = false;
-                    for (const [key, team] of Object.entries(result.teams)) {
-                        if (team.placement == 1) {
-                            has_1st = true;
-                            break;
-                        }
-                    }
-                    if (has_1st) {
-                        matches.push(result);
-                    }
-                }
-            }
-        }
-        this.#statscodes[statscode] = { update: Date.now(), matches: matches };
+    setStatsFromCode(statscode, results) {
+        if (statscode != 200) return;
+        this.#statscodes.set(statscode, { update: Date.now(), matches: results });
         this.checkResultFromStats();
     }
 
@@ -2824,12 +2822,11 @@ class ResultFixView extends WebAPIConfigBase {
     checkResultFromStats() {
         // 保持しているstats概要を表示
         this.nodes["from-stats-code-lists"].innerText = "";
-        for (const key of Object.keys(this.#statscodes)) {
-            const data = this.#statscodes[key];
-            const date = (new Date(data.update)).toLocaleString();
+        for (const [statscode, v] of this.#statscodes) {
+            const date = (new Date(v.update)).toLocaleString();
             const div = document.createElement('div');
-            div.innerText = `${key}[${date}](${data.matches.length}matches)`;
-            for (const m of data.matches.sort((a, b) => a.start - b.start)) {
+            div.innerText = `${statscode}[${date}](${v.matches.length}matches)`;
+            for (const m of v.matches.sort((a, b) => a.start - b.start)) {
                 // jsonのリンクを作成
                 const a = document.createElement('a');
                 a.textContent = (new Date(m.start)).toLocaleString();
@@ -2856,8 +2853,8 @@ class ResultFixView extends WebAPIConfigBase {
         // 適用可能なデータがあるか確認
         const diff = [];
         this.#fixedresult = null;
-        for (const key of Object.keys(this.#statscodes)) {
-            for (const m of this.#statscodes[key].matches) {
+        for (const [statscode, v] of this.#statscodes) {
+            for (const m of v.matches) {
                 const s = this.#result;
                 if (s.start <= m.end && m.start <= s.end && m.map == s.map) {
                     if (this.#comparePlayers(s, m)) {
@@ -3212,9 +3209,7 @@ class ResultFixView extends WebAPIConfigBase {
         }
 
         // 修正送信
-        if (typeof(this.#callback) == 'function') {
-            this.#callback(this.#gameid, result);
-        }
+        this.#handler.getWebAPI().setTournamentResult(this.#gameid, result);
     }
 
     #updateKills() {
@@ -3255,14 +3250,13 @@ class ResultFixView extends WebAPIConfigBase {
         }
 
         // 修正送信
-        if (typeof(this.#callback) == 'function') {
-            this.#callback(this.#gameid, result);
-        }
+        this.#handler.getWebAPI().setTournamentResult(this.#gameid, result);
     }
 
     showSwitchViewButton() {
         this.nodes.buttons.classList.remove("hide");
     }
+
     hideSwitchViewButton() {
         this.nodes.buttons.classList.add("hide");
     }
@@ -3270,6 +3264,7 @@ class ResultFixView extends WebAPIConfigBase {
     showFixPlacementView() {
         this.nodes.placement.classList.remove("hide");
     }
+
     hideFixPlacementView() {
         this.nodes.placement.classList.add("hide");
     }
@@ -3277,6 +3272,7 @@ class ResultFixView extends WebAPIConfigBase {
     showFixKillsView() {
         this.nodes.kills.classList.remove("hide");
     }
+
     hideFixKillsView() {
         this.nodes.kills.classList.add("hide");
     }
@@ -3284,27 +3280,331 @@ class ResultFixView extends WebAPIConfigBase {
     showFixFromStatsCodeView() {
         this.nodes["from-stats-code"].classList.remove("hide");
     }
+
     hideFixFromStatsCodeView() {
         this.nodes["from-stats-code"].classList.add("hide");
     }
 
-    /**
-     * リザルトが修正が要求された際に呼び出されるコールバック関数を設定する
-     * @param {function} func コールバック関数
-     */
-    setCallback(func) {
-        if (typeof(func) == 'function' && func.length == 2) {
-            this.#callback = func;
+    setURLHash(fragment, mainmenu, submenu) {
+        if (mainmenu == 'result') {
+            if (submenu == 'all') {
+                this.hideSwitchViewButton();
+            } else {
+                const gameid = parseInt(submenu, 10);
+                if (submenu == gameid.toString()) {
+                    this.showSwitchViewButton();
+                    this.setResult(gameid, this.#handler.getResults()[gameid]);
+                    this.hideAll();
+                    this.showFixFromStatsCodeView();
+                }
+            }
         }
     }
 }
 
-class OverlayStatus extends EventTarget {
+class OverlayForceHideView {
+    #handler = null;
+    #params = null;
+    #ids = new Set(["leaderboard", "mapleaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated", "teamrespawned", "tdmscoreboard"]);
+    #default_forcehide_ids = new Set(["playerbanner"]);
+
+    setHandler(handler) {
+        this.#handler = handler;
+        // checkbox
+        for (const id of this.#ids) {
+            document.getElementById('overlay-hide-' + id).addEventListener('change', (ev) => {
+                this.#updateOverlayStatus(id);
+                handler.getWebAPI().setTournamentParams(this.#params);
+            });
+        }
+
+        document.getElementById('overlay-hide-teamplayerinfo').addEventListener('change', (ev) => {
+            const teamplayeroverlays = ["teambanner", "playerbanner", "teamkills", "owneditems"];
+            for (const id of teamplayeroverlays) {
+                document.getElementById('overlay-hide-' + id).checked = ev.target.checked;
+                this.#updateOverlayStatus(id);
+            }
+            handler.getWebAPI().setTournamentParams(this.#params);
+        });
+    }
+
+    /**
+     * オーバーレイの表示/非表示パラメータをトーナメントparamsに設定
+     * @param {string} id オーバーレイの名前
+     */
+    #updateOverlayStatus(id) {
+        const checked = document.getElementById('overlay-hide-' + id).checked;
+        if (!('forcehide' in this.#params)) this.#params.forcehide = {};
+        const forcehide = this.#params.forcehide;
+        forcehide[id] = checked;
+    }
+
+    setTournamentParams(params) {
+        this.#params = params;
+        if (!('forcehide' in params)) params.forcehide = {};
+        const forcehide = params.forcehide;
+        for (const id of this.#ids) {
+            if (!(id in forcehide)) {
+                forcehide[id] = this.#default_forcehide_ids.has(id);
+            }
+            document.getElementById('overlay-hide-' + id).checked = forcehide[id];
+        }
+
+        // group [teamplayerinfo]
+        if (forcehide.teambanner == forcehide.playerbanner &&
+            forcehide.teambanner == forcehide.teamkills &&
+            forcehide.teambanner == forcehide.owneditems) {
+                document.getElementById('overlay-hide-teamplayerinfo').checked = forcehide.teambanner;
+        }
+    }
+}
+
+class TestView {
+    #handler = null;
+
+    setHandler(handler) {
+        this.#handler = handler;
+        const api = handler.getWebAPI();
+
+        document.getElementById('test-change-gamestate').addEventListener('click', (ev) => {
+            const state_table = ["WaitingForPlayers", "PreGamePreview", "PickLoadout", "Prematch", "Playing", "Resolution", "Postmatch"];
+            const current_state = document.getElementById('test-gamestate-current').innerText;
+            const current_index = state_table.indexOf(current_state);
+            const next_index = ((current_index + 1) % state_table.length);
+            const next_state = state_table[next_index];
+            document.getElementById('test-gamestate-current').innerText = next_state;
+            api.broadcastObject({
+                type: "testgamestate",
+                state: next_state
+            });
+        });
+
+        document.getElementById('test-show-teambanner').addEventListener('click', (ev) => {
+            api.broadcastObject({
+                type: "testteambanner"
+            });
+        });
+
+        document.getElementById('test-show-mapleaderboard').addEventListener('click', (ev) => {
+            api.broadcastObject({
+                type: "testmapleaderboard"
+            });
+        });
+
+        document.getElementById('test-show-camera-down').addEventListener('click', (ev) => {
+            const teamid = (parseInt(document.getElementById("test-teambanner-teamid").value, 10) - 1 - 1 + 30) % 30;
+            document.getElementById("test-teambanner-teamid").value = teamid + 1;
+            api.broadcastObject({
+                type: "testcamera",
+                teamid: teamid
+            });
+        });
+
+        document.getElementById('test-show-camera-up').addEventListener('click', (ev) => {
+            const teamid = (parseInt(document.getElementById("test-teambanner-teamid").value, 10) - 1 + 1) % 30;
+            document.getElementById("test-teambanner-teamid").value = teamid + 1;
+            api.broadcastObject({
+                type: "testcamera",
+                teamid: teamid
+            });
+        });
+
+        document.getElementById('test-show-playerbanner').addEventListener('click', (ev) => {
+            const name = document.getElementById("test-playerbanner-name").value;
+            if (name != "") {
+                api.broadcastObject({
+                    type: "testplayerbanner",
+                    name: name
+                });
+            }
+        });
+
+        document.getElementById('test-show-teamkills-up').addEventListener('click', (ev) => {
+            const kills = parseInt(document.getElementById("test-teamkills-kills").value, 10) + 1;
+            document.getElementById("test-teamkills-kills").value = kills;
+            if (kills >= 0) {
+                api.broadcastObject({
+                    type: "testteamkills",
+                    kills: kills
+                });
+            }
+        });
+
+        document.getElementById('test-show-teamkills-down').addEventListener('click', (ev) => {
+            const kills = parseInt(document.getElementById("test-teamkills-kills").value, 10);
+            const downed_kills = kills <= 0 ? 0 : kills - 1;
+            document.getElementById("test-teamkills-kills").value = downed_kills;
+            api.broadcastObject({
+                type: "testteamkills",
+                kills: downed_kills
+            });
+        });
+
+        document.getElementById('test-show-owneditems').addEventListener('click', (ev) => {
+            const items = ["backpack", "knockdownshield", "syringe", "medkit", "shieldcell", "shieldbattery", "phoenixkit", "ultimateaccelerant", "fraggrenade", "thermitgrenade", "arcstar"];
+            const data = {type: "testowneditems"};
+            for (const item of items) {
+                const v = parseInt(document.getElementById("test-owneditems-" + item).value, 10);
+                switch(item) {
+                    case "backpack":
+                    case "knockdownshield":
+                        if (v < 0) return;
+                        if (v > 4) return;
+                        break;
+                    default:
+                        if (v < 0) return;
+                        break;
+                }
+                data[item] = v;
+            }
+            api.broadcastObject(data);
+        });
+
+        document.getElementById('test-show-gamecount-up').addEventListener('click', (ev) => {
+            const count = parseInt(document.getElementById("test-gamecount").value, 10);
+            const nextcount = count + 1;
+            document.getElementById("test-gamecount").value = nextcount;
+            api.broadcastObject({
+                type: "testgamecount",
+                count: nextcount
+            });
+        });
+
+        document.getElementById('test-show-gamecount-down').addEventListener('click', (ev) => {
+            const count = parseInt(document.getElementById("test-gamecount").value, 10);
+            const nextcount = count <= 1 ? 1 : count - 1;
+            document.getElementById("test-gamecount").value = nextcount;
+            api.broadcastObject({
+                type: "testgamecount",
+                count: nextcount
+            });
+        });
+
+        document.getElementById('test-show-squadeliminated').addEventListener('click', (ev) => {
+            const teamid = parseInt(document.getElementById("test-squadeliminated-teamid").value, 10);
+            const placement = parseInt(document.getElementById("test-squadeliminated-placement").value, 10);
+            if (teamid >= 1) {
+                api.broadcastObject({
+                    type: "testsquadeliminated",
+                    placement: placement,
+                    teamid: teamid - 1
+                });
+            }
+        });
+
+        document.getElementById('test-show-teamrespawned').addEventListener('click', (ev) => {
+            const teamid = parseInt(document.getElementById("test-teamrespawned-teamid").value, 10);
+            const respawn_player = document.getElementById("test-teamrespawned-respawn-player").value;
+            const respawned_players = document.getElementById("test-teamrespawned-respawned-players").value.split(',').map(x => x.trim());
+            if (teamid >= 1) {
+                api.broadcastObject({
+                    type: "testteamrespawned",
+                    teamid: teamid - 1,
+                    respawn_player: respawn_player,
+                    respawned_players: respawned_players
+                });
+            }
+        });
+
+        document.getElementById('test-show-winnerdetermine').addEventListener('click', (ev) => {
+            const teamid = parseInt(document.getElementById("test-winnerdetermine-teamid").value, 10);
+            if (teamid >= 1) {
+                api.broadcastObject({
+                    type: "testwinnerdetermine",
+                    teamid: teamid - 1
+                });
+            }
+        });
+
+        document.getElementById('test-show-winnerdetermine-reset').addEventListener('click', (ev) => {
+            api.broadcastObject({
+                type: "testwinnerdeterminereset"
+            });
+        });
+
+        document.getElementById('test-reload').addEventListener('click', (ev) => {
+            api.broadcastObject({
+                type: "testreload"
+            });
+        });
+
+        document.getElementById('test-setteamname').addEventListener('click', (ev) => {
+            const teamid = parseInt(document.getElementById("test-setteamname-teamid").value, 10);
+            const teamname = document.getElementById("test-setteamname-teamname").value;
+            if (teamname && teamname != "") {
+                api.sendSetTeamName(teamid, teamname);
+            }
+        });
+
+        document.getElementById('test-setspawnpoint').addEventListener('click', (ev) => {
+            const teamid = parseInt(document.getElementById("test-setspawnpoint-teamid").value, 10);
+            const spawnpoint = parseInt(document.getElementById("test-setspawnpoint-spawnpoint").value, 10);
+            api.sendSetSpawnPoint(teamid, spawnpoint);
+        });
+
+        document.getElementById('test-pausetoggle').addEventListener('click', (ev) => {
+            const pretimer = parseFloat(document.getElementById("test-pausetoggle-pretimer").value);
+            if (0.0 < pretimer && pretimer < 10.0) {
+                api.pauseToggle(pretimer);
+            }
+        });
+
+        document.getElementById('test-setsettings-we').addEventListener('click', (ev) => {
+            const set_settings = (ev) => {
+                const d = ev.detail;
+                api.sendSetSettings('des_hu_pm', d.adminchat, d.teamrename, d.selfassign, true, true).then(() => {
+                    api.sendGetSettings();
+                });
+            };
+            api.addEventListener('custommatchsettings', set_settings, { once: true });
+            api.sendGetSettings().catch(() => {
+                api.removeEventListener('custommatchsettings', set_settings, { once: true });
+            });
+        });
+
+        document.getElementById('test-setsettings-sp').addEventListener('click', (ev) => {
+            const set_settings = (ev) => {
+                const d = ev.detail;
+                api.sendSetSettings('tropic_mu2_pm', d.adminchat, d.teamrename, d.selfassign, true, true).then(() => {
+                    api.sendGetSettings();
+                });
+            };
+            api.addEventListener('custommatchsettings', set_settings, { once: true });
+            api.sendGetSettings().catch(() => {
+                api.removeEventListener('custommatchsettings', set_settings, { once: true });
+            });
+        });
+
+        document.getElementById('test-getsettings').addEventListener('click', (ev) => {
+            api.sendGetSettings();
+        });
+
+        document.getElementById('test-setendringexclusion').addEventListener('click', ev => {
+            const sectionstr = document.getElementById('test-setendringexclusion-select').value;
+            const section = parseInt(sectionstr, 10);
+            api.sendSetEndRingExclusion(section);
+        });
+
+        document.getElementById('test-joinpartyserver').addEventListener('click', ev => {
+            api.sendJoinPartyServer();
+        });
+    }
+
+    setCustomMatchSettings(settings) {
+        document.getElementById('test-settings-we-adminchat').checked = settings.adminchat;
+        document.getElementById('test-settings-we-teamrename').checked = settings.teamrename;
+        document.getElementById('test-settings-we-selfassign').checked = settings.selfassign;
+    }
+}
+
+class OverlayStatusView {
+    #handler = null;
     #base = document.getElementById('overlay-status');
     #tbody = this.#base.querySelector('tbody');
     #lastcheck = 0;
-    constructor() {
-        super();
+
+    setHandler(handler) {
+        this.#handler = handler;
     }
 
     #removeOldStatus() {
@@ -3317,8 +3617,12 @@ class OverlayStatus extends EventTarget {
         }
     }
 
-    updateStatus(status) {
-        console.log(status);
+    receiveBroadcastObject(obj) {
+        if (!obj || !('data' in obj)) return;
+        if (!('type' in obj.data)) return;
+        if (!('data' in obj.data)) return;
+        if (obj.data.type != 'overlaystatus') return;
+        const status = obj.data.data;
         // 既存のステータスを更新
         let tr = this.#tbody.querySelector(`tr[data-id="${status.id}"]`);
         if (tr) {
@@ -3341,7 +3645,10 @@ class OverlayStatus extends EventTarget {
             btn_reload.innerHTML = '<span class="en">reload</span><span class="ja">再読込</span>';
             td_action.appendChild(btn_reload);
             btn_reload.addEventListener('click', (ev) => {
-                this.dispatchEvent(new CustomEvent('reload', { detail: { id: status.id } }));
+                this.#handler.getWebAPI().broadcastObject({
+                    type: "reload",
+                    id: status.id
+                });
             });
 
             // 列の追加
@@ -3356,416 +3663,636 @@ class OverlayStatus extends EventTarget {
     }
 }
 
-export class WebAPIConfig {
-    #webapi;
-    #_game;
-    #_results;
-    #liveapiconfig;
-    #webapiconnectionstatus;
-    #liveapiconnectionstatus;
-    #languageselect;
-    #tournament_id;
-    #tournament_name;
-    #tournament_ids;
-    #tournament_params;
-    #tournamentcalculationmethod;
-    /** @type {Object.<string, object>} プレーヤーparamsの格納先 */
-    #playerparams;
-    /** @type {Object.<string, object>} チームparamsの格納先 */
-    #teamparams;
-    #realtimeview;
-    #observerconfig;
-    #playername;
-    #playernamelobbyview;
-    #teamname;
-    #ingamesettings;
-    #legendban;
-    #resultview;
-    #resultfixview;
-    #tryconnecting;
-    #lobby;
-    #getallplayers;
-    #overlaystatus;
+class AnnouncementView {
+    #handler = null
 
-    constructor(url, liveapi_url) {
-        this.#tournament_id = "";
-        this.#tournament_name = "noname";
-        this.#tournament_ids = {};
-        this.#tournament_params = {};
-        this.#playerparams = {};
-        this.#teamparams = {};
-        this.#lobby = {};
-        this._results = null;
-        this.#realtimeview = new RealtimeView();
-        this.#observerconfig = new ObserverConfig();
-        this.#resultview = new ResultView();
-        this.#resultfixview = new ResultFixView();
-        this.#tournamentcalculationmethod = new TournamentCalculationMethod();
-        this.#liveapiconfig = new LiveAPIConfig(liveapi_url);
-        this.#webapiconnectionstatus = new WebAPIConnectionStatus();
-        this.#liveapiconnectionstatus = new LiveAPIConnectionStatus();
-        this.#languageselect = new LanguageSelect();
-        this.#playername = new PlayerName();
-        this.#playernamelobbyview = new PlayerNameLobbyView();
-        this.#teamname = new TeamName();
-        this.#ingamesettings = new InGameSettings();
-        this.#legendban = new LegendBan();
-        this.#overlaystatus = new OverlayStatus();
-        this.#tryconnecting = false;
-        this.#getallplayers = false;
+    setHandler(handler) {
+        this.#handler = handler;
+        const api = handler.getWebAPI();
 
-        this.#setupWebAPI(url);
-        this.#setupButton();
-        this.#setupCallback();
-        this.#setupMenuSelect();
+        document.getElementById('announce-button').addEventListener('click', (ev) => {
+            const text = document.getElementById('announce-text').value;
+            if (text != "") {
+                api.sendChat(text);
+            }
+        });
+    }
+}
+
+class ManualPostMatchView {
+    #handler = null
+
+    setHandler(handler) {
+        this.#handler = handler;
+        const api = handler.getWebAPI();
+
+        document.getElementById('manualpostmatch-send').addEventListener('click', (ev) => {
+            api.manualPostMatch();
+        });
+    }
+}
+
+
+class LeftResultSelector {
+    #appendOrRemoveResultMenu(count) {
+        const ul = document.getElementById('ulresult');
+        if (count + 1 > ul.children.length) {
+            // append
+            for (let i = ul.children.length - 1; i < count; ++i) {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = '#result-' + i;
+                a.innerHTML = '<span class="en">Game</span><span class="ja">マッチ</span> ' + (i + 1);
+                li.appendChild(a);
+                ul.appendChild(li);
+
+                // クラス設定
+                if (getFragment(location.hash) == ('result-' + i)) {
+                    a.classList.add('sidebar-selected');
+                }
+            }
+        } else if (count + 1 < ul.children.length) {
+            // remove
+            while (count + 1 < ul.children.length) {
+                ul.removeChild(ul.lastChild);
+            }
+        }
     }
 
-    #setupWebAPI(url) {
-        this.#webapi = new ApexWebAPI.ApexWebAPI(url);
+    setResults(results) {
+        this.#appendOrRemoveResultMenu(results.length);
+    }
 
-        this.#legendban.setWebAPI(this.#webapi);
+    setCurrentTournament(id, name, count) {
+        this.#appendOrRemoveResultMenu(count);
+    }
+}
+
+class VersionView {
+    constructor() {
+        fetch('version.json').then(r => {
+            return r.json();
+        }).then(j => {
+            if ('version' in j) {
+                this.#setHTMLVersion(j.version);
+            }
+        });
+    }
+
+    #setHTMLVersion(version) {
+        document.getElementById('htmlversion').textContent = version;
+    }
+
+    setExeVersion(version) {
+        document.getElementById('exeversion').textContent = version;
+    }
+}
+
+class MenuSwitcher {
+    #tournament_id = '';
+    #handler = null;
+
+    setHandler(handler) {
+        this.#handler = handler;
+    }
+
+    setURLHash(fragment, mainmenu, submenu) {
+        const api = this.#handler ? this.#handler.getWebAPI() : null;
+
+        if (mainmenu == 'result') {
+            for (const c of document.getElementById('main').children) {
+                if (c.id == 'result') {
+                    c.classList.remove('hide');
+                } else {
+                    c.classList.add('hide');
+                }
+            }
+        } else {
+            for (const c of document.getElementById('main').children) {
+                if (c.id == fragment) {
+                    c.classList.remove('hide');
+                } else {
+                    c.classList.add('hide');
+                }
+            }
+        }
+
+        /* 左側のメニューの選択表示 */
+        for (const node of document.querySelectorAll('.sidebar-selected')) {
+            node.classList.remove('sidebar-selected');
+        }
+        for (const node of document.querySelectorAll('a[href="#' + fragment + '"]')) {
+            node.classList.add('sidebar-selected');
+        }
+    }
+}
+
+class WebAPIWorkerHandler {
+    #webapi = null;
+    #tryconnecting = false;
+    #views = [];
+    #game = null;
+    #callbacks = new Map();
+    #tournament_id = '';
+    #tournament_name = '';
+    #tournament_params = {};
+    #playerparams = new Map();
+    #playernames = new Map();
+    #playeringamenames = new Map();
+    #playerresultnames = new Map();
+    #maxteams = 30;
+    #teamparams = new Map();
+    #teamnames = new Map();
+    #observers = new Set();
+    #lobby = { token: '', players: new Map(), teams: new Map() };
+    #results = [];
+    constructor(url, views) {
+        const api = new ApexWebAPI.ApexWebAPI(url);
+        this.#webapi = api;
+        this.#views = views;
+        this.#registerViewsCallbacks();
+
+        this.#callCallbacks('setHandler', this);
 
         // 接続系
-        this.#webapi.addEventListener('open', (ev) => {
-            this.#_game = ev.detail.game;
-            this.#realtimeview.setGame(ev.detail.game);
-            this.#resultview.setGame(ev.detail.game);
-            this.#webapiconnectionstatus.setStatus('open');
+        api.addEventListener('open', ev => {
+            this.#updatedGame(ev.detail.game);
+            this.#updatedWebAPIConnectionStatus('open');
 
             /* 初回情報取得 */
-            this.#webapi.getPlayers();
-            this.#webapi.getCurrentTournament();
-            this.#webapi.getTournamentIDs();
-            this.#webapi.getAll();
-            this.#webapi.getObserver();
-            this.#webapi.getObservers();
-            this.#webapi.sendGetLobbyPlayers();
-            this.#webapi.sendGetSettings();
-            this.#webapi.getTournamentResults();
-            this.#webapi.getTournamentParams();
-            this.#webapi.getLiveAPIConfig();
-            this.#webapi.getVersion();
-            this.#getTeamNames();
+            api.getPlayers();
+            api.getCurrentTournament();
+            api.getTournamentIDs();
+            api.getAll();
+            api.getObserver();
+            api.getObservers();
+            api.sendGetLobbyPlayers();
+            api.sendGetSettings();
+            api.getLiveAPIConfig();
+            api.getVersion();
         });
 
-        this.#webapi.addEventListener('close', (ev) => {
-            this.#webapiconnectionstatus.setStatus('close');
+        api.addEventListener('close', (ev) => {
+            this.#updatedWebAPIConnectionStatus('close');
             this.#tryReconnect();
         });
 
-        this.#webapi.addEventListener('error', (ev) => {
-            this.#webapiconnectionstatus.setStatus('error');
+        api.addEventListener('error', (ev) => {
+            this.#updatedWebAPIConnectionStatus('error');
             this.#tryReconnect();
         });
 
         /* 設定変更イベント */
-        this.#webapi.addEventListener('getcurrenttournament', (ev) => {
+        api.addEventListener('getcurrenttournament', (ev) => {
             if (ev.detail.id != '' && this.#tournament_id != ev.detail.id) {
-                // 現在のトーナメントIDが変わった場合
-                this.#getTeamNames();
+                this.#getAllTeamParams();
+            }
+            if (this.#tournament_id != ev.detail.id) {
+                api.getTournamentResults();
+                api.getTournamentParams();
             }
             this.#tournament_id = ev.detail.id;
             this.#tournament_name = ev.detail.name;
             if (ev.detail.id == '') {
-                this.#setCurrentTournament('none', 'noname');
+                this.#updatedCurrentTournament('none', 'noname', ev.detail.count);
             } else {
-                this.#setCurrentTournament(ev.detail.id, ev.detail.name);
+                this.#updatedCurrentTournament(ev.detail.id, ev.detail.name, ev.detail.count);
             }
-            this.#updateResultMenuFromResultsCount(ev.detail.count);
         });
 
-        this.#webapi.addEventListener('gettournamentids', (ev) => {
-            this.#procTournamentIDs(event.detail.ids);
+        api.addEventListener('gettournamentids', ev => {
+            this.#updatedTournamentIDs(ev.detail.ids);
         });
 
-        this.#webapi.addEventListener('settournamentname', (ev) => {
-            this.#tournamentcalculationmethod.clear();
-            this.#webapi.getCurrentTournament();
-            this.#webapi.getTournamentIDs();
-            this.#webapi.getTournamentResults();
-            this.#webapi.getTournamentParams();
+        api.addEventListener('settournamentname', (ev) => {
+            api.getCurrentTournament();
+            api.getTournamentIDs();
+            api.getTournamentResults();
+            api.getTournamentParams();
         });
 
-        this.#webapi.addEventListener('renametournamentname', (ev) => {
-            this.#webapi.getCurrentTournament();
-            this.#webapi.getTournamentIDs();
+        api.addEventListener('renametournamentname', (ev) => {
+            api.getCurrentTournament();
+            api.getTournamentIDs();
         });
 
-        this.#webapi.addEventListener('getplayers', (ev) => {
+        api.addEventListener('getplayers', (ev) => {
             for (const [hash, params] of Object.entries(ev.detail.players)) {
-                this.#playerparams[hash] = params;
-                this.#realtimeview.redrawPlayerName(hash, params); // RealtimeViewの再描画
-                this.#resultview.savePlayerParams(hash, params); // ResultView用にも保存
-                if ('name' in params) {
-                    this.#playername.setName(hash, params.name);
-                    this.#playernamelobbyview.setPlayerName(hash, params.name);
-                }
-                if ('ingamenames' in params) this.#playername.setInGameNames(hash, params.ingamenames);
+                this.#updatedPlayerParams(hash, params);
             }
-            this.#getallplayers = true;
         });
 
-        this.#webapi.addEventListener('lobbyenumstart', (ev) => {
-            this.#lobby = {};
-            this.#playernamelobbyview.start();
+        api.addEventListener('getplayerparams', (ev) => {
+            this.#updatedPlayerParams(ev.detail.hash, ev.detail.params);
         });
 
-        this.#webapi.addEventListener('lobbytoken', (ev) => {
+        api.addEventListener('setplayerparams', (ev) => {
+            if (ev.detail.result) {
+                this.#updatedPlayerParams(ev.detail.hash, ev.detail.params);
+            }
+        });
+
+        api.addEventListener('lobbyenumstart', (ev) => {
+            this.#lobby.token = '';
+            this.#lobby.players.clear();
+            this.#lobby.teams.clear();
+            this.#callCallbacks('lobbyEnumStart');
+        });
+
+        api.addEventListener('lobbytoken', (ev) => {
             this.#lobby.token = ev.detail.token;
         });
 
-        this.#webapi.addEventListener('lobbyplayer', (ev) => {
-            // store lobby data
-            if (!('players' in this.#lobby)) this.#lobby.players = {};
-            this.#lobby.players[ev.detail.hash] = ev.detail;
-
-            this.#procPlayerInGameName(ev.detail.hash, ev.detail.name);
+        api.addEventListener('lobbyplayer', (ev) => {
+            this.#lobby.players.set(ev.detail.hash, ev.detail);
             if (ev.detail.observer) {
-                this.#observerconfig.drawObserverName(ev.detail.hash, ev.detail.name);
-            }
-        });
-
-        this.#webapi.addEventListener('lobbyplayer', ev => {
-            if (ev.detail.unassigned) return;
-            if (ev.detail.observer) return;
-            const hash = ev.detail.hash;
-            const ingamename = ev.detail.name;
-            const teamid = ev.detail.teamid;
-            let name = '';
-            if (hash in this.#playerparams && 'name' in this.#playerparams[hash]) {
-                name = this.#playerparams[hash].name;
-            }
-            this.#playernamelobbyview.setPlayerIngameName(hash, teamid, name, ingamename);
-        });
-
-        this.#webapi.addEventListener('lobbyteam', (ev) => {
-            // store lobby data
-            if (!('teams' in this.#lobby)) this.#lobby.teams = {};
-            if (ev.detail.unassigned) {
-                this.#lobby.teams['unassigned'] = ev.detail;
-            } else if (ev.detail.observer) {
-                this.#lobby.teams['observer'] = ev.detail;
-            } else {
-                this.#lobby.teams[ev.detail.teamid] = ev.detail;
-            }
-        });
-
-        this.#webapi.addEventListener('lobbyteam', ev => {
-            if (ev.detail.unassigned) return;
-            if (ev.detail.observer) return;
-            const teamid = ev.detail.teamid;
-            const name = ev.detail.name;
-            this.#playernamelobbyview.setTeamName(teamid, name);
-        });
-
-        this.#webapi.addEventListener('lobbyenumend', (ev) => {
-            this.#ingamesettings.setLobby(this.#lobby);
-            this.#playernamelobbyview.end();
-        });
-
-        /* observer用 */
-        this.#webapi.addEventListener('getobserver', (ev) => {
-            this.#observerconfig.setCurrentObserver(ev.detail.hash); 
-        });
-        this.#webapi.addEventListener('getobservers', (ev) => {
-            for (const observer of ev.detail.observers) {
-                this.#observerconfig.drawObserverName(observer.hash, observer.name);
-            }
-        })
-
-        /* realtime view 用 関連付け */
-        this.#webapi.addEventListener('matchsetup', (ev) => {
-            this.#realtimeview.drawGameInfo();
-        })
-        this.#webapi.addEventListener('gamestatechange', (ev) => {
-            this.#realtimeview.drawGameInfo();
-        })
-        this.#webapi.addEventListener('clearlivedata', (ev) => {
-            this.#_game = ev.detail.game;
-            this.#realtimeview.setGame(ev.detail.game);
-            this.#realtimeview.clear();
-        });
-        this.#webapi.addEventListener('teamname', (ev) => {
-            this.#realtimeview.drawTeamName(ev.detail.team.id);
-        });
-        this.#webapi.addEventListener('playerstats', (ev) => {
-            this.#realtimeview.drawTeamKills(ev.detail.team.id);
-            this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_KILLS);
-            this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_ASSISTS);
-        });
-        this.#webapi.addEventListener('squadeliminate', (ev) => {
-            this.#realtimeview.drawTeamPlacement(ev.detail.team.id);
-            this.#realtimeview.drawTeamEliminated(ev.detail.team.id);
-        });
-        this.#webapi.addEventListener('teamplacement', (ev) => {
-            this.#realtimeview.drawTeamPlacement(ev.detail.team.id);
-            this.#realtimeview.drawTeamEliminated(ev.detail.team.id);
-        });
-        this.#webapi.addEventListener('setteamparams', (ev) => {
-            if (ev.detail.result) {
-                const teamid = ev.detail.teamid;
-                const params = ev.detail.params;
-                this.#teamparams[teamid] = params;
-                this.#resultview.saveTeamParams(teamid, params);
-                if (teamid >= this.#_game.teams.length) return;
-                if (!('name' in this.#_game.teams[teamid])) return;
-                this.#realtimeview.drawTeamName(teamid);
-            }
-        });
-        this.#webapi.addEventListener('getteamparams', (ev) => {
-            const teamid = ev.detail.teamid;
-            const params = ev.detail.params;
-            this.#teamparams[teamid] = params;
-            this.#resultview.saveTeamParams(teamid, params);
-            if (teamid >= this.#_game.teams.length) return;
-            if (!('name' in this.#_game.teams[teamid])) return;
-            this.#realtimeview.drawTeamName(teamid);
-        });
-        this.#webapi.addEventListener('playername', (ev) => {
-            this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_NAME);
-            this.#procPlayerInGameName(ev.detail.player.hash, ev.detail.player.name);
-        });
-        this.#webapi.addEventListener('playercharacter', (ev) => {
-            this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_CHARACTER);
-        });
-        this.#webapi.addEventListener('playerhp', (ev) => {
-            this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_HP);
-        });
-        this.#webapi.addEventListener('playershield', (ev) => {
-            this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_SHIELD);
-        });
-        this.#webapi.addEventListener('playerdamage', (ev) => {
-            this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_DAMAGE_DEALT);
-            this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_DAMAGE_TAKEN);
-        });
-        this.#webapi.addEventListener('playerweapon', (ev) => {
-            this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_WEAPON);
-        });
-        this.#webapi.addEventListener('statealive', (ev) => {
-            this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_STATE);
-        });
-        this.#webapi.addEventListener('statedown', (ev) => {
-            this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_STATE);
-        });
-        this.#webapi.addEventListener('statekilled', (ev) => {
-            this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_STATE);
-        });
-        this.#webapi.addEventListener('statecollected', (ev) => {
-            this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_STATE);
-        });
-        this.#webapi.addEventListener('observerswitch', (ev) => {
-            if (ev.detail.own) {
-                this.#realtimeview.drawPlayerNode(ev.detail.team.id, ev.detail.player.id, RealtimeView.PLAYERNODE_SELECTED);
-            }
-        });
-        this.#webapi.addEventListener('playeritem', (ev) => {
-        });
-
-        /* result用 */
-        this.#webapi.addEventListener('gettournamentresults', (ev) => {
-            this.#_results = ev.detail.results;
-            this.#procCurrentHash(location.hash);
-            this.#resultview.setResults(ev.detail.results);
-            this.#procPlayerInGameNameFromResults(ev.detail.results);
-        });
-        this.#webapi.addEventListener('settournamentresult', (ev) => {
-            if (ev.detail.setresult) {
-                this.#webapi.getTournamentResults();
-            }
-        });
-        this.#webapi.addEventListener('saveresult', (ev) => {
-            this.#webapi.getTournamentResults();
-            this.#updateResultMenuFromResultsCount(ev.detail.gameid + 1);
-        });
-
-        this.#webapi.addEventListener('getplayerparams', (ev) => {
-            const hash = ev.detail.hash;
-            const params = ev.detail.params;
-            this.#resultview.savePlayerParams(hash, params);
-            this.#realtimeview.redrawPlayerName(hash, params); // RealtimeViewの再描画
-            if ('name' in params) {
-                this.#playername.setName(hash, params.name);
-                this.#playernamelobbyview.setPlayerName(hash, params.name);
-            }
-            if ('ingamenames' in params) this.#playername.setInGameNames(hash, params.ingamenames);
-        });
-
-        this.#webapi.addEventListener('setplayerparams', (ev) => {
-            if (ev.detail.result) {
-                const hash = ev.detail.hash;
-                const params = ev.detail.params;
-                this.#resultview.savePlayerParams(hash, params);
-                this.#realtimeview.redrawPlayerName(hash, params); // RealtimeViewの再描画
-                if ('name' in params) {
-                    this.#playername.setName(hash, params.name);
-                    this.#playernamelobbyview.setPlayerName(hash, params.name);
+                if (!this.#observers.has(ev.detail.hash)) {
+                    this.#updatedObserver(ev.detail.hash);
                 }
-                if ('ingamenames' in params) this.#playername.setInGameNames(hash, params.ingamenames);
+            }
+            if (ev.detail.unassigned) return;
+            if (ev.detail.observer) return;
+            this.#checkPlayerIngameName(ev.detail.hash, ev.detail.teamid, ev.detail.name);
+        });
+
+        api.addEventListener('lobbyteam', (ev) => {
+            if (ev.detail.unassigned) {
+                this.#lobby.teams.set('unassigned', ev.detail);
+            } else if (ev.detail.observer) {
+                this.#lobby.teams.set('observer', ev.detail);
+            } else {
+                this.#lobby.teams.set(ev.detail.teamid, ev.detail);
+                this.#updatedTeamIngameName(ev.detail.teamid, ev.detail.name);
             }
         });
 
-        /* Overlay用 */
-        this.#webapi.addEventListener('gettournamentparams', (ev) => {
-            this.#tournament_params = ev.detail.params;
-            this.#setOverlayStatusFromParams(ev.detail.params);
-            this.#resultview.setTournamentParams(ev.detail.params);
-            this.#ingamesettings.setTournamentParams(ev.detail.params);
-            this.#tournamentcalculationmethod.importCalcMethod(ev.detail.params['calcmethod']);
+        api.addEventListener('lobbyenumend', (ev) => {
+            this.#callCallbacks('lobbyEnumEnd', this.#lobby);
         });
 
-        this.#webapi.addEventListener('settournamentparams', (ev) => {
+        api.addEventListener('setobserver', (ev) => {
+            this.#updatedCurrentObserver(ev.detail.hash);
+        });
+
+        api.addEventListener('getobserver', (ev) => {
+            this.#updatedCurrentObserver(ev.detail.hash);
+        });
+
+        api.addEventListener('observerswitch', (ev) => {
+            const observerhash = ev.detail.observer.hash;
+            const teamid = ev.detail.team.id;
+            const playerid = ev.detail.player.id;
+            this.#callCallbacks('callObserverSwitch', observerhash, teamid, playerid, ev.detail.own);
+        });
+
+        api.addEventListener('getobservers', (ev) => {
+            for (const observer of ev.detail.observers) {
+                const hash = observer.hash;
+                const name = observer.name;
+                if (!this.#playeringamenames.has(hash)) {
+                    this.#playeringamenames.set(hash, new Set());
+                }
+                const nameset = this.#playeringamenames.get(hash);
+                if (!nameset.has(name)) {
+                    const oldname = this.getPlayerName(hash);
+                    nameset.add(name);
+                    const newname = this.getPlayerName(hash);
+                    if (oldname != newname) {
+                        this.#updatedPlayerName(hash, newname);
+                    }
+                }
+                if (!this.#observers.has(hash)) {
+                    this.#updatedObserver(hash);
+                }
+            }
+        });
+
+        api.addEventListener('matchsetup', (ev) => {
+            this.#callCallbacks('callMatchSetup', ev.detail.game);
+        });
+
+        api.addEventListener('gamestatechange', (ev) => {
+            const state = ev.detail.game.state;
+            this.#callCallbacks('setGameState', state);
+        });
+
+        api.addEventListener('clearlivedata', (ev) => {
+            this.#callCallbacks('clearLiveData', ev.detail.game);
+        });
+
+        api.addEventListener('teamname', (ev) => {
+            this.#updatedTeamId(ev.detail.team.id);
+            this.#updatedTeamIngameName(ev.detail.team.id, ev.detail.team.name);
+        });
+
+        api.addEventListener('squadeliminate', (ev) => {
+            this.#callCallbacks('setSquadEliminated', ev.detail.team.id);
+        });
+
+        api.addEventListener('teamplacement', (ev) => {
+            this.#callCallbacks('setTeamPlacement', ev.detail.team.id, ev.detail.team.placement);
+        });
+
+        api.addEventListener('setteamparams', (ev) => {
             if (ev.detail.result) {
-                this.#tournament_params = ev.detail.params;
-                this.#setOverlayStatusFromParams(ev.detail.params);
-                this.#resultview.setTournamentParams(ev.detail.params);
-                this.#ingamesettings.setTournamentParams(ev.detail.params);
-                this.#tournamentcalculationmethod.importCalcMethod(ev.detail.params['calcmethod']);
+                this.#updatedTeamParams(ev.detail.teamid, ev.detail.params);
             }
         });
 
-        /** LiveAPI側の接続状況を表示 */
-        this.#webapi.addEventListener('liveapisocketstats', (ev) => {
-            this.#liveapiconnectionstatus.setStatus(ev.detail.conn, ev.detail.recv, ev.detail.send);
+        api.addEventListener('getteamparams', (ev) => {
+            this.#updatedTeamParams(ev.detail.teamid, ev.detail.params);
         });
 
-        /** LiveAPIの設定関係 */
-        this.#webapi.addEventListener('getliveapiconfig', (ev) => {
-            this.#liveapiconfig.setConfig(ev.detail.config);
+        api.addEventListener('playerhash', ev => {
+            this.#callCallbacks('setPlayerHash', ev.detail.team.id, ev.detail.player.id, ev.detail.player.hash);
         });
 
-        this.#webapi.addEventListener('setliveapiconfig', (ev) => {
+        api.addEventListener('playername', (ev) => {
+            this.#checkPlayerIngameName(ev.detail.player.hash, ev.detail.team.id, ev.detail.player.name, ev.detail.player.id);
+        });
+
+        api.addEventListener('playercharacter', (ev) => {
+            this.#callCallbacks('setPlayerCharacter', ev.detail.team.id, ev.detail.player.id, ev.detail.player.character);
+        });
+
+        api.addEventListener('playerhp', (ev) => {
+            this.#callCallbacks('setPlayerHP', ev.detail.team.id, ev.detail.player.id, ev.detail.player.hp, ev.detail.player.hp_max);
+        });
+
+        api.addEventListener('playershield', (ev) => {
+            this.#callCallbacks('setPlayerShield', ev.detail.team.id, ev.detail.player.id, ev.detail.player.shield, ev.detail.player.shield_max);
+        });
+
+        api.addEventListener('playerdamage', (ev) => {
+            this.#callCallbacks('setPlayerDamage', ev.detail.team.id, ev.detail.player.id, ev.detail.player.damage_dealt, ev.detail.player.damage_taken);
+        });
+
+        api.addEventListener('playerweapon', (ev) => {
+            this.#callCallbacks('setPlayerWeapon', ev.detail.team.id, ev.detail.player.id, ev.detail.player.weapon);
+        });
+
+        api.addEventListener('statealive', (ev) => {
+            this.#callCallbacks('setPlayerStateAlive', ev.detail.team.id, ev.detail.player.id);
+        });
+
+        api.addEventListener('statedown', (ev) => {
+            this.#callCallbacks('setPlayerStateDown', ev.detail.team.id, ev.detail.player.id);
+        });
+
+        api.addEventListener('statekilled', (ev) => {
+            this.#callCallbacks('setPlayerStateKilled', ev.detail.team.id, ev.detail.player.id);
+        });
+
+        api.addEventListener('statecollected', (ev) => {
+            this.#callCallbacks('setPlayerStateCollected', ev.detail.team.id, ev.detail.player.id);
+        });
+
+        api.addEventListener('playerstats', (ev) => {
+            const team = ev.detail.team;
+            const player = ev.detail.player;
+            const stats = {kills: player.kills, assists: player.assists, knockdowns: player.knockdowns, revives: player.revives, respawns: player.respawns};
+            this.#callCallbacks('setTeamKills', ev.detail.team.id, ev.detail.team.kills);
+            this.#callCallbacks('setPlayerStats', ev.detail.team.id, ev.detail.player.id, stats);
+        });
+
+        api.addEventListener('playeritem', (ev) => {
+            /* アイテム数変動イベント: 管理画面ではまだ扱わない */
+        });
+
+        api.addEventListener('gettournamentresults', (ev) => {
+            this.#results = ev.detail.results;
+            this.#updatedResults(ev.detail.results);
+            this.#updatedURLHash(location.hash); // 再評価
+        });
+
+        api.addEventListener('settournamentresult', (ev) => {
+            if (ev.detail.setresult) {
+                this.#webapi.getTournamentResults(); // 再取得
+            }
+        });
+
+        api.addEventListener('saveresult', (ev) => {
+            this.#webapi.getTournamentResults(); // 再取得
+        });
+
+        api.addEventListener('gettournamentparams', (ev) => {
+            this.#updatedTournamentParams(ev.detail.params);
+        });
+
+        api.addEventListener('settournamentparams', (ev) => {
             if (ev.detail.result) {
-                this.#liveapiconfig.setConfig(ev.detail.config);
+                this.#updatedTournamentParams(ev.detail.params);
             }
         });
 
-        /* Post-APIからの取得結果 */
-        this.#webapi.addEventListener('getstatsfromcode', (ev) => {
-            if (ev.detail.statuscode == 200) {
-                this.#resultfixview.setStatsJson(ev.detail.statscode, ev.detail.stats);
+        api.addEventListener('liveapisocketstats', (ev) => {
+            this.#callCallbacks('setLiveAPISocketStatus', ev.detail.conn, ev.detail.recv, ev.detail.send);
+        });
+
+        api.addEventListener('getliveapiconfig', (ev) => {
+            this.#callCallbacks('setLiveAPIConfig', ev.detail.config);
+        });
+
+        api.addEventListener('setliveapiconfig', (ev) => {
+            if (ev.detail.result) {
+                this.#callCallbacks('setLiveAPIConfig', ev.detail.config);
             }
         });
 
-        /* マッチ設定の取得 */
-        this.#webapi.addEventListener('custommatchsettings', (ev) => {
-            document.getElementById('test-getsettings-playlist').innerText = ev.detail.playlistname;
-            document.getElementById('test-getsettings-aimassist').innerText = ev.detail.aimassist;
-            document.getElementById('test-getsettings-anonmode').innerText = ev.detail.anonmode;
-        });
+        api.addEventListener('getstatsfromcode', (ev) => {
+            const statscode = ev.detail.statscode;
+            const stats = ev.detail.stats;
 
-        this.#webapi.addEventListener('custommatchsettings', (ev) => {
-            this.#ingamesettings.setCustomSettings(ev.detail);
-        });
-
-        this.#webapi.addEventListener('getversion', ev => {
-            document.getElementById('exeversion').textContent = ev.detail.version;
-        });
-
-        this.#webapi.addEventListener('broadcastobject', ev => {
-            if ('data' in ev.detail && 'type' in ev.detail.data && ev.detail.data.type == 'overlaystatus') {
-                this.#overlaystatus.updateStatus(ev.detail.data.data);
+            // match形式からresult形式への変換
+            const results = [];
+            if ('matches' in json) {
+                for (const m of json.matches) {
+                    let uncomplete = false;
+                    const result = {teams:{}};
+                    const ts = result.teams;
+                    if ('aim_assist_allowed' in m) {
+                        result.aimassiston = m.aim_assist_allowed;
+                    }
+                    if ('map_name' in m) {
+                        result.map = m.map_name;
+                    }
+                    if ('match_start' in m) {
+                        result.start = m.match_start * 1000;
+                        result.end = m.match_start * 1000;
+                    }
+                    if ('mid' in m) {
+                        result.matchid = m.mid;
+                    }
+                    for (const p of m.player_results) {
+                        if ('survivalTime' in p) {
+                            const survival_time = p.survivalTime * 1000;
+                            const temp_end = result.start + survival_time;
+                            if (result.end < temp_end) result.end = temp_end;
+                        }
+        
+                        if ('teamNum' in p) {
+                            // チームのパラメータ設定
+                            const teamid = p.teamNum - 2;
+                            if (!(teamid in ts)) ts[teamid] = {id: teamid, players:[]};
+                            const team = ts[teamid];
+                            if ('teamPlacement' in p) {
+                                team.placement = p.teamPlacement;
+                                if (p.teamPlacement <= 0) {
+                                    uncomplete = true;
+                                    break;
+                                }
+                            }
+                            if ('teamName' in p) {
+                                team.name = p.teamName;
+                            }
+                            if ('kills' in p) {
+                                if (!('kills' in team)) team.kills = 0;
+                                team.kills += p.kills;
+                            }
+        
+                            // 個人のパラメータ設定
+                            const player = {};
+                            team.players.push(player);
+                            if ('nidHash' in p) {
+                                player.id = p.nidHash.substring(0, 32);
+                            }
+                            if ('kills' in p) {
+                                player.kills = p.kills;
+                            }
+                            if ('assists' in p) {
+                                player.assists = p.assists;
+                            }
+                            if ('knockdowns' in p) {
+                                player.knockdowns = p.knockdowns;
+                            }
+                            if ('respawnsGiven' in p) {
+                                player.respawns_given = p.respawnsGiven;
+                            }
+                            if ('revivesGiven' in p) {
+                                player.revives_given = p.revivesGiven;
+                            }
+                            if ('damageDealt' in p) {
+                                player.damage_dealt = p.damageDealt;
+                            }
+                            if ('playerName' in p) {
+                                player.name = p.playerName;
+                            }
+                            if ('characterName' in p) {
+                                player.character = p.characterName;
+                            }
+                            if ('shots' in p) {
+                                player.shots = p.shots;
+                            }
+                            if ('hits' in p) {
+                                player.hits = p.hits;
+                            }
+                            if ('headshots' in p) {
+                                player.headshots = p.headshots;
+                            }
+                            if ('survivalTime' in p) {
+                                player.survival_time = p.survivalTime;
+                            }
+                            if ('hardware' in p) {
+                                player.hardware = p.hardware;
+                            }
+                        }
+                    }
+                    if (!uncomplete) {
+                        // 1位のチームがいるか確認する
+                        let has_1st = false;
+                        for (const [key, team] of Object.entries(result.teams)) {
+                            if (team.placement == 1) {
+                                has_1st = true;
+                                break;
+                            }
+                        }
+                        if (has_1st) {
+                            results.push(result);
+                        }
+                    }
+                }
             }
+            this.#callCallbacks('setStatsFromCode', statscode, results);
+            this.#checkResultPlayerNames(results);
         });
+
+        api.addEventListener('custommatchsettings', (ev) => {
+            this.#callCallbacks('setCustomMatchSettings', ev.detail);
+        });
+
+        api.addEventListener('getversion', ev => {
+            this.#callCallbacks('setExeVersion', ev.detail.version);
+        });
+
+        api.addEventListener('broadcastobject', ev => {
+            this.#callCallbacks('receiveBroadcastObject', ev.detail);
+        });
+
+        window.addEventListener("hashchange", (ev) => {
+            this.#updatedURLHash(location.hash);
+        });
+    }
+
+    #registerViewsCallbacks() {
+        const callbacks = [
+            'setHandler',
+            'setURLHash',
+            'setGame',
+            'setWebAPIConnectionStatus',
+            'setLiveAPIConnectionStatus',
+            'setAllTeamParams',
+            'setTournamentIDs',
+            'setTournamentParams',
+            'setCurrentTournament',
+            'setExeVersion',
+            'setPlayerParams',
+            'setPlayerName',
+            'setPlayerParamsName',
+            'setPlayerIngameName',
+            'lobbyEnumStart',
+            'lobbyEnumEnd',
+            'setObserverName',
+            'setCurrentObserver',
+            'callMatchSetup',
+            'setGameState',
+            'clearLiveData',
+            'setSquadEliminated',
+            'setTeamId',
+            'setTeamName',
+            'setTeamIngameName',
+            'setTeamParams',
+            'setTeamParamsName',
+            'setTeamParamsNameLines',
+            'setTeamKills',
+            'setTeamPlacement',
+            'setPlayerHash',
+            'setPlayerCharacter',
+            'setPlayerHP',
+            'setPlayerShield',
+            'setPlayerDamage',
+            'setPlayerWeapon',
+            'setPlayerStateAlive',
+            'setPlayerStateDown',
+            'setPlayerStateKilled',
+            'setPlayerStateCollected',
+            'setPlayerStats',
+            'setResults',
+            'setLiveAPISocketStatus',
+            'setLiveAPIConfig',
+            'setStatsFromCode',
+            'setCustomMatchSettings',
+            'receiveBroadcastObject',
+        ];
+        for (const view of this.#views) {
+            for (const cb of callbacks) {
+                if (cb in view && typeof (view[cb]) == 'function') {
+                    if (!this.#callbacks.has(cb)) {
+                        this.#callbacks.set(cb, []);
+                    }
+                    this.#callbacks.get(cb).push(view[cb].bind(view));
+                }
+            }
+        }
     }
 
     #tryReconnect() {
@@ -3778,90 +4305,440 @@ export class WebAPIConfig {
         }
     }
 
-    #setupButton() {
-
-        document.getElementById('connectbtn').addEventListener('click', (ev) => {
-            this.#webapiconnectionstatus.setStatus('connecting...');
-            this.#webapi.forceReconnect();
-        });
-
-        document.getElementById('tournament-set-button').addEventListener('click', (ev) => {
-            const text = document.getElementById('tournament-set-text').value;
-            if (text != '') {
-                this.#webapi.setTournamentName(text);
+    #callCallbacks(name, ...args) {
+        if (this.#callbacks.has(name)) {
+            for (const cb of this.#callbacks.get(name)) {
+                try {
+                cb(...args);
+                } catch (e) {
+                    console.error(`Error in callback ${name}:`, e);
+                }
             }
-        });
+        }
+    }
 
-        document.getElementById('tournament-rename-button').addEventListener('click', (ev) => {
-            const text = document.getElementById('tournament-rename-text').value;
-            if (text != '' || this.#tournament_id != '') {
-                this.#webapi.renameTournamentName(this.#tournament_id, text);
+    #updatedGame(game) {
+        this.#game = game;
+        this.#callCallbacks('setGame', game);
+    }
+
+    #updatedWebAPIConnectionStatus(status) {
+        this.#callCallbacks('setWebAPIConnectionStatus', status);
+    }
+
+    #updatedTournamentIDs(ids) {
+        this.#callCallbacks('setTournamentIDs', ids);
+    }
+
+    #updatedCurrentTournament(id, name, count) {
+        this.#callCallbacks('setCurrentTournament', id, name, count);
+    }
+
+    #updatedTournamentParams(params) {
+        this.#tournament_params = params;
+        this.#callCallbacks('setTournamentParams', params);
+    }
+
+    #updatedAllTeamParams(params) {
+        this.#callCallbacks('setAllTeamParams', params);
+    }
+
+    #updatedPlayerParams(hash, params) {
+        this.#playerparams.set(hash, params);
+        this.#callCallbacks('setPlayerParams', hash, params);
+
+        // 名前更新の確認
+        if ('name' in params && params.name != '') {
+            const name = params.name;
+            if (this.#playernames.get(hash) != name) {
+                const oldname = this.getPlayerName(hash);
+                this.#playernames.set(hash, name);
+                const newname = this.getPlayerName(hash);
+                if (oldname != newname) {
+                    this.#updatedPlayerName(hash, newname);
+                }
             }
-        });
-
-        document.getElementById('observer-set-getfromlobby').addEventListener('click', (ev) => {
-            this.#webapi.sendGetLobbyPlayers();
-        });
-
-        document.getElementById('player-name-getfromresults').addEventListener('click', (ev) => {
-            this.#webapi.getTournamentResults();
-        });
-
-        document.getElementById('player-name-getfromlivedata').addEventListener('click', (ev) => {
-
-        });
-
-        document.getElementById('player-name-getfromlobby').addEventListener('click', (ev) => {
-            this.#webapi.sendGetLobbyPlayers();
-        });
-
-        document.getElementById('player-lobbyview-getfromlobby').addEventListener('click', (ev) => {
-            this.#webapi.sendGetLobbyPlayers();
-        });
-
-        document.getElementById('team-name-button').addEventListener('click', (ev) => {
-            this.#setTeamNames().then((arr) => {
-                this.#updateTeamNameTextArea();
-            });
-        });
-
-        document.getElementById('ingamesettings-getfromlobby').addEventListener('click', ev => {
-            this.#webapi.sendGetLobbyPlayers();
-            this.#webapi.sendGetSettings();
-        });
-
-        document.getElementById('team-ingamename-button').addEventListener('click', (ev) => {
-            this.#setInGameTeamNames();
-        });
-
-        document.getElementById('announce-button').addEventListener('click', (ev) => {
-            const text = document.getElementById('announce-text').value;
-            if (text != "") {
-            this.#webapi.sendChat(text).then(() => {}, () => {});
+            this.#updatedPlayerParamsName(hash, name);
+        } else {
+            if (this.#playernames.has(hash)) {
+                const oldname = this.getPlayerName(hash);
+                this.#playernames.delete(hash);
+                const newname = this.getPlayerName(hash);
+                if (oldname != newname) {
+                    this.#updatedPlayerName(hash, newname);
+                }
             }
-        });
+            this.#updatedPlayerParamsName(hash, '');
+        }
+    }
 
-        document.getElementById('manualpostmatch-send').addEventListener('click', (ev) => {
-            this.#webapi.manualPostMatch();
-        });
+    #updatedPlayerParamsName(hash, name) {
+        this.#callCallbacks('setPlayerParamsName', hash, name);
+    }
 
-        document.getElementById('ingamesettings-teamnames-button').addEventListener('click', (ev) => {
-            this.#setInGameTeamNames(true);
-        });
+    #checkPlayerIngameName(hash, teamid, name, playerid = -1) {
+        if (!this.#playeringamenames.has(hash)) {
+            this.#playeringamenames.set(hash, new Set());
+        }
+        const nameset = this.#playeringamenames.get(hash);
+        if (!nameset.has(name)) {
+            const oldname = this.getPlayerName(hash);
+            nameset.add(name);
+            const newname = this.getPlayerName(hash);
+            if (oldname != newname) {
+                this.#updatedPlayerName(hash, newname);
+            }
+        }
+        this.#updatedPlayerIngameName(hash, teamid, name, playerid);
+    }
 
-        document.getElementById('ingamesettings-spawnpoints-button').addEventListener('click', (ev) => {
-            this.#setInGameSpawnPoints();
-        });
+    #updatedPlayerIngameName(hash, teamid, name, playerid) {
+        this.#callCallbacks('setPlayerIngameName', hash, teamid, name, playerid);
+    }
 
-        document.getElementById('ingamesettings-customsettings-button').addEventListener('click', (ev) => {
-            this.#setInGameSettings();
-        });
+    #updatedPlayerName(hash, name) {
+        this.#callCallbacks('setPlayerName', hash, name);
+        if (this.#observers.has(hash)) {
+            this.#callCallbacks('setObserverName', hash, name);
+        }
+    }
 
-        document.getElementById('ingamesettings-all-button').addEventListener('click', (ev) => {
-            this.#setInGameTeamNames(true);
-            this.#setInGameSpawnPoints();
-            this.#setInGameSettings();
+    #updatedCurrentObserver(hash) {
+        this.#callCallbacks('setCurrentObserver', hash);
+    }
+
+    #updatedObserver(hash) {
+        this.#observers.add(hash);
+        const name = this.getPlayerName(hash);
+        this.#callCallbacks('setObserverName', hash, name);
+    }
+
+    #updatedTeamParams(teamid, params) {
+        this.#teamparams.set(teamid, params);
+        this.#callCallbacks('setTeamParams', teamid, params);
+        const oldname = this.getTeamName(teamid);
+        if ('name' in params && params.name != '') {
+            const name = params.name;
+            if (this.#teamnames.get(teamid) != name) {
+                this.#teamnames.set(teamid, name);
+                this.#callCallbacks('setTeamParamsName', teamid, name);
+                this.#updatedTeamParamsNameLines();
+                const newname = this.getTeamName(teamid);
+                if (oldname != newname) {
+                    this.#updatedTeamName(teamid, newname);
+                }
+            }
+        } else {
+            if (this.#teamnames.has(teamid)) {
+                this.#teamnames.delete(teamid);
+                this.#callCallbacks('setTeamParamsName', teamid, '');
+                this.#updatedTeamParamsNameLines();
+                const newname = this.getTeamName(teamid);
+                if (oldname != newname) {
+                    this.#updatedTeamName(teamid, newname);
+                }
+            }
+        }
+    }
+
+    #updatedTeamId(teamid) {
+        this.#callCallbacks('setTeamId', teamid);
+    }
+
+    #updatedTeamName(teamid, name) {
+        this.#callCallbacks('setTeamName', teamid, name);
+    }
+
+    #updatedTeamParamsNameLines() {
+        let names = [];
+        for (let teamid = 0; teamid < this.#maxteams; ++teamid) {
+            const name = this.#teamnames.get(teamid);
+            names.push(name ? name : '');
+        }
+        this.#callCallbacks('setTeamParamsNameLines', names.join('\r\n'));
+    }
+
+    #updatedTeamIngameName(teamid, name) {
+        this.#callCallbacks('setTeamIngameName', teamid, name);
+    }
+
+    #calcPointsFromResults() {
+    }
+
+    #updatedResults(results) {
+        this.#callCallbacks('setResults', results);
+
+        // リザルトからプレイヤー名の確認
+        this.#checkResultPlayerNames(results);
+    }
+
+    #checkResultPlayerNames(results) {
+        for (const result of results) {
+            if (!('teams' in result)) continue;
+            for (const team of Object.values(result.teams)) {
+                if (!('players' in team)) continue;
+                for (const player of team.players) {
+                    if (!('id' in player)) continue;
+                    const hash = player.id;
+                    if ('name' in player) {
+                        const name = player.name;
+                        this.#checkResultPlayerName(hash, name);
+                    }
+                }
+            }
+        }
+    }
+
+    #checkResultPlayerName(hash, name) {
+        if (!this.#playerresultnames.has(hash)) {
+            this.#playerresultnames.set(hash, new Set());
+        }
+        const nameset = this.#playerresultnames.get(hash);
+        if (!nameset.has(name)) {
+            this.#callCallbacks('setPlayerResultName', hash, name);
+            const oldname = this.getPlayerName(hash);
+            nameset.add(name);
+            const newname = this.getPlayerName(hash);
+            if (oldname != newname) {
+                this.#updatedPlayerName(hash, newname);
+            }
+        }
+    }
+
+    #updatedURLHash(hash) {
+        const fragment = getFragment(hash);
+        const mainmenu = getMainMenu(fragment);
+        const submenu = getSubMenu(fragment);
+
+        if (this.#tournament_id == '' && ["realtime", "tournament-rename", "tournament-params", "tournament-calc", "team-name", "team-params", "overlay"].indexOf(fragment) >= 0) {
+            window.location.assign("#tournament-set");
+            return;
+        }
+
+        this.#callCallbacks('setURLHash', fragment, mainmenu, submenu);
+    }
+
+    #_getAllTeamParams() {
+        return new Promise((resolve, reject) => {
+            const jobs = [];
+            for (let i = 0; i < this.#maxteams; ++i) {
+                jobs.push(new Promise((nresolve, nreject) => {
+                    return this.#webapi.getTeamParams(i).then((ev) => {
+                        nresolve(ev.detail.params);
+                    }, nreject);
+                }));
+            }
+            Promise.all(jobs).then(resolve, reject);
         });
+    }
+
+    #getAllTeamParams() {
+        this.#_getAllTeamParams().then(arr => this.#updatedAllTeamParams(arr));
+    }
+
+    getWebAPI() {
+        return this.#webapi;
+    }
+
+    getPlayerName(hash) {
+        if (this.#playernames.has(hash)) {
+            return this.#playernames.get(hash);
+        } else if (this.#playeringamenames.has(hash)) {
+            const nameset = this.#playeringamenames.get(hash);
+            return [...nameset].pop();
+        } else if (this.#playerresultnames.has(hash)) {
+            const nameset = this.#playerresultnames.get(hash);
+            return [...nameset].pop();
+        } else {
+            return hash;
+        }
+    }
+
+    getTeamName(teamid) {
+        if (this.#teamnames.has(teamid)) {
+            return this.#teamnames.get(teamid);
+        } else if (this.#game && teamid < this.#game.teams.length && 'name' in this.#game.teams[teamid]) {
+            return this.#game.teams[teamid].name;
+        } else {
+            return `Team ${teamid + 1}`;
+        }
+    }
+
+    getTeamResultName(teamid, fallback) {
+        if (this.#teamnames.has(teamid)) {
+            return this.#teamnames.get(teamid);
+        }
+        return fallback;
+    }
+
+    setPlayerParamsName(hash, name) {
+        if (!this.#playerparams.has(hash)) {
+            this.#playerparams.set(hash, {});
+        }
+        const params = this.#playerparams.get(hash);
+        if (name != '') {
+            params.name = name;
+        } else {
+            delete params.name;
+        }
+
+        // ingamenamesにも反映
+        if (!('ingamenames' in params)) {
+            params.ingamenames = [];
+        }
+
+        for (const ingamenames of Object.values(this.#playeringamenames.get(hash) || new Set())) {
+            for (const ingamename of params.ingamenames) {
+                if (!params.ingamenames.includes(ingamename)) {
+                    params.ingamenames.push(ingamename);
+                }
+            }
+        }
+
+        for (const resultnames of Object.values(this.#playerresultnames.get(hash) || new Set())) {
+            for (const resultname of params.resultnames) {
+                if (!params.ingamenames.includes(resultname)) {
+                    params.ingamenames.push(resultname);
+                }
+            }
+        }
+
+        // 反映
+        this.#webapi.setPlayerParams(hash, params);
+    }
+
+    setTeamParamsName(teamid, name) {
+        if (!this.#teamparams.has(teamid)) {
+            this.#teamparams.set(teamid, {});
+        }
+        const params = this.#teamparams.get(teamid);
+        const oldparams = JSON.stringify(params);
+        if (name) {
+            params.name = name;
+        } else {
+            delete params.name;
+        }
+        const newparams = JSON.stringify(params);
+        if (oldparams != newparams) {
+            this.#webapi.setTeamParams(teamid, params);
+        }
+    }
+
+    setTeamIngameNamesFromText(text) {
+        const lines = text.split(/\r\n|\n/).map((line) => line.trim()).slice(0, this.#maxteams);
+        let timerid = null;
+
+        const enumend = (ev) => {
+            if (timerid != null) clearTimeout(timerid);
+
+            if (!('token' in this.#lobby) || this.#lobby.token == '' || this.#lobby.token.indexOf('c') == 0) {
+                return;
+            }
+
+            if ('teams' in this.#lobby) {
+                for (let i = 0; i < this.#maxteams; ++i) {
+                    if (i in this.#lobby.teams) {
+                        const team = this.#lobby.teams[i];
+                        const name = i < lines.length ? lines[i] : '';
+                        if (team.name != name) {
+                            this.#webapi.sendSetTeamName(i, name);
+                        }
+                    }
+                }
+            }
+            this.#webapi.sendGetLobbyPlayers();
+        };
+
+        this.#webapi.addEventListener('lobbyenumend', enumend, { once: true });
+
+        timerid = setTimeout(() => {
+            this.#webapi.removeEventListener('lobbyenumend', enumend);
+            console.warn('setTeamIngameNamesFromText() timeout.');
+        }, 2000); // 2sでタイムアウト
+
+        this.#webapi.sendGetLobbyPlayers();
+    }
+
+    setTeamIngameSpawnPoints(spawnpoints) {
+        let timerid = null;
+
+        const enumend = (ev) => {
+            if (timerid != null) clearTimeout(timerid);
+
+            if (!('token' in this.#lobby) || this.#lobby.token == '' || this.#lobby.token.indexOf('c') == 0) {
+                return;
+            }
+
+            if ('teams' in this.#lobby) {
+                for (let i = 0; i < this.#maxteams; ++i) {
+                    if (i in this.#lobby.teams) {
+                        const team = this.#lobby.teams[i];
+                        const spawnpoint = i < spawnpoints.length ? spawnpoints[i] : 0;
+                        if (team.spawnpoint != spawnpoint) {
+                            this.#webapi.sendSetSpawnPoint(i, spawnpoint);
+                        }
+                    }
+                }
+            }
+            this.#webapi.sendGetLobbyPlayers();
+        };
+
+        this.#webapi.addEventListener('lobbyenumend', enumend, { once: true });
+
+        timerid = setTimeout(() => {
+            this.#webapi.removeEventListener('lobbyenumend', enumend);
+            console.warn('setTeamIngameSpawnPoints() timeout.');
+        }, 2000); // 2sでタイムアウト
+
+        this.#webapi.sendGetLobbyPlayers();
+    }
+
+    setTournamentParamsCalcMethod(calcmethod) {
+        if (!this.#tournament_params) {
+            this.#tournament_params = {};
+        }
+
+        const oldcalcmethod = this.#tournament_params.calcmethod;
+        if (JSON.stringify(oldcalcmethod) != JSON.stringify(calcmethod)) {
+            this.#tournament_params.calcmethod = calcmethod;
+            this.#webapi.setTournamentParams(this.#tournament_params);
+        }
+    }
+
+    getResults() {
+        return this.#results;
+    }
+}
+
+export class WebAPIConfig {
+    #handler = null;
+    #tournamentcalculationmethod;
+    #resultview;
+    #resultfixview;
+
+    constructor(url, liveapi_url) {
+        this.#handler = new WebAPIWorkerHandler(url, [
+            new RealtimeView(),
+            new ObserverConfigView(),
+            this.#resultview = new ResultView(),
+            this.#resultfixview = new ResultFixView(),
+            new TournamentCalculationMethodView(),
+            new LiveAPIConfigView(liveapi_url),
+            new LiveAPIConnectionStatusView(),
+            new WebAPIConnectionStatus(),
+            new LiveAPIConnectionStatus(),
+            new LanguageSelectView(),
+            new PlayerNameView(),
+            new PlayerNameLobbyView(),
+            new TeamNameView(),
+            new InGameSettingsView(),
+            new LegendBanView(),
+            new OverlayStatusView(),
+            new TournamentSetView(),
+            new LeftResultSelector(),
+            new VersionView(),
+            new MenuSwitcher()
+        ]);
 
         document.getElementById('result-view-button').addEventListener('click', (ev) => {
             this.#resultview.showBothResultView();
@@ -3884,732 +4761,5 @@ export class WebAPIConfig {
             this.#resultfixview.showFixKillsView();
             this.#resultfixview.hideFixFromStatsCodeView();
         });
-
-        // checkbox
-        for (const id of ["leaderboard", "mapleaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated", "teamrespawned", "tdmscoreboard"]) {
-            document.getElementById('overlay-hide-' + id).addEventListener('change', (ev) => {
-                this.#updateOverlayStatus(id);
-                this.#webapi.setTournamentParams(this.#tournament_params);
-            });
-        }
-
-        document.getElementById('overlay-hide-teamplayerinfo').addEventListener('change', (ev) => {
-            const teamplayeroverlays = ["teambanner", "playerbanner", "teamkills", "owneditems"];
-            for (const id of teamplayeroverlays) {
-                document.getElementById('overlay-hide-' + id).checked = ev.target.checked;
-                this.#updateOverlayStatus(id);
-            }
-            this.#webapi.setTournamentParams(this.#tournament_params);
-        });
-
-        // Test
-        document.getElementById('test-change-gamestate').addEventListener('click', (ev) => {
-            const state_table = ["WaitingForPlayers", "PreGamePreview", "PickLoadout", "Prematch", "Playing", "Resolution", "Postmatch"];
-            const current_state = document.getElementById('test-gamestate-current').innerText;
-            const current_index = state_table.indexOf(current_state);
-            const next_index = ((current_index + 1) % state_table.length);
-            const next_state = state_table[next_index];
-            document.getElementById('test-gamestate-current').innerText = next_state;
-            this.#webapi.broadcastObject({
-                type: "testgamestate",
-                state: next_state
-            });
-        });
-        document.getElementById('test-show-teambanner').addEventListener('click', (ev) => {
-            this.#webapi.broadcastObject({
-                type: "testteambanner"
-            });
-        });
-        document.getElementById('test-show-mapleaderboard').addEventListener('click', (ev) => {
-            this.#webapi.broadcastObject({
-                type: "testmapleaderboard"
-            });
-        });
-        document.getElementById('test-show-camera-down').addEventListener('click', (ev) => {
-            const teamid = (parseInt(document.getElementById("test-teambanner-teamid").value, 10) - 1 - 1 + 30) % 30;
-            document.getElementById("test-teambanner-teamid").value = teamid + 1;
-            this.#webapi.broadcastObject({
-                type: "testcamera",
-                teamid: teamid
-            });
-        });
-        document.getElementById('test-show-camera-up').addEventListener('click', (ev) => {
-            const teamid = (parseInt(document.getElementById("test-teambanner-teamid").value, 10) - 1 + 1) % 30;
-            document.getElementById("test-teambanner-teamid").value = teamid + 1;
-            this.#webapi.broadcastObject({
-                type: "testcamera",
-                teamid: teamid
-            });
-        });
-        document.getElementById('test-show-playerbanner').addEventListener('click', (ev) => {
-            const name = document.getElementById("test-playerbanner-name").value;
-            if (name != "") {
-                this.#webapi.broadcastObject({
-                    type: "testplayerbanner",
-                    name: name
-                });
-            }
-        });
-        document.getElementById('test-show-teamkills-up').addEventListener('click', (ev) => {
-            const kills = parseInt(document.getElementById("test-teamkills-kills").value, 10) + 1;
-            document.getElementById("test-teamkills-kills").value = kills;
-            if (kills >= 0) {
-                this.#webapi.broadcastObject({
-                    type: "testteamkills",
-                    kills: kills
-                });
-            }
-        });
-        document.getElementById('test-show-teamkills-down').addEventListener('click', (ev) => {
-            const kills = parseInt(document.getElementById("test-teamkills-kills").value, 10);
-            const downed_kills = kills <= 0 ? 0 : kills - 1;
-            document.getElementById("test-teamkills-kills").value = downed_kills;
-            this.#webapi.broadcastObject({
-                type: "testteamkills",
-                kills: downed_kills
-            });
-        });
-        document.getElementById('test-show-owneditems').addEventListener('click', (ev) => {
-            const items = ["backpack", "knockdownshield", "syringe", "medkit", "shieldcell", "shieldbattery", "phoenixkit", "ultimateaccelerant", "fraggrenade", "thermitgrenade", "arcstar"];
-            const data = {type: "testowneditems"};
-            for (const item of items) {
-                const v = parseInt(document.getElementById("test-owneditems-" + item).value, 10);
-                switch(item) {
-                    case "backpack":
-                    case "knockdownshield":
-                        if (v < 0) return;
-                        if (v > 4) return;
-                        break;
-                    default:
-                        if (v < 0) return;
-                        break;
-                }
-                data[item] = v;
-            }
-            this.#webapi.broadcastObject(data);
-        });
-        document.getElementById('test-show-gamecount-up').addEventListener('click', (ev) => {
-            const count = parseInt(document.getElementById("test-gamecount").value, 10);
-            const nextcount = count + 1;
-            document.getElementById("test-gamecount").value = nextcount;
-            this.#webapi.broadcastObject({
-                type: "testgamecount",
-                count: nextcount
-            });
-        });
-        document.getElementById('test-show-gamecount-down').addEventListener('click', (ev) => {
-            const count = parseInt(document.getElementById("test-gamecount").value, 10);
-            const nextcount = count <= 1 ? 1 : count - 1;
-            document.getElementById("test-gamecount").value = nextcount;
-            this.#webapi.broadcastObject({
-                type: "testgamecount",
-                count: nextcount
-            });
-        });
-        document.getElementById('test-show-squadeliminated').addEventListener('click', (ev) => {
-            const teamid = parseInt(document.getElementById("test-squadeliminated-teamid").value, 10);
-            const placement = parseInt(document.getElementById("test-squadeliminated-placement").value, 10);
-            if (teamid >= 1) {
-                this.#webapi.broadcastObject({
-                    type: "testsquadeliminated",
-                    placement: placement,
-                    teamid: teamid - 1
-                });
-            }
-        });
-        document.getElementById('test-show-teamrespawned').addEventListener('click', (ev) => {
-            const teamid = parseInt(document.getElementById("test-teamrespawned-teamid").value, 10);
-            const respawn_player = document.getElementById("test-teamrespawned-respawn-player").value;
-            const respawned_players = document.getElementById("test-teamrespawned-respawned-players").value.split(',').map(x => x.trim());
-            if (teamid >= 1) {
-                this.#webapi.broadcastObject({
-                    type: "testteamrespawned",
-                    teamid: teamid - 1,
-                    respawn_player: respawn_player,
-                    respawned_players: respawned_players
-                });
-            }
-        });
-        document.getElementById('test-show-winnerdetermine').addEventListener('click', (ev) => {
-            const teamid = parseInt(document.getElementById("test-winnerdetermine-teamid").value, 10);
-            if (teamid >= 1) {
-                this.#webapi.broadcastObject({
-                    type: "testwinnerdetermine",
-                    teamid: teamid - 1
-                });
-            }
-        });
-        document.getElementById('test-show-winnerdetermine-reset').addEventListener('click', (ev) => {
-            this.#webapi.broadcastObject({
-                type: "testwinnerdeterminereset"
-            });
-        });
-        document.getElementById('test-reload').addEventListener('click', (ev) => {
-            this.#webapi.broadcastObject({
-                type: "testreload"
-            });
-        });
-
-        document.getElementById('test-setteamname').addEventListener('click', (ev) => {
-            const teamid = parseInt(document.getElementById("test-setteamname-teamid").value, 10);
-            const teamname = document.getElementById("test-setteamname-teamname").value;
-            if (teamname && teamname != "") {
-                this.#webapi.sendSetTeamName(teamid, teamname);
-            }
-        });
-
-        document.getElementById('test-setspawnpoint').addEventListener('click', (ev) => {
-            const teamid = parseInt(document.getElementById("test-setspawnpoint-teamid").value, 10);
-            const spawnpoint = parseInt(document.getElementById("test-setspawnpoint-spawnpoint").value, 10);
-            this.#webapi.sendSetSpawnPoint(teamid, spawnpoint);
-        });
-
-        document.getElementById('test-pausetoggle').addEventListener('click', (ev) => {
-            const pretimer = parseFloat(document.getElementById("test-pausetoggle-pretimer").value);
-            if (0.0 < pretimer && pretimer < 10.0) {
-                this.#webapi.pauseToggle(pretimer);
-            }
-        });
-
-        document.getElementById('test-setsettings-we').addEventListener('click', (ev) => {
-            const set_settings = (ev) => {
-                const d = ev.detail;
-                this.#webapi.sendSetSettings('des_hu_pm', d.adminchat, d.teamrename, d.selfassign, true, true).then(() => {
-                    this.#webapi.sendGetSettings();
-                });
-            };
-            this.#webapi.addEventListener('custommatchsettings', set_settings, { once: true });
-            this.#webapi.sendGetSettings().catch(() => {
-                this.#webapi.removeEventListener('custommatchsettings', set_settings, { once: true });
-            });
-        });
-
-        document.getElementById('test-setsettings-sp').addEventListener('click', (ev) => {
-            const set_settings = (ev) => {
-                const d = ev.detail;
-                this.#webapi.sendSetSettings('tropic_mu2_pm', d.adminchat, d.teamrename, d.selfassign, true, true).then(() => {
-                    this.#webapi.sendGetSettings();
-                });
-            };
-            this.#webapi.addEventListener('custommatchsettings', set_settings, { once: true });
-            this.#webapi.sendGetSettings().catch(() => {
-                this.#webapi.removeEventListener('custommatchsettings', set_settings, { once: true });
-            });
-        });
-
-        document.getElementById('test-getsettings').addEventListener('click', (ev) => {
-            this.#webapi.sendGetSettings();
-        });
-
-        document.getElementById('test-setendringexclusion').addEventListener('click', ev => {
-            const sectionstr = document.getElementById('test-setendringexclusion-select').value;
-            const section = parseInt(sectionstr, 10);
-            this.#webapi.sendSetEndRingExclusion(section);
-        });
-
-        document.getElementById('result-fix-from-stats-code-button').addEventListener('click', (ev) => {
-            const code = document.getElementById("result-fix-from-stats-code-input").value;
-            if (code.match(/^[0-9a-f]+-[0-9a-f]+$/)) {
-                this.#webapi.getStatsFromCode(code);
-            }
-        });
-
-        document.getElementById('test-joinpartyserver').addEventListener('click', ev => {
-            this.#webapi.sendJoinPartyServer();
-        });
-    }
-
-    #setupCallback() {
-        this.#observerconfig.setClickCallback((id) => {
-            this.#webapi.setObserver(id).then((ev) => {
-                this.#observerconfig.setCurrentObserver(ev.detail.hash).then(() => {}, () => {});
-            }, () => {});
-        });
-
-        this.#realtimeview.setPlayerClickCallback((teamid, playerid) => {
-            if (teamid >= this.#_game.teams.length) return;
-            const team = this.#_game.teams[teamid];
-            if (playerid >= team.players.length) return;
-            const player = team.players[playerid];
-            if (!('hash' in player)) return;
-            if (!('state' in player)) return;
-            if (player.hash == '') return;
-            if (player.state != ApexWebAPI.ApexWebAPI.WEBAPI_PLAYER_STATE_ALIVE) return;
-            this.#webapi.changeCameraByHash(player.hash);
-        });
-
-        this.#resultview.setGameClickCallback((gameid) => {
-            location.assign('#result-' + gameid);
-        });
-        
-        this.#resultview.setUnknownPlayerHashCallback((playerhash) => {
-            this.#webapi.getPlayerParams(playerhash);
-        });
-
-        this.#resultfixview.setCallback((gameid, result) => {
-            this.#webapi.setTournamentResult(gameid, result);
-        });
-
-        this.#playername.setCallback((hash, name) => {
-            const params = this.#playerparams[hash];
-            params.name = name;
-            this.#webapi.setPlayerParams(hash, params);
-        });
-
-        this.#playernamelobbyview.setCallback((hash, name) => {
-            const params = this.#playerparams[hash];
-            params.name = name;
-            this.#webapi.setPlayerParams(hash, params);
-        });
-
-        this.#tournamentcalculationmethod.setDumpedCalcMethodCallback((calcmethod) => {
-            this.#tournament_params['calcmethod'] = calcmethod;
-            this.#webapi.setTournamentParams(this.#tournament_params);
-        });
-
-        this.#liveapiconfig.setCallback((config) => {
-            this.#webapi.setLiveAPIConfig(config);
-        });
-
-        this.#ingamesettings.setUpdatePresetsCallback((presets) => {
-            this.#tournament_params['presets'] = presets;
-            this.#webapi.setTournamentParams(this.#tournament_params);
-        });
-
-        this.#overlaystatus.addEventListener('reload', (ev) => {
-            this.#webapi.broadcastObject({
-                type: "reload",
-                id: ev.detail.id
-            });
-        });
-    }
-
-    #setupMenuSelect() {
-        window.addEventListener("hashchange", (ev) => {
-            this.#procCurrentHash(location.hash);
-        });
-    }
-
-    #getFragment(s) {
-        const first = s.indexOf('#');
-        return first >= 0 ? s.substring(first + 1) : '';
-    }
-    #getMainMenu(s) {
-        const first = s.indexOf('-');
-        return first >= 0 ? s.substring(0, first) : s;
-    }
-    #getSubMenu(s) {
-        const first = s.indexOf('-');
-        return first >= 0 ? s.substring(first + 1) : '';
-    }
-
-    /**
-     * URLのハッシュからページ表示・非表示する
-     * @param {string} hash URLのハッシュ
-     */
-    #procCurrentHash(hash) {
-        const fragment = this.#getFragment(hash);
-        const mainmenu = this.#getMainMenu(fragment);
-        const submenu = this.#getSubMenu(fragment);
-        if (this.#tournament_id == '' && ["realtime", "tournament-rename", "tournament-params", "tournament-calc", "team-name", "team-params", "overlay"].indexOf(fragment) >= 0) {
-            window.location.assign("#tournament-set");
-            return;
-        }
-
-        if (mainmenu == 'result') {
-            for (const c of document.getElementById('main').children) {
-                if (c.id == 'result') {
-                    c.classList.remove('hide');
-                } else {
-                    c.classList.add('hide');
-                }
-            }
-            this.#showResult(submenu);
-        } else {
-            for (const c of document.getElementById('main').children) {
-                if (c.id == fragment) {
-                    c.classList.remove('hide');
-                } else {
-                    c.classList.add('hide');
-                }
-            }
-        }
-
-        /* 選択表示 */
-        for (const node of document.querySelectorAll('.sidebar-selected')) {
-            node.classList.remove('sidebar-selected');
-        }
-        for (const node of document.querySelectorAll('a[href="#' + fragment + '"]')) {
-            node.classList.add('sidebar-selected');
-        }
-
-        /* ページ遷移起因でのデータ取得 */
-        if (fragment == 'observer-set') {
-            this.#webapi.getObserver();
-            this.#webapi.getObservers();
-        }
-    }
-
-    /**
-     * トーナメント一覧を表示する
-     * @param {Object.<string, string>[]} ids トーナメントのIDと名前の配列
-     */
-    #procTournamentIDs(ids) {
-        const tbody = document.getElementById('tournamentids');
-        for (const [id, name] of Object.entries(ids)) {
-            if (id in this.#tournament_ids) {
-                const c = this.#tournament_ids[id];
-                c.name = name;
-                c.node.children[0].innerText = name;
-            } else {
-                this.#tournament_ids[id] = {
-                    id: id,
-                    name: name,
-                    node: document.createElement('tr')
-                };
-                const c = this.#tournament_ids[id];
-                c.node.appendChild(document.createElement('td'));
-                c.node.appendChild(document.createElement('td'));
-                c.node.children[0].innerText = name;
-                c.node.children[1].innerText = id;
-                tbody.appendChild(c.node);
-                c.node.addEventListener('click', (ev) => {
-                    this.#webapi.setTournamentName(c.node.children[0].innerText);
-                });
-                if (id == this.#tournament_id) {
-                    c.node.classList.add('tournament-set-selected');
-                }
-            }
-        }
-
-        // 名前でソートする
-        const children = [...tbody.children].sort((a, b) => {
-            const a_name = a.children[0].innerText;
-            const b_name = b.children[0].innerText;
-            if (a_name < b_name) return -1;
-            if (a_name > b_name) return 1;
-            return 0;
-        });
-        for (const node of children) {
-            tbody.appendChild(node);
-        }
-    }
-
-    /**
-     * テキストエリアの内容からゲーム内のチーム名を設定する
-     * @returns {Promise} 設定を行った結果を返す
-     */
-    #setInGameTeamNames(ingamesettings = false) {
-        const lines = ingamesettings ? this.#ingamesettings.getTeamNames() : this.#teamname.getLines();
-        let timerid = null;
-
-        const enumend = (ev) => {
-            if (timerid != null) clearTimeout(timerid);
-
-            if (!('token' in this.#lobby) || this.#lobby.token == '' || this.#lobby.token.indexOf('c') == 0) {
-                return;
-            }
-
-            if ('teams' in this.#lobby) {
-                for (let i = 0; i < 30; ++i) {
-                    if (i in this.#lobby.teams) {
-                        const team = this.#lobby.teams[i];
-                        const name = i < lines.length ? lines[i] : '';
-                        if (team.name != name) {
-                            this.#webapi.sendSetTeamName(i, name);
-                        }
-                    }
-                }
-            }
-            this.#webapi.sendGetLobbyPlayers();
-        };
-
-        this.#webapi.addEventListener('lobbyenumend', enumend, { once: true });
-
-        timerid = setTimeout(() => {
-            this.#webapi.removeEventListener('lobbyenumend', enumend);
-            console.warn('setInGameTeamNames() timeout.');
-        }, 2000); // 2sでタイムアウト
-
-        this.#webapi.sendGetLobbyPlayers();
-    }
-
-    /**
-     * テキストエリアの内容からゲーム内のチーム名を設定する()
-     * @returns {Promise} 設定を行った結果を返す
-     */
-    #setInGameSpawnPoints() {
-        const spawnpoints = this.#ingamesettings.getSpawnPoints();
-        let timerid = null;
-
-        const enumend = (ev) => {
-            if (timerid != null) clearTimeout(timerid);
-
-            if (!('token' in this.#lobby) || this.#lobby.token == '' || this.#lobby.token.indexOf('c') == 0) {
-                return;
-            }
-
-            if ('teams' in this.#lobby) {
-                for (let i = 0; i < 30; ++i) {
-                    if (i in this.#lobby.teams) {
-                        const team = this.#lobby.teams[i];
-                        const spawnpoint = i < spawnpoints.length ? spawnpoints[i] : 0;
-                        if (team.spawnpoint != spawnpoint) {
-                            this.#webapi.sendSetSpawnPoint(i, spawnpoint);
-                        }
-                    }
-                }
-            }
-            this.#webapi.sendGetLobbyPlayers();
-        };
-
-        this.#webapi.addEventListener('lobbyenumend', enumend, { once: true });
-
-        timerid = setTimeout(() => {
-            this.#webapi.removeEventListener('lobbyenumend', enumend);
-            console.warn('setInGameSpawnPoints() timeout.');
-        }, 2000); // 2sでタイムアウト
-
-        this.#webapi.sendGetLobbyPlayers();
-    }
-
-
-    #setInGameSettings() {
-        const d = this.#ingamesettings.getCustomSettings();
-        this.#webapi.sendSetSettings(d.playlistname, d.adminchat, d.teamrename, d.selfassign, d.aimassist, d.anonmode);
-        this.#webapi.sendGetSettings();
-    }
-
-    /**
-     * テキストエリアの内容からチーム名をparamsに設定する
-     * @returns {Promise} 設定を行ったparamsの配列を返す
-     */
-    #setTeamNames() {
-        const lines = this.#teamname.getLines();
-        const jobs = [];
-        for (let i = 0; i < 30; ++i) {
-            if (i < lines.length) {
-                const line = lines[i];
-                const params = this.#teamparams[i];
-                if (line != '') {
-                    if (!('name' in params) || line != params.name) {
-                        jobs.push(this.#setTeamName(i, line));
-                    }
-                } else {
-                    if ('name' in params) {
-                        jobs.push(this.#removeTeamName(i));
-                    }
-                }
-            } else {
-                if ('name' in params) {
-                    jobs.push(this.#removeTeamName(i));
-                }
-            }
-        }
-        return new Promise((resolve, reject) => {
-            Promise.all(jobs).then(resolve, reject);
-        });
-    }
-
-    /**
-     * プレイヤーのハッシュとインゲームの名前を処理
-     * @param {string} hash プレイヤーID(hash)
-     * @param {string} ingamename プレイヤー名
-     */
-    #procPlayerInGameName(hash, ingamename) {
-        let updated = false;
-        if (!(hash in this.#playerparams)) {
-            this.#playerparams[hash] = {};
-        }
-        const params = this.#playerparams[hash];
-        if (!('ingamenames' in params)) {
-            params.ingamenames = [];
-        }
-        if (params.ingamenames.indexOf(ingamename) == -1) {
-            params.ingamenames.push(ingamename);
-            updated = true;
-        }
-        if (updated && this.#getallplayers) {
-            // プレイヤーのパラメータを更新
-            this.#webapi.setPlayerParams(hash, params);
-        }
-    }
-
-    /**
-     * リザルト配列からプレーヤーのハッシュとインゲームの名前を処理する
-     * @param {object[]} results リザルト配列
-     */
-    #procPlayerInGameNameFromResults(results) {
-        for (const result of results) {
-            for (const [_, team] of Object.entries(result.teams)) {
-                for (const player of team.players) {
-                    this.#procPlayerInGameName(player.id, player.name);
-                }
-            }
-        }
-    }
-
-    /**
-     * オーバーレイの表示/非表示パラメータをトーナメントparamsに設定
-     * @param {string} id オーバーレイの名前
-     */
-    #updateOverlayStatus(id) {
-        const params = this.#tournament_params;
-        const checked = document.getElementById('overlay-hide-' + id).checked;
-        if (!'forcehide' in params) params.forcehide = {};
-        const forcehide = params.forcehide;
-        forcehide[id] = checked;
-    }
-
-    /**
-     * トーナメントのparamsに含まれるパラメータからオーバーレイの強制非表示チェック状態を設定する
-     * @param {object} params トーナメントparams
-     */
-    #setOverlayStatusFromParams(params) {
-        if (!('forcehide' in params)) params.forcehide = {};
-        const forcehide = params.forcehide;
-        const ids = ["leaderboard", "mapleaderboard", "teambanner", "playerbanner", "teamkills", "owneditems", "gameinfo", "championbanner", "squadeliminated", "teamrespawned", "tdmscoreboard"];
-        const default_hide_ids = ["playerbanner"];
-        for (const id of ids) {
-            if (!(id in forcehide)) {
-                forcehide[id] = default_hide_ids.indexOf(id) >= 0 ? true : false;
-            }
-            document.getElementById('overlay-hide-' + id).checked = forcehide[id];
-        }
-
-        // group [teamplayerinfo]
-        if (forcehide.teambanner == forcehide.playerbanner &&
-            forcehide.teambanner == forcehide.teamkills &&
-            forcehide.teambanner == forcehide.owneditems) {
-                document.getElementById('overlay-hide-teamplayerinfo').checked = forcehide.teambanner;
-        }
-    }
-
-    /**
-     * チーム用のparamsを取得し、nameキーに名前を設定して保存する
-     * @param {number} teamid チームID(0～)
-     * @param {string} name チーム名
-     * @returns チーム用params
-     */
-    #setTeamName(teamid, name) {
-        const params = this.#teamparams[teamid];
-        params.name = name;
-        return this.#webapi.setTeamParams(teamid, params);
-    }
-
-    /**
-     * チーム用のparamsを取得し、nameキーを削除して保存する
-     * @param {number} teamid チームID(0～)
-     * @returns {Promise} チーム用params
-     */
-    #removeTeamName(teamid) {
-        const params = this.#teamparams[teamid];
-        if ('name' in params) delete params.name;
-        return this.#webapi.setTeamParams(teamid, params);
-    }
-
-    /**
-     * 0～29のチームparamsを取得する
-     * @returns {object[]} チームのparamsが入った配列
-     */
-    #getAllTeamParams() {
-        return new Promise((resolve, reject) => {
-            const jobs = [];
-            for (let i = 0; i < 30; ++i) {
-                jobs.push(new Promise((nresolve, nreject) => {
-                    return this.#webapi.getTeamParams(i).then((ev) => {
-                        nresolve(ev.detail.params);
-                    }, nreject);
-                }));
-            }
-            Promise.all(jobs).then(resolve, reject);
-        });
-    }
-
-    /**
-     * チーム用のパラメータを取得してテキストエリアに反映する
-     */
-    #getTeamNames() {
-        this.#getAllTeamParams().then((arr) => { this.#updateTeamNameTextArea(); }, () => {});
-    }
-
-    /**
-     * チームのparamsからチーム名を取り出しtextareaに設定する
-     */
-    #updateTeamNameTextArea() {
-        let text = '';
-        for (const params of Object.values(this.#teamparams)) {
-            if (text != '') text += '\r\n';
-            if ('name' in params) {
-                text += params.name;
-            }
-        }
-        this.#teamname.updateText(text);
-    }
-
-    /**
-     * リザルトを表示する
-     * @param {string} submenu 'all'もしくは数字の文字列(1～)
-     */
-    #showResult(submenu) {
-        if (submenu == 'all') {
-            this.#resultview.showAllResults();
-            this.#resultfixview.hideSwitchViewButton();
-        } else {
-            const gameid = parseInt(submenu, 10);
-            if (submenu == gameid.toString()) {
-                this.#resultview.showSingleGameResult(gameid);
-                this.#resultfixview.showSwitchViewButton();
-                this.#resultfixview.setResult(gameid, this.#_results[gameid]);
-                this.#resultfixview.hideAll();
-                this.#resultfixview.showFixFromStatsCodeView();
-            }
-        }
-    }
-
-    /**
-     * 現在のトーナメントの選択状況を設定する
-     * @param {string} id トーナメントのID
-     * @param {string} name トーナメントの名前
-     */
-    #setCurrentTournament(id, name) {
-        document.getElementById('current_tournament_id').innerText = id;
-        document.getElementById('current_tournament_name').innerText = name;
-        document.getElementById('tournament-rename-text').value = name;
-        for (const tr of document.querySelectorAll('tr.tournament-set-selected')) {
-            tr.classList.remove('tournament-set-selected');
-        }
-        if (id != '' && id in this.#tournament_ids) {
-            this.#tournament_ids[id].node.classList.add('tournament-set-selected');
-        }
-    }
-
-    /**
-     * リザルト数から左メニューのリザルトリンクを作成する
-     * @param {number} count リザルト数(0～)
-     */
-    #updateResultMenuFromResultsCount(count) {
-        const ul = document.getElementById('ulresult');
-        if (count + 1 > ul.children.length) {
-            // append
-            for (let i = ul.children.length - 1; i < count; ++i) {
-                const li = document.createElement('li');
-                const a = document.createElement('a');
-                a.href = '#result-' + i;
-                a.innerHTML = '<span class="en">Game</span><span class="ja">マッチ</span> ' + (i + 1);
-                li.appendChild(a);
-                ul.appendChild(li);
-
-                // クラス設定
-                if (this.#getFragment(location.hash) == ('result-' + i)) {
-                    a.classList.add('sidebar-selected');
-                }
-            }
-        } else if (count + 1 < ul.children.length) {
-            // remove
-            while (count + 1 < ul.children.length) {
-                ul.removeChild(ul.lastChild);
-            }
-        }
     }
 }
