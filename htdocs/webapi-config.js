@@ -259,6 +259,10 @@ class TournamentSetView {
     #tournament_id = '';
     #tournament_ids = new Map();
 
+    constructor() {
+
+    }
+
     /** @param {WebAPIWorkerHandler} handler */
     setHandler(handler) {
         this.#handler = handler;
@@ -268,13 +272,6 @@ class TournamentSetView {
             const text = document.getElementById('tournament-set-text').value;
             if (text != '') {
                 api.setTournamentName(text);
-            }
-        });
-
-        document.getElementById('tournament-rename-button').addEventListener('click', (ev) => {
-            const text = document.getElementById('tournament-rename-text').value;
-            if (text != '' || this.#tournament_id != '') {
-                api.renameTournamentName(this.#tournament_id, text);
             }
         });
     }
@@ -321,17 +318,44 @@ class TournamentSetView {
     }
 
     setCurrentTournament(id, name, count) {
+        this.#tournament_id = id;
         document.getElementById('current_tournament_id').innerText = id;
         document.getElementById('current_tournament_name').innerText = name;
-        document.getElementById('tournament-rename-text').value = name;
 
         for (const tr of document.querySelectorAll('tr.tournament-set-selected')) {
             tr.classList.remove('tournament-set-selected');
         }
 
-        if (id != '' && id in this.#tournament_ids) {
-            this.#tournament_ids[id].node.classList.add('tournament-set-selected');
+        if (id != '' && this.#tournament_ids.has(id)) {
+            this.#tournament_ids.get(id).node.classList.add('tournament-set-selected');
         }
+    }
+}
+
+class TournamentRenameView {
+    /** @type {WebAPIWorkerHandler|null} */
+    #handler = null;
+    #tournament_id = '';
+    #input = document.getElementById('tournament-rename-text');
+    #button = document.getElementById('tournament-rename-button');
+
+    /** @param {WebAPIWorkerHandler} handler */
+    setHandler(handler) {
+        this.#handler = handler;
+        const api = handler.getWebAPI();
+
+        this.#button.addEventListener('click', (ev) => {
+            const text = this.#input.value.trim();
+            if (text != '' || this.#tournament_id != '') {
+                console.log(`Renaming tournament ${this.#tournament_id} to ${text}`);
+                api.renameTournamentName(this.#tournament_id, text);
+            }
+        });
+    }
+
+    setCurrentTournament(id, name, count) {
+        this.#tournament_id = id;
+        this.#input.value = name;
     }
 }
 
@@ -4781,6 +4805,7 @@ export class WebAPIConfig {
             new LegendBanView(),
             new OverlayStatusView(),
             new TournamentSetView(),
+            new TournamentRenameView(),
             new LeftResultSelector(),
             new VersionView(),
             new MenuSwitcher(),
