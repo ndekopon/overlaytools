@@ -75,7 +75,7 @@ class WebAPIConnectionStatusView {
 
     /** @param {string} state */
     setWebAPIConnectionStatus(state) {
-        document.getElementById('connection-status-state').innerText = state;
+        document.getElementById('connection-status-webapi-state').innerText = state;
     }
 }
 
@@ -342,7 +342,6 @@ class TournamentRenameView {
         this.#button.addEventListener('click', (ev) => {
             const text = this.#input.value.trim();
             if (text != '' || this.#tournament_id != '') {
-                console.log(`Renaming tournament ${this.#tournament_id} to ${text}`);
                 api.renameTournamentName(this.#tournament_id, text);
             }
         });
@@ -1295,8 +1294,8 @@ class InGameSettingsView extends WebAPIConfigBase {
         }
         if ('teams' in this.#lobby) {
             for (let i = 0; i < 30; ++i) {
-                if (i in this.#lobby.teams) {
-                    const t = this.#lobby.teams[i];
+                if (this.#lobby.teams.has(i)) {
+                    const t = this.#lobby.teams.get(i);
                     const tr = document.createElement('tr');
                     tr.dataset.teamid = i;
                     tr.dataset.name = t.name;
@@ -1572,7 +1571,7 @@ class InGameSettingsView extends WebAPIConfigBase {
     }
 
     /** @param {object} lobby ロビー情報 */
-    setLobby(lobby) {
+    lobbyEnumEnd(lobby) {
         this.#lobby = lobby;
         this.#updateInGameTeamSettings();
         this.#checkTeamSettings();
@@ -1592,9 +1591,9 @@ class LegendBanView {
     #tbody = document.getElementById('legendban-list');
 
     /** @param {WebAPIWorkerHandler} handler */
-    setWebAPIHandler(handler) {
+    setHandler(handler) {
         this.#handler = handler;
-        const api = this.#handler.getWebAPI();
+        const api = handler.getWebAPI();
 
         document.getElementById('legendban-get').addEventListener('click', () => {
             api.sendGetLegendBanStatus();
@@ -2302,7 +2301,7 @@ class RealtimeView {
 
     clear() {
         this.#basenode.innerHTML = '';
-        this.#nodes.splice(0);s
+        this.#nodes.splice(0);
         this.#playersnamenode.clear();
     }
 }
@@ -2310,9 +2309,9 @@ class RealtimeView {
 class ResultView {
     /** @type {WebAPIWorkerHandler|null} */
     #handler = null;
-    #_game = null;
-    #_results = null;
-    #tournamentparams = {};
+    #_results = [];
+    #calcedresults = [];
+    #calcedtotalresults = { rank: [], results: {} };
     #info = document.getElementById('result-game-info');
     #all = document.getElementById('result-all-base');
     #left = document.getElementById('result-all-left');
@@ -2595,7 +2594,14 @@ class ResultView {
             teamnode.name.innerText = this.#handler.getTeamResultName(teamid, data.name);
             teamnode.placement_value.innerText = data.placement;
             teamnode.kills_value.innerText = data.kills;
-            teamnode.points_value.innerText = data.kills + (data.placement - 1 < 15 ? ResultView.points_table[data.placement - 1] : 0);
+            teamnode.points_value.innerText = '';
+            if (gameid < this.#calcedresults.length) {
+                const calcedresult = this.#calcedresults[gameid];
+                if (teamid in calcedresult.results) {
+                    const calcedteam = calcedresult.results[teamid];
+                    teamnode.points_value.innerText = calcedteam.total_points;
+                }
+            }
 
             // ラベル
             const playerlabelnode = this.#generatePlayerLabelNodeForSingle();
@@ -2663,85 +2669,25 @@ class ResultView {
 
     /** @param {string|number} target 対象ゲーム('all'またはゲームID) */
     #drawResults(target) {
-        // 計算用
-        let data;
-
-        // 過去のゲームのポイントを加算
         if (target == 'all') {
-            data = resultsToTeamResults(this.#_results);
+            if (this.#calcedtotalresults != null) {
+                const results = this.#calcedtotalresults.results;
+                const p = this.#calcedtotalresults.rank;
+                for (let i = 0; i < p.length; ++i) {
+                    const teamid = p[i];
+                    const team = results[teamid];
+                    this.#drawTeamForAll(i, p.length, team);
+                }
+            }
         } else if (typeof target == 'number') {
-            if (target < this.#_results.length) {
-                const results = [this.#_results[target]];
-                data = resultsToTeamResults(results);
-            } else {
-                return;
-            }
-        } else {
-            return;
-        }
-
-        // マッチポイント閾値を取得
-        const matchpoints = ('calcmethod' in this.#tournamentparams && 'matchpoints' in this.#tournamentparams.calcmethod && this.#tournamentparams.calcmethod.matchpoints > 0) ? this.#tournamentparams.calcmethod.matchpoints : 0;
-
-        // ポイントを計算して追加
-        for (const [teamidstr, team] of Object.entries(data)) {
-            const teamid = parseInt(teamidstr, 10);
-            const advancepoint = getAdvancePoints(teamid, this.#tournamentparams);
-            for (let gameid = 0; gameid < team.kills.length; ++gameid) {
-                let points;
-                if (target == 'all') {
-                    points = calcPoints(gameid, team.placements[gameid], team.kills[gameid], this.#tournamentparams);
-                } else {
-                    points = calcPoints(target, team.placements[gameid], team.kills[gameid], this.#tournamentparams);
+            if (target < this.#calcedresults.length) {
+                const results = this.#calcedresults[target].results;
+                const p = this.#calcedresults[target].rank;
+                for (let i = 0; i < p.length; ++i) {
+                    const teamid = p[i];
+                    const team = results[teamid];
+                    this.#drawTeamForAll(i, p.length, team, team.placements[0]);
                 }
-                team.points.push(points.total);
-                team.kill_points.push(points.kills);
-                team.placement_points.push(points.placement);
-                team.other_points.push(points.other);
-                team.cumulative_points.push(advancepoint + team.points.reduce((p, c) => p + c, 0));
-            }
-
-            if (target == 'all') {
-                team.total_points = advancepoint + team.points.reduce((a, c) => a + c, 0);
-                // マッチポイント到達の確認
-                if (matchpoints > 0 && team.total_points >= matchpoints) {
-                    team.matchpoints = true;
-                }
-            } else {
-                team.total_points = team.points.reduce((a, c) => a + c, 0);
-            }
-        }
-
-        // マッチポイントの勝者決定
-        if (target == 'all' && matchpoints > 0) {
-            for (const i of [...Array(this.#_results.length).keys()]) {
-                if (i == 0) continue;
-                for (const team of Object.values(data)) {
-                    const prev_points = team.cumulative_points[i - 1];
-                    const placement = team.placements[i];
-                    if (prev_points >= matchpoints && placement == 1) {
-                        team.winner = true;
-                        break;
-                    }
-                }
-                // 勝者決定済
-                if (Object.values(data).some(x => x.winner)) break;
-            }
-        }
-
-        // results -> table
-        const p = setRankParameterToTeamResults(data);
-
-        // 表示
-        for (let i = 0; i < p.length; ++i) {
-            const teamid = parseInt(p[i], 10);
-            const team = data[teamid];
-            
-            // 描画
-            if (target == 'all') {
-                this.#drawTeamForAll(i, p.length, team);
-            } else {
-                this.#drawTeamForAll(i, p.length, team, this.#_results[target].teams[teamid].placement);
             }
         }
     }
@@ -2887,6 +2833,20 @@ class ResultView {
         }
     }
 
+    setCalcedResults(calcedresults) {
+        this.#calcedresults = calcedresults;
+        if (this.#current != 'all') {
+            this.showSingleGameResult(this.#current);
+        }
+    }
+
+    setCalcedTotalResults(calcedtotalresults) {
+        this.#calcedtotalresults = calcedtotalresults;
+        if (this.#current == 'all') {
+            this.showAllResults();
+        }
+    }
+
     /**
      * 再度計算する
      */
@@ -2897,23 +2857,6 @@ class ResultView {
                 this.#drawResults(i);
             }
         }
-    }
-
-    /**
-     * リザルト表示用にゲームオブジェクトを設定する
-     * @param {object} game webapiのゲームオブジェクト
-     */
-    setGame(game) {
-        this.#_game = game;
-    }
-
-    /**
-     * ポイント計算用にトーナメントのparamsをセットする
-     * @param {object} params トーナメントparams
-     */
-    setTournamentParams(params) {
-        this.#tournamentparams = params;
-        this.recalcAll();
     }
 
     /**
@@ -3824,9 +3767,9 @@ class TestView {
 
     /** @param {Object} settings */
     setCustomMatchSettings(settings) {
-        document.getElementById('test-settings-we-adminchat').checked = settings.adminchat;
-        document.getElementById('test-settings-we-teamrename').checked = settings.teamrename;
-        document.getElementById('test-settings-we-selfassign').checked = settings.selfassign;
+        document.getElementById('test-getsettings-playlist').checked = settings.playlistname;
+        document.getElementById('test-getsettings-aimassist').checked = settings.aimassist;
+        document.getElementById('test-getsettings-anonmode').checked = settings.anonmode;
     }
 }
 
@@ -4526,6 +4469,8 @@ class WebAPIWorkerHandler {
             'setPlayerStateCollected',
             'setPlayerStats',
             'setResults',
+            'setCalcedResults',
+            'setCalcedTotalResults',
             'setLiveAPISocketStatus',
             'setLiveAPIConfig',
             'setStatsFromCode',
@@ -4586,6 +4531,7 @@ class WebAPIWorkerHandler {
     #updatedTournamentParams(params) {
         this.#tournament_params = params;
         this.#callCallbacks('setTournamentParams', params);
+        this.#calcPointsFromResults();
     }
 
     #updatedAllTeamParams(params) {
@@ -4712,6 +4658,76 @@ class WebAPIWorkerHandler {
     }
 
     #calcPointsFromResults() {
+        const calcedresults = [];
+        const params = this.#tournament_params;
+
+        for (let gameid = 0; gameid < this.#results.length; ++gameid) {
+            const result = this.#results[gameid];
+            const teamresults = resultsToTeamResults([result]);
+
+            // ポイントを計算して追加
+            for (const [teamidstr, team] of Object.entries(teamresults)) {
+                for (let i = 0; i < team.kills.length; ++i) {
+                    const teamid = parseInt(teamidstr, 10);
+                    const points = calcPoints(gameid, team.placements[i], team.kills[i], params);
+                    team.points.push(points.total);
+                    team.kill_points.push(points.kills);
+                    team.placement_points.push(points.placement);
+                    team.other_points.push(points.other);
+                }
+                team.total_points = team.points.reduce((a, c) => a + c, 0);
+            }
+            const p = setRankParameterToTeamResults(teamresults);
+            calcedresults.push({ results: teamresults, rank: p });
+        }
+        this.#callCallbacks('setCalcedResults', calcedresults);
+
+        // 全ゲームのポイントを計算
+        {
+            const teamresults = resultsToTeamResults(this.#results);
+
+            // マッチポイント閾値を取得
+            const matchpoints = ('calcmethod' in params && 'matchpoints' in params.calcmethod && params.calcmethod.matchpoints > 0) ? params.calcmethod.matchpoints : 0;
+
+            // ポイントを計算して追加
+            for (const [teamidstr, team] of Object.entries(teamresults)) {
+                const teamid = parseInt(teamidstr, 10);
+                const advancepoint = getAdvancePoints(teamid, params);
+                for (let gameid = 0; gameid < team.kills.length; ++gameid) {
+                    const points = calcPoints(gameid, team.placements[gameid], team.kills[gameid], params);
+                    team.points.push(points.total);
+                    team.kill_points.push(points.kills);
+                    team.placement_points.push(points.placement);
+                    team.other_points.push(points.other);
+                    team.cumulative_points.push(advancepoint + team.points.reduce((p, c) => p + c, 0));
+                }
+
+                team.total_points = advancepoint + team.points.reduce((a, c) => a + c, 0);
+                // マッチポイント到達の確認
+                if (matchpoints > 0 && team.total_points >= matchpoints) {
+                    team.matchpoints = true;
+                }
+            }
+
+            // マッチポイントの勝者決定
+            if (matchpoints > 0) {
+                for (const i of [...Array(this.#results.length).keys()]) {
+                    if (i == 0) continue;
+                    for (const team of Object.values(teamresults)) {
+                        const prev_points = team.cumulative_points[i - 1];
+                        const placement = team.placements[i];
+                        if (prev_points >= matchpoints && placement == 1) {
+                            team.winner = true;
+                            break;
+                        }
+                    }
+                    // 勝者決定済
+                    if (Object.values(teamresults).some(x => x.winner)) break;
+                }
+            }
+            const p = setRankParameterToTeamResults(teamresults);
+            this.#callCallbacks('setCalcedTotalResults', { results: teamresults, rank: p });
+        }
     }
 
     #updatedResults(results) {
@@ -4719,6 +4735,9 @@ class WebAPIWorkerHandler {
 
         // リザルトからプレイヤー名の確認
         this.#checkResultPlayerNames(results);
+
+        // ポイント計算
+        this.#calcPointsFromResults();
     }
 
     #checkResultPlayerNames(results) {

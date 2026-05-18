@@ -235,7 +235,8 @@ function initTeamResult(teamid, name) {
 export function resultsToTeamResults(results) {
     const teamresults = {};
     results.forEach((result, index) => {
-        for (const [teamid, team] of Object.entries(result.teams)) {
+        for (const [teamidstr, team] of Object.entries(result.teams)) {
+            const teamid = parseInt(teamidstr, 10);
             if (!(teamid in teamresults)) {
                 teamresults[teamid] = initTeamResult(teamid, team.name);
             }
@@ -290,7 +291,7 @@ export function appendToTeamResults(teamresults, gameid, teamid, name, kills, pl
  * @return {string[]}
  */
 export function setRankParameterToTeamResults(teamresults) {
-    const keys = JSON.parse(JSON.stringify(Object.keys(teamresults)));
+    const keys = Object.keys(teamresults).map(x => parseInt(x, 10));
     const sorted_teamids = keys.sort((a, b) => {
         // 現在のトータルポイント比較
         const ta = teamresults[a];
