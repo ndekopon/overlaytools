@@ -3471,6 +3471,224 @@ class ResultFixView extends WebAPIConfigBase {
     }
 }
 
+class TSVView {
+    /** @type {WebAPIWorkerHandler|null} */
+    #handler = null;
+    #calcedresults = null;
+    #calcedtotalresults = null;
+    #playerstats = null;
+    #playertotalstats = null;
+
+    /** @param {WebAPIWorkerHandler} handler */
+    setHandler(handler) {
+        this.#handler = handler;
+
+        document.getElementById("tsv-button-totalresults").addEventListener("click", ev => {
+            this.#copyTotalResults();
+        });
+
+        document.getElementById("tsv-button-totalplayerresults").addEventListener("click", ev => {
+            this.#copyTotalPlayerResults(this.#getSortKey());
+        });
+    }
+
+    #getSortKey() {
+        const radio = document.querySelector('input[name="tsv-sortkey"]:checked');
+        if (radio) {
+            return radio.value;
+        }
+        return 'damage_dealt';
+    }
+
+    #createButtons() {
+        if (!this.#handler) return;
+        if (!this.#calcedresults) return;
+        const api = this.#handler.getWebAPI();
+        const count = this.#calcedresults.length;
+        {
+            const div = document.getElementById("tsv-singleresults");
+            if (div) {
+                // 既存のボタンを表示
+                for (let i = 0; i < div.children.length; ++i) {
+                    div.children[i].classList.remove('hide');
+                }
+
+                // 作成
+                for (let i = div.children.length; i < count; ++i) {
+                    const button = document.createElement("button");
+                    button.innerText = `game ${i + 1}`;
+                    div.appendChild(button);
+                    button.addEventListener("click", (ev) => {
+                        this.#copySingleResult(i);
+                    });
+                }
+
+                // 隠す
+                for (let i = count; i < div.children.length; ++i) {
+                    div.children[i].classList.add('hide');
+                }
+            }
+        }
+        {
+            const div = document.getElementById("tsv-singleplayerresults");
+            if (div) {
+                // 既存のボタンを表示
+                for (let i = 0; i < div.children.length; ++i) {
+                    div.children[i].classList.remove('hide');
+                }
+                // 作成
+                for (let i = div.children.length; i < count; ++i) {
+                    const button = document.createElement("button");
+                    button.innerText = `game ${i + 1}`;
+                    div.appendChild(button);
+                    button.addEventListener("click", (ev) => {
+                        this.#copySinglePlayerResult(i, this.#getSortKey());
+                    });
+                }
+                // 隠す
+                for (let i = count; i < div.children.length; ++i) {
+                    div.children[i].classList.add('hide');
+                }
+            }
+        }
+    }
+
+    #escapeTSVValue(v) {
+        if (typeof (v) == "string") {
+            return `"${v.replace(/"/g, '""')}"`;
+        } else {
+            return v;
+        }
+    }
+
+    /** @param {string} text */
+    #setCopyStatus(text) {
+        const status = document.getElementById("tsv-copy-status");
+        if (status) {
+            status.classList.remove('changed');
+            status.innerText = text;
+            void status.offsetWidth;
+            status.classList.add('changed');
+        }
+    }
+
+    #saveTSV(text, message) {
+        const textarea = document.getElementById("tsv-output");
+        if (textarea) {
+            textarea.value = text;
+        }
+
+        navigator.clipboard.writeText(text).then(() => {
+            this.#setCopyStatus(message);
+        });
+    }
+
+    #copyTotalResults() {
+        if (!this.#handler) return;
+        if (!this.#calcedtotalresults) return;
+        const lines = [];
+        lines.push(['Rank', 'Id', 'Name', 'Kill', 'PlacementPoint', 'KillPoint', 'TotalPoint'].map((s) => this.#escapeTSVValue(s)).join('\t'));
+        const result = Object.values(this.#calcedtotalresults.results).sort((a, b) => a.rank - b.rank);
+
+        for (const team of result) {
+            const line = [];
+            line.push(team.rank + 1);
+            line.push(team.id + 1);
+            line.push(this.#handler.getTeamName(team.id));
+            line.push(team.kills.reduce((a, c) => a + c, 0));
+            line.push(team.placement_points.reduce((a, c) => a + c, 0));
+            line.push(team.kill_points.reduce((a, c) => a + c, 0));
+            line.push(team.total_points);
+            lines.push(line.map((s) => this.#escapeTSVValue(s)).join('\t'));
+        }
+        const tsv = lines.join('\r\n');
+        this.#saveTSV(tsv, `total result copied!`);
+    }
+
+    #copySingleResult(gameid) {
+        if (!this.#handler) return;
+        if (!this.#calcedresults || !this.#calcedresults[gameid]) return;
+        const lines = [];
+        lines.push(['Rank', 'Id', 'Name', 'Placement', 'Kill', 'PlacementPoint', 'KillPoint', 'TotalPoint'].map((s) => this.#escapeTSVValue(s)).join('\t'));
+        const result = Object.values(this.#calcedresults[gameid].results).sort((a, b) => a.rank - b.rank);
+
+        for (const team of result) {
+            const line = [];
+            line.push(team.rank + 1);
+            line.push(team.id + 1);
+            line.push(this.#handler.getTeamName(team.id));
+            line.push(team.placements[0]);
+            line.push(team.kills[0]);
+            line.push(team.placement_points[0]);
+            line.push(team.kill_points[0]);
+            line.push(team.total_points);
+            lines.push(line.map((s) => this.#escapeTSVValue(s)).join('\t'));
+        }
+        const tsv = lines.join('\r\n');
+        this.#saveTSV(tsv, `game ${gameid + 1} result copied!`);
+    }
+
+    #copyTotalPlayerResults(sortkey) {
+        if (!this.#handler) return;
+        if (!this.#playertotalstats) return;
+        this.#copyPlayerResult(this.#playertotalstats, sortkey, `total player result copied!`);
+    }
+
+    #copySinglePlayerResult(gameid, sortkey) {
+        if (!this.#handler) return;
+        if (!this.#playerstats || !this.#playerstats[gameid]) return;
+        this.#copyPlayerResult(this.#playerstats[gameid], sortkey, `game ${gameid + 1} player result copied!`);
+    }
+
+    #copyPlayerResult(targetstats, sortkey, message) {
+        if (!this.#handler) return;
+        const lines = [];
+        lines.push(['Name', 'TeamID', 'TeamName', 'Kill', 'Damage'].map((s) => this.#escapeTSVValue(s)).join('\t'));
+
+        const playerstats = [...targetstats.entries()].sort((a, b) => {
+            if (sortkey == 'damage_dealt') {
+                if (b[1].damage_dealt != a[1].damage_dealt) {
+                    return b[1].damage_dealt - a[1].damage_dealt;
+                } else {
+                    return b[1].kills - a[1].kills;
+                }
+            } else {
+                if (b[1].kills != a[1].kills) {
+                    return b[1].kills - a[1].kills;
+                } else {
+                    return b[1].damage_dealt - a[1].damage_dealt;
+                }
+            }
+        });
+
+        for (const [hash, player] of playerstats) {
+            const line = [];
+            line.push(this.#handler.getPlayerName(hash));
+            line.push(player.teamid + 1);
+            line.push(this.#handler.getTeamName(player.teamid));
+            line.push(player.kills);
+            line.push(player.damage_dealt);
+            lines.push(line.map((s) => this.#escapeTSVValue(s)).join('\t'));
+        }
+        const tsv = lines.join('\r\n');
+        this.#saveTSV(tsv, message);
+    }
+
+    setCalcedResults(calcedresults) {
+        this.#calcedresults = calcedresults;
+        this.#createButtons();
+    }
+
+    setCalcedTotalResults(calcedtotalresults) {
+        this.#calcedtotalresults = calcedtotalresults;
+    }
+
+    setPlayerTotalStats(playerstats, playertotalstats) {
+        this.#playerstats = playerstats;
+        this.#playertotalstats = playertotalstats;
+    }
+}
+
 class OverlayForceHideView {
     /** @type {WebAPIWorkerHandler|null} */
     #handler = null;
@@ -4468,6 +4686,7 @@ class WebAPIWorkerHandler {
             'setPlayerStateKilled',
             'setPlayerStateCollected',
             'setPlayerStats',
+            'setPlayerTotalStats',
             'setResults',
             'setCalcedResults',
             'setCalcedTotalResults',
@@ -4730,6 +4949,52 @@ class WebAPIWorkerHandler {
         }
     }
 
+    #calcPlayerStatsFromResults() {
+        const playerstats = [];
+        const playertotalstats = new Map();
+        for (const result of this.#results) {
+            const stats = new Map();
+            if (!('teams' in result)) continue;
+            for (const team of Object.values(result.teams)) {
+                if (!('players' in team)) continue;
+                for (const player of team.players) {
+                    if (!('id' in player)) continue;
+                    const hash = player.id;
+                    if (!stats.has(hash)) {
+                        stats.set(hash, { name: '', teamid: team.id, kills: 0, assists: 0, knockdowns: 0, revives: 0, respawns: 0, damage_dealt: 0, damage_taken: 0 });
+                    }
+                    const ps = stats.get(hash);
+                    ps.name = ('name' in player) ? player.name : ps.name;
+                    ps.teamid = team.id;
+                    ps.kills += ('kills' in player) ? player.kills : 0;
+                    ps.assists += ('assists' in player) ? player.assists : 0;
+                    ps.knockdowns += ('knockdowns' in player) ? player.knockdowns : 0;
+                    ps.revives += ('revives_given' in player) ? player.revives_given : 0;
+                    ps.respawns += ('respawns_given' in player) ? player.respawns_given : 0;
+                    ps.damage_dealt += ('damage_dealt' in player) ? player.damage_dealt : 0;
+                    ps.damage_taken += ('damage_taken' in player) ? player.damage_taken : 0;
+
+                    if (!playertotalstats.has(hash)) {
+                        playertotalstats.set(hash, { name: '', teamid: team.id, kills: 0, assists: 0, knockdowns: 0, revives: 0, respawns: 0, damage_dealt: 0, damage_taken: 0 });
+                    }
+                    const pts = playertotalstats.get(hash);
+                    pts.name = ps.name;
+                    pts.teamid = team.id;
+                    pts.kills += ('kills' in player) ? player.kills : 0;
+                    pts.assists += ('assists' in player) ? player.assists : 0;
+                    pts.knockdowns += ('knockdowns' in player) ? player.knockdowns : 0;
+                    pts.revives += ('revives_given' in player) ? player.revives_given : 0;
+                    pts.respawns += ('respawns_given' in player) ? player.respawns_given : 0;
+                    pts.damage_dealt += ('damage_dealt' in player) ? player.damage_dealt : 0;
+                    pts.damage_taken += ('damage_taken' in player) ? player.damage_taken : 0;
+                }
+            }
+            playerstats.push(stats);
+        }
+        console.log('Player Stats from Results:', this.#results, playerstats, playertotalstats);
+        this.#callCallbacks('setPlayerTotalStats', playerstats, playertotalstats);
+    }
+
     #updatedResults(results) {
         this.#callCallbacks('setResults', results);
 
@@ -4738,6 +5003,9 @@ class WebAPIWorkerHandler {
 
         // ポイント計算
         this.#calcPointsFromResults();
+
+        // プレイヤー統計の算出
+        this.#calcPlayerStatsFromResults();
     }
 
     #checkResultPlayerNames(results) {
@@ -5044,6 +5312,7 @@ export class WebAPIConfig {
             new TestView(),
             new AnnouncementView(),
             new ManualPostMatchView(),
+            new TSVView(),
         ]);
 
         document.getElementById('result-view-button').addEventListener('click', (ev) => {

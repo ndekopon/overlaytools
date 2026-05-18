@@ -132,6 +132,12 @@
                 </a>
             </li>
             <li>
+                <a href="#tsv">
+                    <span class="en">TSV Copy</span>
+                    <span class="ja">TSVコピー</span>
+                </a>
+            </li>
+            <li>
                 <span class="en">Result</span>
                 <span class="ja">リザルト</span>
                 <ul id="ulresult">
@@ -1010,6 +1016,83 @@
             <span class="ja">試合終了</span>
         </button>
     </p>
+</div>
+
+<div id="tsv" class="hide">
+    <h3>
+        <span class="en">TSV Copy</span>
+        <span class="ja">TSVコピー</span>
+    </h3>
+    <p>
+        <span class="en">Copy match results and player information in TSV format. It can be used for spreadsheet software or other data processing.</span>
+        <span class="ja">マッチリザルトやプレイヤー情報をTSV形式でコピーします。表計算ソフトやその他のデータ処理に利用できます。</span>
+    </p>
+    <p>
+        <span class="en">Copy Status: </span>
+        <span class="ja">コピーステータス: </span>
+        <span id="tsv-copy-status"></span>
+    </p>
+    <h4>
+        <span class="en">results</span>
+        <span class="ja">リザルト</span>
+    </h4>
+    <h5>
+        <span class="en">total results</span>
+        <span class="ja">総合リザルト</span>
+    </h5>
+    <div>
+        <button id="tsv-button-totalresults">
+            <span class="en">Copy Total Results</span>
+            <span class="ja">総合リザルトをコピー</span>
+        </button>
+    </div>
+    <h5>
+        <span class="en">individual match results</span>
+        <span class="ja">個別マッチリザルト</span>
+    </h5>
+    <div id="tsv-singleresults">
+    </div>
+    <h4>
+        <span class="en">individual results</span>
+        <span class="ja">個人戦績</span>
+    </h4>
+    <h5>
+        <span class="en">sort key</span>
+        <span class="ja">ソートキー</span>
+    </h5>
+    <div>
+        <input type="radio" id="tsv-sortkey-damage_dealt" name="tsv-sortkey" value="damage_dealt" checked>
+        <label for="tsv-sortkey-damage_dealt">
+            <span class="en">damage dealt</span>
+            <span class="ja">与ダメージ</span>
+        </label>
+        <input type="radio" id="tsv-sortkey-kills" name="tsv-sortkey" value="kills">
+        <label for="tsv-sortkey-kills">
+            <span class="en">kills</span>
+            <span class="ja">キル数</span>
+        </label>
+    </div>
+    <h5>
+        <span class="en">total player results</span>
+        <span class="ja">総合プレイヤー戦績</span>
+    </h5>
+    <div>
+        <button id="tsv-button-totalplayerresults">
+            <span class="en">Copy Total Player Results</span>
+            <span class="ja">総合プレイヤー戦績をコピー</span>
+        </button>
+    </div>
+    <h5>
+        <span class="en">individual match results</span>
+        <span class="ja">個別マッチ戦績</span>
+    </h5>
+    <div id="tsv-singleplayerresults">
+    </div>
+    <h4>
+        <span class="en">copied text</span>
+        <span class="ja">コピーされたテキスト</span>
+    </h4>
+    <textarea id="tsv-output" readonly></textarea>
 </div>
 
 <div id="result" class="hide">

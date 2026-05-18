@@ -94,6 +94,10 @@ body {
     margin: 0.4em 0;
 }
 
+#main h5 {
+    margin: 0.3em 0;
+}
+
 #main button {
     line-height: 1.3em;
     padding: 0 2em;
@@ -735,4 +739,28 @@ body {
 #test > div > div {
     padding: 10px;
     border: 1px solid #000;
+}
+
+/* TSV */
+#tsv-copy-status.changed {
+    animation: tsv-copy-fadeout 1s forwards;
+}
+
+@keyframes tsv-copy-fadeout {
+    0% {
+        background-color: #CFC;
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
+#tsv-output {
+    width: 100%;
+    height: 25em;
+    font-family: 'Consolas', 'BIZ UDGothic', 'Meiryo UI', 'メイリオ', monospace;
+}
+
+#tsv button.hide {
+    display: none;
 }
