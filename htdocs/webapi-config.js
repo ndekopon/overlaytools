@@ -4091,6 +4091,14 @@ class ManualPostMatchView {
             api.manualPostMatch();
         });
     }
+
+    setGameState(gamestate) {
+        const status = document.getElementById('manualpostmatch-gamestate');
+        if (status) {
+            status.dataset.gamestate = gamestate;
+            status.innerText = gamestate;
+        }
+    }
 }
 
 
@@ -4991,7 +4999,6 @@ class WebAPIWorkerHandler {
             }
             playerstats.push(stats);
         }
-        console.log('Player Stats from Results:', this.#results, playerstats, playertotalstats);
         this.#callCallbacks('setPlayerTotalStats', playerstats, playertotalstats);
     }
 

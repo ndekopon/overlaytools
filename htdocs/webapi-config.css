@@ -729,6 +729,19 @@ body {
     text-align: center;
 }
 
+/* Manual Post Match */
+#manualpostmatch-gamestate {
+    font-weight: bold;
+    padding: 0.5em 1em;
+    display: inline-block;
+    margin-top: 1em;
+    background-color: #CCFFFF;
+}
+
+#manualpostmatch-gamestate[data-gamestate="Postmatch"] {
+    background-color: #FF9999;
+}
+
 /* Test */
 #test > div {
     line-height: 1.5em;
