@@ -207,7 +207,7 @@ export function getAdvancePoints(teamid, params) {
  * @param {string} name チーム名
  * @returns {teamresult} チームリザルト
  */
-function initTeamResult(teamid, name) {
+export function initTeamResult(teamid, name) {
     return {
         id: teamid,
         name: name,

@@ -5,6 +5,7 @@ import {
     OverlayBase,
     appendToTeamResults,
     htmlToElement,
+    initTeamResult,
     resultsToTeamResults,
     setRankParameterToTeamResults,
     getAdvancePoints,
@@ -4858,6 +4859,11 @@ class WebAPIWorkerHandler {
                 if (oldname != newname) {
                     this.#updatedTeamName(teamid, newname);
                 }
+
+                // チーム名から空のチーム結果を作成
+                if (this.#results.length == 0) {
+                    this.#calcPointsFromResults();
+                }
             }
         } else {
             if (this.#teamnames.has(teamid)) {
@@ -4867,6 +4873,11 @@ class WebAPIWorkerHandler {
                 const newname = this.getTeamName(teamid);
                 if (oldname != newname) {
                     this.#updatedTeamName(teamid, newname);
+                }
+
+                // チーム名から空のチーム結果を作成
+                if (this.#results.length == 0) {
+                    this.#calcPointsFromResults();
                 }
             }
         }
@@ -4921,6 +4932,16 @@ class WebAPIWorkerHandler {
         // 全ゲームのポイントを計算
         {
             const teamresults = resultsToTeamResults(this.#results);
+
+            // チーム名が設定してある場合、空のチーム結果を作成
+            if (Object.keys(teamresults).length == 0) {
+                for (let teamid = 0; teamid < this.#maxteams; ++teamid) {
+                    const name = this.#teamnames.get(teamid);
+                    if (name) {
+                        teamresults[teamid] = initTeamResult(teamid, name);
+                    }
+                }
+            }
 
             // マッチポイント閾値を取得
             const matchpoints = ('calcmethod' in params && 'matchpoints' in params.calcmethod && params.calcmethod.matchpoints > 0) ? params.calcmethod.matchpoints : 0;
@@ -5167,7 +5188,7 @@ class WebAPIWorkerHandler {
         if (!this.#teamparams.has(teamid)) {
             this.#teamparams.set(teamid, {});
         }
-        const params = this.#teamparams.get(teamid);
+        const params = structuredClone(this.#teamparams.get(teamid));
         const oldparams = JSON.stringify(params);
         if (name) {
             params.name = name;
@@ -5177,6 +5198,14 @@ class WebAPIWorkerHandler {
         const newparams = JSON.stringify(params);
         if (oldparams != newparams) {
             this.#webapi.setTeamParams(teamid, params);
+        }
+    }
+
+    setTeamParamsNamesFromText(text) {
+        const lines = text.split(/\r\n|\n/).map((line) => line.trim()).slice(0, this.#maxteams);
+        for (let i = 0; i < this.#maxteams; ++i) {
+            const name = i < lines.length ? lines[i] : '';
+            this.setTeamParamsName(i, name);
         }
     }
 
