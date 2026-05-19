@@ -845,8 +845,13 @@ class PlayerNameView extends WebAPIConfigBase {
 
         if (this.#players.has(hash)) {
             const player = this.#players.get(hash);
+            if (player.ingamenames.has(ingamename)) return;
             player.ingamenames.add(ingamename);
-            player.node.children[2].innerText = Array.from(player.ingamenames).join();
+            player.node.children[2].innerText = ingamename;
+            if (player.ingamenames.size > 1) {
+                const ingamenames = Array.from(player.ingamenames);
+                player.node.children[2].title = ingamenames.slice(0, -1).join(', ');
+            }
         }
     }
 
@@ -865,7 +870,11 @@ class PlayerNameView extends WebAPIConfigBase {
             for (const name of names) {
                 player.ingamenames.add(name);
             }
-            player.node.children[2].innerText = Array.from(player.ingamenames).join();
+            const ingamenames = Array.from(player.ingamenames);
+            player.node.children[2].innerText = ingamenames.length > 0 ? ingamenames.at(-1) : '';
+            if (ingamenames.length > 1) {
+                player.node.children[2].title = ingamenames.slice(0, -1).join(', ');
+            }
         }
     }
 }
