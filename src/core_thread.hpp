@@ -63,6 +63,7 @@ namespace app {
 		// player
 		void proc_player(const rtech::liveapi::Player& _player);
 		void proc_player_reset_items(uint8_t _teamid, uint8_t _squadindex);
+		void proc_player_reset_items_from_loadout(uint8_t _teamid, uint8_t _squadindex, bool _refillonly = false);
 		void proc_connected(uint8_t _teamid, uint8_t _squadindex);
 		void proc_disconnected(uint8_t _teamid, uint8_t _squadindex, bool _canreconnect, bool _alive);
 		void proc_characterselected(uint8_t _teamid, uint8_t _squadindex);

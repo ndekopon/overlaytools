@@ -16,6 +16,19 @@ namespace {
 		if (_s.size() != 32) return false;
 		return std::regex_match(_s, re);
 	}
+
+	bool refill_item_from_loadout(uint32_t& _q, const uint32_t _q_loadout)
+	{
+		if (_q_loadout > 0)
+		{
+			if (_q < _q_loadout)
+			{
+				_q = _q_loadout;
+				return true;
+			}
+		}
+		return false;
+	}
 }
 
 namespace app {
@@ -1762,7 +1775,7 @@ namespace app {
 					const auto& team = game_.teams.at(teamid);
 					for (size_t squadindex = 0; squadindex < team.players.size(); ++squadindex)
 					{
-						proc_player_reset_items(teamid, squadindex);
+						proc_player_reset_items_from_loadout(teamid, squadindex);
 					}
 				}
 			}
@@ -2211,6 +2224,7 @@ namespace app {
 					{
 						targets.push_back(squadindex);
 						proc_respawn(teamid, squadindex);
+						proc_player_reset_items_from_loadout(teamid, squadindex);
 					}
 				}
 			}
@@ -2223,6 +2237,7 @@ namespace app {
 					{
 						targets.push_back(squadindex);
 						proc_respawn(teamid, squadindex);
+						proc_player_reset_items_from_loadout(teamid, squadindex);
 					}
 				}
 			}
@@ -2264,6 +2279,8 @@ namespace app {
 						proc_respawn(teamid, squadindex);
 					}
 
+					proc_player_reset_items(teamid, squadindex);
+
 					// アイテム処理
 					for (int j = 0; j < p.inventory_size(); ++j)
 					{
@@ -2272,6 +2289,9 @@ namespace app {
 						if (item_id == 0) continue;
 						proc_item(teamid, squadindex, item_id, item.quantity());
 					}
+
+					// 最低保証のアイテムを補充
+					proc_player_reset_items_from_loadout(teamid, squadindex, true);
 				}
 			}
 
@@ -2511,6 +2531,7 @@ namespace app {
 				if (player.state == WEBAPI_PLAYER_STATE_KILLED && player.shield > 0 && player.shield_max > 0)
 				{
 					proc_respawn(teamid, squadindex);
+					proc_player_reset_items_from_loadout(teamid, squadindex);
 				}
 
 				if (player.weapon != p.newweapon())
@@ -3651,7 +3672,7 @@ namespace app {
 			// 初回は現在のitem数を全部送る
 			if (first)
 			{
-				proc_player_reset_items(teamid, squadindex);
+				proc_player_reset_items_from_loadout(teamid, squadindex);
 			}
 
 			// チーム名
@@ -3669,27 +3690,79 @@ namespace app {
 	{
 		auto& player = game_.teams.at(_teamid).players.at(_squadindex);
 
-		const auto& items = game_.loadout.items;
+		auto& items = player.items;
 
-		if (player.items.syringe != items.syringe) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SYRINGE, items.syringe);
-		if (player.items.shield_cell != items.shield_cell) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDCELL, items.shield_cell);
-		if (player.items.medkit != items.medkit) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_MEDKIT, items.medkit);
-		if (player.items.shield_battery != items.shield_battery) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDBATTERY, items.shield_battery);
-		if (player.items.phoenixkit != items.phoenixkit) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_PHOENIXKIT, items.phoenixkit);
-		if (player.items.ultimateaccelerant != items.ultimateaccelerant) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_ULTIMATEACCELERANT, items.ultimateaccelerant);
-		if (player.items.thermitegrenade != items.thermitegrenade) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_THERMITEGRENADE, items.thermitegrenade);
-		if (player.items.fraggrenade != items.fraggrenade) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_FRAGGRENADE, items.fraggrenade);
-		if (player.items.arcstar != items.arcstar) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_ARCSTAR, items.arcstar);
-		if (player.items.bodyshield != items.bodyshield) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_BODYSHIELD, items.bodyshield);
-		if (player.items.backpack != items.backpack) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_BACKPACK, items.backpack);
-		if (player.items.knockdownshield != items.knockdownshield) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_KNOCKDOWNSHIELD, items.knockdownshield);
-		if (player.items.mobilerespawnbeacon != items.mobilerespawnbeacon) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_MOBILERESPAWNBEACON, items.mobilerespawnbeacon);
-		if (player.items.heatshield != items.heatshield) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_HEATSHIELD, items.heatshield);
-		if (player.items.evactower != items.evactower) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_EVACTOWER, items.evactower);
-		if (player.items.shieldcore != items.shieldcore) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDCORE, items.shieldcore);
-		if (player.items.amp != items.amp) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_AMP, items.amp);
+		// 全部リセット
+		if (items.syringe != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SYRINGE, items.syringe = 0);
+		if (items.shield_cell != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDCELL, items.shield_cell = 0);
+		if (items.medkit != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_MEDKIT, items.medkit = 0);
+		if (items.shield_battery != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDBATTERY, items.shield_battery = 0);
+		if (items.phoenixkit != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_PHOENIXKIT, items.phoenixkit = 0);
+		if (items.ultimateaccelerant != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_ULTIMATEACCELERANT, items.ultimateaccelerant = 0);
+		if (items.thermitegrenade != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_THERMITEGRENADE, items.thermitegrenade = 0);
+		if (items.fraggrenade != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_FRAGGRENADE, items.fraggrenade = 0);
+		if (items.arcstar != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_ARCSTAR, items.arcstar = 0);
+		if (items.bodyshield != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_BODYSHIELD, items.bodyshield = 0);
+		if (items.backpack != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_BACKPACK, items.backpack = 0);
+		if (items.knockdownshield != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_KNOCKDOWNSHIELD, items.knockdownshield = 0);
+		if (items.mobilerespawnbeacon != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_MOBILERESPAWNBEACON, items.mobilerespawnbeacon = 0);
+		if (items.heatshield != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_HEATSHIELD, items.heatshield = 0);
+		if (items.evactower != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_EVACTOWER, items.evactower = 0);
+		if (items.shieldcore != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDCORE, items.shieldcore = 0);
+		if (items.amp != 0) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_AMP, items.amp = 0);
+	}
 
-		player.items = items;
+	void core_thread::proc_player_reset_items_from_loadout(uint8_t _teamid, uint8_t _squadindex, bool _refillonly)
+	{
+		auto& player = game_.teams.at(_teamid).players.at(_squadindex);
+
+		auto& items = player.items;
+		const auto& loadout = game_.loadout.items;
+
+		if (_refillonly)
+		{
+			// ロードアウトより少ない値になってたら補完
+			if (refill_item_from_loadout(items.syringe, loadout.syringe)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SYRINGE, items.syringe);
+			if (refill_item_from_loadout(items.shield_cell, loadout.shield_cell)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDCELL, items.shield_cell);
+			if (refill_item_from_loadout(items.medkit, loadout.medkit)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_MEDKIT, items.medkit);
+			if (refill_item_from_loadout(items.shield_battery, loadout.shield_battery)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDBATTERY, items.shield_battery);
+			if (refill_item_from_loadout(items.phoenixkit, loadout.phoenixkit)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_PHOENIXKIT, items.phoenixkit);
+			if (refill_item_from_loadout(items.ultimateaccelerant, loadout.ultimateaccelerant)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_ULTIMATEACCELERANT, items.ultimateaccelerant);
+			if (refill_item_from_loadout(items.thermitegrenade, loadout.thermitegrenade)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_THERMITEGRENADE, items.thermitegrenade);
+			if (refill_item_from_loadout(items.fraggrenade, loadout.fraggrenade)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_FRAGGRENADE, items.fraggrenade);
+			if (refill_item_from_loadout(items.arcstar, loadout.arcstar)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_ARCSTAR, items.arcstar);
+			if (refill_item_from_loadout(items.bodyshield, loadout.bodyshield)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_BODYSHIELD, items.bodyshield);
+			if (refill_item_from_loadout(items.backpack, loadout.backpack)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_BACKPACK, items.backpack);
+			if (refill_item_from_loadout(items.knockdownshield, loadout.knockdownshield)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_KNOCKDOWNSHIELD, items.knockdownshield);
+			if (refill_item_from_loadout(items.mobilerespawnbeacon, loadout.mobilerespawnbeacon)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_MOBILERESPAWNBEACON, items.mobilerespawnbeacon);
+			if (refill_item_from_loadout(items.heatshield, loadout.heatshield)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_HEATSHIELD, items.heatshield);
+			if (refill_item_from_loadout(items.evactower, loadout.evactower)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_EVACTOWER, items.evactower);
+			if (refill_item_from_loadout(items.shieldcore, loadout.shieldcore)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDCORE, items.shieldcore);
+			if (refill_item_from_loadout(items.amp, loadout.amp)) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_AMP, items.amp);
+		}
+		else
+		{
+			// ロードアウトと同数にする
+			if (items.syringe != loadout.syringe) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SYRINGE, loadout.syringe);
+			if (items.shield_cell != loadout.shield_cell) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDCELL, loadout.shield_cell);
+			if (items.medkit != loadout.medkit) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_MEDKIT, loadout.medkit);
+			if (items.shield_battery != loadout.shield_battery) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDBATTERY, loadout.shield_battery);
+			if (items.phoenixkit != loadout.phoenixkit) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_PHOENIXKIT, loadout.phoenixkit);
+			if (items.ultimateaccelerant != loadout.ultimateaccelerant) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_ULTIMATEACCELERANT, loadout.ultimateaccelerant);
+			if (items.thermitegrenade != loadout.thermitegrenade) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_THERMITEGRENADE, loadout.thermitegrenade);
+			if (items.fraggrenade != loadout.fraggrenade) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_FRAGGRENADE, loadout.fraggrenade);
+			if (items.arcstar != loadout.arcstar) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_ARCSTAR, loadout.arcstar);
+			if (items.bodyshield != loadout.bodyshield) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_BODYSHIELD, loadout.bodyshield);
+			if (items.backpack != loadout.backpack) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_BACKPACK, loadout.backpack);
+			if (items.knockdownshield != loadout.knockdownshield) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_KNOCKDOWNSHIELD, loadout.knockdownshield);
+			if (items.mobilerespawnbeacon != loadout.mobilerespawnbeacon) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_MOBILERESPAWNBEACON, loadout.mobilerespawnbeacon);
+			if (items.heatshield != loadout.heatshield) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_HEATSHIELD, loadout.heatshield);
+			if (items.evactower != loadout.evactower) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_EVACTOWER, loadout.evactower);
+			if (items.shieldcore != loadout.shieldcore) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_SHIELDCORE, loadout.shieldcore);
+			if (items.amp != loadout.amp) send_webapi_player_items(INVALID_SOCKET, _teamid, _squadindex, WEBAPI_ITEM_AMP, loadout.amp);
+
+			items = loadout;
+		}
 	}
 
 	void core_thread::proc_connected(uint8_t _teamid, uint8_t _squadindex)
@@ -3946,9 +4019,6 @@ namespace app {
 		{
 			player.state = WEBAPI_PLAYER_STATE_ALIVE;
 			send_webapi_player_state(INVALID_SOCKET, _teamid, _squadindex, player.state);
-
-			// アイテムの初期化
-			proc_player_reset_items(_teamid, _squadindex);
 		}
 	}
 
