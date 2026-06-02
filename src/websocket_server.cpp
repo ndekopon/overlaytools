@@ -321,6 +321,9 @@ namespace app {
 		x.ior_ctx.buf.buf = reinterpret_cast<CHAR*>(x.ior_ctx.rbuf.data());
 		x.ior_ctx.buf.len = x.ior_ctx.rbuf.size();
 		x.ior_ctx.type = WS_TCP_RECV;
+		x.ior_ctx.pending = 0;
+
+		x.iow_ctx.pending = 0;
 
 		return true;
 	}
@@ -468,6 +471,8 @@ namespace app {
 		if (!wsconns_.contains(_sock)) return false;
 		auto& x = wsconns_.at(_sock);
 
+		if (x.closed) return false;
+
 		// キューに追加
 		if (_data) x.wq.push(_data);
 
@@ -487,6 +492,7 @@ namespace app {
 		x.iow_ctx.buf.buf = reinterpret_cast<CHAR*>(x.iow_ctx.wbuf->data());
 		x.iow_ctx.buf.len = x.iow_ctx.wbuf->size();
 		x.iow_ctx.type = WS_TCP_SEND;
+		x.iow_ctx.pending = 1;
 
 		auto rc = ::WSASend(_sock, &x.iow_ctx.buf, 1, nullptr, 0, &x.iow_ctx.ov, nullptr);
 		if (rc == 0)
@@ -499,6 +505,7 @@ namespace app {
 		{
 			// その他エラー
 			log(logid_, L"Error: WSASend() failed. ErrorCode=%d", error);
+			x.iow_ctx.pending = 0;
 			close(_sock);
 			return false;
 		}
@@ -510,9 +517,12 @@ namespace app {
 		if (!wsconns_.contains(_sock)) return false;
 		auto& x = wsconns_.at(_sock);
 
+		if (x.closed) return false;
+
 		// バッファに情報を格納
 		std::memset(&x.ior_ctx.ov, 0, sizeof(WSAOVERLAPPED));
 		x.ior_ctx.sock = _sock;
+		x.ior_ctx.pending = 1;
 
 		DWORD flags = 0;
 		auto rc = ::WSARecv(_sock, &x.ior_ctx.buf, 1, NULL, &flags, &x.ior_ctx.ov, NULL);
@@ -525,6 +535,7 @@ namespace app {
 		if (error != WSA_IO_PENDING)
 		{
 			log(logid_, L"Error: WSARecv() failed. ErrorCode=%d", error);
+			x.ior_ctx.pending = 0;
 			close(_sock);
 			return false;
 		}
@@ -596,13 +607,29 @@ namespace app {
 
 	void websocket_server::close(SOCKET _sock)
 	{
+		bool pending = false;
 		if (!wsconns_.contains(_sock)) return;
 		{
 			auto& x = wsconns_.at(_sock);
-			::closesocket(_sock);
+			if (!x.closed)
+			{
+				::closesocket(_sock);
+				x.closed = true;
+			}
+			if (x.ior_ctx.pending || x.iow_ctx.pending)
+			{
+				pending = true;
+			}
 		}
-		wsconns_.erase(_sock);
-		log(logid_, L"Info: close socket = %d", _sock);
+		if (pending)
+		{
+			log(logid_, L"Info: close socket = %d, but I/O pending.", _sock);
+		}
+		else
+		{
+			wsconns_.erase(_sock);
+			log(logid_, L"Info: close socket = %d", _sock);
+		}
 	}
 
 	std::queue<std::unique_ptr<std::vector<uint8_t>>> websocket_server::receive_data(SOCKET _sock, const std::vector<uint8_t>& _data, int _len)

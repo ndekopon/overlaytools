@@ -150,6 +150,8 @@ namespace app {
 					WS_ACCEPT_CONTEXT* ctx = (WS_ACCEPT_CONTEXT*)compkey;
 					WS_IO_CONTEXT* ioctx = (WS_IO_CONTEXT*)ov;
 
+					ioctx->pending = 0;
+
 					if (rc == FALSE)
 					{
 						log(logid_, L"Error: socket I/O completion failed. sock=%d,type=%d,ErrorCode=%d", ioctx->sock, ioctx->type, gqcs_error);
