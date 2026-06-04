@@ -150,25 +150,26 @@ namespace app {
 					WS_ACCEPT_CONTEXT* ctx = (WS_ACCEPT_CONTEXT*)compkey;
 					WS_IO_CONTEXT* ioctx = (WS_IO_CONTEXT*)ov;
 
+					auto sock = ioctx->sock;
 					ioctx->pending = 0;
 
 					if (rc == FALSE)
 					{
-						log(logid_, L"Error: socket I/O completion failed. sock=%d,type=%d,ErrorCode=%d", ioctx->sock, ioctx->type, gqcs_error);
-						ws.close(ioctx->sock);
+						log(logid_, L"Error: socket I/O completion failed. sock=%d,type=%d,ErrorCode=%d", sock, ioctx->type, gqcs_error);
+						ws.close(sock);
 						continue;
 					}
 
 					if (transferred == 0 && (ioctx->type == WS_TCP_RECV || ioctx->type == WS_TCP_SEND))
 					{
-						ws.close(ioctx->sock);
+						ws.close(sock);
 					}
 					else if (ioctx->type == WS_TCP_RECV)
 					{
-						auto queue = ws.receive_data(ioctx->sock, ioctx->rbuf, transferred);
+						auto queue = ws.receive_data(sock, ioctx->rbuf, transferred);
 						while (queue.size() > 0)
 						{
-							auto data = std::make_unique<std::pair<SOCKET, ctx_buffer_t>>(std::make_pair(ioctx->sock, std::move(queue.front())));
+							auto data = std::make_unique<std::pair<SOCKET, ctx_buffer_t>>(std::make_pair(sock, std::move(queue.front())));
 							queue.pop();
 
 							if (data)
@@ -180,7 +181,7 @@ namespace app {
 						}
 
 						// 読込待ち
-						if (!ws.read(ioctx->sock))
+						if (!ws.read(sock))
 						{
 							log(logid_, L"Error: websocket_server::read() failed.");
 						}
@@ -192,7 +193,7 @@ namespace app {
 
 						// 残りのバッファを送信
 						std::shared_ptr<std::vector<uint8_t>> empty = nullptr;
-						if (!ws.send(ioctx->sock, empty))
+						if (!ws.send(sock, empty))
 						{
 							log(logid_, L"Error: websocket_server::send() failed.");
 						}
