@@ -330,12 +330,21 @@ namespace app {
 
 	void websocket_server::broadcast(std::shared_ptr<std::vector<uint8_t>> &_data)
 	{
+		std::vector<SOCKET> closed_socks;
 		for (const auto& [sock, x] : wsconns_)
 		{
 			if (x.handshake == true)
 			{
-				send(sock, _data);
+				if (!send(sock, _data))
+				{
+					closed_socks.push_back(sock);
+				}
 			}
+		}
+
+		for (const auto& sock : closed_socks)
+		{
+			close(sock);
 		}
 	}
 
@@ -424,7 +433,10 @@ namespace app {
 		// opcodeだけ変えて返送
 		auto buf = std::make_shared<std::vector<uint8_t>>(_data, _data + _len);
 		buf->at(0) = ((buf->at(0) & 0xf0) | 0xa);
-		send(_sock, buf);
+		if (!send(_sock, buf))
+		{
+			close(_sock);
+		}
 	}
 
 	bool websocket_server::prepare()
@@ -506,9 +518,9 @@ namespace app {
 			// その他エラー
 			log(logid_, L"Error: WSASend() failed. ErrorCode=%d", error);
 			x.iow_ctx.pending = 0;
-			close(_sock);
 			return false;
 		}
+
 		return true;
 	}
 
@@ -583,7 +595,10 @@ namespace app {
 		}
 		else
 		{
-			send(_sock, sbuf);
+			if (!send(_sock, sbuf))
+			{
+				close(_sock);
+			}
 		}
 	}
 

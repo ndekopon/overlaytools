@@ -196,6 +196,7 @@ namespace app {
 						if (!ws.send(sock, empty))
 						{
 							log(logid_, L"Error: websocket_server::send() failed.");
+							ws.close(sock);
 						}
 						send_count++;
 					}
