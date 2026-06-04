@@ -1688,6 +1688,7 @@ export class ApexWebAPI extends EventTarget {
         "heatshield": 0,
         "evactower": 0,
         "shieldcore": 1,
+        "amp": 0
       },
       perks: {},
       kills: 0,
