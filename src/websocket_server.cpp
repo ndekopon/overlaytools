@@ -742,7 +742,7 @@ namespace app {
 						// 何もしない
 						break;
 					case 0x9: // ping
-						pong(sock_, _data.data() + offset, _len - offset - remain);
+						pong(_sock, _data.data() + offset, _len - offset - remain);
 						break;
 					case 0x8: // close
 					{
