@@ -2,19 +2,15 @@
 
 #include "utils.hpp"
 
-#include <sstream>
 #include <chrono>
+#include <format>
 
 namespace {
 
 	std::wstring get_timestring()
 	{
-		// 日付・時刻を取得する
-		std::time_t t = std::time(nullptr);
-		std::tm tm;
-		errno_t error;
-		error = localtime_s(&tm, &t);
-		return (std::wostringstream() << std::put_time(&tm, L"%Y%m%d_%H%M%S")).str();
+		auto local_time = std::chrono::zoned_time{ std::chrono::current_zone(), std::chrono::system_clock::now() };
+		return std::format(L"{:%Y%m%d_%H%M%S}", local_time);
 	}
 
 	std::wstring get_dump_directory()
