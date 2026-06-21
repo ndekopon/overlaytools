@@ -438,7 +438,7 @@ namespace app {
 			log(LOG_CORE, L"Info: WEBAPI_GET_VERSION received.");
 			if (wdata.size() != 1)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 1. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 1. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -504,7 +504,7 @@ namespace app {
 			log(LOG_CORE, L"Info: WEBAPI_LIVEDATA_GET_TEAM_PLAYERS received.");
 			if (wdata.size() != 2)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 2. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -514,7 +514,7 @@ namespace app {
 			}
 			catch (std::out_of_range& oor)
 			{
-				log(LOG_CORE, L"Error: data parse failed(%s)", s_to_ws(oor.what()));
+				log(LOG_CORE, std::format(L"Error: data parse failed({})", s_to_ws(oor.what())));
 			}
 			catch (...)
 			{
@@ -548,7 +548,7 @@ namespace app {
 			log(LOG_CORE, L"Info: LOCAL_DATA_TYPE_SET_TOURNAMENT_NAME received.");
 			if (wdata.size() != 2)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 2. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -567,7 +567,7 @@ namespace app {
 			log(LOG_CORE, L"Info: LOCAL_DATA_TYPE_RENAME_TOURNAMENT_NAME received.");
 			if (wdata.size() != 3)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 3. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 3. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -587,7 +587,7 @@ namespace app {
 			log(LOG_CORE, L"Info: LOCAL_DATA_TYPE_SET_TOURNAMENT_PARAMS received.");
 			if (wdata.size() != 2)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 2. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -597,7 +597,7 @@ namespace app {
 			}
 			catch (std::out_of_range& oor)
 			{
-				log(LOG_CORE, L"Error: data parse failed(%s)", s_to_ws(oor.what()));
+				log(LOG_CORE, std::format(L"Error: data parse failed({})", s_to_ws(oor.what())));
 			}
 			catch (...)
 			{
@@ -610,7 +610,7 @@ namespace app {
 			log(LOG_CORE, L"Info: LOCAL_DATA_TYPE_GET_TOURNAMENT_PARAMS received.");
 			if (wdata.size() != 1)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 1. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 1. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -628,7 +628,7 @@ namespace app {
 			log(LOG_CORE, L"Info: WEBAPI_LOCALDATA_SET_TOURNAMENT_RESULT received.");
 			if (wdata.size() != 3)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 3. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 3. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -639,7 +639,7 @@ namespace app {
 			}
 			catch (std::out_of_range& oor)
 			{
-				log(LOG_CORE, L"Error: data parse failed(%s)", s_to_ws(oor.what()));
+				log(LOG_CORE, std::format(L"Error: data parse failed({})", s_to_ws(oor.what())));
 			}
 			catch (...)
 			{
@@ -652,7 +652,7 @@ namespace app {
 			log(LOG_CORE, L"Info: LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULT received.");
 			if (wdata.size() != 2)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 2. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -671,7 +671,7 @@ namespace app {
 			log(LOG_CORE, L"Info: LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULTS received.");
 			if (wdata.size() != 1)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 1. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 1. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -689,7 +689,7 @@ namespace app {
 			log(LOG_CORE, L"Info: WEBAPI_LOCALDATA_GET_CURRENT_TOURNAMENT received.");
 			if (wdata.size() != 1)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 1. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 1. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -707,7 +707,7 @@ namespace app {
 			log(LOG_CORE, L"Info: LOCAL_DATA_TYPE_SET_TEAM_PARAMS received.");
 			if (wdata.size() != 3)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 3. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 3. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -718,7 +718,7 @@ namespace app {
 			}
 			catch (std::out_of_range& oor)
 			{
-				log(LOG_CORE, L"Error: data parse failed(%s)", s_to_ws(oor.what()));
+				log(LOG_CORE, std::format(L"Error: data parse failed({})", s_to_ws(oor.what())));
 			}
 			catch (...)
 			{
@@ -731,7 +731,7 @@ namespace app {
 			log(LOG_CORE, L"Info: LOCAL_DATA_TYPE_GET_TEAM_PARAMS received.");
 			if (wdata.size() != 2)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 2. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -750,7 +750,7 @@ namespace app {
 			log(LOG_CORE, L"Info: LOCAL_DATA_TYPE_SET_PLAYER_PARAMS received.");
 			if (wdata.size() != 3)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 3. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 3. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -770,7 +770,7 @@ namespace app {
 			log(LOG_CORE, L"Info: LOCAL_DATA_TYPE_GET_PLAYER_PARAMS received.");
 			if (wdata.size() != 2)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 2. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -789,7 +789,7 @@ namespace app {
 			log(LOG_CORE, L"Info: LOCAL_DATA_TYPE_GET_PLAYERS received.");
 			if (wdata.size() != 1)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 1. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 1. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -807,7 +807,7 @@ namespace app {
 			log(LOG_CORE, L"Info: WEBAPI_LOCALDATA_SET_LIVEAPI_CONFIG received.");
 			if (wdata.size() != 2)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 2. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -817,7 +817,7 @@ namespace app {
 			}
 			catch (std::out_of_range& oor)
 			{
-				log(LOG_CORE, L"Error: data parse failed(%s)", s_to_ws(oor.what()));
+				log(LOG_CORE, std::format(L"Error: data parse failed({})", s_to_ws(oor.what())));
 			}
 			catch (...)
 			{
@@ -830,7 +830,7 @@ namespace app {
 			log(LOG_CORE, L"Info: WEBAPI_LOCALDATA_GET_LIVEAPI_CONFIG received.");
 			if (wdata.size() != 1)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 1. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 1. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -848,7 +848,7 @@ namespace app {
 			log(LOG_CORE, L"Info: WEBAPI_LOCALDATA_SET_CONFIG received.");
 			if (wdata.size() != 2 && wdata.size() != 3)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2 or 3. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 2 or 3. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -866,7 +866,7 @@ namespace app {
 			}
 			catch (std::out_of_range& oor)
 			{
-				log(LOG_CORE, L"Error: data parse failed(%s)", s_to_ws(oor.what()));
+				log(LOG_CORE, std::format(L"Error: data parse failed({})", s_to_ws(oor.what())));
 			}
 			catch (...)
 			{
@@ -879,7 +879,7 @@ namespace app {
 			log(LOG_CORE, L"Info: WEBAPI_LOCALDATA_GET_CONFIG received.");
 			if (wdata.size() != 1 && wdata.size() != 2)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 1 or 2. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 1 or 2. (size={})", wdata.size()));
 				return;
 			}
 			try
@@ -906,7 +906,7 @@ namespace app {
 
 			if (wdata.size() != 7)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 7. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 7. (size={})", wdata.size()));
 				return;
 			}
 
@@ -968,7 +968,7 @@ namespace app {
 
 			if (wdata.size() != 3)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 3. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 3. (size={})", wdata.size()));
 				return;
 			}
 
@@ -1006,7 +1006,7 @@ namespace app {
 
 			if (wdata.size() != 2)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 2. (size={})", wdata.size()));
 				return;
 			}
 
@@ -1043,7 +1043,7 @@ namespace app {
 			log(LOG_CORE, L"Info: WEBAPI_SEND_CUSTOMMATCH_SETSPAWNPOINT received.");
 			if (wdata.size() != 3)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 3. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 3. (size={})", wdata.size()));
 				return;
 			}
 			// CustomMatch_SetSpawnPoint
@@ -1081,7 +1081,7 @@ namespace app {
 			log(LOG_CORE, L"Info: WEBAPI_SEND_CUSTOMMATCH_SETENDRINGEXCLUSION received.");
 			if (wdata.size() != 2)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 2. (size={})", wdata.size()));
 				return;
 			}
 			// CustomMatch_SetEndRingExclusion
@@ -1156,7 +1156,7 @@ namespace app {
 			log(LOG_CORE, L"Info: WEBAPI_SEND_CUSTOMMATCH_SETLEGENDBAN received.");
 			if (wdata.size() != 2)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 2. (size={})", wdata.size()));
 				return;
 			}
 			// CustomMatch_SetLegendBan
@@ -1213,7 +1213,7 @@ namespace app {
 			
 			if (wdata.size() != 2 && wdata.size() != 3)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2 or 3. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 2 or 3. (size={})", wdata.size()));
 				return;
 			}
 
@@ -1260,7 +1260,7 @@ namespace app {
 
 			if (wdata.size() != 2)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 2. (size={})", wdata.size()));
 				return;
 			}
 
@@ -1321,7 +1321,7 @@ namespace app {
 
 			if (wdata.size() != 2)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 2. (size={})", wdata.size()));
 			}
 
 			std::string hash;
@@ -1350,7 +1350,7 @@ namespace app {
 
 			if (wdata.size() != 2)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 2. (size={})", wdata.size()));
 			}
 
 			std::string stats_code;
@@ -1372,7 +1372,7 @@ namespace app {
 
 			if (wdata.size() != 1)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 1. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 1. (size={})", wdata.size()));
 			}
 
 			// 未終了
@@ -1402,7 +1402,7 @@ namespace app {
 
 			if (wdata.size() != 2)
 			{
-				log(LOG_CORE, L"Error: sended data size is not 2. (size=%d)", wdata.size());
+				log(LOG_CORE, std::format(L"Error: sended data size is not 2. (size={})", wdata.size()));
 			}
 
 			std::string json;
@@ -1421,7 +1421,7 @@ namespace app {
 		}
 		default:
 		{
-			log(LOG_CORE, L"Info: receive data event type=0x%x, not implement yet.", (uint16_t)wdata.event_type());
+			log(LOG_CORE, std::format(L"Info: receive data event type=0x{:x}, not implement yet.", (uint16_t)wdata.event_type()));
 		}
 		}
 	}
@@ -1573,7 +1573,7 @@ namespace app {
 			liveapi_lastresponse_ = get_millis();
 			sendto_liveapi_queuecheck();
 			
-			log(LOG_CORE, L"Info: Response received. success = %d", p.success() ? 1 : 0);
+			log(LOG_CORE, std::format(L"Info: Response received. success = {}", p.success() ? 1 : 0));
 			if (!p.has_result()) return;
 			proc_liveapi_any(p.result());
 		}
@@ -1582,7 +1582,7 @@ namespace app {
 			api::RequestStatus p;
 			if (!_any.UnpackTo(&p)) return;
 			auto wstatus = s_to_ws(p.status());
-			log(LOG_CORE, L"Info: RequestStatus received. [%s]", wstatus.c_str());
+			log(LOG_CORE, std::format(L"Info: RequestStatus received. [{}]", wstatus));
 		}
 		else if (_any.Is<api::Init>())
 		{
@@ -2601,7 +2601,7 @@ namespace app {
 		}
 		else
 		{
-			log(LOG_CORE, L"Error: unknown Any type.(%s)", s_to_ws(_any.type_url()));
+			log(LOG_CORE, std::format(L"Error: unknown Any type.({})", s_to_ws(_any.type_url())));
 		}
 	}
 
@@ -2634,7 +2634,7 @@ namespace app {
 			http_get_.ping();
 			break;
 		default:
-			log(LOG_CORE, L"Info: receive unknown message(=%lu) from main_window", _message);
+			log(LOG_CORE, std::format(L"Info: receive unknown message(={}) from main_window", _message));
 			break;
 		}
 	}

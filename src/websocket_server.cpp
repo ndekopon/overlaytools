@@ -54,7 +54,7 @@ namespace {
 		{
 			if (c > 0x7f || !http_available_ascii_codes.at(c))
 			{
-				app::log(_logid, L"Error: Invalid char is %d.", (DWORD)c);
+				app::log(_logid, std::format(L"Error: Invalid char is {}.", (DWORD)c));
 				return false;
 			}
 		}
@@ -277,7 +277,7 @@ namespace app {
 		sock_ = ::WSASocketW(AF_INET, SOCK_STREAM, IPPROTO_IP, NULL, 0, WSA_FLAG_OVERLAPPED);
 		if (sock_ == INVALID_SOCKET)
 		{
-			log(logid_, L"Error: WSASocket() failed. ErrorCode=%d", ::WSAGetLastError());
+			log(logid_, std::format(L"Error: WSASocket() failed. ErrorCode={}", ::WSAGetLastError()));
 			return false;
 		}
 		return true;
@@ -291,7 +291,7 @@ namespace app {
 		::inet_pton(AF_INET, listen_address_.c_str(), &addr.sin_addr.s_addr);
 		if (::bind(sock_, (struct sockaddr*)&addr, sizeof(addr)) != 0)
 		{
-			log(logid_, L"Error: bind() failed. ErrorCode=%d", ::WSAGetLastError());
+			log(logid_, std::format(L"Error: bind() failed. ErrorCode={}", ::WSAGetLastError()));
 			return false;
 		}
 		return true;
@@ -301,7 +301,7 @@ namespace app {
 	{
 		if (::listen(sock_, 16) != 0)
 		{
-			log(logid_, L"Error: listen() failed. ErrorCode=%d", ::WSAGetLastError());
+			log(logid_, std::format(L"Error: listen() failed. ErrorCode={}", ::WSAGetLastError()));
 			return false;
 		}
 		return true;
@@ -366,10 +366,10 @@ namespace app {
 			if (firstline)
 			{
 				auto [method, requesttarget, httpversion] = parse_request_line(line);
-				log(logid_, L"Info: << %s", s_to_ws(line).c_str());
+				log(logid_, std::format(L"Info: << {}", s_to_ws(line)));
 				if (method != "GET" || httpversion != "HTTP/1.1")
 				{
-					log(logid_, L"Error: Method or HTTP-Version mismatch. method=%s,httpversion=%s", s_to_ws(method).c_str(), s_to_ws(httpversion).c_str());
+					log(logid_, std::format(L"Error: Method or HTTP-Version mismatch. method={},httpversion={}", s_to_ws(method), s_to_ws(httpversion)));
 					return false;
 				}
 				firstline = false;
@@ -381,11 +381,11 @@ namespace app {
 					key = v;
 				if (k != "" && v != "")
 				{
-					log(logid_, L"Info: << %s: %s", s_to_ws(k).c_str(), s_to_ws(v).c_str());
+					log(logid_, std::format(L"Info: << {}: {}", s_to_ws(k), s_to_ws(v)));
 				}
 				else
 				{
-					log(logid_, L"Info: << %s", s_to_ws(line).c_str());
+					log(logid_, std::format(L"Info: << {}", s_to_ws(line)));
 				}
 			}
 		}
@@ -402,7 +402,7 @@ namespace app {
 
 		// base64エンコード
 		auto b64 = base64encode_from_sha1(sha1);
-		log(logid_, L"Info: >> Sec-WebSocket-Accept: %s", s_to_ws(b64).c_str());
+		log(logid_, std::format(L"Info: >> Sec-WebSocket-Accept: {}", s_to_ws(b64)));
 
 		std::string res = "HTTP/1.1 101 Switching Protocols\r\n"
 			"Upgrade: websocket\r\n"
@@ -444,7 +444,7 @@ namespace app {
 		if (!socket()) return false;
 		if (!bind()) return false;
 		if (!listen()) return false;
-		log(logid_, L"Info: listen websocket server at %s:%d", s_to_ws(listen_address_).c_str(), listen_port_);
+		log(logid_, std::format(L"Info: listen websocket server at {}:{}", s_to_ws(listen_address_), listen_port_));
 		return true;
 	}
 
@@ -470,7 +470,7 @@ namespace app {
 		auto error = ::WSAGetLastError();
 		if (error != ERROR_IO_PENDING)
 		{
-			log(logid_, L"Error: AcceptEx() failed. ErrorCode=", error);
+			log(logid_, std::format(L"Error: AcceptEx() failed. ErrorCode={}", error));
 			return false;
 		}
 
@@ -516,7 +516,7 @@ namespace app {
 		if (error != ERROR_IO_PENDING)
 		{
 			// その他エラー
-			log(logid_, L"Error: WSASend() failed. ErrorCode=%d", error);
+			log(logid_, std::format(L"Error: WSASend() failed. ErrorCode={}", error));
 			x.iow_ctx.pending = 0;
 			return false;
 		}
@@ -546,7 +546,7 @@ namespace app {
 		auto error = ::WSAGetLastError();
 		if (error != WSA_IO_PENDING)
 		{
-			log(logid_, L"Error: WSARecv() failed. ErrorCode=%d", error);
+			log(logid_, std::format(L"Error: WSARecv() failed. ErrorCode={}", error));
 			x.ior_ctx.pending = 0;
 			close(_sock);
 			return false;
@@ -638,12 +638,12 @@ namespace app {
 		}
 		if (pending)
 		{
-			log(logid_, L"Info: close socket = %d, but I/O pending.", _sock);
+			log(logid_, std::format(L"Info: close socket = {}, but I/O pending.", _sock));
 		}
 		else
 		{
 			wsconns_.erase(_sock);
-			log(logid_, L"Info: close socket = %d", _sock);
+			log(logid_, std::format(L"Info: close socket = {}", _sock));
 		}
 	}
 
@@ -688,7 +688,7 @@ namespace app {
 					std::unique_ptr<wspacket> packet = std::move(x.packet);
 
 					// パケット情報出力
-					log(logid_, L"Info: sock=%d,opcode=%d,fin=%d,len=%d,remain=%d", _sock, packet->opcode, packet->fin ? 1 : 0, packet->payload_length(), remain);
+					log(logid_, std::format(L"Info: sock={},opcode={},fin={},len={},remain={}", _sock, packet->opcode, packet->fin ? 1 : 0, packet->payload_length(), remain));
 
 					switch (packet->opcode)
 					{
@@ -764,13 +764,13 @@ namespace app {
 						if (packet->data->size() >= 2)
 						{
 							uint16_t close_code = (packet->data->at(0) << 8) | packet->data->at(1);
-							log(logid_, L"Info: close_code=%d", close_code);
+							log(logid_, std::format(L"Info: close_code={}", close_code));
 						}
 						const auto rc = ::shutdown(_sock, SD_SEND);
 						if (rc != 0)
 						{
 							const auto error = ::WSAGetLastError();
-							log(logid_, L"Error: shutdown() failed. ErrorCode=%d", error);
+							log(logid_, std::format(L"Error: shutdown() failed. ErrorCode={}", error));
 							close(_sock);
 						}
 						return r;
@@ -784,7 +784,7 @@ namespace app {
 			}
 			else
 			{
-				log(logid_, L"Info: sock=%d,offset=%d,remain=%d", _sock, offset, remain);
+				log(logid_, std::format(L"Info: sock={},offset={},remain={}", _sock, offset, remain));
 				break;
 			}
 			offset = _len - remain;

@@ -265,7 +265,7 @@ namespace app {
 			monitor_available = dup.select_monitor(monitor);
 			if (monitor_available)
 			{
-				log(LOG_DUPLICATION, L"Error: monitor '%s' is not available.", monitor.c_str());
+				log(LOG_DUPLICATION, std::format(L"Error: monitor '{}' is not available.", monitor));
 			}
 
 			while (true)
@@ -303,13 +303,13 @@ namespace app {
 						bool teambanner_show = screen_state_prev.teambanner_show;
 
 						// 差分表示
-						if (teamnameframe != screen_state_prev.teamnameframe) log(LOG_DUPLICATION, L"Info: teamnameframe=%s.", teamnameframe ? L"true" : L"false");
-						if (grenadeframe != screen_state_prev.grenadeframe) log(LOG_DUPLICATION, L"Info: grenadeframe=%s.", grenadeframe ? L"true" : L"false");
-						if (team1frame != screen_state_prev.team1frame) log(LOG_DUPLICATION, L"Info: team1frame=%s.", team1frame ? L"true" : L"false");
-						if (alivesicon != screen_state_prev.alivesicon) log(LOG_DUPLICATION, L"Info: alivesicon=%s.", alivesicon ? L"true" : L"false");
+						if (teamnameframe != screen_state_prev.teamnameframe) log(LOG_DUPLICATION, std::format(L"Info: teamnameframe={}", teamnameframe ? L"true" : L"false"));
+						if (grenadeframe != screen_state_prev.grenadeframe) log(LOG_DUPLICATION, std::format(L"Info: grenadeframe={}", grenadeframe ? L"true" : L"false"));
+						if (team1frame != screen_state_prev.team1frame) log(LOG_DUPLICATION, std::format(L"Info: team1frame={}", team1frame ? L"true" : L"false"));
+						if (alivesicon != screen_state_prev.alivesicon) log(LOG_DUPLICATION, std::format(L"Info: alivesicon={}", alivesicon ? L"true" : L"false"));
 						if (mapbottomborder != screen_state_prev.mapbottomborder)
 						{
-							log(LOG_DUPLICATION, L"Info: mapbottomborder=%s.", mapbottomborder ? L"true" : L"false");
+							log(LOG_DUPLICATION, std::format(L"Info: mapbottomborder={}", mapbottomborder ? L"true" : L"false"));
 							if (mapbottomborder)
 							{
 								::PostMessageW(window_, CWM_MONITOR_MAP_STATE, 1, 0);
@@ -332,7 +332,7 @@ namespace app {
 
 						if (teambanner_show != screen_state_prev.teambanner_show)
 						{
-							log(LOG_DUPLICATION, L"Info: teambanner_show=%s.", teambanner_show ? L"true" : L"false");
+							log(LOG_DUPLICATION, std::format(L"Info: teambanner_show={}", teambanner_show ? L"true" : L"false"));
 							if (teambanner_show)
 							{
 								::PostMessageW(window_, CWM_MONITOR_BANNER_STATE, 1, 0);
@@ -385,7 +385,7 @@ namespace app {
 					// set_monitor
 					monitor = get_monitor();
 					monitor_available = dup.select_monitor(monitor);
-					log(LOG_DUPLICATION, L"Info: set monitor '%s' result=%s.", monitor.c_str(), monitor_available ? L"true" : L"false");
+					log(LOG_DUPLICATION, std::format(L"Info: set monitor '{}' result={}", monitor, monitor_available ? L"true" : L"false"));
 				}
 			}
 		}

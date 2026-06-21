@@ -2,6 +2,9 @@
 
 #include "common.hpp"
 
+#include <string>
+#include <format>
+
 namespace app {
 
 	constexpr DWORD LOG_LIVEAPI = 0;
@@ -11,7 +14,7 @@ namespace app {
 	constexpr DWORD LOG_DUPLICATION = 4;
 	constexpr DWORD LOG_HTTP_GET = 5;
 
-	void log(DWORD _id, const wchar_t* _str, ...);
+	void log(DWORD _id, const std::wstring& _str);
 
 	class log_thread
 	{

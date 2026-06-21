@@ -59,7 +59,7 @@ namespace app {
 
 				if (rc == FALSE && ov == NULL)
 				{
-					log(logid_, L"Error: GetQueuedCompletionStatus() failed. ErrorCode=%d", gqcs_error);
+					log(logid_, std::format(L"Error: GetQueuedCompletionStatus() failed. ErrorCode={}", gqcs_error));
 					continue;
 				}
 
@@ -105,7 +105,7 @@ namespace app {
 
 					if (rc == FALSE)
 					{
-						log(logid_, L"Error: ACCEPT completion failed. ErrorCode=%d", gqcs_error);
+						log(logid_, std::format(L"Error: ACCEPT completion failed. ErrorCode={}", gqcs_error));
 						if (sock != INVALID_SOCKET)
 						{
 							::closesocket(sock);
@@ -120,7 +120,7 @@ namespace app {
 
 
 					auto ipport = get_remote_ipport(ctx->data, transferred);
-					log(logid_, L"Info: connected from %s.", ipport.c_str());
+					log(logid_, std::format(L"Info: connected from {}", ipport));
 
 					if (!ws.acceptex())
 					{
@@ -135,7 +135,7 @@ namespace app {
 					}
 
 					// 接続元の表示
-					log(logid_, L"Info: ACCEPT called. sock=%d.", sock);
+					log(logid_, std::format(L"Info: ACCEPT called. sock={}", sock));
 
 					::CreateIoCompletionPort((HANDLE)sock, compport_, (ULONG_PTR)ctx, 0);
 
@@ -155,7 +155,7 @@ namespace app {
 
 					if (rc == FALSE)
 					{
-						log(logid_, L"Error: socket I/O completion failed. sock=%d,type=%d,ErrorCode=%d", sock, ioctx->type, gqcs_error);
+						log(logid_, std::format(L"Error: socket I/O completion failed. sock={},type={},ErrorCode={}", sock, ioctx->type, gqcs_error));
 						ws.close(sock);
 						continue;
 					}

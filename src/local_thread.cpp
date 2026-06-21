@@ -695,7 +695,7 @@ namespace app {
 		d->sequence = _data->sequence;
 
 
-		log(logid_, L"Info: proc rq sock=%d sequence=%d", d->sock, d->sequence);
+		log(logid_, std::format(L"Info: proc rq sock={} sequence={}", d->sock, d->sequence));
 
 		switch (_data->data_type)
 		{
@@ -991,7 +991,7 @@ namespace app {
 
 	void local_thread::create_directory()
 	{
-		log(logid_, L"Info: base path = %s", path_.c_str());
+		log(logid_, std::format(L"Info: base path = {}", path_));
 		if (!std::filesystem::is_directory(path_))
 		{
 			log(logid_, L"Info: create base directory.");
@@ -1001,7 +1001,7 @@ namespace app {
 			}
 		}
 		auto observers_path = path_ + L"\\observers";
-		log(logid_, L"Info: observers path = %s", observers_path.c_str());
+		log(logid_, std::format(L"Info: observers path = {}", observers_path));
 		if (!std::filesystem::is_directory(observers_path))
 		{
 			log(logid_, L"Info: create observers directory.");
@@ -1011,7 +1011,7 @@ namespace app {
 			}
 		}
 		auto players_path = path_ + L"\\players";
-		log(logid_, L"Info: players path = %s", players_path.c_str());
+		log(logid_, std::format(L"Info: players path = {}", players_path));
 		if (!std::filesystem::is_directory(players_path))
 		{
 			log(logid_, L"Info: create players directory.");

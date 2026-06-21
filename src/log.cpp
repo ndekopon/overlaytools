@@ -5,6 +5,7 @@
 #include <mutex>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 #include <iomanip>
 #include <sstream>
@@ -13,63 +14,26 @@
 #include <utility>
 #include <tuple>
 #include <fstream>
+#include <chrono>
+#include <format>
 
 namespace {
 
 	std::mutex mtx;
-	std::queue<std::tuple<DWORD, uint64_t, std::unique_ptr<std::vector<wchar_t>>>> log_queue;
+	std::queue<std::tuple<DWORD, std::chrono::system_clock::time_point, std::wstring>> log_queue;
 	HANDLE event_log = nullptr;
 	bool logdir_exists = false;
 
-	std::wstring get_current_timestring(uint64_t _millis)
+	std::wstring get_current_timestring(std::chrono::system_clock::time_point _timepoint)
 	{
-		// 日付・時刻を取得する
-		std::time_t t = _millis / 1000;
-		std::tm tm;
-		errno_t error;
-		error = ::localtime_s(&tm, &t);
-		return (std::wostringstream() << std::put_time(&tm, L"%Y/%m/%d %H:%M:%S")).str();
+		auto local_time = std::chrono::zoned_time{ std::chrono::current_zone(), _timepoint };
+		return std::format(L"{:%Y/%m/%d %H:%M:%S}", local_time);
 	}
 
 	std::wstring get_file_timestring()
 	{
-		// 日付・時刻を取得する
-		std::time_t t = std::time(nullptr);
-		std::tm tm;
-		errno_t error;
-		error = localtime_s(&tm, &t);
-		return (std::wostringstream() << std::put_time(&tm, L"%Y%m%d_%H%M%S")).str();
-	}
-
-	std::unique_ptr<std::vector<wchar_t>> _log_vprintf(DWORD _id, const wchar_t* _str, std::va_list _arg)
-	{
-		auto buf = std::make_unique<std::vector<wchar_t>>();
-
-		std::va_list arg_check;
-		va_copy(arg_check, _arg);
-		auto size = _vscwprintf(_str, arg_check);
-		va_end(arg_check);
-
-		int rc = 0;
-
-		do {
-			buf->resize(size + 1, L'\0');
-
-			std::va_list arg_copy;
-			va_copy(arg_copy, _arg);
-			rc = _vsnwprintf_s(buf->data(), buf->size(), buf->size() - 1, _str, arg_copy);
-			va_end(arg_copy);
-
-			if (rc > 0)
-			{
-				break;
-			}
-			buf->resize(size + 128); // 128文字増やす
-			size += 128;
-			if (buf->size() > 4096) break; // 増やすのは4096文字迄
-		} while (true);
-
-		return std::move(buf);
+		auto local_time = std::chrono::zoned_time{ std::chrono::current_zone(), std::chrono::system_clock::now() };
+		return std::format(L"{:%Y%m%d_%H%M%S}", local_time);
 	}
 
 	std::wstring get_log_directory()
@@ -113,17 +77,13 @@ namespace {
 
 namespace app {
 
-	void log(DWORD _id, const wchar_t* format, ...)
+	void log(DWORD _id, const std::wstring& _str)
 	{
 		if (logdir_exists)
 		{
-			std::va_list arg;
-			va_start(arg, format);
-			auto str = _log_vprintf(_id, format, arg);
-			va_end(arg);
 			{
 				std::lock_guard<std::mutex> lock(mtx);
-				log_queue.emplace(_id, get_millis(), std::move(str));
+				log_queue.emplace(_id, std::chrono::system_clock::now(), _str);
 			}
 
 			if (event_log != nullptr)
@@ -193,7 +153,7 @@ namespace app {
 				else if (id == WAIT_OBJECT_0 + 1)
 				{
 					// logキューから取り出し
-					std::queue<std::tuple<DWORD, uint64_t, std::unique_ptr<std::vector<wchar_t>>>> lq;
+					std::queue<std::tuple<DWORD, std::chrono::system_clock::time_point, std::wstring>> lq;
 					{
 						std::lock_guard<std::mutex> lock(mtx);
 						lq.swap(log_queue);
@@ -205,10 +165,10 @@ namespace app {
 						{
 							auto& item = lq.front();
 							auto id = std::get<0>(item);
-							auto timestamp = std::get<1>(item);
+							auto timepoint = std::get<1>(item);
 							auto& str = std::get<2>(item);
 
-							ws << get_current_timestring(timestamp) << L" " << get_id_string(id) << L" " << str->data() << L"\r\n";
+							ws << get_current_timestring(timepoint) << L" " << get_id_string(id) << L" " << str << L"\r\n";
 						}
 
 						lq.pop();

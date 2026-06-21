@@ -183,7 +183,7 @@ namespace app {
 
 				if (reply_data->code != "" && check_stats_code(reply_data->code))
 				{
-					log(logid_, L"Info: stats_code requested [%s].", s_to_ws(reply_data->code).c_str());
+					log(logid_, std::format(L"Info: stats_code requested [{}].", s_to_ws(reply_data->code)));
 					timestamp = get_millis();
 					if (!proc_connect_and_request(reply_data->code))
 					{
@@ -193,7 +193,7 @@ namespace app {
 				}
 				else
 				{
-					log(logid_, L"Error: stats_code is not valid format [%s].", s_to_ws(reply_data->code));
+					log(logid_, std::format(L"Error: stats_code is not valid format [{}].", s_to_ws(reply_data->code)));
 					close_connection = true;
 				}
 			}
@@ -258,7 +258,7 @@ namespace app {
 					}
 					case WINHTTP_GET_EVENT_BODY_READABLE:
 					{
-						log(logid_, L"Info: WINHTTP_GET_EVENT_BODY_READABLE. available=%d", available_);
+						log(logid_, std::format(L"Info: WINHTTP_GET_EVENT_BODY_READABLE. available={}", available_));
 						if (buf.size() < available_ + 1)
 						{
 							buf.resize(available_ + 1);
@@ -323,7 +323,7 @@ namespace app {
 								*reply_data->json = "{}";
 							}
 						}
-						log(logid_, L"Info: data send to core_thread. size=%lu", reply_data->json->length());
+						log(logid_, std::format(L"Info: data send to core_thread. size={}", reply_data->json->length()));
 						push_wq(std::move(reply_data));
 					}
 
