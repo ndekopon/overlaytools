@@ -32,7 +32,9 @@ namespace {
 
 	std::wstring get_file_timestring()
 	{
-		auto local_time = std::chrono::zoned_time{ std::chrono::current_zone(), std::chrono::system_clock::now() };
+		auto now = std::chrono::system_clock::now();
+		auto sec_time = std::chrono::floor<std::chrono::seconds>(now);
+		auto local_time = std::chrono::zoned_time{ std::chrono::current_zone(), sec_time };
 		return std::format(L"{:%Y%m%d_%H%M%S}", local_time);
 	}
 
