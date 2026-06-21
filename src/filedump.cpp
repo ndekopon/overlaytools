@@ -72,7 +72,6 @@ namespace app {
 		uint64_t count = 0;
 		uint64_t total = 0;
 		HANDLE file = INVALID_HANDLE_VALUE;
-		std::queue<std::unique_ptr<std::vector<uint8_t>>> q;
 
 		HANDLE events[] = {
 			event_close_,
@@ -110,14 +109,12 @@ namespace app {
 			}
 			else if (id == WAIT_OBJECT_0 + 2)
 			{
+				std::queue<std::unique_ptr<std::vector<uint8_t>>> q;
 				{
 					std::lock_guard<std::mutex> lock(mtx_);
-					while (q_.size() > 0)
-					{
-						q.push(std::move(q_.front()));
-						q_.pop();
-					}
+					q.swap(q_);
 				}
+
 				// 書き込み
 				while (q.size() > 0)
 				{
