@@ -378,7 +378,7 @@ namespace app {
 					proc_liveapi_any(ev.gamemessage());
 
 					// ファイルに書き込む
-					filedump_.push(std::move(_data));
+					filedump_.append(std::move(_data));
 
 					return;
 				}

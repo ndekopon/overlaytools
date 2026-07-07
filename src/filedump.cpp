@@ -46,20 +46,16 @@ namespace app {
 
 	filedump::filedump()
 		: thread_(NULL)
-		, event_close_(NULL)
-		, event_reset_(NULL)
-		, event_push_(NULL)
-		, mtx_()
-		, q_()
+		, event_in_(NULL)
+		, mtx_in_()
+		, q_in_()
 	{
 	}
 
 	filedump::~filedump()
 	{
 		stop();
-		if (event_close_) ::CloseHandle(event_close_);
-		if (event_reset_) ::CloseHandle(event_reset_);
-		if (event_push_) ::CloseHandle(event_push_);
+		if (event_in_) ::CloseHandle(event_in_);
 	}
 
 
@@ -71,111 +67,116 @@ namespace app {
 
 	DWORD filedump::proc()
 	{
+		bool alive = true;
 		uint64_t count = 0;
 		uint64_t total = 0;
 		HANDLE file = INVALID_HANDLE_VALUE;
 
 		HANDLE events[] = {
-			event_close_,
-			event_reset_,
-			event_push_
+			event_in_,
 		};
 
-		if (!create_dump_directory()) return 0;
-
-		while (true)
+		if (!create_dump_directory())
 		{
-			if (file == INVALID_HANDLE_VALUE)
-			{
-				file = ::CreateFileW(get_dumpname().c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-				if (file == INVALID_HANDLE_VALUE) break;
+			return 0;
+		}
 
-				count = 0;
-				total = sizeof(count) + sizeof(total);
-				DWORD wsize = 0;
-				if (!::WriteFile(file, &count, sizeof(count), &wsize, NULL)) break;
-				if (!::WriteFile(file, &total, sizeof(total), &wsize, NULL)) break;
-			}
-
-			bool close = false;
-			bool reset = false;
-
+		while (alive)
+		{
 			auto id = ::WaitForMultipleObjects(ARRAYSIZE(events), events, FALSE, INFINITE);
 			if (id == WAIT_OBJECT_0)
 			{
-				close = true;
-			}
-			else if (id == WAIT_OBJECT_0 + 1)
-			{
-				reset = true;
-			}
-			else if (id == WAIT_OBJECT_0 + 2)
-			{
-				std::queue<std::vector<uint8_t>> q;
-				{
-					std::lock_guard<std::mutex> lock(mtx_);
-					q.swap(q_);
-				}
-
-				// 書き込み
+				auto q = pull_q_in();
 				while (q.size() > 0)
 				{
-					auto data = std::move(q.front());
+					bool fileclose = false;
+
+					std::visit(overloaded{
+						[&](filedump_message_in_close&) {
+							alive = false;
+							fileclose = true;
+						},
+						[&](filedump_message_in_reset&) {
+							fileclose = true;
+						},
+						[&](filedump_message_in_append& _m) {
+							auto& data = _m.data;
+							if (data.size() == 0)
+							{
+								return;
+							}
+
+							// ファイルが開かれていない場合は新規作成
+							if (file == INVALID_HANDLE_VALUE)
+							{
+								file = ::CreateFileW(get_dumpname().c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+								if (file == INVALID_HANDLE_VALUE)
+								{
+									return;
+								}
+
+								count = 0;
+								total = sizeof(count) + sizeof(total);
+								DWORD wsize = 0;
+								if (!::WriteFile(file, &count, sizeof(count), &wsize, NULL)) return;
+								if (!::WriteFile(file, &total, sizeof(total), &wsize, NULL)) return;
+							}
+
+							DWORD wsize = 0;
+
+							// データのサイズとタイムスタンプを書き込む
+							DWORD dsize = data.size();
+							if (!::WriteFile(file, &dsize, sizeof(dsize), &wsize, NULL))
+							{
+								fileclose = true;
+								return;
+							}
+							total += sizeof(dsize);
+
+							// タイムスタンプを書き込む
+							uint64_t ms = ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+							if (!::WriteFile(file, &ms, sizeof(ms), &wsize, NULL))
+							{
+								fileclose = true;
+								return;
+							}
+							total += sizeof(ms);
+
+							// データを書き込む
+							if (!::WriteFile(file, data.data(), data.size(), &wsize, NULL))
+							{
+								fileclose = true;
+								return;
+							}
+							total += data.size();
+
+							// カウントアップ
+							++count;
+						}
+					}, q.front());
 					q.pop();
 
-					if (data.size() == 0) continue;
-
-					DWORD wsize = 0;
-
-					// データのサイズとタイムスタンプを書き込む
-					DWORD dsize = data.size();
-					if (!::WriteFile(file, &dsize, sizeof(dsize), &wsize, NULL))
+					// ファイルのクローズ処理
+					if (fileclose)
 					{
-						close = true;
+						// 先頭にシーク
+						if (::SetFilePointer(file, 0, NULL, FILE_BEGIN) == INVALID_SET_FILE_POINTER) break;
+
+						// データを書き込み
+						DWORD wsize = 0;
+						if (!::WriteFile(file, &count, sizeof(count), &wsize, NULL)) break;
+						if (!::WriteFile(file, &total, sizeof(total), &wsize, NULL)) break;
+
+						::CloseHandle(file);
+						file = INVALID_HANDLE_VALUE;
+					}
+
+					if (!alive)
+					{
 						break;
 					}
-					total += sizeof(dsize);
-
-					// タイムスタンプを書き込む
-					uint64_t ms = ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-					if (!::WriteFile(file, &ms, sizeof(ms), &wsize, NULL))
-					{
-						close = true;
-						break;
-					}
-					total += sizeof(ms);
-
-					// データを書き込む
-					if (!::WriteFile(file, data.data(), data.size(), &wsize, NULL))
-					{
-						close = true;
-						break;
-					}
-					total += data.size();
-
-					// カウントアップ
-					++count;
 				}
 			}
-
-			// ファイルのクローズ処理
-			if (close || reset)
-			{
-				// 先頭にシーク
-				if(::SetFilePointer(file, 0, NULL, FILE_BEGIN) == INVALID_SET_FILE_POINTER) break;
-
-				// データを書き込み
-				DWORD wsize = 0;
-				if (!::WriteFile(file, &count, sizeof(count), &wsize, NULL)) break;
-				if (!::WriteFile(file, &total, sizeof(total), &wsize, NULL)) break;
-
-				::CloseHandle(file);
-				file = INVALID_HANDLE_VALUE;
-			}
-			if (close) break;
-
-			if (file != INVALID_HANDLE_VALUE)
-				::FlushFileBuffers(file);
 		}
 
 		if (file != INVALID_HANDLE_VALUE)
@@ -187,35 +188,15 @@ namespace app {
 	bool filedump::run()
 	{
 		// イベント作成
-		event_close_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
-		if (event_close_ == NULL) return false;
-		event_reset_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
-		if (event_reset_ == NULL) return false;
-		event_push_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
-		if (event_push_ == NULL) return false;
+		event_in_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
+		if (event_in_ == NULL)
+		{
+			return false;
+		}
 
 		// スレッド起動
 		thread_ = ::CreateThread(NULL, 0, proc_common, this, 0, NULL);
 		return thread_ != NULL;
-	}
-
-	void filedump::push(std::vector<uint8_t>&& _data)
-	{
-		if (!event_push_) return;
-
-		{
-			std::lock_guard<std::mutex> lock(mtx_);
-			q_.push(std::move(_data));
-		}
-		::SetEvent(event_push_);
-	}
-
-	void filedump::reset()
-	{
-		if (event_reset_)
-		{
-			::SetEvent(event_reset_);
-		}
 	}
 
 	void filedump::stop()
@@ -223,9 +204,41 @@ namespace app {
 		// スレッドの停止
 		if (thread_ != NULL)
 		{
-			::SetEvent(event_close_);
+			push_in(filedump_message_in_close{});
 			::WaitForSingleObject(thread_, INFINITE);
 			thread_ = NULL;
 		}
+	}
+
+	void filedump::push_in(filedump_message_in&& _msg)
+	{
+		{
+			std::lock_guard<std::mutex> lock(mtx_in_);
+			q_in_.push(std::move(_msg));
+		}
+		if (event_in_)
+		{
+			::SetEvent(event_in_);
+		}
+	}
+
+	std::queue<filedump_message_in> filedump::pull_q_in()
+	{
+		std::queue<filedump_message_in> q;
+		{
+			std::lock_guard<std::mutex> lock(mtx_in_);
+			q.swap(q_in_);
+		}
+		return q;
+	}
+
+	void filedump::append(std::vector<uint8_t>&& _data)
+	{
+		push_in(filedump_message_in_append{ std::move(_data) });
+	}
+
+	void filedump::reset()
+	{
+		push_in(filedump_message_in_reset{});
 	}
 }
