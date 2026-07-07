@@ -4,6 +4,7 @@
 
 #include "utils.hpp"
 #include "version.hpp"
+#include "webapi.hpp"
 
 #include <regex>
 
@@ -140,16 +141,15 @@ namespace app {
 		return _store;
 	}
 
-	void core_thread::sendto_liveapi(ctx_buffer_t&& _data)
+	void core_thread::sendto_liveapi(std::vector<uint8_t>&& _data)
 	{
 		liveapi_queue_.push(std::move(_data));
 		sendto_liveapi_queuecheck();
 	}
 
-	void core_thread::sendto_liveapi_noqueue(ctx_buffer_t&& _data)
+	void core_thread::sendto_liveapi_noqueue(std::vector<uint8_t>&& _data)
 	{
-		ctx_.push_wq(CTX_LIVEAPI, std::make_unique<std::pair<SOCKET, ctx_buffer_t>>(INVALID_SOCKET, std::move(_data)));
-		liveapi_.tell_wq();
+		liveapi_.send_binary(INVALID_SOCKET, std::move(_data));
 		liveapi_available_ = false;
 		liveapi_lastsend_ = get_millis();
 	}
@@ -161,25 +161,20 @@ namespace app {
 		liveapi_available_ = true;
 		if (current < liveapi_lastresponse_ + 500) return; // 少なくとも500ms待つ
 		if (liveapi_queue_.empty()) return;
-		ctx_buffer_t data = std::move(liveapi_queue_.front());
+		liveapi_.send_binary(INVALID_SOCKET, std::move(liveapi_queue_.front()));
 		liveapi_queue_.pop();
-
-		ctx_.push_wq(CTX_LIVEAPI, std::make_unique<std::pair<SOCKET, ctx_buffer_t>>(INVALID_SOCKET, std::move(data)));
-		liveapi_.tell_wq();
 		liveapi_available_ = false;
 		liveapi_lastsend_ = current;
 	}
 
-	void core_thread::sendto_webapi(ctx_buffer_t&& _data)
+	void core_thread::sendto_webapi(std::vector<uint8_t>&& _data)
 	{
 		sendto_webapi(INVALID_SOCKET, std::move(_data));
 	}
 
-	void core_thread::sendto_webapi(SOCKET _sock, ctx_buffer_t&& _data)
+	void core_thread::sendto_webapi(SOCKET _sock, std::vector<uint8_t>&& _data)
 	{
-		auto data = std::make_unique<std::pair<SOCKET, ctx_buffer_t>>(_sock, std::move(_data));
-		ctx_.push_wq(CTX_WEBAPI, std::move(data));
-		webapi_.tell_wq();
+		webapi_.send_binary(_sock, std::move(_data));
 	}
 
 	core_thread::core_thread(const std::string& _lip, uint16_t _lport, const std::string& _wip, uint16_t _wport, uint16_t _wmaxconn)
@@ -188,9 +183,8 @@ namespace app {
 		, event_close_(NULL)
 		, event_message_(NULL)
 		, event_queuecheck_(NULL)
-		, ctx_()
-		, liveapi_(LOG_LIVEAPI, CTX_LIVEAPI, ctx_, _lip, _lport, 2)
-		, webapi_(LOG_WEBAPI, CTX_WEBAPI, ctx_, _wip, _wport, _wmaxconn)
+		, liveapi_(LOG_LIVEAPI, _lip, _lport, 2)
+		, webapi_(LOG_WEBAPI, _wip, _wport, _wmaxconn)
 		, local_(LOG_LOCAL)
 		, http_get_(LOG_HTTP_GET)
 		, filedump_()
@@ -227,14 +221,22 @@ namespace app {
 	{
 		log(LOG_CORE, L"Info: thread start.");
 
+		enum : DWORD {
+			WAIT_OBJECT_0_CLOSE = WAIT_OBJECT_0,
+			WAIT_OBJECT_0_LIVEAPI = WAIT_OBJECT_0 + 1,
+			WAIT_OBJECT_0_WEBAPI = WAIT_OBJECT_0 + 2,
+			WAIT_OBJECT_0_LOCAL = WAIT_OBJECT_0 + 3,
+			WAIT_OBJECT_0_MESSAGE = WAIT_OBJECT_0 + 4,
+			WAIT_OBJECT_0_QUEUECHECK = WAIT_OBJECT_0 + 5,
+			WAIT_OBJECT_0_HTTPGET = WAIT_OBJECT_0 + 6
+		};
+
 		HANDLE events[] = {
 			event_close_,
-			ctx_.revent_.at(0),
-			ctx_.revent_.at(1),
+			liveapi_.get_event_out(),
+			webapi_.get_event_out(),
 			local_.get_event_wq(),
 			event_message_,
-			ctx_.sevent_.at(0),
-			ctx_.sevent_.at(1),
 			event_queuecheck_,
 			http_get_.get_event_wq()
 		};
@@ -247,47 +249,64 @@ namespace app {
 		{
 
 			auto id = ::WaitForMultipleObjects(ARRAYSIZE(events), events, FALSE, INFINITE);
-			if (id == WAIT_OBJECT_0)
+			if (id == WAIT_OBJECT_0_CLOSE)
 			{
 				// 終了
 				log(LOG_CORE, L"Info: receive close event.");
 				break;
 			}
-			else if (id == WAIT_OBJECT_0 + 1)
+			else if (id == WAIT_OBJECT_0_LIVEAPI)
 			{
 				// liveapiからデータ到達
-				auto q = ctx_.pull_rq(CTX_LIVEAPI);
-				if (q)
+				auto q = liveapi_.pull_q_out();
+				while (q.size() > 0)
 				{
-					while (q->size() > 0)
-					{
-						auto data = std::move(q->front());
-						q->pop();
-						if (data)
-						{
-							proc_liveapi_data(std::move(data));
+					std::visit(overloaded{
+						[&](const websocket_message_out_connected& _m) {
+							log(LOG_CORE, L"Info: liveapi connected.");
+						},
+						[&](const websocket_message_out_disconnected& _m) {
+							log(LOG_CORE, L"Info: liveapi disconnected.");
+						},
+						[&](websocket_message_out_recv_binary& _m) {
+							proc_liveapi_data(_m.sock, std::move(_m.data));
+						},
+						[&](const websocket_message_out_get_stats& _m) {
+							::PostMessageW(window_, CWM_WEBSOCKET_STATS_CONNECTION_COUNT, 0, _m.conn_count);
+							::PostMessageW(window_, CWM_WEBSOCKET_STATS_RECV_COUNT, 0, _m.recv_count);
+							::PostMessageW(window_, CWM_WEBSOCKET_STATS_SEND_COUNT, 0, _m.send_count);
+							send_webapi_liveapi_socket_stats(_m.conn_count, _m.recv_count, _m.send_count);
 						}
-					}
+						}, q.front());
+					q.pop();
 				}
 			}
-			else if (id == WAIT_OBJECT_0 + 2)
+			else if (id == WAIT_OBJECT_0_WEBAPI)
 			{
 				// ブラウザからデータ到達
-				auto q = ctx_.pull_rq(CTX_WEBAPI);
-				if (q)
+				auto q = webapi_.pull_q_out();
+				while (q.size() > 0)
 				{
-					while (q->size() > 0)
-					{
-						auto data = std::move(q->front());
-						q->pop();
-						if (data)
-						{
-							proc_webapi_data(std::move(data));
+					std::visit(overloaded{
+						[&](const websocket_message_out_connected& _m) {
+							log(LOG_CORE, L"Info: webapi connected.");
+						},
+						[&](const websocket_message_out_disconnected& _m) {
+							log(LOG_CORE, L"Info: webapi disconnected.");
+						},
+						[&](websocket_message_out_recv_binary& _m) {
+							proc_webapi_data(_m.sock, std::move(_m.data));
+						},
+						[&](const websocket_message_out_get_stats& _m) {
+							::PostMessageW(window_, CWM_WEBSOCKET_STATS_CONNECTION_COUNT, 1, _m.conn_count);
+							::PostMessageW(window_, CWM_WEBSOCKET_STATS_RECV_COUNT, 1, _m.recv_count);
+							::PostMessageW(window_, CWM_WEBSOCKET_STATS_SEND_COUNT, 1, _m.send_count);
 						}
-					}
+						}, q.front());
+					q.pop();
 				}
 			}
-			else if (id == WAIT_OBJECT_0 + 3)
+			else if (id == WAIT_OBJECT_0_LOCAL)
 			{
 
 				// ローカルスレッドからデータ到達
@@ -302,7 +321,7 @@ namespace app {
 					}
 				}
 			}
-			else if (id == WAIT_OBJECT_0 + 4)
+			else if (id == WAIT_OBJECT_0_MESSAGE)
 			{
 				// main_windowからメッセージ到達
 				auto q = pull_messages();
@@ -313,33 +332,12 @@ namespace app {
 					proc_message(message);
 				}
 			}
-			else if (id == WAIT_OBJECT_0 + 5)
-			{
-				// stats(0)
-				auto stats = ctx_.get_stats(0);
-				auto conn_count = std::get<0>(stats);
-				auto recv_count = std::get<1>(stats);
-				auto send_count = std::get<2>(stats);
-				::PostMessageW(window_, CWM_WEBSOCKET_STATS_CONNECTION_COUNT, 0, conn_count);
-				::PostMessageW(window_, CWM_WEBSOCKET_STATS_RECV_COUNT, 0, recv_count);
-				::PostMessageW(window_, CWM_WEBSOCKET_STATS_SEND_COUNT, 0, send_count);
-
-				send_webapi_liveapi_socket_stats(conn_count, recv_count, send_count);
-			}
-			else if (id == WAIT_OBJECT_0 + 6)
-			{
-				// stats(1)
-				auto stats = ctx_.get_stats(1);
-				::PostMessageW(window_, CWM_WEBSOCKET_STATS_CONNECTION_COUNT, 1, std::get<0>(stats));
-				::PostMessageW(window_, CWM_WEBSOCKET_STATS_RECV_COUNT, 1, std::get<1>(stats));
-				::PostMessageW(window_, CWM_WEBSOCKET_STATS_SEND_COUNT, 1, std::get<2>(stats));
-			}
-			else if (id == WAIT_OBJECT_0 + 7)
+			else if (id == WAIT_OBJECT_0_QUEUECHECK)
 			{
 				// queue check
 				sendto_liveapi_queuecheck();
 			}
-			else if (id == WAIT_OBJECT_0 + 8)
+			else if (id == WAIT_OBJECT_0_HTTPGET)
 			{
 				// HTTP_GETの返答
 				auto q = http_get_.pull_wq();
@@ -353,7 +351,6 @@ namespace app {
 						proc_http_get_data(std::move(data));
 					}
 				}
-
 			}
 		}
 		log(LOG_CORE, L"Info: thread end.");
@@ -364,26 +361,24 @@ namespace app {
 	//---------------------------------------------------------------------------------
 	// PROC LIVEAPI DATA
 	//---------------------------------------------------------------------------------
-	void core_thread::proc_liveapi_data(ctx_data_t &&_data)
+	void core_thread::proc_liveapi_data(SOCKET _sock, std::vector<uint8_t>&& _data)
 	{
 		bool result = false;
-		auto socket = _data->first;
 
 		// メッセージとして処理
 		if (!result)
 		{
 			rtech::liveapi::LiveAPIEvent ev;
-			result = ev.ParseFromArray(_data->second->data(), _data->second->size());
+			result = ev.ParseFromArray(_data.data(), _data.size());
 			if (result)
 			{
 				if (ev.has_gamemessage())
 				{
-
 					// メッセージの場合は書き込む
 					proc_liveapi_any(ev.gamemessage());
 
 					// ファイルに書き込む
-					filedump_.push(std::move(_data->second));
+					filedump_.push(std::move(_data));
 
 					return;
 				}
@@ -403,13 +398,13 @@ namespace app {
 	//---------------------------------------------------------------------------------
 	// PROC WEBAPI DATA
 	//---------------------------------------------------------------------------------
-	void core_thread::proc_webapi_data(ctx_data_t &&_data)
+	void core_thread::proc_webapi_data(SOCKET _sock, std::vector<uint8_t>&& _data)
 	{
-		auto socket = _data->first;
+		auto socket = _sock;
 		uint32_t sequence = 0;
 		received_webapi_data wdata;
 
-		if (!wdata.set(std::move(_data->second)))
+		if (!wdata.set(std::move(_data)))
 		{
 			log(LOG_CORE, L"Error: receive data parse failed.");
 			return;
@@ -462,11 +457,11 @@ namespace app {
 			req.set_withack(true);
 
 			// 送信
-			auto buf = std::make_unique<std::vector<uint8_t>>();
-			buf->resize(req.ByteSizeLong());
-			if (buf->size() > 0)
+			std::vector<uint8_t> buf;
+			buf.resize(req.ByteSizeLong());
+			if (buf.size() > 0)
 			{
-				req.SerializeToArray(buf->data(), buf->size());
+				req.SerializeToArray(buf.data(), buf.size());
 				sendto_liveapi(std::move(buf));
 				reply_webapi_send_custommatch_createlobby(socket, sequence);
 			}
@@ -482,11 +477,11 @@ namespace app {
 			req.set_withack(true);
 
 			// 送信
-			auto buf = std::make_unique<std::vector<uint8_t>>();
-			buf->resize(req.ByteSizeLong());
-			if (buf->size() > 0)
+			std::vector<uint8_t> buf;
+			buf.resize(req.ByteSizeLong());
+			if (buf.size() > 0)
 			{
-				req.SerializeToArray(buf->data(), buf->size());
+				req.SerializeToArray(buf.data(), buf.size());
 				sendto_liveapi(std::move(buf));
 				reply_webapi_send_custommatch_getlobbyplayers(socket, sequence);
 			}
@@ -932,11 +927,11 @@ namespace app {
 			req.set_withack(true);
 
 			// 送信
-			auto buf = std::make_unique<std::vector<uint8_t>>();
-			buf->resize(req.ByteSizeLong());
-			if (buf->size() > 0)
+			std::vector<uint8_t> buf;
+			buf.resize(req.ByteSizeLong());
+			if (buf.size() > 0)
 			{
-				req.SerializeToArray(buf->data(), buf->size());
+				req.SerializeToArray(buf.data(), buf.size());
 				sendto_liveapi(std::move(buf));
 				reply_webapi_send_custommatch_setsettings(socket, sequence);
 			}
@@ -952,11 +947,11 @@ namespace app {
 			req.set_withack(true);
 
 			// 送信
-			auto buf = std::make_unique<std::vector<uint8_t>>();
-			buf->resize(req.ByteSizeLong());
-			if (buf->size() > 0)
+			std::vector<uint8_t> buf;
+			buf.resize(req.ByteSizeLong());
+			if (buf.size() > 0)
 			{
-				req.SerializeToArray(buf->data(), buf->size());
+				req.SerializeToArray(buf.data(), buf.size());
 				sendto_liveapi(std::move(buf));
 				reply_webapi_send_custommatch_getsettings(socket, sequence);
 			}
@@ -990,11 +985,11 @@ namespace app {
 			req.set_withack(true);
 
 			// 送信
-			auto buf = std::make_unique<std::vector<uint8_t>>();
-			buf->resize(req.ByteSizeLong());
-			if (buf->size() > 0)
+			std::vector<uint8_t> buf;
+			buf.resize(req.ByteSizeLong());
+			if (buf.size() > 0)
 			{
-				req.SerializeToArray(buf->data(), buf->size());
+				req.SerializeToArray(buf.data(), buf.size());
 				sendto_liveapi(std::move(buf));
 				reply_webapi_send_custommatch_setteamname(socket, sequence);
 			}
@@ -1028,11 +1023,11 @@ namespace app {
 			req.set_withack(true);
 
 			// 送信
-			auto buf = std::make_unique<std::vector<uint8_t>>();
-			buf->resize(req.ByteSizeLong());
-			if (buf->size() > 0)
+			std::vector<uint8_t> buf;
+			buf.resize(req.ByteSizeLong());
+			if (buf.size() > 0)
 			{
-				req.SerializeToArray(buf->data(), buf->size());
+				req.SerializeToArray(buf.data(), buf.size());
 				sendto_liveapi(std::move(buf));
 				reply_webapi_send_custommatch_sendchat(socket, sequence);
 			}
@@ -1066,11 +1061,11 @@ namespace app {
 			req.set_withack(true);
 
 			// 送信
-			auto buf = std::make_unique<std::vector<uint8_t>>();
-			buf->resize(req.ByteSizeLong());
-			if (buf->size() > 0)
+			std::vector<uint8_t> buf;
+			buf.resize(req.ByteSizeLong());
+			if (buf.size() > 0)
 			{
-				req.SerializeToArray(buf->data(), buf->size());
+				req.SerializeToArray(buf.data(), buf.size());
 				sendto_liveapi(std::move(buf));
 				reply_webapi_send_custommatch_setspawnpoint(socket, sequence);
 			}
@@ -1121,11 +1116,11 @@ namespace app {
 			req.set_withack(true);
 
 			// 送信
-			auto buf = std::make_unique<std::vector<uint8_t>>();
-			buf->resize(req.ByteSizeLong());
-			if (buf->size() > 0)
+			std::vector<uint8_t> buf;
+			buf.resize(req.ByteSizeLong());
+			if (buf.size() > 0)
 			{
-				req.SerializeToArray(buf->data(), buf->size());
+				req.SerializeToArray(buf.data(), buf.size());
 				sendto_liveapi(std::move(buf));
 				reply_webapi_send_custommatch_setendringexclusion(socket, sequence);
 			}
@@ -1141,11 +1136,11 @@ namespace app {
 			req.set_withack(true);
 
 			// 送信
-			auto buf = std::make_unique<std::vector<uint8_t>>();
-			buf->resize(req.ByteSizeLong());
-			if (buf->size() > 0)
+			std::vector<uint8_t> buf;
+			buf.resize(req.ByteSizeLong());
+			if (buf.size() > 0)
 			{
-				req.SerializeToArray(buf->data(), buf->size());
+				req.SerializeToArray(buf.data(), buf.size());
 				sendto_liveapi(std::move(buf));
 				reply_webapi_send_custtommatch_getlegendbanstatus(socket, sequence);
 			}
@@ -1197,11 +1192,11 @@ namespace app {
 			req.set_withack(true);
 
 			// 送信
-			auto buf = std::make_unique<std::vector<uint8_t>>();
-			buf->resize(req.ByteSizeLong());
-			if (buf->size() > 0)
+			std::vector<uint8_t> buf;
+			buf.resize(req.ByteSizeLong());
+			if (buf.size() > 0)
 			{
-				req.SerializeToArray(buf->data(), buf->size());
+				req.SerializeToArray(buf.data(), buf.size());
 				sendto_liveapi(std::move(buf));
 				reply_webapi_send_custtommatch_setlegendban(socket, sequence);
 			}
@@ -1244,11 +1239,11 @@ namespace app {
 			req.set_withack(true);
 
 			// 送信
-			auto buf = std::make_unique<std::vector<uint8_t>>();
-			buf->resize(req.ByteSizeLong());
-			if (buf->size() > 0)
+			std::vector<uint8_t> buf;
+			buf.resize(req.ByteSizeLong());
+			if (buf.size() > 0)
 			{
-				req.SerializeToArray(buf->data(), buf->size());
+				req.SerializeToArray(buf.data(), buf.size());
 				sendto_liveapi_noqueue(std::move(buf));
 				reply_webapi_send_changecamera(socket, sequence);
 			}
@@ -1285,11 +1280,11 @@ namespace app {
 			req.set_withack(true);
 
 			// 送信
-			auto buf = std::make_unique<std::vector<uint8_t>>();
-			buf->resize(req.ByteSizeLong());
-			if (buf->size() > 0)
+			std::vector<uint8_t> buf;
+			buf.resize(req.ByteSizeLong());
+			if (buf.size() > 0)
 			{
-				req.SerializeToArray(buf->data(), buf->size());
+				req.SerializeToArray(buf.data(), buf.size());
 				sendto_liveapi(std::move(buf));
 				reply_webapi_send_pausetoggle(socket, sequence);
 			}
@@ -1305,11 +1300,11 @@ namespace app {
 			req.set_withack(true);
 
 			// 送信
-			auto buf = std::make_unique<std::vector<uint8_t>>();
-			buf->resize(req.ByteSizeLong());
-			if (buf->size() > 0)
+			std::vector<uint8_t> buf;
+			buf.resize(req.ByteSizeLong());
+			if (buf.size() > 0)
 			{
-				req.SerializeToArray(buf->data(), buf->size());
+				req.SerializeToArray(buf.data(), buf.size());
 				sendto_liveapi_noqueue(std::move(buf));
 				reply_webapi_send_joinpartyserver(socket, sequence);
 			}
@@ -4392,19 +4387,13 @@ namespace app {
 	{
 		window_ = _window;
 
-		if (!ctx_.init())
-		{
-			log(LOG_CORE, L"Error: shared_context::init() failed.");
-			return false;
-		}
-
-		if (!liveapi_.run(_window))
+		if (!liveapi_.run())
 		{
 			log(LOG_CORE, L"Error: Failed to run liveapi thread.");
 			return false;
 		}
 
-		if (!webapi_.run(_window))
+		if (!webapi_.run())
 		{
 			log(LOG_CORE, L"Error: Failed to run webapi thread.");
 			return false;

@@ -2,13 +2,11 @@
 
 #include "common.hpp"
 
-#include "shared_context.hpp"
 #include "websocket_thread.hpp"
 #include "local_thread.hpp"
 #include "http_get_thread.hpp"
 #include "filedump.hpp"
 #include "livedata.hpp"
-#include "webapi.hpp"
 
 #include "events/events.pb.h"
 
@@ -31,7 +29,6 @@ namespace app {
 		HANDLE event_close_;
 		HANDLE event_message_;
 		HANDLE event_queuecheck_;
-		shared_context ctx_;
 		websocket_thread liveapi_;
 		websocket_thread webapi_;
 		local_thread local_;
@@ -42,15 +39,15 @@ namespace app {
 		std::string observer_hash_;
 		std::mutex mtx_;
 		std::queue<UINT> messages_;
-		std::queue<ctx_buffer_t> liveapi_queue_;
+		std::queue<std::vector<uint8_t>> liveapi_queue_;
 		bool liveapi_available_;
 		uint64_t liveapi_lastsend_;
 		uint64_t liveapi_lastresponse_;
 
 		static DWORD WINAPI proc_common(LPVOID);
 		DWORD proc();
-		void proc_liveapi_data(ctx_data_t&& _data);
-		void proc_webapi_data(ctx_data_t&& _data);
+		void proc_liveapi_data(SOCKET _sock, std::vector<uint8_t>&& _data);
+		void proc_webapi_data(SOCKET _sock, std::vector<uint8_t>&& _data);
 		void proc_local_data(local_queue_data_t&& _data);
 		void proc_http_get_data(http_get_queue_data_t&& _data);
 		void proc_message(UINT _message);
@@ -82,10 +79,10 @@ namespace app {
 		// team
 		void proc_squad_eliminated(uint8_t _teamid);
 
-		void sendto_liveapi(ctx_buffer_t&& _data);
-		void sendto_liveapi_noqueue(ctx_buffer_t&& _data);
-		void sendto_webapi(ctx_buffer_t&& _data);
-		void sendto_webapi(SOCKET _sock, ctx_buffer_t&& _data);
+		void sendto_liveapi(std::vector<uint8_t>&& _data);
+		void sendto_liveapi_noqueue(std::vector<uint8_t>&& _data);
+		void sendto_webapi(std::vector<uint8_t>&& _data);
+		void sendto_webapi(SOCKET _sock, std::vector<uint8_t>&& _data);
 		void sendto_liveapi_queuecheck();
 
 		void send_webapi_gamestatechanged(SOCKET _sock, const std::string& _state);

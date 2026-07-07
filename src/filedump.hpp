@@ -3,9 +3,9 @@
 #include "common.hpp"
 
 #include <mutex>
-#include <memory>
 #include <vector>
 #include <queue>
+#include <cstdint>
 
 namespace app {
 	class filedump {
@@ -15,7 +15,7 @@ namespace app {
 		HANDLE event_reset_;
 		HANDLE event_push_;
 		std::mutex mtx_;
-		std::queue<std::unique_ptr<std::vector<uint8_t>>> q_;
+		std::queue<std::vector<uint8_t>> q_;
 
 		static DWORD WINAPI proc_common(LPVOID);
 		DWORD proc();
@@ -32,7 +32,7 @@ namespace app {
 		filedump& operator = (filedump&&) = delete;
 
 		bool run();
-		void push(std::unique_ptr<std::vector<uint8_t>> &&_data);
+		void push(std::vector<uint8_t>&& _data);
 		void reset();
 		void stop();
 	};

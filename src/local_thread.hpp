@@ -2,7 +2,6 @@
 
 #include "common.hpp"
 
-#include "shared_context.hpp"
 #include "livedata.hpp"
 
 #include <array>

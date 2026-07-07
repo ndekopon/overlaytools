@@ -37,3 +37,5 @@ namespace app {
 	constexpr UINT CAPTURE_WIDTH = CAPTURE_SQUARE_WIDTH * CAPTURE_COUNT;
 	constexpr UINT CAPTURE_HEIGHT = CAPTURE_SQUARE_WIDTH;
 }
+
+template<class... Ts> struct overloaded : Ts... { using Ts::operator()...; };

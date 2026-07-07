@@ -111,7 +111,7 @@ namespace app {
 			}
 			else if (id == WAIT_OBJECT_0 + 2)
 			{
-				std::queue<std::unique_ptr<std::vector<uint8_t>>> q;
+				std::queue<std::vector<uint8_t>> q;
 				{
 					std::lock_guard<std::mutex> lock(mtx_);
 					q.swap(q_);
@@ -123,13 +123,12 @@ namespace app {
 					auto data = std::move(q.front());
 					q.pop();
 
-					if (!data) continue;
-					if (data->size() == 0) continue;
+					if (data.size() == 0) continue;
 
 					DWORD wsize = 0;
 
 					// データのサイズとタイムスタンプを書き込む
-					DWORD dsize = data->size();
+					DWORD dsize = data.size();
 					if (!::WriteFile(file, &dsize, sizeof(dsize), &wsize, NULL))
 					{
 						close = true;
@@ -147,12 +146,12 @@ namespace app {
 					total += sizeof(ms);
 
 					// データを書き込む
-					if (!::WriteFile(file, data->data(), data->size(), &wsize, NULL))
+					if (!::WriteFile(file, data.data(), data.size(), &wsize, NULL))
 					{
 						close = true;
 						break;
 					}
-					total += data->size();
+					total += data.size();
 
 					// カウントアップ
 					++count;
@@ -200,7 +199,7 @@ namespace app {
 		return thread_ != NULL;
 	}
 
-	void filedump::push(std::unique_ptr<std::vector<uint8_t>> &&_data)
+	void filedump::push(std::vector<uint8_t>&& _data)
 	{
 		if (!event_push_) return;
 

@@ -5,16 +5,14 @@
 #include "websocket_server.hpp"
 
 namespace app {
-	websocket_thread::websocket_thread(DWORD _logid, DWORD _ctxid, shared_context& _ctx, const std::string& _ip, uint16_t _port, uint16_t _maxconn)
+	websocket_thread::websocket_thread(DWORD _logid,  const std::string& _ip, uint16_t _port, uint16_t _maxconn)
 		: logid_(_logid)
-		, ctxid_(_ctxid)
-		, ctx_(_ctx)
 		, ip_(_ip)
 		, port_(_port)
 		, maxconn_(_maxconn)
-		, window_(NULL)
 		, thread_(NULL)
 		, compport_(NULL)
+		, event_out_(NULL)
 	{
 	}
 
@@ -34,6 +32,11 @@ namespace app {
 		log(logid_ , L"Info: thread start.");
 
 		websocket_server ws(ip_.c_str(), port_, maxconn_, logid_);
+
+		ws.set_on_disconnect([this](SOCKET _sock) {
+			push_out(websocket_message_out_disconnected{ _sock });
+			});
+
 		if (ws.prepare())
 		{
 			log(logid_, L"Info: websocket_server::prepare() success.");
@@ -73,28 +76,25 @@ namespace app {
 					}
 					else if (transferred == 1)
 					{
-						// PING通知
-						ws.broadcast_ping();
-					}
-					else if (transferred == 2)
-					{
-						// wq到達
-						auto wq = ctx_.pull_wq(ctxid_);
-						while (wq->size() > 0)
+						// 受信したメッセージの処理
+						auto q = pull_q_in();
+
+						while (q.size() > 0)
 						{
-							auto q = std::move(wq->front());
-							wq->pop();
-							if (q)
-							{
-								ws.send_binary(q->first, *(q->second), q->second->size());
-							}
+							std::visit(overloaded{
+								[&](websocket_message_in_send_binary& _m) {
+									ws.send_binary(_m.sock, _m.data, _m.data.size());
+								},
+								[&](websocket_message_in_ping&) {
+									ws.broadcast_ping();
+								},
+								[&](websocket_message_in_get_stats&) {
+									uint64_t conn_count = ws.count();
+									push_out_get_stats(conn_count, recv_count, send_count);
+								}
+								}, q.front());
+							q.pop();
 						}
-					}
-					else if (transferred == 3)
-					{
-						// statsの保存
-						uint64_t conn_count = ws.count();
-						ctx_.set_stats(ctxid_, conn_count, recv_count, send_count);
 					}
 				}
 				if (compkey == 0 && ov != NULL)
@@ -144,6 +144,8 @@ namespace app {
 					{
 						log(logid_, L"Error: websocket_server::read() failed.");
 					}
+
+					push_out(websocket_message_out_connected{ sock, ipport });
 				}
 				if (compkey != 0 && ov != NULL)
 				{
@@ -169,15 +171,12 @@ namespace app {
 						auto queue = ws.receive_data(sock, ioctx->rbuf, transferred);
 						while (queue.size() > 0)
 						{
-							auto data = std::make_unique<std::pair<SOCKET, ctx_buffer_t>>(std::make_pair(sock, std::move(queue.front())));
-							queue.pop();
-
-							if (data)
+							if (queue.front() != nullptr)
 							{
-								// rqに渡す
-								ctx_.push_rq(ctxid_, std::move(data));
+								push_out_recv_binary(sock, std::move(*queue.front()));
 								recv_count++;
 							}
+							queue.pop();
 						}
 
 						// 読込待ち
@@ -208,10 +207,8 @@ namespace app {
 		return 0;
 	}
 
-	bool websocket_thread::run(HWND _window)
+	bool websocket_thread::run()
 	{
-		window_ = _window;
-
 		// CompPort作成
 		compport_ = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
 		if (compport_ == NULL)
@@ -220,33 +217,17 @@ namespace app {
 			return false;
 		}
 
+		// イベント作成
+		event_out_ = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+		if (event_out_ == NULL)
+		{
+			log(logid_, L"Error: CreateEvent() failed.");
+			return false;
+		}
+
 		// スレッド起動
 		thread_ = ::CreateThread(NULL, 0, proc_common, this, 0, NULL);
 		return thread_ != NULL;
-	}
-
-	void websocket_thread::ping()
-	{
-		if (thread_ != NULL && compport_ != NULL)
-		{
-			::PostQueuedCompletionStatus(compport_, 1, 0, NULL);
-		}
-	}
-
-	void websocket_thread::tell_wq()
-	{
-		if (thread_ != NULL && compport_ != NULL)
-		{
-			::PostQueuedCompletionStatus(compport_, 2, 0, NULL);
-		}
-	}
-
-	void websocket_thread::get_stats()
-	{
-		if (thread_ != NULL && compport_ != NULL)
-		{
-			::PostQueuedCompletionStatus(compport_, 3, 0, NULL);
-		}
 	}
 
 	void websocket_thread::stop()
@@ -258,10 +239,87 @@ namespace app {
 			thread_ = NULL;
 		}
 
+		if (event_out_ != NULL)
+		{
+			::CloseHandle(event_out_);
+			event_out_ = NULL;
+		}
+
 		if (compport_ != NULL)
 		{
 			::CloseHandle(compport_);
 			compport_ = NULL;
 		}
+	}
+
+	void websocket_thread::push_in(websocket_message_in&& _message)
+	{
+		{
+			std::lock_guard<std::mutex> lock(mtx_in_);
+			q_in_.push(std::move(_message));
+		}
+
+		if (thread_ != NULL && compport_ != NULL)
+		{
+			::PostQueuedCompletionStatus(compport_, 1, 0, NULL);
+		}
+	}
+
+	void websocket_thread::push_out(websocket_message_out&& _message)
+	{
+		{
+			std::lock_guard<std::mutex> lock(mtx_out_);
+			q_out_.push(std::move(_message));
+		}
+
+		if (event_out_ != NULL)
+		{
+			::SetEvent(event_out_);
+		}
+	}
+
+	std::queue<websocket_message_in> websocket_thread::pull_q_in()
+	{
+		std::queue<websocket_message_in> q;
+		{
+			std::lock_guard<std::mutex> lock(mtx_in_);
+			q.swap(q_in_);
+		}
+		return q;
+	}
+
+	std::queue<websocket_message_out> websocket_thread::pull_q_out()
+	{
+		std::queue<websocket_message_out> q;
+		{
+			std::lock_guard<std::mutex> lock(mtx_out_);
+			q.swap(q_out_);
+		}
+		return q;
+	}
+
+	void websocket_thread::push_out_get_stats(uint64_t _conn_count, uint64_t _recv_count, uint64_t _send_count)
+	{
+		push_out(websocket_message_out_get_stats{ _conn_count, _recv_count, _send_count });
+	}
+
+	void websocket_thread::push_out_recv_binary(SOCKET _sock, std::vector<uint8_t>&& _data)
+	{
+		push_out(websocket_message_out_recv_binary{ _sock, std::move(_data) });
+	}
+
+	void websocket_thread::ping()
+	{
+		push_in(websocket_message_in_ping{});
+	}
+
+	void websocket_thread::get_stats()
+	{
+		push_in(websocket_message_in_get_stats{});
+	}
+
+	void websocket_thread::send_binary(SOCKET _sock, std::vector<uint8_t>&& _data)
+	{
+		push_in(websocket_message_in_send_binary{ _sock, std::move(_data) });
 	}
 }

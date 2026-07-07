@@ -239,13 +239,13 @@ namespace app {
 
 	class received_webapi_data {
 	private:
-		std::unique_ptr<std::vector<uint8_t>> buffer_;
+		std::vector<uint8_t> buffer_;
 		std::vector<size_t> offsets_;
 	public:
 		received_webapi_data();
 		~received_webapi_data();
 
-		bool set(std::unique_ptr<std::vector<uint8_t>>&& _data);
+		bool set(std::vector<uint8_t>&& _data);
 
 		uint8_t event_type();
 		uint8_t size();
@@ -266,7 +266,7 @@ namespace app {
 
 	class send_webapi_data {
 	public:
-		std::unique_ptr<std::vector<uint8_t>> buffer_;
+		std::vector<uint8_t> buffer_;
 
 		send_webapi_data(uint8_t _type);
 		~send_webapi_data();

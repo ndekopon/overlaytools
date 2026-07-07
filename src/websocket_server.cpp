@@ -261,6 +261,7 @@ namespace app {
 		, accept_ctx_()
 		, sock_(-1)
 		, maxconn_(maxconn)
+		, on_disconnect_(nullptr)
 		, wsconns_()
 		, logid_(_logid)
 	{
@@ -644,6 +645,7 @@ namespace app {
 		{
 			wsconns_.erase(_sock);
 			log(logid_, std::format(L"Info: close socket = {}", _sock));
+			if (on_disconnect_) on_disconnect_(_sock);
 		}
 	}
 

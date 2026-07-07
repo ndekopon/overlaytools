@@ -22,7 +22,6 @@
     <ClInclude Include="src\main_window.hpp" />
     <ClInclude Include="src\resource.hpp" />
     <ClInclude Include="src\sha1.hpp" />
-    <ClInclude Include="src\shared_context.hpp" />
     <ClInclude Include="src\utils.hpp" />
     <ClInclude Include="src\version.hpp" />
     <ClInclude Include="src\webapi.hpp" />
@@ -43,7 +42,6 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\main_window.cpp" />
     <ClCompile Include="src\sha1.cpp" />
-    <ClCompile Include="src\shared_context.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\webapi.cpp" />
     <ClCompile Include="src\websocket_thread.cpp" />

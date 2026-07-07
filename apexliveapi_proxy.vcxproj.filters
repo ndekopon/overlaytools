@@ -48,9 +48,6 @@
     <ClInclude Include="src\core_thread.hpp">
       <Filter>hdr</Filter>
     </ClInclude>
-    <ClInclude Include="src\shared_context.hpp">
-      <Filter>hdr</Filter>
-    </ClInclude>
     <ClInclude Include="src\events\events.pb.h">
       <Filter>hdr\events</Filter>
     </ClInclude>
@@ -108,9 +105,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\core_thread.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\shared_context.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\events\events.pb.cc">

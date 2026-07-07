@@ -9,6 +9,7 @@
 #include <memory>
 #include <queue>
 #include <unordered_map>
+#include <functional>
 
 namespace app {
 
@@ -84,6 +85,7 @@ namespace app {
 		WS_ACCEPT_CONTEXT accept_ctx_;
 		DWORD logid_;
 		uint16_t maxconn_;
+		std::function<void(SOCKET)> on_disconnect_;
 
 
 		bool socket();
@@ -116,6 +118,8 @@ namespace app {
 		void send_binary(SOCKET _sock, const std::vector<uint8_t>& _data, size_t _len);
 		void broadcast_binary(const std::vector<uint8_t>& _data, size_t _len);
 		void broadcast_ping();
+
+		void set_on_disconnect(std::function<void(SOCKET)> _func) { on_disconnect_ = _func; }
 
 		std::queue<std::unique_ptr<std::vector<uint8_t>>> receive_data(SOCKET _sock, const std::vector<uint8_t>& data, int len);
 	};
