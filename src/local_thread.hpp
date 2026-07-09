@@ -4,39 +4,13 @@
 
 #include "livedata.hpp"
 
-#include <array>
 #include <mutex>
 #include <string>
 #include <queue>
+#include <variant>
 
 namespace app
 {
-	enum : uint32_t {
-		LOCAL_DATA_TYPE_NONE,
-		LOCAL_DATA_TYPE_SET_CONFIG,
-		LOCAL_DATA_TYPE_GET_CONFIG,
-		LOCAL_DATA_TYPE_SET_OBSERVER,
-		LOCAL_DATA_TYPE_GET_OBSERVER,
-		LOCAL_DATA_TYPE_GET_OBSERVERS,
-		LOCAL_DATA_TYPE_SAVE_RESULT,
-		LOCAL_DATA_TYPE_GET_TOURNAMENT_IDS,
-		LOCAL_DATA_TYPE_SET_TOURNAMENT_NAME,
-		LOCAL_DATA_TYPE_RENAME_TOURNAMENT_NAME,
-		LOCAL_DATA_TYPE_SET_TOURNAMENT_PARAMS,
-		LOCAL_DATA_TYPE_GET_TOURNAMENT_PARAMS,
-		LOCAL_DATA_TYPE_SET_TOURNAMENT_RESULT,
-		LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULT,
-		LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULTS,
-		LOCAL_DATA_TYPE_SET_TEAM_PARAMS,
-		LOCAL_DATA_TYPE_GET_TEAM_PARAMS,
-		LOCAL_DATA_TYPE_SET_PLAYER_PARAMS,
-		LOCAL_DATA_TYPE_GET_PLAYER_PARAMS,
-		LOCAL_DATA_TYPE_GET_PLAYERS,
-		LOCAL_DATA_TYPE_GET_CURRENT_TOURNAMENT,
-		LOCAL_DATA_TYPE_SET_LIVEAPI_CONFIG,
-		LOCAL_DATA_TYPE_GET_LIVEAPI_CONFIG,
-	};
-
 	class local_tournament_data {
 	private:
 		std::map<std::string, std::string> ids_;
@@ -99,52 +73,196 @@ namespace app
 		std::string load();
 	};
 
-	struct local_queue_data
+	struct local_message_set_config
 	{
-		uint32_t data_type = LOCAL_DATA_TYPE_NONE;
+		uint8_t slot = 0;
+		std::string json = "";
+	};
+
+	struct local_message_get_config
+	{
+		uint8_t slot = 0;
+		std::string json = "";
+	};
+
+	struct local_message_set_observer
+	{
+		std::string hash = "";
+	};
+
+	struct local_message_get_observer
+	{
+		std::string hash = "";
+	};
+
+	struct local_message_get_observers
+	{
+		std::string hash = "";
+	};
+
+	struct local_message_save_result
+	{
+		std::string tournament_id = "";
+		uint32_t game_id = 0;
+		std::string json = "";
+		livedata::result result{};
+	};
+
+	struct local_message_get_tournament_ids
+	{
+		std::string json = "";
+	};
+
+	struct local_message_set_tournament_name
+	{
+		std::string id = "";
+		std::string name = "";
+	};
+
+	struct local_message_rename_tournament_name
+	{
+		std::string id = "";
+		std::string name = "";
+	};
+
+	struct local_message_set_tournament_params
+	{
+		std::string id = "";
+		std::string json = "";
+	};
+
+	struct local_message_get_tournament_params
+	{
+		std::string id = "";
+		std::string json = "";
+	};
+
+	struct local_message_set_tournament_result
+	{
+		std::string tournament_id = "";
+		uint32_t game_id = 0;
+		std::string json = "";
+	};
+
+	struct local_message_get_tournament_result
+	{
+		std::string tournament_id = "";
+		uint32_t game_id = 0;
+		std::string json = "";
+	};
+
+	struct local_message_get_tournament_results
+	{
+		std::string id = "";
+		std::string json = "";
+	};
+
+	struct local_message_get_current_tournament
+	{
+		std::string id = "";
+		std::string name = "";
+		uint32_t result_count = 0;
+	};
+
+	struct local_message_set_team_params
+	{
+		std::string tournament_id = "";
+		uint32_t team_id = 0;
+		std::string json = "";
+	};
+
+	struct local_message_get_team_params
+	{
+		std::string tournament_id = "";
+		uint32_t team_id = 0;
+		std::string json = "";
+	};
+
+	struct local_message_set_player_params
+	{
+		std::string hash = "";
+		std::string json = "";
+	};
+
+	struct local_message_get_player_params
+	{
+		std::string hash = "";
+		std::string json = "";
+	};
+
+	struct local_message_get_players
+	{
+		std::string json = "";
+	};
+
+	struct local_message_set_liveapi_config
+	{
+		std::string json = "";
+	};
+
+	struct local_message_get_liveapi_config
+	{
+		std::string json = "";
+	};
+
+	using local_message_body = std::variant<
+		local_message_set_config,
+		local_message_get_config,
+		local_message_set_observer,
+		local_message_get_observer,
+		local_message_get_observers,
+		local_message_save_result,
+		local_message_get_tournament_ids,
+		local_message_set_tournament_name,
+		local_message_rename_tournament_name,
+		local_message_set_tournament_params,
+		local_message_get_tournament_params,
+		local_message_set_tournament_result,
+		local_message_get_tournament_result,
+		local_message_get_tournament_results,
+		local_message_get_current_tournament,
+		local_message_set_team_params,
+		local_message_get_team_params,
+		local_message_set_player_params,
+		local_message_get_player_params,
+		local_message_get_players,
+		local_message_set_liveapi_config,
+		local_message_get_liveapi_config
+	>;
+
+	struct local_message
+	{
 		SOCKET sock = INVALID_SOCKET;
 		uint32_t sequence = 0u;
 		bool result = true;
-		std::unique_ptr<std::string> json = nullptr;
-		std::string hash = "";
-		uint32_t team_id = 0;
-		std::string tournament_id = "";
-		std::string tournament_name = "";
-		uint32_t game_id = 0;
-		uint32_t result_count = 0;
-		uint32_t slot = 0;
-		std::unique_ptr<livedata::result> game_result = nullptr;
+		local_message_body data;
 	};
-
-	using local_queue_data_t = std::unique_ptr<local_queue_data>;
-	using local_queue_t = std::unique_ptr<std::queue<local_queue_data_t>>;
 
 	class local_thread
 	{
 	private:
 		DWORD logid_;
-		HWND window_;
 		HANDLE thread_;
 		HANDLE event_close_;
+		HANDLE event_in_;
+		HANDLE event_out_;
+		std::mutex mtx_in_;
+		std::mutex mtx_out_;
+		std::queue<local_message> q_in_;
+		std::queue<local_message> q_out_;
 		std::wstring path_;
-		std::mutex wqmtx_;
-		std::mutex rqmtx_;
-		HANDLE event_wq_;
-		HANDLE event_rq_;
-		std::queue<local_queue_data_t> wq_;
-		std::queue<local_queue_data_t> rq_;
 		local_tournament_data tournament_;
 		local_liveapi_config liveapi_config_;
 
 		static DWORD WINAPI proc_common(LPVOID);
 		DWORD proc();
-		void proc_rq(local_queue_data_t && _data);
+		void proc_message(local_message&& _msg);
 
 		void create_directory();
 
-		void push_rq(std::unique_ptr<local_queue_data>&& _data);
-		void push_wq(std::unique_ptr<local_queue_data>&& _data);
-		std::queue<local_queue_data_t> pull_rq();
+		void push_in(local_message&& _msg);
+		void push_out(local_message&& _msg);
+		std::queue<local_message> pull_q_in();
 
 	public:
 		local_thread(DWORD _logid);
@@ -157,12 +275,11 @@ namespace app
 		local_thread(local_thread&&) = delete;
 		local_thread& operator = (local_thread&&) = delete;
 
-		bool run(HWND);
+		bool run();
 		void stop();
 
-		HANDLE get_event_wq();
-
-		std::queue<local_queue_data_t> pull_wq();
+		HANDLE get_event_out();
+		std::queue<local_message> pull_q_out();
 
 		void set_config(SOCKET _sock, uint32_t _sequence, const std::string& _json, uint8_t _slot);
 		void get_config(SOCKET _sock, uint32_t _sequence, uint8_t _slot);
@@ -188,7 +305,7 @@ namespace app
 		void get_player_params(SOCKET _sock, uint32_t _sequence, const std::string& _hash);
 		void get_players(SOCKET _sock, uint32_t _sequence);
 
-		void save_result(std::unique_ptr<livedata::result>&& _result);
+		void save_result(livedata::result&& _result);
 
 		void set_liveapi_config(SOCKET _sock, uint32_t _sequence, const std::string& _json);
 		void get_liveapi_config(SOCKET _sock, uint32_t _sequence);

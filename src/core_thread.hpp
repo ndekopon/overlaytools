@@ -48,7 +48,7 @@ namespace app {
 		DWORD proc();
 		void proc_liveapi_data(SOCKET _sock, std::vector<uint8_t>&& _data);
 		void proc_webapi_data(SOCKET _sock, std::vector<uint8_t>&& _data);
-		void proc_local_data(local_queue_data_t&& _data);
+		void proc_local_message(local_message&& _msg);
 		void proc_http_get_data(http_get_queue_data_t&& _data);
 		void proc_message(UINT _message);
 
@@ -143,7 +143,7 @@ namespace app {
 		void send_webapi_legendbanstatus(const std::string& _name, const std::string& _reference, const bool _banned);
 
 		void send_webapi_clear_livedata();
-		void send_webapi_save_result(const std::string &_tournament_id, uint8_t _gameid, std::unique_ptr<std::string> &&_json);
+		void send_webapi_save_result(const std::string& _tournament_id, uint8_t _gameid, const std::string& _json);
 
 		void send_webapi_teambanner_state(uint8_t _state);
 		void send_webapi_map_state(uint8_t _state);

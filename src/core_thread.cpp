@@ -235,7 +235,7 @@ namespace app {
 			event_close_,
 			liveapi_.get_event_out(),
 			webapi_.get_event_out(),
-			local_.get_event_wq(),
+			local_.get_event_out(),
 			event_message_,
 			event_queuecheck_,
 			http_get_.get_event_wq()
@@ -308,17 +308,12 @@ namespace app {
 			}
 			else if (id == WAIT_OBJECT_0_LOCAL)
 			{
-
-				// ローカルスレッドからデータ到達
-				auto q = local_.pull_wq();
+				// ローカルスレッドからメッセージ到達
+				auto q = local_.pull_q_out();
 				while (q.size() > 0)
 				{
-					auto data = std::move(q.front());
+					proc_local_message(std::move(q.front()));
 					q.pop();
-					if (data)
-					{
-						proc_local_data(std::move(data));
-					}
 				}
 			}
 			else if (id == WAIT_OBJECT_0_MESSAGE)
@@ -1424,124 +1419,78 @@ namespace app {
 	//---------------------------------------------------------------------------------
 	// PROC LOCAL DATA
 	//---------------------------------------------------------------------------------
-	void core_thread::proc_local_data(local_queue_data_t&& _data)
+	void core_thread::proc_local_message(local_message&& _msg)
 	{
-		switch(_data->data_type)
-		{
-		case LOCAL_DATA_TYPE_SET_CONFIG:
-			if (_data->json != nullptr)
-			{
-				reply_webapi_set_config(INVALID_SOCKET, _data->sequence, _data->result, *_data->json, _data->slot);
-			}
-			break;
-		case LOCAL_DATA_TYPE_GET_CONFIG:
-			if (_data->json != nullptr)
-			{
-				reply_webapi_get_config(_data->sock, _data->sequence, *_data->json, _data->slot);
-			}
-			break;
-		case LOCAL_DATA_TYPE_SET_OBSERVER:
-			observer_hash_ = _data->hash;
-			reply_webapi_set_observer(_data->sock, _data->sequence, _data->hash);
-			break;
-		case LOCAL_DATA_TYPE_GET_OBSERVER:
-			observer_hash_ = _data->hash;
-			reply_webapi_get_observer(_data->sock, _data->sequence, _data->hash);
-			break;
-		case LOCAL_DATA_TYPE_GET_OBSERVERS:
-			reply_webapi_get_observers(_data->sock, _data->sequence, _data->hash);
-			break;
-		case LOCAL_DATA_TYPE_SAVE_RESULT:
-			send_webapi_save_result(_data->tournament_id, _data->game_id, std::move(_data->json));
-			break;
-		case LOCAL_DATA_TYPE_GET_TOURNAMENT_IDS:
-			if (_data->json != nullptr)
-			{
-				reply_webapi_get_tournament_ids(_data->sock, _data->sequence, *_data->json);
-			}
-			break;
-		case LOCAL_DATA_TYPE_SET_TOURNAMENT_NAME:
-			reply_webapi_set_tournament_name(INVALID_SOCKET, _data->sequence, _data->tournament_id, _data->tournament_name);
-			break;
-		case LOCAL_DATA_TYPE_RENAME_TOURNAMENT_NAME:
-			reply_webapi_rename_tournament_name(INVALID_SOCKET, _data->sequence, _data->tournament_id, _data->tournament_name, _data->result);
-			break;
-		case LOCAL_DATA_TYPE_SET_TOURNAMENT_PARAMS:
-			if (_data->json != nullptr)
-			{
-				reply_webapi_set_tournament_params(INVALID_SOCKET, _data->sequence, _data->tournament_id, _data->result, *_data->json);
-			}
-			break;
-		case LOCAL_DATA_TYPE_GET_TOURNAMENT_PARAMS:
-			if (_data->json != nullptr)
-			{
-				reply_webapi_get_tournament_params(_data->sock, _data->sequence, _data->tournament_id, *_data->json);
-			}
-			break;
-		case LOCAL_DATA_TYPE_SET_TOURNAMENT_RESULT:
-			if (_data->json != nullptr)
-			{
-				reply_webapi_set_tournament_result(INVALID_SOCKET, _data->sequence, _data->tournament_id, _data->game_id, _data->result, *_data->json);
-			}
-			break;
-		case LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULT:
-			if (_data->json != nullptr)
-			{
-				reply_webapi_get_tournament_result(_data->sock, _data->sequence, _data->tournament_id, _data->game_id, *_data->json);
-			}
-			break;
-		case LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULTS:
-			if (_data->json != nullptr)
-			{
-				reply_webapi_get_tournament_results(_data->sock, _data->sequence, _data->tournament_id, *_data->json);
-			}
-			break;
-		case LOCAL_DATA_TYPE_GET_CURRENT_TOURNAMENT:
-			reply_webapi_get_current_tournament(_data->sock, _data->sequence, _data->tournament_id, _data->tournament_name, _data->result_count);
-			break;
-		case LOCAL_DATA_TYPE_SET_TEAM_PARAMS:
-			if (_data->json != nullptr)
-			{
-				reply_webapi_set_team_params(INVALID_SOCKET, _data->sequence, _data->tournament_id, _data->team_id, _data->result, *_data->json);
-			}
-			break;
-		case LOCAL_DATA_TYPE_GET_TEAM_PARAMS:
-			if (_data->json != nullptr)
-			{
-				reply_webapi_get_team_params(_data->sock, _data->sequence, _data->tournament_id, _data->team_id, *_data->json);
-			}
-			break;
-		case LOCAL_DATA_TYPE_SET_PLAYER_PARAMS:
-			if (_data->json != nullptr)
-			{
-				reply_webapi_set_player_params(INVALID_SOCKET, _data->sequence, _data->hash, _data->result, *_data->json);
-			}
-			break;
-		case LOCAL_DATA_TYPE_GET_PLAYER_PARAMS:
-			if (_data->json != nullptr)
-			{
-				reply_webapi_get_player_params(_data->sock, _data->sequence, _data->hash, *_data->json);
-			}
-			break;
-		case LOCAL_DATA_TYPE_GET_PLAYERS:
-			if (_data->json != nullptr)
-			{
-				reply_webapi_get_players(_data->sock, _data->sequence, *_data->json);
-			}
-			break;
-		case LOCAL_DATA_TYPE_SET_LIVEAPI_CONFIG:
-			if (_data->json != nullptr)
-			{
-				reply_webapi_set_liveapi_config(INVALID_SOCKET, _data->sequence, _data->result, *_data->json);
-			}
-			break;
-		case LOCAL_DATA_TYPE_GET_LIVEAPI_CONFIG:
-			if (_data->json != nullptr)
-			{
-				reply_webapi_get_liveapi_config(_data->sock, _data->sequence, *_data->json);
-			}
-			break;
-		}
+		std::visit(overloaded{
+			[&](const local_message_set_config& _b) {
+				reply_webapi_set_config(INVALID_SOCKET, _msg.sequence, _msg.result, _b.json, _b.slot);
+			},
+			[&](const local_message_get_config& _b) {
+				reply_webapi_get_config(_msg.sock, _msg.sequence, _b.json, _b.slot);
+			},
+			[&](const local_message_set_observer& _b) {
+				observer_hash_ = _b.hash;
+				reply_webapi_set_observer(_msg.sock, _msg.sequence, _b.hash);
+			},
+			[&](const local_message_get_observer& _b) {
+				observer_hash_ = _b.hash;
+				reply_webapi_get_observer(_msg.sock, _msg.sequence, _b.hash);
+			},
+			[&](const local_message_get_observers& _b) {
+				reply_webapi_get_observers(_msg.sock, _msg.sequence, _b.hash);
+			},
+			[&](const local_message_save_result& _b) {
+				send_webapi_save_result(_b.tournament_id, _b.game_id, _b.json);
+			},
+			[&](const local_message_get_tournament_ids& _b) {
+				reply_webapi_get_tournament_ids(_msg.sock, _msg.sequence, _b.json);
+			},
+			[&](const local_message_set_tournament_name& _b) {
+				reply_webapi_set_tournament_name(INVALID_SOCKET, _msg.sequence, _b.id, _b.name);
+			},
+			[&](const local_message_rename_tournament_name& _b) {
+				reply_webapi_rename_tournament_name(INVALID_SOCKET, _msg.sequence, _b.id, _b.name, _msg.result);
+			},
+			[&](const local_message_set_tournament_params& _b) {
+				reply_webapi_set_tournament_params(INVALID_SOCKET, _msg.sequence, _b.id, _msg.result, _b.json);
+			},
+			[&](const local_message_get_tournament_params& _b) {
+				reply_webapi_get_tournament_params(_msg.sock, _msg.sequence, _b.id, _b.json);
+			},
+			[&](const local_message_set_tournament_result& _b) {
+				reply_webapi_set_tournament_result(INVALID_SOCKET, _msg.sequence, _b.tournament_id, _b.game_id, _msg.result, _b.json);
+			},
+			[&](const local_message_get_tournament_result& _b) {
+				reply_webapi_get_tournament_result(_msg.sock, _msg.sequence, _b.tournament_id, _b.game_id, _b.json);
+			},
+			[&](const local_message_get_tournament_results& _b) {
+				reply_webapi_get_tournament_results(_msg.sock, _msg.sequence, _b.id, _b.json);
+			},
+			[&](const local_message_get_current_tournament& _b) {
+				reply_webapi_get_current_tournament(_msg.sock, _msg.sequence, _b.id, _b.name, _b.result_count);
+			},
+			[&](const local_message_set_team_params& _b) {
+				reply_webapi_set_team_params(INVALID_SOCKET, _msg.sequence, _b.tournament_id, _b.team_id, _msg.result, _b.json);
+			},
+			[&](const local_message_get_team_params& _b) {
+				reply_webapi_get_team_params(_msg.sock, _msg.sequence, _b.tournament_id, _b.team_id, _b.json);
+			},
+			[&](const local_message_set_player_params& _b) {
+				reply_webapi_set_player_params(INVALID_SOCKET, _msg.sequence, _b.hash, _msg.result, _b.json);
+			},
+			[&](const local_message_get_player_params& _b) {
+				reply_webapi_get_player_params(_msg.sock, _msg.sequence, _b.hash, _b.json);
+			},
+			[&](const local_message_get_players& _b) {
+				reply_webapi_get_players(_msg.sock, _msg.sequence, _b.json);
+			},
+			[&](const local_message_set_liveapi_config& _b) {
+				reply_webapi_set_liveapi_config(INVALID_SOCKET, _msg.sequence, _msg.result, _b.json);
+			},
+			[&](const local_message_get_liveapi_config& _b) {
+				reply_webapi_get_liveapi_config(_msg.sock, _msg.sequence, _b.json);
+			},
+			}, _msg.data);
 	}
 
 	void core_thread::proc_http_get_data(http_get_queue_data_t&& _data)
@@ -3050,10 +2999,10 @@ namespace app {
 		sendto_webapi(std::move(sdata.buffer_));
 	}
 
-	void core_thread::send_webapi_save_result(const std::string& _tournament_id, uint8_t _gameid, std::unique_ptr<std::string>&& _json)
+	void core_thread::send_webapi_save_result(const std::string& _tournament_id, uint8_t _gameid, const std::string& _json)
 	{
 		send_webapi_data sdata(WEBAPI_EVENT_SAVE_RESULT);
-		if (sdata.append(_tournament_id) && sdata.append(_gameid) && sdata.append_json(*_json))
+		if (sdata.append(_tournament_id) && sdata.append(_gameid) && sdata.append_json(_json))
 		{
 			sendto_webapi(std::move(sdata.buffer_));
 		}
@@ -4275,27 +4224,27 @@ namespace app {
 	void core_thread::save_result()
 	{
 		// リザルト用構造体に入れる
-		auto r = std::make_unique<livedata::result>();
+		livedata::result r{};
 
-		r->start = game_.start;
-		r->end = game_.end;
-		r->serverid = game_.serverid;
-		r->map = game_.map;
-		r->playlistname = game_.playlistname;
-		r->playlistdesc = game_.playlistdesc;
-		r->datacenter = game_.datacenter;
-		r->aimassiston = game_.aimassiston;
-		r->anonymousmode = game_.anonymousmode;
-		r->rings = game_.rings;
-		r->carepackages = game_.carepackages;
+		r.start = game_.start;
+		r.end = game_.end;
+		r.serverid = game_.serverid;
+		r.map = game_.map;
+		r.playlistname = game_.playlistname;
+		r.playlistdesc = game_.playlistdesc;
+		r.datacenter = game_.datacenter;
+		r.aimassiston = game_.aimassiston;
+		r.anonymousmode = game_.anonymousmode;
+		r.rings = game_.rings;
+		r.carepackages = game_.carepackages;
 
 		for (uint8_t i = 2; i < game_.teams.size(); ++i)
 		{
 			const auto& team = game_.teams.at(i);
 			if (team.players.size() == 0) continue;
 
-			r->teams[i - 2] = {};
-			auto& team_result = r->teams[i - 2];
+			r.teams[i - 2] = {};
+			auto& team_result = r.teams[i - 2];
 			uint32_t kills = 0;
 			for (const auto& player : team.players)
 			{
@@ -4400,7 +4349,7 @@ namespace app {
 		}
 
 
-		if (!local_.run(_window))
+		if (!local_.run())
 		{
 			log(LOG_CORE, L"Error: Failed to run local thread.");
 			return false;

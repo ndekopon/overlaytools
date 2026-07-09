@@ -606,16 +606,15 @@ namespace app {
 
 	local_thread::local_thread(DWORD _logid)
 		: logid_(_logid)
-		, window_(NULL)
 		, thread_(NULL)
 		, event_close_(NULL)
+		, event_in_(NULL)
+		, event_out_(NULL)
+		, mtx_in_()
+		, mtx_out_()
+		, q_in_()
+		, q_out_()
 		, path_(get_data_directory())
-		, wqmtx_()
-		, rqmtx_()
-		, event_wq_(NULL)
-		, event_rq_(NULL)
-		, wq_()
-		, rq_()
 		, tournament_(path_)
 		, liveapi_config_()
 	{
@@ -623,9 +622,9 @@ namespace app {
 
 	local_thread::~local_thread()
 	{
-		if (event_rq_) ::CloseHandle(event_rq_);
-		if (event_wq_) ::CloseHandle(event_wq_);
 		if (event_close_) ::CloseHandle(event_close_);
+		if (event_in_) ::CloseHandle(event_in_);
+		if (event_out_) ::CloseHandle(event_out_);
 	}
 
 
@@ -641,37 +640,34 @@ namespace app {
 
 		create_directory();
 
-		const HANDLE events[] = {
-			event_close_,
-			event_rq_
+		bool alive = true;
+
+		enum : DWORD {
+			WAIT_OBJECT_0_CLOSE = WAIT_OBJECT_0,
+			WAIT_OBJECT_0_IN = WAIT_OBJECT_0 + 1
 		};
 
-		while (true)
+		const HANDLE events[] = {
+			event_close_,
+			event_in_
+		};
+
+		while (alive)
 		{
 
 			auto id = ::WaitForMultipleObjects(ARRAYSIZE(events), events, FALSE, INFINITE);
-			if (id == WAIT_OBJECT_0)
+			if (id == WAIT_OBJECT_0_CLOSE)
 			{
-				// 終了
 				log(logid_, L"Info: receive close event.");
-				break;
+				alive = false;
 			}
-			else if (id == WAIT_OBJECT_0 + 1)
+			else if (id == WAIT_OBJECT_0_IN)
 			{
-				// rq
-				auto q = pull_rq();
-				while (true)
+				auto q = pull_q_in();
+				while (q.size() > 0)
 				{
-					if (q.empty()) break;
-
-					// データ取り出し
-					auto data = std::move(q.front());
+					proc_message(std::move(q.front()));
 					q.pop();
-
-					if (data != nullptr)
-					{
-						proc_rq(std::move(data));
-					}
 				}
 			}
 		}
@@ -680,90 +676,75 @@ namespace app {
 
 		return 0;
 	}
-
 	//---------------------------------------------------------------------------------
-	// PROC_RQ
+	// PROC_MESSAGE
 	//---------------------------------------------------------------------------------
-	void local_thread::proc_rq(local_queue_data_t&& _data)
+	void local_thread::proc_message(local_message&& _msg)
 	{
-		local_queue_data_t d(new local_queue_data());
-		if (_data->data_type == LOCAL_DATA_TYPE_NONE) return;
-
-		// 基本情報
-		d->data_type = _data->data_type;
-		d->sock = _data->sock;
-		d->sequence = _data->sequence;
-
-
-		log(logid_, std::format(L"Info: proc rq sock={} sequence={}", d->sock, d->sequence));
-
-		switch (_data->data_type)
-		{
-		case LOCAL_DATA_TYPE_SET_CONFIG:
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_SET_CONFIG event.");
-			d->slot = _data->slot;
-			if (_data->json != nullptr)
-			{
-				d->json = std::move(_data->json);
-				d->result = save_config_json(*d->json, _data->slot);
-			}
-			else
-			{
-				d->json.reset(new std::string("{}"));
-				d->result = false;
-			}
-			break;
-		case LOCAL_DATA_TYPE_GET_CONFIG:
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_GET_CONFIG event.");
-			d->slot = _data->slot;
-			d->json.reset(new std::string(load_config_json(_data->slot)));
-			break;
-		case LOCAL_DATA_TYPE_SET_OBSERVER:
-			if (_data->hash != "")
-			{
-				d->hash = _data->hash;
-
-				json j = {
-					{"hash", d->hash}
-				};
-
-				// データの保存
-				try
+		std::visit(overloaded{
+			[&](local_message_set_config& _b) {
+				log(logid_, L"Info: receive set config message.");
+				_msg.result = save_config_json(_b.json, _b.slot);
+			},
+			[&](local_message_get_config& _b) {
+				log(logid_, L"Info: receive get config message.");
+				_b.json = load_config_json(_b.slot);
+			},
+			[&](local_message_set_observer& _b) {
+				log(logid_, L"Info: receive set observer message.");
+				if (_b.hash != "")
 				{
-					std::ofstream s(path_ + L"\\observers\\index.json");
-					s << j.dump(2);
+					json j = {
+						{"hash", _b.hash}
+					};
+
+					// データの保存
+					try
+					{
+						std::ofstream s(path_ + L"\\observers\\index.json");
+						s << j.dump(2);
+					}
+					catch (...)
+					{
+						_msg.result = false;
+					}
+				}
+			},
+			[&](local_message_get_observer& _b) {
+				log(logid_, L"Info: receive get observer message.");
+				try {
+					std::ifstream s(path_ + L"\\observers\\index.json");
+					json j = json::parse(s);
+					if (j.find("hash") != j.end() && j["hash"].type() == json::value_t::string)
+					{
+						_b.hash = j["hash"];
+					}
 				}
 				catch (...)
 				{
-					d->result = false;
+					_msg.result = false;
 				}
-			}
-			break;
-		case LOCAL_DATA_TYPE_GET_OBSERVER:
-		case LOCAL_DATA_TYPE_GET_OBSERVERS:
-		{
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_GET_OBSERVER/LOCAL_DATA_TYPE_GET_OBSERVERS event.");
-			try {
-				std::ifstream s(path_ + L"\\observers\\index.json");
-				json j = json::parse(s);
-				if (j.find("hash") != j.end() && j["hash"].type() == json::value_t::string)
+				if (_b.hash == "") _msg.result = false;
+			},
+			[&](local_message_get_observers& _b) {
+				log(logid_, L"Info: receive get observers message.");
+				try {
+					std::ifstream s(path_ + L"\\observers\\index.json");
+					json j = json::parse(s);
+					if (j.find("hash") != j.end() && j["hash"].type() == json::value_t::string)
+					{
+						_b.hash = j["hash"];
+					}
+				}
+				catch (...)
 				{
-					d->hash = j["hash"];
+					_msg.result = false;
 				}
-			}
-			catch (...)
-			{
-				d->result = false;
-			}
-			if (d->hash == "") d->result = false;
-			break;
-		}
-		case LOCAL_DATA_TYPE_SAVE_RESULT:
-		{
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_SAVE_RESULT event.");
-			if (_data->game_result != nullptr)
-			{
-				const auto& r = *_data->game_result;
+				if (_b.hash == "") _msg.result = false;
+			},
+			[&](local_message_save_result& _b) {
+				log(logid_, L"Info: receive save result message.");
+				const auto& r = _b.result;
 				json j = {
 					{"start", r.start},
 					{"end", r.end},
@@ -840,153 +821,92 @@ namespace app {
 				auto count = tournament_.count_results();
 				if (!tournament_.save_result_json(count, j.dump(2)))
 				{
-					d->result = false;
+					_msg.result = false;
 				}
-				d->tournament_id = tournament_.get_current_id();
-				d->game_id = count;
-				d->json.reset(new std::string(j.dump()));
-			}
-			break;
-		}
-		case LOCAL_DATA_TYPE_GET_TOURNAMENT_IDS:
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_GET_TOURNAMENT_IDS event.");
-			d->tournament_id = tournament_.get_current_id();
-			d->json.reset(new std::string(tournament_.load_ids_json()));
-			break;
-		case LOCAL_DATA_TYPE_SET_TOURNAMENT_NAME:
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_SET_TOURNAMENT_NAME event.");
-			d->tournament_id = tournament_.set_tournament_name(_data->tournament_name);
-			d->tournament_name = _data->tournament_name;
-			break;
-		case LOCAL_DATA_TYPE_RENAME_TOURNAMENT_NAME:
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_SET_TOURNAMENT_NAME event.");
-			d->result = tournament_.rename(_data->tournament_id, _data->tournament_name);
-			d->tournament_id = _data->tournament_id;
-			d->tournament_name = _data->tournament_name;
-			break;
-		case LOCAL_DATA_TYPE_SET_TOURNAMENT_PARAMS:
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_SET_TOURNAMENT_PARAMS event.");
-			d->tournament_id = tournament_.get_current_id();
-			if (_data->json != nullptr)
-			{
-				d->json = std::move(_data->json);
-				d->result = tournament_.save_tournament_json(*d->json);
-			}
-			else
-			{
-				d->json.reset(new std::string("{}"));
-				d->result = false;
-			}
-			break;
-		case LOCAL_DATA_TYPE_GET_TOURNAMENT_PARAMS:
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_GET_TOURNAMENT_PARAMS event.");
-			d->tournament_id = tournament_.get_current_id();
-			d->json.reset(new std::string(tournament_.load_tournament_json()));
-			break;
-		case LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULTS:
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULTS event.");
-			d->tournament_id = tournament_.get_current_id();
-			d->json.reset(new std::string(tournament_.load_results_json()));
-			break;
-		case LOCAL_DATA_TYPE_SET_TOURNAMENT_RESULT:
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_SET_TOURNAMENT_RESULT event.");
-			d->tournament_id = tournament_.get_current_id();
-			d->game_id = _data->game_id;
-			if (_data->json != nullptr)
-			{
-				d->json = std::move(_data->json);
-				d->result = tournament_.save_result_json(_data->game_id, *d->json);
-			}
-			else
-			{
-				d->json.reset(new std::string("{}"));
-				d->result = false;
-			}
-			break;
-		case LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULT:
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULT event.");
-			d->tournament_id = tournament_.get_current_id();
-			d->game_id = _data->game_id;
-			d->json.reset(new std::string(tournament_.load_result_json(_data->game_id)));
-			break;
-		case LOCAL_DATA_TYPE_GET_CURRENT_TOURNAMENT:
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_GET_CURRENT_TOURNAMENT event.");
-			d->tournament_id = tournament_.get_current_id();
-			d->tournament_name = tournament_.get_current_name();
-			d->result_count = tournament_.count_results();
-			break;
-		case LOCAL_DATA_TYPE_SET_TEAM_PARAMS:
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_SET_TEAM_PARAMS event.");
-			d->tournament_id = tournament_.get_current_id();
-			d->team_id = _data->team_id;
-			if (_data->json != nullptr)
-			{
-				d->json = std::move(_data->json);
-				d->result = tournament_.save_team_json(_data->team_id, *d->json);
-			}
-			else
-			{
-				d->json.reset(new std::string("{}"));
-				d->result = false;
-			}
-			break;
-		case LOCAL_DATA_TYPE_GET_TEAM_PARAMS:
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_GET_TEAM_PARAMS event.");
-			d->tournament_id = tournament_.get_current_id();
-			d->team_id = _data->team_id;
-			d->json.reset(new std::string(tournament_.load_team_json(_data->team_id)));
-			break;
-		case LOCAL_DATA_TYPE_SET_PLAYER_PARAMS:
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_SET_PLAYER_PARAMS event.");
-			d->hash = _data->hash;
-			if (_data->json != nullptr)
-			{
-				local_players p(path_);
-				d->json = std::move(_data->json);
-				d->result = p.save_player_json(_data->hash, *d->json);
-			}
-			else
-			{
-				d->json.reset(new std::string("{}"));
-				d->result = false;
-			}
-			break;
-		case LOCAL_DATA_TYPE_GET_PLAYER_PARAMS:
-		{
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_GET_PLAYER_PARAMS event.");
-			local_players p(path_);
-			d->hash = _data->hash;
-			d->json.reset(new std::string(p.load_player_json(_data->hash)));
-			break;
-		}
-		case LOCAL_DATA_TYPE_GET_PLAYERS:
-		{
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_GET_PLAYERS event.");
-			local_players p(path_);
-			d->json.reset(new std::string(p.load_players()));
-			break;
-		}
-		case LOCAL_DATA_TYPE_SET_LIVEAPI_CONFIG:
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_SET_LIVEAPI_CONFIG event.");
-			if (_data->json != nullptr)
-			{
-				d->json = std::move(_data->json);
-				d->result = liveapi_config_.save(*d->json);
-			}
-			else
-			{
-				d->json.reset(new std::string("{}"));
-				d->result = false;
-			}
-			break;
-		case LOCAL_DATA_TYPE_GET_LIVEAPI_CONFIG:
-			log(logid_, L"Info: proc LOCAL_DATA_TYPE_GET_LIVEAPI_CONFIG event.");
-			d->json.reset(new std::string(liveapi_config_.load()));
-			break;
-		}
+				_b.tournament_id = tournament_.get_current_id();
+				_b.game_id = count;
+				_b.json = j.dump();
+			},
+			[&](local_message_get_tournament_ids& _b) {
+				log(logid_, L"Info: receive get tournament ids message.");
+				_b.json = tournament_.load_ids_json();
+			},
+			[&](local_message_set_tournament_name& _b) {
+				log(logid_, L"Info: receive set tournament name message.");
+				_b.id = tournament_.set_tournament_name(_b.name);
+			},
+			[&](local_message_rename_tournament_name& _b) {
+				log(logid_, L"Info: receive rename tournament name message.");
+				_msg.result = tournament_.rename(_b.id, _b.name);
+			},
+			[&](local_message_set_tournament_params& _b) {
+				log(logid_, L"Info: receive set tournament params message.");
+				_b.id = tournament_.get_current_id();
+				_msg.result = tournament_.save_tournament_json(_b.json);
+			},
+			[&](local_message_get_tournament_params& _b) {
+				log(logid_, L"Info: receive get tournament params message.");
+				_b.id = tournament_.get_current_id();
+				_b.json = tournament_.load_tournament_json();
+			},
+			[&](local_message_get_tournament_results& _b) {
+				log(logid_, L"Info: receive get tournament results message.");
+				_b.id = tournament_.get_current_id();
+				_b.json = tournament_.load_results_json();
+			},
+			[&](local_message_set_tournament_result& _b) {
+				log(logid_, L"Info: receive set tournament result message.");
+				_b.tournament_id = tournament_.get_current_id();
+				_msg.result = tournament_.save_result_json(_b.game_id, _b.json);
+			},
+			[&](local_message_get_tournament_result& _b) {
+				log(logid_, L"Info: receive get tournament result message.");
+				_b.tournament_id = tournament_.get_current_id();
+				_b.json = tournament_.load_result_json(_b.game_id);
+			},
+			[&](local_message_get_current_tournament& _b) {
+				log(logid_, L"Info: receive get current tournament message.");
+				_b.id = tournament_.get_current_id();
+				_b.name = tournament_.get_current_name();
+				_b.result_count = tournament_.count_results();
+			},
+			[&](local_message_set_team_params& _b) {
+				log(logid_, L"Info: receive set team params message.");
+				_b.tournament_id = tournament_.get_current_id();
+				_msg.result = tournament_.save_team_json(_b.team_id, _b.json);
+			},
+			[&](local_message_get_team_params& _b) {
+				log(logid_, L"Info: receive get team params message.");
+				_b.tournament_id = tournament_.get_current_id();
+				_b.json = tournament_.load_team_json(_b.team_id);
+			},
+			[&](local_message_set_player_params& _b) {
+				log(logid_, L"Info: receive set player params message.");
 
-		// wqに返す
-		push_wq(std::move(d));
+				local_players p(path_);
+				_msg.result = p.save_player_json(_b.hash, _b.json);
+			},
+			[&](local_message_get_player_params& _b) {
+				log(logid_, L"Info: receive get player params message.");
+				local_players p(path_);
+				_b.json = p.load_player_json(_b.hash);
+			},
+			[&](local_message_get_players& _b) {
+				log(logid_, L"Info: receive get players message.");
+				local_players p(path_);
+				_b.json = p.load_players();
+			},
+			[&](local_message_set_liveapi_config& _b) {
+				log(logid_, L"Info: receive save liveapi config message.");
+				_msg.result = liveapi_config_.save(_b.json);
+			},
+			[&](local_message_get_liveapi_config& _b) {
+				log(logid_, L"Info: receive load liveapi config message.");
+				_b.json = liveapi_config_.load();
+			},
+			}, _msg.data);
+
+		push_out(std::move(_msg));
 	}
 
 	void local_thread::create_directory()
@@ -1022,69 +942,46 @@ namespace app {
 		}
 	}
 
-	void local_thread::push_rq(std::unique_ptr<local_queue_data>&& _data)
+	void local_thread::push_in(local_message&& _msg)
 	{
-		if (!_data) return;
-		if (_data->data_type == LOCAL_DATA_TYPE_NONE) return;
-
 		{
-			std::lock_guard<std::mutex> lock(rqmtx_);
-			rq_.push(std::move(_data));
+			std::lock_guard<std::mutex> lock(mtx_in_);
+			q_in_.push(std::move(_msg));
 		}
-		::SetEvent(event_rq_);
+		::SetEvent(event_in_);
 	}
 
-	std::queue<local_queue_data_t> local_thread::pull_rq()
+	void local_thread::push_out(local_message&& _msg)
 	{
-		std::queue<local_queue_data_t> q;
 		{
-			std::lock_guard<std::mutex> lock(rqmtx_);
-			while (rq_.size() > 0)
-			{
-				auto data = std::move(rq_.front());
-				rq_.pop();
-
-				if (!data) continue;
-				q.push(std::move(data));
-			}
+			std::lock_guard<std::mutex> lock(mtx_out_);
+			q_out_.push(std::move(_msg));
 		}
-		return q;
+		::SetEvent(event_out_);
 	}
 
-	void local_thread::push_wq(std::unique_ptr<local_queue_data>&& _data)
+	std::queue<local_message> local_thread::pull_q_in()
 	{
-		if (!_data) return;
-		if (_data->data_type == LOCAL_DATA_TYPE_NONE) return;
-
+		std::queue<local_message> q;
 		{
-			std::lock_guard<std::mutex> lock(wqmtx_);
-			wq_.push(std::move(_data));
-		}
-		::SetEvent(event_wq_);
-	}
-
-	std::queue<local_queue_data_t> local_thread::pull_wq()
-	{
-		std::queue<local_queue_data_t> q;
-		{
-			std::lock_guard<std::mutex> lock(wqmtx_);
-			while (wq_.size() > 0)
-			{
-				auto data = std::move(wq_.front());
-				wq_.pop();
-
-				if (!data) continue;
-				q.push(std::move(data));
-			}
+			std::lock_guard<std::mutex> lock(mtx_in_);
+			q.swap(q_in_);
 		}
 		return q;
 	}
 
-	bool local_thread::run(HWND _window)
+	std::queue<local_message> local_thread::pull_q_out()
 	{
-		// Window設定
-		window_ = _window;
+		std::queue<local_message> q;
+		{
+			std::lock_guard<std::mutex> lock(mtx_out_);
+			q.swap(q_out_);
+		}
+		return q;
+	}
 
+	bool local_thread::run()
+	{
 		// イベント作成
 		event_close_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
 		if (event_close_ == NULL)
@@ -1092,14 +989,14 @@ namespace app {
 			log(logid_, L"Error: CreateEvent() failed.");
 			return false;
 		}
-		event_wq_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
-		if (event_wq_ == NULL)
+		event_in_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
+		if (event_in_ == NULL)
 		{
 			log(logid_, L"Error: CreateEvent() failed.");
 			return false;
 		}
-		event_rq_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
-		if (event_rq_ == NULL)
+		event_out_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
+		if (event_out_ == NULL)
 		{
 			log(logid_, L"Error: CreateEvent() failed.");
 			return false;
@@ -1107,7 +1004,11 @@ namespace app {
 
 		// スレッド起動
 		thread_ = ::CreateThread(NULL, 0, proc_common, this, 0, NULL);
-		return thread_ != NULL;
+		if (thread_ == NULL)
+		{
+			log(logid_, L"Error: CreateThread() failed.");
+			return false;
+		}
 
 		return true;
 	}
@@ -1123,224 +1024,119 @@ namespace app {
 		}
 	}
 
-	HANDLE local_thread::get_event_wq()
+	HANDLE local_thread::get_event_out()
 	{
-		return event_wq_;
+		return event_out_;
 	}
 
 	void local_thread::set_config(SOCKET _sock, uint32_t _sequence, const std::string& _json, uint8_t _slot)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_SET_CONFIG;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		d->slot = _slot;
-		d->json.reset(new std::string(_json));
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_set_config{_slot, _json} });
 	}
 
 	void local_thread::get_config(SOCKET _sock, uint32_t _sequence, uint8_t _slot)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_GET_CONFIG;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		d->slot = _slot;
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_get_config{_slot, ""}});
 	}
 
 	void local_thread::set_observer(SOCKET _sock, uint32_t _sequence, const std::string& _hash)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_SET_OBSERVER;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		d->hash = _hash;
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_set_observer{_hash} });
 	}
 
 	void local_thread::get_observer(SOCKET _sock, uint32_t _sequence)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_GET_OBSERVER;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_get_observer{""} });
 	}
 
 	void local_thread::get_observers(SOCKET _sock, uint32_t _sequence)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_GET_OBSERVERS;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_get_observers{""}});
 	}
 
 	void local_thread::get_tournament_ids(SOCKET _sock, uint32_t _sequence)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_GET_TOURNAMENT_IDS;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_get_tournament_ids{""}});
 	}
 
 	void local_thread::set_tournament_name(SOCKET _sock, uint32_t _sequence, const std::string& _name)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_SET_TOURNAMENT_NAME;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		d->tournament_name = _name;
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_set_tournament_name{"", _name} });
 	}
 
 	void local_thread::rename_tournament_name(SOCKET _sock, uint32_t _sequence, const std::string& _id, const std::string& _name)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_RENAME_TOURNAMENT_NAME;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		d->tournament_id = _id;
-		d->tournament_name = _name;
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_rename_tournament_name{_id, _name} });
 	}
 
 	void local_thread::set_tournament_params(SOCKET _sock, uint32_t _sequence, const std::string& _json)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_SET_TOURNAMENT_PARAMS;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		d->json.reset(new std::string(_json));
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_set_tournament_params{"", _json}});
 	}
 
 	void local_thread::get_tournament_params(SOCKET _sock, uint32_t _sequence)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_GET_TOURNAMENT_PARAMS;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_get_tournament_params{"", ""} });
 	}
 
 	void local_thread::set_tournament_result(SOCKET _sock, uint32_t _sequence, uint32_t _gameid, const std::string& _json)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_SET_TOURNAMENT_RESULT;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		d->game_id = _gameid;
-		d->json.reset(new std::string(_json));
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_set_tournament_result{"", _gameid, _json}});
 	}
 
 	void local_thread::get_tournament_result(SOCKET _sock, uint32_t _sequence, uint32_t _gameid)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULT;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		d->game_id = _gameid;
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_get_tournament_result{"", _gameid, ""}});
 	}
 
 	void local_thread::get_tournament_results(SOCKET _sock, uint32_t _sequence)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_GET_TOURNAMENT_RESULTS;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_get_tournament_results{"", ""} });
 	}
 
 	void local_thread::get_current_tournament(SOCKET _sock, uint32_t _sequence)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_GET_CURRENT_TOURNAMENT;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_get_current_tournament{"", "", 0} });
 	}
 
 	void local_thread::set_team_params(SOCKET _sock, uint32_t _sequence, uint32_t _teamid, const std::string& _json)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_SET_TEAM_PARAMS;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		d->team_id = _teamid;
-		d->json.reset(new std::string(_json));
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_set_team_params{"", _teamid, _json}});
 	}
 
 	void local_thread::get_team_params(SOCKET _sock, uint32_t _sequence, uint32_t _teamid)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_GET_TEAM_PARAMS;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		d->team_id = _teamid;
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_get_team_params{"", _teamid, ""} });
 	}
 
 	void local_thread::set_player_params(SOCKET _sock, uint32_t _sequence, const std::string& _hash, const std::string& _json)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_SET_PLAYER_PARAMS;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		d->hash = _hash;
-		d->json.reset(new std::string(_json));
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_set_player_params{_hash, _json} });
 	}
 
 	void local_thread::get_player_params(SOCKET _sock, uint32_t _sequence, const std::string& _hash)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_GET_PLAYER_PARAMS;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		d->hash = _hash;
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_get_player_params{_hash, ""}});
 	}
 
 	void local_thread::get_players(SOCKET _sock, uint32_t _sequence)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_GET_PLAYERS;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_get_players{""} });
 	}
 
-	void local_thread::save_result(std::unique_ptr<livedata::result>&& _result)
+	void local_thread::save_result(livedata::result&& _result)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_SAVE_RESULT;
-		d->game_result = std::move(_result);
-		push_rq(std::move(d));
+		push_in(local_message{ INVALID_SOCKET, 0u, true, local_message_save_result{ "", 0u, "", std::move(_result)}});
 	}
 
 	void local_thread::set_liveapi_config(SOCKET _sock, uint32_t _sequence, const std::string& _json)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_SET_LIVEAPI_CONFIG;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		d->json.reset(new std::string(_json));
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_set_liveapi_config{_json} });
 	}
 
 	void local_thread::get_liveapi_config(SOCKET _sock, uint32_t _sequence)
 	{
-		local_queue_data_t d(new local_queue_data());
-		d->data_type = LOCAL_DATA_TYPE_GET_LIVEAPI_CONFIG;
-		d->sock = _sock;
-		d->sequence = _sequence;
-		push_rq(std::move(d));
+		push_in(local_message{ _sock, _sequence, true, local_message_get_liveapi_config{""} });
 	}
 
 }
