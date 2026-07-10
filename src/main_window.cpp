@@ -379,7 +379,7 @@ namespace app
 				return 0;
 			case TIMER_ID_STATS:
 				duplication_thread_.get_stats();
-				core_thread_.push_message(CORE_MESSAGE_GET_STATS);
+				core_thread_.get_stats();
 				return 0;
 			case TIMER_ID_LIVEAPI_QUEUECHECK:
 				core_thread_.liveapi_queuecheck();
@@ -399,30 +399,14 @@ namespace app
 			break;
 		}
 
-		case CWM_WEBSOCKET_STATS_CONNECTION_COUNT:
+		case CWM_CORE_OUT:
 		{
-			// 2,7
-			size_t id = _wparam;
-			uint64_t count = _lparam;
-			::SetWindowTextW(items_.at(id == 0 ? 2 : 7), (L"conn count: " + std::to_wstring(count)).c_str());
-			break;
-		}
-
-		case CWM_WEBSOCKET_STATS_RECV_COUNT:
-		{
-			// 3,8
-			size_t id = _wparam;
-			uint64_t count = _lparam;
-			::SetWindowTextW(items_.at(id == 0 ? 3 : 8), (L"recv count: " + std::to_wstring(count)).c_str());
-			break;
-		}
-
-		case CWM_WEBSOCKET_STATS_SEND_COUNT:
-		{
-			// 4,9
-			size_t id = _wparam;
-			uint64_t count = _lparam;
-			::SetWindowTextW(items_.at(id == 0 ? 4 : 9), (L"send count: " + std::to_wstring(count)).c_str());
+			auto q = core_thread_.pull_q_out();
+			while (q.size() > 0)
+			{
+				proc_core_message(std::move(q.front()));
+				q.pop();
+			}
 			break;
 		}
 
@@ -457,24 +441,26 @@ namespace app
 				create_menu(monitors_);
 			},
 			[&](duplication_message_out_banner_state&& _m) {
-				if (_m.state > 0)
-				{
-					core_thread_.push_message(CORE_MESSAGE_TEAMBANNER_STATE_SHOW);
-				}
-				else
-				{
-					core_thread_.push_message(CORE_MESSAGE_TEAMBANNER_STATE_HIDE);
-				}
+				core_thread_.set_teambanner_state(_m.state);
 			},
 			[&](duplication_message_out_map_state&& _m) {
-				if (_m.state > 0)
-				{
-					core_thread_.push_message(CORE_MESSAGE_MAP_STATE_SHOW);
-				}
-				else
-				{
-					core_thread_.push_message(CORE_MESSAGE_MAP_STATE_HIDE);
-				}
+				core_thread_.set_map_state(_m.state);
+			},
+			}, std::move(_msg));
+	}
+
+	void main_window::proc_core_message(core_message_out&& _msg)
+	{
+		std::visit(overloaded{
+			[&](core_message_out_liveapi_stats&& _m) {
+				::SetWindowTextW(items_.at(2), (L"conn count: " + std::to_wstring(_m.conn_count)).c_str());
+				::SetWindowTextW(items_.at(3), (L"recv count: " + std::to_wstring(_m.recv_count)).c_str());
+				::SetWindowTextW(items_.at(4), (L"send count: " + std::to_wstring(_m.send_count)).c_str());
+			},
+			[&](core_message_out_webapi_stats&& _m) {
+				::SetWindowTextW(items_.at(7), (L"conn count: " + std::to_wstring(_m.conn_count)).c_str());
+				::SetWindowTextW(items_.at(8), (L"recv count: " + std::to_wstring(_m.recv_count)).c_str());
+				::SetWindowTextW(items_.at(9), (L"send count: " + std::to_wstring(_m.send_count)).c_str());
 			},
 			}, std::move(_msg));
 	}

@@ -12,23 +12,62 @@
 
 #include <utility>
 #include <unordered_map>
+#include <variant>
+#include <queue>
 
 namespace app {
 
-	enum : UINT {
-		CORE_MESSAGE_TEAMBANNER_STATE_SHOW,
-		CORE_MESSAGE_TEAMBANNER_STATE_HIDE,
-		CORE_MESSAGE_MAP_STATE_SHOW,
-		CORE_MESSAGE_MAP_STATE_HIDE,
-		CORE_MESSAGE_GET_STATS
+	struct core_message_in_teambanner_state {
+		bool state;
 	};
+
+	struct core_message_in_map_state {
+		bool state;
+	};
+
+	struct core_message_in_get_stats {
+	};
+
+	struct core_message_in_queuecheck {
+	};
+
+	struct core_message_in_ping {
+	};
+
+	using core_message_in = std::variant<
+		core_message_in_teambanner_state,
+		core_message_in_map_state,
+		core_message_in_get_stats,
+		core_message_in_queuecheck,
+		core_message_in_ping
+	>;
+
+	struct core_message_out_liveapi_stats {
+		uint64_t conn_count;
+		uint64_t recv_count;
+		uint64_t send_count;
+	};
+
+	struct core_message_out_webapi_stats {
+		uint64_t conn_count;
+		uint64_t recv_count;
+		uint64_t send_count;
+	};
+
+	using core_message_out = std::variant<
+		core_message_out_liveapi_stats,
+		core_message_out_webapi_stats
+	>;
 
 	class core_thread {
 		HWND window_;
 		HANDLE thread_;
 		HANDLE event_close_;
-		HANDLE event_message_;
-		HANDLE event_queuecheck_;
+		HANDLE event_in_;
+		std::mutex mtx_in_;
+		std::mutex mtx_out_;
+		std::queue<core_message_in> q_in_;
+		std::queue<core_message_out> q_out_;
 		websocket_thread liveapi_;
 		websocket_thread webapi_;
 		local_thread local_;
@@ -37,8 +76,6 @@ namespace app {
 		livedata::game game_;
 		std::unordered_map<std::string, std::pair<uint8_t, uint8_t>> camera_;
 		std::string observer_hash_;
-		std::mutex mtx_;
-		std::queue<UINT> messages_;
 		std::queue<std::vector<uint8_t>> liveapi_queue_;
 		bool liveapi_available_;
 		uint64_t liveapi_lastsend_;
@@ -50,7 +87,7 @@ namespace app {
 		void proc_webapi_data(SOCKET _sock, std::vector<uint8_t>&& _data);
 		void proc_local_message(local_message&& _msg);
 		void proc_http_get_data(http_get_queue_data_t&& _data);
-		void proc_message(UINT _message);
+		void proc_message(core_message_in&& _msg);
 
 		void proc_liveapi_any(const google::protobuf::Any& _any);
 
@@ -204,7 +241,11 @@ namespace app {
 		// save/clear
 		void clear_livedata();
 		void save_result();
-		std::queue<UINT> pull_messages();
+
+		void push_in(core_message_in&& _msg);
+		void push_out(core_message_out&& _msg);
+
+		std::queue<core_message_in> pull_q_in();
 
 	public:
 		core_thread(const std::string& _lip, uint16_t _lport, const std::string& _wip, uint16_t _wport, uint16_t _wmaxconn);
@@ -219,8 +260,13 @@ namespace app {
 
 		bool run(HWND);
 		void stop();
-		void ping();
-		void push_message(UINT _message);
+
+		std::queue<core_message_out> pull_q_out();
+
+		void set_teambanner_state(bool _state);
+		void set_map_state(bool _state);
+		void get_stats();
 		void liveapi_queuecheck();
+		void ping();
 	};
 }

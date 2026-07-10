@@ -181,8 +181,11 @@ namespace app {
 		: window_(NULL)
 		, thread_(NULL)
 		, event_close_(NULL)
-		, event_message_(NULL)
-		, event_queuecheck_(NULL)
+		, event_in_(NULL)
+		, mtx_in_()
+		, mtx_out_()
+		, q_in_()
+		, q_out_()
 		, liveapi_(LOG_LIVEAPI, _lip, _lport, 2)
 		, webapi_(LOG_WEBAPI, _wip, _wport, _wmaxconn)
 		, local_(LOG_LOCAL)
@@ -191,8 +194,6 @@ namespace app {
 		, game_()
 		, camera_()
 		, observer_hash_("")
-		, mtx_()
-		, messages_()
 		, liveapi_queue_()
 		, liveapi_available_(true)
 		, liveapi_lastsend_(0)
@@ -203,8 +204,7 @@ namespace app {
 	core_thread::~core_thread()
 	{
 		stop();
-		if (event_queuecheck_) ::CloseHandle(event_queuecheck_);
-		if (event_message_) ::CloseHandle(event_message_);
+		if (event_in_) ::CloseHandle(event_in_);
 		if (event_close_) ::CloseHandle(event_close_);
 	}
 
@@ -226,9 +226,8 @@ namespace app {
 			WAIT_OBJECT_0_LIVEAPI = WAIT_OBJECT_0 + 1,
 			WAIT_OBJECT_0_WEBAPI = WAIT_OBJECT_0 + 2,
 			WAIT_OBJECT_0_LOCAL = WAIT_OBJECT_0 + 3,
-			WAIT_OBJECT_0_MESSAGE = WAIT_OBJECT_0 + 4,
-			WAIT_OBJECT_0_QUEUECHECK = WAIT_OBJECT_0 + 5,
-			WAIT_OBJECT_0_HTTPGET = WAIT_OBJECT_0 + 6
+			WAIT_OBJECT_0_IN = WAIT_OBJECT_0 + 4,
+			WAIT_OBJECT_0_HTTPGET = WAIT_OBJECT_0 + 5
 		};
 
 		HANDLE events[] = {
@@ -236,14 +235,12 @@ namespace app {
 			liveapi_.get_event_out(),
 			webapi_.get_event_out(),
 			local_.get_event_out(),
-			event_message_,
-			event_queuecheck_,
+			event_in_,
 			http_get_.get_event_wq()
 		};
 
 		// 初回のデータロード
 		local_.get_observer(INVALID_SOCKET, 0);
-		
 
 		while (true)
 		{
@@ -272,9 +269,7 @@ namespace app {
 							proc_liveapi_data(_m.sock, std::move(_m.data));
 						},
 						[&](const websocket_message_out_get_stats& _m) {
-							::PostMessageW(window_, CWM_WEBSOCKET_STATS_CONNECTION_COUNT, 0, _m.conn_count);
-							::PostMessageW(window_, CWM_WEBSOCKET_STATS_RECV_COUNT, 0, _m.recv_count);
-							::PostMessageW(window_, CWM_WEBSOCKET_STATS_SEND_COUNT, 0, _m.send_count);
+							push_out(core_message_out_liveapi_stats{_m.conn_count, _m.recv_count, _m.send_count});
 							send_webapi_liveapi_socket_stats(_m.conn_count, _m.recv_count, _m.send_count);
 						}
 						}, q.front());
@@ -298,9 +293,7 @@ namespace app {
 							proc_webapi_data(_m.sock, std::move(_m.data));
 						},
 						[&](const websocket_message_out_get_stats& _m) {
-							::PostMessageW(window_, CWM_WEBSOCKET_STATS_CONNECTION_COUNT, 1, _m.conn_count);
-							::PostMessageW(window_, CWM_WEBSOCKET_STATS_RECV_COUNT, 1, _m.recv_count);
-							::PostMessageW(window_, CWM_WEBSOCKET_STATS_SEND_COUNT, 1, _m.send_count);
+							push_out(core_message_out_webapi_stats{_m.conn_count, _m.recv_count, _m.send_count});
 						}
 						}, q.front());
 					q.pop();
@@ -316,21 +309,15 @@ namespace app {
 					q.pop();
 				}
 			}
-			else if (id == WAIT_OBJECT_0_MESSAGE)
+			else if (id == WAIT_OBJECT_0_IN)
 			{
 				// main_windowからメッセージ到達
-				auto q = pull_messages();
+				auto q = pull_q_in();
 				while (q.size() > 0)
 				{
-					auto message = q.front();
+					proc_message(std::move(q.front()));
 					q.pop();
-					proc_message(message);
 				}
-			}
-			else if (id == WAIT_OBJECT_0_QUEUECHECK)
-			{
-				// queue check
-				sendto_liveapi_queuecheck();
 			}
 			else if (id == WAIT_OBJECT_0_HTTPGET)
 			{
@@ -2552,35 +2539,30 @@ namespace app {
 	//---------------------------------------------------------------------------------
 	// PROC MESSAGE
 	//---------------------------------------------------------------------------------
-	void core_thread::proc_message(UINT _message)
+	void core_thread::proc_message(core_message_in&& _msg)
 	{
-		switch (_message)
-		{
-		case CORE_MESSAGE_TEAMBANNER_STATE_SHOW:
-			log(LOG_CORE, L"Info: CORE_MESSAGE_TEAMBANNER_STATE_SHOW received.");
-			send_webapi_teambanner_state(1);
-			break;
-		case CORE_MESSAGE_TEAMBANNER_STATE_HIDE:
-			log(LOG_CORE, L"Info: CORE_MESSAGE_TEAMBANNER_STATE_HIDE received.");
-			send_webapi_teambanner_state(0);
-			break;
-		case CORE_MESSAGE_MAP_STATE_SHOW:
-			log(LOG_CORE, L"Info: CORE_MESSAGE_MAP_STATE_SHOW received.");
-			send_webapi_map_state(1);
-			break;
-		case CORE_MESSAGE_MAP_STATE_HIDE:
-			log(LOG_CORE, L"Info: CORE_MESSAGE_MAP_STATE_HIDE received.");
-			send_webapi_map_state(0);
-			break;
-		case CORE_MESSAGE_GET_STATS:
-			liveapi_.get_stats();
-			webapi_.get_stats();
-			http_get_.ping();
-			break;
-		default:
-			log(LOG_CORE, std::format(L"Info: receive unknown message(={}) from main_window", _message));
-			break;
-		}
+		std::visit(overloaded{
+			[&](core_message_in_teambanner_state&& _m) {
+				log(LOG_CORE, L"Info: core_message_in_teambanner_state received.");
+				send_webapi_teambanner_state(_m.state ? 1 : 0);
+			},
+			[&](core_message_in_map_state&& _m) {
+				log(LOG_CORE, L"Info: core_message_in_map_state received.");
+				send_webapi_map_state(_m.state ? 1 : 0);
+			},
+			[&](core_message_in_get_stats&& _m) {
+				liveapi_.get_stats();
+				webapi_.get_stats();
+				http_get_.ping();
+			},
+			[&](core_message_in_queuecheck&& _m) {
+				sendto_liveapi_queuecheck();
+			},
+			[&](core_message_in_ping&& _m) {
+				liveapi_.ping();
+				webapi_.ping();
+			},
+			}, std::move(_msg));
 	}
 	
 	//---------------------------------------------------------------------------------
@@ -4292,44 +4274,6 @@ namespace app {
 	}
 
 	//---------------------------------------------------------------------------------
-	// MESSAGE
-	//---------------------------------------------------------------------------------
-	std::queue<UINT> core_thread::pull_messages()
-	{
-		std::queue<UINT> r;
-		{
-			std::lock_guard<std::mutex> lock(mtx_);
-			r.swap(messages_);
-		}
-		return r;
-	}
-
-	void core_thread::push_message(UINT _message)
-	{
-		{
-			std::lock_guard<std::mutex> lock(mtx_);
-			messages_.push(_message);
-		}
-		// 通知
-		if (event_message_)
-		{
-			::SetEvent(event_message_);
-		}
-	}
-
-	//---------------------------------------------------------------------------------
-	// QUEUE CHECK
-	//---------------------------------------------------------------------------------
-	void core_thread::liveapi_queuecheck()
-	{
-		// 通知
-		if (event_queuecheck_)
-		{
-			::SetEvent(event_queuecheck_);
-		}
-	}
-
-	//---------------------------------------------------------------------------------
 	// RUN/STOP/PING
 	//---------------------------------------------------------------------------------
 	bool core_thread::run(HWND _window)
@@ -4374,14 +4318,9 @@ namespace app {
 			log(LOG_CORE, L"Error: CreateEvent() failed.");
 			return false;
 		}
-		event_message_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
-		if (event_message_ == NULL)
-		{
-			log(LOG_CORE, L"Error: CreateEvent() failed.");
-			return false;
-		}
-		event_queuecheck_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
-		if (event_queuecheck_ == NULL)
+
+		event_in_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
+		if (event_in_ == NULL)
 		{
 			log(LOG_CORE, L"Error: CreateEvent() failed.");
 			return false;
@@ -4409,9 +4348,82 @@ namespace app {
 		}
 	}
 
+	//---------------------------------------------------------------------------------
+	// QUEUE
+	//---------------------------------------------------------------------------------
+	void core_thread::push_in(core_message_in&& _msg)
+	{
+		{
+			std::lock_guard<std::mutex> lock(mtx_in_);
+			q_in_.push(std::move(_msg));
+		}
+
+		// 通知
+		if (event_in_)
+		{
+			::SetEvent(event_in_);
+		}
+	}
+
+	void core_thread::push_out(core_message_out&& _msg)
+	{
+		{
+			std::lock_guard<std::mutex> lock(mtx_out_);
+			q_out_.push(std::move(_msg));
+		}
+
+		// 通知
+		if (window_ != NULL)
+		{
+			::PostMessageW(window_, CWM_CORE_OUT, 0, 0);
+		}
+	}
+
+	std::queue<core_message_in> core_thread::pull_q_in()
+	{
+		std::queue<core_message_in> q;
+		{
+			std::lock_guard<std::mutex> lock(mtx_in_);
+			q.swap(q_in_);
+		}
+		return q;
+	}
+
+	std::queue<core_message_out> core_thread::pull_q_out()
+	{
+		std::queue<core_message_out> q;
+		{
+			std::lock_guard<std::mutex> lock(mtx_out_);
+			q.swap(q_out_);
+		}
+		return q;
+	}
+
+	//---------------------------------------------------------------------------------
+	// CALL FROM MAIN WINDOW
+	//---------------------------------------------------------------------------------
+	void core_thread::set_teambanner_state(bool _state)
+	{
+		push_in(core_message_in_teambanner_state{ _state });
+	}
+
+	void core_thread::set_map_state(bool _state)
+	{
+		push_in(core_message_in_map_state{ _state });
+	}
+
+	void core_thread::get_stats()
+	{
+		push_in(core_message_in_get_stats{});
+	}
+
+	void core_thread::liveapi_queuecheck()
+	{
+		push_in(core_message_in_queuecheck{});
+	}
+
 	void core_thread::ping()
 	{
-		liveapi_.ping();
-		webapi_.ping();
+		push_in(core_message_in_ping{});
 	}
 }
