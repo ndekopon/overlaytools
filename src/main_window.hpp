@@ -36,6 +36,7 @@ namespace app
 		bool create_window();
 		HWND create_label(const WCHAR* _text, DWORD _x, DWORD _y, DWORD _width, DWORD _height);
 		void create_menu(const std::vector<std::wstring>& _monitors);
+		void proc_duplication_message(duplication_message_out&& _msg);
 
 		LRESULT window_proc(UINT, WPARAM, LPARAM);
 		static LRESULT CALLBACK window_proc_common(HWND, UINT, WPARAM, LPARAM);

@@ -262,7 +262,7 @@ namespace app
 
 			// 初期モニター設定
 			monitor_ = ini_.get_monitor();
-			duplication_thread_.request_set_monitor(monitor_);
+			duplication_thread_.set_monitor(monitor_);
 
 			// タイマー設定
 			::SetTimer(window_, TIMER_ID_PING, 20000, nullptr); // 20s
@@ -324,7 +324,7 @@ namespace app
 					if (id == MID_POPUP_CAPTURE_DISABLED)
 					{
 						monitor_ = L"";
-						duplication_thread_.request_set_monitor(monitor_);
+						duplication_thread_.set_monitor(monitor_);
 						ini_.set_monitor(monitor_);
 						std::fill(buffer_.begin(), buffer_.end(), 0);
 						::InvalidateRect(window_, &frame_rect_, FALSE);
@@ -335,7 +335,7 @@ namespace app
 						if (mid < monitors_.size())
 						{
 							monitor_ = monitors_.at(mid);
-							duplication_thread_.request_set_monitor(monitor_);
+							duplication_thread_.set_monitor(monitor_);
 							ini_.set_monitor(monitor_);
 						}
 					}
@@ -361,7 +361,7 @@ namespace app
 				point.y = points.y;
 				if (::PtInRect(&frame_rect_, point))
 				{
-					duplication_thread_.request_get_monitors();
+					duplication_thread_.get_monitors();
 				}
 			}
 			break;
@@ -375,10 +375,10 @@ namespace app
 				core_thread_.ping();
 				return 0;
 			case TIMER_ID_CAPTURE:
-				duplication_thread_.request_capture();
+				duplication_thread_.capture();
 				return 0;
 			case TIMER_ID_STATS:
-				duplication_thread_.request_stats();
+				duplication_thread_.get_stats();
 				core_thread_.push_message(CORE_MESSAGE_GET_STATS);
 				return 0;
 			case TIMER_ID_LIVEAPI_QUEUECHECK:
@@ -388,31 +388,13 @@ namespace app
 			break;
 		}
 
-		case CWM_FRAME_ARRIVED:
+		case CWM_DUPLICATION_OUT:
 		{
-			buffer_ = duplication_thread_.get_buffer();
-			if (current_tab_ == 0)
+			auto q = duplication_thread_.pull_q_out();
+			while (q.size() > 0)
 			{
-				::InvalidateRect(window_, &frame_rect_, FALSE);
-			}
-
-			break;
-		}
-
-		case CWM_MONITORS_UPDATE:
-			monitors_ = duplication_thread_.get_monitors();
-			create_menu(monitors_);
-			break;
-
-		case CWM_DUPLICATION_STATS_UPDATE:
-		{
-			auto stats = duplication_thread_.get_stats();
-			if (13 < items_.size())
-			{
-				::SetWindowTextW(items_.at(10), (L"Capture FPS: " + std::to_wstring(stats.fps)).c_str());
-				::SetWindowTextW(items_.at(11), (L"Capture Total: " + std::to_wstring(stats.total)).c_str());
-				::SetWindowTextW(items_.at(12), (L"Capture Skipped: " + std::to_wstring(stats.skipped)).c_str());
-				::SetWindowTextW(items_.at(13), (L"Capture Exited: " + std::to_wstring(stats.exited)).c_str());
+				proc_duplication_message(std::move(q.front()));
+				q.pop();
 			}
 			break;
 		}
@@ -444,39 +426,57 @@ namespace app
 			break;
 		}
 
-		case CWM_MONITOR_BANNER_STATE:
-		{
-			UINT state = _wparam;
-			if (state > 0)
-			{
-				core_thread_.push_message(CORE_MESSAGE_TEAMBANNER_STATE_SHOW);
-			}
-			else
-			{
-				core_thread_.push_message(CORE_MESSAGE_TEAMBANNER_STATE_HIDE);
-			}
-			break;
-		}
-
-		case CWM_MONITOR_MAP_STATE:
-		{
-			UINT state = _wparam;
-			if (state > 0)
-			{
-				core_thread_.push_message(CORE_MESSAGE_MAP_STATE_SHOW);
-			}
-			else
-			{
-				core_thread_.push_message(CORE_MESSAGE_MAP_STATE_HIDE);
-			}
-			break;
-		}
-
 		default:
 			break;
 		}
 
 		return ::DefWindowProcW(window_, _message, _wparam, _lparam);
+	}
+
+	void main_window::proc_duplication_message(duplication_message_out&& _msg)
+	{
+		std::visit(overloaded{
+			[&](duplication_message_out_capture&& _m) {
+				buffer_ = std::move(_m.buffer);
+				if (current_tab_ == 0)
+				{
+					::InvalidateRect(window_, &frame_rect_, FALSE);
+				}
+			},
+			[&](duplication_message_out_get_stats&& _m) {
+				if (13 < items_.size())
+				{
+					::SetWindowTextW(items_.at(10), (L"Capture FPS: " + std::to_wstring(_m.fps)).c_str());
+					::SetWindowTextW(items_.at(11), (L"Capture Total: " + std::to_wstring(_m.total)).c_str());
+					::SetWindowTextW(items_.at(12), (L"Capture Skipped: " + std::to_wstring(_m.skipped)).c_str());
+					::SetWindowTextW(items_.at(13), (L"Capture Exited: " + std::to_wstring(_m.exited)).c_str());
+				}
+			},
+			[&](duplication_message_out_get_monitors&& _m) {
+				monitors_ = std::move(_m.monitors);
+				create_menu(monitors_);
+			},
+			[&](duplication_message_out_banner_state&& _m) {
+				if (_m.state > 0)
+				{
+					core_thread_.push_message(CORE_MESSAGE_TEAMBANNER_STATE_SHOW);
+				}
+				else
+				{
+					core_thread_.push_message(CORE_MESSAGE_TEAMBANNER_STATE_HIDE);
+				}
+			},
+			[&](duplication_message_out_map_state&& _m) {
+				if (_m.state > 0)
+				{
+					core_thread_.push_message(CORE_MESSAGE_MAP_STATE_SHOW);
+				}
+				else
+				{
+					core_thread_.push_message(CORE_MESSAGE_MAP_STATE_HIDE);
+				}
+			},
+			}, std::move(_msg));
 	}
 
 	LRESULT CALLBACK main_window::window_proc_common(HWND _window, UINT _message, WPARAM _wparam, LPARAM _lparam)

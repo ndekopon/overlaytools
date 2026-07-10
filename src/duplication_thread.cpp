@@ -187,22 +187,21 @@ namespace app {
 #undef BUFFERPOS
 
 	duplication_thread::duplication_thread()
-		: window_(nullptr)
+		: window_(NULL)
 		, thread_(NULL)
 		, event_close_(NULL)
-		, event_capture_(NULL)
-		, event_stats_(NULL)
-		, event_get_monitors_(NULL)
-		, event_set_monitor_(NULL)
+		, event_in_(NULL)
+		, mtx_in_()
+		, mtx_out_()
+		, q_in_()
+		, q_out_()
+
 	{
 	}
 
 	duplication_thread::~duplication_thread()
 	{
-		if (event_set_monitor_) ::CloseHandle(event_set_monitor_);
-		if (event_get_monitors_) ::CloseHandle(event_get_monitors_);
-		if (event_stats_) ::CloseHandle(event_stats_);
-		if (event_capture_) ::CloseHandle(event_capture_);
+		if (event_in_) ::CloseHandle(event_in_);
 		if (event_close_) ::CloseHandle(event_close_);
 	}
 
@@ -216,15 +215,19 @@ namespace app {
 	{
 		log(LOG_DUPLICATION, L"Info: thread start.");
 
+		enum : DWORD {
+			WAIT_OBJECT_0_CLOSE = WAIT_OBJECT_0,
+			WAIT_OBJECT_0_IN = WAIT_OBJECT_0 + 1
+		};
+
 		const HANDLE events[] = {
 			event_close_,
-			event_capture_,
-			event_stats_,
-			event_get_monitors_,
-			event_set_monitor_
+			event_in_
 		};
 
 		bool alive = true;
+		std::wstring monitor;
+		std::vector<uint32_t> buffer;
 		uint64_t frame_captured = 0;
 		uint64_t frame_captured_prev = 0;
 		uint64_t frame_skipped = 0;
@@ -245,13 +248,9 @@ namespace app {
 				false
 		};
 
-		std::vector<uint32_t> buffer;
-
-
 		while (alive)
 		{
 			duplicator dup;
-			std::wstring monitor;
 			bool monitor_available = false;
 
 			if (!dup.create())
@@ -261,131 +260,117 @@ namespace app {
 				continue;
 			}
 
-			monitor = get_monitor();
 			monitor_available = dup.select_monitor(monitor);
 			if (monitor_available)
 			{
 				log(LOG_DUPLICATION, std::format(L"Error: monitor '{}' is not available.", monitor));
 			}
 
-			while (true)
+			while (alive)
 			{
 				auto id = ::WaitForMultipleObjects(ARRAYSIZE(events), events, FALSE, INFINITE);
-				if (id == WAIT_OBJECT_0)
+				if (id == WAIT_OBJECT_0_CLOSE)
 				{
 					log(LOG_DUPLICATION, L"Info: event close received.");
 					alive = false;
 					break;
 				}
-				else if (id == WAIT_OBJECT_0 + 1)
+				else if (id == WAIT_OBJECT_0_IN)
 				{
-					// capture
-					if (!monitor_available) continue;
-					auto result = dup.get_frame(buffer);
-					if (result == duplicator::Error_Action_Skip)
+					bool action_exit = false;
+					auto q = pull_q_in();
+					while (q.size() > 0)
 					{
-						frame_skipped++;
-					}
-					else if (result == duplicator::Error_Action_Exit)
-					{
-						frame_exited++;
-						break;
-					}
-					else
-					{
-						frame_captured++;
+						std::visit(overloaded{
+							[&](duplication_message_in_capture& _msg) {
+								// capture
+								if (!monitor_available) return;
 
-						bool teamnameframe = is_shown_teamnameframe(buffer);
-						bool grenadeframe = is_shown_grenadeframe(buffer);
-						bool team1frame = is_shown_team1frame(buffer);
-						bool mapbottomborder = is_shown_map_bottom_border(buffer);
-						bool alivesicon = is_shown_alivesicon(buffer);
-						bool teambanner_show = screen_state_prev.teambanner_show;
+								auto result = dup.get_frame(buffer);
+								if (result == duplicator::Error_Action_Skip)
+								{
+									frame_skipped++;
+								}
+								else if (result == duplicator::Error_Action_Exit)
+								{
+									frame_exited++;
+									action_exit = true;
+								}
+								else
+								{
+									frame_captured++;
 
-						// 差分表示
-						if (teamnameframe != screen_state_prev.teamnameframe) log(LOG_DUPLICATION, std::format(L"Info: teamnameframe={}", teamnameframe ? L"true" : L"false"));
-						if (grenadeframe != screen_state_prev.grenadeframe) log(LOG_DUPLICATION, std::format(L"Info: grenadeframe={}", grenadeframe ? L"true" : L"false"));
-						if (team1frame != screen_state_prev.team1frame) log(LOG_DUPLICATION, std::format(L"Info: team1frame={}", team1frame ? L"true" : L"false"));
-						if (alivesicon != screen_state_prev.alivesicon) log(LOG_DUPLICATION, std::format(L"Info: alivesicon={}", alivesicon ? L"true" : L"false"));
-						if (mapbottomborder != screen_state_prev.mapbottomborder)
-						{
-							log(LOG_DUPLICATION, std::format(L"Info: mapbottomborder={}", mapbottomborder ? L"true" : L"false"));
-							if (mapbottomborder)
-							{
-								::PostMessageW(window_, CWM_MONITOR_MAP_STATE, 1, 0);
+									bool teamnameframe = is_shown_teamnameframe(buffer);
+									bool grenadeframe = is_shown_grenadeframe(buffer);
+									bool team1frame = is_shown_team1frame(buffer);
+									bool mapbottomborder = is_shown_map_bottom_border(buffer);
+									bool alivesicon = is_shown_alivesicon(buffer);
+									bool teambanner_show = screen_state_prev.teambanner_show;
+
+									// 差分表示
+									if (teamnameframe != screen_state_prev.teamnameframe) log(LOG_DUPLICATION, std::format(L"Info: teamnameframe={}", teamnameframe ? L"true" : L"false"));
+									if (grenadeframe != screen_state_prev.grenadeframe) log(LOG_DUPLICATION, std::format(L"Info: grenadeframe={}", grenadeframe ? L"true" : L"false"));
+									if (team1frame != screen_state_prev.team1frame) log(LOG_DUPLICATION, std::format(L"Info: team1frame={}", team1frame ? L"true" : L"false"));
+									if (alivesicon != screen_state_prev.alivesicon) log(LOG_DUPLICATION, std::format(L"Info: alivesicon={}", alivesicon ? L"true" : L"false"));
+									if (mapbottomborder != screen_state_prev.mapbottomborder)
+									{
+										log(LOG_DUPLICATION, std::format(L"Info: mapbottomborder={}", mapbottomborder ? L"true" : L"false"));
+										if (mapbottomborder)
+										{
+											push_out(duplication_message_out_map_state{ true });
+										}
+										else
+										{
+											push_out(duplication_message_out_map_state{ false });
+										}
+									}
+									screen_state_prev.teamnameframe = teamnameframe;
+									screen_state_prev.grenadeframe = grenadeframe;
+									screen_state_prev.team1frame = team1frame;
+									screen_state_prev.mapbottomborder = mapbottomborder;
+									screen_state_prev.alivesicon = alivesicon;
+
+									if ((teamnameframe || grenadeframe) && alivesicon) teambanner_show = true;
+									else if (alivesicon) teambanner_show = false;
+									else if (mapbottomborder) teambanner_show = false;
+									else if (team1frame) teambanner_show = false;
+
+									if (teambanner_show != screen_state_prev.teambanner_show)
+									{
+										log(LOG_DUPLICATION, std::format(L"Info: teambanner_show={}", teambanner_show ? L"true" : L"false"));
+										if (teambanner_show)
+										{
+											push_out(duplication_message_out_banner_state{ true });
+										}
+										else
+										{
+											push_out(duplication_message_out_banner_state{ false });
+										}
+										screen_state_prev.teambanner_show = teambanner_show;
+									}
+
+									// main_window用バッファへコピー
+									push_out(duplication_message_out_capture{ 200, 100, buffer });
+								}
+							},
+							[&](duplication_message_in_get_stats& _msg) {
+								auto fps = frame_captured - frame_captured_prev;
+								push_out(duplication_message_out_get_stats{ fps, frame_captured, frame_skipped, frame_exited });
+								frame_captured_prev = frame_captured;
+							},
+							[&](duplication_message_in_get_monitors& _msg) {
+								push_out(duplication_message_out_get_monitors{ dup.get_monitors() });
+							},
+							[&](duplication_message_in_set_monitor& _msg) {
+								// set_monitor
+								monitor = _msg.monitor;
+								monitor_available = dup.select_monitor(monitor);
+								log(LOG_DUPLICATION, std::format(L"Info: set monitor '{}' result={}", monitor, monitor_available ? L"true" : L"false"));
 							}
-							else
-							{
-								::PostMessageW(window_, CWM_MONITOR_MAP_STATE, 0, 0);
-							}
-						}
-						screen_state_prev.teamnameframe = teamnameframe;
-						screen_state_prev.grenadeframe = grenadeframe;
-						screen_state_prev.team1frame = team1frame;
-						screen_state_prev.mapbottomborder = mapbottomborder;
-						screen_state_prev.alivesicon = alivesicon;
-
-						if ((teamnameframe || grenadeframe) && alivesicon) teambanner_show = true;
-						else if (alivesicon) teambanner_show = false;
-						else if (mapbottomborder) teambanner_show = false;
-						else if (team1frame) teambanner_show = false;
-
-						if (teambanner_show != screen_state_prev.teambanner_show)
-						{
-							log(LOG_DUPLICATION, std::format(L"Info: teambanner_show={}", teambanner_show ? L"true" : L"false"));
-							if (teambanner_show)
-							{
-								::PostMessageW(window_, CWM_MONITOR_BANNER_STATE, 1, 0);
-							}
-							else
-							{
-								::PostMessageW(window_, CWM_MONITOR_BANNER_STATE, 0, 0);
-							}
-							screen_state_prev.teambanner_show = teambanner_show;
-						}
-
-						// main_window用バッファへコピー
-						{
-							std::lock_guard<std::mutex> lock(mtx_buffer_);
-							buffer_ = buffer;
-						}
-						::PostMessageW(window_, CWM_FRAME_ARRIVED, 200, 100);
+						}, q.front());
+						q.pop();
 					}
-				}
-				else if (id == WAIT_OBJECT_0 + 2)
-				{
-					// stats
-					auto fps = frame_captured - frame_captured_prev;
-					{
-						std::lock_guard<std::mutex> lock(mtx_stats_);
-						stats_.fps = fps;
-						stats_.total = frame_captured;
-						stats_.skipped = frame_skipped;
-						stats_.exited = frame_exited;
-					}
-					frame_captured_prev = frame_captured;
-					::PostMessageW(window_, CWM_DUPLICATION_STATS_UPDATE, 0, 0);
-				}
-				else if (id == WAIT_OBJECT_0 + 3)
-				{
-					// get_monitors
-					auto monitors = dup.get_monitors();
-					{
-						std::lock_guard<std::mutex> lock(mtx_monitor_);
-						monitors_ = monitors;
-					}
-					// 通知
-					if (window_)
-					{
-						::PostMessageW(window_, CWM_MONITORS_UPDATE, 0, 0);
-					}
-				}
-				else if (id == WAIT_OBJECT_0 + 4)
-				{
-					// set_monitor
-					monitor = get_monitor();
-					monitor_available = dup.select_monitor(monitor);
-					log(LOG_DUPLICATION, std::format(L"Info: set monitor '{}' result={}", monitor, monitor_available ? L"true" : L"false"));
+					if (action_exit) break;
 				}
 			}
 		}
@@ -406,26 +391,9 @@ namespace app {
 			log(LOG_DUPLICATION, L"Error: CreateEvent() failed.");
 			return false;
 		}
-		event_capture_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
-		if (event_capture_ == NULL)
-		{
-			log(LOG_DUPLICATION, L"Error: CreateEvent() failed.");
-			return false;
-		}
-		event_stats_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
-		if (event_stats_ == NULL)
-		{
-			log(LOG_DUPLICATION, L"Error: CreateEvent() failed.");
-			return false;
-		}
-		event_get_monitors_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
-		if (event_get_monitors_ == NULL)
-		{
-			log(LOG_DUPLICATION, L"Error: CreateEvent() failed.");
-			return false;
-		}
-		event_set_monitor_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
-		if (event_set_monitor_ == NULL)
+
+		event_in_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
+		if (event_in_ == NULL)
 		{
 			log(LOG_DUPLICATION, L"Error: CreateEvent() failed.");
 			return false;
@@ -447,63 +415,61 @@ namespace app {
 		}
 	}
 
-	std::wstring duplication_thread::get_monitor()
+	void duplication_thread::push_in(duplication_message_in&& _msg)
 	{
-		std::lock_guard<std::mutex> lock(mtx_monitor_);
-		return monitor_;
-	}
-
-	std::vector<std::wstring> duplication_thread::get_monitors()
-	{
-		std::lock_guard<std::mutex> lock(mtx_monitor_);
-		return monitors_;
-	}
-
-	std::vector<std::uint32_t> duplication_thread::get_buffer()
-	{
-		std::lock_guard<std::mutex> lock(mtx_buffer_);
-		return buffer_;
-	}
-	
-	duplication_stats duplication_thread::get_stats()
-	{
-		std::lock_guard<std::mutex> lock(mtx_stats_);
-		return stats_;
-	}
-
-	void duplication_thread::request_set_monitor(const std::wstring& _monitor)
-	{
-		if (event_set_monitor_)
 		{
-			{
-				std::lock_guard<std::mutex> lock(mtx_monitor_);
-				monitor_ = _monitor;
-			}
-			::SetEvent(event_set_monitor_);
+			std::lock_guard<std::mutex> lock(mtx_in_);
+			q_in_.push(std::move(_msg));
 		}
+		::SetEvent(event_in_);
 	}
 
-	void duplication_thread::request_get_monitors()
+	void duplication_thread::push_out(duplication_message_out&& _msg)
 	{
-		if (event_get_monitors_)
 		{
-			::SetEvent(event_get_monitors_);
+			std::lock_guard<std::mutex> lock(mtx_out_);
+			q_out_.push(std::move(_msg));
 		}
+		::PostMessageW(window_, CWM_DUPLICATION_OUT, 0, 0);
 	}
 
-	void duplication_thread::request_capture()
+	std::queue<duplication_message_in> duplication_thread::pull_q_in()
 	{
-		if (event_capture_)
+		std::queue<duplication_message_in> q;
 		{
-			::SetEvent(event_capture_);
+			std::lock_guard<std::mutex> lock(mtx_in_);
+			q.swap(q_in_);
 		}
+		return q;
 	}
 
-	void duplication_thread::request_stats()
+	std::queue<duplication_message_out> duplication_thread::pull_q_out()
 	{
-		if (event_stats_)
+		std::queue<duplication_message_out> q;
 		{
-			::SetEvent(event_stats_);
+			std::lock_guard<std::mutex> lock(mtx_out_);
+			q.swap(q_out_);
 		}
+		return q;
+	}
+
+	void duplication_thread::set_monitor(const std::wstring& _monitor)
+	{
+		push_in(duplication_message_in_set_monitor{ _monitor });
+	}
+
+	void duplication_thread::get_monitors()
+	{
+		push_in(duplication_message_in_get_monitors{});
+	}
+
+	void duplication_thread::capture()
+	{
+		push_in(duplication_message_in_capture{});
+	}
+
+	void duplication_thread::get_stats()
+	{
+		push_in(duplication_message_in_get_stats{});
 	}
 }
