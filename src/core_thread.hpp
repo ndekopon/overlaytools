@@ -86,7 +86,7 @@ namespace app {
 		void proc_liveapi_data(SOCKET _sock, std::vector<uint8_t>&& _data);
 		void proc_webapi_data(SOCKET _sock, std::vector<uint8_t>&& _data);
 		void proc_local_message(local_message&& _msg);
-		void proc_http_get_data(http_get_queue_data_t&& _data);
+		void proc_http_get_message(http_get_message_get_stats&& _data);
 		void proc_message(core_message_in&& _msg);
 
 		void proc_liveapi_any(const google::protobuf::Any& _any);

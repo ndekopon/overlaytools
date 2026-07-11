@@ -66,22 +66,22 @@ namespace app {
 		, event_ping_(NULL)
 		, event_winhttp_(NULL)
 		, available_(0)
-		, event_mtx_()
-		, event_queue_()
-		, wqmtx_()
-		, rqmtx_()
-		, event_wq_(NULL)
-		, event_rq_(NULL)
-		, wq_()
-		, rq_()
+		, mtx_event_()
+		, q_event_()
+		, mtx_in_()
+		, mtx_out_()
+		, event_in_(NULL)
+		, event_out_(NULL)
+		, q_in_()
+		, q_out_()
 	{
 	}
 
 	http_get_thread::~http_get_thread()
 	{
 		stop();
-		if (event_wq_) ::CloseHandle(event_wq_);
-		if (event_rq_) ::CloseHandle(event_rq_);
+		if (event_in_) ::CloseHandle(event_in_);
+		if (event_out_) ::CloseHandle(event_out_);
 		if (event_winhttp_) ::CloseHandle(event_winhttp_);
 		if (event_ping_) ::CloseHandle(event_ping_);
 		if (event_close_) ::CloseHandle(event_close_);
@@ -125,32 +125,38 @@ namespace app {
 		}
 
 		// 返送用データ
-		std::vector<char> buf;
-		buf.resize(64 * 1024);
+		std::vector<char> buf(64 * 1024);
 		uint64_t timestamp = 0;
-		http_get_queue_data_t reply_data = nullptr;
+		http_get_message_get_stats reply_data{};
+
+		enum : DWORD {
+			WAIT_OBJECT_0_CLOSE = WAIT_OBJECT_0,
+			WAIT_OBJECT_0_PING = WAIT_OBJECT_0 + 1,
+			WAIT_OBJECT_0_IN = WAIT_OBJECT_0 + 2,
+			WAIT_OBJECT_0_WINHTTP = WAIT_OBJECT_0 + 3,
+		};
 
 		HANDLE events[] = {
 			event_close_,
 			event_ping_,
-			event_rq_,
+			event_in_,
 			event_winhttp_,
 		};
 
 
 		// 本文の受信
-		while (1)
+		while (true)
 		{
 			bool close_connection = false;
 			auto id = ::WaitForMultipleObjects(ARRAYSIZE(events), events, FALSE, INFINITE);
 
-			if (id == WAIT_OBJECT_0)
+			if (id == WAIT_OBJECT_0_CLOSE)
 			{
 				log(logid_, L"Info: close called.");
 				// close要求
 				break;
 			}
-			else if (id == WAIT_OBJECT_0 + 1)
+			else if (id == WAIT_OBJECT_0_PING)
 			{
 				// ping(タイムアウトを確認する)
 				if (timestamp > 0 && get_millis() - timestamp > 10000)
@@ -159,33 +165,33 @@ namespace app {
 					close_connection = true;
 				}
 			}
-			else if (id == WAIT_OBJECT_0 + 2)
+			else if (id == WAIT_OBJECT_0_IN)
 			{
 				// 現在取得中の場合は何もしない
 				if (connect_ != NULL) continue;
 				if (request_ != NULL) continue;
 
-				// codeチェック
+				// 先頭のキューだけ取り出す
 				{
-					std::lock_guard<std::mutex> lock(rqmtx_);
-					if (rq_.size() > 0)
+					std::lock_guard<std::mutex> lock(mtx_in_);
+					if (q_in_.size() > 0)
 					{
-						reply_data = std::move(rq_.front());
-						rq_.pop();
+						reply_data = std::move(q_in_.front());
+						q_in_.pop();
 					}
 					else
 					{
 						// 要求がない場合はスキップ
 						continue;
 					}
-					reply_data->json->reserve(64000);
+					reply_data.json.reserve(64000);
 				}
 
-				if (reply_data->code != "" && check_stats_code(reply_data->code))
+				if (reply_data.code != "" && check_stats_code(reply_data.code))
 				{
-					log(logid_, std::format(L"Info: stats_code requested [{}].", s_to_ws(reply_data->code)));
+					log(logid_, std::format(L"Info: stats_code requested [{}].", s_to_ws(reply_data.code)));
 					timestamp = get_millis();
-					if (!proc_connect_and_request(reply_data->code))
+					if (!proc_connect_and_request(reply_data.code))
 					{
 						log(logid_, L"Error: proc_connect_and_request failed.");
 						close_connection = true;
@@ -193,21 +199,17 @@ namespace app {
 				}
 				else
 				{
-					log(logid_, std::format(L"Error: stats_code is not valid format [{}].", s_to_ws(reply_data->code)));
+					log(logid_, std::format(L"Error: stats_code is not valid format [{}].", s_to_ws(reply_data.code)));
 					close_connection = true;
 				}
 			}
-			else if (id == WAIT_OBJECT_0 + 3)
+			else if (id == WAIT_OBJECT_0_WINHTTP)
 			{
 				// イベントの取り出し
 				std::queue<uint32_t> q;
 				{
-					std::lock_guard<std::mutex> lock(event_mtx_);
-					while (event_queue_.size() > 0)
-					{
-						q.push(event_queue_.front());
-						event_queue_.pop();
-					}
+					std::lock_guard<std::mutex> lock(mtx_event_);
+					q.swap(q_event_);
 				}
 
 				// イベント処理
@@ -230,10 +232,7 @@ namespace app {
 					{
 						log(logid_, L"Info: WINHTTP_GET_EVENT_HEADER_AVAILABLE.");
 						auto hdr = proc_get_header();
-						if (reply_data)
-						{
-							reply_data->status_code = hdr.code;
-						}
+						reply_data.status_code = hdr.code;
 						break;
 					}
 					case WINHTTP_GET_EVENT_RESPONSE_RECEIVED:
@@ -266,10 +265,7 @@ namespace app {
 						if (::WinHttpReadData(request_, buf.data(), available_, NULL))
 						{
 							buf.at(available_) = '\0';
-							if (reply_data && reply_data->json)
-							{
-								*reply_data->json += reinterpret_cast<char*>(buf.data());
-							}
+							reply_data.json += reinterpret_cast<char*>(buf.data());
 						}
 						break;
 					}
@@ -297,18 +293,18 @@ namespace app {
 
 				if (timestamp > 0)
 				{
-					if (reply_data && reply_data->json)
+					if (reply_data.json.size() > 0)
 					{
-						if (reply_data->status_code != 200)
+						if (reply_data.status_code != 200)
 						{
-							*reply_data->json = "{}";
+							reply_data.json = "{}";
 						}
 						else
 						{
 							bool is_object = false;
 							try
 							{
-								auto j = nlohmann::json::parse(*reply_data->json);
+								auto j = nlohmann::json::parse(reply_data.json);
 								if (j.type() == nlohmann::json::value_t::object)
 								{
 									is_object = true;
@@ -320,18 +316,18 @@ namespace app {
 							if (!is_object)
 							{
 								log(logid_, L"Error: received data is not parsable json object.");
-								*reply_data->json = "{}";
+								reply_data.json = "{}";
 							}
 						}
-						log(logid_, std::format(L"Info: data send to core_thread. size={}", reply_data->json->length()));
-						push_wq(std::move(reply_data));
+						log(logid_, std::format(L"Info: data send to core_thread. size={}", reply_data.json.length()));
+						push_out(std::move(reply_data));
 					}
 
 					// 値の初期化
 					timestamp = 0;
-					reply_data.reset(nullptr);
+					reply_data = http_get_message_get_stats{};
 
-					::SetEvent(event_rq_); // 次の要求処理
+					::SetEvent(event_in_); // 次の要求処理
 				}
 			}
 		}
@@ -434,13 +430,13 @@ namespace app {
 		{
 			return false;
 		}
-		event_wq_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
-		if (event_wq_ == NULL)
+		event_in_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
+		if (event_in_ == NULL)
 		{
 			return false;
 		}
-		event_rq_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
-		if (event_rq_ == NULL)
+		event_out_ = ::CreateEventW(NULL, FALSE, FALSE, NULL);
+		if (event_out_ == NULL)
 		{
 			return false;
 		}
@@ -515,102 +511,92 @@ namespace app {
 		case WINHTTP_CALLBACK_STATUS_CONNECTION_CLOSED:
 			// connection closed -> close request and connect
 			{
-				std::lock_guard<std::mutex> lock(event_mtx_);
-				event_queue_.push(WINHTTP_GET_EVENT_CLOSED);
+				std::lock_guard<std::mutex> lock(mtx_event_);
+				q_event_.push(WINHTTP_GET_EVENT_CLOSED);
 			}
 			::SetEvent(event_winhttp_);
 			break;
 		case WINHTTP_CALLBACK_STATUS_SENDREQUEST_COMPLETE:
 			{
-				std::lock_guard<std::mutex> lock(event_mtx_);
-				event_queue_.push(WINHTTP_GET_EVENT_REQUEST_COMPLETE);
+				std::lock_guard<std::mutex> lock(mtx_event_);
+				q_event_.push(WINHTTP_GET_EVENT_REQUEST_COMPLETE);
 			}
 			::SetEvent(event_winhttp_);
 			break;
 		case WINHTTP_CALLBACK_STATUS_HEADERS_AVAILABLE:
 			{
-				std::lock_guard<std::mutex> lock(event_mtx_);
-				event_queue_.push(WINHTTP_GET_EVENT_HEADER_AVAILABLE);
+				std::lock_guard<std::mutex> lock(mtx_event_);
+				q_event_.push(WINHTTP_GET_EVENT_HEADER_AVAILABLE);
 			}
 			::SetEvent(event_winhttp_);
 			break;
 		case WINHTTP_CALLBACK_STATUS_RESPONSE_RECEIVED:
 			{
-				std::lock_guard<std::mutex> lock(event_mtx_);
-				event_queue_.push(WINHTTP_GET_EVENT_RESPONSE_RECEIVED);
+				std::lock_guard<std::mutex> lock(mtx_event_);
+				q_event_.push(WINHTTP_GET_EVENT_RESPONSE_RECEIVED);
 			}
 			::SetEvent(event_winhttp_);
 			break;
 		case WINHTTP_CALLBACK_STATUS_READ_COMPLETE:
 			{
-				std::lock_guard<std::mutex> lock(event_mtx_);
-				event_queue_.push(WINHTTP_GET_EVENT_READ_COMPLETE);
+				std::lock_guard<std::mutex> lock(mtx_event_);
+				q_event_.push(WINHTTP_GET_EVENT_READ_COMPLETE);
 			}
 			::SetEvent(event_winhttp_);
 			break;
 		case WINHTTP_CALLBACK_STATUS_DATA_AVAILABLE:
 			{
-				std::lock_guard<std::mutex> lock(event_mtx_);
-				event_queue_.push(WINHTTP_GET_EVENT_BODY_READABLE);
+				std::lock_guard<std::mutex> lock(mtx_event_);
+				q_event_.push(WINHTTP_GET_EVENT_BODY_READABLE);
 			}
 			::SetEvent(event_winhttp_);
 			break;
 		case WINHTTP_CALLBACK_STATUS_REQUEST_ERROR:
 			{
-				std::lock_guard<std::mutex> lock(event_mtx_);
-				event_queue_.push(WINHTTP_GET_EVENT_ERROR);
+				std::lock_guard<std::mutex> lock(mtx_event_);
+				q_event_.push(WINHTTP_GET_EVENT_ERROR);
 			}
 			::SetEvent(event_winhttp_);
 			break;
 		case WINHTTP_CALLBACK_STATUS_SECURE_FAILURE:
 			{
-				std::lock_guard<std::mutex> lock(event_mtx_);
-				event_queue_.push(WINHTTP_GET_EVENT_TLS_ERROR);
+				std::lock_guard<std::mutex> lock(mtx_event_);
+				q_event_.push(WINHTTP_GET_EVENT_TLS_ERROR);
 			}
 			::SetEvent(event_winhttp_);
 			break;
 		}
 	}
 
-	void http_get_thread::push_wq(http_get_queue_data_t&& _data)
+	void http_get_thread::push_in(http_get_message_get_stats&& _data)
 	{
 		{
-			std::lock_guard<std::mutex> lock(wqmtx_);
-			wq_.push(std::move(_data));
+			std::lock_guard<std::mutex> lock(mtx_in_);
+			q_in_.push(std::move(_data));
 		}
-		::SetEvent(event_wq_);
+		::SetEvent(event_in_);
+	}
+
+	void http_get_thread::push_out(http_get_message_get_stats&& _data)
+	{
+		{
+			std::lock_guard<std::mutex> lock(mtx_out_);
+			q_out_.push(std::move(_data));
+		}
+		::SetEvent(event_out_);
 	}
 
 	void http_get_thread::get_stats_json(SOCKET _sock, uint32_t _sequence, const std::string& _stats_code)
 	{
-		http_get_queue_data_t q(new http_get_queue_data());
-		q->sock = _sock;
-		q->sequence = _sequence;
-		q->code = _stats_code;
-		q->status_code = 0;
-		q->json.reset(new std::string(""));
-		{
-			std::lock_guard<std::mutex> lock(rqmtx_);
-			rq_.push(std::move(q));
-		}
-		::SetEvent(event_rq_);
+		push_in(http_get_message_get_stats(_sock, _sequence, _stats_code));
 	}
 
-	HANDLE http_get_thread::get_event_wq()
+	std::queue<http_get_message_get_stats> http_get_thread::pull_q_out()
 	{
-		return event_wq_;
-	}
-
-	std::queue<http_get_queue_data_t> http_get_thread::pull_wq()
-	{
-		std::queue<http_get_queue_data_t> q;
+		std::queue<http_get_message_get_stats> q;
 		{
-			std::lock_guard<std::mutex> lock(wqmtx_);
-			while (wq_.size() > 0)
-			{
-				q.push(std::move(wq_.front()));
-				wq_.pop();
-			}
+			std::lock_guard<std::mutex> lock(mtx_out_);
+			q.swap(q_out_);
 		}
 		return q;
 	}

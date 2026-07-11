@@ -236,7 +236,7 @@ namespace app {
 			webapi_.get_event_out(),
 			local_.get_event_out(),
 			event_in_,
-			http_get_.get_event_wq()
+			http_get_.get_event_out()
 		};
 
 		// 初回のデータロード
@@ -322,16 +322,11 @@ namespace app {
 			else if (id == WAIT_OBJECT_0_HTTPGET)
 			{
 				// HTTP_GETの返答
-				auto q = http_get_.pull_wq();
+				auto q = http_get_.pull_q_out();
 				while (q.size() > 0)
 				{
-					auto data = std::move(q.front());
+					proc_http_get_message(std::move(q.front()));
 					q.pop();
-
-					if (data)
-					{
-						proc_http_get_data(std::move(data));
-					}
 				}
 			}
 		}
@@ -1480,12 +1475,9 @@ namespace app {
 			}, _msg.data);
 	}
 
-	void core_thread::proc_http_get_data(http_get_queue_data_t&& _data)
+	void core_thread::proc_http_get_message(http_get_message_get_stats&& _data)
 	{
-		if (_data->json)
-		{
-			reply_webapi_get_stats_from_code(_data->sock, _data->sequence, _data->code, _data->status_code, *_data->json);
-		}
+		reply_webapi_get_stats_from_code(_data.sock, _data.sequence, _data.code, _data.status_code, _data.json);
 	}
 
 	//---------------------------------------------------------------------------------

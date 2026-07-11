@@ -2,7 +2,6 @@
 
 #include "common.hpp"
 
-#include <memory>
 #include <string>
 #include <mutex>
 #include <queue>
@@ -13,16 +12,13 @@ namespace app
 {
 	bool check_stats_code(const std::string& _stats_code);
 
-	struct http_get_queue_data
-	{
+	struct http_get_message_get_stats {
 		SOCKET sock = INVALID_SOCKET;
 		uint32_t sequence = 0u;
 		std::string code = "";
 		uint32_t status_code = 0u;
-		std::unique_ptr<std::string> json = nullptr;
+		std::string json = "";
 	};
-
-	using http_get_queue_data_t = std::unique_ptr<http_get_queue_data>;
 
 	struct response_header {
 		std::wstring data;
@@ -42,16 +38,16 @@ namespace app
 		// winhttp callbackとのやり取り用
 		HANDLE event_winhttp_;
 		DWORD available_;
-		std::mutex event_mtx_;
-		std::queue<uint32_t> event_queue_;
+		std::mutex mtx_event_;
+		std::queue<uint32_t> q_event_;
 
 		// 外部とのやり取り用
-		std::mutex wqmtx_;
-		std::mutex rqmtx_;
-		HANDLE event_wq_;
-		HANDLE event_rq_;
-		std::queue<http_get_queue_data_t> wq_;
-		std::queue<http_get_queue_data_t> rq_;
+		std::mutex mtx_in_;
+		std::mutex mtx_out_;
+		HANDLE event_in_;
+		HANDLE event_out_;
+		std::queue<http_get_message_get_stats> q_in_;
+		std::queue<http_get_message_get_stats> q_out_;
 
 
 		static DWORD WINAPI proc_common(LPVOID);
@@ -63,7 +59,8 @@ namespace app
 		static void CALLBACK callback_common(HINTERNET _internet, DWORD_PTR _context, DWORD _internet_status, void* _status_info, DWORD _info_length);
 		void callback(HINTERNET _internet, DWORD _internet_status, void* _status_info, DWORD _info_length);
 
-		void push_wq(http_get_queue_data_t&& _data);
+		void push_in(http_get_message_get_stats&& _data);
+		void push_out(http_get_message_get_stats&& _data);
 
 	public:
 		http_get_thread(DWORD _logid);
@@ -82,7 +79,7 @@ namespace app
 
 		void get_stats_json(SOCKET _sock, uint32_t _sequence, const std::string& _stats_code);
 
-		HANDLE get_event_wq();
-		std::queue<http_get_queue_data_t> pull_wq();
+		HANDLE get_event_out() { return event_out_; }
+		std::queue<http_get_message_get_stats> pull_q_out();
 	};
 }
