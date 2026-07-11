@@ -8,6 +8,8 @@
 #include <imm.h>
 #include <commctrl.h>
 
+#pragma comment(lib, "user32.lib")
+#pragma comment(lib, "ole32.lib")
 #pragma comment(lib, "imm32.lib")
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "Gdi32.lib")

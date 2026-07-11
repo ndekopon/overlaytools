@@ -9,15 +9,20 @@
 #include <vector>
 #include <utility>
 
-#include <atlbase.h>
+#include <wrl/client.h>
+
 
 namespace app {
+
+	using Microsoft::WRL::ComPtr;
+
 	class duplicator {
 	private:
-		CComPtr<ID3D11Device> device_;
-		CComPtr<ID3D11DeviceContext> device_context_;
-		CComPtr<IDXGIOutputDuplication> output_duplication_;
-		CComPtr<ID3D11Texture2D> cpu_texture_;
+		ComPtr<IDXGIFactory7> factory_;
+		ComPtr<ID3D11Device> device_;
+		ComPtr<ID3D11DeviceContext> device_context_;
+		ComPtr<IDXGIOutputDuplication> output_duplication_;
+		ComPtr<ID3D11Texture2D> cpu_texture_;
 
 		D3D_FEATURE_LEVEL feature_level_;
 

@@ -215,6 +215,13 @@ namespace app {
 	{
 		log(LOG_DUPLICATION, L"Info: thread start.");
 
+		HRESULT hr = ::CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+		if (FAILED(hr))
+		{
+			log(LOG_DUPLICATION, L"Error: CoInitializeEx() failed.");
+			return 1;
+		}
+
 		enum : DWORD {
 			WAIT_OBJECT_0_CLOSE = WAIT_OBJECT_0,
 			WAIT_OBJECT_0_IN = WAIT_OBJECT_0 + 1
@@ -374,6 +381,8 @@ namespace app {
 				}
 			}
 		}
+
+		::CoUninitialize();
 
 		log(LOG_DUPLICATION, L"Info: thread close.");
 

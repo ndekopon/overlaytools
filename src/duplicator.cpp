@@ -87,7 +87,8 @@ namespace app {
 	};
 
 	duplicator::duplicator()
-		: device_(nullptr)
+		: factory_(nullptr)
+		, device_(nullptr)
 		, device_context_(nullptr)
 		, output_duplication_(nullptr)
 		, cpu_texture_(nullptr)
@@ -97,6 +98,11 @@ namespace app {
 		, height_(0)
 		, monitor_(L"")
 	{
+		auto hr = ::CreateDXGIFactory(IID_PPV_ARGS(&factory_));
+		if (FAILED(hr))
+		{
+			log(LOG_DUPLICATION, L"Error: CreateDXGIFactory() failed.");
+		}
 	}
 
 	bool duplicator::create()
@@ -136,19 +142,15 @@ namespace app {
 	{
 		std::vector<std::wstring> monitors;
 
-		CComPtr<IDXGIFactory7> factory;
-		HRESULT hr = ::CreateDXGIFactory(IID_PPV_ARGS(&factory));
-		if (FAILED(hr)) return monitors;
+		ComPtr<IDXGIAdapter2> adapter;
 
-		CComPtr<IDXGIAdapter2> adapter;
-
-		for (UINT i = 0; factory->EnumAdapterByGpuPreference(i, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&adapter)) != DXGI_ERROR_NOT_FOUND; ++i)
+		for (UINT i = 0; factory_->EnumAdapterByGpuPreference(i, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&adapter)) != DXGI_ERROR_NOT_FOUND; ++i)
 		{
 			DXGI_ADAPTER_DESC2 desc2;
 			adapter->GetDesc2(&desc2);
 			std::wstring adapter_desc = desc2.Description;
 			
-			CComPtr<IDXGIOutput> output;
+			ComPtr<IDXGIOutput> output;
 			for (UINT j = 0; adapter->EnumOutputs(j, &output) != DXGI_ERROR_NOT_FOUND; ++j)
 			{	
 				DXGI_OUTPUT_DESC odesc;
@@ -160,21 +162,18 @@ namespace app {
 				monitor += L"]";
 				
 				// 実際にAPIを使えるか試してみる
-				CComPtr<IDXGIOutput1> output1;
-				CComPtr<IDXGIOutputDuplication> output_duplication;
+				ComPtr<IDXGIOutput1> output1;
+				ComPtr<IDXGIOutputDuplication> output_duplication;
 
 				auto hr = output->QueryInterface(IID_PPV_ARGS(&output1));
 				if (FAILED(hr)) continue;
 
-				hr = output1->DuplicateOutput(device_, &output_duplication);
-				if (FAILED(hr)) continue;
-
 				// サイズの確認
-				DXGI_OUTDUPL_DESC dupl_desc;
-				output_duplication->GetDesc(&dupl_desc);
+				DXGI_OUTPUT_DESC out_desc;
 
-				if (dupl_desc.ModeDesc.Width != REQUIRED_WIDTH) continue;
-				if (dupl_desc.ModeDesc.Height != REQUIRED_HEIGHT) continue;
+				output->GetDesc(&out_desc);
+				if (out_desc.DesktopCoordinates.right - out_desc.DesktopCoordinates.left != REQUIRED_WIDTH) continue;
+				if (out_desc.DesktopCoordinates.bottom - out_desc.DesktopCoordinates.top != REQUIRED_HEIGHT) continue;
 
 				// 使える場合はリストに追加
 				monitors.push_back(adapter_desc + L" - " + monitor);
@@ -198,19 +197,15 @@ namespace app {
 		HRESULT hr;
 		output_duplication_ = nullptr;
 
-		CComPtr<IDXGIFactory7> factory;
-		hr = ::CreateDXGIFactory(IID_PPV_ARGS(&factory));
-		if (FAILED(hr)) return hr;
+		ComPtr<IDXGIAdapter2> adapter;
 
-		CComPtr<IDXGIAdapter2> adapter;
-
-		for (UINT i = 0; factory->EnumAdapterByGpuPreference(i, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&adapter)) != DXGI_ERROR_NOT_FOUND; ++i)
+		for (UINT i = 0; factory_->EnumAdapterByGpuPreference(i, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&adapter)) != DXGI_ERROR_NOT_FOUND; ++i)
 		{
 			DXGI_ADAPTER_DESC2 desc2;
 			adapter->GetDesc2(&desc2);
 			std::wstring adapter_desc = desc2.Description;
 
-			CComPtr<IDXGIOutput> output;
+			ComPtr<IDXGIOutput> output;
 			for (UINT j = 0; adapter->EnumOutputs(j, &output) != DXGI_ERROR_NOT_FOUND; ++j)
 			{
 				DXGI_OUTPUT_DESC odesc;
@@ -227,12 +222,12 @@ namespace app {
 					if (name == monitor_)
 					{
 						// 対象のモニターと一致
-						CComPtr<IDXGIOutput1> output1;
+						ComPtr<IDXGIOutput1> output1;
 
 						hr = output->QueryInterface(IID_PPV_ARGS(&output1));
 						if (FAILED(hr)) return hr;
 
-						hr = output1->DuplicateOutput(device_, &output_duplication_);
+						hr = output1->DuplicateOutput(device_.Get(), &output_duplication_);
 						if (FAILED(hr)) return hr;
 
 						// サイズの確認
@@ -290,8 +285,8 @@ namespace app {
 
 		if (output_duplication_)
 		{
-			CComPtr<IDXGIResource> resource;
-			CComPtr<ID3D11Texture2D> gpu_texture;
+			ComPtr<IDXGIResource> resource;
+			ComPtr<ID3D11Texture2D> gpu_texture;
 			DXGI_OUTDUPL_FRAME_INFO frame_info;
 			hr = output_duplication_->AcquireNextFrame(0, &frame_info, &resource);
 			if (FAILED(hr)) return hr;
@@ -299,7 +294,7 @@ namespace app {
 			hr = resource->QueryInterface(IID_PPV_ARGS(&gpu_texture));
 			if (FAILED(hr)) return hr;
 
-			device_context_->CopyResource(cpu_texture_, gpu_texture);
+			device_context_->CopyResource(cpu_texture_.Get(), gpu_texture.Get());
 
 			hr = output_duplication_->ReleaseFrame();
 			if (FAILED(hr)) return hr;
@@ -312,7 +307,7 @@ namespace app {
 	{
 		D3D11_MAPPED_SUBRESOURCE resource;
 		UINT subresource = D3D11CalcSubresource(0, 0, 0);
-		auto hr = device_context_->Map(cpu_texture_, subresource, D3D11_MAP_READ_WRITE, 0, &resource);
+		auto hr = device_context_->Map(cpu_texture_.Get(), subresource, D3D11_MAP_READ_WRITE, 0, &resource);
 
 		if (hr == S_OK)
 		{
@@ -350,7 +345,7 @@ namespace app {
 				}
 			}
 
-			device_context_->Unmap(cpu_texture_, subresource);
+			device_context_->Unmap(cpu_texture_.Get(), subresource);
 		}
 
 		return true;

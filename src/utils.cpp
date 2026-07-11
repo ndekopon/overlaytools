@@ -6,6 +6,8 @@
 #include <Knownfolders.h>
 #include <shlobj_core.h>
 
+#pragma comment(lib, "OneCore.lib")
+
 
 namespace app {
 	std::wstring get_exe_directory()
