@@ -602,6 +602,7 @@ class TournamentCalculationMethodView extends WebAPIConfigBase {
      */
     #clear() {
         this.nodes.advancepoints.value = "";
+        this.nodes.matchpoints.value = 0;
         this.#changeTableSize(0);
         this.#changeTableSize(1);
         this.nodes.count.value = 1;
@@ -621,11 +622,13 @@ class TournamentCalculationMethodView extends WebAPIConfigBase {
      * @param {object} params 
      */
     setTournamentParams(params) {
-        if (!params) return;
-        if (!('calcmethod' in params)) return;
+        if (!params || !('calcmethod' in params) || !params.calcmethod) {
+            this.#clear();
+            return;
+        }
+
         /** @type {object} */
         const calcmethod = params.calcmethod;
-        if (!calcmethod) return;
 
         if ('advancepoints' in calcmethod) {
             if (calcmethod.advancepoints instanceof Array) {
@@ -642,7 +645,8 @@ class TournamentCalculationMethodView extends WebAPIConfigBase {
             this.nodes.matchpoints.value = 0; // デフォルト値
         }
 
-        for (const [k, v] of Object.entries(params)) {
+        for (const [k, v] of Object.entries(calcmethod)) {
+            if (!/^[0-9]+$/.test(k)) continue;
             const gameid = parseInt(k, 10);
             if (Number.isNaN(gameid)) continue;
             if (gameid < 0) continue;
