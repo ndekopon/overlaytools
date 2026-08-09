@@ -1776,6 +1776,10 @@ namespace app {
 					uint8_t teamid = p.winners(0).teamid() & 0xff;
 					send_webapi_matchstateend_winnerdetermined(INVALID_SOCKET, teamid);
 				}
+				else
+				{
+					game_.matchendreason = "NoWinner";
+				}
 			}
 		}
 		else if (_any.Is<api::RingStartClosing>())
