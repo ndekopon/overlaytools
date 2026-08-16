@@ -4022,7 +4022,7 @@ class OverlayStatusView {
         const now = Date.now();
         for (const tr of this.#tbody.children) {
             const time = parseInt(tr.dataset.updated, 10);
-            if (now - time > 5000) {
+            if (now - time > 15000) {
                 this.#tbody.removeChild(tr);
             }
         }
