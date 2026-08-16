@@ -2304,7 +2304,8 @@ class RealtimeView {
     }
 
     /** @param {object} game ゲーム情報 */
-    callClearLiveData(game) {
+    clearLiveData(game) {
+        this.#_game = game;
         this.clear();
     }
 
@@ -4233,6 +4234,7 @@ class WebAPIWorkerHandler {
     #maxteams = 30;
     #teamparams = new Map();
     #teamnames = new Map();
+    #teamingamenames = new Map();
     #observers = new Set();
     #lobby = { token: '', players: new Map(), teams: new Map() };
     #results = [];
@@ -4407,10 +4409,12 @@ class WebAPIWorkerHandler {
         });
 
         api.addEventListener('clearlivedata', (ev) => {
+            this.#teamingamenames.clear();
             this.#callCallbacks('clearLiveData', ev.detail.game);
         });
 
         api.addEventListener('teamname', (ev) => {
+            this.#teamingamenames.set(ev.detail.team.id, ev.detail.team.name);
             this.#updatedTeamId(ev.detail.team.id);
             this.#updatedTeamIngameName(ev.detail.team.id, ev.detail.team.name);
         });
@@ -5138,8 +5142,8 @@ class WebAPIWorkerHandler {
     getTeamName(teamid) {
         if (this.#teamnames.has(teamid)) {
             return this.#teamnames.get(teamid);
-        } else if (this.#game && teamid < this.#game.teams.length && 'name' in this.#game.teams[teamid]) {
-            return this.#game.teams[teamid].name;
+        } else if (this.#teamingamenames.has(teamid)) {
+            return this.#teamingamenames.get(teamid);
         } else {
             return `Team ${teamid + 1}`;
         }
