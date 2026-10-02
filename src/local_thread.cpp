@@ -758,6 +758,7 @@ namespace app {
 					{"teams", json::object() },
 					{"rings", json::array() },
 					{"carepackages", json::array() },
+					{"killrecords", json::array() }
 				};
 
 				for (const auto& [teamid, team] : r.teams)
@@ -815,6 +816,19 @@ namespace app {
 						{"player", carepackage.player},
 					};
 					j["carepackages"].push_back(carepackage_json);
+				}
+
+				for (const auto& killrecord : r.killrecords)
+				{
+					json killrecord_json = {
+						{"timestamp", killrecord.timestamp},
+						{"attacker_teamid", killrecord.attacker_teamid},
+						{"attacker_id", killrecord.attacker_id},
+						{"victim_teamid", killrecord.victim_teamid},
+						{"victim_id", killrecord.victim_id},
+						{"weapon", killrecord.weapon}
+					};
+					j["killrecords"].push_back(killrecord_json);
 				}
 
 				// データの保存

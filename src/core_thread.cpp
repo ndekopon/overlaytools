@@ -1956,7 +1956,27 @@ namespace app {
 			if (p.has_victim())
 			{
 				proc_player(p.victim());
+			}
 
+			if (p.has_awardedto())
+			{
+				proc_player(p.awardedto());
+			}
+
+			if (p.has_victim() && p.has_awardedto())
+			{
+				uint8_t victim_teamid = p.victim().teamid();
+				uint8_t victim_squadindex = get_squadindex(p.victim());
+				uint8_t awardto_teamid = p.awardedto().teamid();
+				uint8_t awardto_squadindex = get_squadindex(p.awardedto());
+				if (victim_teamid >= 2 && awardto_teamid >= 2)
+				{
+					proc_killrecord(get_millis(), awardto_teamid, awardto_squadindex, victim_teamid, victim_squadindex, p.weapon());
+				}
+			}
+
+			if (p.has_victim())
+			{
 				uint8_t teamid = p.victim().teamid();
 				uint8_t squadindex = get_squadindex(p.victim());
 				if (teamid >= 2)
@@ -1999,7 +2019,7 @@ namespace app {
 				uint8_t squadindex = get_squadindex(p.victim());
 				if (teamid >= 2)
 				{
-					proc_down(teamid, squadindex);
+					proc_down(teamid, squadindex, p.weapon());
 				}
 			}
 
@@ -2643,7 +2663,7 @@ namespace app {
 			sdata.append(_teamid) && sdata.append(_playerid) && sdata.append(_owned))
 		{
 			// データ送信
-			sendto_webapi(std::move(sdata.buffer_));
+			sendto_webapi(_sock, std::move(sdata.buffer_));
 		}
 	}
 
@@ -2653,7 +2673,7 @@ namespace app {
 		if (sdata.append(_teamid) && sdata.append(_playerid))
 		{
 			// データ送信
-			sendto_webapi(std::move(sdata.buffer_));
+			sendto_webapi(_sock, std::move(sdata.buffer_));
 		}
 	}
 	
@@ -2664,7 +2684,18 @@ namespace app {
 			sdata.append(_current) && sdata.append(_end) && sdata.append(_duration) && sdata.append(_stage))
 		{
 			// データ送信
-			sendto_webapi(std::move(sdata.buffer_));
+			sendto_webapi(_sock, std::move(sdata.buffer_));
+		}
+	}
+
+	void core_thread::send_webapi_killrecord(SOCKET _sock, const livedata::killrecord& _kr)
+	{
+		send_webapi_data sdata(WEBAPI_EVENT_KILLRECORD);
+		if (sdata.append(_kr.timestamp) && sdata.append(_kr.attacker_teamid) && sdata.append(_kr.attacker_id) &&
+			sdata.append(_kr.victim_teamid) && sdata.append(_kr.victim_id) && sdata.append(_kr.weapon))
+		{
+			// データ送信
+			sendto_webapi(_sock, std::move(sdata.buffer_));
 		}
 	}
 
@@ -3956,9 +3987,25 @@ namespace app {
 		}
 	}
 
-	void core_thread::proc_down(uint8_t _teamid, uint8_t _squadindex)
+	void core_thread::proc_down(uint8_t _teamid, uint8_t _squadindex, const std::string& _weapon)
 	{
 		auto& player = game_.teams.at(_teamid).players.at(_squadindex);
+
+		// ノックダウン時にキルされた武器を記録
+		player.knockdownedbyweapon = _weapon;
+
+		// pendingされたkillrecordのweaponを更新してkillrecordに追加
+		auto it = std::find_if(game_.pendingkillrecords.begin(), game_.pendingkillrecords.end(), [&](const auto& kr) {
+			return kr.victim_id == player.id;
+		});
+		if (it != game_.pendingkillrecords.end())
+		{
+			it->weapon = _weapon;
+			game_.killrecords.push_back(*it);
+			game_.pendingkillrecords.erase(it);
+			send_webapi_killrecord(INVALID_SOCKET, game_.killrecords.back());
+		}
+
 		if (player.state != WEBAPI_PLAYER_STATE_DOWN)
 		{
 			player.state = WEBAPI_PLAYER_STATE_DOWN;
@@ -3974,6 +4021,34 @@ namespace app {
 		{
 			player.state = WEBAPI_PLAYER_STATE_KILLED;
 			send_webapi_player_state(INVALID_SOCKET, _teamid, _squadindex, player.state);
+		}
+	}
+
+	void core_thread::proc_killrecord(uint64_t _timestamp, uint8_t _attacker_teamid, uint8_t _attacker_squadindex, uint8_t _victim_teamid, uint8_t _victim_squadindex, const std::string& _weapon)
+	{
+		auto& attacker = game_.teams.at(_attacker_teamid).players.at(_attacker_squadindex);
+		auto& victim = game_.teams.at(_victim_teamid).players.at(_victim_squadindex);
+		if (victim.state == WEBAPI_PLAYER_STATE_ALIVE)
+		{
+			if (_weapon == "Bleed Out" || _weapon == "失血死")
+			{
+				// ALIVE -> 失血死の場合は、DOWNイベントがまだ来ていない
+				game_.pendingkillrecords.push_back({ _timestamp, _attacker_teamid, attacker.id, _victim_teamid, victim.id, "" });
+			}
+			else
+			{
+				game_.killrecords.push_back({ _timestamp, _attacker_teamid, attacker.id, _victim_teamid, victim.id, _weapon });
+				send_webapi_killrecord(INVALID_SOCKET, game_.killrecords.back());
+			}
+		}
+		if (victim.state == WEBAPI_PLAYER_STATE_DOWN)
+		{
+			game_.killrecords.push_back({ _timestamp, _attacker_teamid, attacker.id, _victim_teamid, victim.id, victim.knockdownedbyweapon });
+			send_webapi_killrecord(INVALID_SOCKET, game_.killrecords.back());
+		}
+		else
+		{
+			log(LOG_CORE, std::format(L"Error: victim state is not ALIVE or DOWN. victim state = {}.", victim.state));
 		}
 	}
 
@@ -4038,6 +4113,11 @@ namespace app {
 		{
 			const auto& ring = game_.rings.at(game_.rings.size() - 1);
 			send_webapi_ringinfo(_sock, ring.timestamp, ring.stage, ring.x, ring.y, ring.current, ring.end, ring.shrinkduration);
+		}
+
+		for (const auto& kr : game_.killrecords)
+		{
+			send_webapi_killrecord(_sock, kr);
 		}
 
 		reply_livedata_get_game(_sock, _sequence);
@@ -4193,6 +4273,8 @@ namespace app {
 		game_.end = 0;
 		game_.rings.clear();
 		game_.carepackages.clear();
+		game_.killrecords.clear();
+		game_.pendingkillrecords.clear();
 	}
 
 
@@ -4215,6 +4297,17 @@ namespace app {
 		r.anonymousmode = game_.anonymousmode;
 		r.rings = game_.rings;
 		r.carepackages = game_.carepackages;
+		for (const auto& kr : game_.killrecords)
+		{
+			r.killrecords.push_back({
+				kr.timestamp,
+				kr.attacker_teamid - 2,
+				kr.attacker_id,
+				kr.victim_teamid - 2,
+				kr.victim_id,
+				kr.weapon
+			});
+		}
 
 		for (uint8_t i = 2; i < game_.teams.size(); ++i)
 		{

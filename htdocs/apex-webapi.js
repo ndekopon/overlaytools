@@ -196,6 +196,7 @@ class Game {
   anonymousmode = false;
   serverid = "";
   kills = [];
+  killrecords = [];
   playerindex = {};
   start = 0;
   end = 0;
@@ -225,6 +226,7 @@ export class ApexWebAPI extends EventTarget {
   static WEBAPI_EVENT_SAVE_RESULT = 0x15;
   static WEBAPI_EVENT_RINGINFO = 0x16;
   static WEBAPI_EVENT_PLAYERULTIMATECHARGED = 0x17;
+  static WEBAPI_EVENT_KILLRECORD = 0x18;
 
   static WEBAPI_EVENT_TEAM_NAME = 0x20;
   static WEBAPI_EVENT_TEAM_PLACEMENT = 0x21;
@@ -746,6 +748,28 @@ export class ApexWebAPI extends EventTarget {
     return true;
   }
 
+  #procEventKillRecord(arr) {
+    this.#game.killrecords.push({
+      timestamp: arr[0],
+      attacker_teamid: arr[1] - 2,
+      attacker_hash: arr[2],
+      victim_teamid: arr[3] - 2,
+      victim_hash: arr[4],
+      weapon: arr[5]
+    });
+    this.dispatchEvent(new CustomEvent('killrecord', {
+      detail: {
+        timestamp: arr[0],
+        attacker_teamid: arr[1] - 2,
+        attacker_hash: arr[2],
+        victim_teamid: arr[3] - 2,
+        victim_hash: arr[4],
+        weapon: arr[5],
+      }
+    }));
+    return true;
+  }
+
   #procEventPlayerID(arr) {
     this.#procPlayer(arr[0], arr[1], { hash: arr[2] });
     if (arr[0] >= 2) {
@@ -1219,7 +1243,15 @@ export class ApexWebAPI extends EventTarget {
         this.dispatchEvent(new CustomEvent('ringinfo', {detail: {timestamp: data_array[0], x: data_array[1], y: data_array[2], current: data_array[3], end: data_array[4], duration: data_array[5], stage: data_array[6]}}));
         break;
 
-      case ApexWebAPI.WEBAPI_EVENT_PLAYERCONNECTED:
+      case ApexWebAPI.WEBAPI_EVENT_KILLRECORD:
+        if (count != 6) return false;
+        if (this.#delay > 0) {
+          setTimeout(() => { this.#procEventKillRecord(data_array) }, this.#delay);
+          return true;
+        }
+        return this.#procEventKillRecord(data_array);
+
+        case ApexWebAPI.WEBAPI_EVENT_PLAYERCONNECTED:
         if (count != 2) return false;
         if (this.#delay > 0) {
           setTimeout(() => { this.#procEventPlayerConnected(data_array) }, this.#delay);
@@ -1741,6 +1773,12 @@ export class ApexWebAPI extends EventTarget {
     while (squadindex >= team.players.length) team.players.push(this.#initPlayerObject(team.players.length, teamid));
     const player = team.players[squadindex];
     for (const [k, v] of Object.entries(params)) {
+      if (k == "damage_dealt") {
+        if (player.damage_dealt < 4000 && v >= 4000) {
+          // 4000ダメージ超のイベントを飛ばす
+          this.dispatchEvent(new CustomEvent('damagedealtexceeded', { detail: { team: team, player: player } }));
+        }
+      }
       player[k] = v;
 
       if (k == "kills") {

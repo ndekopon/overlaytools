@@ -3,6 +3,7 @@
 #include "common.hpp"
 
 #include <map>
+#include <list>
 #include <string>
 #include <vector>
 
@@ -38,6 +39,15 @@ namespace livedata {
 		std::string desc = "";
 	};
 
+	struct killrecord {
+		uint64_t timestamp = 0;
+		uint32_t attacker_teamid = 0;
+		std::string attacker_id = ""; // hashed player id
+		uint32_t victim_teamid = 0;
+		std::string victim_id = ""; // hashed player id
+		std::string weapon = "";
+	};
+
 	struct player {
 		std::string id = "";
 		std::string name = "";
@@ -64,7 +74,8 @@ namespace livedata {
 		bool characterselected = false;
 		items items;
 		std::map<int32_t, perkinfo> perks{};
-		std::string weapon;
+		std::string weapon = "";
+		std::string knockdownedbyweapon = "";
 	};
 
 	struct team {
@@ -114,9 +125,12 @@ namespace livedata {
 		std::vector<ringinfo> rings{};
 		loadout_info loadout;
 		std::map<uint32_t, carepackageinfo> carepackages{};
+		std::vector<killrecord> killrecords{};
+		std::list<killrecord> pendingkillrecords{};
 	};
 
 	/* 保存するリザルト */
+
 	struct player_result {
 		uint32_t kills = 0;
 		uint32_t damage_dealt = 0;
@@ -149,6 +163,7 @@ namespace livedata {
 		bool anonymousmode = false;
 		std::vector<ringinfo> rings{};
 		std::map<uint32_t, carepackageinfo> carepackages{};
+		std::vector<killrecord> killrecords{};
 	};
 
 	struct tournament {

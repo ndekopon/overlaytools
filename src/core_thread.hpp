@@ -107,8 +107,9 @@ namespace app {
 		void proc_item(uint8_t _teamid, uint8_t _squadindex, uint8_t _item, int _quantity);
 		void proc_respawn(uint8_t _teamid, uint8_t _squadindex);
 		void proc_revive(uint8_t _teamid, uint8_t _squadindex);
-		void proc_down(uint8_t _teamid, uint8_t _squadindex);
+		void proc_down(uint8_t _teamid, uint8_t _squadindex, const std::string& _weapon);
 		void proc_killed(uint8_t _teamid, uint8_t _squadindex);
+		void proc_killrecord(uint64_t _timestamp, uint8_t _attacker_teamid, uint8_t _attacker_squadindex, uint8_t _victim_teamid, uint8_t _victim_squadindex, const std::string& _weapon);
 		void proc_banner_collected(uint8_t _teamid, uint8_t _squadindex);
 		void proc_damage_dealt(uint8_t _teamid, uint8_t _squadindex, uint32_t _damage);
 		void proc_damage_taken(uint8_t _teamid, uint8_t _squadindex, uint32_t _damage);
@@ -133,6 +134,7 @@ namespace app {
 		void send_webapi_observerswitched(SOCKET _sock, uint8_t _observer_teamid, uint8_t _observer_squadindex, uint8_t _teamid, uint8_t _playerid, bool _owned);
 		void send_webapi_init_camera(SOCKET _sock, uint8_t _teamid, uint8_t _playerid);
 		void send_webapi_ringinfo(SOCKET _sock, uint64_t _timestamp, uint32_t _stage, float _x, float _y, float _current, float _end, float _duration);
+		void send_webapi_killrecord(SOCKET _sock, const livedata::killrecord& _kr);
 
 		void send_webapi_player_string(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex, uint8_t _type, const std::string& _string);
 		void send_webapi_player_connected(SOCKET _sock, uint8_t _teamid, uint8_t _squadindex);
