@@ -336,6 +336,10 @@ body {
 }
 
 /* legendban */
+#legendban-container {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+}
 #legendban table {
     border-collapse: collapse;
     margin-top: 1em;
@@ -351,8 +355,27 @@ body {
     padding: 0.1em 1em;
 }
 
-#legendban tr:hover {
+#legendban-list tr[data-banned="true"] {
+    background-color: #FFCCCC;
+}
+
+#legendban-list tr:hover {
     background-color: #FFFFCC;
+}
+#legendban-pickcount {
+    font-size: 80%;
+}
+#legendban-pickcount tr[data-rank="1"] {
+    background-color: #FFCCCC;
+}
+#legendban-pickcount td {
+    text-align: right;
+}
+#legendban-pickcount td:nth-child(3) {
+    text-align: left;
+}
+#legendban-pickcount td:nth-child(6) {
+    text-align: left;
 }
 
 /* realtime */

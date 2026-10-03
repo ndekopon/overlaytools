@@ -9,6 +9,8 @@ import {
     resultsToTeamResults,
     setRankParameterToTeamResults,
     getAdvancePoints,
+    getLegendRefName,
+    getLegendEnglishName,
 } from "./overlay-common.js";
 
 
@@ -1603,6 +1605,8 @@ class LegendBanView {
     /** @type {WebAPIWorkerHandler|null} */
     #handler = null;
     #tbody = document.getElementById('legendban-list');
+    #results = [];
+    #legendorder = [];
 
     /** @param {WebAPIWorkerHandler} handler */
     setHandler(handler) {
@@ -1637,6 +1641,124 @@ class LegendBanView {
 
         api.addEventListener('legendbanenumend', ev => {
         });
+
+        document.getElementById('legendban-chat').addEventListener('click', ev => {
+            const bannedlegends = [];
+            for (const row of this.#tbody.children) {
+                if (row.dataset.banned === 'true') {
+                    bannedlegends.push(getLegendEnglishName(row.dataset.legendref));
+                }
+            }
+            const txt = 'BAN: ' + bannedlegends.join(', ');
+            api.sendChat(txt);
+        });
+    }
+
+    setResults(results) {
+        this.#results = results;
+    }
+
+    setCalcedResults(calcedresults) {
+        const tbody = document.querySelector('#legendban-pickcount tbody');
+        if (!tbody) return;
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
+        }
+        this.#legendorder.splice(0);
+        const add_or_move_legend = (legendref) => {
+            const index = this.#legendorder.indexOf(legendref);
+            if (index !== -1) {
+                this.#legendorder.splice(index, 1);
+            }
+            this.#legendorder.unshift(legendref);
+        };
+
+        const totallegendinfo = new Map();
+        for (let gameid = 0; gameid < this.#results.length; ++gameid) {
+            const result = this.#results[gameid];
+            const caledresult = calcedresults[gameid];
+            const legendinfo = new Map();
+            if ('teams' in result && 'results' in caledresult) {
+                for (const [teamidstr, team] of Object.entries(result.teams)) {
+                    const teamid = parseInt(teamidstr, 10);
+                    if (Number.isNaN(teamid)) continue;
+                    const calcedteam = caledresult.results[teamidstr];
+                    if ('players' in team) {
+                        for (const player of team.players) {
+                            const damage = player.damage_dealt;
+                            const kills = player.kills;
+                            const legend = getLegendRefName(player.character);
+                            // ゲーム毎の集計
+                            if (!legendinfo.has(legend)) {
+                                legendinfo.set(legend, { count: 0, rank: new Set() });
+                            }
+                            const info = legendinfo.get(legend);
+                            info.count += 1;
+                            info.rank.add(calcedteam.rank + 1);
+
+                            // トータルの集計
+                            if (!totallegendinfo.has(legend)) {
+                                totallegendinfo.set(legend, { count: 0, damage: 0, kills: 0 });
+                            }
+                            const totalinfo = totallegendinfo.get(legend);
+                            totalinfo.count += 1;
+                            totalinfo.damage += damage;
+                            totalinfo.kills += kills;
+                        }
+                    }
+                }
+                const legends = new Set([...legendinfo.keys(), ...totallegendinfo.keys()]);
+                const legendsdata = [];
+                for (const legend of legends) {
+                    const info = legendinfo.get(legend);
+                    const totalinfo = totallegendinfo.get(legend);
+                    legendsdata.push({
+                        legend: legend,
+                        count: info ? info.count : 0,
+                        rank: info ? info.rank : new Set(),
+                        totalcount: totalinfo ? totalinfo.count : 0,
+                        totaldamage: totalinfo ? totalinfo.damage : 0,
+                        totalkills: totalinfo ? totalinfo.kills : 0
+                    });
+                }
+                legendsdata.sort((a, b) => {
+                    if (b.count != a.count) return b.count - a.count; // ピック数が多い順
+                    if (b.totalcount != a.totalcount) return b.totalcount - a.totalcount; // シリーズ通してのピック数が多い順
+                    const ranks = [...new Set([...a.rank, ...b.rank])].sort((x, y) => x - y);
+                    // 高ランクでピックされている順
+                    for (const rank of ranks) {
+                        if (a.rank.has(rank) && !b.rank.has(rank)) return -1;
+                        if (!a.rank.has(rank) && b.rank.has(rank)) return 1;
+                    }
+                    if (b.totalkills != a.totalkills) return b.totalkills - a.totalkills; // キル数が多い順
+                    if (b.totaldamage != a.totaldamage) return b.totaldamage - a.totaldamage; // ダメージが多い順
+                });
+
+                for (let i = legendsdata.length - 1; i >= 0; --i) {
+                    const data = legendsdata[i];
+                    if (data.count === 0) continue;
+                    const tr = document.createElement('tr');
+                    tr.dataset.rank = `${i + 1}`;
+                    tr.appendChild(document.createElement('td')).textContent = `${gameid + 1}`;
+                    tr.appendChild(document.createElement('td')).textContent = `${i + 1}`;
+                    tr.appendChild(document.createElement('td')).textContent = data.legend;
+                    tr.appendChild(document.createElement('td')).textContent = data.count;
+                    tr.appendChild(document.createElement('td')).textContent = data.totalcount;
+                    tr.appendChild(document.createElement('td')).textContent = [...data.rank].sort((x, y) => x - y).join(',');
+                    tr.appendChild(document.createElement('td')).textContent = data.totalkills;
+                    tr.appendChild(document.createElement('td')).textContent = data.totaldamage;
+                    tbody.insertBefore(tr, tbody.firstChild);
+
+                }
+                for (let i = 0; i < legendsdata.length; ++i) {
+                    const data = legendsdata[i];
+                    if (data.count > 0) {
+                        add_or_move_legend(data.legend);
+                    }
+                }
+            }
+        }
+        this.#sortLegends();
     }
 
     #getLegendRefs() {
@@ -1673,6 +1795,32 @@ class LegendBanView {
                 tr.children[1].textContent = 'true';
             }
         });
+
+        // sort the legends based on the order in #legendorder
+        this.#sortLegends();
+    }
+
+    #sortLegends() {
+        this.#tbody.append(...Array.from(this.#tbody.children).sort((a, b) => {
+            const alegend = a.dataset.legendref;
+            const blegend = b.dataset.legendref;
+            const aIndex = this.#legendorder.indexOf(alegend);
+            const bIndex = this.#legendorder.indexOf(blegend);
+            if (aIndex === -1 && bIndex === -1) {
+                const bottom = ['random', 'dummie'];
+                if (bottom.includes(alegend) && bottom.includes(blegend)) {
+                    return bottom.indexOf(alegend) - bottom.indexOf(blegend);
+                } else if (bottom.includes(alegend)) {
+                    return 1;
+                } else if (bottom.includes(blegend)) {
+                    return -1;
+                }
+                return alegend.localeCompare(blegend);
+            }
+            if (aIndex === -1) return 1;
+            if (bIndex === -1) return -1;
+            return bIndex - aIndex;
+        }));
     }
 
     /** @param {boolean} banned バンするかどうか */

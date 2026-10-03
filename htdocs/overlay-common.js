@@ -429,3 +429,90 @@ export function htmlToElement(html) {
     template.innerHTML = html.trim();
     return template.content;
 }
+
+/**
+ * レジェンド名を変換する
+ * @param {string} legend legend name
+ * @returns {string} legend reference name
+ */
+export function getLegendRefName(legend) {
+    const legendNameMap = new Map([
+        ['アッシュ', 'ash'],
+        ['バンガロール', 'bangalore'],
+        ['ブラッドハウンド', 'bloodhound'],
+        ['コースティック', 'caustic'],
+        ['ジブラルタル', 'gibraltar'],
+        ['ライフライン', 'lifeline'],
+        ['ミラージュ', 'mirage'],
+        ['オクタン', 'octane'],
+        ['パスファインダー', 'pathfinder'],
+        ['レイス', 'wraith'],
+        ['ワットソン', 'wattson'],
+        ['クリプト', 'crypto'],
+        ['レヴナント', 'revenant'],
+        ['ローバ', 'loba'],
+        ['ランパート', 'rampart'],
+        ['ホライゾン', 'horizon'],
+        ['マッドマギー', 'madmaggie'],
+        ['ヴァルキリー', 'valkyrie'],
+        ['コンジット', 'conduit'],
+        ['バリスティック', 'ballistic'],
+        ['ヒューズ', 'fuse'],
+        ['シア', 'seer'],
+        ['ニューキャッスル', 'newcastle'],
+        ['ヴァンテージ', 'vantage'],
+        ['スパロー', 'sparrow'],
+        ['カタリスト', 'catalyst'],
+        ['オルター', 'alter'],
+        ['アクセル', 'axle'],
+        ['overdrive', 'axle']
+    ]);
+    if (legendNameMap.has(legend)) {
+        return legendNameMap.get(legend);
+    }
+    return legend.toLowerCase().replace(/[_ -]+/g, '');
+}
+
+/**
+ * レジェンド名を変換する
+ * @param {string} legendref legend name
+ * @returns {string} legend reference name
+ */
+export function getLegendEnglishName(legendref) {
+    const legendNameMap = new Map([
+        ['ash', 'Ash'],
+        ['bangalore', 'Bangalore'],
+        ['bloodhound', 'Bloodhound'],
+        ['caustic', 'Caustic'],
+        ['gibraltar', 'Gibraltar'],
+        ['lifeline', 'Lifeline'],
+        ['mirage', 'Mirage'],
+        ['octane', 'Octane'],
+        ['pathfinder', 'Pathfinder'],
+        ['wraith', 'Wraith'],
+        ['wattson', 'Wattson'],
+        ['crypto', 'Crypto'],
+        ['revenant', 'Revenant'],
+        ['loba', 'Loba'],
+        ['rampart', 'Rampart'],
+        ['horizon', 'Horizon'],
+        ['madmaggie', 'Mad Maggie'],
+        ['valkyrie', 'Valkyrie'],
+        ['conduit', 'Conduit'],
+        ['ash', 'Ash'],
+        ['ballistic', 'Ballistic'],
+        ['fuse', 'Fuse'],
+        ['seer', 'Seer'],
+        ['newcastle', 'Newcastle'],
+        ['vantage', 'Vantage'],
+        ['sparrow', 'Sparrow'],
+        ['catalyst', 'Catalyst'],
+        ['alter', 'Alter'],
+        ['axle', 'Axle'],
+        ['overdrive', 'Axle']
+    ]);
+    if (legendNameMap.has(legendref)) {
+        return legendNameMap.get(legendref);
+    }
+    return legendref;
+}

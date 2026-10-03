@@ -796,45 +796,95 @@
         <span class="ja">レジェンドBAN</span>
     </h3>
 
-    <p>
-        <span class="en">You can switch the ban status by first pressing the Get Legend Ban Information button and then clicking on the list of legends that appears. After switching, press the Settings button at the bottom. As with the team name settings, it may take some time to be reflected. Please retrieve and confirm the information again.</span>
-        <span class="ja">最初にレジェンドBAN情報取得ボタンを押して、現れたレジェンド一覧をクリックしてBAN状態を切り替えることができます。<br>切替後、下部の設定ボタンを押してください。<br>※チーム名設定等と同じく、反映に時間がかかる場合があります。再度情報を取得して確認してください。</span>
-    </p>
+    <div id="legendban-container">
+        <div>
+            <p>
+                <span class="en">You can switch the ban status by first pressing the Get Legend Ban Information button and then clicking on the list of legends that appears. After switching, press the Settings button at the bottom. As with the team name settings, it may take some time to be reflected. Please retrieve and confirm the information again.</span>
+                <span class="ja">最初にレジェンドBAN情報取得ボタンを押して、現れたレジェンド一覧をクリックしてBAN状態を切り替えることができます。<br>切替後、下部の設定ボタンを押してください。<br>※チーム名設定等と同じく、反映に時間がかかる場合があります。再度情報を取得して確認してください。</span>
+            </p>
 
-    <button id="legendban-get">
-        <span class="en">get legendban</span>
-        <span class="ja">レジェンドBAN情報取得</span>
-    </button>
+            <button id="legendban-get">
+                <span class="en">get legendban</span>
+                <span class="ja">レジェンドBAN情報取得</span>
+            </button>
+            <br>
+            <button id="legendban-chat">
+                <span class="en">send legendban status to chat</span>
+                <span class="ja">レジェンドBAN状態をチャット送信</span>
+            </button>
 
-    <table>
-        <thead>
-            <tr>
-                <th>
-                    <span class="en">name</span>
-                    <span class="ja">名前</span>
-                </th>
-                <th>
-                    <span class="en">ban</span>
-                    <span class="ja">BAN</span>
-                </th>
-            </tr>
-        </thead>
-        <tbody id="legendban-list"></tbody>
-    </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <span class="en">name</span>
+                            <span class="ja">名前</span>
+                        </th>
+                        <th>
+                            <span class="en">ban</span>
+                            <span class="ja">BAN</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="legendban-list"></tbody>
+            </table>
 
-    <button id="legendban-banall">
-        <span class="en">ban all</span>
-        <span class="ja">全BAN</span>
-    </button>
-    <button id="legendban-unbanall">
-        <span class="en">unban all</span>
-        <span class="ja">全BAN解除</span>
-    </button>
-    <br>
-    <button id="legendban-set">
-        <span class="en">get legendban</span>
-        <span class="ja">レジェンドBAN情報設定</span>
-    </button>
+            <button id="legendban-banall">
+                <span class="en">ban all</span>
+                <span class="ja">全BAN</span>
+            </button>
+            <button id="legendban-unbanall">
+                <span class="en">unban all</span>
+                <span class="ja">全BAN解除</span>
+            </button>
+            <br>
+            <button id="legendban-set">
+                <span class="en">get legendban</span>
+                <span class="ja">レジェンドBAN情報設定</span>
+            </button>
+        </div>
+        <div>
+            <table id="legendban-pickcount">
+                <thead>
+                    <tr>
+                        <th>
+                            <span class="en">game count</span>
+                            <span class="ja">ゲーム数</span>
+                        </th>
+                        <th>
+                            <span class="en">rank</span>
+                            <span class="ja">順位</span>
+                        </th>
+                        <th>
+                            <span class="en">legend name</span>
+                            <span class="ja">レジェンド名</span>
+                        </th>
+                        <th>
+                            <span class="en">pick count</span>
+                            <span class="ja">ピック数</span>
+                        </th>
+                        <th>
+                            <span class="en">total pick count</span>
+                            <span class="ja">合計ピック数</span>
+                        </th>
+                        <th>
+                            <span class="en">pick team rank</span>
+                            <span class="ja">ピックチームの順位</span>
+                        </th>
+                        <th>
+                            <span class="en">total kills</span>
+                            <span class="ja">合計キル</span>
+                        </th>
+                        <th>
+                            <span class="en">total damage</span>
+                            <span class="ja">合計ダメージ</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <div id="realtime" class="hide">
