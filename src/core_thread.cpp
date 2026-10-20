@@ -2068,7 +2068,8 @@ namespace app {
 
 			if (teamid >= 2)
 			{
-				proc_squad_eliminated(teamid);
+				const auto placement = p.placement();
+				proc_squad_eliminated(teamid, placement);
 			}
 		}
 		else if (_any.Is<api::RevenantForgedShadowDamaged>())
@@ -4062,16 +4063,26 @@ namespace app {
 		}
 	}
 
-	void core_thread::proc_squad_eliminated(uint8_t _teamid)
+	void core_thread::proc_squad_eliminated(uint8_t _teamid, uint32_t _placement)
 	{
-		// 生存チーム数の確認
-		uint32_t alive = 0;
-		for (size_t i = 2; i < game_.teams.size(); ++i)
+		if (game_.teams.at(_teamid).eliminated) return;
+
+		uint32_t placement = _placement;
+		if (placement == 0)
 		{
-			const auto& t = game_.teams.at(i);
-			if (t.players.size() > 0 && !t.eliminated) ++alive;
+			// 古いバージョンのApexではplacementが送られてこないので、aliveから計算する
+			uint32_t alive = 0;
+			for (size_t i = 2; i < game_.teams.size(); ++i)
+			{
+				const auto& t = game_.teams.at(i);
+				if (t.players.size() > 0 && !t.eliminated) ++alive;
+			}
+			placement = alive;
 		}
 
+		if (placement == 0) return;
+
+		// チームの順位を更新する
 		for (size_t i = 2; i < game_.teams.size(); ++i)
 		{
 			auto& t = game_.teams.at(i);
@@ -4079,21 +4090,21 @@ namespace app {
 			{
 				if (i == _teamid)
 				{
-					t.place = alive;
+					t.place = placement;
 					t.eliminated = true;
 				}
 				else
 				{
 					// 生存チームの順位を一つ上げる
-					if (alive > 1)
+					if (placement > 1)
 					{
-						t.place = alive - 1;
+						t.place = placement - 1;
 						send_webapi_team_placement(INVALID_SOCKET, i, t.place);
 					}
 				}
 			}
 		}
-		send_webapi_squad_eliminated(INVALID_SOCKET, _teamid, alive);
+		send_webapi_squad_eliminated(INVALID_SOCKET, _teamid, placement);
 	}
 
 	//---------------------------------------------------------------------------------

@@ -115,7 +115,7 @@ namespace app {
 		void proc_damage_taken(uint8_t _teamid, uint8_t _squadindex, uint32_t _damage);
 
 		// team
-		void proc_squad_eliminated(uint8_t _teamid);
+		void proc_squad_eliminated(uint8_t _teamid, uint32_t _placement);
 
 		void sendto_liveapi(std::vector<uint8_t>&& _data);
 		void sendto_liveapi_noqueue(std::vector<uint8_t>&& _data);
