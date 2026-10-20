@@ -2,6 +2,8 @@
 
 #include "resource.hpp"
 
+#include <format>
+
 using namespace Microsoft::WRL;
 
 namespace {
@@ -38,6 +40,8 @@ namespace app
 	const wchar_t* main_window::window_title_ = L"webapi-config";
 	const LONG main_window::window_min_width_ = 640;
 	const LONG main_window::window_min_height_ = 480;
+	constexpr UINT CWM_ERROR_CREATE_ENVIRONMENT = WM_APP + 1;
+	constexpr UINT CWM_ERROR_CREATE_CONTROLLER = WM_APP + 2;
 
 	main_window::main_window(HINSTANCE _instance)
 		: instance_(_instance)
@@ -131,20 +135,38 @@ namespace app
 		::ShowWindow(window_, SW_NORMAL);
 		::UpdateWindow(window_);
 
+		// WebView2 Runtimeがインストールされているか確認
+		{
+			wil::unique_cotaskmem_string info;
+			HRESULT hr = ::GetAvailableCoreWebView2BrowserVersionString(nullptr, &info);
+			if (FAILED(hr) || info == nullptr)
+			{
+				::MessageBoxW(window_, L"WebView2 Runtime is not installed.", window_title_, MB_ICONERROR | MB_OK);
+				return false;
+			}
+		}
+
 		::CreateCoreWebView2EnvironmentWithOptions(nullptr, nullptr, nullptr,
 			Callback<ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler>(
 				[this](HRESULT _result, ICoreWebView2Environment* _env) -> HRESULT
 				{
+					if (!SUCCEEDED(_result) || _env == nullptr)
+					{
+						::PostMessageW(window_, CWM_ERROR_CREATE_ENVIRONMENT, 0, _result);
+						return _result;
+					}
 					webview_env_ = _env;
 					webview_env_->CreateCoreWebView2Controller(this->window_, Callback<ICoreWebView2CreateCoreWebView2ControllerCompletedHandler>(
 						[this](HRESULT _result, ICoreWebView2Controller* _controller) -> HRESULT {
+							if (!SUCCEEDED(_result) || _controller == nullptr)
+							{
+								::PostMessageW(window_, CWM_ERROR_CREATE_CONTROLLER, 0, _result);
+								return _result;
+							}
 							webview_ctrl_ = _controller;
 							wil::com_ptr<ICoreWebView2> corewebview;
-							if (_controller != nullptr)
-							{
-								_controller->get_CoreWebView2(&corewebview);
-								corewebview.query_to(&webview_);
-							}
+							_controller->get_CoreWebView2(&corewebview);
+							corewebview.query_to(&webview_);
 
 							// WebViewの基本設定
 							wil::com_ptr<ICoreWebView2Settings> settings;
@@ -210,6 +232,25 @@ namespace app
 				::GetClientRect(window_, &bounds);
 				webview_ctrl_->put_Bounds(bounds);
 			}
+			break;
+		}
+
+		case CWM_ERROR_CREATE_ENVIRONMENT:
+		{
+			auto hr = (HRESULT)_lparam;
+			std::wstring msg = std::format(L"Failed to create WebView2 environment. HRESULT={:#010x}", hr);
+			::MessageBoxW(window_, msg.c_str(), window_title_, MB_ICONERROR | MB_OK);
+			::PostQuitMessage(1);
+			return 0;
+		}
+
+		case CWM_ERROR_CREATE_CONTROLLER:
+		{
+			auto hr = (HRESULT)_lparam;
+			std::wstring msg = std::format(L"Failed to create WebView2 controller. HRESULT={:#010x}", hr);
+			::MessageBoxW(window_, msg.c_str(), window_title_, MB_ICONERROR | MB_OK);
+			::PostQuitMessage(1);
+			return 0;
 		}
 
 		default:
