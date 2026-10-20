@@ -52,10 +52,17 @@ namespace app
 
 	main_window::~main_window()
 	{
+		::CoUninitialize();
 	}
 
 	bool main_window::init()
 	{
+		HRESULT hr = ::CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
+		if (FAILED(hr))
+		{
+			return false;
+		}
+
 		set_dpi_awareness();
 
 		// create window
